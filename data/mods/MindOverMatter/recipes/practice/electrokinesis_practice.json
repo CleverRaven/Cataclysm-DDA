@@ -172,7 +172,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 6
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -278,7 +278,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 7
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -385,7 +385,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 8
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -491,8 +491,8 @@
             "condition": {
               "and": [
                 {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_skill('computer') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 16
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -598,7 +598,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 7
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -705,7 +705,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 8
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -812,7 +812,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 8
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -919,7 +919,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 9
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1026,7 +1026,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1133,7 +1133,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1240,7 +1240,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1347,7 +1347,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 11
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1454,7 +1454,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 12
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1561,7 +1561,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 13
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1668,7 +1668,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
-                  "difficulty": 14
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },

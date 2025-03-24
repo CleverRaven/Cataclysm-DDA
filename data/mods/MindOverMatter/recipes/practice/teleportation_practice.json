@@ -164,7 +164,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 6
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -266,7 +266,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 7
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -368,7 +368,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 7
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -470,7 +470,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 8
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -573,7 +573,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 8
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -676,7 +676,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -779,7 +779,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 9
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -884,7 +884,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 9
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -986,7 +986,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1089,7 +1089,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1192,7 +1192,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 11
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1295,7 +1295,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1435,7 +1435,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 12
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1538,7 +1538,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 13
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1641,7 +1641,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 13
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1744,7 +1744,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 13
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1880,7 +1880,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-                  "difficulty": 14
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },

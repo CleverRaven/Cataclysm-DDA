@@ -149,7 +149,7 @@
             "id": "EOC_PRACTICE_TELEPATH_SHIELD_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 6
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -245,7 +245,7 @@
             "id": "EOC_PRACTICE_TELEPATHIC_MESMERIZE_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 7
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -341,7 +341,7 @@
             "id": "EOC_PRACTICE_TELEPATH_MORALE_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 7
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -438,7 +438,7 @@
             "id": "EOC_PRACTICE_TELEPATHIC_BLAST_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -535,7 +535,7 @@
             "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -632,7 +632,7 @@
             "id": "EOC_PRACTICE_TELEPATH_CONFUSION_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 9
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -729,7 +729,7 @@
             "id": "EOC_PRACTICE_TELEPATH_OBSCURITY_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 10
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -826,7 +826,7 @@
             "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 10
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -923,7 +923,7 @@
             "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 11
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1020,7 +1020,7 @@
             "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 11
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1117,7 +1117,7 @@
             "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 12
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1214,7 +1214,7 @@
             "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-              "difficulty": 13
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {

@@ -159,7 +159,7 @@
             "id": "EOC_PRACTICE_TELEKIN_NOISEMAKER_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 6
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -257,7 +257,7 @@
             "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 6
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -355,7 +355,7 @@
             "id": "EOC_PRACTICE_TELEKIN_MOMENTUM_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 7
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -454,7 +454,7 @@
             "id": "EOC_PRACTICE_TELEKIN_SLOWFALL_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 7
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -553,7 +553,7 @@
             "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -652,7 +652,7 @@
             "id": "EOC_PRACTICE_TELEKIN_WATER_WALKING_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -751,7 +751,7 @@
             "id": "EOC_PRACTICE_TELEKIN_LIFTING_FIELD_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -850,7 +850,7 @@
             "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 9
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -949,7 +949,7 @@
             "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 9
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1048,7 +1048,7 @@
             "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 10
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1147,7 +1147,7 @@
             "id": "EOC_PRACTICE_TELEKIN_BARRIER_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 10
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1246,7 +1246,7 @@
             "id": "EOC_PRACTICE_TELEKIN_BLAST_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 11
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1345,7 +1345,7 @@
             "id": "EOC_PRACTICE_LEVITATION_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 11
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1442,7 +1442,7 @@
             "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 12
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1541,7 +1541,7 @@
             "id": "EOC_PRACTICE_TELEKIN_AEGIS_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 13
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1640,7 +1640,7 @@
             "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": 14
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
