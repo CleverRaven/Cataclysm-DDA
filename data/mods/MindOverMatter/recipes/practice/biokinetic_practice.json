@@ -162,7 +162,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-                  "difficulty": 6
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -262,7 +262,7 @@
             "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 7
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -360,7 +360,7 @@
             "id": "EOC_PRACTICE_BIOKIN_DASH_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 7
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -459,7 +459,7 @@
             "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -558,7 +558,7 @@
             "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -657,7 +657,7 @@
             "id": "EOC_PRACTICE_BIOKIN_ADRENALINE_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 8
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -756,7 +756,7 @@
             "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 9
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -855,7 +855,7 @@
             "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 9
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -954,7 +954,7 @@
             "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 10
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1053,7 +1053,7 @@
             "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 11
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1152,7 +1152,7 @@
             "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 11
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1254,7 +1254,7 @@
             "id": "EOC_PRACTICE_BIOKIN_VITAMINOSIS_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 12
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1356,7 +1356,7 @@
             "id": "EOC_PRACTICE_BIOKIN_GUIDED_EVOLUTION_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 12
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1455,7 +1455,7 @@
             "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 12
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1554,7 +1554,7 @@
             "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 13
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
@@ -1653,7 +1653,7 @@
             "id": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS_LEARNING_2",
             "condition": {
               "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-              "difficulty": 14
+              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
             },
             "effect": [
               {
