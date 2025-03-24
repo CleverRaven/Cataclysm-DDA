@@ -1845,10 +1845,6 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             if( is_avatar() ) {
                 eff_id->add_apply_msg( e.get_intensity() );
             }
-            if( eff_id->encumbrance.size() > 0 ) {
-                // Must be done after the effect is actually added to the effects list
-                ch->calc_encumbrance();
-            }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
@@ -1952,12 +1948,6 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
         }
     }
 
-    if( Character *ch = as_character() ) {
-        if( eff_id->encumbrance.size() > 0 ) {
-            // Must be done after the effect is actually erased from the effects list
-            ch->calc_encumbrance();
-        }
-    }
     return true;
 }
 bool Creature::remove_effect( const efftype_id &eff_id )
