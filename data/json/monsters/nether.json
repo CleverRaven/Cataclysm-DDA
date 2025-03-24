@@ -2235,7 +2235,7 @@
         "targeting_volume": 30,
         "no_ammo_sound": "slow clicking.",
         "description": "huntsman's appendage hurls a sharp outgrowth out of its body!",
-		    "condition": { "not": { "u_has_effect": "maimed_huntsman_arm" } },
+        "condition": { "not": { "u_has_effect": "maimed_huntsman_arm" } },
         "ranges": [ [ 2, 14, "DEFAULT" ] ]
       }
 	],	
