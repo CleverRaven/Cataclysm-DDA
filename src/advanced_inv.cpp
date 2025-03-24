@@ -1839,8 +1839,6 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
 
 void advanced_inventory::process_action( const std::string &input_action )
 {
-    dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
-           advanced_inventory::side::left;
     recalc = false;
     // source and destination pane
     advanced_inventory_pane &spane = panes[src];
@@ -2089,6 +2087,8 @@ void advanced_inventory::display()
             return;
         }
 
+        dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
+               advanced_inventory::side::left;
 
         if( ui ) {
             ui->invalidate_ui();
