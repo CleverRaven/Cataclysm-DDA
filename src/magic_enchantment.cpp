@@ -1393,7 +1393,7 @@ double enchant_cache::modify_melee_damage( const damage_type_id &mod_val, double
 
 double enchant_cache::modify_encumbrance( const bodypart_str_id &mod_val, double value ) const
 {
-    value += get_encumbrance_add( mod_val ) + value;
+    value += get_encumbrance_add( mod_val );
     value *= 1.0 + get_encumbrance_multiply( mod_val );
     return value;
 }
