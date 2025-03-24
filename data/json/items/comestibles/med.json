@@ -389,7 +389,7 @@
       {
         "id": "cig_light",
         "name": { "str": "\"light\" cigarette" },
-        "description": "A cigarette with reduced tar and nicotine content, designed to appeal to quitters and health-conscious smokers.  While not actually less harmful than regular cigarettes, the amount of nicotine absorbed per cigarette is indeed lower.  Marketing cigarettes as 'light' has been illegal since 2007, but the term has persisted as a shorthand.",
+        "description": "A cigarette with reduced tar and nicotine content, designed to appeal to quitters and health-conscious smokers.  While not actually less harmful than regular cigarettes, the amount of nicotine absorbed per cigarette is indeed lower.  Marketing cigarettes as \"light\" has been illegal since 2007, but the term has persisted as a shorthand.",
         "color": "white"
       },
       {
