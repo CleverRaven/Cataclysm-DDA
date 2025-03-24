@@ -93,6 +93,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "learn_new_power_lower_nether_attunement_level",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty * 5"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_upper_nether_attunement_level",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty * 10"
+  },
+  {
+    "type": "jmath_function",
     "id": "jmath_psi_learning_counter_time_low",
     "num_args": 1,
     "//": "Reduces time between insight moments by 3% per point of Intelligence above 10 (increase by 3% per point below 10), to a max of 60% faster from intelligence, and by 5% per point of Metaphysics skill above 5.",

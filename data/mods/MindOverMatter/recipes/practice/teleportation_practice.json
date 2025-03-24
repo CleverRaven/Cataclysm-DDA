@@ -174,13 +174,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_phase') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -264,13 +276,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_item_apport') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -354,13 +378,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_stride') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -444,13 +480,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_transpose') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -535,13 +583,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_displacement') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -626,13 +686,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_reactive_displacement') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,50 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,50 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -717,13 +789,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_collapse') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -810,13 +894,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_warped_strikes') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -900,13 +996,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_ephemeral_walk') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -991,13 +1099,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_farstep') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -1082,13 +1202,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_banish') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -1175,13 +1307,25 @@
               { "math": [ "u_spell_level('teleport_loci_establishment') = 1" ] },
               { "math": [ "u_spell_level('teleport_loci_technique') = 1" ] },
               { "u_learn_recipe": "practice_teleport_loci_technique" },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -1301,13 +1445,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_gateway') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -1392,13 +1548,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_dilated_gateway') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -1483,13 +1651,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_relocation') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -1574,13 +1754,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_summon') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
@@ -1698,13 +1890,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('teleport_reality_tear') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]
