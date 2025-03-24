@@ -239,6 +239,9 @@ class enchantment
         std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_values_add; // NOLINT(cata-serialize)
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_values_multiply; // NOLINT(cata-serialize)
+
         std::map<damage_type_id, dbl_or_var> damage_values_add; // NOLINT(cata-serialize)
         std::map<damage_type_id, dbl_or_var> damage_values_multiply; // NOLINT(cata-serialize)
 
@@ -299,6 +302,7 @@ class enchant_cache : public enchantment
                                                units::temperature_delta value ) const;
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
 
+        double modify_encumbrance( const bodypart_str_id &mod_val, double value ) const;
         double modify_melee_damage( const damage_type_id &mod_val, double value ) const;
         double modify_damage_units_by_armor_protection( const damage_type_id &mod_val, double value ) const;
         double modify_damage_units_by_extra_damage( const damage_type_id &mod_val, double value ) const;
@@ -321,10 +325,12 @@ class enchant_cache : public enchantment
         double get_skill_value_add( const skill_id &value ) const;
         int get_damage_add( const damage_type_id &value ) const;
         int get_armor_add( const damage_type_id &value ) const;
+        int get_encumbrance_add( const bodypart_str_id &value ) const;
         int get_extra_damage_add( const damage_type_id &value ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
         double get_damage_multiply( const damage_type_id &value ) const;
         double get_armor_multiply( const damage_type_id &value ) const;
+        double get_encumbrance_multiply( const bodypart_str_id &value ) const;
         double get_extra_damage_multiply( const damage_type_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
         // attempts to add two like enchantments together.
@@ -388,6 +394,9 @@ class enchant_cache : public enchantment
         // the exact same as above, though specifically for skills
         std::map<skill_id, double> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, double> skill_values_multiply; // NOLINT(cata-serialize)
+
+        std::map<bodypart_str_id, double> encumbrance_values_add; // NOLINT(cata-serialize)
+        std::map<bodypart_str_id, double> encumbrance_values_multiply; // NOLINT(cata-serialize)
 
         std::map<damage_type_id, double> damage_values_add; // NOLINT(cata-serialize)
         std::map<damage_type_id, double> damage_values_multiply; // NOLINT(cata-serialize)

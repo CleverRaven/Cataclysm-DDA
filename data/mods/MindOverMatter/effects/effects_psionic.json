@@ -315,18 +315,92 @@
     "remove_message": "Your gear suddenly seems to weigh you down.",
     "rating": "good",
     "max_duration": "7 days",
-    "encumbrance": {
-      "head": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "torso": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "arm_r": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "arm_l": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "hand_r": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "hand_l": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "leg_r": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "leg_l": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "foot_r": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] },
-      "foot_l": { "math": [ "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )" ] }
-    }
+    "enchantments": [
+      {
+        "encumbrance_modifier": [
+          {
+            "part": "head",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "torso",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "arm_r",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "arm_l",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "hand_r",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "hand_l",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "leg_r",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "leg_l",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "foot_r",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          },
+          {
+            "part": "foot_l",
+            "add": {
+              "math": [
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

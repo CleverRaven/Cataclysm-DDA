@@ -456,7 +456,7 @@ class bodypart
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
         float wound_adjusted_limb_value( float val ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
-        float encumb_adjusted_limb_value( float val ) const;
+        float encumb_adjusted_limb_value( const Creature &mon, float val ) const;
         // If the limb score is affected by a skill, adjust it by the skill's level (used for swimming)
         float skill_adjusted_limb_value( float val, int skill ) const;
     public:
@@ -471,13 +471,14 @@ class bodypart
 
         float get_wetness_percentage() const;
 
+        int get_final_encumbrance( const Creature &mon ) const;
         int get_encumbrance_threshold() const;
         // Check if we're above our encumbrance limit
-        bool is_limb_overencumbered() const;
-        bool has_conditional_flag( const json_character_flag &flag ) const;
+        bool is_limb_overencumbered( const Creature &mon ) const;
+        bool has_conditional_flag( const Creature &mon, const json_character_flag &flag ) const;
 
         // Get our limb attacks
-        std::set<matec_id> get_limb_techs() const;
+        std::set<matec_id> get_limb_techs( const Creature &mon ) const;
 
         /** Returns the string id of the effect to be used. */
         efftype_id get_windage_effect() const;
@@ -489,7 +490,7 @@ class bodypart
 
         // Get modified limb score as defined in limb_scores.json.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
-        float get_limb_score( const limb_score_id &score, int skill = -1, int override_encumb = -1,
+        float get_limb_score( const Creature &mon, const limb_score_id &score, int skill = -1, int override_encumb = -1,
                               int override_wounds = -1 ) const;
         float get_limb_score_max( const limb_score_id &score ) const;
 

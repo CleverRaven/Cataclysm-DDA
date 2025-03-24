@@ -2528,6 +2528,11 @@ const encumbrance_data &Creature::get_part_encumbrance_data( const bodypart_id &
     return get_part_helper( *this, id, &bodypart::get_encumbrance_data );
 }
 
+int Creature::get_part_encumbrance( const bodypart_id &id ) const
+{
+    return get_part( id )->get_final_encumbrance( *this );
+}
+
 int Creature::get_part_drench_capacity( const bodypart_id &id ) const
 {
     return get_part_helper( *this, id, &bodypart::get_drench_capacity );

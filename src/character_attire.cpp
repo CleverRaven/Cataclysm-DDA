@@ -921,7 +921,6 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
 void outfit::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
                           const item &new_item, const Character &guy ) const
 {
-
     // reset all layer data
     vals = std::map<bodypart_id, encumbrance_data>();
 

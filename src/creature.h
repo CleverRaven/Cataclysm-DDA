@@ -870,6 +870,7 @@ class Creature : public viewer
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
         const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
+        int get_part_encumbrance( const bodypart_id &id ) const;
 
         virtual void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );

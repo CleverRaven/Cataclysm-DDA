@@ -1558,7 +1558,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                 int bp_hp_max = bp->main_part == bp ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
                                     bp->main_part );
                 if( ( 100 * bp_hp_cur / bp_hp_max ) > vec->bp_hp_limit &&
-                    user.get_part_encumbrance_data( bp ).encumbrance < vec->encumbrance_limit ) {
+                    user.get_part_encumbrance( bp ) < vec->encumbrance_limit ) {
                     sub_bodypart_str_id current_contact;
                     for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                         if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
@@ -1673,7 +1673,7 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
         // Check all standard legs for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
                     body_part_type::type::leg ) >= 0.25f ) {
                 return true;
             }
@@ -1707,7 +1707,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         // Check all standard arms for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                owner.get_part( bp )->get_limb_score( owner, limb_score_block ) * bp->limbtypes.at(
                     body_part_type::type::arm ) >= 0.25f ) {
                 return true;
             }
@@ -1736,7 +1736,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if the limbs which would always block can block
     if( owner.has_flag( json_flag_ALWAYS_BLOCK ) ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_ALWAYS_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1744,7 +1744,7 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
     // Return true if we're skilled enough to block and we have at least one limb ready to block
     if( block_with_skill ) {
         for( const bodypart_id &bp : owner.get_all_body_parts_with_flag( json_flag_NONSTANDARD_BLOCK ) ) {
-            if( owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+            if( owner.get_part( bp )->get_limb_score( owner, limb_score_block ) >= 0.25f ) {
                 return true;
             }
         }
