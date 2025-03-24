@@ -128,7 +128,7 @@
       { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 0 },
       { "monster": "mon_flying_polyp", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 },
-	    { "monster": "mon_nether_huntsman", "weight": 50, "cost_multiplier": 0 }
+      { "monster": "mon_nether_huntsman", "weight": 50, "cost_multiplier": 0 }
     ]
   },
   {
@@ -145,7 +145,7 @@
       { "monster": "mon_star_vampire_coiling", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_yugg", "weight": 5, "cost_multiplier": 0 },
-	    { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 }
+      { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 }
     ]
   },
   {
