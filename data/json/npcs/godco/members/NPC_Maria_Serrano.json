@@ -331,7 +331,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_tshirt" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('1 d')" ] }
           ]
         },
         "effect": [
@@ -346,7 +346,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_pants" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('1 d')" ] }
           ]
         },
         "effect": [
@@ -361,7 +361,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_jacket" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('1 d')" ] }
           ]
         },
         "effect": [
@@ -376,7 +376,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_dress" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('1 d')" ] }
           ]
         },
         "effect": [
