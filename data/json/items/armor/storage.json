@@ -1871,7 +1871,7 @@
       {
         "encumbrance": 4,
         "volume_encumber_modifier": 0.25,
-        "coverage": 60,
+        "coverage": 40,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
