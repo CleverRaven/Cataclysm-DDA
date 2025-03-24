@@ -1998,6 +1998,8 @@ void advanced_inventory::process_action( const std::string &input_action )
             popup_getkey( _( "There's no vehicle storage space there." ) );
         }
     }
+    dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
+           advanced_inventory::side::left;
 }
 
 void advanced_inventory::display()
@@ -2086,9 +2088,6 @@ void advanced_inventory::display()
             do_return_entry();
             return;
         }
-
-        dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
-               advanced_inventory::side::left;
 
         if( ui ) {
             ui->invalidate_ui();
