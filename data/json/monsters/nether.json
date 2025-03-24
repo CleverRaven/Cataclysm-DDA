@@ -2232,7 +2232,7 @@
         "target_moving_vehicles": true,
         "targeting_sound": "rapid clicking, increasing in pitch!",
         "targeting_cost": 330,
-		    "targeting_volume": 30,
+        "targeting_volume": 30,
         "no_ammo_sound": "slow clicking.",
         "description": "huntsman's appendage hurls a sharp outgrowth out of its body!",
 		    "condition": { "not": { "u_has_effect": "maimed_huntsman_arm" } },
