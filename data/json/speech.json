@@ -3674,5 +3674,29 @@
     "speaker": [ "mon_skeleton", "mon_skeleton_brute", "mon_skeleton_electric", "mon_skeleton_slasher" ],
     "sound": "hissing.",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nether_shambler" ],
+    "sound": "wet clicking, turning into a drone.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nether_shambler" ],
+    "sound": "a series of clicks, changing in pitch.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nether_shambler" ],
+    "sound": "a visceral hissing screech!",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nether_shambler" ],
+    "sound": "a quiet drone.",
+    "volume": 10
   }
 ]
