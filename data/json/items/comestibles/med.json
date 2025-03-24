@@ -383,25 +383,25 @@
       {
         "id": "cig_menthol",
         "name": { "str": "menthol cigarette" },
-        "description": "A cigarette with a menthol flavor, the only type of flavored cigarette permitted for sale in the US. The FDA had previously proposed a ban on them, but the world ended before the plan could be implemented. It feels somewhat better to smoke than a regular cigarette.",
+        "description": "A cigarette with a menthol flavor, the only type of flavored cigarette permitted for sale in the US.  The FDA had previously proposed a ban on them, but the world ended before the plan could be implemented.  It feels somewhat nicer to smoke than a regular cigarette.",
         "color": "cyan"
       },
       {
         "id": "cig_light",
         "name": { "str": "\"light\" cigarette" },
-        "description": "A cigarette with reduced tar and nicotine content, designed to appeal to quitters and health-conscious smokers. While not actually less harmful than regular cigarettes, the amount of nicotine absorbed per cigarette is indeed lower. Marketing cigarettes as 'light' has been illegal since 2007, but the term has persisted in common usage.",
+        "description": "A cigarette with reduced tar and nicotine content, designed to appeal to quitters and health-conscious smokers.  While not actually less harmful than regular cigarettes, the amount of nicotine absorbed per cigarette is indeed lower.  Marketing cigarettes as 'light' has been illegal since 2007, but the term has persisted as a shorthand.",
         "color": "white"
       },
       {
         "id": "cig_gold",
         "name": { "str": "quality cigarette" },
-        "description": "A premium brand cigarette crafted from strong, high-quality tobacco. While discerning smokers may appreciate its superior flavor compared to average cigarettes, the higher tar and nicotine content won't do you any favors. Then again, you probably have bigger concerns than lung cancer.",
+        "description": "A premium brand cigarette rolled from strong, high-quality tobacco.  While discerning smokers may appreciate its flavor to average cigarettes, the higher tar and nicotine content won't do you any favors.  Then again, you probably have bigger concerns than lung cancer.",
         "color": "yellow"
       },
       {
         "id": "cig_little_cigar",
         "name": { "str": "little cigar" },
-        "description": "A compact, slim cigar in the shape of a cigarette. It's a popular choice for those who want a taste of luxury without the time commitment of a full-sized cigar. Addictive and hazardous to health.",
+        "description": "A compact, slim cigar in the shape of a cigarette.  It's a popular choice for those who want a taste of luxury without the time commitment of a full-sized cigar.  Addictive and hazardous to health.",
         "color": "brown"
       }
     ]
