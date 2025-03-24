@@ -731,6 +731,13 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
     "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "encumbrance_modifier": [ // a characters encumbrance will be modified by this value
+      { "part": "head", "add": 10 }, // adding would increase the parts encumbrance
+      { "part": "torso", "add": -8 }, // negative adding would decrease the parts encumbrance
+      { "part": "mouth", "multiply": -0.5 }, // multiplication would multiply the entire encumbrance value; -0.5 would result in 50% encumbrance
+      { "part": "arm_l", "add": 1 }, // `"multiply": 1` would double the encumbrancce
+      { "part": "leg_r", "add": { "math": [ "rand(3) * -1" ] } }, // supports math and stuff, works for both character/npcs and monsters. multiple `encumbrance_modifier`es of the same part do stack
+    ],
     "melee_damage_bonus": [ // adds this amount of damage to attack; adding damage adds flat number to attacks, multiplier multiplies existing damage after adding
     { "type": "bash", "add": 10 }, // add 10 would straight add 10 damage of this type to each attack
     { "type": "cut", "add": -3 }, // add -3 would decrease any cut damage up to zero
