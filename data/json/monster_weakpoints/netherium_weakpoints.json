@@ -56,7 +56,7 @@
         "armor_mult": { "bullet": 1.7, "cut": 1.3, "stab": 1.3, "bash": 1.7 },
         "coverage_mult": { "ranged": 1, "melee": 0.4 },
         "coverage": 20
-	  },
+      },
       {
         "id": "shambler_armor_gap",
         "name": "a vulnerable spot between the armor",
