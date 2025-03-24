@@ -486,8 +486,16 @@
         " (u_spell_level('photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "min_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 550) + 4840) * u_nether_attunement_power_scaling" ] },
-    "max_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 1350) + 13650) * u_nether_attunement_power_scaling" ] },
+    "min_duration": {
+      "math": [
+        "((u_spell_level('photokinetic_light_image') * 550) + 4840) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_spell_level('photokinetic_light_image') * 1350) + 13650) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
     "min_range": {
       "math": [
         "min( (( (u_spell_level('photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
@@ -779,5 +787,39 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -10
+  },
+  {
+    "id": "photokinetic_light_army",
+    "type": "SPELL",
+    "name": "[Ψ]Phantom Legion (C)",
+    "description": "Create a myriad of illusions around yourself to mislead and confuse your enemies.  The illusions will explode into blinding flashes if damaged.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.  Concentration will <color_green>automatically end</color> if all illusions are destroyed.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKINETIC_LIGHT_ARMY_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('photokinetic_light_image') * 450) + 3740) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('photokinetic_light_image') * 1100) + 9650) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": 10000,
+    "final_energy_cost": 5500,
+    "energy_increment": -255,
+    "base_casting_time": 150,
+    "final_casting_time": 90,
+    "casting_time_increment": -4
   }
 ]
