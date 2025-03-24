@@ -87,7 +87,6 @@ TEST_CASE( "advanced_inventory_navigation" )
     clear_map();
     advanced_inventory advinv;
 
-    avatar &u = get_avatar();
     advinv.init();
     advanced_inventory::side init_src = advinv.get_src();
     advanced_inventory::side init_dest = advinv.get_dest();
