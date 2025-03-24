@@ -79,6 +79,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "nether_shambler_javelin_ammo",
+    "name": "alien outgrowth",
+    "default": "nether_shambler_javelin"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
