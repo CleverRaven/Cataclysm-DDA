@@ -162,7 +162,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 6
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -264,7 +264,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 6
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -366,7 +366,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 7
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -468,7 +468,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 7
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -570,7 +570,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 7
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -673,7 +673,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 8
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -776,7 +776,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 8
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -879,7 +879,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 9
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -982,7 +982,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1118,7 +1118,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 10
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1221,7 +1221,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 11
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1324,7 +1324,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 12
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1427,7 +1427,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 13
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1564,7 +1564,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 13
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
@@ -1667,7 +1667,7 @@
               "and": [
                 {
                   "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
-                  "difficulty": 14
+                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
                 }
               ]
             },
