@@ -1209,7 +1209,6 @@ int enchant_cache::get_encumbrance_add( const bodypart_str_id &value ) const
     if( found == encumbrance_values_add.cend() ) {
         return 0;
     }
-    // add_msg("get_encumbrance_add: bp:%s, val:%f", value.c_str(), found->second );
     return found->second;
 }
 
@@ -1393,9 +1392,8 @@ double enchant_cache::modify_melee_damage( const damage_type_id &mod_val, double
 
 double enchant_cache::modify_encumbrance( const bodypart_str_id &mod_val, double value ) const
 {
-    double temp_val = value;
-    double add_value = get_encumbrance_add( mod_val ) + value;
-    value = ( 1.0 + get_encumbrance_multiply( mod_val ) ) * add_value;
+    value += get_encumbrance_add( mod_val ) + value;
+    value *= 1.0 + get_encumbrance_multiply( mod_val );
     return value;
 }
 
