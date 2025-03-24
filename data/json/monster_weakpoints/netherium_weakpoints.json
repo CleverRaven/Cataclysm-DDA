@@ -84,7 +84,7 @@
             "message": "The %s's photoreceptors are obliterated!",
             "damage_required": [ 26, 100 ]
           }
-	      ]
+        ]
       }
 	  ]
   }
