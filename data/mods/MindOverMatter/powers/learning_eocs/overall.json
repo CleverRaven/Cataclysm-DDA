@@ -325,5 +325,15 @@
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_VITAKIN_FINAL_LEARNING_CHECK",
+    "condition": {
+      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+      "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
+    },
+    "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],
+    "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
   }
 ]
