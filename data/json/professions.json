@@ -5651,8 +5651,6 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5663,13 +5661,11 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "starter_wallet_full" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "hoodie" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ] }
     },
     "age_lower": 16,
     "age_upper": 21
@@ -5687,8 +5683,6 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5700,13 +5694,11 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "starter_wallet_full" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "hoodie" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ] }
     },
     "age_lower": 16,
     "age_upper": 21
@@ -5729,8 +5721,6 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -5745,13 +5735,11 @@
           { "item": "slingshot" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "group": "charged_matches" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "charged_matches" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "hoodie" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ] }
     },
     "age_lower": 16,
     "age_upper": 18
@@ -6058,21 +6046,19 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "hoodie" },
-          { "item": "hoodie_cropped" },
           { "item": "pants_cargo" },
           { "item": "socks_ankle" },
           { "item": "sneakers" },
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" }
+          { "group": "starter_wallet_full" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "male": { "entries": [ { "item": "briefs" }, { "item": "tshirt" }, { "item": "hoodie" } ] },
+      "female": {
+        "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" }, { "item": "hoodie_cropped" }, { "item": "tshirt_cropped" } ]
+      }
     },
     "age_lower": 18
   },
@@ -6099,13 +6085,11 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_rich_wallet_full" },
           { "item": "camera", "charges": 300 },
-          { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
-      "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "tshirt" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "tshirt_cropped" }, { "item": "panties" } ] }
     }
   },
   {

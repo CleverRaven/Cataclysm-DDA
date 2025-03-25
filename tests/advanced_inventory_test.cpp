@@ -81,6 +81,41 @@ static void do_activity( advanced_inventory &advinv, const std::string &activity
     recalc_panes( advinv );
 }
 
+TEST_CASE( "advanced_inventory_navigation" )
+{
+    clear_avatar();
+    clear_map();
+    advanced_inventory advinv;
+
+    advinv.init();
+    advanced_inventory::side init_src = advinv.get_src();
+    advanced_inventory::side init_dest = advinv.get_dest();
+    advanced_inventory_pane init_src_pane = advinv.get_pane( init_src );
+    advanced_inventory_pane init_dest_pane = advinv.get_pane( init_dest );
+
+    GIVEN( "Areas are not the same" ) {
+        REQUIRE( init_src_pane.get_area() != init_dest_pane.get_area() );
+
+        WHEN( "Switching sides" ) {
+            advinv.process_action( "TOGGLE_TAB" );
+
+            advanced_inventory::side src = advinv.get_src();
+            advanced_inventory::side dest = advinv.get_dest();
+            advanced_inventory_pane src_pane = advinv.get_pane( src );
+            advanced_inventory_pane dest_pane = advinv.get_pane( dest );
+
+            THEN( "sides got switched" ) {
+                REQUIRE( src == init_dest );
+                REQUIRE( dest == init_src );
+            }
+            AND_THEN( "pane areas got switched" ) {
+                REQUIRE( src_pane.get_area() == init_dest_pane.get_area() );
+                REQUIRE( dest_pane.get_area() == init_src_pane.get_area() );
+
+            }
+        }
+    }
+}
 
 TEST_CASE( "advanced_inventory_actions" )
 {

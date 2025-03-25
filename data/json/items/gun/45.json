@@ -56,7 +56,9 @@
       "fault_double_feed"
     ],
     "default_mods": [ "folding_stock" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tdi_mag", "glock_21mag", "glock_21mag26" ] } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag_10", "tdi_mag", "glock_21mag", "glock_21mag26" ] }
+    ],
     "melee_damage": { "bash": 9 }
   },
   {
@@ -469,7 +471,11 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
     "pocket_data": [
-      { "magazine_well": "107 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag", "glock_21mag26" ] }
+      {
+        "magazine_well": "107 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glock_21mag_10", "glock_21mag", "glock_21mag26" ]
+      }
     ],
     "melee_damage": { "bash": 8 }
   },

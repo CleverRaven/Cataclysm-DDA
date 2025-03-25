@@ -2120,7 +2120,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
-        damage.add_damage( damage_bash, dice( type->melee_dice, type->melee_sides ) );
+        damage.add_damage( damage_bash, dice( type->melee_dice, type->melee_sides ), type->melee_dice_ap );
     }
 
     modify_damage_dealt_with_enchantments( damage );
@@ -2539,6 +2539,11 @@ bool monster::move_effects( bool )
             // Is our grabber around?
             monster *grabber = nullptr;
             for( const tripoint_bub_ms loc : surrounding ) {
+                // In an edge case when two monsters grab each other
+                // Don't consider grabbed monster to be its own grabber
+                if( loc == pos_bub() ) {
+                    continue;
+                }
                 monster *mon = creatures.creature_at<monster>( loc );
                 if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );

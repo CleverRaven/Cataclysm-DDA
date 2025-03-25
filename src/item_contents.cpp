@@ -2419,6 +2419,17 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
     return total_vol;
 }
 
+units::volume item_contents::biggest_pocket_capacity() const
+{
+    units::volume max_vol = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+            max_vol = std::max( max_vol, pocket.volume_capacity() );
+        }
+    }
+    return max_vol;
+}
+
 units::volume item_contents::total_standard_capacity( const bool unrestricted_pockets_only ) const
 {
     units::volume total_vol = 0_ml;

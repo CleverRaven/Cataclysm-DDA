@@ -182,17 +182,17 @@
     "description": "A combat jacket with a high collar and a short waist.  Although it's made from reactive aramid fibers, it's more of a fashion statement than a practical piece of armor.  You could mount MOLLE compatible gear on it alongside a neck guard.",
     "price": "490 USD",
     "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
-    "material": [ "kevlar_layered" ],
+    "material": [ "afs_kevlar" ],
     "armor": [
       {
-        "material": [ { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [ { "type": "afs_kevlar", "covered_by_mat": 100, "thickness": 1 } ],
         "encumbrance": [ 3, 6 ],
         "coverage": 80,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ]
       },
       {
-        "material": [ { "type": "kevlar", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "afs_kevlar", "covered_by_mat": 100, "thickness": 1 } ],
         "encumbrance": 5,
         "coverage": 90,
         "cover_vitals": 90,

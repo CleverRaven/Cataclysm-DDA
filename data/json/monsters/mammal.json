@@ -1570,6 +1570,29 @@
     "upgrades": { "age_grow": 42, "into": "mon_dog_samoyed" }
   },
   {
+    "id": "mon_dog_wad",
+    "type": "MONSTER",
+    "copy-from": "mon_dog",
+    "name": { "str": "Flat-coated Retriever" },
+    "description": "A large, black retriever with a luxurious, glossy coat and almond-shaped brown eyes that glitter with intelligence.  The Flat-coated Retriever has a temperament that can only be described as 'superb', having the energy to accompany humans who love physical activity, and the loyalty to lay around with those that do not.  Flat-coated Retriever will often do little more than bark at potential threats",
+    "color": "black",
+    "weight": "28 kg",
+    "aggression": -20,
+    "stomach_size": 650,
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_wad_pup" }, "baby_count": 6, "baby_timer": 270 },
+    "//": "RIP Elwood Rufus Fluffy P. 9/21/15-3/21/25. Taken from us too soon"
+  },
+  {
+    "id": "mon_dog_wad_pup",
+    "type": "MONSTER",
+    "copy-from": "mon_dog_pup",
+    "name": { "str": "Flat-coated Retriever puppy", "str_pl": "Flat-coated Retriever puppies" },
+    "description": "An adorable, defenseless Flat-coated Retriever puppy.  Much safer to tame than an adult dog.",
+    "aggression": -30,
+    "stomach_size": 200,
+    "upgrades": { "age_grow": 42, "into": "mon_dog_wad" }
+  },
+  {
     "id": "mon_fox_gray",
     "type": "MONSTER",
     "name": { "str": "fox", "str_pl": "foxes" },

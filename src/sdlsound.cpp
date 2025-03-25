@@ -41,6 +41,7 @@
 #include "sounds.h"
 #include "units.h"
 #include "avatar.h"
+#include "game.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -676,6 +677,9 @@ bool sfx::has_variant_sound( const std::string &id, const std::string &variant,
 
 static bool is_time_slowed()
 {
+    if( g == nullptr || g->uquit != QUIT_NO ) {
+        return false;
+    }
     // if the player have significantly more moves than their speed, they probably used an artifact/CBM to slow time.
     // I checked; the only things that increase a player's # of moves is spells/cbms that slow down time (and also unit tests) so this should work.
     // Would get_speed_base() be better?

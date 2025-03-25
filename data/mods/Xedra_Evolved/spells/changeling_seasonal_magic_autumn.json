@@ -76,6 +76,38 @@
     "base_casting_time": 50
   },
   {
+    "id": "changeling_autumn_detect_magic_user_spell",
+    "type": "SPELL",
+    "name": "Witch's Warning",
+    "description": "Weaving this glamour will allow you to sense the presence of nearby sorcerers.  The glamour has <color_yellow>reduced duration</color> in spring.",
+    "message": "You mutter a charm under your breath and open your senses up to nearby enchanters.",
+    "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "attack",
+    "effect_str": "effect_changeling_autumn_detect_magic_user",
+    "min_duration": {
+      "math": [
+        "( ( 19085 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 9185) + (u_skill('deduction') * 19485) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 51385 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 16712) + (u_skill('deduction') * 31085) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 250 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3) - (u_skill('deduction') * 8)), 125)" ]
+    },
+    "base_casting_time": 500
+  },
+  {
     "id": "changeling_autumn_call_mists_spell",
     "type": "SPELL",
     "name": "Autumn Mists",

@@ -124,5 +124,35 @@
     ],
     "pocket_data": [ { "magazine_well": "236 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hpt3895mag_10rd" ] } ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "swbodyguard",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": ".380 conceal carry handgun" },
+    "description": "A very small and lightweight handgun, firing the .380 ACP cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "swbodyguard",
+        "name": { "str": "S&W M&P Bodyguard" },
+        "description": "A now-discontinued conceal carry gun, the S&W Bodyguard is a small and lightweight conceal carry gun, firing the .380 ACP cartridge.  Despite the short barrel and weak cartridge, it is still enough for self defense.  Even though it's discontinued, it still remains as a very popular firearm."
+      }
+    ],
+    "weight": "337 g",
+    "volume": "156 ml",
+    "longest_side": "160 mm",
+    "barrel_length": "70 mm",
+    "price": "399 USD",
+    "price_postapoc": "15 USD 50 cent",
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": [ "380" ],
+    "dispersion": 480,
+    "durability": 8,
+    "min_cycle_recoil": 270,
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   }
 ]

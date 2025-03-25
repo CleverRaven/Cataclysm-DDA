@@ -27,6 +27,7 @@
     "furniture": {
       "x": "f_console_broken",
       "n": "f_displaycase",
+      "X": [ [ "f_console_broken", 10 ], [ "f_washer", 5 ], [ "f_dryer", 5 ], [ "f_dishwasher", 5 ], [ "f_shredder", 2 ] ],
       "1": "f_rack",
       "2": "f_rack",
       "3": "f_rack",

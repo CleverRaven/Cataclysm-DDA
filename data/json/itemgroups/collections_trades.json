@@ -55,8 +55,7 @@
       { "group": "plumbing_clothing", "prob": 100 },
       { "group": "tools_plumbing", "prob": 100 },
       { "group": "supplies_plumbing", "prob": 50 },
-      [ "survnote", 1 ],
-      [ "pipe_fittings", 70 ]
+      [ "survnote", 1 ]
     ]
   },
   {
@@ -82,7 +81,6 @@
       { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "30gal_drum_aluminum", "prob": 2 },
       [ "cu_pipe", 5 ],
-      [ "steroid_eyedrops", 10 ],
       [ "survnote", 1 ]
     ]
   }
