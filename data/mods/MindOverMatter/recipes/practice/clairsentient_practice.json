@@ -347,7 +347,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_see_auras", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -404,7 +404,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_ranged_enhance", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -461,7 +461,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_voyance", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -518,7 +518,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_dodge_power", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -575,7 +575,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_craft_bonus", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -632,7 +632,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_see_map", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -689,7 +689,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_perfect_shot", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -746,7 +746,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_clear_sight", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -803,7 +803,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_astral_projection", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -860,7 +860,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_group_tactics", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
@@ -917,7 +917,7 @@
     "condition": {
       "and": [
         { "compare_string": [ "clair_omniscience", { "u_val": "latest_studied_power_name" } ] },
-        { "run_eocs": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
+        { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
