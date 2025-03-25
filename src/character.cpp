@@ -3377,7 +3377,7 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
-/* maximum you should ever be able to pick up ( e.g. with DANGEROUS_PICKUPS enabled) */
+/* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */
 units::mass Character::max_pickup_capacity() const
 {
     return weight_capacity() * 4;
