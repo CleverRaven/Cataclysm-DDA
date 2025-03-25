@@ -181,8 +181,8 @@
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": { "str": "huntsman javelins", "//~": "NO_I18N" },
-    "description": { "str": "huntsman alien javelins as a pseudo item.", "//~": "NO_I18N" },
+    "name": { "str": "huntsman appendage", "//~": "NO_I18N" },
+    "description": { "str": "huntsman throwing appendage as a pseudo item.", "//~": "NO_I18N" },
     "material": [ "bone" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
