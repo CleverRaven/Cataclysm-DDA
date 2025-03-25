@@ -3377,7 +3377,7 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
-/* Character can safely carry up to four times their maximum weight */
+/* maximum you should ever be able to pick up ( e.g. with DANGEROUS_PICKUPS enabled) */
 units::mass Character::max_pickup_capacity() const
 {
     return weight_capacity() * 4;
@@ -3420,11 +3420,6 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
-}
-
-bool Character::can_pickWeight( const item &it ) const
-{
-    return can_pickWeight( it, !who.is_avatar() || !get_option<bool>( "DANGEROUS_PICKUPS" ) );
 }
 
 bool Character::can_pickWeight_partial( const item &it, bool safe ) const
