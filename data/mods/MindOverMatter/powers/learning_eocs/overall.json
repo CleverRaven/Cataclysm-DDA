@@ -233,44 +233,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS",
-    "//": "This is called in power-learning practice recipes when you succeed at learning a new power",
-    "effect": [
-      {
-        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-        "popup": true
-      },
-      { "math": [ "u_spell_level(u_latest_studied_power_name) = 1" ] },
-      {
-        "math": [
-          "u_vitamin('vitamin_psionic_drain')",
-          "+=",
-          "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-        ]
-      },
-      { "u_lose_effect": "effect_psi_learning_new_power" },
-      "u_cancel_activity"
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS",
-    "//": "This is called in power-learning practice recipes when you fail at learning a new power",
-    "effect": [
-      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-      {
-        "math": [
-          "u_vitamin('vitamin_psionic_drain')",
-          "+=",
-          "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-        ]
-      },
-      { "u_lose_effect": "effect_psi_learning_new_power" },
-      "u_cancel_activity"
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP",
     "effect": [
       { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
@@ -380,7 +342,37 @@
       "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency(u_latest_studied_power_proficiency)" ] },
       "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
     },
-    "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],
-    "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
+    "effect": [
+      {
+        "u_message": "You are studying <spell_name:<u_val:latest_studied_power_name>> whose ID is <u_val:latest_studied_power_name> with Difficulty <u_val:latest_studied_power_difficulty> and requires the <u_val:latest_studied_power_proficiency> proficiency",
+        "type": "debug"
+      },
+      {
+        "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+        "popup": true
+      },
+      { "math": [ "u_spell_level(u_latest_studied_power_name) = 1" ] },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+        ]
+      },
+      { "u_lose_effect": "effect_psi_learning_new_power" },
+      "u_cancel_activity"
+    ],
+    "false_effect": [
+      { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+        ]
+      },
+      { "u_lose_effect": "effect_psi_learning_new_power" },
+      "u_cancel_activity"
+    ]
   }
 ]
