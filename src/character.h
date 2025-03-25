@@ -2277,6 +2277,7 @@ class Character : public Creature, public visitable
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::mass weight_capacity() const override;
+        units::mass safe_weight_capacity() const;
         units::volume volume_capacity() const;
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
