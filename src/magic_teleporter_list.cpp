@@ -201,7 +201,7 @@ std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
-    teleport_selector.text = _( "Choose Translocator Gate" );
+    teleport_selector.text = _( "Choose Translocation Location" );
 
     teleport_selector.query();
 

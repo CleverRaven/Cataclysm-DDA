@@ -851,17 +851,57 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
     }
 }
 
-void iexamine::translocator( Character &, const tripoint_bub_ms &examp )
+void iexamine::translocator( Character &you, const tripoint_bub_ms &examp )
 {
     const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().get_abs( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
-    if( !activated ) {
-        player_character.translocators.activate_teleporter( omt_loc, examp );
-        add_msg( m_info, _( "Translocator gate active." ) );
+
+    if( get_map().has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER, examp ) ) {
+
+        enum options {
+            ADJUST_ACTIVATION,
+            TELEPORT,
+        };
+
+        uilist menu;
+        menu.addentry( TELEPORT, true, 't', _( "Translocate" ) );
+        menu.addentry( ADJUST_ACTIVATION, true, 'a', _( "Adjust activation status" ) );
+        menu.query();
+
+        switch( menu.ret ) {
+            case TELEPORT: {
+                avatar *av = you.as_avatar();
+                if( av == nullptr ) {
+                    return;
+                }
+                av->translocators.translocate( { you.pos_bub() } );
+                break;
+            }
+            case ADJUST_ACTIVATION: {
+                if( !activated ) {
+                    player_character.translocators.activate_teleporter( omt_loc, examp );
+                    add_msg( m_info, _( "Translocator gate active." ) );
+                } else {
+                    if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+                        player_character.translocators.deactivate_teleporter( omt_loc, examp );
+                    }
+                }
+                break;
+            }
+            default: {
+                return;
+            }
+        }
+
     } else {
-        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            player_character.translocators.deactivate_teleporter( omt_loc, examp );
+        if( !activated ) {
+            player_character.translocators.activate_teleporter( omt_loc, examp );
+            add_msg( m_info, _( "Translocator gate active." ) );
+        } else {
+            if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+                player_character.translocators.deactivate_teleporter( omt_loc, examp );
+            }
         }
     }
 }
