@@ -14,7 +14,7 @@
   {
     "type": "furniture",
     "id": "f_magiclysm_greater_translocator_gate",
-    "name": "Translocator Portal",
+    "name": "Translocation Portal",
     "move_cost_mod": 0,
     "symbol": "X",
     "description": "A portal that allows translocation.  You may use this portal to teleport to attuned locations or teleport to it if it is attuned.",
