@@ -484,6 +484,40 @@
     ]
   },
   {
+    "abstract": "gun_base_380_semi_pistol",
+    "copy-from": "gun_base_handgun",
+    "type": "GUN",
+    "price_postapoc": "4 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "380" ],
+    "min_cycle_recoil": 280,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
+  },
+  {
+    "abstract": "gun_base_357sig_semi_pistol",
+    "copy-from": "gun_base_handgun",
+    "type": "GUN",
+    "price_postapoc": "4 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "357sig" ],
+    "min_cycle_recoil": 540,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
+  },
+  {
     "abstract": "gun_base_rifle_manual",
     "type": "GUN",
     "color": "light_gray",
