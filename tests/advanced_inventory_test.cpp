@@ -55,7 +55,7 @@ static const std::map<aim_location, const std::string> loc_action {
 };
 
 
-// recalc SECTION anything in the panels changes (item added etc.)
+// recalc when anything in the panels changes (item added etc.)
 static void recalc_panes( advanced_inventory &advinv )
 {
     advinv.recalc_pane( advanced_inventory::side::left );
@@ -89,10 +89,8 @@ static void do_activity( advanced_inventory &advinv, const std::string &activity
 }
 
 /* this should mirror what query_charges returns as max items when transferring to inventory */
-/* this should mirror what query_charges returns as max items when transferring to inventory */
 static int u_carry_amount( item &it )
 {
-
     int remaining = INT_MAX;
     avatar &player_character = get_avatar();
 
@@ -377,7 +375,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                         WHEN( "transfering all" ) {
                             do_activity( advinv, "MOVE_ITEM_STACK" );
 
-                            THEN( num_until_overburden + " items get transfered" ) {
+                            THEN( std::to_string( num_until_overburden ) + " items get transfered" ) {
                                 CHECK( u.has_charges( itype_test_9mm_ammo, num_until_overburden ) );
                                 CHECK_FALSE( u.has_charges( itype_test_9mm_ammo, num_until_overburden + 1 ) );
                             }
@@ -395,7 +393,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                     WHEN( "transfering all" ) {
                         do_activity( advinv, "MOVE_ITEM_STACK" );
 
-                        THEN( num_items + " items get transfered" ) {
+                        THEN( std::to_string( num_items ) + " items get transfered" ) {
                             CHECK( u.has_charges( itype_test_9mm_ammo, num_items ) );
                             CHECK_FALSE( u.has_charges( itype_test_9mm_ammo, num_items + 1 ) );
                         }
