@@ -200,7 +200,6 @@
     "weight": "12 kg",
     "volume": "20000 ml",
     "longest_side": "1000 mm",
-    "to_hit": 1,
     "loudness": 0,
     "range": 14,
     "dispersion": 150,
@@ -214,8 +213,7 @@
         "max_item_length": "76 cm",
         "ammo_restriction": { "nether_huntsman_javelin_ammo": 1 }
       }
-    ],
-    "melee_damage": { "cut": 2 }
+    ]
   },
   {
     "id": "v29_turret",
