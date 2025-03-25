@@ -157,7 +157,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 287,
-    "description": "A chunk chocolate meat, still dripping with liquid chocolate.",
+    "description": "A chunk of chocolate meat, still dripping with liquid chocolate.",
     "price_postapoc": "4 USD",
     "material": [ "junk" ],
     "volume": "250 ml",
