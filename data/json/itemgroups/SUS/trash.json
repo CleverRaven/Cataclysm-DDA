@@ -61,7 +61,7 @@
       { "item": "cotton_patchwork", "prob": 5, "custom-flags": [ "FILTHY" ] },
       { "item": "cig_butt", "prob": 10, "count": [ 1, 5 ] },
       { "//": "Lore items" },
-      { "item": "mag_news", "prob": 5 },
+      { "group": "SUS_book_nonf_zine_news", "prob": 5 },
       { "item": "flyer", "prob": 5 }
     ]
   },
@@ -122,7 +122,7 @@
       { "item": "cotton_patchwork", "prob": 20, "custom-flags": [ "FILTHY" ] },
       { "item": "cig_butt", "prob": 20, "count": [ 3, 6 ] },
       { "//": "Lore items" },
-      { "item": "mag_news", "prob": 20 },
+      { "group": "SUS_book_nonf_zine_news", "prob": 20 },
       { "item": "flyer", "prob": 20, "count": [ 1, 3 ] }
     ]
   },
