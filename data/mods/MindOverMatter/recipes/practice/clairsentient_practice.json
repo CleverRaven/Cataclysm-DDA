@@ -163,51 +163,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_danger_sense') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -269,51 +225,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_night_vision') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -375,51 +287,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_spot_weakness') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -518,51 +386,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_SEE_AURAS_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_see_auras') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -625,51 +449,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_ranged_enhance') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -732,51 +512,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_VOYANCE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_voyance') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -839,51 +575,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_dodge_power') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -946,51 +638,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_craft_bonus') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1053,51 +701,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_SEE_MAP_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_see_map') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1160,51 +764,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_perfect_shot') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1267,51 +827,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_clear_sight') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1374,51 +890,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_astral_projection') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1481,51 +953,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_group_tactics') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1588,50 +1016,6 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_CLAIR_OMNISCENCE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('clair_omniscience') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK" } ]
   }
 ]
