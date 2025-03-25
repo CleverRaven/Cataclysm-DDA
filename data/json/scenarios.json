@@ -470,7 +470,7 @@
       "lost_sub",
       "spouse",
       "musician",
-      "true_foodperson".
+      "true_foodperson",
       "futile_figher"
     ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
