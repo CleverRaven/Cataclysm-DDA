@@ -127,9 +127,7 @@ Minor Riot Damage Tweaks
 Refactor the pulping
 Makes sound effects play in slow motion while the player has slowed down time
 Add ``character_takeoff_item`` event
-Scopes attached to weapon will double overmap sight range
 Rebalance the chance for armor to be damaged by attacks.
-Amalgamations do spawn among another monsters
 
 
 ## Content:
@@ -299,17 +297,7 @@ Most toilets now have toilet supplies
 Add 2 new social practice recipes
 FEMA camps are now mutables
 Added a new fast food restaurant with drive-through
-Adds feral prisoner
-Mortar. Like, the real one
-Adds in SR22, S&W Bodyguard, S&W model 642, and SIG P365
-Two new guns: SCAR 17S and SCAR 16S
-Hardware stores have more items spawning in them
-Added busses to FEMA camps
-More cars & zombies in light industry
-All electronics stores now spawn with appliances
-Add civilian 5.7 cartridges
-Gas stations are no longer just patches of asphalt sometimes
-Adds the Flat-coated Retriever+puppies, puts it in the relevant monster group, and adds the name "Elwood" to the list of possible dog names.
+Mortar framework
 
 
 ## Interface:
@@ -421,7 +409,6 @@ Dont show liquids from held or worn container
 Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
 Debug option to view used palette symbols
-Item description: Expand `Can be stored in:` from (broken) holsters to all wearables
 
 
 ## Mods:
@@ -795,17 +782,7 @@ Isolation Protocol: Office Levels
 [MoM] Project TURQUOISE KEYSTONE
 [ Aftershock:Exoplanet ] Autotravel works on Salus IV now
 [Isolation Protocol] Add the Last Scion class
-XE - Add vampire blood + misc. small vampire changes.
-XE: Give Hedge Magic it's own tab in supernatural powers
 [MoM] Add volume limits to Blink and Farstep
-Aftershock: Rebalance monster melee die.
-Add Colt M1860 Army to Bombatic Perks [OLD_GUN] list
-Aftershock: Rebalance Player Armors
-[Xedra Evolved] More changeling seasonal glamours
-XE: New vampiric weaknesses
-[MoM] Raise Blink limit and add debug messages
-[XE] The Noon tabloid paper
-Fix the earth-sleeper and living-drinker vampiric weaknesses triggering for everyone
 
 
 ## Balance:
@@ -901,11 +878,6 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
-Adjust 1st tier evolutions
-Removes 'used_ifak' from 'trashcan_full' and 'trashcan_half' itemgroups
-Cant display recipes of unbrowsed estorage
-Extend the selection of armor that allows you to use them to block while wearing them
-Leech plants are part of EOC_IS_ELECTRIC
 
 
 ## Bugfixes:
@@ -1254,20 +1226,6 @@ Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
-Fix horde spawn logic for small cities
-Natural hair growth trait causes female characters to grow beards.
-Way too many pizzaiolos
-XE: dogs and cougars have too many stomachs
-[MoM] Fix Apportation
-disallow wielding item contained in wielded item
-Fix sound related error/segfault on quit
-fix not being able to unwield
-Remove old AI reference
-Fix null pointer while swapping position with a monster
-[MoM] Fix teleportation EoCs checking integrated item volume
-Fix Character::recalc_speed_bonus call position error
-Fixes quest item of pneumatic mission disappearing into thin air
-Fixes some problems with the New England Church missions
 
 
 ## Performance:
