@@ -467,6 +467,23 @@
     "ammo": [ "45colt", "410shot" ]
   },
   {
+    "abstract": "gun_base_57_semi_pistol",
+    "copy-from": "gun_base_handgun",
+    "type": "GUN",
+    "price_postapoc": "7 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "57" ],
+    "min_cycle_recoil": 330,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
+  },
+  {
     "abstract": "gun_base_rifle",
     "type": "GUN",
     "color": "light_gray",
@@ -602,5 +619,22 @@
     "ammo": [ "50" ],
     "blackpowder_tolerance": 56,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+  },
+  {
+    "abstract": "gun_base_57_semi_rifle",
+    "copy-from": "gun_base_rifle",
+    "type": "GUN",
+    "price_postapoc": "10 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "57" ],
+    "min_cycle_recoil": 330,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
   }
 ]
