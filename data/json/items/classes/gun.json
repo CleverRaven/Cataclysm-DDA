@@ -484,7 +484,26 @@
     ]
   },
   {
-    "abstract": "gun_base_rifle",
+    "abstract": "gun_base_rifle_manual",
+    "type": "GUN",
+    "color": "light_gray",
+    "symbol": "⨽",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "melee_damage": { "bash": 13 },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
+    "skill": "rifle",
+    "sight_dispersion": 40,
+    "durability": 8,
+    "handling": 20,
+    "reload": 150,
+    "reload_noise_volume": 10,
+    "blackpowder_tolerance": 56,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+  },
+  {
+    "abstract": "gun_base_rifle_semi",
     "type": "GUN",
     "color": "light_gray",
     "symbol": "⨽",
@@ -497,63 +516,49 @@
     "durability": 8,
     "handling": 20,
     "reload": 150,
-    "reload_noise_volume": 10
+    "reload_noise_volume": 10,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
   },
   {
     "abstract": "gun_base_22_semi_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_semi",
     "type": "GUN",
     "price_postapoc": "10 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "ammo": [ "22" ],
-    "min_cycle_recoil": 140,
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ]
+    "min_cycle_recoil": 140
   },
   {
     "abstract": "gun_base_22_manual_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "type": "GUN",
     "price_postapoc": "8 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
-    "ammo": [ "22" ],
-    "blackpowder_tolerance": 56,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+    "ammo": [ "22" ]
   },
   {
     "abstract": "gun_base_9mm_semi_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_semi",
     "type": "GUN",
     "price_postapoc": "11 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "ammo": [ "9mm" ],
-    "min_cycle_recoil": 480,
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ]
+    "min_cycle_recoil": 480
   },
   {
     "abstract": "gun_base_38_manual_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "type": "GUN",
     "price_postapoc": "5 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
-    "ammo": [ "38" ],
-    "blackpowder_tolerance": 56,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+    "ammo": [ "38" ]
   },
   {
     "abstract": "gun_base_357_manual_rifle",
@@ -565,76 +570,63 @@
   },
   {
     "abstract": "gun_base_44_manual_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "type": "GUN",
     "price_postapoc": "16 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
-    "ammo": [ "44" ],
-    "blackpowder_tolerance": 56,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+    "ammo": [ "44" ]
   },
   {
     "abstract": "gun_base_45_semi_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_semi",
     "type": "GUN",
     "price_postapoc": "12 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "ammo": [ "45" ],
-    "min_cycle_recoil": 550,
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ]
+    "min_cycle_recoil": 550
   },
   {
     "abstract": "gun_base_50bmg_semi_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_semi",
     "type": "GUN",
     "price_postapoc": "40 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "ammo": [ "50" ],
     "reload": 400,
-    "min_cycle_recoil": 23625,
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ]
+    "min_cycle_recoil": 23625
   },
   {
     "abstract": "gun_base_50bmg_manual_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "type": "GUN",
     "price_postapoc": "30 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
-    "ammo": [ "50" ],
-    "blackpowder_tolerance": 56,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+    "ammo": [ "50" ]
   },
   {
     "abstract": "gun_base_57_semi_rifle",
-    "copy-from": "gun_base_rifle",
+    "copy-from": "gun_base_rifle_semi",
     "type": "GUN",
     "price_postapoc": "10 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "ammo": [ "57" ],
-    "min_cycle_recoil": 330,
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ]
+    "min_cycle_recoil": 330
+  },
+  {
+    "abstract": "gun_base_223_semi_rifle",
+    "copy-from": "gun_base_rifle_semi",
+    "type": "GUN",
+    "price_postapoc": "15 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "223" ],
+    "min_cycle_recoil": 1350
+  },
+  {
+    "abstract": "gun_base_300_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
+    "type": "GUN",
+    "price_postapoc": "12 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "300" ]
   }
 ]
