@@ -368,6 +368,23 @@
     ]
   },
   {
+    "abstract": "gun_base_32_semi_pistol",
+    "copy-from": "gun_base_handgun",
+    "type": "GUN",
+    "price_postapoc": "2 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "32" ],
+    "min_cycle_recoil": 135,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
+  },
+  {
     "abstract": "gun_base_rifle",
     "type": "GUN",
     "color": "light_gray",
