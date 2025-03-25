@@ -391,7 +391,6 @@
       "target": "sub2000_folding_mechanism_folded",
       "moves": 300
     },
-    "handling_modifier": 10,
     "min_skills": [ [ "weapon", 3 ] ]
   },
   {
