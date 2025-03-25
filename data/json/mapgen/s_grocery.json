@@ -77,7 +77,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_grocery" ],
-    "weight": 1000,
+    "weight": 500,
     "object": {
       "rows": [
         "__sssssssssssssssssssss_",
@@ -198,7 +198,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_grocery" ],
-    "weight": 500,
+    "weight": 300,
     "object": {
       "rows": [
         "__sssssssssssssssssssss_",
@@ -384,7 +384,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_grocery_1" ],
-    "weight": 1000,
+    "weight": 500,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -495,7 +495,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_grocery_1" ],
-    "weight": 500,
+    "weight": 300,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
