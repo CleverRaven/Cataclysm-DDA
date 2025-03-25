@@ -573,5 +573,34 @@
       "fault_stovepipe",
       "fault_double_feed"
     ]
+  },
+  {
+    "abstract": "gun_base_50bmg_semi_rifle",
+    "copy-from": "gun_base_rifle",
+    "type": "GUN",
+    "price_postapoc": "40 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "50" ],
+    "reload": 400,
+    "min_cycle_recoil": 23625,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
+  },
+  {
+    "abstract": "gun_base_50bmg_manual_rifle",
+    "copy-from": "gun_base_rifle",
+    "type": "GUN",
+    "price_postapoc": "30 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
+    "ammo": [ "50" ],
+    "blackpowder_tolerance": 56,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
   }
 ]
