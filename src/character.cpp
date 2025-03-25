@@ -3378,7 +3378,7 @@ units::mass Character::weight_capacity() const
 }
 
 /* Character can safely carry up to four times their maximum weight */
-units::mass Character::safe_weight_capacity() const
+units::mass Character::safe_carry_capacity() const
 {
     return weight_capacity() * 4;
 }
@@ -3416,7 +3416,7 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
 bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
-        return ( weight_carried() + it.weight() <= safe_weight_capacity() );
+        return ( weight_carried() + it.weight() <= safe_carry_capacity() );
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
