@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <climits>
+#include <initializer_list>
 #include <string>
 #include <vector>
 #include <map>
@@ -5,11 +8,11 @@
 
 #include "advanced_inv.h"
 #include "advanced_inv_area.h"
+#include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character_attire.h"
-#include "coords_fwd.h"
 #include "coordinates.h"
 #include "item_location.h"
 #include "item.h"
@@ -18,6 +21,7 @@
 #include "map_selector.h"
 #include "player_helpers.h"
 #include "rng.h"
+#include "units.h"
 #include "type_id.h"
 
 
@@ -89,13 +93,13 @@ static void do_activity( advanced_inventory &advinv, const std::string &activity
 }
 
 /* this should mirror what query_charges returns as max items when transferring to inventory */
-static int u_carry_amount( item &it )
+static size_t u_carry_amount( item &it )
 {
-    int remaining = INT_MAX;
+    size_t remaining = INT_MAX;
     avatar &player_character = get_avatar();
 
     player_character.can_stash_partial( it, remaining );
-    int amount = INT_MAX - remaining;
+    size_t amount = INT_MAX - remaining;
 
     const units::mass unitweight = it.weight() / ( it.count_by_charges() ? it.charges : 1 );
     if( unitweight > 0_gram ) {
@@ -103,7 +107,7 @@ static int u_carry_amount( item &it )
                                                 player_character.weight_carried();
 
         // TODO: have it consider pocket weight_multiplier
-        const int weightmax = overburden_capacity / unitweight;
+        const size_t weightmax = overburden_capacity / unitweight;
         if( weightmax <= 0 ) {
             return 0;
         }
@@ -196,15 +200,15 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
         }
 
         GIVEN( "multiple items in stack on the ground" ) {
-            const int limit = here.i_at( pos ).count_limit();
-            int remaining_map = limit;
+            const size_t limit = here.i_at( pos ).count_limit();
+            size_t remaining_map = limit;
 
             GIVEN( "items are not charges" ) {
                 item &knife_combat_map = here.add_item_or_charges( pos, knife_combat,
                                          remaining_map,
                                          false );
-                const int num_items = limit - remaining_map;
-                int remaining_stash = num_items;
+                const size_t num_items = limit - remaining_map;
+                size_t remaining_stash = num_items;
 
                 AND_GIVEN( "all items got placed" ) {
                     REQUIRE( here.i_at( pos ).size() == num_items );
@@ -226,9 +230,9 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                     REQUIRE( u.can_stash_partial( knife_combat, remaining_stash ) );
                     REQUIRE( remaining_stash > 0 );
 
-                    const int expected_transfered = u_carry_amount( knife_combat );
+                    const size_t expected_transfered = u_carry_amount( knife_combat );
                     REQUIRE( expected_transfered < num_items );
-                    const int expected_remaining = num_items - expected_transfered;
+                    const size_t expected_remaining = num_items - expected_transfered;
 
                     WHEN( "transfering single item" ) {
                         do_activity( advinv, "MOVE_SINGLE_ITEM" );
@@ -295,7 +299,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                     REQUIRE( u.can_stash_partial( knife_combat_map, remaining_stash ) );
                     REQUIRE( remaining_stash == 0 );
 
-                    int can_carry = u_carry_amount( knife_combat );
+                    size_t can_carry = u_carry_amount( knife_combat );
 
                     // TODO: currently pocket weight_multiplier do not get considered for overburden
                     // when that changes please reverse this
@@ -320,22 +324,22 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
 
             GIVEN( "items are charges" ) {
                 item &map_i_9mm_ammo = here.add_item_or_charges( pos, i_9mm_ammo, remaining_map, false );
-                const int num_items = limit - remaining_map;
+                const size_t num_items = limit - remaining_map;
                 REQUIRE( map_i_9mm_ammo.count_by_charges() );
                 recalc_panes( advinv );
 
                 const units::mass unitweight = i_9mm_ammo.weight() / i_9mm_ammo.charges;
                 REQUIRE( unitweight > 0_gram );
-                int left_over = num_items;
+                size_t left_over = num_items;
 
                 GIVEN( "there is enough space for some, but not all items" ) {
 
                     GIVEN( "pocket weight capacity is the limiting factor" ) {
                         // we should* be limited by being overburdened.
                         u.worn.wear_item( u, backpack, false, false );
-                        const int expected_transfered = u_carry_amount( knife_combat );
+                        const size_t expected_transfered = u_carry_amount( knife_combat );
                         REQUIRE( expected_transfered < num_items );
-                        const int expected_remaining = num_items - expected_transfered;
+                        const size_t expected_remaining = num_items - expected_transfered;
                         u.can_stash_partial( i_9mm_ammo, left_over );
                         REQUIRE( left_over > 0 );
 
@@ -369,7 +373,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                         const units::mass overburden_capacity = u.weight_capacity() * 4 -
                                                                 u.weight_carried();
                         REQUIRE( map_i_9mm_ammo.weight() > overburden_capacity );
-                        const int num_until_overburden = overburden_capacity / unitweight;
+                        const size_t num_until_overburden = overburden_capacity / unitweight;
                         REQUIRE( num_until_overburden < num_items );
 
                         WHEN( "transfering all" ) {
