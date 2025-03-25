@@ -133,6 +133,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
     clear_avatar();
     clear_map();
     advanced_inventory advinv;
+
     advinv.init();
 
     map &here = get_map();
@@ -140,9 +141,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
 
     item backpack( itype_backpack );
     item debug_heavy_backpack( itype_debug_backpack );
-    item debug_backpack( itype_debug_backpack );
-    item debug_heavy_backpack( itype_debug_backpack );
-    item debug_backpack( itype_debug_backpack );
+    item debug_backpack( itype_debug_heavy_backpack );
     item knife_combat( itype_knife_combat );
     item i_9mm_ammo( itype_test_9mm_ammo );
 

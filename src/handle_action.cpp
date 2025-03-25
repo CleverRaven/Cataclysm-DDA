@@ -2753,9 +2753,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( player_character.in_vehicle ) {
                 add_msg( m_info, _( "You can't construct while in a vehicle." ) );
             } else {
-                if( !g->warn_player_maybe_anger_local_faction( true ) ) {
-                    break; // player declined to mess with faction's stuff
-                }
                 construction_menu( false );
             }
             break;
