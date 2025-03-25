@@ -184,6 +184,7 @@
     "copy-from": "mon_marshmallow_goliath",
     "symbol": "M",
     "color": "brown_magenta",
+    "harvest": "armored_marshmallow_boy",
     "reproduction": { "baby_type": { "baby_egg": "smores" }, "baby_count": 10, "baby_timer": 10 },
     "armor": { "bash": 9, "cut": 11, "bullet": 9 }
   },

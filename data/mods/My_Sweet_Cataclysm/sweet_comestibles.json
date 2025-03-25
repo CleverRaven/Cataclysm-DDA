@@ -209,5 +209,27 @@
     "container": "null",
     "color": "red",
     "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_chocolate",
+    "name": { "str_sp": "chocolate ichor" },
+    "comestible_type": "DRINK",
+    "spoils_in": "1 day",
+    "symbol": "~",
+    "color": "brown",
+    "quench": 50,
+    "healthy": -1,
+    "calories": 200,
+    "description": "Ichor harvested from the corpse of a chocolate cow. Quite sweet and... oddly warm?",
+    "price": "20 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "junk" ],
+    "volume": "250 ml",
+    "weight": "260 g",
+    "charges": 1,
+    "phase": "liquid",
+    "fun": -1,
+    "//": "will be used for chocolate-branched additions later on. currently only from cows, will be added from additional chocolate monsters."
   }
 ]
