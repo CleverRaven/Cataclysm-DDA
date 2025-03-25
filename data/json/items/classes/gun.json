@@ -385,6 +385,25 @@
     ]
   },
   {
+    "abstract": "gun_base_38_manual_pistol",
+    "copy-from": "gun_base_handgun",
+    "type": "GUN",
+    "price_postapoc": "4 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ],
+    "ammo": [ "38" ],
+    "blackpowder_tolerance": 56,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+  },
+  {
+    "abstract": "gun_base_357_manual_pistol",
+    "copy-from": "gun_base_38_manual_pistol",
+    "type": "GUN",
+    "price_postapoc": "11 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "38", "357mag" ]
+  },
+  {
     "abstract": "gun_base_rifle",
     "type": "GUN",
     "color": "light_gray",
@@ -444,5 +463,24 @@
       "fault_stovepipe",
       "fault_double_feed"
     ]
+  },
+  {
+    "abstract": "gun_base_38_manual_rifle",
+    "copy-from": "gun_base_rifle",
+    "type": "GUN",
+    "price_postapoc": "5 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
+    "ammo": [ "38" ],
+    "blackpowder_tolerance": 56,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+  },
+  {
+    "abstract": "gun_base_357_manual_rifle",
+    "copy-from": "gun_base_38_manual_rifle",
+    "type": "GUN",
+    "price_postapoc": "14 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "38", "357mag" ]
   }
 ]
