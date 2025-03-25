@@ -165,7 +165,15 @@ static void migrate_mag_from_pockets( itype &def )
     }
 }
 
-static std::vector<itype>::iterator find_template_list( const itype_id &it_id )
+static std::vector<itype>::const_iterator find_template_list_const( const itype_id &it_id )
+{
+    const std::vector<itype> &itypes = item_controller->get_generic_factory().get_all();
+    return std::find_if( itypes.begin(), itypes.end(), [&it_id]( const itype & def ) {
+        return def.get_id() == it_id;
+    } );
+}
+
+static std::vector<itype>::iterator find_template_list_mod( const itype_id &it_id )
 {
     std::vector<itype> &itypes = item_controller->get_generic_factory().get_all_mod();
     return std::find_if( itypes.begin(), itypes.end(), [&it_id]( const itype & def ) {
@@ -175,7 +183,7 @@ static std::vector<itype>::iterator find_template_list( const itype_id &it_id )
 
 static std::size_t count_template_list( const itype_id &it_id )
 {
-    return find_template_list( it_id ) != item_controller->get_generic_factory().get_all().end();
+    return find_template_list_const( it_id ) != item_controller->get_generic_factory().get_all().end();
 }
 
 template<>
@@ -870,7 +878,7 @@ void Item_factory::finalize_post( itype &obj )
 
         // check if item can be repaired with any of the actions?
         for( const auto &act : repair_actions ) {
-            const use_function *func = find_template_list( tool )->get_use( act );
+            const use_function *func = find_template_list_const( tool )->get_use( act );
             if( func == nullptr ) {
                 continue;
             }
@@ -1518,7 +1526,7 @@ void Item_factory::finalize()
             continue;
         }
         const itype_id &result = rec.result();
-        auto it = find_template_list( result );
+        auto it = find_template_list_mod( result );
         if( it != item_factory.get_all().end() ) {
             it->recipes.push_back( p.first );
         }
@@ -1566,7 +1574,7 @@ void Item_factory::finalize_item_blacklist()
     item_blacklist.sub_blacklist.clear();
 
     for( const itype_id &blackout : item_blacklist.blacklist ) {
-        auto candidate = find_template_list( blackout );
+        auto candidate = find_template_list_const( blackout );
         if( candidate == item_factory.get_all().end() ) {
             debugmsg( "item on blacklist %s does not exist", blackout.c_str() );
             continue;
@@ -1665,10 +1673,10 @@ void Item_factory::finalize_item_blacklist()
         // If the default ammo of an ammo_type gets migrated, we migrate all guns using that ammo
         // type to the ammo type of whatever that default ammo was migrated to.
         // To do that we need to store a map of ammo to the migration replacement thereof.
-        auto maybe_ammo = find_template_list( migrate.first );
+        auto maybe_ammo = find_template_list_const( migrate.first );
         // If the itype_id is valid and the itype has ammo data
         if( maybe_ammo != item_factory.get_all().end() && maybe_ammo->ammo ) {
-            auto replacement = find_template_list( parent->replace );
+            auto replacement = find_template_list_const( parent->replace );
             if( replacement->ammo ) {
                 migrated_ammo.emplace( migrate.first, replacement->ammo->type );
             } else {
@@ -1678,9 +1686,9 @@ void Item_factory::finalize_item_blacklist()
         }
 
         // migrate magazines as well
-        auto maybe_mag = find_template_list( migrate.first );
+        auto maybe_mag = find_template_list_const( migrate.first );
         if( maybe_mag != item_factory.get_all().end() && maybe_mag->magazine ) {
-            auto replacement = find_template_list( parent->replace );
+            auto replacement = find_template_list_const( parent->replace );
             if( replacement->magazine ) {
                 migrated_magazines.emplace( migrate.first, parent->replace );
             } else {
@@ -1854,7 +1862,7 @@ use_function Item_factory::read_use_function( const JsonObject &jo,
 //reads a single use_function from the provided JsonValue
 static std::pair<std::string, use_function> use_function_reader_helper(
     std::map<std::string, int> &ammo_scale,
-    const std::string &src, const JsonValue &val )
+    const std::string_view &src, const JsonValue &val )
 {
     if( val.test_object() ) {
         JsonObject use_obj = val.get_object();
@@ -1864,7 +1872,7 @@ static std::pair<std::string, use_function> use_function_reader_helper(
         if( !method.get_actor_ptr() ) {
             return std::make_pair( type, use_function() );
         }
-        method.get_actor_ptr()->load( use_obj, src );
+        method.get_actor_ptr()->load( use_obj, std::string( src.data() ) );
         return std::make_pair( type, method );
     } else if( val.test_array() ) {
         JsonArray use_arr = val.get_array();
@@ -1886,8 +1894,8 @@ class use_function_reader_map : public generic_typed_reader<use_function_reader_
 {
     public:
         std::map<std::string, int> &ammo_scale;
-        const std::string &src;
-        use_function_reader_map( std::map<std::string, int> &ammo_scale, const std::string &src ) :
+        const std::string_view &src;
+        use_function_reader_map( std::map<std::string, int> &ammo_scale, const std::string_view &src ) :
             ammo_scale( ammo_scale ), src( src ) {};
         std::pair<std::string, use_function> get_next( const JsonValue &val ) const {
             return use_function_reader_helper( ammo_scale, src, val );
@@ -1899,8 +1907,8 @@ class use_function_reader_single : public generic_typed_reader<use_function_read
 {
     public:
         std::map<std::string, int> &ammo_scale;
-        const std::string &src;
-        use_function_reader_single( std::map<std::string, int> &ammo_scale, const std::string &src ) :
+        const std::string_view &src;
+        use_function_reader_single( std::map<std::string, int> &ammo_scale, const std::string_view &src ) :
             ammo_scale( ammo_scale ), src( src ) {
         };
         use_function get_next( const JsonValue &val ) const {
@@ -2158,14 +2166,15 @@ class snippet_reader : public generic_typed_reader<snippet_reader>
 {
     public:
         const itype &def;
-        const std::string &src;
-        explicit snippet_reader( const itype &def, const std::string &src ) : def( def ), src( src ) {};
+        const std::string_view &src;
+        explicit snippet_reader( const itype &def, const std::string_view &src ) : def( def ),
+            src( src ) {};
         std::string get_next( const JsonValue &val ) const {
             if( val.test_array() ) {
                 // auto-create a category that is unlikely to already be used and put the
                 // snippets in it.
                 std::string snippet_category = "auto:" + def.get_id().str();
-                SNIPPET.add_snippets_from_json( snippet_category, val.get_array(), src );
+                SNIPPET.add_snippets_from_json( snippet_category, val.get_array(), std::string( src.data() ) );
                 return snippet_category;
             } else {
                 return val.get_string();
@@ -2184,7 +2193,7 @@ void conditional_name::deserialize( const JsonObject &jo )
     if( !jo.read( "name", name ) ) {
         jo.throw_error( "name unspecified for conditional name" );
     }
-};
+}
 
 bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
 {
@@ -2790,7 +2799,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 {
     cata_assert( frozen );
 
-    auto found = find_template_list( id );
+    auto found = find_template_list_const( id );
     if( found != item_factory.get_all().end() ) {
         return &*found;
     }
@@ -4031,9 +4040,8 @@ static void replace_materials( const JsonObject &jo, itype &def )
     }
 }
 
-void itype::load( const JsonObject &jo, const std::string_view )
+void itype::load( const JsonObject &jo, const std::string_view src )
 {
-    std::string src = "dda";
     restore_on_out_of_scope restore_check_plural( check_plural ); //???
     if( jo.has_string( "abstract" ) ) {
         check_plural = check_plural_t::none;
@@ -4055,8 +4063,13 @@ void itype::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "symbol", sym );
     optional( jo, was_loaded, "color", color, color_reader{} );
-    optional( jo, was_loaded, "looks_like", looks_like );
     optional( jo, was_loaded, "category", category_force );
+    //looks_like defaults to the inherited item ID, but does NOT inherit itself
+    itype_id copied_looks_like;
+    if( jo.has_member( "copy-from" ) ) {
+        copied_looks_like = itype_id( jo.get_string( "copy-from" ) );
+    }
+    optional( jo, false, "looks_like", looks_like, copied_looks_like );
 
     //BASIC PHYSICAL PROPERTIES
     optional( jo, was_loaded, "weight", weight, not_negative_mass );

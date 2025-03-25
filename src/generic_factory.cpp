@@ -60,4 +60,4 @@ float read_proportional_entry( const JsonObject &jo, const std::string_view &key
         return scalar;
     }
     return 1.0f;
-};
+}

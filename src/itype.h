@@ -1581,7 +1581,7 @@ struct itype {
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
-        void load( const JsonObject &jo, std::string_view );
+        void load( const JsonObject &jo, std::string_view src );
         void load_slots( const JsonObject &jo, bool was_loaded );
 
         int damage_max() const {
