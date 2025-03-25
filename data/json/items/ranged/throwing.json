@@ -196,11 +196,11 @@
   {
     "type": "AMMO",
     "id": "nether_huntsman_javelin",
-    "name": { "str": "huntsman outgrowth", "str_pl": "huntsman outgrowths" },
+    "name": { "str": "huntsman outgrowth" },
     "copy-from": "javelin_fletched",
     "symbol": "/",
     "color": "light_gray",
-    "description": "A wet alien rod with a sharp point at the end, vaguely shaped like a javelin of sorts. It is heavier than what you expected, and gives off a weird acidic smell you can't quite describe.",
+    "description": "A wet alien rod with a sharp point at the end, vaguely shaped like a javelin of sorts.  It is heavier than what you expected, and gives off a weird acidic smell you can't quite describe.",
     "material": [ "bone" ],
     "volume": "1400 ml",
     "weight": "1200 g",
