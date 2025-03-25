@@ -628,5 +628,22 @@
     "price_postapoc": "12 USD",
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "ammo": [ "300" ]
+  },
+  {
+    "abstract": "gun_base_308_semi_rifle",
+    "copy-from": "gun_base_rifle_semi",
+    "type": "GUN",
+    "price_postapoc": "18 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "308" ],
+    "min_cycle_recoil": 2700
+  },
+  {
+    "abstract": "gun_base_308_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
+    "type": "GUN",
+    "price_postapoc": "12 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "308" ]
   }
 ]
