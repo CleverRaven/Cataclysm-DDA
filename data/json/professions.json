@@ -8131,14 +8131,7 @@
     "description": "The cataclysm may have caught you off guard, but you're not going down without a fight!",
     "points": -1,
     "items": {
-      "both": {
-        "entries": [
-          { "item": "tank_top" },
-          { "item": "jeans" },
-          { "item": "flip_flops" },
-          { "item": "stick" }
-        ]
-      },
+      "both": { "entries": [ { "item": "tank_top" }, { "item": "jeans" }, { "item": "flip_flops" }, { "item": "stick" } ] },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "panties" } ] }
     }
