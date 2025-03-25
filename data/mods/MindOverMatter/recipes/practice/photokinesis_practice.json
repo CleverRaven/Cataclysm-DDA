@@ -153,51 +153,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_snuff_light') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -255,51 +211,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_UP_ENEMY_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_light_up_enemy') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -357,51 +269,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_light_dodge') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -459,51 +327,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_light_beam') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -561,51 +385,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_camouflage') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -663,51 +443,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_rad_immunity') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -766,51 +502,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_light_arms') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -869,51 +561,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_hide_ugly') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -972,51 +620,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_light_image') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1075,51 +679,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_RADIO_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_radio') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1178,51 +738,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_STERILIZE_FOOD_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_sterilize_food') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1281,51 +797,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_STUN_ROBOTS_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_stun_robots') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1384,51 +856,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_invisibility') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1487,51 +915,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_light_flash') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1590,51 +974,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_blinding_glare') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1693,51 +1033,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_blinding_glare') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1796,50 +1092,6 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMY_LEARNING_2",
-            "condition": {
-              "and": [
-                {
-                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
-                  "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-                }
-              ]
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('photokinetic_light_army') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PHOTOKIN_FINAL_LEARNING_CHECK" } ]
   }
 ]
