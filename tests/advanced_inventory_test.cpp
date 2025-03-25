@@ -92,23 +92,15 @@ static void do_activity( advanced_inventory &advinv, const std::string &activity
 /* this should mirror what query_charges returns as max items when transferring to inventory */
 static int u_carry_amount( item &it )
 {
-    int amount = INT_MAX;
+
+    int remaining = INT_MAX;
     avatar &player_character = get_avatar();
 
-    player_character.can_stash_partial( it, amount );
-
-
-    player_character.can_stash_partial( it, amount );
+    player_character.can_stash_partial( it, remaining );
+    int amount = INT_MAX - remaining;
 
     const units::mass unitweight = it.weight() / ( it.count_by_charges() ? it.charges : 1 );
     if( unitweight > 0_gram ) {
-
-        const units::mass overburden_capacity = player_character.weight_capacity() * 4 -
-                                                player_character.weight_carried();
-
-        // TODO: have it consider pocket weight_multiplier
-        const int weightmax = overburden_capacity / unitweight;
-
         const units::mass overburden_capacity = player_character.weight_capacity() * 4 -
                                                 player_character.weight_carried();
 
@@ -119,8 +111,6 @@ static int u_carry_amount( item &it )
         }
         amount = std::min( weightmax, amount );
     }
-
-
     return amount;
 }
 
@@ -145,25 +135,11 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
     item knife_combat( itype_knife_combat );
     item i_9mm_ammo( itype_test_9mm_ammo );
 
-    // const units::volume max_bp_vol = backpack.get_total_capacity();
-    // const units::mass max_bp_mass = backpack.get_total_weight_capacity();
-
-    // const units::volume max_dbg_bp_vol = debug_backpack.get_total_capacity();
-    // const units::mass max_dbg_bp_mass = debug_backpack.get_total_weight_capacity();
-
-    // const units::volume max_bp_vol = backpack.get_total_capacity();
-    // const units::mass max_bp_mass = backpack.get_total_weight_capacity();
-
-    // const units::volume max_dbg_bp_vol = debug_backpack.get_total_capacity();
-    // const units::mass max_dbg_bp_mass = debug_backpack.get_total_weight_capacity();
-
-
     // this is directly from advanced_inventory:query_charges,
     // we probably want to generalize what counts as overburdened
     const units::mass overburden_mass = u.weight_capacity() * 4;
 
     SECTION( "from ground to inv" ) {
-
 
         // an item is in the src panel and is selected
         init_panes( advinv, aim_location::AIM_CENTER, aim_location::AIM_INVENTORY );
@@ -228,10 +204,8 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
             GIVEN( "items are not charges" ) {
                 item &knife_combat_map = here.add_item_or_charges( pos, knife_combat,
                                          remaining_map,
-                                         remaining_map,
                                          false );
                 const int num_items = limit - remaining_map;
-                int remaining_stash = num_items;
                 int remaining_stash = num_items;
 
                 AND_GIVEN( "all items got placed" ) {
@@ -242,7 +216,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
 
                 recalc_panes( advinv );
 
-                AND_THEN( "items are stacked properly" ) {
+                AND_GIVEN( "items are stacked properly" ) {
                     REQUIRE( spane.items.size() == 1 );
                     REQUIRE( spane.get_cur_item_ptr()->stacks == num_items );
                 }
@@ -250,26 +224,14 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                 AND_GIVEN( "there is enough space for some, but not all items" ) {
                     u.worn.wear_item( u, backpack, false, false );
 
-
-                    REQUIRE( u.can_stash_partial( knife_combat_map, remaining_stash ) );
+                    CAPTURE( u_carry_amount( knife_combat ) );
+                    REQUIRE( u.can_stash_partial( knife_combat, remaining_stash ) );
                     REQUIRE( remaining_stash > 0 );
 
                     const int expected_transfered = u_carry_amount( knife_combat );
                     REQUIRE( expected_transfered < num_items );
                     const int expected_remaining = num_items - expected_transfered;
 
-
-
-
-                    WHEN( "transfering single item" ) {
-                        do_activity( advinv, "MOVE_SINGLE_ITEM" );
-                        THEN( "a single item is in inventory" ) {
-                            CHECK( u.has_amount( itype_knife_combat, 1 ) );
-                        }
-                        AND_THEN( "a single item is removed from src" ) {
-                            CHECK( spane.get_cur_item_ptr()->stacks == num_items - 1 );
-                        }
-                    }
                     WHEN( "transfering single item" ) {
                         do_activity( advinv, "MOVE_SINGLE_ITEM" );
                         THEN( "a single item is in inventory" ) {
@@ -328,31 +290,31 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                             }
                         }
                     }
+                }
 
-                    GIVEN( "there is enough space for all items" ) {
-                        u.worn.wear_item( u, debug_backpack, false, false );
-                        REQUIRE( u.can_stash_partial( knife_combat_map, remaining_stash ) );
-                        REQUIRE( remaining_stash == 0 );
+                GIVEN( "there is enough space for all items" ) {
+                    u.worn.wear_item( u, debug_backpack, false, false );
+                    REQUIRE( u.can_stash_partial( knife_combat_map, remaining_stash ) );
+                    REQUIRE( remaining_stash == 0 );
 
-                        int can_carry = u_carry_amount( knife_combat );
+                    int can_carry = u_carry_amount( knife_combat );
 
-                        // TODO: currently pocket weight_multiplier do not get considered for overburden
-                        // when that changes please reverse this
-                        REQUIRE( can_carry < num_items );
+                    // TODO: currently pocket weight_multiplier do not get considered for overburden
+                    // when that changes please reverse this
+                    REQUIRE( can_carry < num_items );
 
-                        WHEN( "transfering item stack" ) {
-                            // because we can't input an amount, it will transfer max_possible
-                            do_activity( advinv, "MOVE_VARIABLE_ITEM" );
+                    WHEN( "transfering item stack" ) {
+                        // because we can't input an amount, it will transfer max_possible
+                        do_activity( advinv, "MOVE_VARIABLE_ITEM" );
 
-                            THEN( "some items are in inventory" ) {
-                                CHECK( u.amount_of( itype_knife_combat ) > 1 );
-                            }
-                            AND_THEN( "some items are removed from src" ) {
-                                CHECK( spane.items.size() < num_items );
-                            }
-                            AND_THEN( "you are not overburdened" ) {
-                                CHECK( overburden_mass > u.weight_carried() );
-                            }
+                        THEN( "some items are in inventory" ) {
+                            CHECK( u.amount_of( itype_knife_combat ) > 1 );
+                        }
+                        AND_THEN( "some items are removed from src" ) {
+                            CHECK( spane.items.size() < num_items );
+                        }
+                        AND_THEN( "you are not overburdened" ) {
+                            CHECK( overburden_mass > u.weight_carried() );
                         }
                     }
                 }
@@ -369,6 +331,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                 int left_over = num_items;
 
                 GIVEN( "there is enough space for some, but not all items" ) {
+
                     GIVEN( "pocket weight capacity is the limiting factor" ) {
                         // we should* be limited by being overburdened.
                         u.worn.wear_item( u, backpack, false, false );
@@ -395,8 +358,8 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                             }
                         }
                     }
-                    GIVEN( "overburden is the constraining factor" ) {
 
+                    GIVEN( "overburden is the constraining factor" ) {
                         // has to be an item that fits all items and has a higher pocket weight capacity then the character,
                         // but still transfers weight to character. No current item fits that, so make a custom one.
                         u.worn.wear_item( u, debug_heavy_backpack, false, false );
@@ -421,29 +384,27 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
 
                         }
                     }
-
                 }
+
                 GIVEN( "you can fit all items" ) {
                     // debug backpack has weight_multiplier of 0.01, so overburden is not the constraining factor
                     u.worn.wear_item( u, debug_backpack, false, false );
-
                     u.can_stash_partial( i_9mm_ammo, left_over );
-                    REQUIRE( leftover == 0 );
+                    REQUIRE( left_over == 0 );
 
                     WHEN( "transfering all" ) {
                         do_activity( advinv, "MOVE_ITEM_STACK" );
 
-                        THEN( num_until_overburden + " items get transfered" ) {
-                            CHECK( u.has_charges( itype_test_9mm_ammo, num_until_overburden ) );
-                            CHECK_FALSE( u.has_charges( itype_test_9mm_ammo, num_until_overburden + 1 ) );
+                        THEN( num_items + " items get transfered" ) {
+                            CHECK( u.has_charges( itype_test_9mm_ammo, num_items ) );
+                            CHECK_FALSE( u.has_charges( itype_test_9mm_ammo, num_items + 1 ) );
                         }
-
+                        AND_THEN( "no items are left on the ground" ) {
+                            REQUIRE( here.i_at( pos ).empty() );
+                        }
                     }
-
                 }
             }
-
         }
-
     }
 }
