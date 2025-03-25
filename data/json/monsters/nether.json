@@ -2182,7 +2182,7 @@
     "id": "mon_nether_huntsman",
     "type": "MONSTER",
     "name": { "str": "eldritch huntsman", "str_pl": "eldritch huntsmen" },
-    "description": "Tall, partially armored, barely humanoid creature with a long appendage growing out of its side. Flexible spearlike rods protrude throughout it's body, seemingly holstered under the skin. It feverishly darts and scouts the surroundings, looking to rip its victims apart.",
+    "description": "Tall, partially armored, barely humanoid creature with a long appendage growing out of its side.  Flexible spearlike rods protrude throughout its body, seemingly holstered under the skin.  It feverishly darts and scouts the surroundings, looking to rip its victims apart.",
     "default_faction": "nether",
     "bodytype": "human",
     "species": [ "NETHER" ],
