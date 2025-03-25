@@ -245,5 +245,15 @@
       { "u_lose_effect": "effect_psi_learning_new_power" },
       "u_cancel_activity"
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK",
+    "condition": {
+      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+      "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
+    },
+    "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],
+    "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
   }
 ]
