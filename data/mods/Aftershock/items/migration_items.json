@@ -26,6 +26,16 @@
     "replace": "afs_needlepistol"
   },
   {
+    "id": "xlballistic_vest_empty",
+    "type": "MIGRATION",
+    "replace": "afs_military_vestxl"
+  },
+  {
+    "id": "xlballistic_vest_esapi",
+    "type": "MIGRATION",
+    "replace": "afs_military_vestxl"
+  },
+  {
     "id": "5x50_hull",
     "type": "MIGRATION",
     "replace": "afs_5x50_hull"

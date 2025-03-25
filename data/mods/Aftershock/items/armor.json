@@ -16,7 +16,7 @@
     "looks_like": "molle_pack",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "100 L", "max_contains_weight": "500 kg", "moves": 300 } ],
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "LEAK_DAM" ],
     "max_worn": 1,
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 30, "covers": [ "torso" ] } ]
@@ -34,7 +34,8 @@
     "symbol": "[",
     "looks_like": "armor_scrapsuit",
     "color": "white",
-    "material_thickness": 2,
+    "material_thickness": 1,
+    "flags": [ "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
@@ -61,7 +62,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "STURDY" ],
     "relic_data": {
       "passive_effects": [
@@ -131,49 +132,6 @@
     "qualities": [ [ "HACK", 1 ] ]
   },
   {
-    "id": "xl_jeans",
-    "type": "ARMOR",
-    "name": { "str_sp": "jeans" },
-    "weight": "900 g",
-    "volume": "3 L",
-    "copy-from": "jeans",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "750 ml", "max_contains_weight": "1 kg" } ],
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "PREFIX_XL" ]
-  },
-  {
-    "id": "xl_technician_pants_gray",
-    "type": "ARMOR",
-    "name": { "str": "work pants", "str_pl": "pairs of work pants" },
-    "description": "A pair of gray work pants.",
-    "copy-from": "technician_pants_gray",
-    "weight": "770 g",
-    "volume": "3 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1700 ml", "max_contains_weight": "2 kg" } ],
-    "material_thickness": 2,
-    "snippet_category": [
-      { "id": "xl_technician_pants_blue", "text": "A pair of XL blue work pants." },
-      { "id": "xl_technician_pants_gray", "text": "A pair of XL gray work pants." },
-      { "id": "xl_technician_pants_lightblue", "text": "A pair of XL light-blue work pants." }
-    ],
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "PREFIX_XL" ]
-  },
-  {
-    "id": "xl_technician_shirt_gray",
-    "type": "ARMOR",
-    "name": { "str": "work t-shirt" },
-    "description": "A gray work t-shirt with a small front pocket.",
-    "weight": "84 g",
-    "volume": "350 ml",
-    "copy-from": "technician_shirt_gray",
-    "snippet_category": [
-      { "id": "xl_technician_shirt_blue", "text": "An XL blue work t-shirt with a small front pocket." },
-      { "id": "xl_technician_shirt_gray", "text": "An XL gray work t-shirt with a small front pocket." },
-      { "id": "xl_technician_shirt_lightblue", "text": "An XL light-blue work t-shirt with a small front pocket." }
-    ],
-    "flags": [ "VARSIZE", "OVERSIZE", "PREFIX_XL" ]
-  },
-  {
     "id": "q_solarpack",
     "type": "TOOL_ARMOR",
     "name": { "str": "quantum solar backpack (folded)", "str_pl": "quantum solar backpacks (folded)" },
@@ -211,68 +169,6 @@
     "max_worn": 1,
     "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ],
     "melee_damage": { "bash": 4 }
-  },
-  {
-    "id": "xlswat_armor",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "Uplifted Enforcer armor" },
-    "description": "An extra large suit of black bulletproof armor with lots of pockets.  Specifically designed for Uplifted officers such as Mastodons.",
-    "weight": "10 kg",
-    "volume": "20 L",
-    "price": "5 kUSD 850 USD",
-    "price_postapoc": "50 USD",
-    "to_hit": -3,
-    "material": [ "kevlar", "cotton" ],
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "dark_gray",
-    "warmth": 35,
-    "material_thickness": 9,
-    "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 4,
-    "flags": [ "OVERSIZE", "POCKETS", "STURDY" ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
-    ],
-    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
-    "melee_damage": { "bash": 6 }
-  },
-  {
-    "id": "xlballistic_vest_empty",
-    "type": "ARMOR",
-    "category": "armor",
-    "//": "Based on US Army SPCS",
-    "name": { "str": "empty ballistic vest" },
-    "description": "Oversized ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
-    "weight": "4 kg",
-    "volume": "7 L",
-    "price": "1 kUSD 600 USD",
-    "material": [ "nylon" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "warmth": 15,
-    "material_thickness": 8,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "PREFIX_XL" ],
-    "armor": [ { "encumbrance": 6, "coverage": 85, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "xlballistic_vest_esapi",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "ESAPI ballistic vest" },
-    "description": "Oversized ballistic armor with ESAPI ceramic armor plates.",
-    "weight": "12 kg",
-    "volume": "9 L",
-    "price": "2 kUSD 800 USD",
-    "material": [ "nylon", "ceramic" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "warmth": 15,
-    "material_thickness": 26,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "PREFIX_XL" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlboots_combat",
@@ -323,12 +219,12 @@
     "weight": "320 g",
     "volume": "750 ml",
     "price": "52 USD",
-    "material": [ "kevlar", "leather" ],
+    "material": [ "afs_kevlar" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
@@ -409,7 +305,7 @@
     "price": "120 USD",
     "price_postapoc": "5 USD",
     "to_hit": -3,
-    "material": [ "neoprene", "kevlar" ],
+    "material": [ "neoprene", "afs_kevlar" ],
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "light_gray",
@@ -447,7 +343,7 @@
       }
     ],
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
     "armor": [
@@ -486,10 +382,10 @@
     "symbol": "[",
     "looks_like": "mt_chainmail_vest",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 12
@@ -509,8 +405,8 @@
     "type": "ARMOR",
     "category": "armor",
     "looks_like": "cuirass_lightplate",
-    "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
-    "description": "This piece of armor hearkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
+    "name": { "str": "carbide cuirass", "str_pl": "carbide cuirasses" },
+    "description": "This piece of armor hearkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.  Not quite bulletproof, but it will stop most small arms fire.",
     "weight": "4200 g",
     "volume": "6 L",
     "price": "3 kUSD",
@@ -521,7 +417,7 @@
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
-    "material_thickness": 4,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
     "armor": [
       { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
@@ -551,7 +447,7 @@
     "id": "xs_carbide_cuirass",
     "type": "ARMOR",
     "copy-from": "carbide_cuirass",
-    "material_thickness": 3,
+    "material_thickness": 1,
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }

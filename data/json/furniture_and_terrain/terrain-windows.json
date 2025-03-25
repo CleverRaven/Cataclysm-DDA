@@ -1145,7 +1145,7 @@
     "id": "t_window_bars_alarm",
     "name": "window with metal bars",
     "looks_like": "t_window_bars",
-    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed in high-value stores, or ones in bad neighborhoods.  It has a small sticker in one corner, reading 'Protected by AtmoWeb, leading AI in terminating crime'.",
+    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed in high-value stores, or ones in bad neighborhoods.  It has a small sticker in one corner, reading 'Protected by SecuriCorp.  Keeping you safe since 1993.'",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,

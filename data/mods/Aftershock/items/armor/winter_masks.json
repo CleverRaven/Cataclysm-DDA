@@ -10,7 +10,7 @@
     "volume": "2250 ml",
     "price": "750 USD",
     "to_hit": -1,
-    "material": [ "plastic", "nomex" ],
+    "material": [ "plastic", "titanium" ],
     "symbol": "[",
     "color": "dark_gray",
     "ammo": "battery",
@@ -31,7 +31,7 @@
     "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 10,
-    "material_thickness": 6,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [
       "VARSIZE",

@@ -802,7 +802,7 @@
       "karting_2_2_2"
     ],
     "copy-from": "generic_city_building",
-    "name": "karting",
+    "name": "go-kart track",
     "sym": "M",
     "color": "i_yellow"
   },

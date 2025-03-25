@@ -415,7 +415,7 @@ static int rate_location( map &m, const tripoint_bub_ms &p,
         }
 
         const tripoint_bub_ms pt( add_p, p.z() );
-        if( m.passable( pt ) ||
+        if( m.passable_through( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( get_avatar(), pt, !m.is_outside( from ), true ) ) {
             st.push_back( pt );

@@ -1091,7 +1091,6 @@ void avatar::reset_stats()
     Character::reset_stats();
 
     recalc_sight_limits();
-    recalc_speed_bonus();
 
 }
 

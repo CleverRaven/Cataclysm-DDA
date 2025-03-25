@@ -337,6 +337,16 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 13 } } ]
   },
   {
+    "id": "glock_21mag_10",
+    "//": "Audited with ImageJ.  Weight from Manufacturer.",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock .45 10-round magazine" },
+    "description": "A 10-round magazine for use with Glock firearms chambered in .45 ACP.",
+    "copy-from": "glock_21mag",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ]
+  },
+  {
     "id": "glock_21mag26",
     "//": "Audited with ImageJ.  Weight from Vendor.",
     "looks_like": "glock17_17",

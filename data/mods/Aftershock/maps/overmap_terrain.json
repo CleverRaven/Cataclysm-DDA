@@ -723,5 +723,23 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Gas Station",
+    "id": [ "s_gas" ],
+    "sym": "G",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Gas Station Roof",
+    "id": [ "s_gas_roof" ],
+    "sym": "G",
+    "color": "light_blue",
+    "see_cost": "low",
+    "mondensity": 2
   }
 ]
