@@ -279,16 +279,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK",
-    "condition": {
-      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
-      "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-    },
-    "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],
-    "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP",
     "effect": [
       { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
@@ -297,9 +287,17 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK",
+    "id": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP",
+    "effect": [
+      { "set_string_var": "prof_contemplation_electrokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+      { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty(u_latest_studied_power_name)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_ELECTROKIN_FINAL_LEARNING_CHECK",
     "condition": {
-      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
+      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_electrokinesis')" ] },
       "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
     },
     "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],
@@ -370,6 +368,16 @@
     "id": "EOC_PRACTICE_VITAKIN_FINAL_LEARNING_CHECK",
     "condition": {
       "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_vitakinesis')" ] },
+      "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
+    },
+    "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],
+    "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK",
+    "condition": {
+      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency(u_latest_studied_power_proficiency)" ] },
       "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
     },
     "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],

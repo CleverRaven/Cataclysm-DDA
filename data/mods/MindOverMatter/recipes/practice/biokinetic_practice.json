@@ -143,7 +143,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -195,7 +195,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -247,7 +247,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -300,7 +300,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -353,7 +353,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -406,7 +406,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -459,7 +459,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -512,7 +512,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -565,7 +565,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -618,7 +618,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -671,7 +671,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -724,7 +724,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -777,7 +777,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -830,7 +830,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -883,7 +883,7 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -936,6 +936,6 @@
         { "test_eoc": "EOC_CONDITION_PSI_REQUIRED_FOR_LEARNING_NEW_POWER" }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_BIOKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   }
 ]
