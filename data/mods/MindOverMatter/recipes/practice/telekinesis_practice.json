@@ -152,47 +152,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_NOISEMAKER_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_noise') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -250,47 +210,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_slam_down') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -348,47 +268,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_MOMENTUM_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_momentum') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -447,47 +327,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_SLOWFALL_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_slowfall') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -546,47 +386,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_wave') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -645,47 +445,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_WATER_WALKING_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_water_walk') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -744,47 +504,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_LIFTING_FIELD_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_lifting_field') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -843,47 +563,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_strength') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -942,47 +622,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_hammer') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1041,47 +681,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_vehicle_lift') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1140,47 +740,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_BARRIER_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_shield') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1239,47 +799,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_BLAST_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_explosion') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1338,47 +858,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_LEVITATION_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_levitation') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1435,47 +915,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_move_large_weight') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1534,47 +974,7 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_AEGIS_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_aegis') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -1633,46 +1033,6 @@
         }
       ]
     },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER_LEARNING_2",
-            "condition": {
-              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
-              "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-            },
-            "effect": [
-              {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
-                "popup": true
-              },
-              { "math": [ "u_spell_level('telekinetic_earthshaker') = 1" ] },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ],
-            "false_effect": [
-              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              {
-                "math": [
-                  "u_vitamin('vitamin_psionic_drain')",
-                  "+=",
-                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
-                ]
-              },
-              { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity"
-            ]
-          }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_TELEKIN_FINAL_LEARNING_CHECK" } ]
   }
 ]
