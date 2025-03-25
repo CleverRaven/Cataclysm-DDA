@@ -289,6 +289,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP",
+    "effect": [
+      { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+      { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty(u_latest_studied_power_name)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PRACTICE_CLAIR_FINAL_LEARNING_CHECK",
     "condition": {
       "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
