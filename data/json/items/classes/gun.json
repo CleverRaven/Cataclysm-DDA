@@ -287,5 +287,94 @@
     "type": "GUN",
     "name": { "str": "base SMG", "//~": "NO_I18N" },
     "skill": "smg"
+  },
+  {
+    "abstract": "gun_base_handgun",
+    "type": "GUN",
+    "color": "light_gray",
+    "symbol": "⨽",
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "melee_damage": { "bash": 5 },
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "skill": "pistol",
+    "sight_dispersion": 60,
+    "durability": 8,
+    "handling": 10,
+    "reload": 150,
+    "reload_noise_volume": 10
+  },
+  {
+    "abstract": "gun_base_22_semi_pistol",
+    "copy-from": "gun_base_handgun",
+    "type": "GUN",
+    "price_postapoc": "6 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "22" ],
+    "min_cycle_recoil": 140,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
+  },
+  {
+    "abstract": "gun_base_22_manual_pistol",
+    "copy-from": "gun_base_handgun",
+    "type": "GUN",
+    "price_postapoc": "4 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ],
+    "ammo": [ "22" ],
+    "blackpowder_tolerance": 32,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "abstract": "gun_base_rifle",
+    "type": "GUN",
+    "color": "light_gray",
+    "symbol": "⨽",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "melee_damage": { "bash": 13 },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "skill": "rifle",
+    "sight_dispersion": 40,
+    "durability": 8,
+    "handling": 20,
+    "reload": 150,
+    "reload_noise_volume": 10
+  },
+  {
+    "abstract": "gun_base_22_semi_rifle",
+    "copy-from": "gun_base_rifle",
+    "type": "GUN",
+    "price_postapoc": "10 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "ammo": [ "22" ],
+    "min_cycle_recoil": 140,
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ]
+  },
+  {
+    "abstract": "gun_base_22_manual_rifle",
+    "copy-from": "gun_base_rifle",
+    "type": "GUN",
+    "price_postapoc": "8 USD",
+    "name": { "str": "base gun", "//~": "NO_I18N" },
+    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN" ],
+    "ammo": [ "22" ],
+    "blackpowder_tolerance": 56,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
   }
 ]
