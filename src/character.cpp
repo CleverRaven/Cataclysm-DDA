@@ -7822,7 +7822,7 @@ void Character::recalculate_enchantment_cache()
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
-    
+
     // do final statistic recalculations
     if( get_stamina() > get_stamina_max() ) {
         set_stamina( get_stamina_max() );
