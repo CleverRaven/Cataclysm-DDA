@@ -58,7 +58,7 @@
   },
   {
     "id": "rifle_38",
-    "copy-from": "gun_base_38_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
@@ -70,7 +70,7 @@
     "price": "100 USD",
     "price_postapoc": "1 USD",
     "material": [ "steel", "wood" ],
-    "ammo": [ "38" ]
+    "ammo": [ "38" ],
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
@@ -320,7 +320,7 @@
     "price_postapoc": "14 USD",
     "material": [ "steel", "wood" ],
     "range": 7,
-    "ammo": [ "38", "357mag" ]
+    "ammo": [ "38", "357mag" ],
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [
@@ -358,7 +358,7 @@
     "price_postapoc": "14 USD",
     "material": [ "steel", "wood" ],
     "range": 7,
-    "ammo": [ "38", "357mag" ]
+    "ammo": [ "38", "357mag" ],
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [
@@ -396,7 +396,7 @@
     "price_postapoc": "14 USD",
     "material": [ "steel", "wood" ],
     "range": 5,
-    "ammo": [ "38", "357mag" ]
+    "ammo": [ "38", "357mag" ],
     "dispersion": 140,
     "clip_size": 8,
     "valid_mod_locations": [
