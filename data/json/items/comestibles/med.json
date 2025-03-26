@@ -372,7 +372,7 @@
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
-    "use_action": [ "SMOKING" ]
+    "use_action": [ "SMOKING" ],
     "variants": [
       {
         "id": "cig_basic",
