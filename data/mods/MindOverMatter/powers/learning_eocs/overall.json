@@ -281,13 +281,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PRACTICE_TELEPATHY_FINAL_LEARNING_CHECK",
-    "condition": {
-      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telepathy')" ] },
-      "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-    },
-    "effect": [ { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" } ],
-    "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
+    "id": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP",
+    "effect": [
+      { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+      { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty(u_latest_studied_power_name)" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -336,6 +334,7 @@
         "popup": true
       },
       { "math": [ "u_spell_level(u_latest_studied_power_name) = 1" ] },
+      { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK_SPECIAL_EXCEPTIONS" },
       {
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
@@ -357,6 +356,19 @@
       },
       { "u_lose_effect": "effect_psi_learning_new_power" },
       "u_cancel_activity"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK_SPECIAL_EXCEPTIONS",
+    "effect": [
+      {
+        "if": { "compare_string": [ "teleport_loci_establishment", { "u_val": "latest_studied_power_name" } ] },
+        "then": [
+          { "math": [ "u_spell_level('teleport_loci_technique') = 1" ] },
+          { "u_learn_recipe": "practice_teleport_loci_technique" }
+        ]
+      }
     ]
   }
 ]
