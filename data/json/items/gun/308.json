@@ -492,7 +492,7 @@
   },
   {
     "id": "steyr_scout",
-    "copy-from": "gun_base_308_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "scouting rifle" },

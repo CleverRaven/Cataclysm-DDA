@@ -22,7 +22,7 @@
   },
   {
     "id": "weatherby_5",
-    "copy-from": "gun_base_300_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Weatherby Mark V" },
@@ -55,7 +55,7 @@
   },
   {
     "id": "win70",
-    "copy-from": "gun_base_300_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Winchester Model 70" },
@@ -88,7 +88,7 @@
   {
     "id": "ruger_pr",
     "looks_like": "modular_ar15",
-    "copy-from": "gun_base_300_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "type": "GUN",
     "name": "Ruger Precision Rifle",
     "//": "No generic variant for this rifle, as the brand name is already pretty generic in and of itself.",
