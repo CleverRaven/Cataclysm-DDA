@@ -2193,8 +2193,8 @@ std::set<matec_id> Character::get_limb_techs() const
     std::set<matec_id> result;
     for( const bodypart_id &part : get_all_body_parts() ) {
         const bodypart *bp = get_part( part );
-        if( !bp->is_limb_overencumbered() && bp->get_hp_cur() > part->health_limit ) {
-            std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
+        if( !bp->is_limb_overencumbered( *this ) && bp->get_hp_cur() > part->health_limit ) {
+            std::set<matec_id> part_tech = get_part( part )->get_limb_techs( *this );
             result.insert( part_tech.begin(), part_tech.end() );
         }
     }
@@ -2207,8 +2207,9 @@ int Character::get_working_arm_count() const
     body_part_type::type arm_type = body_part_type::type::arm;
     for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
-            !get_part( part )->is_limb_overencumbered() ) {
+        if( get_part( part )->get_limb_score( *this,
+                                              limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
+            !get_part( part )->is_limb_overencumbered( *this ) ) {
             limb_count++;
         }
     }
@@ -4040,7 +4041,6 @@ void Character::calc_encumbrance()
 
 void Character::calc_encumbrance( const item &new_item )
 {
-
     std::map<bodypart_id, encumbrance_data> enc;
     worn.item_encumb( enc, new_item, *this );
     mut_cbm_encumb( enc );
@@ -4216,7 +4216,7 @@ int Character::encumb( const bodypart_id &bp ) const
         debugmsg( "INFO: Tried to check encumbrance of a bodypart that does not exist." );
         return 0;
     }
-    return get_part_encumbrance_data( bp ).encumbrance;
+    return get_part_encumbrance( bp );
 }
 
 void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
@@ -4254,7 +4254,6 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
 
 void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
-
     for( const bionic_id &bid : get_bionics() ) {
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
             vals[element.first.id()].encumbrance += element.second;
@@ -12034,7 +12033,7 @@ bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
         if( elem.first->has_flag( flag ) ) {
             return true;
         }
-        if( elem.second.has_conditional_flag( flag ) ) {
+        if( elem.second.has_conditional_flag( *this, flag ) ) {
             // Checking for disabling effects is a bit convoluted
             bool disabled = false;
             if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
@@ -12062,7 +12061,7 @@ int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
         if( bp->has_flag( flag ) ) {
             ret++;
         }
-        if( get_part( bp )->has_conditional_flag( flag ) ) {
+        if( get_part( bp )->has_conditional_flag( *this, flag ) ) {
             bool disabled = false;
             if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
                 for( const effect &eff : get_effects_from_bp( bp ) ) {

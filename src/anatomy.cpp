@@ -262,7 +262,7 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
     for( const bodypart_id &bp : cached_bps ) {
         float block_score = bp->get_limb_score( limb_score_block );
         if( const Character *u = dynamic_cast<const Character *>( blocker ) ) {
-            block_score = u->get_part( bp )->get_limb_score( limb_score_block );
+            block_score = u->get_part( bp )->get_limb_score( *blocker, limb_score_block );
             // Weigh shielded bodyparts higher
             block_score *= u->worn_with_flag( flag_BLOCK_WHILE_WORN, bp ) ? 5 : 1;
         }

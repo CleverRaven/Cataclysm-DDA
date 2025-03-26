@@ -2077,7 +2077,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     }  else {
         // Select part to block with, preferring worn blocking armor if applicable
         bp_hit = select_blocking_part( arm_block, leg_block, nonstandard_block );
-        block_score *= get_part( bp_hit )->get_limb_score( limb_score_block );
+        block_score *= get_part( bp_hit )->get_limb_score( *this, limb_score_block );
         add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
         if( worn_shield && shield->covers( bp_hit ) ) {
             thing_blocked_with = shield->tname();
