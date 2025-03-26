@@ -221,7 +221,7 @@
     "quench": 50,
     "healthy": -1,
     "calories": 200,
-    "description": "Ichor harvested from the corpse of a chocolate cow. Quite sweet and… oddly warm?",
+    "description": "Ichor harvested from the corpse of a chocolate cow.  Quite sweet and… oddly warm?",
     "price": "20 cent",
     "price_postapoc": "50 cent",
     "material": [ "junk" ],
