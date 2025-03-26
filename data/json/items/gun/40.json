@@ -14,7 +14,17 @@
     "price": "690 USD",
     "material": [ "plastic", "steel" ],
     "dispersion": 480,
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -54,7 +64,17 @@
     "price": "750 USD",
     "material": [ "steel", "plastic" ],
     "dispersion": 480,
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "sig40mag" ] } ]
   },
   {
@@ -78,7 +98,17 @@
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_volume": "250 ml",
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "grip", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_40_mag" ] } ]
   },
   {

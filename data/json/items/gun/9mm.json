@@ -277,7 +277,17 @@
     "material": "steel",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 420,
-    "valid_mod_locations": [ [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ]
   },
   {
@@ -303,7 +313,17 @@
     "price": "1 kUSD 300 USD",
     "material": "steel",
     "dispersion": 450,
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
       {
@@ -343,8 +363,10 @@
     "built_in_mods": [ "under_folding_stock" ],
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
@@ -560,12 +582,14 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ]
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [
       {
@@ -619,10 +643,12 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -1031,13 +1057,16 @@
     "range": 5,
     "dispersion": 250,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ]
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [
       {
@@ -1081,15 +1110,19 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 180,
     "valid_mod_locations": [
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
+      [ "muzzle", 1 ],
       [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "stock accessory", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "//": "Assuming glock magwell, the other magwell for Ruger magazines can be added with the ruger pistol",
     "pocket_data": [

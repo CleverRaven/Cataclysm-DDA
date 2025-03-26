@@ -52,7 +52,16 @@
     "range": 110,
     "dispersion": 250,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "mechanism", 2 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "MOUNTED_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ]
   },

@@ -194,8 +194,10 @@
     "range": 6,
     "dispersion": 160,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
@@ -232,7 +234,17 @@
     "durability": 4,
     "loudness": 25,
     "barrel_volume": "250 ml",
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   },
   {
     "id": "tommygun",
@@ -263,12 +275,17 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "stock accessory", 2 ]
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {

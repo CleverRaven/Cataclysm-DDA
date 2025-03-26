@@ -23,6 +23,7 @@
     "dispersion": 180,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -64,8 +65,11 @@
     "barrel_volume": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -122,10 +126,12 @@
     "material": [ "steel", "wood" ],
     "dispersion": 180,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],

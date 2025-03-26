@@ -104,7 +104,15 @@
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 480,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -132,7 +140,15 @@
     "material": [ "steel", "wood" ],
     "dispersion": 280,
     "clip_size": 6,
-    "valid_mod_locations": [ [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights", 1 ], [ "stocks mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "stocks mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -167,7 +183,15 @@
     "material": [ "steel", "plastic" ],
     "dispersion": 320,
     "clip_size": 7,
-    "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -199,7 +223,15 @@
     "longest_side": "267 mm",
     "barrel_length": "152 mm",
     "dispersion": 300,
-    "valid_mod_locations": [ [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "clip_size": 6,
     "pocket_data": [
       {
@@ -245,7 +277,15 @@
     "//4": "3 to 3.5-inch groups at 10 yards shooting off-handed: https://www.shootingillustrated.com/content/review-rossi-rp-63-revolver/",
     "dispersion": 350,
     "clip_size": 6,
-    "valid_mod_locations": [ [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

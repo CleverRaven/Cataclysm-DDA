@@ -143,6 +143,7 @@
     "price": "700 USD",
     "clip_size": 9,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -150,11 +151,11 @@
       [ "muzzle", 1 ],
       [ "loading port", 1 ],
       [ "rail mount", 1 ],
-      [ "sights", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
   },
@@ -326,17 +327,6 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "clip_size": 5,
     "barrel_volume": "229 ml",
-    "valid_mod_locations": [
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
@@ -366,6 +356,18 @@
     "price": "538 USD",
     "barrel_volume": "0 ml",
     "built_in_mods": [ "breacher_grip" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
@@ -446,6 +448,7 @@
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "mechanism", 2 ],
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
@@ -470,6 +473,16 @@
     "barrel_length": "660 mm",
     "price": "399 USD",
     "barrel_volume": "494 ml",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "mechanism", 2 ],
+      [ "stock mount", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
@@ -514,6 +527,7 @@
     "clip_size": 1,
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
+      [ "barre", 1 ],
       [ "muzzle", 1 ],
       [ "mechanism", 1 ],
       [ "sights mount", 1 ],
@@ -586,6 +600,7 @@
     "sight_dispersion": 700,
     "durability": 7,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 2 ],
@@ -625,6 +640,7 @@
     "valid_mod_locations": [
       [ "stock mount", 1 ],
       [ "mechanism", 2 ],
+      [ "barrel", 1 ],
       [ "grip mount", 1 ],
       [ "brass catcher", 1 ],
       [ "rail mount", 1 ],
@@ -661,6 +677,7 @@
       [ "stock mount", 1 ],
       [ "bayonet lug", 1 ],
       [ "mechanism", 2 ],
+      [ "barrel", 1 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "brass catcher", 1 ],
@@ -705,6 +722,7 @@
     "//3": "The number's simulating the cubic volume of a 7.5-inch stretch of 20-mm bore barrel being removed.",
     "dispersion": 300,
     "material": [ "steel", "aluminum", "plastic" ],
+    "default_mods": [ "recoil_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -869,6 +887,7 @@
     "sight_dispersion": 500,
     "durability": 7,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 2 ],
@@ -912,6 +931,7 @@
     "sight_dispersion": 500,
     "durability": 7,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 2 ],
@@ -949,6 +969,7 @@
     "sight_dispersion": 500,
     "durability": 7,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 2 ],
