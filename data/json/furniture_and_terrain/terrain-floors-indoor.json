@@ -474,8 +474,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -498,8 +498,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -568,7 +568,7 @@
       "sound": "SMASH!",
       "ter_set": "t_null",
       "str_min_supported": 100,
-      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 5, 11 ] } ]
     }
   },
   {
@@ -1473,7 +1473,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "cobalt_60", "count": [ 1, 5 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]

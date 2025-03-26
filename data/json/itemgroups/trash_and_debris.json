@@ -4,9 +4,9 @@
     "id": "wreckage",
     "items": [
       [ "chain", 20 ],
-      [ "steel_chunk", 30 ],
+      [ "lc_steel_chunk", 30 ],
       [ "spring", 50 ],
-      [ "steel_lump", 30 ],
+      [ "lc_steel_lump", 30 ],
       [ "frame", 20 ],
       [ "hdframe", 20 ],
       [ "cu_pipe", 25 ],
@@ -63,9 +63,9 @@
     "id": "metal_wreckage",
     "items": [
       [ "chain", 20 ],
-      [ "steel_chunk", 30 ],
+      [ "lc_steel_chunk", 30 ],
       [ "spring", 50 ],
-      [ "steel_lump", 30 ],
+      [ "lc_steel_lump", 30 ],
       [ "pipe", 30 ],
       [ "frame", 20 ],
       [ "hdframe", 20 ],
@@ -81,9 +81,9 @@
     "subtype": "distribution",
     "entries": [
       { "item": "chain", "prob": 10 },
-      { "item": "steel_chunk", "prob": 30 },
+      { "item": "lc_steel_chunk", "prob": 30 },
       { "item": "spring", "prob": 5 },
-      { "item": "steel_lump", "prob": 30 },
+      { "item": "lc_steel_lump", "prob": 30 },
       { "item": "steel_plate", "prob": 30 },
       { "item": "hard_plate", "prob": 30 },
       { "item": "frame", "prob": 20 },
@@ -129,8 +129,8 @@
       { "item": "sheet_metal_small", "prob": 2, "count": [ 1, 4 ], "damage": [ 0, 3 ] },
       { "item": "spike", "prob": 5, "count": [ 2, 4 ], "damage": [ 0, 3 ] },
       { "item": "hinge", "prob": 2, "count": [ 1, 2 ], "damage": [ 0, 3 ] },
-      { "item": "steel_lump", "prob": 5, "count": [ 2, 5 ] },
-      { "item": "steel_chunk", "prob": 5, "count": [ 5, 10 ] }
+      { "item": "lc_steel_lump", "prob": 5, "count": [ 2, 5 ] },
+      { "item": "lc_steel_chunk", "prob": 5, "count": [ 5, 10 ] }
     ]
   },
   {

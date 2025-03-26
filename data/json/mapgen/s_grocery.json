@@ -158,7 +158,10 @@
         { "item": "cash_register_random_ransacked", "x": [ 18, 20 ], "y": 6, "chance": 100 }
       ],
       "item": {
-        "A": [ { "item": "steel_chunk", "chance": 100, "repeat": [ 1, 3 ] }, { "item": "scrap", "chance": 100, "repeat": [ 4, 8 ] } ],
+        "A": [
+          { "item": "lc_steel_chunk", "chance": 100, "repeat": [ 1, 3 ] },
+          { "item": "scrap", "chance": 100, "repeat": [ 4, 8 ] }
+        ],
         " ": [
           { "item": "bottle_glass", "chance": 1 },
           { "item": "bottle_plastic", "chance": 1 },

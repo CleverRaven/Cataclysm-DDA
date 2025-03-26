@@ -333,7 +333,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 2, 6 ] }
       ]
     }

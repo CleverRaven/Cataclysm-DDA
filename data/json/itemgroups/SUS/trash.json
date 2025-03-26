@@ -131,8 +131,8 @@
     "id": "trash_junkyard",
     "items": [
       { "item": "scrap", "prob": 50 },
-      { "item": "steel_lump", "prob": 30 },
-      { "item": "steel_chunk", "prob": 30 },
+      { "item": "lc_steel_lump", "prob": 30 },
+      { "item": "lc_steel_chunk", "prob": 30 },
       { "item": "chain", "prob": 10 },
       { "item": "spring", "prob": 10 },
       { "item": "hose", "prob": 10 }
@@ -327,8 +327,8 @@
       { "item": "box_medium_folded", "prob": 3 },
       { "item": "box_large_folded", "prob": 3 },
       { "item": "box_oversize_folded", "prob": 3 },
-      { "item": "steel_lump", "prob": 3 },
-      { "item": "steel_chunk", "prob": 3 },
+      { "item": "lc_steel_lump", "prob": 3 },
+      { "item": "lc_steel_chunk", "prob": 3 },
       { "item": "wire_barbed", "prob": 3 },
       { "item": "syringe", "prob": 3 },
       { "item": "spike", "prob": 3 },

@@ -159,7 +159,7 @@
         { "item": "pipe", "count": [ 4, 6 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 12, 24 ] },
-        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
         { "item": "scrap", "count": [ 12, 24 ] }
       ]
     },

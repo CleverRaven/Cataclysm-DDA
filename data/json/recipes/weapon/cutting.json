@@ -330,7 +330,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "chainsaw_off", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "chainsaw_off", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -352,7 +352,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",

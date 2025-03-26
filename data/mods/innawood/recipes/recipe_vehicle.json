@@ -15,7 +15,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 16 ] ],
-      [ [ "scrap", 90 ], [ "steel_chunk", 30 ], [ "steel_lump", 10 ] ],
+      [ [ "scrap", 90 ], [ "steel_chunk_any", 30, "LIST" ], [ "steel_lump_any", 10, "LIST" ] ],
       [ [ "chain", 4 ] ],
       [ [ "spring", 4 ] ],
       [ [ "30gal_drum", 3 ] ],

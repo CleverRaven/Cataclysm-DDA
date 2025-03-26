@@ -67,8 +67,8 @@
     "power": "223800 W",
     "energy_consumption": "559500 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 40 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
     "requirements": {
@@ -93,8 +93,8 @@
     "power": "93250 W",
     "energy_consumption": "266000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 20, 30 ] },
-      { "item": "steel_chunk", "count": [ 20, 30 ] },
+      { "item": "ch_steel_lump", "count": [ 20, 30 ] },
+      { "item": "ch_steel_chunk", "count": [ 20, 30 ] },
       { "item": "scrap", "count": [ 20, 30 ] }
     ],
     "requirements": {
@@ -119,8 +119,8 @@
     "power": "23300 W",
     "energy_consumption": "58200 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "ch_steel_lump", "count": [ 10, 20 ] },
+      { "item": "ch_steel_chunk", "count": [ 10, 20 ] },
       { "item": "scrap", "count": [ 10, 20 ] }
     ],
     "requirements": {
@@ -144,8 +144,8 @@
     "power": "149200 W",
     "energy_consumption": "373000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 40 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
     "requirements": {
@@ -170,8 +170,8 @@
     "power": "242450 W",
     "energy_consumption": "606250 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 40 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
     "requirements": {
@@ -196,8 +196,8 @@
     "energy_consumption": "18425 W",
     "folded_volume": "12 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 1, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "ch_steel_lump", "count": [ 1, 2 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "requirements": {
@@ -222,8 +222,8 @@
     "energy_consumption": "49800 W",
     "folded_volume": "42 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "ch_steel_lump", "count": [ 4, 8 ] },
+      { "item": "ch_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] }
     ],
     "requirements": {
@@ -255,8 +255,8 @@
     "energy_consumption": "55000 W",
     "folded_volume": "42 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "ch_steel_lump", "count": [ 4, 8 ] },
+      { "item": "ch_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] }
     ],
     "requirements": {
@@ -281,8 +281,8 @@
     "energy_consumption": "9320 W",
     "folded_volume": "6 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 0, 1 ] },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "ch_steel_lump", "count": [ 0, 1 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "requirements": {
@@ -306,8 +306,8 @@
     "power": "111900 W",
     "energy_consumption": "373000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 40 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
     "requirements": {
@@ -332,8 +332,8 @@
     "power": "93250 W",
     "energy_consumption": "311000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 20, 30 ] },
-      { "item": "steel_chunk", "count": [ 20, 30 ] },
+      { "item": "ch_steel_lump", "count": [ 20, 30 ] },
+      { "item": "ch_steel_chunk", "count": [ 20, 30 ] },
       { "item": "scrap", "count": [ 20, 30 ] }
     ],
     "requirements": {
@@ -358,8 +358,8 @@
     "power": "447600 W",
     "energy_consumption": "1492000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 45, 58 ] },
-      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "ch_steel_lump", "count": [ 45, 58 ] },
+      { "item": "ch_steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
     ],
     "requirements": {
@@ -384,8 +384,8 @@
     "power": "447600 W",
     "energy_consumption": "1119000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 45, 58 ] },
-      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "ch_steel_lump", "count": [ 45, 58 ] },
+      { "item": "ch_steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
     ],
     "requirements": {
@@ -410,8 +410,8 @@
     "power": "149200 W",
     "energy_consumption": "497500 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 40 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
     "requirements": {
@@ -436,8 +436,8 @@
     "power": "242450 W",
     "energy_consumption": "808200 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 40, 50 ] },
-      { "item": "steel_chunk", "count": [ 40, 50 ] },
+      { "item": "ch_steel_lump", "count": [ 40, 50 ] },
+      { "item": "ch_steel_chunk", "count": [ 40, 50 ] },
       { "item": "scrap", "count": [ 40, 50 ] }
     ],
     "requirements": {
@@ -462,8 +462,8 @@
     "power": "37300 W",
     "energy_consumption": "124500 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 7, 15 ] },
-      { "item": "steel_chunk", "count": [ 7, 15 ] },
+      { "item": "ch_steel_lump", "count": [ 7, 15 ] },
+      { "item": "ch_steel_chunk", "count": [ 7, 15 ] },
       { "item": "scrap", "count": [ 7, 15 ] }
     ],
     "requirements": {
@@ -502,8 +502,8 @@
     "power": "55950 W",
     "energy_consumption": "112000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 60 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
     ],
@@ -527,8 +527,8 @@
     "power": "93250 W",
     "energy_consumption": "186500 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 60 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
     ],
@@ -553,8 +553,8 @@
     "power": "149200 W",
     "energy_consumption": "298500 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 60 ] },
-      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "ch_steel_lump", "count": [ 30, 60 ] },
+      { "item": "ch_steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
     ],
@@ -581,8 +581,8 @@
     "energy_consumption": "1938820 W",
     "breaks_into": [
       { "item": "alloy_plate", "count": [ 1, 2 ] },
-      { "item": "steel_lump", "count": [ 45, 58 ] },
-      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "ch_steel_lump", "count": [ 45, 58 ] },
+      { "item": "ch_steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
     ],
     "requirements": {
@@ -608,8 +608,8 @@
     "energy_consumption": "5667320 W",
     "breaks_into": [
       { "item": "alloy_plate", "count": [ 2, 4 ] },
-      { "item": "steel_lump", "count": [ 50, 65 ] },
-      { "item": "steel_chunk", "count": [ 50, 65 ] },
+      { "item": "ch_steel_lump", "count": [ 50, 65 ] },
+      { "item": "ch_steel_chunk", "count": [ 50, 65 ] },
       { "item": "scrap", "count": [ 50, 65 ] }
     ],
     "requirements": {
@@ -635,8 +635,8 @@
     "energy_consumption": "17896796 W",
     "breaks_into": [
       { "item": "alloy_plate", "count": [ 4, 6 ] },
-      { "item": "steel_lump", "count": [ 100, 120 ] },
-      { "item": "steel_chunk", "count": [ 100, 120 ] },
+      { "item": "ch_steel_lump", "count": [ 100, 120 ] },
+      { "item": "ch_steel_chunk", "count": [ 100, 120 ] },
       { "item": "scrap", "count": [ 100, 120 ] }
     ],
     "requirements": {
