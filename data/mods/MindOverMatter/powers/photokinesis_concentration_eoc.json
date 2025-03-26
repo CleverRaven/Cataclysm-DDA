@@ -520,6 +520,7 @@
       {
         "u_spawn_monster": "mon_photokin_army_image",
         "real_count": [ { "math": [ "_real_count_low" ] }, { "math": [ "_real_count_high" ] } ],
+        "summoner_is_alpha": true,
         "lifespan": "15 minutes",
         "min_radius": 1,
         "max_radius": 8
@@ -527,6 +528,7 @@
       {
         "u_spawn_monster": "mon_photokin_army_image",
         "real_count": [ { "math": [ "_real_count_low / 1.5" ] }, { "math": [ "_real_count_high / 1.5" ] } ],
+        "summoner_is_alpha": true,
         "lifespan": "15 minutes",
         "min_radius": 8,
         "max_radius": 25
@@ -534,6 +536,7 @@
       {
         "u_spawn_monster": "mon_photokin_army_image",
         "real_count": [ { "math": [ "_real_count_low / 2.5" ] }, { "math": [ "_real_count_high / 2.5" ] } ],
+        "summoner_is_alpha": true,
         "lifespan": "15 minutes",
         "min_radius": 25,
         "max_radius": 40

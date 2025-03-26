@@ -66,7 +66,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "CLIMBS", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "flags": [ "CLIMBS", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "COPY_SUMMONER_LOOK" ]
   },
   {
     "id": "mon_photokin_army_image",
@@ -93,6 +93,6 @@
       "message": "The %s explodes in a brilliant burst of light!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "CLIMBS", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "flags": [ "CLIMBS", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "COPY_SUMMONER_LOOK" ]
   }
 ]
