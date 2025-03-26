@@ -7,7 +7,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 70, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes_opened", "prob": 70, "entry-wrapper": "box_cigarette" },
           {
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },

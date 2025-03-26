@@ -17,23 +17,24 @@
         "______gg  gg  __    ````W<oo>W.####..####.W^    ",
         " gg_g gg  gggg      ssssWWwwWW............w^    ",
         "  gg _g_g _ggg_ggg_____s^^^^^W.####..####.W^    ",
-        "_____ g_  gggggggggg_g s^   ^W............W^    ",
+        "_____ g_  ggggggggggÁg s^   ^W............W^    ",
         " gggg gg  ggggg__gggg  s^   ^W.####..####.W^    ",
         "gggggg_g ggggg___gg____s^   ^w............w^    ",
         "g______g__gg  ggggggg gs^   ^W.####..####.W^    ",
         "    ggg_  gggggg_ggggggs^   ^W............W^    ",
-        "ggg  _g  ggg_gggg______s^   ^W.####..####.W^    ",
+        "ggg  _g  ggg_gggg___Á__s^   ^W.####..####.W^    ",
         "_____g__ gg  ggggggggggs^   ^W.....tt.....W^    ",
         "  ggggg  gggggggg_gggg s^   ^B...b.,,.b...G^    ",
         "    ggg  _ ggg__gg___ _s^   ^Wy.....h.t..yW^    ",
         "     gg__ ggggggggggg  s^   ^WW++||||||WWWW^    ",
-        "    g___g  gggggggg_gg s^   ^^w..-...hdw^^^^    ",
+        "    g___g  gggggggg_Ág s^   ^^w..-...hdw^^^^    ",
         "        _g___ggg gg____s^    ^W>.|lo..dW^       ",
         "          gggggggggggggs^^^^^^Ww-WWwWWwW^       ",
         "            gg____g g  ssssssssss               "
       ],
       "palettes": [ "church" ],
       "terrain": {
+        "Á": "t_railroad_rubble",
         "W": "t_wood_wall_w",
         "B": "t_window_stained_blue",
         "G": "t_window_stained_green",
@@ -45,7 +46,8 @@
         "<": "t_stairs_up",
         ">": "t_stairs_down"
       },
-      "items": { "o": { "item": "religious_books", "chance": 60 } }
+      "items": { "o": { "item": "religious_books", "chance": 60 } },
+      "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 50, "rotation": 0 } }
     }
   },
   {

@@ -317,329 +317,88 @@
     "max_duration": "7 days",
     "enchantments": [
       {
-        "condition": {
-          "and": [
-            {
+        "encumbrance_modifier": [
+          {
+            "part": "head",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "0"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "2"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_01" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "torso",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "2"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "4"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_02" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "arm_r",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "4"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "6"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_03" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "arm_l",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "6"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "8"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_04" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "hand_r",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "8"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "10"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_05" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "hand_l",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "10"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "12"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_06" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "leg_r",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "12"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "14"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_07" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "leg_l",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "14"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "16"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_08" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "foot_r",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "16"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "18"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_09" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
+          },
+          {
+            "part": "foot_l",
+            "add": {
               "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "18"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "20"
+                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
               ]
             }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_10" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "20"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "22"
-              ]
-            }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_11" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "22"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "24"
-              ]
-            }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_12" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "24"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "26"
-              ]
-            }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_13" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "26"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "28"
-              ]
-            }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_14" ]
-      },
-      {
-        "condition": {
-          "and": [
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                ">=",
-                "28"
-              ]
-            },
-            {
-              "math": [
-                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-                "<",
-                "30"
-              ]
-            }
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_15" ]
-      },
-      {
-        "condition": {
-          "math": [
-            "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
-            ">=",
-            "30"
-          ]
-        },
-        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_16" ]
+          }
+        ]
       }
     ]
   },

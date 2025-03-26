@@ -94,13 +94,10 @@ static int temperature_print_rescaling( units::temperature temp )
 static bool should_combine_bps( const Character &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
-    const encumbrance_data &enc_l = p.get_part_encumbrance_data( l );
-    const encumbrance_data &enc_r = p.get_part_encumbrance_data( r );
-
     return l != r && // are different parts
            l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
            // same encumbrance & temperature
-           enc_l == enc_r &&
+           p.compare_encumbrance_data( l, r ) &&
            temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
                p.get_part_temp_conv( r ) ) &&
            // selected_clothing covers both or neither parts
@@ -160,7 +157,8 @@ void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win
 
         const bodypart_id &bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
-        const encumbrance_data &e = get_part_encumbrance_data( bp );
+        int encumbrance = get_part_encumbrance( bp );
+        int layer_penalty = get_part_layer_penalty( bp );
 
         const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
         std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
@@ -181,15 +179,15 @@ void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win
         mvwprintz( win, point( 1, y_pos ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         int column = std::max( 10, ( width / 2 ) - 3 ); //Ideally the encumbrance data is centred
-        mvwprintz( win, point( column, y_pos ), display::encumb_color( e.encumbrance ), "%3d",
-                   e.encumbrance - e.layer_penalty );
+        mvwprintz( win, point( column, y_pos ), display::encumb_color( encumbrance ), "%3d",
+                   encumbrance - layer_penalty );
         // separator in low toned color
         column += 3; //Prepared for 3-digit encumbrance
         mvwprintz( win, point( column, y_pos ), c_light_gray, "+" );
         column += 1; // "+"
         // take into account the new encumbrance system for layers
-        mvwprintz( win, point( column, y_pos ), display::encumb_color( e.encumbrance ), "%-3d",
-                   e.layer_penalty );
+        mvwprintz( win, point( column, y_pos ), display::encumb_color( encumbrance ), "%-3d",
+                   layer_penalty );
         // print warmth, tethered to right hand side of the window
         mvwprintz( win, point( width - 6, y_pos ), display::bodytemp_color( *this, bp ), "(% 3d)",
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );
@@ -240,7 +238,7 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         if( !bp->has_limb_score( sc.getId() ) ) {
             continue;
         }
-        float cur_score = part->get_limb_score( sc.getId() );
+        float cur_score = part->get_limb_score( you, sc.getId() );
         float bp_score = bp->get_limb_score( sc.getId() );
         // Check for any global limb score modifiers
         for( const effect &eff : you.get_effects_with_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
@@ -265,7 +263,7 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
             }
             std::string desc = mod.description().translated();
             std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
-                                           limb_score_current_color( part->get_limb_score( sc.first ) * sc.second,
+                                           limb_score_current_color( part->get_limb_score( you, sc.first ) * sc.second,
                                                    bp->get_limb_score( sc.first ) * sc.second ) );
             s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
         }

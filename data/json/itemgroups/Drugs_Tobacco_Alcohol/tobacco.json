@@ -14,6 +14,28 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "cigarettes_opened",
+    "items": [
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 1, 20 ], "container-item": "null" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cigarettes_new",
+    "items": [
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 20, 20 ], "container-item": "null" }
+    ]
+  },
+  {
     "id": "pocket_cigar",
     "type": "item_group",
     "subtype": "collection",
@@ -55,7 +77,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 75, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes_opened", "prob": 75, "entry-wrapper": "box_cigarette" },
           {
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
@@ -91,6 +113,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": 20 } ]
+    "entries": [ { "group": "cigarettes_new" } ]
   }
 ]
