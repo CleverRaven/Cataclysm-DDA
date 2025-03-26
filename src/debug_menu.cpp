@@ -3903,6 +3903,7 @@ void debug()
     const bool should_disable_achievements = action && !is_debug_character() &&
             !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
+        add_msg( m_mixed, _( "Achievements have been disabled." ) );
         achievements.set_enabled( false );
     }
 
