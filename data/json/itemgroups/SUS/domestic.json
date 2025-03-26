@@ -495,6 +495,9 @@
       { "item": "sponge" },
       { "item": "brush", "prob": 85 },
       { "item": "plastic_shopping_bag", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "methed_alcohol", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "denat_alcohol", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_methanol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_washing_soda", "prob": 50, "charges": [ 1, -1 ] },
       { "item": "bleach", "prob": 75, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 65, "charges": [ 1, -1 ] }
