@@ -45,7 +45,7 @@
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
     "types": [ "HERITAGE" ],
     "allowed_category": [ "GRACKEN" ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "changes_to": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -107,6 +107,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
+    "changes_to": [ "SHADE_SHORT_LEGS", "SHADE_LONG_LEGS" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -124,6 +125,7 @@
     "points": 1,
     "visibility": 1,
     "ugliness": 1,
+    "changes_to": [ "SHADE_LEGS", "SHADE_LONG_LEGS" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -138,6 +140,7 @@
     "mixed_effect": true,
     "points": 1,
     "visibility": 4,
+    "changes_to": [ "SHADE_LEGS", "SHADE_SHORT_LEGS" ],
     "ugliness": 1,
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
@@ -149,7 +152,7 @@
     "id": "SHADE_FEET",
     "name": { "str": "Shade Feet" },
     "description": "Your feet are humanoid but appear to be made of swirling shadows.",
-    "//": "This is the baseline Gracken leg mutation.",
+    "//": "This is the baseline Gracken foot mutation.",
     "types": [ "FEET" ],
     "purifiable": false,
     "mixed_effect": true,
@@ -172,6 +175,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
+    "changes_to": [ "SHADE_STRONG_ARMS", "SHADE_LONG_ARMS" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -189,6 +193,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
+    "changes_to": [ "SHADE_ARMS", "SHADE_LONG_ARMS" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -204,6 +209,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
+    "changes_to": [ "SHADE_ARMS", "SHADE_STRONG_ARMS" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
     "prereqs": [ "SHADE_ARMS" ],
@@ -223,6 +229,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
+    "changes_to": [ "SHADE_SHARP_NAILS", "SHADE_DEXTROUS_HANDS" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -239,6 +246,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
+    "changes_to": [ "SHADE_HANDS", "SHADE_DEXTROUS_HANDS" ],
     "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "cut", "add": 2 } ] } ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
@@ -256,6 +264,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
+    "changes_to": [ "SHADE_HANDS", "SHADE_SHARP_NAILS" ],
     "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
@@ -293,6 +302,7 @@
       }
     ],
     "category": [ "GRACKEN" ],
+    "changes_to": [ "SHADE_OMNIVORE", "SHADE_CARNIVORE", "SHADE_HERBIVORE" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
   {
@@ -305,6 +315,7 @@
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
+    "changes_to": [ "SHADE_STOMACH", "SHADE_CARNIVORE", "SHADE_HERBIVORE" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -318,6 +329,7 @@
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
+    "changes_to": [ "SHADE_OMNIVORE", "SHADE_STOMACH", "SHADE_HERBIVORE" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
     "flags": [ "CARNIVORE_DIET" ],
@@ -333,6 +345,7 @@
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
+    "changes_to": [ "SHADE_OMNIVORE", "SHADE_CARNIVORE", "SHADE_STOMACH" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -343,7 +356,7 @@
     "points": 8,
     "purifiable": false,
     "description": "You have a gland that grows a small amount of the material needed to make biological improvements to yourself.  You must gather dreamdross and components from monsters you wish to gain the abilities of and combine them with this shadowstuff into new organs and abilities.",
-    "cancels": [ "ROBUST", "RESTRICTED" ],
+    "changes_to": [ "ROBUST", "RESTRICTED" ],
     "valid": false,
     "integrated_armor": [ "item_gracken_shadowstuff_pocket" ]
   },

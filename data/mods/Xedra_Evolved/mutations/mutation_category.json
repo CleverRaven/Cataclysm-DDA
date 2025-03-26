@@ -108,6 +108,15 @@
     "memorial_message": "The dawn breaks, and the owl lays down for its final rest."
   },
   {
+    "type": "mutation_category",
+    "id": "GRACKEN",
+    "name": "Gracken",
+    "threshold_mut": "THRESH_SPECIES_GRACKEN",
+    "mutagen_message": "",
+    "vitamin": "mutagen_gracken",
+    "memorial_message": "Returned forever to the infinite shadow connecting all places."
+  },
+  {
     "type": "mutation_type",
     "id": "STOMACH"
   },

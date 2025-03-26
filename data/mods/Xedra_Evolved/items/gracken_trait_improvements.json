@@ -95,10 +95,10 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "gracken_shade_hands",
+    "id": "shade_hands",
     "condition": { "not": { "u_has_trait": "SHADE_HANDS" } },
     "effect": [
-      { "u_message": "You exchanged your previous arms for this." },
+      { "u_message": "You exchanged your previous hands for this." },
       { "u_mutate_towards": "SHADE_HANDS", "category": "GRACKEN", "use_vitamins": false }
     ],
     "false_effect": [ { "u_message": "You already have normal Gracken hands.", "type": "neutral" } ]
@@ -168,7 +168,8 @@
     "condition": { "not": { "u_has_trait": "SHADE_HERBIVORE" } },
     "effect": [
       { "u_message": "You exchanged your previous stomach for this." },
-      { "u_mutate_towards": "SHADE_HERBIVORE", "category": "GRACKEN", "use_vitamins": false }
+      { "u_mutate_towards": "SHADE_HERBIVORE", "category": "GRACKEN", "use_vitamins": false },
+      { "u_lose_trait": "RADIOTROPHIC" }
     ],
     "false_effect": [ { "u_message": "You are already an herbivore.", "type": "neutral" } ]
   },
@@ -191,7 +192,8 @@
     "condition": { "not": { "u_has_trait": "SHADE_OMNIVORE" } },
     "effect": [
       { "u_message": "You exchanged your previous stomach for this." },
-      { "u_mutate_towards": "SHADE_OMNIVORE", "category": "GRACKEN", "use_vitamins": false }
+      { "u_mutate_towards": "SHADE_OMNIVORE", "category": "GRACKEN", "use_vitamins": false },
+      { "u_lose_trait": "RADIOTROPHIC" }
     ],
     "false_effect": [ { "u_message": "You are already an omnivore.", "type": "neutral" } ]
   },
@@ -214,7 +216,8 @@
     "condition": { "not": { "u_has_trait": "SHADE_CARNIVORE" } },
     "effect": [
       { "u_message": "You exchanged your previous stomach for this." },
-      { "u_mutate_towards": "SHADE_CARNIVORE", "category": "GRACKEN", "use_vitamins": false }
+      { "u_mutate_towards": "SHADE_CARNIVORE", "category": "GRACKEN", "use_vitamins": false },
+      { "u_lose_trait": "RADIOTROPHIC" }
     ],
     "false_effect": [ { "u_message": "You are already a carnivore.", "type": "neutral" } ]
   },
