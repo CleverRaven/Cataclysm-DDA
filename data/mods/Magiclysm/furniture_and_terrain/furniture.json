@@ -13,6 +13,19 @@
   },
   {
     "type": "furniture",
+    "id": "f_magiclysm_greater_translocator_gate",
+    "name": "Translocation Portal",
+    "move_cost_mod": 0,
+    "symbol": "X",
+    "description": "A portal that allows translocation.  You may use this portal to teleport to attuned locations or teleport to it if it is attuned.",
+    "color": "light_gray",
+    "required_str": 25,
+    "looks_like": "f_magiclysm_translocator_gate",
+    "flags": [ "TRANSLOCATOR", "TRANSLOCATOR_GREATER", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "FREE_TO_EXAMINE" ],
+    "examine_action": "translocator"
+  },
+  {
+    "type": "furniture",
     "id": "f_magic_circle",
     "name": "Magic Circle",
     "move_cost_mod": 0,

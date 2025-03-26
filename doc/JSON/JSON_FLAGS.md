@@ -703,6 +703,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```THIN_OBSTACLE``` ```SPEAR``` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSLOCATOR``` Tile is a translocator gate, for purposes of the `translocator` examine action.
+- ```TRANSLOCATOR_GREATER``` Tile is a greater translocator gate.  When paired with the TRANSLOCATOR flag and translocate furniture action, allows additionally using the gate to translocate to attuned gates.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
 - ```TRANSLUCENT``` Player and monsters can't see through/past it, but it can pass the light
