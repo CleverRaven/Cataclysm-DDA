@@ -372,7 +372,39 @@
     "addiction_potential": 50,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
-    "use_action": [ "SMOKING" ]
+    "use_action": [ "SMOKING" ],
+    "variants": [
+      {
+        "id": "cig_basic",
+        "name": { "str": "cigarette" },
+        "description": "A mixture of dried tobacco leaf, pesticides, and chemical additives, rolled into a filtered paper tube.  Stimulates mental acuity and reduces appetite.  Highly addictive and hazardous to health, but lung cancer is kind of the least of your concerns at this point.",
+        "color": "dark_gray"
+      },
+      {
+        "id": "cig_menthol",
+        "name": { "str": "menthol cigarette" },
+        "description": "A cigarette with a menthol flavor, the only type of flavored cigarette permitted for sale in the US.  The FDA had previously proposed a ban on them, but the world ended before it could be implemented.  It feels somewhat nicer to smoke than a regular cigarette.",
+        "color": "cyan"
+      },
+      {
+        "id": "cig_light",
+        "name": { "str": "\"light\" cigarette" },
+        "description": "A cigarette with reduced tar and nicotine content, designed to appeal to quitters and health-conscious smokers.  While not actually less harmful than regular cigarettes, the amount of nicotine absorbed per cigarette is indeed lower.  Marketing cigarettes as \"light\" has been illegal since 2007, but the term has persisted as a shorthand.",
+        "color": "white"
+      },
+      {
+        "id": "cig_gold",
+        "name": { "str": "quality cigarette" },
+        "description": "A premium brand cigarette rolled from strong, high-quality tobacco.  While discerning smokers may prefer its flavor to that of average cigarettes, the higher tar and nicotine content won't do you any favors.  Then again, you probably have bigger concerns than lung cancer.",
+        "color": "yellow"
+      },
+      {
+        "id": "cig_little_cigar",
+        "name": { "str": "little cigar" },
+        "description": "A compact, slim cigar in the form of a cigarette.  It's a popular choice for those who want a taste of luxury without the time commitment of a full-sized cigar.  Addictive and hazardous to health.",
+        "color": "brown"
+      }
+    ]
   },
   {
     "id": "cigar",

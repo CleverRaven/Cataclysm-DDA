@@ -64,6 +64,10 @@ class advanced_inventory
         side get_src() {
             return src;
         }
+        side get_dest() {
+            return dest;
+        }
+
         advanced_inventory_pane get_pane( side side ) {
             return panes[side];
         }

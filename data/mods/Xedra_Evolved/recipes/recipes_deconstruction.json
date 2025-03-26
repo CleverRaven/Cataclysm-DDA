@@ -35,7 +35,7 @@
       [ [ "amplifier", 5 ] ],
       [ [ "e_scrap", 50 ] ],
       [ [ "clockworks", 4 ] ],
-      [ [ "steel_chunk", 10 ] ],
+      [ [ "ch_steel_chunk", 10 ] ],
       [ [ "scrap", 10 ] ],
       [ [ "cyborg_matrix", 1 ] ],
       [ [ "storage_battery", 2 ] ],
@@ -63,7 +63,7 @@
       [ [ "scrap_dreamdross", 30 ] ],
       [ [ "dreamdross_lump", 10 ] ],
       [ [ "forged_dreamstuff_ingot", 3 ] ],
-      [ [ "steel_chunk", 25 ] ],
+      [ [ "ch_steel_chunk", 25 ] ],
       [ [ "scrap", 10 ] ]
     ]
   }

@@ -12,7 +12,7 @@
     "durability": 200,
     "description": "This is little more than a sheet metal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
     "size": 600,
-    "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
+    "breaks_into": [ { "item": "lc_steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -32,7 +32,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "ARMOR" ],
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
+    "breaks_into": [ { "item": "lc_steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 4 },
     "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
   },
@@ -100,8 +100,8 @@
       "ALARMCLOCK"
     ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "lc_steel_lump", "count": [ 2, 4 ] },
+      { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "cable", "charges": [ 5, 20 ] },
       { "item": "RAM", "count": [ 1, 4 ] },
@@ -163,8 +163,8 @@
     },
     "extend": { "flags": [ "NO_REPAIR" ] },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 4 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 4 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 4 ] },
       { "item": "scrap", "count": [ 4, 4 ] },
       { "item": "solar_cell", "count": [ 2, 8 ] }
     ]
@@ -204,8 +204,8 @@
     },
     "flags": [ "REACTOR" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 11 ] },
-      { "item": "steel_chunk", "count": [ 6, 11 ] },
+      { "item": "mc_steel_lump", "count": [ 6, 11 ] },
+      { "item": "mc_steel_chunk", "count": [ 6, 11 ] },
       { "item": "scrap", "charges": [ 6, 11 ] }
     ],
     "damage_reduction": { "all": 50 },
@@ -231,8 +231,8 @@
     },
     "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 8 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
+      { "item": "mc_steel_lump", "count": [ 6, 8 ] },
+      { "item": "mc_steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
@@ -264,8 +264,8 @@
       { "id": "exo_repair_kit", "hotkey": "e" }
     ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "mc_steel_lump", "count": [ 3, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] },
       { "item": "welder", "prob": 50 }
     ],

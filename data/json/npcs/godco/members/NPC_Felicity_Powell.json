@@ -169,6 +169,48 @@
     "dynamic_line": "Olwen's a bright girl, always has been.  She studied electricity and computer science when she was in college, found a job with a research and development firm.  My girl's a fiancee now, her and Julian were going to get married in a few months.  She might teach you something, if you ask.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Felicity_Olwen_Love0",
+        "condition": { "math": [ "godco_julian_wedding == 0" ] }
+      },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Felicity_Olwen_Love1",
+        "condition": { "math": [ "godco_julian_wedding == 1" ] }
+      },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Felicity_Olwen_Love2",
+        "condition": { "math": [ "godco_julian_wedding == 2" ] }
+      },
+      { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Olwen_Love0",
+    "dynamic_line": "She is feeling down since her relationship with Julian seems to have been put on pause by <the_cataclysm>, but I heard Julian talking about making a proper confession with some rings and everything, maybe you could ask him about it?",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Olwen_Love1",
+    "dynamic_line": "She is feeling great since receiving her ring from Julian, I can't stop smiling seeing her flourishing here even after everything that happened…",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Olwen_Love2",
+    "dynamic_line": "I just helped her trying on her wedding dress!  She will look gorgeous in that dress.  I can't wait to see her smile when the day arrives, she already goes from here and there with a smile from ear to ear…",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
       { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }
     ]
   },

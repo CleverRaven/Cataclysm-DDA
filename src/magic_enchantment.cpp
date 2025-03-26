@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "condition.h"
@@ -467,6 +468,9 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
     load_add_and_multiply<skill_id>( jo, is_child, "skills", "value",
                                      skill_values_add, skill_values_multiply );
 
+    load_add_and_multiply<bodypart_str_id>( jo, is_child, "encumbrance_modifier", "part",
+                                            encumbrance_values_add, encumbrance_values_multiply );
+
     load_add_and_multiply<damage_type_id>( jo, is_child, "melee_damage_bonus", "type",
                                            damage_values_add, damage_values_multiply );
 
@@ -579,6 +583,9 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
 
     load_add_and_multiply<skill_id>( jo, "skills", "value",
                                      skill_values_add, skill_values_multiply );
+
+    load_add_and_multiply<bodypart_str_id>( jo, "encumbrance_modifier", "part",
+                                            encumbrance_values_add, encumbrance_values_multiply );
 
     load_add_and_multiply<damage_type_id>( jo, "melee_damage_bonus", "type",
                                            damage_values_add, damage_values_multiply );
@@ -714,6 +721,21 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "encumbrance_modifier" );
+    jsout.start_array();
+    for( const body_part_type &bt : body_part_type::get_all() ) {
+        jsout.start_object();
+        jsout.member( "part", bt.id );
+        if( get_encumbrance_add( bt.id ) != 0 ) {
+            jsout.member( "add", get_encumbrance_add( bt.id ) );
+        }
+        if( get_encumbrance_multiply( bt.id ) != 0 ) {
+            jsout.member( "multiply", get_encumbrance_multiply( bt.id ) );
+        }
+        jsout.end_object();
+    }
+    jsout.end_array();
+
     jsout.member( "incoming_damage_mod" );
     jsout.start_array();
     for( const damage_type &dt : damage_type::get_all() ) {
@@ -828,6 +850,16 @@ void enchant_cache::force_add( const enchant_cache &rhs )
         damage_values_multiply[pair_values.first] += pair_values.second;
     }
 
+    for( const std::pair<const bodypart_str_id, double> &pair_values : rhs.encumbrance_values_add ) {
+        encumbrance_values_add[pair_values.first] += pair_values.second;
+    }
+    for( const std::pair<const bodypart_str_id, double> &pair_values :
+         rhs.encumbrance_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        encumbrance_values_multiply[pair_values.first] += pair_values.second;
+    }
+
     for( const std::pair<const damage_type_id, double> &pair_values : rhs.armor_values_add ) {
         armor_values_add[pair_values.first] += pair_values.second;
     }
@@ -936,6 +968,23 @@ void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const
             skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
         } else {
             skill_values_multiply[pair_values.first] += pair_values.second.constant();
+        }
+    }
+
+    for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
+         rhs.encumbrance_values_add ) {
+        if( evaluate ) {
+            encumbrance_values_add[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            encumbrance_values_add[pair_values.first] += pair_values.second.constant();
+        }
+    }
+    for( const std::pair<const bodypart_str_id, dbl_or_var> &pair_values :
+         rhs.encumbrance_values_multiply ) {
+        if( evaluate ) {
+            encumbrance_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            encumbrance_values_multiply[pair_values.first] += pair_values.second.constant();
         }
     }
 
@@ -1155,6 +1204,15 @@ int enchant_cache::get_damage_add( const damage_type_id &value ) const
     return found->second;
 }
 
+int enchant_cache::get_encumbrance_add( const bodypart_str_id &value ) const
+{
+    const auto found = encumbrance_values_add.find( value );
+    if( found == encumbrance_values_add.cend() ) {
+        return 0;
+    }
+    return found->second;
+}
+
 int enchant_cache::get_armor_add( const damage_type_id &value ) const
 {
     const auto found = armor_values_add.find( value );
@@ -1254,6 +1312,15 @@ double enchant_cache::get_armor_multiply( const damage_type_id &value ) const
     return found->second;
 }
 
+double enchant_cache::get_encumbrance_multiply( const bodypart_str_id &value ) const
+{
+    const auto found = encumbrance_values_multiply.find( value );
+    if( found == encumbrance_values_multiply.cend() ) {
+        return 0;
+    }
+    return found->second;
+}
+
 double enchant_cache::get_extra_damage_multiply( const damage_type_id &value ) const
 {
     const auto found = extra_damage_multiply.find( value );
@@ -1321,6 +1388,13 @@ double enchant_cache::modify_melee_damage( const damage_type_id &mod_val, double
 {
     value += get_damage_add( mod_val );
     value *= 1.0 + get_damage_multiply( mod_val );
+    return value;
+}
+
+double enchant_cache::modify_encumbrance( const bodypart_str_id &mod_val, double value ) const
+{
+    value += get_encumbrance_add( mod_val );
+    value *= 1.0 + get_encumbrance_multiply( mod_val );
     return value;
 }
 
@@ -1478,6 +1552,8 @@ void enchant_cache::clear()
     damage_values_multiply.clear();
     armor_values_add.clear();
     armor_values_multiply.clear();
+    encumbrance_values_add.clear();
+    encumbrance_values_multiply.clear();
     extra_damage_add.clear();
     extra_damage_multiply.clear();
     special_vision_vector.clear();
