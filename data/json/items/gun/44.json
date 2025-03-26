@@ -50,7 +50,7 @@
   },
   {
     "id": "henry_big_boy",
-    "copy-from": "gun_base_44_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Henry Big Boy .44 rifle" },
@@ -60,8 +60,10 @@
     "longest_side": "98 cm",
     "barrel_length": "508 mm",
     "price": "899 USD 95 cent",
+    "price_postapoc": "16 USD",
     "material": [ "steel", "wood" ],
     "range": 7,
+    "ammo": [ "44" ],
     "dispersion": 180,
     "clip_size": 10,
     "valid_mod_locations": [
@@ -80,7 +82,7 @@
   },
   {
     "id": "rifle_44",
-    "copy-from": "gun_base_44_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": ".44 Magnum pipe rifle" },
@@ -92,6 +94,7 @@
     "price": "100 USD",
     "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
+    "ammo": [ "44" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 550,
     "durability": 6,
@@ -239,7 +242,7 @@
   },
   {
     "id": "rossi_r92_44_16",
-    "copy-from": "gun_base_44_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": ".44 lever-action rifle" },
@@ -258,8 +261,10 @@
     "longest_side": "879 mm",
     "barrel_length": "419 mm",
     "price": "1060 USD 99 cent",
+    "price_postapoc": "16 USD",
     "material": [ "steel", "wood" ],
     "range": 5,
+    "ammo": [ "44" ],
     "dispersion": 160,
     "clip_size": 8,
     "valid_mod_locations": [
@@ -275,7 +280,7 @@
   },
   {
     "id": "rossi_r92_44_20",
-    "copy-from": "gun_base_44_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "long-barreled .44 lever-action rifle" },
@@ -294,8 +299,10 @@
     "longest_side": "965 mm",
     "barrel_length": "508 mm",
     "price": "1060 USD 99 cent",
+    "price_postapoc": "16 USD",
     "material": [ "steel", "wood" ],
     "range": 7,
+    "ammo": [ "44" ],
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [

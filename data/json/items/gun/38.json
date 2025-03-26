@@ -70,6 +70,7 @@
     "price": "100 USD",
     "price_postapoc": "1 USD",
     "material": [ "steel", "wood" ],
+    "ammo": [ "38" ]
     "dispersion": 550,
     "durability": 6,
     "loudness": 25,
@@ -297,7 +298,7 @@
   },
   {
     "id": "uberti_1873",
-    "copy-from": "gun_base_357_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "reproduction .357 lever-action rifle" },
@@ -316,8 +317,10 @@
     "longest_side": "1117 mm",
     "barrel_length": "508 mm",
     "price": "1429 USD",
+    "price_postapoc": "14 USD",
     "material": [ "steel", "wood" ],
     "range": 7,
+    "ammo": [ "38", "357mag" ]
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [
@@ -333,7 +336,7 @@
   },
   {
     "id": "rossi_r92_357_20",
-    "copy-from": "gun_base_357_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "long-barreled .357 lever-action rifle" },
@@ -352,8 +355,10 @@
     "longest_side": "946 mm",
     "barrel_length": "508 mm",
     "price": "840 USD 99 cent",
+    "price_postapoc": "14 USD",
     "material": [ "steel", "wood" ],
     "range": 7,
+    "ammo": [ "38", "357mag" ]
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [
@@ -369,7 +374,7 @@
   },
   {
     "id": "rossi_r92_357_16",
-    "copy-from": "gun_base_357_manual_rifle",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": ".357 lever-action rifle" },
@@ -388,8 +393,10 @@
     "longest_side": "843 mm",
     "barrel_length": "406 mm",
     "price": "833 USD 99 cent",
+    "price_postapoc": "14 USD",
     "material": [ "steel", "wood" ],
     "range": 5,
+    "ammo": [ "38", "357mag" ]
     "dispersion": 140,
     "clip_size": 8,
     "valid_mod_locations": [
