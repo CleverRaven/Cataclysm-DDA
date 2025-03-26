@@ -74,7 +74,7 @@
     "comestible_type": "FOOD",
     "id": "bone_sugar",
     "name": { "str_sp": "sugar bone" },
-    "description": "A large bone, made entirely up of super-compressed sugar. Way too hard to be eaten directly, but it can be broken down into sugar.",
+    "description": "A large bone, made entirely up of super-compressed sugar.  Way too hard to be eaten directly, but it can be broken down into sugar.",
     "weight": "508 g",
     "volume": "320 ml",
     "//": "values based off of sucrose's density and our 'bone' item",
