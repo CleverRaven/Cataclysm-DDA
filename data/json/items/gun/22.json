@@ -26,10 +26,13 @@
     "dispersion": 90,
     "clip_size": 19,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
@@ -99,8 +102,11 @@
     "dispersion": 110,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -197,7 +203,17 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ]
   },
   {
@@ -325,6 +341,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
@@ -597,11 +614,13 @@
     "flags": [ "RELOAD_ONE" ],
     "clip_size": 14,
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "stock accessory", 2 ],

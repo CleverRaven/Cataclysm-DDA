@@ -1,7 +1,7 @@
 [
   {
     "id": "m1carbine",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "garand",
     "type": "GUN",
     "name": { "str": "M1 carbine" },
@@ -12,13 +12,9 @@
     "barrel_length": "451 mm",
     "price": "800 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
     "ammo": [ "30carbine" ],
     "dispersion": 200,
-    "durability": 8,
     "min_cycle_recoil": 900,
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -33,16 +29,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1carbinemag", "m1carbinebigmag" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1carbinemag", "m1carbinebigmag" ] } ]
   },
   {
     "id": "m2carbine",

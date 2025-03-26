@@ -1,7 +1,7 @@
 [
   {
     "id": "makarov",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_handgun_semi",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Makarov pistol" },
@@ -22,10 +22,8 @@
     "price": "250 USD",
     "price_postapoc": "20 USD",
     "material": [ "steel", "plastic" ],
-    "color": "dark_gray",
     "ammo": [ "9x18" ],
     "dispersion": 480,
-    "durability": 6,
     "min_cycle_recoil": 270,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
@@ -39,7 +37,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ]
   }
 ]
