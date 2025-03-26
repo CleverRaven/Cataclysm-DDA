@@ -289,23 +289,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PRACTICE_TELEPORT_FINAL_LEARNING_CHECK",
-    "//": "Loci Establishment requires special handling since if successful, you learn that and Loci Technique",
-    "condition": {
-      "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_teleportation')" ] },
-      "difficulty": { "math": [ "learn_new_power_difficulty_setting()" ] }
-    },
+    "id": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP",
     "effect": [
-      { "run_eocs": "EOC_PSI_SUCCESSFULLY_LEARNING_NEW_POWER_EFFECTS" },
-      {
-        "if": { "compare_string": [ "teleport_loci_establishment", { "u_val": "latest_studied_power_name" } ] },
-        "then": [
-          { "math": [ "u_spell_level('teleport_loci_technique') = 1" ] },
-          { "u_learn_recipe": "practice_teleport_loci_technique" }
-        ]
-      }
-    ],
-    "false_effect": [ { "run_eocs": "EOC_PSI_FAILED_LEARNING_NEW_POWER_EFFECTS" } ]
+      { "set_string_var": "prof_contemplation_teleportation", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+      { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty(u_latest_studied_power_name)" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
