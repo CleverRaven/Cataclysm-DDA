@@ -148,7 +148,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -206,7 +206,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -264,7 +264,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -323,7 +323,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -382,7 +382,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -441,7 +441,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -500,7 +500,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -559,7 +559,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -618,7 +618,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -677,7 +677,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -736,7 +736,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   },
   {
     "type": "recipe",
@@ -795,6 +795,6 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_PRACTICE_PYROKIN_FINAL_LEARNING_CHECK" } ]
+    "effect": [ { "run_eocs": "EOC_PRACTICE_PSIONICS_FINAL_LEARNING_CHECK" } ]
   }
 ]
