@@ -2896,7 +2896,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Debug menu",
+    "name": "Developer debug menu",
     "category": "DEFAULTMODE",
     "id": "debug"
   },
