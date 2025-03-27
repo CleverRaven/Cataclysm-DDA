@@ -49,7 +49,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "id": "example_template",                                 // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Template Spell",                                 // name of the spell that shows in game
-    "description": "This is a template to show off all the available values",
+    "description": "This is a template to show off all the available values", // Description of the spell. Supports color tags and dialogue variables (both alpha and beta are evaluated as avatar)
     "valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
     "effect_str": "template",                                 // special. see below
