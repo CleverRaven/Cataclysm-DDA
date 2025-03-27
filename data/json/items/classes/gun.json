@@ -289,21 +289,23 @@
     "skill": "smg"
   },
   {
-    "abstract": "gun_base_handgun",
+    "abstract": "gun_base_handgun_manual",
     "type": "GUN",
     "color": "light_gray",
     "symbol": "⨽",
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "melee_damage": { "bash": 7 },
     "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ], 
+    "blackpowder_tolerance": 56,
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "skill": "pistol",
     "sight_dispersion": 60,
     "durability": 8,
     "handling": 10,
-    "reload": 150,
-    "reload_noise_volume": 10
+    "reload": 200,
+    "reload_noise_volume": 10,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "abstract": "gun_base_handgun_semi",
@@ -340,17 +342,6 @@
     "min_cycle_recoil": 140
   },
   {
-    "abstract": "gun_base_22_manual_pistol",
-    "copy-from": "gun_base_handgun",
-    "type": "GUN",
-    "price_postapoc": "4 USD",
-    "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ],
-    "ammo": [ "22" ],
-    "blackpowder_tolerance": 32,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
-  },
-  {
     "abstract": "gun_base_9mm_semi_pistol",
     "copy-from": "gun_base_handgun_semi",
     "type": "GUN",
@@ -378,25 +369,6 @@
     "min_cycle_recoil": 135
   },
   {
-    "abstract": "gun_base_38_manual_pistol",
-    "copy-from": "gun_base_handgun",
-    "type": "GUN",
-    "price_postapoc": "4 USD",
-    "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ],
-    "ammo": [ "38" ],
-    "blackpowder_tolerance": 56,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
-  },
-  {
-    "abstract": "gun_base_357_manual_pistol",
-    "copy-from": "gun_base_38_manual_pistol",
-    "type": "GUN",
-    "price_postapoc": "11 USD",
-    "name": { "str": "base gun", "//~": "NO_I18N" },
-    "ammo": [ "38", "357mag" ]
-  },
-  {
     "abstract": "gun_base_40_semi_pistol",
     "copy-from": "gun_base_handgun_semi",
     "type": "GUN",
@@ -406,17 +378,6 @@
     "min_cycle_recoil": 420
   },
   {
-    "abstract": "gun_base_44_manual_pistol",
-    "copy-from": "gun_base_handgun",
-    "type": "GUN",
-    "price_postapoc": "14 USD",
-    "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ],
-    "ammo": [ "44" ],
-    "blackpowder_tolerance": 56,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
-  },
-  {
     "abstract": "gun_base_45_semi_pistol",
     "copy-from": "gun_base_handgun_semi",
     "type": "GUN",
@@ -424,24 +385,6 @@
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "ammo": [ "45" ],
     "min_cycle_recoil": 550
-  },
-  {
-    "abstract": "gun_base_45colt_manual_pistol",
-    "copy-from": "gun_base_handgun",
-    "type": "GUN",
-    "price_postapoc": "6 USD",
-    "name": { "str": "base gun", "//~": "NO_I18N" },
-    "flags": [ "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ],
-    "ammo": [ "45colt" ],
-    "blackpowder_tolerance": 56,
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
-  },
-  {
-    "abstract": "gun_base_410_manual_pistol",
-    "copy-from": "gun_base_45colt_manual_pistol",
-    "type": "GUN",
-    "name": { "str": "base gun", "//~": "NO_I18N" },
-    "ammo": [ "45colt", "410shot" ]
   },
   {
     "abstract": "gun_base_57_semi_pistol",

@@ -154,7 +154,7 @@
   {
     "id": "ruger_lcr_22",
     "looks_like": "sw_619",
-    "copy-from": "gun_base_22_manual_pistol",
+    "copy-from": "gun_base_handgun_manual",
     "type": "GUN",
     "name": { "str": ".22 caliber revolver" },
     "description": "A comparatively dainty revolver, chambered for 8 tiny rounds of .22 LR.",
@@ -171,6 +171,10 @@
     "longest_side": "192 mm",
     "barrel_length": "73 mm",
     "//": "47.498mm + 25.4mm max OAL for 22LR. Revolvers just built different.",
+    "price": "545 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "ammo": [ "22" ],
     "clip_size": 8,
     "pocket_data": [
       {
@@ -431,7 +435,7 @@
   },
   {
     "id": "rough_rider_pistol",
-    "copy-from": "gun_base_22_manual_pistol",
+    "copy-from": "gun_base_handgun_manual",
     "type": "GUN",
     "name": { "str": ".22 six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 6.5 inch barrel.",
@@ -442,8 +446,9 @@
     "//2": "barrel length (165mm) + cylinder length (25mm)",
     "barrel_length": "190 mm",
     "price": "165 USD 99 cent",
-    "price_postapoc": "2 USD",
+    "price_postapoc": "10 USD",
     "material": [ "steel" ],
+    "ammo": [ "22" ],
     "dispersion": 380,
     "reload": 250,
     "clip_size": 6,
@@ -639,7 +644,7 @@
   },
   {
     "id": "sw617",
-    "copy-from": "gun_base_22_manual_pistol",
+    "copy-from": "gun_base_handgun_manual",
     "type": "GUN",
     "name": { "str": "high capacity revolver" },
     "description": "A revolver chambered in .22 LR, with 10 shots and a 6 inch barrel.",
@@ -650,7 +655,9 @@
     "//": "barrel length (153mm) + cylinder length (25mm)",
     "barrel_length": "178 mm",
     "price": "979 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "steel" ],
+    "ammo": [ "22" ],
     "dispersion": 300,
     "clip_size": 10,
     "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],

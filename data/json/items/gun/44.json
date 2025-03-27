@@ -109,7 +109,7 @@
   },
   {
     "id": "sw629",
-    "copy-from": "gun_base_44_manual_pistol",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "GUN",
     "name": { "str": ".44 revolver" },
@@ -135,7 +135,9 @@
     "barrel_length": "206 mm",
     "//": "165.1mm + 41mm max OAL for 44mag. Revolvers just built different.",
     "price": "861 USD",
+   "price_postapoc": "27 USD 50 cent",
     "material": [ "steel", "plastic" ],
+    "ammo": [ "44" ],
     "dispersion": 280,
     "clip_size": 6,
     "valid_mod_locations": [
@@ -158,7 +160,7 @@
   },
   {
     "id": "colt_anaconda_8",
-    "copy-from": "gun_base_44_manual_pistol",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "GUN",
     "name": { "str": ".44 long barrel hunting revolver" },
@@ -177,7 +179,9 @@
     "longest_side": "350 mm",
     "barrel_length": "203 mm",
     "price": "1499 USD",
+   "price_postapoc": "15 USD",
     "material": [ "steel", "plastic" ],
+    "ammo": [ "44" ],
     "dispersion": 280,
     "clip_size": 6,
     "valid_mod_locations": [
@@ -216,8 +220,7 @@
     "volume": "1299 ml",
     "//": "300 x 153 x 70, but trimmed massively",
     "longest_side": "300 mm",
-    "barrel_length": "153 mm",
-    "price": "1499 USD"
+    "barrel_length": "153 mm"
   },
   {
     "id": "colt_anaconda_4",
@@ -237,8 +240,7 @@
     "volume": "1053 ml",
     "//": "240 x 153 x 70, but trimmed massively",
     "longest_side": "240 mm",
-    "barrel_length": "102 mm",
-    "price": "1499 USD"
+    "barrel_length": "102 mm"
   },
   {
     "id": "rossi_r92_44_16",
