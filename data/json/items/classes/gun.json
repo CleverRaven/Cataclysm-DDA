@@ -296,7 +296,7 @@
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "melee_damage": { "bash": 7 },
     "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
-    "flags": [ "ALLOWS_BODY_BLOCK", "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ], 
+    "flags": [ "ALLOWS_BODY_BLOCK", "RELOAD_ONE", "NO_TURRET", "EASY_CLEAN", "RELOAD_EJECT" ],
     "blackpowder_tolerance": 56,
     "name": { "str": "base gun", "//~": "NO_I18N" },
     "skill": "pistol",
