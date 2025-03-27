@@ -1506,7 +1506,7 @@
     "type": "terrain",
     "id": "t_metal_grate_window_noglass",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for an empty window.  Highly durable and will stand against any foe",
+    "description": "Metal bars made into a grate for an empty window.  Highly durable and will stand against any foe.",
     "examine_action": "bars",
     "looks_like": "t_window_bars",
     "symbol": "#",
