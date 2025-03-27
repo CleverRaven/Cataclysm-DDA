@@ -113,7 +113,16 @@
     "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 1 ] ] ],
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 2 ],
+        [ "bandages_makeshift_bleached", 2 ],
+        [ "bandages_makeshift_boiled", 2 ],
+        [ "adhesive_bandages", 5 ]
+      ]
+    ],
     "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
