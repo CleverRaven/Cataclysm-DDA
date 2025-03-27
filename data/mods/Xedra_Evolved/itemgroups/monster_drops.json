@@ -593,5 +593,22 @@
       { "item": "dress_shoes" },
       { "item": "union_suit" }
     ]
+  },
+  {
+    "id": "vampire_anathema_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "vampire_anathema_book" },
+      { "item": "blood_camel" },
+      { "item": "salamagman_battleaxe" },
+      { "item": "hc_helm_close", "damage": [ 1, 4 ] },
+      { "item": "armor_hc_plate", "damage": [ 1, 4 ] },
+      { "item": "gloves_plate", "damage": [ 1, 4 ] },
+      { "item": "pants", "variant": "pants_black", "damage": [ 1, 4 ] },
+      { "item": "tshirt", "variant": "generic_tshirt", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "item": "boots_plate", "damage": [ 1, 4 ] }
+    ]
   }
 ]
