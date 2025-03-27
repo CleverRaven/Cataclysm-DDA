@@ -81,6 +81,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "learn_new_power_difficulty_setting",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty + 4"
+  },
+  {
+    "type": "jmath_function",
     "id": "learn_new_power_lower_time_bound",
     "num_args": 1,
     "return": "(((_0 + 2) * 60) * 60) * 0.8"
@@ -90,6 +96,18 @@
     "id": "learn_new_power_upper_time_bound",
     "num_args": 1,
     "return": "(((_0 + 2) * 60) * 60) * 1.2"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_lower_nether_attunement_level",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty * 10"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_upper_nether_attunement_level",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty * 20"
   },
   {
     "type": "jmath_function",
