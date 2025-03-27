@@ -53,7 +53,7 @@
   },
   {
     "id": "mosin91_30",
-    "copy-from": "mosin44",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Mosin battle rifle" },
@@ -63,6 +63,7 @@
     "longest_side": "1232 mm",
     "barrel_length": "730 mm",
     "price": "190 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -76,9 +77,29 @@
         "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling, to allow support for modern accessories."
       }
     ],
+    "material": [ "steel", "wood" ],
+    "ammo": [ "762R" ],
     "range": 3,
     "dispersion": 90,
-    "barrel_volume": "1000 ml"
+    "clip_size": 5,
+    "barrel_volume": "1000 ml",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
+    ]
   },
   {
     "id": "psl",
