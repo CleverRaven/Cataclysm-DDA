@@ -213,7 +213,7 @@
     "loudness": 0,
     "recovery_chance": 90,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
-    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 10 } ],
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 10 } ],
     "flags": [ "NONCONDUCTIVE", "JAVELIN", "NPC_THROWN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price_postapoc": "50 cent",
