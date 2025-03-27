@@ -7307,7 +7307,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                         spawned->set_summoner( d.actor( true )->get_creature() );
                     }
                     if( !set_mon_var.empty() ) {
-                        for( const std::pair<std::string, str_or_var> &val : set_mon_var ) {
+                        for( const auto &val : set_mon_var ) {
                             spawned->set_value( val.first, val.second.evaluate( d ) );
                         }
                     }
