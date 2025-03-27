@@ -571,7 +571,7 @@
     "ammo": [ "shot" ],
     "price_postapoc": "7 USD",
     "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
-    "skill": "rifle",
+    "skill": "shotgun",
     "sight_dispersion": 40,
     "durability": 8,
     "handling": 20,
