@@ -1,7 +1,7 @@
 [
   {
     "id": "ak74_semi",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Russian AK rifle" },
@@ -26,12 +26,8 @@
     "//": "Based off of the Riley Defense RAK74-C and RAK74-C-SF, respectively.",
     "price": "1 kUSD 115 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "545x39" ],
     "dispersion": 200,
-    "durability": 9,
     "min_cycle_recoil": 1260,
     "default_mods": [ "offset_sight_rail" ],
     "valid_mod_locations": [
@@ -48,12 +44,11 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
-    "melee_damage": { "bash": 11 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
   },
   {
     "id": "kord",
-    "copy-from": "rifle_auto",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Kord AK rifle" },
@@ -73,12 +68,9 @@
     "barrel_length": "415 mm",
     "price": "39 kUSD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "color": "brown",
     "ammo": [ "545x39" ],
     "dispersion": 120,
-    "durability": 8,
     "min_cycle_recoil": 1260,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
@@ -97,8 +89,6 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "MISSION_ITEM" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
-    "melee_damage": { "bash": 11 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
   }
 ]
