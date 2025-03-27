@@ -22,7 +22,7 @@
     "price": "1 kUSD",
     "price_postapoc": "12 USD 50 cent",
     "material": [ "steel", "plastic" ],
-   "ammo": [ "762x25" ],
+    "ammo": [ "762x25" ],
     "dispersion": 225,
     "min_cycle_recoil": 270,
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tokarevmag" ] } ]
