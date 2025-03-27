@@ -3916,15 +3916,8 @@ void debug()
     const bool should_disable_achievements = action && !is_debug_character() &&
             !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        static const std::string query(
-            translate_marker(
-                "Using this will disable achievements.  Proceed?"
-                "\nThey can be reenabled in the 'game' section of the menu." ) );
-        if( query_yn( _( query ) ) ) {
-            achievements.set_enabled( false );
-        } else {
-            action = std::nullopt;
-        }
+        add_msg( m_mixed, _( "Achievements have been disabled." ) );
+        achievements.set_enabled( false );
     }
 
     if( !action ) {

@@ -191,14 +191,7 @@ void scores_ui_impl::init_data()
 void scores_ui_impl::draw_achievements_text( bool use_conducts ) const
 {
     if( !g->achievements().is_enabled() ) {
-        ImGui::TextWrapped( "%s",
-                            use_conducts
-                            ? _( "Conducts are disabled, probably due to use of the debug menu.  If you only used "
-                                 "the debug menu to work around a game bug, then you can re-enable conducts via the "
-                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." )
-                            : _( "Achievements are disabled, probably due to use of the debug menu.  If you only used "
-                                 "the debug menu to work around a game bug, then you can re-enable achievements via the "
-                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." ) );
+        ImGui::TextWrapped( "%s", _( "Achievements and conducts are disabled for debug characters." ) );
         return;
     }
     if( use_conducts && conducts_text.empty() ) {
