@@ -18,9 +18,9 @@
 #include "item.h"
 #include "map_helpers.h"
 #include "map.h"
-#include "map_selector.h"
 #include "player_helpers.h"
 #include "rng.h"
+#include <stddef.h>
 #include "units.h"
 #include "type_id.h"
 
