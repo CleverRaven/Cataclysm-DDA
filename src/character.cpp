@@ -3378,6 +3378,11 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
+units::mass Character::max_pickup_capacity() const
+{
+    return weight_capacity() * 4;
+}
+
 bool Character::can_pickVolume( const item &it, bool, const item *avoid,
                                 const bool ignore_pkt_settings ) const
 {
@@ -3411,8 +3416,7 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
 bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
-        // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
+        return ( weight_carried() + it.weight() <= max_pickup_capacity() );
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
