@@ -753,7 +753,7 @@
             "else": [
               { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
               {
-                "run_eocs": "EOC_PRACTICE_ELECTRO_HACKING_INTERFACE_LEARNING",
+                "run_eocs": "EOC_PRACTICE_ELECTROKIN_ROBOT_INTERFACE_LEARNING",
                 "time_in_future": [
                   { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
                   { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }
@@ -767,7 +767,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PRACTICE_ELECTRO_ROBOT_INTERFACE_LEARNING",
+    "id": "EOC_PRACTICE_ELECTROKIN_ROBOT_INTERFACE_LEARNING",
     "condition": {
       "and": [
         { "compare_string": [ "electrokinetic_robot_interface", { "u_val": "latest_studied_power_name" } ] },
