@@ -34,9 +34,9 @@
       "fill_ter": "t_thconc_floor",
       "terrain": {
         ".": "t_region_groundcover",
-        "#": "t_wall_metal",
+        "#": "t_wall_metal_corrugated",
         "L": "t_region_groundcover",
-        "+": [ "t_door_metal_o", "t_door_metal_c" ],
+        "+": [ "t_door_metal_corrugated_o", "t_door_metal_corrugated_c" ],
         "*": "t_door_c"
       },
       "furniture": { "t": "f_locker", "R": "f_rack", "r": "f_rack", "@": "f_bunkbed", "h": "f_chair", "T": "f_table", "Y": "f_trashcan" },
