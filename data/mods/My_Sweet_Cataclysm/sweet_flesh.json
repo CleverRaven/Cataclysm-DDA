@@ -157,7 +157,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 287,
-    "description": "A chunk chocolate meat, still dripping with liquid chocolate.",
+    "description": "A chunk of chocolate meat, still dripping with liquid chocolate.",
     "price_postapoc": "4 USD",
     "material": [ "junk" ],
     "volume": "250 ml",
@@ -185,5 +185,27 @@
     "fun": 7,
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "junk_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_chocolate",
+    "name": { "str_sp": "chocolate ichor" },
+    "comestible_type": "DRINK",
+    "spoils_in": "1 day",
+    "symbol": "~",
+    "color": "brown",
+    "quench": 50,
+    "healthy": -1,
+    "calories": 200,
+    "description": "Ichor harvested from the corpse of a chocolate cow.  Quite bitter and… oddly warm?",
+    "price": "20 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "junk" ],
+    "volume": "250 ml",
+    "weight": "260 g",
+    "charges": 1,
+    "phase": "liquid",
+    "fun": -1,
+    "//": "will be used for chocolate-branched additions later on. currently only from cows, will be added from additional chocolate monsters."
   }
 ]
