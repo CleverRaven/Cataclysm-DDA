@@ -3700,7 +3700,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"COME HERE YOU FUCKING BASTARD\"",
+    "sound": "\"BASTARD!\"",
     "volume": 12
   },
   {
@@ -3729,6 +3729,34 @@
       "mon_feral_prisoner"
     ],
     "sound": "loud grunting.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_feral_human_pipe",
+      "mon_feral_sapien_spear",
+      "mon_chud",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_human_tool",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_prepper_mace",
+      "mon_feral_prepper_knife",
+      "mon_feral_survivalist",
+      "mon_feral_militia",
+      "mon_feral_soldier",
+      "mon_feral_swimmer_kickboard",
+      "mon_feral_sailor_wrench",
+      "mon_feral_sailor_axe",
+      "mon_feral_sailor_mop",
+      "mon_feral_sailor_lug_wrench",
+      "mon_feral_marine_bayonet",
+      "mon_feral_officer",
+      "mon_feral_cop",
+      "mon_feral_prisoner"
+    ],
+    "sound": "\"BITCH!\"",
     "volume": 12
   },
   {
@@ -3756,7 +3784,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"I'LL KILL YOU\"",
+    "sound": "\"FUCK!\"",
     "volume": 12
   },
   {
@@ -3812,7 +3840,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"COME HERE YOU BITCH!\"",
+    "sound": "\"DIE!\"",
     "volume": 12
   },
   {
@@ -3896,36 +3924,8 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"GET THE FUCK AWAY\"",
-    "volume": 12
-  },
-  {
-    "type": "speech",
-    "speaker": [
-      "mon_feral_human_pipe",
-      "mon_feral_sapien_spear",
-      "mon_chud",
-      "mon_feral_human_crowbar",
-      "mon_feral_human_axe",
-      "mon_feral_human_tool",
-      "mon_feral_labsecurity_flashlight",
-      "mon_feral_prepper_mace",
-      "mon_feral_prepper_knife",
-      "mon_feral_survivalist",
-      "mon_feral_militia",
-      "mon_feral_soldier",
-      "mon_feral_swimmer_kickboard",
-      "mon_feral_sailor_wrench",
-      "mon_feral_sailor_axe",
-      "mon_feral_sailor_mop",
-      "mon_feral_sailor_lug_wrench",
-      "mon_feral_marine_bayonet",
-      "mon_feral_officer",
-      "mon_feral_cop",
-      "mon_feral_prisoner"
-    ],
     "sound": "garbled speech.",
-    "volume": 12
+    "volume": 8
   },
   {
     "type": "speech",
