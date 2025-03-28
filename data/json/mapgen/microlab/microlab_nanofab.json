@@ -392,6 +392,7 @@
       "palettes": [ "microlab_generic" ],
       "terrain": {
         "G": "t_card_science",
+        "Ñ": "t_nanofab_body",
         "W": "t_gates_mech_control_lab",
         "z": "t_strconc_floor",
         "_": "t_carpet_concrete_red",
@@ -405,7 +406,6 @@
         "A": "f_counter",
         "M": "f_server",
         ":": "f_xedra_antenna",
-        "Ñ": "f_locker",
         "H": "f_table",
         "D": "f_desk",
         "Ó": "f_utility_shelf",
