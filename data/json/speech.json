@@ -3701,7 +3701,7 @@
       "mon_feral_prisoner"
     ],
     "sound": "\"COME HERE YOU FUCKING BASTARD\"",
-    "volume": 30
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3728,8 +3728,8 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"YOU'RE FUCKED\"",
-    "volume": 30
+    "sound": "loud grunting",
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3757,7 +3757,7 @@
       "mon_feral_prisoner"
     ],
     "sound": "\"I'LL KILL YOU\"",
-    "volume": 30
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3784,8 +3784,8 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"I HATE YOU\"",
-    "volume": 30
+    "sound": "loud screaming",
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3813,7 +3813,7 @@
       "mon_feral_prisoner"
     ],
     "sound": "\"COME HERE YOU BITCH!\"",
-    "volume": 30
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3840,8 +3840,8 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"I'VE HAD IT\"",
-    "volume": 30
+    "sound": "heavy breathing",
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3868,8 +3868,8 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"I'LL RIP YOU APART\"",
-    "volume": 30
+    "sound": "mutterings",
+    "volume": 5
   },
   {
     "type": "speech",
@@ -3897,7 +3897,7 @@
       "mon_feral_prisoner"
     ],
     "sound": "\"GET THE FUCK AWAY\"",
-    "volume": 30
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3924,8 +3924,8 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "\"GET THEM!\"",
-    "volume": 30
+    "sound": "garbled words",
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3953,7 +3953,7 @@
       "mon_feral_prisoner"
     ],
     "sound": "incoherent yelling",
-    "volume": 30
+    "volume": 12
   },
   {
     "type": "speech",
@@ -3981,6 +3981,6 @@
       "mon_feral_prisoner"
     ],
     "sound": "exasperated screaming",
-    "volume": 30
+    "volume": 12
   }
 ]
