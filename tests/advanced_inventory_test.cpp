@@ -300,26 +300,26 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
             }
 
             GIVEN( "items are charges" ) {
-                item &map_i_9mm_ammo = here.add_item_or_charges( pos, i_9mm_ammo, remaining_map, false );
+                i_9mm_ammo.charges = limit;
+                item &map_i_9mm_ammo = here.add_item_or_charges( pos, i_9mm_ammo );
                 recalc_panes( advinv );
-                const int num_items = limit - remaining_map;
 
                 REQUIRE( map_i_9mm_ammo.count_by_charges() );
-                CAPTURE( num_items );
-                CAPTURE( here.i_at( pos.size() ) );
+                REQUIRE( map_i_9mm_ammo.charges == limit );
+                CAPTURE( here.i_at( pos ) );
                 CAPTURE( spane.items.size() );
 
                 const units::mass unitweight = i_9mm_ammo.weight() / i_9mm_ammo.charges;
                 REQUIRE( unitweight > 0_gram );
-                int left_over = num_items;
+                int left_over = limit;
 
                 GIVEN( "there is enough space for some, but not all items" ) {
 
                     GIVEN( "pocket weight capacity is the limiting factor" ) {
                         u.worn.wear_item( u, backpack, false, false );
-                        const int expected_transfered = u_carry_amount( knife_combat );
-                        REQUIRE( expected_transfered < num_items );
-                        const int expected_remaining = num_items - expected_transfered;
+                        const int expected_transfered = u_carry_amount( map_i_9mm_ammo );
+                        REQUIRE( expected_transfered < limit );
+                        const int expected_remaining = limit - expected_transfered;
                         u.can_stash_partial( i_9mm_ammo, left_over );
                         REQUIRE( left_over > 0 );
 
@@ -345,7 +345,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                         // has to be an item that fits all items and has a higher pocket weight capacity then the character,
                         // but still transfers weight to character. No current item fits that, so make a custom one.
                         u.worn.wear_item( u, debug_heavy_backpack, false, false );
-
+                        const int expected_transfered = u_carry_amount( map_i_9mm_ammo );
                         REQUIRE( u.can_stash_partial( i_9mm_ammo, left_over ) );
                         // can stash all items ignoring overburden
                         REQUIRE( left_over == 0 );
@@ -354,7 +354,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                                                                 u.weight_carried();
                         REQUIRE( map_i_9mm_ammo.weight() > overburden_capacity );
                         const int num_until_overburden = overburden_capacity / unitweight;
-                        REQUIRE( num_until_overburden < num_items );
+                        REQUIRE( num_until_overburden < expected_transfered );
 
                         WHEN( "transfering all" ) {
                             do_activity( advinv, "MOVE_ITEM_STACK" );
@@ -376,9 +376,8 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                     WHEN( "transfering all" ) {
                         do_activity( advinv, "MOVE_ITEM_STACK" );
 
-                        THEN( std::to_string( num_items ) + " items get transfered" ) {
-                            CHECK( u.has_charges( itype_test_9mm_ammo, num_items ) );
-                            CHECK_FALSE( u.has_charges( itype_test_9mm_ammo, num_items + 1 ) );
+                        THEN( std::to_string( limit ) + " items get transfered" ) {
+                            CHECK( u.has_charges( itype_test_9mm_ammo, limit ) );
                         }
                         AND_THEN( "no items are left on the ground" ) {
                             REQUIRE( here.i_at( pos ).empty() );
