@@ -136,7 +136,8 @@
     "type": "mutation",
     "id": "BIOLUM0",
     "copy-from": "BIOLUM0",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED" ] },
+    "changes_to": [ "VIKTORHAND_MANATOUCHED" ]
   },
   {
     "type": "mutation",
@@ -324,5 +325,17 @@
     "copy-from": "MORE_PAIN",
     "valid": true,
     "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "VIKTORHAND_MANATOUCHED",
+    "name": "Grasping Appendage",
+    "//": "give me a better name and that'll be the name",
+    "points": 8,
+    "description": "Your photophore, contaminated by extreme mana pollution, has mutated into a manipulator capable of magically suspending objects midair and using that same magic to project a concussive beam of force, both from range and in melee.",
+    "integrated_armor": [ "vitkorhand_manatouched_item" ],
+    "spells_learned": [ [ "viktorhand_manatouched_deathray", 0 ] ],
+    "category": [ "MANATOUCHED" ],
+    "threshreq": [ "THRESH_MANA" ]
   }
 ]
