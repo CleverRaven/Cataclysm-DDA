@@ -2277,6 +2277,9 @@ class Character : public Creature, public visitable
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
         units::mass weight_capacity() const override;
+
+        /* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */
+        units::mass max_pickup_capacity() const;
         units::volume volume_capacity() const;
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>

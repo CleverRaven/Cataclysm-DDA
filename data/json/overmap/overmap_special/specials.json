@@ -944,20 +944,8 @@
     "id": "military_outpost",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" }, { "point": [ 0, 0, 1 ], "overmap": "outpost_roof_north" } ],
     "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 15, -1 ],
-    "occurrences": [ 5, 100 ],
-    "flags": [ "MILITARY", "OVERMAP_UNIQUE", "WILDERNESS", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "military_outpost_cross",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "outpost_cross_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "outpost_cross_roof_north" }
-    ],
-    "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 15, -1 ],
-    "occurrences": [ 5, 100 ],
+    "city_distance": [ 0, 10 ],
+    "occurrences": [ 10, 100 ],
     "flags": [ "MILITARY", "OVERMAP_UNIQUE", "WILDERNESS", "MAN_MADE" ]
   },
   {

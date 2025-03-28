@@ -3378,6 +3378,11 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
+units::mass Character::max_pickup_capacity() const
+{
+    return weight_capacity() * 4;
+}
+
 bool Character::can_pickVolume( const item &it, bool, const item *avoid,
                                 const bool ignore_pkt_settings ) const
 {
@@ -3411,8 +3416,7 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
 bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
-        // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
+        return ( weight_carried() + it.weight() <= max_pickup_capacity() );
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
@@ -7821,6 +7825,11 @@ void Character::recalculate_enchantment_cache()
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
+
+    // do final statistic recalculations
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
     recalc_hp();
 }
 
@@ -10541,6 +10550,9 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         run_cost_effect_mul( get_modifier( character_modifier_crawl_speed_movecost_mod ) * 2.5,
                              _( "Downed" ) );
     }
+
+    // minimum possible movecost is 1, no infinispeed
+    movecost = std::max( 1.0f, movecost );
 
     return effects;
 }
