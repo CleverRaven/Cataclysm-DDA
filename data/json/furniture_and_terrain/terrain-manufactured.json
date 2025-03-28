@@ -645,37 +645,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_nanofab_body_original",
-    "name": "nanofabricator",
-    "symbol": "%",
-    "description": "A great column of machinery, shaped like ",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 65,
-    "flags": [ "PLACE_ITEM", "NANOFAB_TABLE" ],
-    "bash": {
-      "str_min": 120,
-      "str_max": 150,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "e_scrap", "count": [ 10, 14 ] },
-        { "item": "processor", "count": [ 10, 20 ] },
-        { "item": "RAM", "count": [ 14, 20 ] },
-        { "item": "nanomaterial", "count": 1, "prob": 10 },
-        { "item": "bearing", "charges": [ 20, 60 ] },
-        { "item": "motor_small", "count": 4 },
-        { "item": "power_supply", "count": [ 4, 16 ] },
-        { "item": "amplifier", "count": [ 4, 16 ] },
-        { "item": "cable", "charges": [ 250, 500 ] },
-        { "item": "circuit", "count": [ 1, 6 ] },
-        { "item": "scrap", "count": [ 12, 18 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_nanofab_body",
     "name": "nanofabricator",
     "symbol": "%",
