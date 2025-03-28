@@ -103,7 +103,7 @@ static int u_carry_amount( item &it )
 
     const units::mass unitweight = it.weight() / ( it.count_by_charges() ? it.charges : 1 );
     if( unitweight > 0_gram ) {
-        const units::mass overburden_capacity = player_character.weight_capacity() * 4 -
+        const units::mass overburden_capacity = player_character.max_pickup_capacity() -
                                                 player_character.weight_carried();
 
         // TODO: have it consider pocket weight_multiplier
@@ -136,10 +136,6 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
     item debug_backpack( itype_debug_heavy_backpack );
     item knife_combat( itype_knife_combat );
     item i_9mm_ammo( itype_test_9mm_ammo );
-
-    // this is directly from advanced_inventory:query_charges,
-    // we probably want to generalize what counts as overburdened
-    const units::mass overburden_mass = u.weight_capacity() * 4;
 
     SECTION( "from ground to inv" ) {
 
@@ -253,7 +249,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                             CHECK( u.amount_of( itype_knife_combat ) == expected_transfered );
                         }
                         AND_THEN( "adding an item would not overburden you" ) {
-                            CHECK( overburden_mass > u.weight_carried() + knife_combat.weight() );
+                            CHECK( u.max_pickup_capacity() > u.weight_carried() + knife_combat.weight() );
                         }
 
                         // you are volume restricted, not overburden restricted
@@ -273,7 +269,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                             CHECK( spane.get_cur_item_ptr()->stacks == expected_remaining );
                         }
                         AND_THEN( "you are not overburdened" ) {
-                            CHECK( overburden_mass > u.weight_carried() );
+                            CHECK( u.max_pickup_capacity() > u.weight_carried() );
                         }
                         AND_THEN( "no more items can be transfered" ) {
                             CHECK_FALSE( u.can_stash( knife_combat, 1 ) );
@@ -305,7 +301,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                             CHECK( spane.items.size() < static_cast<size_t>( num_items ) );
                         }
                         AND_THEN( "you are not overburdened" ) {
-                            CHECK( overburden_mass > u.weight_carried() );
+                            CHECK( u.max_pickup_capacity() > u.weight_carried() );
                         }
                     }
                 }
@@ -358,7 +354,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                         // can stash all items ignoring overburden
                         REQUIRE( left_over == 0 );
 
-                        const units::mass overburden_capacity = u.weight_capacity() * 4 -
+                        const units::mass overburden_capacity = u.max_pickup_capacity() -
                                                                 u.weight_carried();
                         REQUIRE( map_i_9mm_ammo.weight() > overburden_capacity );
                         const int num_until_overburden = overburden_capacity / unitweight;
