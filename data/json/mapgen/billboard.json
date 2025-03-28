@@ -112,12 +112,14 @@
     "nested_mapgen_id": "billboard_sign_nest",
     "type": "mapgen",
     "method": "json",
+    "weight": 3,
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "billboard_ad_snippets", "x": 0, "y": 0 } ] }
   },
   {
     "nested_mapgen_id": "billboard_sign_nest",
     "type": "mapgen",
     "method": "json",
+    "weight": 1,
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "general_graffiti_snippets", "x": 0, "y": 0 } ] }
   },
   {
