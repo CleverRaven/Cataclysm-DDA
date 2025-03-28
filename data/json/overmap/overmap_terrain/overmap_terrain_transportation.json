@@ -831,5 +831,14 @@
     ],
     "copy-from": "generic_highway_road",
     "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR", "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "billboard_0", "billboard_1", "billboard_2" ],
+    "name": "billboard",
+    "sym": "T",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "vision_levels": "isolated_tower"
   }
 ]
