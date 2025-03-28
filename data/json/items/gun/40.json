@@ -1,9 +1,9 @@
 [
   {
     "id": "glock_22",
+    "copy-from": "gun_base_40_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str_sp": "Glock 22" },
     "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI from 1997-2016, and of countless other law enforcement agencies worldwide.",
     "ascii_picture": "glock_17",
@@ -12,18 +12,8 @@
     "longest_side": "234 mm",
     "barrel_length": "125 mm",
     "price": "690 USD",
-    "price_postapoc": "17 USD 50 cent",
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "40" ],
-    "skill": "pistol",
     "dispersion": 480,
-    "durability": 6,
-    "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 425,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -35,26 +25,17 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "magazine_well": "250 ml",
         "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "px4_40",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_40_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Beretta Px4 Storm .40 S&W" },
@@ -64,23 +45,15 @@
     "longest_side": "231 mm",
     "barrel_length": "102 mm",
     "price": "650 USD",
-    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "40" ],
-    "range": 1,
     "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 504,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "px4_40mag_10", "px4_40mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "px4_40mag_10", "px4_40mag" ] } ]
   },
   {
     "id": "sig_40",
+    "copy-from": "gun_base_40_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str_sp": "SIG Pro .40" },
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
     "ascii_picture": "sig_pro_40",
@@ -89,15 +62,8 @@
     "longest_side": "221 mm",
     "barrel_length": "99 mm",
     "price": "750 USD",
-    "price_postapoc": "15 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "40" ],
-    "skill": "pistol",
     "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 504,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -109,22 +75,11 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ],
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "sig40mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "sig40mag" ] } ]
   },
   {
     "id": "smg_40",
-    "copy-from": "smg_base",
+    "copy-from": "gun_base_40_semi_pistol",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "name": { "str": "Luty SMG: .40 S&W", "str_pl": "Luty SMGs: .40 S&W" },
@@ -135,16 +90,11 @@
     "longest_side": "538 mm",
     "barrel_length": "229 mm",
     "price": "200 USD",
-    "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "40" ],
+    "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 590,
     "durability": 4,
-    "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 425,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_volume": "250 ml",
@@ -159,12 +109,11 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_40_mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_40_mag" ] } ]
   },
   {
     "id": "hi_power_40",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_40_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Browning Hi-Power .40 S&W" },
@@ -174,21 +123,13 @@
     "longest_side": "228 mm",
     "barrel_length": "119 mm",
     "price": "540 USD",
-    "price_postapoc": "20 USD",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "40" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 504,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "185 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp40mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "magazine_well": "185 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp40mag" ] } ]
   },
   {
     "id": "hptjcp",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_40_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str_sp": "Hi-Point Model JCP" },
@@ -198,16 +139,8 @@
     "longest_side": "234 mm",
     "barrel_length": "110 mm",
     "price": "75 USD",
-    "price_postapoc": "20 USD",
     "material": [ "plastic", "steel", "zinc" ],
-    "color": "dark_gray",
-    "ammo": [ "40" ],
     "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 504,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "312 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjcpmag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "magazine_well": "312 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjcpmag" ] } ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "m2010",
-    "copy-from": "rifle_base",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "M2010 ESR" },
@@ -13,19 +13,16 @@
     "barrel_length": "610 mm",
     "price": "17 kUSD 10 USD",
     "price_postapoc": "37 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "ammo": [ "300" ],
     "dispersion": 90,
-    "durability": 8,
     "barrel_volume": "500 ml",
-    "flags": [ "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "flags": [ "EASY_CLEAN", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ]
   },
   {
     "id": "weatherby_5",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Weatherby Mark V" },
@@ -37,16 +34,11 @@
     "barrel_length": "660 mm",
     "price": "2 kUSD 595 USD",
     "price_postapoc": "55 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "300" ],
     "dispersion": 110,
-    "durability": 8,
-    "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -59,12 +51,11 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   },
   {
     "id": "win70",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Winchester Model 70" },
@@ -75,16 +66,11 @@
     "barrel_length": "610 mm",
     "price": "460 USD",
     "price_postapoc": "32 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "300" ],
     "dispersion": 90,
-    "durability": 8,
-    "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -97,13 +83,12 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   },
   {
     "id": "ruger_pr",
     "looks_like": "modular_ar15",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "type": "GUN",
     "name": "Ruger Precision Rifle",
     "//": "No generic variant for this rifle, as the brand name is already pretty generic in and of itself.",
@@ -115,11 +100,8 @@
     "price": "2 kUSD 539 USD",
     "price_postapoc": "55 USD",
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "-",
-    "color": "black",
     "ammo": [ "300" ],
     "dispersion": 70,
-    "durability": 8,
     "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
     "barrel_volume": "456 ml",
     "valid_mod_locations": [
@@ -145,7 +127,6 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "ruger_pr_mag" ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   }
 ]

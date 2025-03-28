@@ -20,7 +20,7 @@
   },
   {
     "id": "rugerlcp",
-    "copy-from": "pistol_backup",
+    "copy-from": "gun_base_380_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Ruger LCP pistol" },
@@ -31,20 +31,13 @@
     "longest_side": "145 mm",
     "barrel_length": "70 mm",
     "price": "210 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
-    "color": "dark_gray",
-    "ammo": [ "380" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 270,
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugerlcpmag" ] } ],
-    "melee_damage": { "bash": 1 }
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugerlcpmag" ] } ]
   },
   {
     "id": "hptcf380",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_380_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Hi-Point CF-380 pistol" },
@@ -54,21 +47,16 @@
     "longest_side": "200 mm",
     "barrel_length": "89 mm",
     "price": "75 USD",
-    "price_postapoc": "17 USD 50 cent",
     "material": [ "plastic", "steel", "zinc" ],
-    "color": "dark_gray",
-    "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 270,
     "pocket_data": [
       {
         "magazine_well": "236 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "hptcf380mag_8rd", "hptcf380mag_10rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "hpt3895",
@@ -127,7 +115,7 @@
   },
   {
     "id": "swbodyguard",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_380_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": ".380 conceal carry handgun" },
@@ -145,14 +133,8 @@
     "longest_side": "160 mm",
     "barrel_length": "70 mm",
     "price": "399 USD",
-    "price_postapoc": "15 USD 50 cent",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "380" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 270,
-    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ]
   }
 ]
