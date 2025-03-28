@@ -117,7 +117,6 @@ static int u_carry_amount( item &it )
 }
 
 
-
 TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
 {
 
@@ -138,8 +137,6 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
     item i_9mm_ammo( itype_test_9mm_ammo );
 
     SECTION( "from ground to inv" ) {
-
-        // an item is in the src panel and is selected
         init_panes( advinv, aim_location::AIM_CENTER, aim_location::AIM_INVENTORY );
         advanced_inventory::side src = advinv.get_src();
         advanced_inventory_pane &spane = advinv.get_pane( src );
@@ -147,15 +144,10 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
         GIVEN( "a single item on the ground" ) {
             item &knife_combat_map = get_map().add_item_or_charges( pos, knife_combat );
 
-
-            // THEN( "there is an item in the srcpanel" ) {
             recalc_panes( advinv );
             REQUIRE_FALSE( here.i_at( pos ).empty() );
             REQUIRE_FALSE( advinv.get_pane( advinv.get_src() ).items.empty() );
-            // }
-            // AND_THEN( "the pointer points to an item" ) {
             REQUIRE( spane.get_cur_item_ptr() );
-            // }
 
             std::string knife_combat_uid = random_string( 10 );
             knife_combat_map.set_var( "uid", knife_combat_uid );
@@ -311,6 +303,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                 item &map_i_9mm_ammo = here.add_item_or_charges( pos, i_9mm_ammo, remaining_map, false );
                 const int num_items = limit - remaining_map;
                 REQUIRE( map_i_9mm_ammo.count_by_charges() );
+                CAPTURE( num_items );
                 recalc_panes( advinv );
 
                 const units::mass unitweight = i_9mm_ammo.weight() / i_9mm_ammo.charges;
@@ -367,7 +360,6 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
                                 CHECK( u.has_charges( itype_test_9mm_ammo, num_until_overburden ) );
                                 CHECK_FALSE( u.has_charges( itype_test_9mm_ammo, num_until_overburden + 1 ) );
                             }
-
                         }
                     }
                 }
