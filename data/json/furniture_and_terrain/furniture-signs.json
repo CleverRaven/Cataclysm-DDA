@@ -82,7 +82,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "count": [ 4, 8 ] } ]
+      "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "charges": [ 4, 8 ] } ]
     },
     "bash": {
       "str_min": 10,

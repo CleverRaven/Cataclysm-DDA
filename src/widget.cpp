@@ -943,7 +943,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_encumb:
             // Encumbrance for body part
-            value = ava.get_part_encumbrance_data( only_bp() ).encumbrance;
+            value = ava.get_part_encumbrance( only_bp() );
             break;
         case widget_var::cardio_fit:
             value = ava.get_cardiofit();

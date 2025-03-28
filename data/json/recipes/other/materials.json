@@ -1586,7 +1586,10 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
+    "components": [
+      [ [ "budget_steel_lump", 1 ], [ "budget_steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1601,7 +1604,16 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
+    "components": [
+      [
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "scrap", 20 ]
+      ],
+      [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1616,7 +1628,18 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
+    "components": [
+      [
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_lump", 1 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "mc_steel_chunk", 4 ],
+        [ "scrap", 20 ]
+      ],
+      [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ]
+    ]
   },
   {
     "type": "recipe",
