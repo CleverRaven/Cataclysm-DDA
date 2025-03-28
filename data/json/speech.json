@@ -3728,7 +3728,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "loud grunting",
+    "sound": "loud grunting.",
     "volume": 12
   },
   {
@@ -3784,7 +3784,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "loud screaming",
+    "sound": "loud screaming.",
     "volume": 12
   },
   {
@@ -3840,8 +3840,8 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "heavy breathing",
-    "volume": 12
+    "sound": "heavy breathing.",
+    "volume": 5
   },
   {
     "type": "speech",
@@ -3868,7 +3868,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "mutterings",
+    "sound": "mutterings.",
     "volume": 5
   },
   {
@@ -3924,7 +3924,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "garbled words",
+    "sound": "garbled speech.",
     "volume": 12
   },
   {
@@ -3952,7 +3952,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "incoherent yelling",
+    "sound": "incoherent yelling.",
     "volume": 12
   },
   {
@@ -3980,7 +3980,7 @@
       "mon_feral_cop",
       "mon_feral_prisoner"
     ],
-    "sound": "exasperated screaming",
+    "sound": "exasperated screaming.",
     "volume": 12
   }
 ]

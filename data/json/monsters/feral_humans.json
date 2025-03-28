@@ -520,7 +520,7 @@
     "aggression": 50,
     "melee_skill": 4,
     "dodge": 2,
-    "special_attacks": [ [ "PARROT_AT_DANGER", 0 ], { "id": "feral_weapon_feral_m4_carbine_bayonet" }, [ "PARROT_AT_DANGER", 0 ] ],
+    "special_attacks": [ [ "PARROT_AT_DANGER", 0 ], { "id": "feral_weapon_feral_m4_carbine_bayonet" } ],
     "death_drops": "mon_feral_marine_death_drops",
     "zombify_into": "mon_zombie_marine",
     "extend": {
