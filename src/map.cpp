@@ -5131,9 +5131,10 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
 
     // Get how many copies of the item can fit in a tile
     auto how_many_copies_fit = [&]( const tripoint_bub_ms & e ) {
+        const int remaining_itemcount = static_cast<int>( MAX_ITEM_IN_SQUARE - i_at( e ).size() );
         return std::min( { copies_remaining,
-                           obj.volume() == 0_ml ? INT_MAX : free_volume( e ) / obj.volume(),
-                           static_cast<int>( MAX_ITEM_IN_SQUARE - i_at( e ).size() ) } );
+                           obj.charges_per_volume( free_volume( e ), true ),
+                           obj.count_by_charges() &&remaining_itemcount >= 1 ? copies_remaining : remaining_itemcount } );
     };
 
     // Performs the actual insertion of the object onto the map
@@ -5145,6 +5146,11 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
                     return e;
                 }
             }
+            support_dirty( tile );
+
+            // if its charges and not already present, add them as a single item with the amount of charges
+            obj.charges = copies;
+            return add_item( tile, obj );
         }
 
         support_dirty( tile );
@@ -5168,9 +5174,12 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
     std::optional<std::pair<item *, tripoint_bub_ms>> first_added;
     int copies_to_add_here = how_many_copies_fit( pos );
 
+
+
     if( ( !has_flag( ter_furn_flag::TFLAG_NOITEM, pos ) ||
           ( has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos ) && obj.made_of( phase_id::LIQUID ) ) ) &&
         copies_to_add_here > 0 ) {
+
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
         if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
