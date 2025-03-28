@@ -292,8 +292,8 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          { "u_cast_spell": { "id": "teleport_banish_self_target", "message": "" } },
-          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" }
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." }
         ]
       }
     ],
@@ -315,14 +315,8 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          "u_die",
-          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" },
-          {
-            "u_map_run_item_eocs": "all",
-            "min_radius": 0,
-            "max_radius": 0,
-            "true_eocs": [ { "id": "EOC_TELEPORTER_OUBLIETTE_HANDLING_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
-          }
+          { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." },
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } }
         ]
       }
     ]
