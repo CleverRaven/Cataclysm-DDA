@@ -15,7 +15,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ANATHEMA_HISTORY",
-    "dynamic_line": "I've been a vampire hunter since as far as I can remember.  I spent my entire life killing all the vampires I could find but I recently realized that doing so was futile with my current power.   I need more power.  No matter how many vampires I kill, there's always more.\nI became a vampire so I could kill them all, but even that wasn't enough.  I've followed the mentor's instructions until they had nothing more to tell me but that wasn't enough.\nI need to find a way to reach power undreamt of.  To protect everyone from the vampire threat, I must become the strongest vampire ever seen.",
+    "dynamic_line": "I've been a vampire hunter since as far as I can remember.  I spent my entire life killing all the vampires I could find but I recently realized that doing so was futile with my current power.  I need more power.  No matter how many vampires I kill, there's always more.\nI became a vampire so I could kill them all, but even that wasn't enough.  I've followed the mentor's instructions until they had nothing more to tell me but that wasn't enough.\nI need to find a way to reach power undreamt of.  To protect everyone from the vampire threat, I must become the strongest vampire ever seen.",
     "responses": [
       { "text": "[Read about their recipe]", "topic": "TALK_ANATHEMA_RECIPE" },
       { "text": "[Read about the recipe's benefits]", "topic": "TALK_ANATHEMA_BENEFITS" },
