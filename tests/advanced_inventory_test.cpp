@@ -301,10 +301,13 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
 
             GIVEN( "items are charges" ) {
                 item &map_i_9mm_ammo = here.add_item_or_charges( pos, i_9mm_ammo, remaining_map, false );
+                recalc_panes( advinv );
                 const int num_items = limit - remaining_map;
+
                 REQUIRE( map_i_9mm_ammo.count_by_charges() );
                 CAPTURE( num_items );
-                recalc_panes( advinv );
+                CAPTURE( here.i_at( pos.size() ) );
+                CAPTURE( spane.items.size() );
 
                 const units::mass unitweight = i_9mm_ammo.weight() / i_9mm_ammo.charges;
                 REQUIRE( unitweight > 0_gram );
