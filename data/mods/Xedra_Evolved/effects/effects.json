@@ -3316,8 +3316,7 @@
     "type": "effect_type",
     "id": "effect_anathema_battle_started",
     "//": "From 60 speed to a tier 5's base speed.",
-    "//2": "This isn't a power, just them taking you a little more seriously as you managed to injure them.",
-    "//3": "These two are effects, so they are retained even when the Anathema regains hp unlike the enchantments.",
+    "//2": "This isn't a vampire power, just them taking you a little more seriously as you managed to injure them.",
     "name": [ "" ],
     "desc": [ "" ],
     "enchantments": [ { "values": [ { "value": "SPEED", "add": 125 } ] } ]
@@ -3325,7 +3324,7 @@
   {
     "type": "effect_type",
     "id": "effect_anathema_final_form",
-    "//": "From a tier 5's base speed to a total of 653 speed, and ensures it can it players benefitting from flow like blood.",
+    "//": "From a tier 5's base speed to a total of 653 speed, and ensures it can hit players benefitting from flow like blood.",
     "name": [ "Hasted by shadows" ],
     "desc": [ "The Anathema is much quicker now thanks to vampiric abilities" ],
     "show_in_info": true,
