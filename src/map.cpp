@@ -5146,9 +5146,8 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
                     return e;
                 }
             }
-            support_dirty( tile );
-
             // if its charges and not already present, add them as a single item with the amount of charges
+            support_dirty( tile );
             obj.charges = copies;
             return add_item( tile, obj );
         }
