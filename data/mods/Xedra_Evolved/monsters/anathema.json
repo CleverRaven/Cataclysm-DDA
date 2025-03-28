@@ -330,7 +330,7 @@
     },
     "effect": [
       { "math": [ "Anathema_Ready", "=", "0" ] },
-      { "u_spawn_monster": "mon_vampire_anathema", "real_count": 1, "min_radius": 40, "max_radius": 50 },
+      { "u_spawn_monster": "mon_vampire_anathema", "real_count": 1, "min_radius": 30, "max_radius": 40 },
       { "run_eocs": "EOC_ANATHEMA_SPAWN_MESSAGE", "time_in_future": 1 }
     ],
     "false_effect": [ { "run_eocs": [ "EOC_ANATHEMA_WARN" ] } ]
@@ -443,7 +443,7 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "//1": "Near holy ground, near vast water, the sun has risen, or you've run far enough away from where it spawned (7.5 OMTs).",
+    "//1": "Near holy ground, near vast water, the sun has risen, or you're about to outrun it (55 tiles away).",
     "condition": {
       "and": [
         {
@@ -508,7 +508,8 @@
             { "u_near_om_location": "ocean_bed", "range": 3 },
             { "u_near_om_location": "ocean_water_cube", "range": 3 },
             { "u_near_om_location": "ocean_surface", "range": 3 },
-            "is_day"
+            "is_day",
+            { "math": [ "u_monsters_nearby('mon_vampire_anathema', 'radius': 55) == 0" ] }
           ]
         },
         { "math": [ "u_monsters_nearby('mon_vampire_anathema', 'radius': 60) > 0" ] }
