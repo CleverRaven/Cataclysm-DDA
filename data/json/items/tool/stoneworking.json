@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "billet_bone",
     "symbol": ";",
     "color": "white",
@@ -17,7 +17,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "billet_wood",
     "symbol": ";",
     "color": "brown",
@@ -34,7 +34,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "drill_rock_primitive",
     "symbol": ";",
     "color": "brown",
@@ -51,7 +51,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "punch_bone",
     "symbol": ";",
     "color": "white",
@@ -68,7 +68,7 @@
     "melee_damage": { "bash": 2, "stab": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "punch_nail",
     "symbol": ";",
     "color": "light_gray",

@@ -2,7 +2,8 @@
   {
     "id": "rifle_assault",
     "copy-from": "hk417_13",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "assault rifle" },
     "ammo": [ "ammo_rifle" ],
     "description": "The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  An 'assault rifle', it is capable of providing both accurate semi-automatic fire and bursts of automatic fire.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
@@ -20,7 +21,8 @@
   {
     "id": "rifle_lmg",
     "copy-from": "m240",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "light machine gun" },
     "ammo": [ "ammo_rifle" ],
     "description": "The light machine gun is a formidable implement for suppressive fire, an important part of squad tactics.  Its belt feed allows for hundreds of rounds to be loaded, and its heavy components can withstand long bursts of fire.  While perhaps not as precise as a service rifle, a light machinegun does allow for a considerable amount of energy to be sent down range.  Slow to reload.",
@@ -38,7 +40,8 @@
   {
     "id": "rifle_sniper",
     "copy-from": "m2010",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "sniper rifle",
     "ammo": [ "ammo_rifle" ],
     "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  Modern examples feature detachable magazines and various mounting interfaces for optics and supports.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges.",
@@ -56,7 +59,8 @@
   {
     "id": "rifle_sporter",
     "copy-from": "ar10",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "sporter carbine",
     "ammo": [ "ammo_rifle" ],
     "description": "Though often mislabeled an assault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
@@ -74,7 +78,8 @@
   {
     "id": "rifle_assault_foreign",
     "copy-from": "pamd68",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "foreign assault rifle" },
     "ammo": [ "ammo_rifle_foreign" ],
     "description": "A battle rifle popular among the Exodii.  Reliable and powerful, though slightly unwieldy to use as an infantry weapon.  Just different enough from local weaponry that the same ammunition cannot be shared between them.",
@@ -91,7 +96,8 @@
   {
     "id": "rifle_sniper_foreign",
     "copy-from": "m2010",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "foreign sniper rifle",
     "ammo": [ "ammo_rifle_foreign" ],
     "description": "A sniper rifle popular among the Exodii.  Just different enough from local weaponry that the same ammunition cannot be shared between them.",
@@ -108,7 +114,8 @@
   {
     "id": "rifle_cannon_foreign",
     "copy-from": "ree_33",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "foreign cannon rifle",
     "ammo": [ "ammo_rifle_cannon" ],
     "description": "A powerful Exodii rifle, reserved for the later stage of cataclysm.  It should be considered an anti-tank rifle in modern world, but the round is bigger than any anti-tank round on Earth.",
@@ -125,7 +132,8 @@
   {
     "id": "rifle_rail",
     "copy-from": "hk_g80",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "railgun rifle",
     "ammo": [ "ammo_railgun" ],
     "description": "A handheld railgun which magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
@@ -143,7 +151,8 @@
   {
     "id": "rifle_shotgun_combination",
     "copy-from": "combination_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "combination rifle shotgun",
     "description": "A break action firearm comprised of a rifle barrel over two smooth bore shotgun barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
     "built_in_mods": [ "rifle_shotgun_combination_shotgun" ],

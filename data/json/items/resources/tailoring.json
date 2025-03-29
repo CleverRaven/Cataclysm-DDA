@@ -1,7 +1,7 @@
 [
   {
     "abstract": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "worthless scraps", "//~": "NO_I18N" },
     "description": { "str": "A handful of oddly-shaped worthless bits of abstract code.  Seeing this is a bug.", "//~": "NO_I18N" },
     "category": "other",
@@ -16,7 +16,7 @@
   },
   {
     "abstract": "scrap_valuable",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "valuable scraps", "//~": "NO_I18N" },
     "description": { "str": "A handful of oddly-shaped valuable bits of abstract code.  Seeing this is a bug.", "//~": "NO_I18N" },
     "category": "other",
@@ -30,7 +30,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "grass_yarn",
     "symbol": ",",
     "color": "light_gray",
@@ -45,7 +45,7 @@
   {
     "id": "scrap_cotton",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "cotton scraps" },
     "description": "A handful of oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some thread if you really want.",
     "volume": "1 ml",
@@ -56,7 +56,7 @@
   {
     "id": "scrap_faux_fur",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "faux fur scraps" },
     "description": "A handful of oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "weight": "3 g",
@@ -68,7 +68,7 @@
   {
     "id": "scrap_felt",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "felt scraps" },
     "description": "A handful of oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some wool fiber if you really want.",
     "volume": "5 ml",
@@ -77,7 +77,7 @@
   {
     "id": "scrap_fur",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "fur scraps" },
     "description": "A handful of oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
@@ -88,7 +88,7 @@
   {
     "id": "scrap_kevlar",
     "copy-from": "scrap_valuable",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "Kevlar scraps" },
     "description": "A handful of oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Kevlar is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "volume": "2 ml",
@@ -100,7 +100,7 @@
   {
     "id": "scrap_leather",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "leather scraps" },
     "description": "A handful of oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
@@ -110,7 +110,7 @@
   {
     "id": "scrap_lycra",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "Lycra scraps" },
     "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
@@ -120,7 +120,7 @@
   {
     "id": "scrap_neoprene",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "neoprene scraps" },
     "description": "A handful of oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
@@ -130,7 +130,7 @@
   {
     "id": "scrap_nylon",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "A handful of oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
@@ -140,7 +140,7 @@
   {
     "id": "scrap_nomex",
     "copy-from": "scrap_valuable",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "Nomex scraps" },
     "description": "A handful of oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Nomex is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Nomex thread.",
     "price": "5 cent",
@@ -151,7 +151,7 @@
   {
     "id": "scrap_carpet",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "scraps of carpet" },
     "description": "A misshapen section of loose carpet.  Not useful for much on its own and can be discarded.",
     "weight": "500 g",
@@ -162,7 +162,7 @@
   },
   {
     "id": "wool_staple",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "wool staple" },
     "description": "A natural cluster of wool fibers.  Could be processed into felt patches or yarn.",
@@ -176,7 +176,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fur",
     "symbol": ",",
     "color": "brown",
@@ -191,7 +191,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
@@ -202,7 +202,7 @@
     "material": [ "faux_fur" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "leather",
     "symbol": ",",
     "color": "brown",
@@ -217,7 +217,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "felt_patch",
     "symbol": ",",
     "color": "white",
@@ -232,7 +232,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "nomex",
     "category": "spare_parts",
     "symbol": ",",
@@ -247,7 +247,7 @@
     "volume": "9 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cured_hide",
     "symbol": ",",
     "color": "white",
@@ -262,7 +262,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tanned_hide",
     "symbol": ",",
     "color": "brown",
@@ -276,7 +276,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sheet_leather",
     "name": { "str": "leather sheet" },
     "description": "A 12-inch by 24-inch sheet of leather.  Can be cut up or used as is.",
@@ -290,14 +290,14 @@
     "color": "brown"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sheet_leather_patchwork",
     "name": { "str": "patchwork leather sheet" },
     "description": "A folded 12-inch by 24-inch sheet of leather sewn together from patches.  Can be cut up or used as is.",
     "copy-from": "sheet_leather"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cured_pelt",
     "symbol": ",",
     "color": "brown",
@@ -312,7 +312,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tanned_pelt",
     "symbol": ",",
     "color": "brown",
@@ -326,7 +326,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sheet_fur_patchwork",
     "symbol": ",",
     "color": "brown",
@@ -341,7 +341,7 @@
   },
   {
     "id": "sheet_cotton",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "cotton sheet" },
     "description": "A 12-inch by 24-inch sheet of cotton fabric, suitable for making clothing.  You can use it to stop bleeding, but it is very wasteful.",
@@ -359,7 +359,7 @@
   {
     "id": "sheet_cotton_patchwork",
     "copy-from": "sheet_cotton",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork cotton sheet" },
     "description": "A 12-inch by 24-inch sheet of cotton sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
     "//density": ".80 grams per mL, 203 GSM",
@@ -368,7 +368,7 @@
   },
   {
     "id": "sheet_faux_fur",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "faux fur sheet" },
     "description": "A 12-inch by 24-inch sheet of colorful faux fur, suitable for making clothing.",
@@ -384,7 +384,7 @@
   {
     "id": "sheet_faux_fur_patchwork",
     "copy-from": "sheet_faux_fur",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork faux fur sheet" },
     "description": "A 12-inch by 24-inch sheet of faux fur sewn together from mismatched patches.  Suitable for making clothing if you lack proper material sheets, but the bright, clashing colors might end up making you look like a diseased Muppet.",
     "//": "12 inches by 24 inches with GSM of 2000",
@@ -393,7 +393,7 @@
   },
   {
     "id": "sheet_felt",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "felt sheet" },
     "description": "A 12-inch by 24-inch sheet of felt, suitable for making clothing.",
@@ -409,7 +409,7 @@
   {
     "id": "sheet_felt_patchwork",
     "copy-from": "sheet_felt",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork felt sheet" },
     "description": "A 12-inch by 24-inch sheet of felt sewn together from patches.  Suitable for making clothing if you lack proper material sheets.",
     "//": "150GSM felt",
@@ -418,7 +418,7 @@
   },
   {
     "id": "sheet_kevlar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Kevlar sheet" },
     "description": "A 12-inch by 24-inch sheet of loose-woven Kevlar synthetic fabric, suitable for making durable cut and stab resistant clothing.  While protective, this kind of Kevlar is not suitable for making ballistic gear due to the difference in weave tightness.",
@@ -433,7 +433,7 @@
   },
   {
     "id": "sheet_kevlar_patchwork",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "patchwork Kevlar sheet" },
     "description": "A 12-inch by 24-inch sheet of fabric sewn together from Kevlar patches, suitable for making durable cut and stab resistant clothing.  This would be out of the question for ballistic Kevlar but the simpler, looser weave of this variety means it is fine to use if you lack proper material sheets.",
@@ -449,7 +449,7 @@
   },
   {
     "id": "kevlar_patch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Kevlar patch", "str_pl": "Kevlar patches" },
     "description": "A 6-inch square patch of loose-woven Kevlar, suitable for repairing cut and stab resistant clothing or reassembling into a patchwork sheet for sewing.",
@@ -464,7 +464,7 @@
   },
   {
     "id": "sheet_lycra",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Lycra sheet" },
     "description": "A sheet of synthetic fabric blended with stretchy Lycra fibers, suitable for making flexible, yet strong clothing.",
@@ -479,7 +479,8 @@
   },
   {
     "id": "sheet_kevlar_layered",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "ballistic Kevlar panel" },
     "description": "A small, 16-layer thick ballistic Kevlar panel.  This kind of Kevlar is precision-made by machine and features an extremely tight weave which cannot be replicated by hand.  Due to this, any damage incurred to your ballistic armor will necessitate complete replacement with a new panel.  It is not as effective as loose-woven Kevlar at stopping stab wounds, but it has no equal against the threat posed by firearms.",
@@ -495,7 +496,8 @@
   },
   {
     "id": "rigid_kevlar_plate",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "rigid Kevlar plate" },
     "description": "A compressed panel of Kevlar treated with epoxy or other adhesive.  It could be used to repair items made of rigid Kevlar, and makes a decent substitute for damaged carbon fiber and the like even if it isn't exactly the same.",
@@ -512,7 +514,7 @@
   {
     "id": "sheet_lycra_patchwork",
     "copy-from": "sheet_lycra",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork Lycra sheet" },
     "description": "A 12-inch by 24-inch sheet of fabric sewn together from Lycra patches.  Suitable for making flexible, yet strong clothing if you lack proper material sheets.",
     "//": "180GSM",
@@ -521,7 +523,7 @@
   },
   {
     "id": "sheet_neoprene",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "neoprene sheet" },
     "description": "A sheet of neoprene, a synthetic rubber, suitable for making underwater gear.",
@@ -537,7 +539,7 @@
   {
     "id": "sheet_neoprene_patchwork",
     "copy-from": "sheet_neoprene",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork neoprene sheet" },
     "description": "A sheet of neoprene sewn together from patches, with waterproofed seams.  Suitable for making underwater gear if you lack proper material sheets.",
     "//": "Density of 1.23 grams per mL",
@@ -546,7 +548,7 @@
   },
   {
     "id": "sheet_nomex",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Nomex sheet" },
     "description": "A sheet of Nomex synthetic fabric, suitable for making heat-resistant clothing.",
@@ -562,7 +564,7 @@
   {
     "id": "sheet_nomex_patchwork",
     "copy-from": "sheet_nomex",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "patchwork Nomex sheet" },
     "description": "A sheet of Nomex synthetic fabric, sewn together from patches using Nomex thread.  Suitable for making heat-resistant clothing if you lack proper material sheets.",
     "//": "Taken from duponts chemical reference sheets. 170GSM",
@@ -571,7 +573,7 @@
   },
   {
     "id": "sheet_nylon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "synthetic fabric sheet" },
     "description": "A sheet of synthetic fabric, suitable for making clothing.",
@@ -588,7 +590,7 @@
   {
     "id": "sheet_nylon_patchwork",
     "copy-from": "sheet_nylon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "patchwork synthetic fabric sheet" },
     "description": "A sheet of fabric, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
     "//": ".25mm thick, 288 GSM (nylon 6,6 ranges 250-300 gsm)",
@@ -598,7 +600,8 @@
   },
   {
     "id": "gambeson_batting",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "gambeson batting", "str_pl": "clumps of gambeson batting" },
     "description": "A pile of shredded fabric, dry grass, hair or other cheap materials which could be used to stuff the fabric layers of a gambeson to create armor more cheaply and easily than properly layering and quilting the entire product.",
@@ -611,7 +614,8 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "thread_kevlar",
     "category": "spare_parts",
     "price": "50 USD",
@@ -631,7 +635,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "thread_nomex",
     "category": "spare_parts",
     "price": "50 USD",
@@ -652,7 +657,7 @@
   },
   {
     "id": "sheet_denim",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "denim sheet" },
     "description": "A 12 inch by 24 inch sheet of durable blue denim, suitable for making jeans, jorts, or jirts.",
@@ -668,7 +673,7 @@
   {
     "id": "scrap_denim",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "denim scraps" },
     "description": "Oddly-shaped smallish denim patches, waste material from tailoring projects.",
     "weight": "2 g",
@@ -680,7 +685,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "denim_patch",
     "symbol": ",",
     "color": "white",
@@ -696,7 +701,7 @@
   },
   {
     "id": "sheet_denim_patchwork",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "patchwork denim sheet" },
     "description": "A selection of various sections of denim, sewn together in a patchwork fashion.  Suitable for tailoring, though it's much less time-efficient than if using proper material sheets.",
@@ -709,7 +714,7 @@
   },
   {
     "id": "sheet_canvas",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "canvas sheet" },
     "description": "A 12 inch by 24 inch sheet of durable and waterproof waxed canvas fabric, suitable for making tough bags and clothing.",
@@ -724,7 +729,8 @@
     "color": "dark_gray"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "thread_canvas",
     "category": "spare_parts",
     "price": "12 USD",
@@ -746,7 +752,7 @@
   {
     "id": "scrap_canvas",
     "copy-from": "scrap_worthless",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "canvas scraps" },
     "description": "Oddly-shaped smallish bits of canvas, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some tough thread.",
     "weight": "2375 mg",
@@ -758,7 +764,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "canvas_patch",
     "symbol": ",",
     "color": "white",
@@ -775,7 +781,7 @@
   },
   {
     "id": "sheet_canvas_patchwork",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "patchwork canvas sheet" },
     "description": "A selection of various sections of canvas, sewn together in a patchwork fashion.  Suitable for tailoring, though it's much less time-efficient than if using proper material sheets.",
@@ -790,7 +796,7 @@
   },
   {
     "id": "strap_cotton",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "fabric strap" },
     "description": "A strip of broad, flat cotton, 42 inches in length, with a metal adjustment buckle threaded in the center.  Normally used as a shoulder strap for bags, its ends are usually sown about a corresponding container's D-rings.",

@@ -1,7 +1,8 @@
 [
   {
     "id": "fuel_bunker",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "fuel bunker" },
     "description": "A bin for holding solid fuel.  Contains up to 50 liters of coal or charcoal.",
     "symbol": "]",

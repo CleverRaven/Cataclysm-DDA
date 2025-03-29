@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hand_rims",
     "name": { "str": "set of hand rims", "str_pl": "sets of hand rims" },
     "description": "A set of hand rims for use on a wheelchair.",
@@ -15,7 +15,7 @@
     "price_postapoc": "1 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foot_crank",
     "copy-from": "hand_rims",
     "name": { "str": "foot crank" },

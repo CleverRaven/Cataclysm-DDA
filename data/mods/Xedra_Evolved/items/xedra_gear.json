@@ -2,7 +2,8 @@
   {
     "id": "badge_zebra",
     "copy-from": "badge_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "zebra badge" },
     "description": "A white piece of plastic with a picture of an agent and a barcode underneath.  The lack of other details on badges like it led to them being called 'Zebra Badges'.  It might grant basic access to some Xedra areas.",
     "proportional": { "price": 2 },

@@ -1,7 +1,8 @@
 [
   {
     "id": "armor_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bell cuirass", "str_pl": "bell cuirasses" },
     "category": "armor",
     "description": "An ancient Greek breastplate made of bronze.",
@@ -23,7 +24,8 @@
   },
   {
     "id": "xl_armor_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bell cuirass", "str_pl": "bell cuirasses" },
     "copy-from": "armor_cuirass",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -31,7 +33,8 @@
   },
   {
     "id": "xs_armor_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_cuirass",
     "name": { "str": "bell cuirass", "str_pl": "bell cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -39,7 +42,8 @@
   },
   {
     "id": "cuirass_bronze",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
     "category": "armor",
     "description": "A solid, single-piece cuirass made from bronze.  It isn't particularly well designed, but it does its job.",
@@ -61,7 +65,8 @@
   },
   {
     "id": "xl_cuirass_bronze",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
     "copy-from": "cuirass_bronze",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -69,7 +74,8 @@
   },
   {
     "id": "xs_cuirass_bronze",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
     "copy-from": "cuirass_bronze",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -77,7 +83,8 @@
   },
   {
     "id": "armor_lamellar",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "description": "A cuirass made of multiple pieces of tough leather, laced together for durable yet flexible protection.",
     "weight": "2108 g",
@@ -115,7 +122,8 @@
   },
   {
     "id": "xl_armor_lamellar",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "copy-from": "armor_lamellar",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -123,7 +131,8 @@
   },
   {
     "id": "xs_armor_lamellar",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lamellar",
     "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -131,7 +140,8 @@
   },
   {
     "id": "armor_lamellar_lc",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel lamellar cuirass", "str_pl": "mild steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  It's less Mad Max and more Garage Mongolian, but the classics are classic for a reason.",
     "weight": "14000 g",
@@ -177,7 +187,8 @@
   },
   {
     "id": "xl_armor_lamellar_lc",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel lamellar cuirass", "str_pl": "mild steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  The perfect size for an orc or bipedal grizzly bear.",
     "copy-from": "armor_lamellar_lc",
@@ -186,7 +197,8 @@
   },
   {
     "id": "xs_armor_lamellar_lc",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lamellar_lc",
     "name": { "str": "mild steel lamellar cuirass", "str_pl": "mild steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Perfectly sized for a particularly angry rat-person, yes-yes.",
@@ -195,7 +207,8 @@
   },
   {
     "id": "armor_lamellar_ch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lamellar_lc",
     "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  This one has been hardened for extra protection.",
@@ -203,7 +216,8 @@
   },
   {
     "id": "xl_armor_lamellar_ch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
     "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Built larger for a minotaur guarding their labyrinth.",
     "copy-from": "armor_lamellar_ch",
@@ -212,7 +226,8 @@
   },
   {
     "id": "xs_armor_lamellar_ch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lamellar_ch",
     "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
     "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Just the right size for a fantasy dwarf.",
@@ -221,7 +236,8 @@
   },
   {
     "id": "carpet_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "carpet cuirass", "str_pl": "carpet cuirasses" },
     "description": "A rectangular length of tough carpet with a hole cut out for your head and tied around the waist.  It's decently protective for its weight and quite the fashion statement.",
     "weight": "6800 g",
@@ -277,7 +293,8 @@
   },
   {
     "id": "armor_aztec",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ichcahuipilli" },
     "description": "A Mesoamerican armor of Nahuatl origin, somewhat similar to a European gambeson.  It is made of unspun cotton between two layers of quilted cotton crystalized by brine, edged with leather around its holes.  It is extremely thick and offers superb protection, but is also heavy.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
@@ -309,7 +326,8 @@
   },
   {
     "id": "armor_lorica",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "lorica segmentata" },
     "description": "An ancient Roman laminar armor, made of overlapping metal strips connected to internal leather straps.",
     "weight": "5286 g",
@@ -337,7 +355,8 @@
   },
   {
     "id": "xl_armor_lorica",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "lorica segmentata" },
     "copy-from": "armor_lorica",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -345,7 +364,8 @@
   },
   {
     "id": "xs_armor_lorica",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lorica",
     "name": { "str_sp": "lorica segmentata" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -353,7 +373,8 @@
   },
   {
     "id": "armor_thessalonian",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "cataphract armor", "str_pl": "suits of cataphract armor" },
     "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from the shoulders to the hips and is of extremely high quality.",
@@ -394,7 +415,8 @@
   },
   {
     "id": "chestguard_metal_sheets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "sheet metal chest guard" },
     "description": "Two sheets of metal hammered to fit your torso and riveted to leather belts to act as straps.  Heavy, uncomfortable, and difficult to move in, but it should help keep your blood inside your body.",
@@ -416,7 +438,8 @@
   },
   {
     "id": "ch_chestguard_metal_sheets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "chestguard_metal_sheets",
     "name": { "str": "hardened sheet metal chest guard" },
     "description": "A chest guard made of hammered sheet metal, hardened for added protection.  It's not any easier to move in, but it is much sturdier now.",
@@ -425,7 +448,8 @@
   },
   {
     "id": "chestguard_metal_sheets_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "heavy sheet metal chest guard" },
     "description": "A double-decker chest guard made from two sheets of metal layered over each other and hammered to fit your torso.  Monstrously heavy, but it's quite protective and the thicker material makes it sturdier.",
@@ -449,7 +473,8 @@
   },
   {
     "id": "ch_chestguard_metal_sheets_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "chestguard_metal_sheets_heavy",
     "name": { "str": "hardened heavy sheet metal chest guard" },
     "description": "Double-thick, hardened sheet metal hammered to fit your torso.  Offers the best protection a junkyard knight could ask for.",
@@ -457,7 +482,8 @@
   },
   {
     "id": "chestguard_metal_sheets_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "light sheet metal chest guard" },
     "description": "One sheet of metal, cut in half to only cover your upper torso and back and riveted to leather belts to act as straps.  It's heavy and uncomfortable, but at least you can bend at the waist.",
@@ -490,7 +516,8 @@
   },
   {
     "id": "ch_chestguard_metal_sheets_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "chestguard_metal_sheets_light",
     "name": { "str": "hardened light sheet metal chest guard" },
     "description": "Sheet metal cut to only cover your upper torso and hardened for extra protection.  Provides a decent compromise between protection and being able to move.",
@@ -499,7 +526,8 @@
   },
   {
     "id": "bookplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "bookplate" },
     "description": "A crude form of armor made from thickly-stacked paper and rolls of duct tape.",
@@ -519,7 +547,8 @@
   },
   {
     "id": "tireplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "tireplate" },
     "description": "Armor fashioned from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
@@ -539,7 +568,8 @@
   },
   {
     "abstract": "base_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "base chainmail vest", "//~": "NO_I18N" },
     "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
@@ -592,7 +622,8 @@
   },
   {
     "abstract": "xl_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail vest", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -613,7 +644,8 @@
   },
   {
     "abstract": "xs_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_vest",
     "name": { "str": "chainmail vest", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -636,7 +668,8 @@
     "id": "chainmail_junk_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "budget_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail vest" },
     "description": "A customized chainmail vest.  The metal shows signs of rust and corrosion.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
   },
@@ -644,110 +677,126 @@
     "id": "lc_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel chainmail vest" }
   },
   {
     "id": "xl_lc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel chainmail vest" }
   },
   {
     "id": "xs_lc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel chainmail vest" }
   },
   {
     "id": "mc_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel chainmail vest" }
   },
   {
     "id": "xl_mc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel chainmail vest" }
   },
   {
     "id": "xs_mc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel chainmail vest" }
   },
   {
     "id": "hc_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel chainmail vest" }
   },
   {
     "id": "xl_hc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel chainmail vest" }
   },
   {
     "id": "xs_hc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel chainmail vest" }
   },
   {
     "id": "ch_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel chainmail vest" }
   },
   {
     "id": "xl_ch_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel chainmail vest" }
   },
   {
     "id": "xs_ch_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel chainmail vest" }
   },
   {
     "id": "qt_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel chainmail vest" }
   },
   {
     "id": "xl_qt_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel chainmail vest" }
   },
   {
     "id": "xs_qt_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel chainmail vest" }
   },
   {
     "id": "cloth_shirt_padded",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "cloth-padded shirt" },
     "description": "A thick cotton sweatshirt that an amateur tailor sewed ever-increasing amounts of cloth onto, providing noticeable, if haphazard padding.",
@@ -787,7 +836,8 @@
   },
   {
     "id": "cloth_vest_padded",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "cloth-padded sleeveless shirt" },
     "description": "A thick cotton shirt with the sleeves cut off and large amounts of cloth sewn in to make a padded vest.  It would be fashionable, if not for all the disparate colors from the patchwork cotton cannibalized from other random clothes.",
@@ -817,7 +867,8 @@
   },
   {
     "id": "chestguard_hard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "hard chest guard" },
     "description": "A solid vest of plastic padding protecting your torso.",
@@ -838,7 +889,8 @@
   },
   {
     "id": "cuirass_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "cuirass", "str_pl": "cuirasses" },
     "description": "A steel breastplate, and a vital part of plate armor.  Even as full armor went into decline, cuirasses remained in use among cavalry in Europe.",
@@ -873,7 +925,8 @@
   },
   {
     "id": "xl_cuirass_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cuirass", "str_pl": "cuirasses" },
     "copy-from": "cuirass_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -881,7 +934,8 @@
   },
   {
     "id": "xs_cuirass_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cuirass_lightplate",
     "name": { "str": "cuirass", "str_pl": "cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -889,7 +943,8 @@
   },
   {
     "id": "cuirass_scrap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
     "description": "A cuirass made from scraps of metal secured by simple strings.",
@@ -921,7 +976,8 @@
   },
   {
     "id": "xl_cuirass_scrap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
     "copy-from": "cuirass_scrap",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -929,7 +985,8 @@
   },
   {
     "id": "xs_cuirass_scrap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cuirass_scrap",
     "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -937,7 +994,8 @@
   },
   {
     "id": "cuirass_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
     "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
@@ -957,7 +1015,8 @@
   },
   {
     "id": "xl_cuirass_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
     "copy-from": "cuirass_scrap",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -965,7 +1024,8 @@
   },
   {
     "id": "xs_cuirass_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cuirass_tire",
     "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -973,7 +1033,8 @@
   },
   {
     "id": "fencing_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fencing jacket" },
     "description": "A padded jacket with a zipper on the back, used by fencers to prevent accidents.",
     "weight": "800 g",
@@ -992,7 +1053,8 @@
   },
   {
     "id": "jacket_leather_mod",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "armored motorcycle jacket" },
     "description": "A thick motorcycle jacket with metal plates drilled onto various areas for increased protection.",
     "weight": "7500 g",
@@ -1045,7 +1107,8 @@
   },
   {
     "id": "jacket_jean_mod",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "armored jean jacket" },
     "description": "A denim jacket reinforced with metal plates.  Adequately protective, but not very sturdy.",
     "weight": "6350 g",
@@ -1098,7 +1161,8 @@
   },
   {
     "id": "vest_jean_mod",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "armored jean vest" },
     "description": "A denim vest reinforced with metal plates.  Adequately protective, but not very sturdy.",
     "weight": "4100 g",
@@ -1142,7 +1206,8 @@
   },
   {
     "id": "jacket_leather_mod_ch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened armored motorcycle jacket" },
     "description": "A thick motorcycle jacket with hardened metal plates drilled onto various areas for highly increased protection.",
     "copy-from": "jacket_leather_mod",
@@ -1172,7 +1237,8 @@
   },
   {
     "id": "jacket_jean_mod_ch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened armored jean jacket" },
     "description": "A denim jacket reinforced with hardened steel plates.  Highly protective, but not very sturdy.",
     "copy-from": "jacket_jean_mod",
@@ -1202,7 +1268,8 @@
   },
   {
     "id": "vest_jean_mod_ch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened armored jean vest" },
     "description": "A denim vest reinforced with hardened steel plates.  Highly protective, but not very sturdy.",
     "copy-from": "vest_jean_mod",
@@ -1223,7 +1290,8 @@
   },
   {
     "id": "jacket_leather_bone",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "occult bone armor" },
     "description": "A black jacket made from thick leather and covered with intricately carved bones.  You've never seen patterns like those before, each time you look at them you spot a new one as if they were changing on their own.",
     "copy-from": "jacket_leather_mod",
@@ -1254,7 +1322,8 @@
   },
   {
     "id": "jacket_leather_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "tire motorcycle jacket" },
     "description": "A motorcycle jacket reinforced with chunks of thick rubber tire.  Thick and highly resistant to blunt force.",
@@ -1289,7 +1358,8 @@
   },
   {
     "id": "lame_foil",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "lamé (foil)", "str_pl": "lamés (foil)" },
     "description": "A thin, lightweight conductive vest with the zipper on the back used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
     "weight": "843 g",
@@ -1306,7 +1376,8 @@
   },
   {
     "id": "lame_saber",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "lamé (saber)", "str_pl": "lamés (saber)" },
     "description": "A thin, lightweight conductive jacket used by fencers for electronic scoring.  Its outer layer is a woven mix of sturdy cotton and stainless steel strands.",
     "weight": "1043 g",
@@ -1323,7 +1394,8 @@
   },
   {
     "id": "football_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "football armor" },
     "description": "Heavy polycarbonate armor for your upper torso.  Normally worn by football players.",
@@ -1364,7 +1436,8 @@
   },
   {
     "id": "kevlar",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "Kevlar vest" },
     "description": "A lightweight level II ballistic vest, suitable for wearing under a coat or other outer wear.",
@@ -1407,7 +1480,8 @@
   },
   {
     "id": "motorbike_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "motorcycle armor" },
     "description": "A light jacket made of a stretch mesh covered in plastic pads meant for motorcyclists.  Made to be much more comfortable to wear than leather alternatives, but the underlying Lycra isn't protective at all.",
     "weight": "1066 g",
@@ -1446,7 +1520,8 @@
   },
   {
     "id": "plastron_cotton",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "underarm protector" },
     "description": "A sturdy cotton plastron that protects much of the torso, the dominant shoulder, and underarm while fencing.",
     "weight": "110 g",
@@ -1463,7 +1538,8 @@
   },
   {
     "id": "plastron_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "plastic chest protector" },
     "description": "A rigid plastic plastron with molded cups to be worn by female fencers for protection while fencing.",
     "weight": "194 g",
@@ -1480,7 +1556,8 @@
   },
   {
     "id": "vest_leather_mod",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "armored leather vest" },
     "description": "An armored vest made from thick leather and metal plates.",
     "weight": "4000 g",
@@ -1524,7 +1601,8 @@
   },
   {
     "id": "vest_leather_mod_ch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened armored leather vest" },
     "description": "An armored vest made from thick leather and metal plates which have been hardened for superb protection.",
     "price_postapoc": "20 USD",
@@ -1533,7 +1611,8 @@
   },
   {
     "id": "armor_lc_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel light chestplate" },
     "description": "A light chestplate, 2 mm thick.  This one has been made with mild steel.",
@@ -1578,7 +1657,8 @@
   },
   {
     "id": "xl_armor_lc_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel light chestplate" },
     "copy-from": "armor_lc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1586,7 +1666,8 @@
   },
   {
     "id": "armor_mc_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "medium steel light chestplate" },
     "description": "A light chestplate, 2 mm thick.  Made with tougher medium steel, offering solid protection.",
@@ -1594,7 +1675,8 @@
   },
   {
     "id": "xl_armor_mc_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel light chestplate" },
     "copy-from": "armor_mc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1602,7 +1684,8 @@
   },
   {
     "id": "armor_hc_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "high steel light chestplate" },
     "description": "A light chestplate, 2 mm thick.  Made with high steel, offering excellent protection.",
@@ -1610,7 +1693,8 @@
   },
   {
     "id": "xl_armor_hc_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel light chestplate" },
     "copy-from": "armor_hc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1618,7 +1702,8 @@
   },
   {
     "id": "armor_ch_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "hardened light chestplate" },
     "description": "A light chestplate, 2 mm thick.  The mild steel has been hardened, offering superior protection.",
@@ -1626,7 +1711,8 @@
   },
   {
     "id": "xl_armor_ch_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened light chestplate" },
     "copy-from": "armor_ch_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1634,7 +1720,8 @@
   },
   {
     "id": "armor_qt_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "tempered light chestplate" },
     "description": "A light chestplate, 2 mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
@@ -1642,7 +1729,8 @@
   },
   {
     "id": "xl_armor_qt_light_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered light chestplate" },
     "copy-from": "armor_qt_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1650,7 +1738,8 @@
   },
   {
     "id": "armor_lc_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel chestplate" },
     "description": "A chestplate, 4 mm thick.  This one has been made with mild steel.",
@@ -1695,7 +1784,8 @@
   },
   {
     "id": "xl_armor_lc_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel chestplate" },
     "copy-from": "armor_lc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1703,7 +1793,8 @@
   },
   {
     "id": "armor_mc_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "medium steel chestplate" },
     "description": "A chestplate, 4 mm thick.  Made with tougher medium steel, offering solid protection.",
@@ -1711,7 +1802,8 @@
   },
   {
     "id": "xl_armor_mc_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel chestplate" },
     "copy-from": "armor_mc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1719,7 +1811,8 @@
   },
   {
     "id": "armor_hc_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "high steel chestplate" },
     "description": "A chestplate, 4 mm thick.  Made with high steel, offering excellent protection.",
@@ -1727,7 +1820,8 @@
   },
   {
     "id": "xl_armor_hc_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel chestplate" },
     "copy-from": "armor_hc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1735,7 +1829,8 @@
   },
   {
     "id": "armor_ch_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "hardened chestplate" },
     "description": "A chestplate, 4 mm thick.  The mild steel has been hardened, offering superior protection.",
@@ -1743,7 +1838,8 @@
   },
   {
     "id": "xl_armor_ch_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened chestplate" },
     "copy-from": "armor_ch_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1751,7 +1847,8 @@
   },
   {
     "id": "armor_qt_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "tempered chestplate" },
     "description": "A chestplate, 4 mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
@@ -1759,7 +1856,8 @@
   },
   {
     "id": "xl_armor_qt_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered chestplate" },
     "copy-from": "armor_qt_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1767,7 +1865,8 @@
   },
   {
     "id": "armor_lc_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  This one has been made with mild steel.",
@@ -1812,7 +1911,8 @@
   },
   {
     "id": "xl_armor_lc_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel heavy chestplate" },
     "copy-from": "armor_lc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1820,7 +1920,8 @@
   },
   {
     "id": "armor_mc_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "medium steel heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  Made with tougher medium steel, offering solid protection.",
@@ -1828,7 +1929,8 @@
   },
   {
     "id": "xl_armor_mc_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel heavy chestplate" },
     "copy-from": "armor_mc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1836,7 +1938,8 @@
   },
   {
     "id": "armor_hc_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "high steel heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  Made with high steel, offering excellent protection.",
@@ -1844,7 +1947,8 @@
   },
   {
     "id": "xl_armor_hc_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel heavy chestplate" },
     "copy-from": "armor_hc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1852,7 +1956,8 @@
   },
   {
     "id": "armor_ch_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "hardened heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  The mild steel has been hardened, offering superior protection.",
@@ -1860,7 +1965,8 @@
   },
   {
     "id": "xl_armor_ch_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened heavy chestplate" },
     "copy-from": "armor_ch_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1868,7 +1974,8 @@
   },
   {
     "id": "armor_qt_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "tempered heavy chestplate" },
     "description": "A heavy chestplate, 6 mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
@@ -1876,7 +1983,8 @@
   },
   {
     "id": "xl_armor_qt_heavy_chestplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered heavy chestplate" },
     "copy-from": "armor_qt_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1884,7 +1992,8 @@
   },
   {
     "id": "survivor_adhoc_leather_shirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "leather-padded shirt" },
     "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to a thick cotton shirt, excluding the joints.",
@@ -1930,7 +2039,8 @@
   },
   {
     "id": "survivor_adhoc_leather_torso",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "leather-padded sleeveless shirt" },
     "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to a thick cotton shirt.  The sleeves have been cut off.",
@@ -1959,7 +2069,8 @@
   },
   {
     "id": "armor_riot_torso",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "riot chest guard" },
     "description": "A hard chest protector, attached to thigh and upper arm guards.  Used by riot police officers.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
@@ -2008,7 +2119,8 @@
   },
   {
     "id": "armor_larmor_chest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "description": "A leather chest plate with attached shoulder guards.",
@@ -2042,7 +2154,8 @@
   },
   {
     "id": "xl_armor_larmor_chest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "copy-from": "armor_larmor_chest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2050,7 +2163,8 @@
   },
   {
     "id": "armor_larmor_chest_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_larmor_chest",
     "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -2058,7 +2172,8 @@
   },
   {
     "id": "lc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel mirror armor", "str_pl": "sets of mild steel mirror armor" },
     "description": "Mirror armor earns its name from its distinct shape and polished sheen.  Round and rectangular steel plates are fastened together to protect all four sides of the torso.  It can be worn on top of other armor like chainmail and brigandines.  This set is crudely put together with square plates of mild steel.",
@@ -2088,7 +2203,8 @@
   },
   {
     "id": "xl_lc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel mirror armor", "str_pl": "sets of mild steel mirror armor" },
     "copy-from": "cuirass_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2096,7 +2212,8 @@
   },
   {
     "id": "xs_lc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mirror_armor",
     "name": { "str": "mild steel mirror armor", "str_pl": "sets of mild steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -2104,7 +2221,8 @@
   },
   {
     "id": "mc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mirror_armor",
     "name": { "str": "medium steel mirror armor", "str_pl": "sets of medium steel mirror armor" },
     "description": "Mirror armor earns its name from its distinct shape and polished sheen.  Round and rectangular steel plates are fastened together to protect all four sides of the torso.  It can be worn on top of other armor like chainmail and brigandines.  This set is made with rectangular plates of medium steel.",
@@ -2112,7 +2230,8 @@
   },
   {
     "id": "xl_mc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel mirror armor", "str_pl": "sets of medium steel mirror armor" },
     "copy-from": "mc_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2120,7 +2239,8 @@
   },
   {
     "id": "xs_mc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "mc_mirror_armor",
     "name": { "str": "medium steel mirror armor", "str_pl": "sets of medium steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -2128,7 +2248,8 @@
   },
   {
     "id": "hc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mirror_armor",
     "name": { "str": "high steel mirror armor", "str_pl": "sets of high steel mirror armor" },
     "description": "Mirror armor earns its name from its distinct shape and polished sheen.  Round and rectangular steel plates are fastened together to protect all four sides of the torso.  It can be worn on top of other armor like chainmail and brigandines.  Made of high steel plates, this set is well-formed and lightly polished for a neat finish.",
@@ -2136,7 +2257,8 @@
   },
   {
     "id": "xl_hc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel mirror armor", "str_pl": "sets of high steel mirror armor" },
     "copy-from": "hc_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2144,7 +2266,8 @@
   },
   {
     "id": "xs_hc_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hc_mirror_armor",
     "name": { "str": "high steel mirror armor", "str_pl": "sets of high steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -2152,7 +2275,8 @@
   },
   {
     "id": "ch_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mirror_armor",
     "name": { "str": "hardened steel mirror armor", "str_pl": "sets of hardened steel mirror armor" },
     "description": "Mirror armor earns its name from its distinct shape and polished sheen.  Round and rectangular steel plates are fastened together to protect all four sides of the torso.  It can be worn on top of other armor like chainmail and brigandines.  Made of hardened steel, this set was created with an array of rectangular and circular plates, polished and lightly decorated.  Tough, durable, and made to protect.",
@@ -2160,7 +2284,8 @@
   },
   {
     "id": "xl_ch_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel mirror armor", "str_pl": "sets of hardened steel mirror armor" },
     "copy-from": "ch_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2168,7 +2293,8 @@
   },
   {
     "id": "xs_ch_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ch_mirror_armor",
     "name": { "str": "hardened steel mirror armor", "str_pl": "sets of hardened steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -2176,7 +2302,8 @@
   },
   {
     "id": "qt_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lc_mirror_armor",
     "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "description": "Mirror armor earns its name from its distinct shape and polished sheen.  Round and rectangular steel plates are fastened together to protect all four sides of the torso.  It can be worn on top of other armor like chainmail and brigandines.  Masterfully crafted with tempered steel, this set features a prominent circular plate on the front that has been polished to a mirror-like sheen, flanked with supporting plates intricately joined to fit  the body, all meticulously decorated.  Will protect you from serious harm, as well as the evil gazes of the undead.",
@@ -2184,7 +2311,8 @@
   },
   {
     "id": "xl_qt_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "copy-from": "qt_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2192,7 +2320,8 @@
   },
   {
     "id": "xs_qt_mirror_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_mirror_armor",
     "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },

@@ -1,7 +1,8 @@
 [
   {
     "copy-from": "cookies",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sporeos",
     "name": { "str_sp": "SpOreos" },
     "color": "dark_gray",
@@ -33,7 +34,8 @@
   {
     "id": "powerthirst1",
     "copy-from": "energy_drink",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "addiction_potential": 50,
     "addiction_type": "amphetamine",
@@ -46,7 +48,8 @@
   {
     "id": "powerthirst2",
     "copy-from": "powerthirst1",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "addiction_potential": 55,
     "addiction_type": "amphetamine",
@@ -59,7 +62,8 @@
   {
     "id": "powerthirst3",
     "copy-from": "powerthirst1",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "addiction_potential": 60,
     "addiction_type": "amphetamine",
