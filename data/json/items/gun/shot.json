@@ -109,6 +109,7 @@
     "dispersion": 325,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
@@ -153,6 +154,7 @@
     "clip_size": 9,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
@@ -234,6 +236,7 @@
     "clip_size": 8,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
@@ -328,6 +331,7 @@
     "dispersion": 305,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
@@ -404,6 +408,7 @@
     "dispersion": 345,
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
@@ -737,6 +742,7 @@
     "default_mods": [ "recoil_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
