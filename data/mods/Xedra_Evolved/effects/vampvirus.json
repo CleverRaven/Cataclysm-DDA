@@ -379,5 +379,31 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUMED_BLOOD_ANATHEMA",
+    "//": "Gives the trait allowing to gain power from consuming vampire blood if the player is Tier 5 and lacks a threshold.",
+    "condition": { "and": [ { "u_has_trait": "BLOOD_DRINKER" }, { "not": { "u_has_flag": "MUTATION_THRESHOLD" } } ] },
+    "effect": [
+      {
+        "u_message": "Your hunger for blood submerges you for a moment, as the blood of the Anathema combines with your own.  Vampires, mortals, what's the difference?  You'll drink them all dry anyway.",
+        "type": "mixed"
+      },
+      { "u_add_trait": "VAMPIRE_ANATHEMA" }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_flag": "MUTATION_THRESHOLD" },
+        "then": {
+          "u_message": "The blood's power tries to take hold, but another sinister power prevents it from doing so!",
+          "type": "bad"
+        },
+        "else": {
+          "u_message": "The blood's power tries to take hold, but you lack the vampiric potency it requires to do so!",
+          "type": "bad"
+        }
+      }
+    ]
   }
 ]
