@@ -68,7 +68,7 @@ class advanced_inventory
             return dest;
         }
 
-        advanced_inventory_pane get_pane( side side ) {
+        advanced_inventory_pane &get_pane( side side ) {
             return panes[side];
         }
     private:

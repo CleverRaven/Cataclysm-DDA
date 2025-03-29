@@ -24,6 +24,7 @@
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_imgui.h"
@@ -2333,7 +2334,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( amount <= 0 ) {
             popup_getkey( _( "The destination is already full." ) );
         } else {
-            amount = string_input_popup()
+            // In test_mode always use max possible
+            // TODO: maybe a way to provide a custom amount?
+            amount = test_mode ? possible_max : string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
                      .only_digits( true )
