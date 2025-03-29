@@ -4,7 +4,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Desert Eagle pistol" },
+    "name": { "str": "Desert Eagle pistol" },
     "description": "An icon of popular culture more than a practical weapon, this massive pistol can shoot a variety of magnum handgun rounds depending on the conversion kit and magazine used.",
     "weight": "1407 g",
     "volume": "671 ml",
@@ -53,8 +53,16 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Henry Big Boy .44 rifle" },
+    "name": { "str": "lever-action hunting rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "henry_big_boy",
+        "name": { "str": "Henry Big Boy .44 rifle" },
+        "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!"
+      }
+    ],
     "weight": "3937 g",
     "volume": "2310 ml",
     "longest_side": "98 cm",
@@ -85,7 +93,7 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": ".44 Magnum pipe rifle" },
+    "name": { "str": ".44 pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "lg_pipe_gun",
     "weight": "2114 g",
@@ -112,7 +120,7 @@
     "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": ".44 revolver" },
+    "name": { "str": "large-bore revolver" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "//1": "If someone makes a sw269 ascii picture, make this only the ruger's art",
     "ascii_picture": "redhawk",
@@ -163,13 +171,13 @@
     "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": ".44 long barrel hunting revolver" },
+    "name": { "str": "long-barreled magnum revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "colt_anaconda_8",
-        "name": { "str": "Colt Anaconda" },
+        "name": { "str": "Colt Anaconda 8\" revolver" },
         "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel."
       }
     ],
@@ -206,13 +214,13 @@
     "id": "colt_anaconda_6",
     "copy-from": "colt_anaconda_8",
     "type": "GUN",
-    "name": { "str": ".44 hunting revolver" },
+    "name": { "str": "magnum revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "colt_anaconda",
-        "name": { "str": "Colt Anaconda" },
+        "name": { "str": "Colt Anaconda 6\" revolver" },
         "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel."
       }
     ],
@@ -226,13 +234,13 @@
     "id": "colt_anaconda_4",
     "copy-from": "colt_anaconda_8",
     "type": "GUN",
-    "name": { "str": ".44 short barrel hunting revolver" },
+    "name": { "str": "short-barreled magnum revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "colt_anaconda",
-        "name": { "str": "Colt Anaconda" },
+        "name": { "str": "Colt Anaconda 4\" revolver" },
         "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel."
       }
     ],
@@ -247,13 +255,13 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": ".44 lever-action rifle" },
+    "name": { "str": "8-round rifle" },
     "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [
       {
         "id": "rossi_r92_44_16",
-        "name": { "str": "Rossi R92 16\"", "str_pl": "Rossi R92s 16\"" },
+        "name": { "str": "Rossi R92 16\" rifle" },
         "description": "The R92 is a widely successful line of lever-action rifles from Rossi, featuring a wide array of different calibers and barrel lengths.  These aim to be less reproductions of old rifles, but rather modern takes on the lever-action formula.  This particular one features all-black furniture, a 16\" barrel, and 8 rounds of .44 Magnum, along with a large lever loop."
       }
     ],
@@ -285,13 +293,13 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "long-barreled .44 lever-action rifle" },
+    "name": { "str": "10-round rifle" },
     "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [
       {
         "id": "rossi_r92_44_16",
-        "name": { "str": "Rossi R92 20\"", "str_pl": "Rossi R92s 20\"" },
+        "name": { "str": "Rossi R92 20\" rifle" },
         "description": "The R92 is a widely successful line of lever-action rifles from Rossi, featuring a wide array of different calibers and barrel lengths.  These aim to be less reproductions of old rifles, but rather modern takes on the lever-action formula.  This particular one features all-black furniture, a 20\" barrel, and 10 rounds of .44 Magnum."
       }
     ],

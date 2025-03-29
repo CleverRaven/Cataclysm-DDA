@@ -4,13 +4,13 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "lever-action hunting rifle" },
+    "name": { "str": "vintage hunting rifle" },
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government.  Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "1895sbl",
-        "name": { "str": "Marlin 1895 SBL" },
+        "name": { "str": "Marlin 1895 SBL rifle" },
         "description": "A handy but powerful lever-action rifle chambered for .45-70 Government, the Marlin 1895 SBL was designed as a guide rifle, a rifle designed to defend against animals such as bears in the wilderness.  While advertised as capable of defending against T-Rex, there has yet been any testing against actual T-Rexes, and hopefully remains that way."
       }
     ],
@@ -43,14 +43,14 @@
     "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "hunting hand cannon" },
+    "name": { "str": "vintage hunting revolver" },
     "//": "This is the 7.5in barrel model",
     "description": "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "bfr",
-        "name": { "str": "Magnum Research BFR" },
+        "name": { "str": "Magnum Research BFR revolver" },
         "description": "The Magnum Research BFR (Biggest, Finest Revolver) are a series of single action revolvers chambered in calibers from anywhere from .357 Magnum, to rifle calibers such as 45-70.  While rifle caliber chamberings for pistols are no doubt uncomfortable to shoot, they do see some use in the sport of handgun hunting, or rarely as range toys.  Due to its loading gate, it prevents the use of speedloaders and can make for lengthy reload times, so it's best to make every shot count."
       }
     ],
@@ -82,14 +82,14 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "breech-loading reproduction rifle" },
+    "name": { "str": "vintage single-shot rifle" },
     "//": "Specs from Uberti 32in barrel Special",
     "description": "A reproduction of an antique single-shot .45-70 rifle once used to hunt buffalo and other large game in the late 19th Century.  Highly accurate and powerful for the time, this one is made to handle modern smokeless ammunition.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sharps",
-        "name": { "str": "1874 Sharps", "str_pl": "1874 Sharpses" },
+        "name": { "str_sp": "1874 Sharps rifle" },
         "description": "The Sharps rifle series are antique, falling block rifles that saw service far back as the American Civil War.  The 1874 Sharps is one of the first rifles to utilize metallic cartridges, a revolutionary technology back in those days.  While they were chambered in 45-70, modern day smokeless loads would blow up older versions.  Thankfully, this reproduction from Uberti can handle modern day 45-70 loads."
       }
     ],
