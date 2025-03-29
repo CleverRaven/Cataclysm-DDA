@@ -37,7 +37,8 @@
       { "monster": "mon_flaming_eye", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 }
+      { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_nether_huntsman", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
@@ -56,7 +57,8 @@
       { "monster": "mon_star_vampire_coiling", "weight": 7, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
       { "monster": "mon_gozu", "weight": 25, "cost_multiplier": 0 },
-      { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
+      { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_nether_huntsman", "weight": 35, "cost_multiplier": 0 }
     ]
   },
   {
@@ -125,7 +127,8 @@
       { "monster": "mon_star_vampire_coiling", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 0 },
       { "monster": "mon_flying_polyp", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 }
+      { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_nether_huntsman", "weight": 50, "cost_multiplier": 0 }
     ]
   },
   {
@@ -141,7 +144,8 @@
       { "monster": "mon_star_vampire", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire_coiling", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_yugg", "weight": 5, "cost_multiplier": 0 }
+      { "monster": "mon_yugg", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_nether_huntsman", "weight": 15, "cost_multiplier": 0 }
     ]
   },
   {

@@ -177,6 +177,47 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "nether_huntsman_arm",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "huntsman appendage", "//~": "NO_I18N" },
+    "description": { "str": "huntsman throwing appendage as a pseudo item.", "//~": "NO_I18N" },
+    "material": [ "bone" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "PSEUDO",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_TURRET",
+      "RELOAD_AND_SHOOT"
+    ],
+    "skill": "throw",
+    "ammo": [ "nether_huntsman_javelin_ammo" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "clip_size": 1,
+    "weight": "12 kg",
+    "volume": "20000 ml",
+    "longest_side": "1000 mm",
+    "loudness": 0,
+    "range": 14,
+    "dispersion": 150,
+    "durability": 8,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "1400 ml",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "76 cm",
+        "ammo_restriction": { "nether_huntsman_javelin_ammo": 1 }
+      }
+    ]
+  },
+  {
     "id": "v29_turret",
     "copy-from": "v29",
     "type": "GUN",

@@ -14,5 +14,11 @@
     "subtype": "collection",
     "id": "shrapnel_swarm_drops",
     "entries": [ { "item": "shrapnel", "count": [ 3, 7 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nether_huntsman_drops",
+    "entries": [ { "item": "nether_huntsman_javelin", "count": [ 3, 7 ] } ]
   }
 ]
