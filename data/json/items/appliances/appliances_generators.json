@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "id": "portable_generator",
     "//": "https://www.amazon.com/dp/B0D6PM5XN1",
@@ -34,7 +34,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "diesel_generator",
     "copy-from": "portable_generator",
     "name": { "str": "diesel generator" },
@@ -63,7 +63,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "military_generator",
     "copy-from": "portable_generator",
     "name": { "str": "military diesel generator" },
@@ -92,7 +92,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "12000_gasoline_generator",
     "copy-from": "portable_generator",
     "name": { "str": "powerful gasoline generator" },

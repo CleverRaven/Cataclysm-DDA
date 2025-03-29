@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_triple_stacker_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": "modified to hold SR-77 mags.",
     "name": { "str": "U5s magazine carrier" },
     "description": "A collection of 6 pockets, designed to hold rifle magazines and keep them accessible and secure.  Has MOLLE straps for attaching to an ILBE or can be strapped directly to your chest.  Standard issue in UICA forces.",
@@ -75,7 +76,8 @@
   },
   {
     "id": "afs_grenade_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": " stats taken from: https://www.tacticalassaultgearstore.com/molle-frag-grenade-pouch.html",
     "name": { "str": "grenadier pouch", "str_pl": "grenadier pouches" },
     "description": "A pouch designed to hold six military grenades, keeping them both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
@@ -143,7 +145,8 @@
   },
   {
     "id": "afs_ammo_satchel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "U7s ammo satchel" },
     "description": "A large magnetic magazine carrier.  It is capable of holding two large magazines close at hand.",
     "weight": "180 g",

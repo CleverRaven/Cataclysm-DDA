@@ -1,7 +1,8 @@
 [
   {
     "id": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".44 Magnum FMJ" },
     "description": "Jacketed .44 Magnum ammunition with a 240gr bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
     "ascii_picture": "44fmj",
@@ -60,7 +61,8 @@
   {
     "id": "44magnum",
     "copy-from": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".44 Magnum JHP" },
     "description": "Jacketed .44 Magnum ammunition with a 240gr hollowpoint bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
     "ascii_picture": "44magnum",
@@ -69,7 +71,8 @@
   {
     "id": "reloaded_44fmj",
     "copy-from": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".44 Magnum FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -78,7 +81,8 @@
   {
     "id": "reloaded_44magnum",
     "copy-from": "44magnum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".44 Magnum, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -87,7 +91,8 @@
   {
     "id": "bp_44magnum",
     "copy-from": "44magnum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".44 Magnum, black powder" },
     "proportional": {
       "price": 0.3,
@@ -101,7 +106,8 @@
   {
     "id": "bp_44fmj",
     "copy-from": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".44 Magnum FMJ, black powder" },
     "proportional": {
       "price": 0.3,

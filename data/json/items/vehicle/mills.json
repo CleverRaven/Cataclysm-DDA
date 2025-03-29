@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wind_turbine",
     "name": { "str": "wind turbine" },
     "description": "A small turbine that can convert wind into electric power.",
@@ -16,7 +16,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xl_wind_turbine",
     "name": { "str": "large wind turbine" },
     "description": "A large turbine that can convert wind into electric power.",
@@ -29,7 +29,7 @@
     "copy-from": "wind_turbine"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "water_wheel",
     "name": { "str": "water wheel" },
     "description": "A water wheel that will slowly recharge electrical power when built over shallow moving water.",
@@ -44,7 +44,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xl_water_wheel",
     "name": { "str": "large water wheel" },
     "description": "A large water wheel with wooden supports.  It will recharge electrical power when built over shallow moving water.",

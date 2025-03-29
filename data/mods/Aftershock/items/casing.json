@@ -1,7 +1,7 @@
 [
   {
     "id": "afs_25_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "25mm casing" },
     "description": "A large casing from a spent 25mm cartridge.",
@@ -16,7 +16,7 @@
     "id": "afs_5x50_hull",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "5x50mm hull" },
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": "1 g",

@@ -1,7 +1,8 @@
 [
   {
     "id": "303_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British FMJ" },
     "description": "Jacketed .303 British ammunition loaded with a 174gr spitzer bullet, similar to the MK VII pattern.  The British Empire's standard combat cartridge from 1888 until the 1950s.",
     "weight": "25 g",
@@ -82,7 +83,8 @@
   {
     "id": "303_sp",
     "copy-from": "303_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British JSP" },
     "description": "Jacketed .303 British ammunition loaded with a 180gr soft point bullet, for hunting medium game.  .303 British was the standard caliber for military rifles in the British Empire from 1888 until the 1950s.  This loading allows the round to undergo greater expansion upon striking targets, leading to larger wound channels.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
@@ -90,7 +92,8 @@
   {
     "id": "303_bthp",
     "copy-from": "303_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British OTM" },
     "description": "Jacketed .303 British ammunition loaded with a 174gr open tip match bullet, for precision shooting.  .303 British was the standard caliber for military rifles in the British Empire from 1888 until the 1950s.  The projectile's open tip construction offers greater manufacturing precision and a marginal amount of increased expansion over regular full metal jacket bullets.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -2 }, "dispersion": -10 }
@@ -98,7 +101,8 @@
   {
     "id": "bp_303",
     "copy-from": "303_bthp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British OTM, black powder" },
     "proportional": {
       "price": 0.3,
@@ -113,7 +117,8 @@
   {
     "id": "bp_303sp",
     "copy-from": "303_sp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British JSP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -128,7 +133,8 @@
   {
     "id": "bp_303fmj",
     "copy-from": "303_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -143,7 +149,8 @@
   {
     "id": "reloaded_303",
     "copy-from": "303_bthp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British OTM, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -152,7 +159,8 @@
   {
     "id": "reloaded_303sp",
     "copy-from": "303_sp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British JSP, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -161,7 +169,8 @@
   {
     "id": "reloaded_303fmj",
     "copy-from": "303_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".303 British FMJ, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

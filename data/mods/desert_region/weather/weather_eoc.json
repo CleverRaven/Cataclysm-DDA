@@ -1,7 +1,8 @@
 [
   {
     "id": "test_duststorm",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "test dust storm causer" },
     "description": "Causes dust storms.",
     "weight": "1 g",

@@ -1,7 +1,8 @@
 [
   {
     "id": "dino_carrier",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large pet carrier" },
     "description": "A sturdy reinforced plastic container meant to hold dinosaurs for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "10000 g",
@@ -19,7 +20,8 @@
   },
   {
     "id": "dino_carrier_wooden",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large wooden pet carrier" },
     "description": "A sturdy reinforced wooden container meant to hold dinosaurs for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "15000 g",

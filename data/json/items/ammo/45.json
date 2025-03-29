@@ -1,7 +1,8 @@
 [
   {
     "id": "45_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 ACP FMJ" },
     "description": ".45 ACP ammunition with a 230gr FMJ bullet.  Due to a reputation for effectiveness, the .45 ACP round has been common for over a century.",
     "ascii_picture": "45_jhp",
@@ -51,7 +52,8 @@
   {
     "id": "45_jhp",
     "copy-from": "45_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 ACP JHP" },
     "description": ".45 ACP ammunition with a 185gr JHP bullet.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century, but has since lost some of its popularity to more modern handgun ammo.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -6 } }
@@ -59,7 +61,8 @@
   {
     "id": "45_super",
     "copy-from": "45_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 ACP +P" },
     "description": "Overpressure .45 ACP ammunition with a 185gr JHP bullet.  This cartridge has higher muzzle energy than typical loads, leading to greater damage, accuracy and recoil.",
     "price": "2 USD 10 cent",
@@ -71,7 +74,8 @@
   {
     "id": "bp_45_acp",
     "copy-from": "45_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 ACP FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -85,7 +89,8 @@
   {
     "id": "bp_45_jhp",
     "copy-from": "45_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 ACP JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -99,7 +104,8 @@
   {
     "id": "reloaded_45_acp",
     "copy-from": "45_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -108,7 +114,8 @@
   {
     "id": "reloaded_45_jhp",
     "copy-from": "45_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 ACP JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -117,7 +124,8 @@
   {
     "id": "reloaded_45_super",
     "copy-from": "45_super",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45 ACP +P, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -126,7 +134,8 @@
   {
     "id": "matchhead_45_acp",
     "copy-from": "bp_45_acp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".45 FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -136,7 +145,8 @@
   {
     "id": "matchhead_45_jhp",
     "copy-from": "bp_45_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".45 ACP JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

@@ -2,7 +2,7 @@
   {
     "id": "cordage_6",
     "copy-from": "string_6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "short cordage piece" },
     "description": "A 6-inch (or about 15 cm) long piece of natural cordage.  Useful for some purposes, but not as strong or flexible as proper string.",
     "proportional": { "price": 0.5 },
@@ -11,7 +11,7 @@
   {
     "id": "cordage_36",
     "copy-from": "string_36",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "long cordage piece" },
     "description": "A 3-foot (or about 90 cm) long piece of natural cordage.  Useful for some purposes, but not as strong or flexible as proper string.",
     "proportional": { "price": 0.5 },
@@ -19,7 +19,7 @@
   },
   {
     "id": "string_6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "short string" },
     "description": "A 6-inch (or about 15 cm) long piece of cotton string.",
@@ -35,7 +35,7 @@
   {
     "id": "string_36",
     "copy-from": "string_6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "long string" },
     "description": "A 3-foot (or about 90 cm) long piece of cotton string.",
     "proportional": { "weight": 6, "volume": 6, "price": 6 }
@@ -43,7 +43,7 @@
   {
     "id": "cordage_6_leather",
     "copy-from": "string_6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "short leather lace" },
     "description": "A 6-inch (or about 15 cm) long piece of leather lace.  Useful for some purposes, but not as flexible as proper string.",
     "color": "brown",
@@ -53,7 +53,7 @@
   {
     "id": "cordage_36_leather",
     "copy-from": "cordage_6_leather",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "long leather lace" },
     "description": "A 3-foot (or about 90 cm) long piece of leather lace, made from smaller pieces that are tied together.  Useful for some purposes, but not as flexible as proper string.",
     "proportional": { "weight": 6, "volume": 6, "price": 6 }
@@ -61,20 +61,10 @@
   {
     "id": "rope_6",
     "copy-from": "string_36",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "short rope" },
     "description": "A 6-foot (or about 180 cm) long piece of rope.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 3,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
     "pocket_data": [
       {
@@ -91,24 +81,24 @@
       "holster_prompt": "Tie what to the rope?",
       "holster_msg": "You use an elaborate knot to tie your %s to your %s"
     },
-    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
+    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] },
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 3,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "rope_30",
     "copy-from": "rope_6",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "long rope" },
     "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 } ],
-          "encumbrance": 12,
-          "coverage": 10,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "qualities": [ [ "ROPE", 2 ] ],
     "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "pocket_data": [
@@ -121,12 +111,20 @@
         "moves": 3000,
         "holster": true
       }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 } ],
+        "encumbrance": 12,
+        "coverage": 10,
+        "covers": [ "torso" ]
+      }
     ]
   },
   {
     "id": "vine_6",
     "copy-from": "rope_6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "short vine" },
     "description": "A sturdy 6-foot (or about 180 cm) long vine.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "material": [ "dry_plant" ],
@@ -136,7 +134,7 @@
   {
     "id": "vine_30",
     "copy-from": "rope_30",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "long vine" },
     "description": "A sturdy 30-foot (or about 9 m) long vine.  Could easily be used as a rope.  Strong enough to suspend a large corpse for butchering.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "material": [ "dry_plant" ],
@@ -147,7 +145,7 @@
   {
     "id": "rope_makeshift_6",
     "copy-from": "vine_6",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "short cordage rope" },
     "description": "A 6-foot (or about 180 cm) long piece of rough rope, woven from natural cordage.  Useful for some purposes, but not as strong or flexible as proper rope.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "proportional": { "price": 0.5 }
@@ -155,7 +153,7 @@
   {
     "id": "rope_makeshift_30",
     "copy-from": "vine_30",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "long cordage rope" },
     "description": "A 30-foot (or about 9 m) long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
     "qualities": [ [ "ROPE", 2 ] ],
@@ -164,23 +162,13 @@
   {
     "id": "seatbelt",
     "copy-from": "rope_6",
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "seat belt" },
     "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
     "material": "nylon",
     "weight": "800 g",
     "volume": "696 ml",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 3,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "//": "Universal pocket, can store almost anything sans liquid, at the price of high move and encumbrance cost.",
@@ -196,11 +184,21 @@
       "holster_prompt": "Tie what to the rope?",
       "holster_msg": "You use an elaborate knot to tie your %s to your %s"
     },
-    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
+    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] },
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 3,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "stick_fiber",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "spare_parts",
     "name": { "str": "fibrous stalk" },
     "symbol": "=",
@@ -214,7 +212,7 @@
   },
   {
     "id": "rubber_band",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rubber band" },
     "description": "An elastic loop of rubber commonly used to hold multiple objects together.",
     "copy-from": "string_6",

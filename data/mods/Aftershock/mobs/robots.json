@@ -1120,7 +1120,7 @@
     "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_mech_horse",
     "name": { "str": "broken STEED" },
     "description": "A broken STEED, it looks beyond repair.  At least the atomic core shielding should be intact.",

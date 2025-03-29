@@ -1,7 +1,7 @@
 [
   {
     "id": "breadboard",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "breadboard" },
     "description": "Commonly used in electronics prototyping, this solderless breadboard is a small brick of plastic filled with hundreds of holes connected by internal electrical busses.  With a few components and scraps of wire, you could quickly build a circuit on this, if you know what you're doing.",
@@ -18,7 +18,7 @@
   },
   {
     "id": "magnetron",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "magnetron" },
     "description": "An electrical component designed to produce microwaves, for use in a microwave oven.",
@@ -33,7 +33,7 @@
   },
   {
     "id": "flux_comp_gen",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "explosively pumped flux compression generator" },
     "description": "A large device consisting mainly of a tube of copper wire surrounding a large copper tube filled with high explosives.  When detonated properly, the explosives allow the device to produce large amounts of electrical energy in a very short time.",
@@ -50,7 +50,7 @@
     "color": "brown"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "melchior_platter",
     "name": { "str": "supercomputer platter" },
     "description": "A hefty and expensive-looking golden dish engraved with concentric circuitry.  You felt the urge to rip it from a supercomputer.",

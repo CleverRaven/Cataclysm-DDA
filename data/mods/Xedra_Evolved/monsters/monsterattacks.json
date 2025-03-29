@@ -1,7 +1,8 @@
 [
   {
     "id": "changeling_thrown_knife",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "thrown knife" },
@@ -64,7 +65,8 @@
     "id": "renfield_glock",
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Glock 19", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Glock 19 for renfields.", "//~": "NO_I18N" },
     "ascii_picture": "glock_19",
@@ -94,7 +96,8 @@
   },
   {
     "id": "renfield_remington",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "R",
     "color": "dark_gray",
     "name": { "str_sp": "renfield Remington", "//~": "NO_I18N" },
@@ -117,7 +120,8 @@
     "id": "feral_57",
     "copy-from": "pistol_base",
     "looks_like": "fn57",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "FN Five-seveN", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Five-seveN for feral agents.", "//~": "NO_I18N" },
     "ascii_picture": "FN_five_seven",
@@ -142,7 +146,8 @@
   {
     "id": "feral_p90",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "P90 automatic PDW", "//~": "NO_I18N" },
     "description": {

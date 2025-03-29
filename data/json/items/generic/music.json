@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cable_xlr",
     "name": { "str": "XLR cable" },
     "description": "A balanced cable used for sending audio signal.  The connectors have three prongs.",
@@ -11,7 +11,7 @@
     "weight": "45 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cable_speaker",
     "name": { "str": "speaker cable" },
     "description": "This audio cable connects one speaker to a powered head, or one speaker to another.",
@@ -22,14 +22,14 @@
     "weight": "90 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cable_instrument",
     "name": { "str": "instrument cable" },
     "description": "Known as an instrument cable because it is usually used to connect a guitar to a powered amp, it is an unbalanced cable with 1/4\" male connectors on each side.",
     "copy-from": "cable_xlr"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "headphones_circumaural",
     "name": { "str_sp": "headphones" },
     "description": "A pair of headphones that cover your ears for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adapter.",
@@ -39,7 +39,7 @@
     "weight": "100 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "microphone_xlr_generic",
     "name": { "str": "XLR microphone" },
     "description": "A microphone used to record or amplify sound.  Comes with a clip.  Has a 3-pin XLR connector on the bottom in order to connect to an amp.",
@@ -50,7 +50,7 @@
     "weight": "265 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mic_stand_tall",
     "name": { "str": "microphone stand" },
     "description": "A lightweight telescoping boom stand made of aluminum and painted black.  About 6' tall when full extended, or 3' when closed fully.  Has threads for a mic clip on one end.",
@@ -61,7 +61,7 @@
     "weight": "1542 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "guitar_stand",
     "name": { "str": "guitar stand" },
     "description": "A small, oddly-shaped piece of aluminum hardware with three legs.  When placed on the ground, this can support one guitar in an upright position.",
@@ -72,7 +72,7 @@
     "weight": "500 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plectrum",
     "name": { "str": "plectrum", "str_pl": "plectra" },
     "description": "A flat piece of plastic with a pointed tip, designed for plucking the strings of an instrument.",
@@ -83,7 +83,7 @@
     "weight": "2 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mixer_music",
     "name": { "str": "mixer" },
     "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables, a left one and a right one.",

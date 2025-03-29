@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "denarius",
     "name": { "str": "denarius", "str_pl": "denarii" },

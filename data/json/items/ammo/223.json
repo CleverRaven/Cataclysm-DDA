@@ -1,7 +1,8 @@
 [
   {
     "id": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".223 Remington" },
     "description": ".223 Remington ammunition with a 55gr FMJ-BT bullet, patterned after the M193 loading.  The .223 round has been very popular with civilian shooters for almost a century, finding use in a wide variety of weapons.  The combination of high velocity with a thinly-jacketed, cannelured projectile led to unexpected yaw and fragmentation in soft tissue, increasing this round's performance.",
     "ascii_picture": "223",
@@ -71,7 +72,8 @@
   {
     "id": "556_mk262",
     "copy-from": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO Mk 262" },
     "description": "5.56x45mm ammunition, loaded for precision from the Mk 12 SPR rifles, and later used by other SF units looking for more effective loadings for their M4A1 and Mk 18 carbines.  The Mk 262 Mod 1 is loaded with a 77 grain Open Tip Match bullet, enhancing lethality even at longer ranges when compared to older M855 loadings.",
     "price": "6 USD",
@@ -82,7 +84,8 @@
   {
     "id": "556_mk318",
     "copy-from": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO Mk318" },
     "description": "5.56x45mm ammunition, developed due to SOF dissatisfaction with the M855 cartridge.  The Mk318 Mod 1 is loaded with a 62 grain Open Tip Match Rear Penetrator bullet, a copper slug enclosed inside an open-tipped brass projectile, providing for consistent loading, enhanced lethality and increased penetration.  When compared to M855, the Mk318 fragments consistently, even out of short-barreled carbines.",
     "price": "7 USD",
@@ -93,7 +96,8 @@
   {
     "id": "556",
     "copy-from": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO M855" },
     "material": [ "steel", "brass", "lead", "powder" ],
     "description": "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  Originally designed for the M249 FN Minimi, M855 was designed to penetrate steel helmets and light cover at range, sacrificing terminal performance and accuracy in the process.  The limited yaw and fragmentation is worsened with shorter-barreled carbines shooting this round, and optimization of barrel twist for stabilization of the tracer variant of M855 has resulted in lackluster accuracy overall.",
@@ -109,7 +113,8 @@
   {
     "id": "556_m855a1",
     "copy-from": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO M855A1" },
     "description": "An updated loading of M855 5.56x45mm ammunition, featuring a 62 grain projectile containing an exposed steel penetrator and copper slug.  Designed as a mostly lead-free projectile, the opportunity was further taken to improve upon M855's penetration and lethality characteristics through penetrator design and increased pressure.  Its improved accuracy, penetration and lethality over M855 are appreciated by users of shorter-barreled AR variants.",
     "ascii_picture": "556_m855a1",
@@ -123,7 +128,8 @@
   {
     "id": "556_incendiary",
     "copy-from": "556",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO tracer" },
     "description": "An M856 tracer round.  Traditional practice is to load one tracer per every four normal rounds to help keep the weapon they are fired from on target.  They have the potential to ignite flammable surfaces at their point of impact.",
     "ascii_picture": "556_incendiary",
@@ -132,7 +138,8 @@
   {
     "id": "556_m995",
     "copy-from": "556",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO M995" },
     "description": "An armor piercing 5.56x45mm M995 round using a 52gr projectile, featuring a black-tipped, tungsten carbide penetrator over an aluminum slug.  Increased penetration over standard ball rounds at the cost of worse wounding potential in soft tissue.",
     "ascii_picture": "556_m995",
@@ -141,7 +148,8 @@
   {
     "id": "bp_223",
     "copy-from": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".223 Remington, black powder" },
     "proportional": {
       "price": 0.3,
@@ -155,7 +163,8 @@
   {
     "id": "bp_556",
     "copy-from": "556",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO, black powder" },
     "proportional": {
       "price": 0.3,
@@ -169,7 +178,8 @@
   {
     "id": "bp_556_incendiary",
     "copy-from": "556_incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO tracer, black powder" },
     "proportional": {
       "price": 0.3,
@@ -183,7 +193,8 @@
   {
     "id": "reloaded_223",
     "copy-from": "223",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".223 Remington, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -192,7 +203,8 @@
   {
     "id": "reloaded_556",
     "copy-from": "556",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -201,7 +213,8 @@
   {
     "id": "reloaded_556_incendiary",
     "copy-from": "556_incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "5.56 NATO tracer, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

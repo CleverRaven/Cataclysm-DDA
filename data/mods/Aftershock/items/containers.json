@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_landfall_kit_2",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Type II. landfall survival kit" },
     "description": "This is a metal box containing survival supplies, often found within ships and their escape pods.  Its cyan highlights indicate that it's a simpler Type II kit, and that it would only be helpful in a planet whose atmosphere and gravity are within two deviations from Earth's.",
     "weight": "1022 g",
@@ -13,7 +14,8 @@
   },
   {
     "id": "afs_cargo_crate",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cargo crate" },
     "description": "A standard orbital cargo transfer container.  Its faceted corners are adorned with the livery of company you don't recognize.",
     "weight": "2710 g",
@@ -25,7 +27,8 @@
   },
   {
     "id": "pressure_tank",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "pressure_tank",
     "name": { "str": "pressurized tank" },
     "flags": [ "NO_UNLOAD", "MAG_BULKY" ]
@@ -33,14 +36,14 @@
   {
     "id": "afs_mre_package",
     "copy-from": "mre_package",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Astronaut MRE" },
     "description": "Marketing has adorned the package of this individual ration with white and red livery, a deliberate callback to the space corporations of old.  Despite best efforts, the food within is no more natural than usual, but is at least palatable."
   },
   {
     "id": "afs_foil_bag",
     "copy-from": "plastic_bag_vac",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "foil bag" },
     "description": "A plastic and aluminum foil bag for long term food storage.",
     "material": [ "plastic", "aluminum" ],

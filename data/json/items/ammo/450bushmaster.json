@@ -1,7 +1,8 @@
 [
   {
     "id": "450_ftx",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".450 Bushmaster FTX" },
     "description": ".450 Bushmaster ammunition, loaded with a plastic-capped 250-grain Flex Tip bullet.  Born from discontent with the .223 Remington's weak stopping potential, the .450 Bushmaster round was crafted in line with the so-called 'Thumper' concept: an envisioned need for a large-bore, semi-automatic sporting cartridge capable of downing game in one shot.  Along with its elder sibling, the .50-caliber Beowulf cartridge, the .450 Bushmaster is one of a number of such high-caliber rounds and is compatible with appropriately converted AR-15-platform rifles.  This particular cartridge possesses a plastic-tipped projectile, which acts as an improved hollow point bullet with uniform and devastating expansion within wound cavities.",
     "weight": "31 g",
@@ -68,7 +69,8 @@
   {
     "id": "450_penetrator",
     "copy-from": "450_ftx",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".450 Bushmaster Xtreme Hunter" },
     "description": ".450 Bushmaster ammunition, loaded with a solid-copper 220-grain penetrator bullet.  Born from discontent with the .223 Remington's weak stopping potential, the .450 Bushmaster round was crafted in line with the so-called 'Thumper' concept: an envisioned need for a large-bore, semi-automatic sporting cartridge capable of downing game in one shot.  Along with its elder sibling, the .50-caliber Beowulf cartridge, the .450 Bushmaster is one of a number of such high-caliber rounds and is compatible with appropriately converted AR-15-platform rifles.  This particular cartridge is loaded with a solid-copper projectile: excellent at punching through thick barriers and delivering massive amounts of energy to anything unfortunate enough to be hit.",
     "weight": "29 g",
@@ -80,7 +82,8 @@
   {
     "id": "bp_450_ftx",
     "copy-from": "450_ftx",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".450 Bushmaster FTX, black powder" },
     "proportional": {
       "price": 0.3,
@@ -94,7 +97,8 @@
   {
     "id": "bp_450_penetrator",
     "copy-from": "450_penetrator",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".450 Bushmaster Xtreme Hunter, black powder" },
     "proportional": {
       "price": 0.3,
@@ -108,7 +112,8 @@
   {
     "id": "reloaded_450_ftx",
     "copy-from": "450_ftx",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".450 Bushmaster FTX, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -117,7 +122,8 @@
   {
     "id": "reloaded_450_penetrator",
     "copy-from": "450_penetrator",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".450 Xtreme Hunter, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

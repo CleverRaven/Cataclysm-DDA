@@ -1,7 +1,8 @@
 [
   {
     "id": "purity_crackers",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "purity crackers" },
     "description": "An incredibly hard cracker.  Squeezing it in your hand it feels as though your teeth might break before the cracker does.  The packaging on the side shows a tall being feeding these crackers to a horned and four legged creature.",
@@ -20,7 +21,8 @@
   },
   {
     "id": "golden_bridle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "golden bridle" },
     "description": "A golden bridle made of spun moon tears, gold, and incredibly strong hair including associated tack that can be placed on a tamed mythical animal that is capable of being ridden.",
     "weight": "2 kg",

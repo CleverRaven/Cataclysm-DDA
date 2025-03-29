@@ -1,7 +1,8 @@
 [
   {
     "id": "LAW",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "looks_like": "m79",
     "symbol": "(",
     "color": "green",
@@ -37,7 +38,8 @@
   {
     "id": "surv_rocket_launcher",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "/",
     "color": "light_gray",
@@ -65,7 +67,8 @@
   {
     "id": "watercannon",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "&",
     "color": "dark_gray",
     "name": { "str": "water cannon" },

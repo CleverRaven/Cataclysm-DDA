@@ -1,7 +1,7 @@
 [
   {
     "id": "bullwhip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "bullwhip" },
@@ -19,7 +19,7 @@
   {
     "id": "bullwhip_razor",
     "name": { "str": "scourge" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "description": "The \"cat 'o nine tails\", a handle with nine short leather whips, each sporting a razor-sharp metal tip.  This ancient instrument of torture causes massive bleeding, but by design is inefficient as a weapon.",
     "symbol": "/",
@@ -36,7 +36,8 @@
   },
   {
     "id": "tazer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "stun gun" },
     "description": "A high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, temporarily paralyzing them.",
@@ -49,13 +50,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 2,
     "use_action": [ "TAZER" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   }
 ]

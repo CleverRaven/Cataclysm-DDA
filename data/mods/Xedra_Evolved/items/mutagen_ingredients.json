@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ierde_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -10,7 +10,7 @@
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "arvore_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -20,7 +20,7 @@
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "salamander_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -30,7 +30,7 @@
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "undine_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -40,7 +40,7 @@
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "homullus_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -50,7 +50,7 @@
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sylph_sample",
     "copy-from": "mutagen_sample",
     "color": "red",

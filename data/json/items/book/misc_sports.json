@@ -1,7 +1,8 @@
 [
   {
     "id": "novel_sports",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "sports novel" },
     "description": "The dramatic tale of a small-time boxer who gets a rare chance to fight the heavy-weight champion, and seize his one chance to make a better life for himself while impressing the cute girl who works in the pet store.",
     "time": "20 m",
@@ -10,7 +11,8 @@
   },
   {
     "id": "book_fict_soft_sports_bunt",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Art of Bunting", "str_pl": "copies of The Art of Bunting" },
     "description": "While you might be forgiven for expecting instructions for party decorating, it is in fact a novel about baseball.  In the final climactic game a young star proves to himself that he is ready for the big leagues.",
     "//isbn13": 9780316126670,
@@ -21,7 +23,8 @@
   },
   {
     "id": "book_fict_soft_sports_tdsp",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Touchdown Special", "str_pl": "copies of The Touchdown Special" },
     "description": "In this absorbing novel of football fandom, a pizza delivery driver makes a desperate gamble on the Monday night game.",
     "//isbn13": 9780393353785,
@@ -32,7 +35,8 @@
   },
   {
     "id": "book_fict_soft_sports_envy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Trophy Envy", "str_pl": "copies of Trophy Envy" },
     "description": "This paperback tells the story of a tennis prodigy who begins to regret her own success.",
     "//isbn13": 9781250183170,
@@ -44,7 +48,8 @@
   },
   {
     "id": "book_fict_hard_sports_semi",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Semi-Rough", "str_pl": "copies of Semi-Rough" },
     "description": "This novel follows the humorous adventures of a professional athlete turned amateur reporter.",
     "//isbn13": 9780689105180,
@@ -53,7 +58,8 @@
   },
   {
     "id": "book_fict_hard_sports_omni",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Golf Omnivore", "str_pl": "copies of The Golf Omnivore" },
     "description": "This hardback book is a collection of short stories in which love and golf are the only two constants.",
     "//isbn13": 9780091439606,
@@ -64,7 +70,8 @@
   },
   {
     "id": "book_fict_hard_sports_uni",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Uniform Boy", "str_pl": "copies of Uniform Boy" },
     "description": "This hardback book about an equipment manager for a minor league team explores themes of loyalty and resentment.",
     "//isbn13": 9780606153522,
@@ -77,7 +84,8 @@
   },
   {
     "id": "book_nonf_soft_sports_bdgt",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Budgetball: Winning a Rigged Game", "str_pl": "copies of Budgetball: Winning a Rigged Game" },
     "description": "Budgetball tells the true story of the curious case of Benny Bobbin and his quixotic quest to defeat the deep-pocketed Orlando O's.",
     "//isbn13": 9780393324815,
@@ -90,7 +98,8 @@
   },
   {
     "id": "book_nonf_soft_sports_lads",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Lads of Summer", "str_pl": "copies of The Lads of Summer" },
     "description": "This well worn paperback details the early baseball careers of one of the greatest teams professional sports has ever known.",
     "//isbn13": 9780060883966,
@@ -103,7 +112,8 @@
   },
   {
     "id": "book_nonf_soft_sports_vlly",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Volleyball: Get Ready to Get Ready", "str_pl": "copies of Volleyball: Get Ready to Get Ready" },
     "description": "\"Volleyball: Get Ready to Get Ready\" is YOUR illustrated guide to level up your game.  With full-color photos and diagrams, you will learn the drills and techniques you need to dominate the competition.",
     "//isbn13": 9781450468824,
@@ -116,7 +126,8 @@
   },
   {
     "id": "book_nonf_hard_sports_morg",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "William G. Morgan, the Godfather of Volleyball", "str_pl": "copies of The Godfather of Volleyball" },
     "description": "This odd little hardbound book is only 98 pages long, and a dozen of those are comprised of grainy black and white photos.  If you read this book, you learn that volleyball was originally called \"Mintonette\" and also some biographic details about its inventor.",
     "//isbn13": 9781595941893,
@@ -129,7 +140,8 @@
   },
   {
     "id": "book_nonf_hard_sports_bike",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Legendary Bike Rides", "str_pl": "copies of Legendary Bike Rides" },
     "description": "This unwieldy coffee table book is titled \"LEGENDARY Bike Rides Around the WORLD.\"  It provides a wealth of detail about paved bike trails in every part of the globe except New England.  But if you make it to Patagonia on bike, you're all set.",
     "//isbn13": 9781760340834,
@@ -144,7 +156,8 @@
   },
   {
     "id": "book_nonf_hard_sports_ergo",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Natare Ergo Sum", "str_pl": "copies of Natare Ergo Sum" },
     "description": "The poorly translated title is supposed to be Latin for \"I Swim, Therefore I Am.\"  This short hardback presents \"A Philosophy of Swimming\" and then playfully attributes a variety of famous philosophical expressions into endorsements for the sport of swimming.  It's not a bad book, just a bit odd.",
     "//isbn13": 9781587313776,
@@ -158,7 +171,8 @@
   },
   {
     "id": "book_nonf_hard_sports_hoop",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Stratosphere: The Rise of Hoops", "str_pl": "copies of Stratosphere: The Rise of Hoops" },
     "description": "\"Stratosphere: The Rise of Hoops\" chronicles four decades of professional basketball against a backdrop of sustained social change.",
     "//isbn13": 9781629376509,

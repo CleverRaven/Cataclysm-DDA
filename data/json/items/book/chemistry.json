@@ -1,7 +1,8 @@
 [
   {
     "id": "adv_chemistry",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Advanced Physical Chemistry", "str_pl": "copies of Advanced Physical Chemistry" },
     "description": "A university-level textbook on advanced principles of physical chemistry and all its branches: thermochemistry, electrochemistry, solid-state chemistry, photochemistry, quantum chemistry et cetera.",
@@ -50,18 +51,19 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 5,
     "max_level": 7,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "modern_tanner",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Modern Tanner", "str_pl": "copies of The Modern Tanner" },
     "description": "An in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
@@ -103,16 +105,17 @@
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "brown",
-    "skill": "chemistry",
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 3,
     "max_level": 4,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "chemistry"
   },
   {
     "id": "recipe_alpha",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "PE050 \"Alpha\": Preliminary Report", "str_pl": "copies of PE050 \"Alpha\": Preliminary Report" },
     "description": "This sheaf of papers--dated two weeks before all this started--describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
@@ -123,16 +126,17 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_animal",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "lab journal-Dionne", "str_pl": "lab journals-Dionne" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from various Earth fauna.  The team seems quite enthusiastic--if not eager--about their results.",
@@ -143,16 +147,17 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_chimera",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "PE065 \"Chimera\": Best Practices", "str_pl": "copies of PE065 \"Chimera\": Best Practices" },
     "description": "This sheaf of papers describes a new chemical formula in detail and supplies instructions for its use as some sort of… crowd-control catalyst?  That can't be right…",
@@ -163,16 +168,17 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_creepy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "lab journal-Smythe", "str_pl": "lab journals-Smythe" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from flesh contaminated with XE037.  The results look promising but the procurement methods seem awfully vague…",
@@ -183,16 +189,17 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -4
+    "read_skill": "chemistry",
+    "read_fun": -4
   },
   {
     "id": "recipe_elfa",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "standpipe maintenance log" },
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with… a chemical formula?",
@@ -203,15 +210,16 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_labchem",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "chemical reference-CLASSIFIED", "str_pl": "chemical references-CLASSIFIED" },
     "description": "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
@@ -222,16 +230,17 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -1
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "recipe_maiar",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "lab journal-x-|xp", "str_pl": "lab journals-x-|xp" },
     "description": "This damaged team logbook lacks (deliberately?) any identifying information, but still contains useful information on several types of mutagen and their development.",
@@ -242,16 +251,17 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -3
+    "read_skill": "chemistry",
+    "read_fun": -3
   },
   {
     "id": "recipe_medicalmut",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "PE023 \"Medical\": Application and Findings",
@@ -265,17 +275,18 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "35 m",
-    "fun": -2,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_raptor",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "PE070 \"Raptor\": Proposal", "str_pl": "copies of PE070 \"Raptor\": Proposal" },
     "description": "This sheaf of papers is a highly speculative proposal for focusing \"PE065\".  Scribbled notes throughout seem to think that it might work, but that there's no time.",
@@ -286,15 +297,16 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 8,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_serum",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Best Practices for Compound Delivery", "str_pl": "copies of Best Practices for Compound Delivery" },
     "description": "This internal manual details several varieties of mutagenic experiments, as well as describing the protocols used to concentrate mutagens for quicker results.  The authors recommend that researchers ensure that their subjects are well-fed and in good health, as the concentrated serums draw heavily on subjects' bodies.",
@@ -305,16 +317,17 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 8,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -4
+    "read_skill": "chemistry",
+    "read_fun": -4
   },
   {
     "id": "reference_cooking",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "CRC-Merck Handbook, 4th edition", "str_pl": "copies of CRC-Merck Handbook, 4th edition" },
     "description": "This huge hardbound book is a collection of reference data and formulae pertinent to many technical disciplines.  If poring over tables of chemical and physical data is your thing, this is the book for you.",
@@ -328,12 +341,13 @@
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -2,
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": -2
   },
   {
     "id": "textbook_chemistry",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "chemistry textbook", "str_pl": "copies of chemistry textbook" },
     "description": "A college textbook on chemistry.",
@@ -371,17 +385,18 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "textbook_extraction",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Essential Oil Enthusiasts Handbook", "str_pl": "copies of The Essential Oil Enthusiasts Handbook" },
     "description": "A heavy hardback book explaining the process of essential oil making, with schematics for the equipment to do it.  Good luck, and don't blow yourself up!",
@@ -414,16 +429,17 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 10,
     "time": "60 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "chemistry"
   },
   {
     "id": "textbook_gaswarfare",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Art and Science of Chemical Warfare", "str_pl": "copies of Art and Science of Chemical Warfare" },
     "description": "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries.  The photographs the author chose make it a difficult read at times, though the information is top-notch.",
@@ -434,16 +450,17 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "basic_chemistry",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Chemistry for Kids: Awesome Science Experiments that Really Work",
@@ -499,15 +516,16 @@
     "looks_like": "recipe_alpha",
     "color": "light_cyan",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
-    "skill": "chemistry",
     "max_level": 3,
     "intelligence": 6,
     "time": "15 m",
-    "fun": 2
+    "read_skill": "chemistry",
+    "read_fun": 2
   },
   {
     "id": "catalytic_cracking_handbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Catalytic Cracking at Home for Solarpunks", "str_pl": "copies of Catalytic Cracking at Home for Solarpunks" },
     "description": "A colorful textbook that proclaims to teach one how to bootstrap kerosene and diesel production from waste products.  Despite the hip title, the information contained within is highly advanced and technical.",
@@ -548,16 +566,17 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_cyan",
-    "skill": "chemistry",
     "required_level": 5,
     "max_level": 7,
     "intelligence": 9,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "chemistry"
   },
   {
     "id": "textbook_biodiesel",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Biodiesel: Renewable Fuel Resource", "str_pl": "copies of Biodiesel: Renewable Fuel Resource" },
     "description": "A large textbook for college students about biodiesel.",
@@ -631,11 +650,11 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "chemistry"
   }
 ]

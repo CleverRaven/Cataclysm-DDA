@@ -1,7 +1,8 @@
 [
   {
     "id": "stunning_qr_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "stunning QR trap",
     "category": "traps",
     "properties": { "capture_species": "ROBOT" },
@@ -19,7 +20,8 @@
   },
   {
     "id": "stunning_arg_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "stunning arg trap",
     "category": "traps",
     "properties": { "capture_species": "CYBORG" },

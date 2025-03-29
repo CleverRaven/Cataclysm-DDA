@@ -1,7 +1,8 @@
 [
   {
     "id": "bbgun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "looks_like": "ar15",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -37,7 +38,8 @@
   },
   {
     "id": "varmint_airgun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "looks_like": "ar15",
     "reload_noise_volume": 10,
     "symbol": "(",

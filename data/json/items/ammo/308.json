@@ -1,7 +1,8 @@
 [
   {
     "id": "762_51",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x51mm M80" },
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
     "ascii_picture": "308",
@@ -86,7 +87,8 @@
   {
     "id": "308",
     "copy-from": "762_51",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".308 Winchester" },
     "description": ".308 Winchester ammunition with a 168gr hollow point bullet.  The .308 cartridge is one of the most popular hunting cartridges in the world due to its accuracy and power.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 }, "dispersion": -10 },
@@ -97,7 +99,8 @@
   {
     "id": "762_51_incendiary",
     "copy-from": "762_51",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x51mm NATO tracer" },
     "description": "An M62 tracer round.  Traditional practice is to load one of these for every four normal rounds to help keep the weapon they are fired from on target.  They have the potential to ignite flammable surfaces on impact.",
     "ascii_picture": "762_51_incendiary",
@@ -106,7 +109,8 @@
   {
     "id": "762_51_m993",
     "copy-from": "762_51",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x51mm NATO M993" },
     "description": "An armor piercing 7.62x51mm round with a 126gr, tungsten carbide core projectile.  It offers significantly better armor penetration than standard ball rounds at the cost of worse wounding potential in soft tissue.",
     "ascii_picture": "762_51_m993",
@@ -115,7 +119,8 @@
   {
     "id": "bp_308",
     "copy-from": "308",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".308 Winchester, black powder" },
     "proportional": {
       "price": 0.3,
@@ -129,7 +134,8 @@
   {
     "id": "bp_762_51",
     "copy-from": "762_51",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x51mm, black powder" },
     "proportional": {
       "price": 0.3,
@@ -143,7 +149,8 @@
   {
     "id": "bp_762_51_incendiary",
     "copy-from": "762_51_incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x51mm tracer, black powder" },
     "proportional": {
       "price": 0.3,
@@ -157,7 +164,8 @@
   {
     "id": "reloaded_308",
     "copy-from": "308",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".308 Winchester, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -166,7 +174,8 @@
   {
     "id": "reloaded_762_51",
     "copy-from": "762_51",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x51mm, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -175,7 +184,8 @@
   {
     "id": "reloaded_762_51_incendiary",
     "copy-from": "762_51_incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x51mm tracer, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

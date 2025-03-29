@@ -1,7 +1,8 @@
 [
   {
     "id": "battery_car_clay",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "veh_parts",
     "name": { "str": "clay car battery", "str_pl": "clay car batteries" },
     "description": "A 12V lead-acid battery used to power car electrical systems, contained in a clay shell.",
@@ -21,7 +22,8 @@
   },
   {
     "id": "battery_clay_array",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "veh_parts",
     "name": { "str": "clay battery array" },
     "description": "A set of 4 clay car batteries wired together in series in a simple wooden frame.",

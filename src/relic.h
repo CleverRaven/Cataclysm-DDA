@@ -236,6 +236,7 @@ class relic
         void finalize();
 
         void serialize( JsonOut &jsout ) const;
+        bool was_loaded = false;
         void deserialize( const JsonObject &jobj );
 
         void add_passive_effect( const enchant_cache &ench );

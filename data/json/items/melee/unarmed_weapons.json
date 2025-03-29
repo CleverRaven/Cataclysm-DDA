@@ -1,6 +1,7 @@
 [
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "cestus",
     "symbol": "3",
     "color": "light_gray",
@@ -46,7 +47,8 @@
   },
   {
     "id": "xl_cestus",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cestus", "str_pl": "cesti" },
     "copy-from": "cestus",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -54,14 +56,16 @@
   },
   {
     "id": "xs_cestus",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cestus", "str_pl": "cesti" },
     "copy-from": "cestus",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "knuckle_brass",
     "symbol": "3",
     "color": "yellow",
@@ -86,7 +90,8 @@
   },
   {
     "id": "xl_knuckle_brass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
     "copy-from": "knuckle_brass",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -94,14 +99,16 @@
   },
   {
     "id": "xs_knuckle_brass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
     "copy-from": "knuckle_brass",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "knuckle_nail",
     "symbol": "]",
     "color": "brown",
@@ -126,7 +133,8 @@
   },
   {
     "id": "xl_knuckle_nail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
     "copy-from": "knuckle_nail",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -134,14 +142,16 @@
   },
   {
     "id": "xs_knuckle_nail",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
     "copy-from": "knuckle_nail",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "knuckle_steel",
     "symbol": "3",
     "color": "dark_gray",
@@ -166,7 +176,8 @@
   },
   {
     "id": "xl_knuckle_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of scrap knuckles", "str_pl": "pairs of scrap knuckles" },
     "copy-from": "knuckle_steel",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -174,14 +185,16 @@
   },
   {
     "id": "xs_knuckle_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of scrap knuckles", "str_pl": "pairs of scrap knuckles" },
     "copy-from": "knuckle_steel",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "knuckle_steel_forged",
     "symbol": "3",
     "color": "light_gray",
@@ -208,7 +221,8 @@
   },
   {
     "id": "xl_knuckle_steel_forged",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
     "copy-from": "knuckle_steel_forged",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -216,7 +230,8 @@
   },
   {
     "id": "xs_knuckle_steel_forged",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
     "copy-from": "knuckle_steel_forged",
     "proportional": { "weight": 0.75, "volume": 0.75 },
@@ -224,7 +239,8 @@
   },
   {
     "id": "gloves_studded",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of studded gloves", "str_pl": "pairs of studded gloves" },
     "description": "A pair of gloves with studded metal knuckles and a thin back plating.",
     "weight": "218 g",
@@ -277,7 +293,8 @@
   },
   {
     "id": "xl_gloves_studded",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of studded gloves", "str_pl": "pairs of studded gloves" },
     "copy-from": "gloves_studded",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -285,7 +302,8 @@
   },
   {
     "id": "xs_gloves_studded",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of studded gloves", "str_pl": "pairs of studded gloves" },
     "copy-from": "gloves_studded",
     "proportional": { "weight": 0.75, "volume": 0.75 },
@@ -293,7 +311,8 @@
   },
   {
     "id": "knuckle_impact",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "impact knuckles" },
     "description": "A pair of thick steel plates covering your proximal phalange.  They are strapped to your hands with metal braces.",
     "weight": "500 g",
@@ -319,7 +338,8 @@
   },
   {
     "id": "xl_knuckle_impact",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "impact knuckles" },
     "copy-from": "knuckle_impact",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -327,7 +347,8 @@
   },
   {
     "id": "xs_knuckle_impact",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "impact knuckles" },
     "copy-from": "knuckle_impact",
     "proportional": { "weight": 0.75, "volume": 0.75 },
@@ -335,7 +356,8 @@
   },
   {
     "id": "knuckle_skewer",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "skewer knuckles" },
     "description": "A pair of metal braces, each with a single sturdy spike attached.  When strapped to your hands, the spikes protrude 5 centimeters past your clenched fists.",
     "weight": "250 g",
@@ -354,7 +376,8 @@
   },
   {
     "id": "xl_knuckle_skewer",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "skewer knuckles" },
     "copy-from": "knuckle_skewer",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -362,7 +385,8 @@
   },
   {
     "id": "xs_knuckle_skewer",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "skewer knuckles" },
     "copy-from": "knuckle_skewer",
     "proportional": { "weight": 0.75, "volume": 0.75 },

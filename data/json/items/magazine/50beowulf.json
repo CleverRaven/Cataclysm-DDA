@@ -2,7 +2,8 @@
   {
     "id": "stanag20_beowulf",
     "copy-from": "stanag20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "retooled STANAG 20-round magazine" },
     "description": "This 20-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, seven round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon's chamber, and, happily, this modification hasn't interfered with the magazine's ability to hold standard ammunition.",
     "ammo_type": [ "50beowulf", "223", "300blk" ],
@@ -18,7 +19,8 @@
   {
     "id": "stanag20ranger_beowulf",
     "copy-from": "stanag20ranger",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": {
       "str": "retooled STANAG 20-round magazine with ranger plate",
       "str_pl": "retooled STANAG 20-round magazines with ranger plates"
@@ -30,7 +32,8 @@
   {
     "id": "stanag30_beowulf",
     "copy-from": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "retooled STANAG 30-round magazine" },
     "description": "This 30-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, 10-round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon's chamber, and, happily, this modification hasn't interfered with the magazine's ability to hold standard ammunition.",
     "ammo_type": [ "50beowulf", "223", "300blk" ],
@@ -46,7 +49,8 @@
   {
     "id": "stanag30ranger_beowulf",
     "copy-from": "stanag30ranger",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": {
       "str": "retooled STANAG 30-round magazine with ranger plate",
       "str_pl": "retooled STANAG 30-round magazines with ranger plates"
@@ -57,7 +61,8 @@
   },
   {
     "id": "50beowulf_ar15mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": ".50 Beowulf 10-round conversion magazine" },
     "description": "A detachable 10-round box magazine, nearly identical in size and shape to standard 30-round STANAG magazines, and able to be inserted into the same compatible rifles.  The magazine has been engineered to feed a single-stack column of .50 Beowulf ammunition into the chamber of an appropriately converted AR-style firearm.",
     "weight": "226 g",

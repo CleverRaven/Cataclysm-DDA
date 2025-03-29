@@ -1,7 +1,8 @@
 [
   {
     "id": "iotv_neck_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ballistic collar" },
     "description": "Front and back nylon collar assemblies with armor inserts for neck protection.  Designed to be attached to heavy military body armor.",
@@ -29,7 +30,8 @@
   },
   {
     "id": "afs_military_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "IPAV armor" },
     "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.",
     "category": "armor",
@@ -83,7 +85,8 @@
   },
   {
     "id": "afs_military_vestxl",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "IPAV armor" },
     "copy-from": "afs_military_vest",
     "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
@@ -92,7 +95,8 @@
   },
   {
     "id": "xlswat_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "Uplifted Enforcer armor" },
     "copy-from": "afs_military_vestxl",
@@ -103,7 +107,8 @@
   },
   {
     "id": "afs_military_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "ARMOR",
     "looks_like": "poncho",
     "name": { "str": "ablative combat cloak" },

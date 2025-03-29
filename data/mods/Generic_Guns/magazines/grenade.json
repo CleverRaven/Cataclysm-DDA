@@ -1,7 +1,8 @@
 [
   {
     "id": "grenade_belt",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "grenade machine gun belt" },
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  This one holds grenade cartridges and is too bulky to be worn like other ammo belts.",
     "volume": "10 L",

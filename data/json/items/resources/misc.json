@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bee_sting",
     "name": { "str": "bee stinger" },
     "description": "A six-inch stinger from a giant bee.  Makes a poor melee weapon.",
@@ -17,7 +17,7 @@
     "melee_damage": { "stab": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broom",
     "name": { "str": "broom" },
     "description": "A long-handled broom.  Makes a terrible weapon unless you're chasing cats.",
@@ -35,7 +35,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ceramic_shard",
     "symbol": "*",
     "color": "white",
@@ -52,7 +52,7 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fighter_sting",
     "name": { "str": "fungal fighter stinger" },
     "description": "A short dart from a fungal fighter.  Makes a poor melee weapon.",
@@ -70,7 +70,8 @@
   },
   {
     "id": "incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "incendiary" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
@@ -88,7 +89,7 @@
   },
   {
     "id": "mattress",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "mattress", "str_pl": "mattresses" },
     "description": "A single, or twin, sized mattress.",
@@ -113,7 +114,7 @@
   },
   {
     "id": "down_mattress",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "down mattress", "str_pl": "down mattresses" },
     "description": "A single, or twin, sized down-filled mattress.",
@@ -138,7 +139,8 @@
   },
   {
     "id": "fuse",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "fuse" },
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
@@ -155,7 +157,7 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sharp_rock",
     "symbol": "*",
     "color": "light_gray",
@@ -173,7 +175,8 @@
   },
   {
     "id": "sole_rubber",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "rubber sole" },
     "description": "A sole made from rubber, usually found on the bottoms of boots.  Can be used for making actual boots.",
@@ -188,7 +191,7 @@
   },
   {
     "id": "rubber_tire_chunk",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "thick rubber chunk" },
     "description": "A chunk of thick, semi-rigid rubber, similar to what tires are made from.",
@@ -203,7 +206,7 @@
   },
   {
     "id": "rubber_tire_strip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "rubber tire strip" },
     "description": "A long, curled strip of thick, semi-rigid rubber cut from a tire.",
@@ -218,7 +221,7 @@
   },
   {
     "id": "ugl_buttstock",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ",",
     "color": "dark_gray",
     "name": { "str": "grenade launcher buttstock" },
@@ -231,7 +234,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wasp_sting",
     "name": { "str": "wasp stinger" },
     "description": "A six-inch stinger from a giant wasp.  Makes a poor melee weapon.",
@@ -248,7 +251,7 @@
     "melee_damage": { "stab": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cannonball_4lb",
     "symbol": "o",
     "color": "dark_gray",
@@ -263,7 +266,7 @@
   },
   {
     "id": "radio_car_wheel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "RC car wheel set" },
     "description": "A small set of wheels for a radio-controlled car.  Could be improvised with caster wheels if given rubber treads for grip.",
@@ -277,7 +280,7 @@
   },
   {
     "id": "armor_star_samurai_helmet_destroyed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "destroyed ryūsei kabuto" },
     "description": "A conical shaped massive slab of inscrutable rock now in two pieces, strange metallic tubes visibly on display.  Something seems to have cracked it from the inside out.",
@@ -290,7 +293,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wax_paraffin",
     "name": { "str": "chunk of paraffin wax", "str_pl": "chunks of paraffin wax" },
     "category": "spare_parts",

@@ -1,7 +1,7 @@
 [
   {
     "id": "magicians_hat",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "tophat",
     "name": { "str": "magician's hat" },
@@ -17,7 +17,7 @@
   },
   {
     "id": "fire_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "cannonball_4lb",
     "name": { "str": "warm ball" },

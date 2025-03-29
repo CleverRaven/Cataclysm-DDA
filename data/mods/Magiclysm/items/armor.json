@@ -3,34 +3,39 @@
     "id": "quiver",
     "name": "quiver",
     "copy-from": "quiver",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20, "arrow_orichalcum": 20 }, "moves": 20 } ]
   },
   {
     "id": "quiver_large",
     "name": "large quiver",
     "copy-from": "quiver_large",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 }, "moves": 20 } ]
   },
   {
     "id": "quiver_birchbark",
     "name": { "str": "birchbark quiver" },
     "copy-from": "quiver_birchbark",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20, "arrow_orichalcum": 20 }, "moves": 20 } ]
   },
   {
     "id": "quiver_large_birchbark",
     "name": "large birchbark quiver",
     "copy-from": "quiver_large_birchbark",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 }, "moves": 20 } ]
   },
   {
     "id": "armguard_demonchitin",
     "copy-from": "armguard_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
@@ -39,7 +44,8 @@
   },
   {
     "id": "xl_armguard_demonchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
     "copy-from": "armguard_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -48,7 +54,8 @@
   {
     "id": "armor_demonchitin",
     "copy-from": "armor_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "demon chitin armor" },
     "description": "Leg and body armor crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
@@ -57,7 +64,8 @@
   },
   {
     "id": "xl_armor_demonchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "demon chitin armor" },
     "copy-from": "armor_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -66,7 +74,8 @@
   {
     "id": "helmet_demonchitin",
     "copy-from": "helmet_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "demon chitin helmet" },
     "description": "A helmet crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Covers the entire head; fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
@@ -75,7 +84,8 @@
   },
   {
     "id": "xl_helmet_demonchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "demon chitin helmet" },
     "copy-from": "helmet_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -84,7 +94,8 @@
   {
     "id": "gauntlets_demonchitin",
     "copy-from": "gauntlets_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of demon chitin gauntlets", "str_pl": "pairs of demon chitin gauntlets" },
     "description": "Gauntlets crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
@@ -93,7 +104,8 @@
   },
   {
     "id": "xl_gauntlets_demonchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of demon chitin gauntlets", "str_pl": "pairs of demon chitin gauntlets" },
     "copy-from": "gauntlets_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -102,7 +114,8 @@
   {
     "id": "boots_demonchitin",
     "copy-from": "boots_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of demon chitin boots", "str_pl": "pairs of demon chitin boots" },
     "description": "Boots crafted from carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
     "material": [ "demon_chitin" ],
@@ -111,14 +124,16 @@
   },
   {
     "id": "xl_boots_demonchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of demon chitin boots", "str_pl": "pairs of demon chitin boots" },
     "copy-from": "boots_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "demonchitin_harness_dog",
     "copy-from": "kevlar_harness",
     "color": "red",
@@ -131,7 +146,8 @@
     "environmental_protection": 8
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "demonchitin_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",

@@ -1,7 +1,8 @@
 [
   {
     "id": "matrix_channeling_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "matrix channeling array" },
     "description": "A set of matrix crystals arranged together to direct Netherium energy.  You're not entirely sure all the crystals are actually touching the metal assembly soldered around them.",
     "weight": "2500 g",
@@ -17,7 +18,8 @@
   },
   {
     "id": "matrix_aligning_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crystalline focusing assembly", "str_pl": "crystalline focusing assemblies" },
     "description": "A precise arrangement of cut crystal pieces from the crystal outgrowths left by the portal storms.  The air in the center shimmers like a summer heat gaze when you look through the focal point of the apparatus.",
     "weight": "4000 g",
@@ -33,7 +35,8 @@
   },
   {
     "id": "telepathic_focusing_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "telepathic focusing tool", "str_pl": "telepathic focusing assemblies" },
     "description": "A glowing white netherium crystal surrounded by floating dust and shards of crystal.  The closer you look at the assembly the louder your thoughts sound.",
     "weight": "4000 g",
