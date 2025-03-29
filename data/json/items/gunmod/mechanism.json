@@ -128,25 +128,6 @@
     "flags": [ "IRREMOVABLE" ]
   },
   {
-    "id": "waterproof_gunmod",
-    "type": "GUNMOD",
-    "name": { "str": "firearm waterproofing" },
-    "description": "A set of seals and gaskets that will allow a firearm to operate reliably while submerged in water.",
-    "weight": "220 g",
-    "volume": "250 ml",
-    "integral_volume": "0 ml",
-    "price": "500 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "plastic" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "mechanism",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "launcher" ],
-    "install_time": "10 m",
-    "min_skills": [ [ "weapon", 2 ] ],
-    "flags": [ "WATERPROOF_GUN" ]
-  },
-  {
     "id": "m249semi",
     "type": "GUNMOD",
     "name": { "str": "M249 select fire trigger" },

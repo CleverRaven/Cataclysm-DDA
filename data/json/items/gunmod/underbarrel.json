@@ -266,7 +266,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "gun_data": {
       "barrel_length": "305 mm",
       "ammo": [ "40x46mm" ],
@@ -305,7 +305,7 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "gun_data": {
       "barrel_length": "280 mm",
       "ammo": [ "40x46mm" ],
@@ -356,23 +356,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
-    "id": "makeshift_bayonet",
-    "copy-from": "spike",
-    "type": "GENERIC",
-    "name": { "str": "makeshift bayonet" },
-    "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
-    "longest_side": "12 cm",
-    "integral_longest_side": "12 cm",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
-      "is_bayonet": true,
-      "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-      "install_time": "5 m"
-    },
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
-  },
-  {
     "id": "masterkey",
     "copy-from": "underbarrel_base",
     "type": "GUNMOD",
@@ -388,7 +371,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "gun_data": {
       "barrel_length": "254 mm",
       "ammo": [ "shot" ],
@@ -425,7 +408,7 @@
     "symbol": ":",
     "color": "white",
     "location": "underbarrel",
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "mod_targets": [ "rifle" ],
     "gun_data": {
       "barrel_length": "197 mm",
@@ -483,7 +466,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": {
       "barrel_length": "419 mm",
