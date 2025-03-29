@@ -69,6 +69,7 @@ class achievements_tracker;
 class avatar;
 class cata_path;
 class creature_tracker;
+class current_map;
 class eoc_events;
 class event_bus;
 class faction_manager;
@@ -89,6 +90,7 @@ class scent_map;
 class spell_events;
 class static_popup;
 class stats_tracker;
+class swap_map;
 class timed_event_manager;
 class ui_adaptor;
 class uilist;
@@ -166,9 +168,10 @@ bool cleanup_at_end();
 // NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
-        friend class editmap;
+    friend class editmap;
         friend class main_menu;
         friend class exosuit_interact;
+        friend class swap_map;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
@@ -1109,6 +1112,7 @@ class game
         // ########################## DATA ################################
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
+        pimpl<current_map> current_map_ptr; // NOLINT(cata-serialize)
         pimpl<avatar> u_ptr; // NOLINT(cata-serialize)
         pimpl<live_view> liveview_ptr; // NOLINT(cata-serialize)
         live_view &liveview; // NOLINT(cata-serialize)
@@ -1123,6 +1127,7 @@ class game
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
         map &m;
+        current_map& current_map;
         avatar &u;
         scent_map &scent;
         // scenario is saved in avatar::store

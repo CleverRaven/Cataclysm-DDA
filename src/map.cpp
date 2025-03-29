@@ -35,6 +35,7 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "do_turn.h"
@@ -8150,6 +8151,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
 
     if( map_incomplete ) {
         smallmap tmp_map;
+        swap_map swap(*tmp_map.cast_to_map(), "loadn mapgen");
         tmp_map.main_cleanup_override( false );
         tmp_map.generate( grid_abs_omt, calendar::turn, true );
         _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
