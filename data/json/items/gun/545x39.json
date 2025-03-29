@@ -32,16 +32,13 @@
     "default_mods": [ "offset_sight_rail" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
-      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
@@ -77,15 +74,13 @@
     "default_mods": [ "bars", "wire_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
+      [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "MISSION_ITEM" ],

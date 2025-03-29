@@ -26,13 +26,12 @@
     "dispersion": 200,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
       [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -66,15 +65,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -7 },
     "dispersion": 180,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "4570": 5 } } ]
   },
   {
@@ -107,12 +98,11 @@
     "built_in_mods": [ "match_trigger" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
       [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],

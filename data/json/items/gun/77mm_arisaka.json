@@ -33,15 +33,12 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
-      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       {
@@ -68,6 +65,6 @@
         "weight": 1
       }
     ],
-    "default_mods": [ "rail_mount", "offset_sight_rail", "type99_scope" ]
+    "built_in_mods": [ "type99_scope" ]
   }
 ]
