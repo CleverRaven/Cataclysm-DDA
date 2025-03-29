@@ -10466,6 +10466,7 @@
     "id": "AMOG",
     "name": { "str": "Alpha Member of the Group" },
     "points": 0,
+    "mixed_effect": true,
     "vitamin_cost": 160,
     "types": [ "SOCIAL" ],
     "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
