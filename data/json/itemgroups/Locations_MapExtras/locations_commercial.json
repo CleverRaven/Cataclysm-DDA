@@ -1242,6 +1242,8 @@
       [ "maple_candy", 10 ],
       [ "flour", 30 ],
       [ "milk_powder", 30 ],
+      [ "cocoa_powder", 30 ],
+      [ "cocoa_powder_milk", 30 ],
       [ "powder_eggs", 10 ],
       { "group": "egg_bird_unfert_carton_egg_10" },
       [ "cooking_oil", 20 ],
