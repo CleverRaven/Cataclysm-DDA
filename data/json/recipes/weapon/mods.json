@@ -824,11 +824,7 @@
     "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
-    "components": [
-      [ [ "compensator", 1 ], [ "muzzle_brake", 1 ] ],
-      [ [ "chunk_rubber", 24 ] ],
-      [ [ "pipe", 1 ] ]
-    ]
+    "components": [ [ [ "compensator", 1 ], [ "muzzle_brake", 1 ] ], [ [ "chunk_rubber", 24 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -870,11 +866,7 @@
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [
-      [ [ "compensator", 1 ], [ "muzzle_brake", 1 ] ],
-      [ [ "sheet_metal_small", 11 ] ],
-      [ [ "pipe", 2 ] ]
-    ]
+    "components": [ [ [ "compensator", 1 ], [ "muzzle_brake", 1 ] ], [ [ "sheet_metal_small", 11 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "recipe",
