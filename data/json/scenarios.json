@@ -470,7 +470,8 @@
       "lost_sub",
       "spouse",
       "musician",
-      "true_foodperson"
+      "true_foodperson",
+      "futile_fighter"
     ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "requirement": "achievement_survive_28_days",
