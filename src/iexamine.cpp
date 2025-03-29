@@ -3256,7 +3256,7 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
 // Highly modified fermenting vat functions
 void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
 {
-    if(!kiln_prep( you, examp ) ) {
+    if( !kiln_prep( you, examp ) ) {
         return;
     }
 
