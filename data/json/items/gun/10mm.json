@@ -27,6 +27,7 @@
     "color": "dark_gray",
     "ammo": [ "10mm", "40" ],
     "dispersion": 320,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
@@ -63,6 +64,7 @@
     "price": "605 USD",
     "material": [ "plastic", "steel" ],
     "dispersion": 510,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "99 ml",
@@ -94,6 +96,7 @@
     "price": "592 USD",
     "material": [ "plastic", "steel" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "magazine_well": "103 ml",
@@ -152,6 +155,18 @@
     "skill": "rifle",
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
   },
   {
@@ -176,6 +191,7 @@
     "price": "1 kUSD 50 USD",
     "material": [ "steel" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "built_in_mods": [ "match_trigger" ],
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ]
   },
@@ -201,6 +217,7 @@
     "price": "649 USD",
     "material": [ "steel" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ]
   },
   {
@@ -225,6 +242,7 @@
     "price": "500 USD",
     "material": [ "steel" ],
     "dispersion": 410,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ]
   },
   {
@@ -249,6 +267,7 @@
     "price": "500 USD",
     "material": [ "steel", "plastic" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ]
   },
   {
@@ -275,6 +294,7 @@
     "volume": "4386 ml",
     "longest_side": "429 mm",
     "price": "1 kUSD 429 USD",
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

@@ -18,10 +18,10 @@
     "ammo": [ "38" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 620,
+    "valid_mod_locations": [ [ "stock mount", 1 ] ],
     "durability": 3,
     "clip_size": 2,
     "reload": 200,
-    "valid_mod_locations": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ]
   },
   {
@@ -48,6 +48,7 @@
     "material": [ "steel", "wood" ],
     "ammo": [ "38" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "clip_size": 6,
     "pocket_data": [
       {
@@ -109,15 +110,7 @@
     "ammo": [ "38" ],
     "dispersion": 480,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -147,15 +140,7 @@
     "ammo": [ "357mag", "38" ],
     "dispersion": 280,
     "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "stocks mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -192,15 +177,7 @@
     "ammo": [ "357mag", "38" ],
     "dispersion": 320,
     "clip_size": 7,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -234,15 +211,7 @@
     "longest_side": "267 mm",
     "barrel_length": "152 mm",
     "dispersion": 300,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "clip_size": 6,
     "pocket_data": [
       {
@@ -290,15 +259,7 @@
     "//4": "3 to 3.5-inch groups at 10 yards shooting off-handed: https://www.shootingillustrated.com/content/review-rossi-rp-63-revolver/",
     "dispersion": 350,
     "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -336,12 +297,12 @@
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ]
@@ -374,12 +335,12 @@
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ]
@@ -412,12 +373,12 @@
     "dispersion": 140,
     "clip_size": 8,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 8, "38": 8 } } ]
@@ -447,7 +408,7 @@
     "ammo": [ "38" ],
     "dispersion": 350,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

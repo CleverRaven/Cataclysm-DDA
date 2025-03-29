@@ -37,7 +37,7 @@
     "flags": [ "ALLOWS_BODY_BLOCK", "NO_TURRET" ],
     "//2": "NO_TURRET should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "stock", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "bore", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "stock mount", 1 ] ],
     "faults": [
       "fault_gun_blackpowder",
       "fault_gun_dirt",
@@ -68,14 +68,12 @@
     "clip_size": 10,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
       [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
@@ -140,15 +138,7 @@
     "ammo": [ "44" ],
     "dispersion": 280,
     "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -184,15 +174,7 @@
     "ammo": [ "44" ],
     "dispersion": 280,
     "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -270,12 +252,13 @@
     "dispersion": 160,
     "clip_size": 8,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ]
@@ -308,12 +291,13 @@
     "dispersion": 140,
     "clip_size": 10,
     "valid_mod_locations": [
-      [ "grip", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
       [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
