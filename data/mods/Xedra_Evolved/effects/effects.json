@@ -3287,5 +3287,48 @@
     ],
     "rating": "bad",
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_resilience",
+    "//": "As per the vampire power, but includes the fire vulnerability as it is a multiplier, not an absolute.  It also includes the effects of flow like blood.",
+    "blocks_effects": [ "grabbed" ],
+    "name": [ "" ],
+    "desc": [ "" ],
+    "base_mods": { "dodge_mod": [ 15 ] },
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.66 },
+          { "type": "stab", "multiply": -0.25 },
+          { "type": "cut", "multiply": -0.33 },
+          { "type": "bullet", "multiply": -0.85 },
+          { "type": "heat", "multiply": 3 }
+        ]
+      },
+      {
+        "values": [ { "value": "EVASION", "add": 0.7 }, { "value": "DODGE_CHANCE", "add": 15 }, { "value": "BONUS_DODGE", "add": 2 } ]
+      },
+      { "hit_me_effect": [ { "id": "VAMPIRE_ANATHEMA_REACT_TO_HIT", "hit_self": true } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_battle_started",
+    "//": "From 60 speed to a tier 5's base speed.",
+    "//2": "This isn't a vampire power, just them taking you a little more seriously as you managed to injure them.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 125 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_final_form",
+    "//": "From a tier 5's base speed to a total of 653 speed, and ensures it can hit players benefitting from flow like blood.",
+    "name": [ "Hasted by shadows" ],
+    "desc": [ "The Anathema is much quicker now thanks to vampiric abilities" ],
+    "show_in_info": true,
+    "base_mods": { "hit_mod": [ 50 ], "dodge_mod": [ 20 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 468 } ] } ]
   }
 ]
