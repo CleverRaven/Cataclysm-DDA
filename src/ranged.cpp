@@ -1118,11 +1118,13 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
             if( monster *const m = hit_entry.first->as_monster() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
                                 projectile_use_ammo_id,
+                                false,
                                 m->type->id );
                 get_event_bus().send_with_talker( this, m, e );
             } else if( Character *const c = hit_entry.first->as_character() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
                                 projectile_use_ammo_id,
+                                false,
                                 c->getID(), c->get_name() );
                 get_event_bus().send_with_talker( this, c, e );
             }
@@ -1601,12 +1603,14 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
             cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(),
                             itype_id::NULL_ID(),
                             to_throw_id,
+                            true,
                             m->type->id );
             get_event_bus().send_with_talker( this, m, e );
         } else if( Character *const c = hit_entry.first->as_character() ) {
             cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(),
                             itype_id::NULL_ID(),
                             to_throw_id,
+                            true,
                             c->getID(), c->get_name() );
             get_event_bus().send_with_talker( this, c, e );
         }
