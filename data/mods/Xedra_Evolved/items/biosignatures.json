@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "feces_bat",
     "name": { "str_sp": "guano" },
     "copy-from": "feces_bird",

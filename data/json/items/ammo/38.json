@@ -1,7 +1,8 @@
 [
   {
     "id": "38_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special FMJ" },
     "description": ".38 Special ammunition with a 130gr FMJ bullet.  From its inception, the .38 Special round has been known for its accuracy and low recoil.  Because it was initially a black powder cartridge, .38 Special is very low pressure.",
     "ascii_picture": "38_special",
@@ -53,7 +54,8 @@
   {
     "id": "38_special",
     "copy-from": "38_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special JHP" },
     "description": "Jacketed .38 Special ammunition with a 130gr hollowpoint bullet.  From its inception, the .38 Special round has been known for its accuracy and low recoil.  Because it was initially a black powder cartridge, .38 Special is very low pressure.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -2 } }
@@ -61,7 +63,8 @@
   {
     "id": "38_special_p",
     "copy-from": "38_special",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special +P" },
     "description": "Overpressure .38 Special ammunition with a jacketed 135gr hollowpoint bullet.  The round's increased velocity results in superior penetration and stopping power at the cost of higher recoil.",
     "price": "3 USD",
@@ -100,7 +103,8 @@
   {
     "id": "reloaded_38_fmj",
     "copy-from": "38_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -109,7 +113,8 @@
   {
     "id": "reloaded_38_special",
     "copy-from": "38_special",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -118,7 +123,8 @@
   {
     "id": "reloaded_38_special_p",
     "copy-from": "38_special_p",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special +P, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -127,7 +133,8 @@
   {
     "id": "bp_38_fmj",
     "copy-from": "38_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -141,7 +148,8 @@
   {
     "id": "bp_38_special",
     "copy-from": "38_special",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Special JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -155,7 +163,8 @@
   {
     "id": "matchhead_38_fmj",
     "copy-from": "bp_38_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".38 Special FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -165,7 +174,8 @@
   {
     "id": "matchhead_38_special",
     "copy-from": "bp_38_special",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".38 Special JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

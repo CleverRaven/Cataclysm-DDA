@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "feces_bird",
     "name": { "str_sp": "bird litter" },
     "category": "chems",
@@ -21,7 +22,8 @@
     "fun": -25
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "feces_cow",
     "name": { "str": "cow pie" },
     "copy-from": "feces_bird",
@@ -30,14 +32,16 @@
     "description": "A fresh cow pie; this could probably be used to make some great fertilizer."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "feces_dog",
     "name": { "str": "dog dung" },
     "copy-from": "feces_manure",
     "description": "Droppings from a canine."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "feces_manure",
     "name": { "str_sp": "manure" },
     "copy-from": "feces_bird",
@@ -46,14 +50,15 @@
     "description": "Common manure, could probably be used to make some great fertilizer."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "feces_roach",
     "name": { "str_sp": "roach dirt" },
     "copy-from": "feces_bird",
     "description": "Large black pellets of rotting material."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fetid_goop",
     "symbol": "~",
     "color": "white",
@@ -71,7 +76,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "insect_dust",
     "name": { "str_sp": "chitin dust" },
     "category": "spare_parts",
@@ -87,7 +93,8 @@
     "volume": "62 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "shed_snakeskin_little",
     "name": { "str": "shed snakeskin" },
     "copy-from": "shed_snakeskin",
@@ -96,7 +103,8 @@
     "volume": "100 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "shed_snakeskin",
     "name": { "str": "shed snakeskin" },
     "description": "The molted dermis of an adult snake.  This one is in one piece.  You can even see the individual eyes.",
@@ -114,7 +122,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "shed_snakeskin_big",
     "name": { "str": "big shed snakeskin" },
     "copy-from": "shed_snakeskin",
@@ -123,7 +132,8 @@
     "volume": "2 L"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "shed_snakeskin_giant",
     "name": { "str": "gigantic shed snakeskin" },
     "copy-from": "shed_snakeskin",
@@ -132,7 +142,8 @@
     "volume": "4 L"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "shed_snakeskin_scales",
     "name": { "str_sp": "gigantic snake scales" },
     "description": "A handful of greatly oversized scales from a snake.  This is a troubling find for a few reasons.  There's the size, obviously, but also the unusual hardness in spite of the obvious decay, and the fact that snakes don't shed individual scales like this.",

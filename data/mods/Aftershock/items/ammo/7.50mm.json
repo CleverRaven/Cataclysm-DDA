@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_7.50mm_caseless",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.50mm caseless" },
     "description": "An intermediate bullet with an acceptable all-round performance.  Due to their role as UICA's standard issue rifle cartridge, these are ubiquitous wherever Earth makes its presence be known.",
     "weight": "12 g",
@@ -22,7 +23,8 @@
   },
   {
     "id": "afs_7.50mm_ap_caseless",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.50mm AP caseless" },
     "description": "Armor piercing 7.50mm ammunition with a tungsten carbide penetrator.  These rounds are designed to defeat body armor and other hard targets, but have reduced stopping power against unarmored targets.",
     "weight": "12 g",
@@ -43,7 +45,8 @@
   },
   {
     "id": "afs_7.50mm_rp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.50mm RP" },
     "description": "Civilian-legal 7.50mm ammunition featuring a reduced propellant case and unjacketed projectiles.  The 7.50mm RP round is extremely weak with very low stopping power, short range, and negligible recoil.  While cheaper than military grade rounds, it's only really useful for rifle training, and for hunting small animals.",
     "weight": "3 g",
@@ -64,7 +67,8 @@
   },
   {
     "id": "afs_7.50mm_smart",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.50mm SDART" },
     "description": "High precision 7.50mm microjet darts for use in smart weaponry.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
     "//": "tiny guided rockets.",

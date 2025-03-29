@@ -1,7 +1,8 @@
 [
   {
     "id": "ichaival",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "looks_like": "reflexrecurvebow",
     "symbol": "(",
     "color": "white",
@@ -27,21 +28,6 @@
     "weight": "740 g",
     "volume": "2 L",
     "longest_side": "150 cm",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 14,
-          "coverage": 5,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 2,
     "loudness": 5,
     "ranged_damage": { "damage_type": "stab", "amount": 15 },
@@ -52,10 +38,24 @@
     "reload": 40,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow_orichalcum": 1, "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "armor": [
+      {
+        "material": [
+          { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 14,
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_odin",
     "price": "35 USD",
     "name": "orichalcum arrow",
@@ -79,7 +79,8 @@
   },
   {
     "id": "arrow_druid_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "price": "250 USD",
     "name": { "str": "tangler arrow" },
     "symbol": "=",
@@ -103,7 +104,8 @@
   },
   {
     "id": "arrow_stormshaper_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "thunderclap arrow" },
     "color": "magenta",
@@ -113,7 +115,8 @@
   },
   {
     "id": "arrow_earthshaper_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "avalanche arrow" },
     "color": "light_gray",
@@ -122,7 +125,8 @@
   },
   {
     "id": "arrow_kelvinist_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "fireball arrow" },
     "color": "red",
@@ -132,7 +136,8 @@
   },
   {
     "id": "arrow_biomancer_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "visceral arrow" },
     "color": "green",
@@ -143,7 +148,8 @@
   },
   {
     "id": "arrow_technomancer_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "sparking arrow" },
     "color": "white",
@@ -153,7 +159,8 @@
   },
   {
     "id": "arrow_magus_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_druid_crafted",
     "//": "I'd like this to cause massive knockback but I'm limited by the available ammo flags.",
     "name": { "str": "gravity arrow" },
@@ -164,7 +171,8 @@
   },
   {
     "id": "arrow_animist_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_druid_crafted",
     "//": "I'd like this to drain life but see above.",
     "name": { "str": "enervating arrow" },
@@ -175,7 +183,8 @@
   },
   {
     "id": "quiver_of_holding_plus_one",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver of holding +1", "str_pl": "quivers of holding +1" },
     "description": "A quiver enchanted to hold 40 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
     "copy-from": "quiver",
@@ -194,7 +203,8 @@
   },
   {
     "id": "quiver_of_holding_plus_two",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver of holding +2", "str_pl": "quivers of holding +2" },
     "description": "A quiver enchanted to hold 80 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
     "copy-from": "quiver_of_holding_plus_one",

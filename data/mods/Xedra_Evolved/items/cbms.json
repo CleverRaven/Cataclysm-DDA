@@ -2,7 +2,8 @@
   {
     "id": "bio_flesh_roots",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Flesh roots seed" },
     "description": "This seed might be more accurately compared to a bulb, because like a bulb you dug it out of the home it had made and chopped off its extremities and are now preparing to plant it in a new location; only, in this instance the hole was dug into the chest of a dead vampire minion and the new location is nestled against the still-beating heart of a patient.",
     "price": "3 kUSD 500 USD",
@@ -11,7 +12,8 @@
   {
     "id": "bio_fuel_cell_vamp_blood",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Vampire Blood Fuel Cell Generator" },
     "description": "What reason could anyone have making a bionic power generator that runs off the blood of vampires?  After some thought, one option that occurs to you would be the possibility that by limiting the fuel options, a vampire is also limiting the opportunities for a rogue minion to use its bionics against its master.",
     "price": "3 kUSD 500 USD",
@@ -20,7 +22,8 @@
   {
     "id": "xe_bio_chiropteran_signal",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Chiropteran Signal CBM" },
     "description": "A jar-like container that includes a set of vocal cords with a large hood at the top of them and rootlike tendrils at the base connecting to a microchip.",
     "price": "3 kUSD 500 USD",
@@ -29,7 +32,8 @@
   {
     "id": "xe_bio_xl_chiropteran_signal",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Desmodontinae Gargantua Vocalizer" },
     "description": "A jar-like container that includes a set of oversized and reinforced vocal cords with a large hood at the top of them and rootlike tendrils at the base connecting to a microchip.",
     "price": "3 kUSD 500 USD",
@@ -38,7 +42,8 @@
   {
     "id": "xe_bio_spore_enhancer",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Crypt Spore Vaporizer" },
     "description": "A syringe that extends out into two tubes that snake up through the nostrils and down to the lungs in order to get the spores deep into their new home, where they can best spread through the body.",
     "price": "3 kUSD 500 USD",

@@ -1,7 +1,8 @@
 [
   {
     "id": "410shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 slug" },
     "description": "A .410 shotshell loaded with a 110gr slug.  Decent for hunting medium game or possibly self-defense.",
     "ascii_picture": "410shot_000",
@@ -64,7 +65,8 @@
   {
     "id": "reloaded_410shot_slug",
     "copy-from": "410shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 slug, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -73,7 +75,8 @@
   {
     "id": "bp_410shot_slug",
     "copy-from": "reloaded_410shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 slug, black powder" },
     "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -82,7 +85,8 @@
   {
     "id": "410shot_000",
     "copy-from": "410shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 000 shot" },
     "description": "A .410 shotshell loaded with five 000 pellets.  Good for a hunting or combat load.",
     "range": 24,
@@ -98,7 +102,8 @@
   {
     "id": "reloaded_410shot_000",
     "copy-from": "410shot_000",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 000 shot, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -107,7 +112,8 @@
   {
     "id": "bp_410shot_000",
     "copy-from": "reloaded_410shot_000",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 000 shot, black powder" },
     "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -116,7 +122,8 @@
   {
     "id": "410shot_bird",
     "copy-from": "410shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 birdshot" },
     "description": "A .410 shotshell loaded with 3/8th of an ounce of #4 brass-plated steel birdshot.  Designed for hunting birds and other small game, its applications in combat are very limited.",
     "//": "3/8 oz shot, 1400 FPS.",
@@ -131,7 +138,8 @@
   {
     "id": "reloaded_410shot_bird",
     "copy-from": "410shot_bird",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 birdshot, reloaded" },
     "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -140,7 +148,8 @@
   {
     "id": "bp_410shot_bird",
     "copy-from": "reloaded_410shot_bird",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 birdshot, black powder" },
     "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -149,7 +158,8 @@
   {
     "id": "410shot_scrap",
     "copy-from": "410shot_000",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 scrap shot" },
     "description": "A .410 shotshell filled with whatever scrap metal was lying around.  More damaging than birdshot, but fairly inaccurate.",
     "proportional": { "price": 0.4, "price_postapoc": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "shot_spread": 1.2 },
@@ -159,7 +169,8 @@
   {
     "id": "bp_410shot_scrap",
     "copy-from": "410shot_scrap",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".410 scrap shot, black powder" },
     "proportional": { "price": 0.6, "price_postapoc": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 } },
     "extend": { "effects": [ "MUZZLE_SMOKE", "BLACKPOWDER" ] }

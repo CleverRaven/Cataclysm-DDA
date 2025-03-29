@@ -1,7 +1,8 @@
 [
   {
     "id": "chem_potassium_alum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "potassium alum" },
     "description": "A handful of small, water-soluble white crystals with a watery metallic odor, historically used for many different purposes.  Also known as potash alum and potassium aluminum sulfate; often called simply alum, as it's the most important member of the generic class of compounds called alums.",
@@ -18,7 +19,8 @@
   },
   {
     "id": "dye_powder",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "cloth dye powder" },
     "description": "A handful of powdered colorful cloth dye, which can be used to dye many fabrics if combined with water and some mordant.",
@@ -34,7 +36,8 @@
     "ammo_type": "components"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_calcium_chloride",
     "category": "chems",
     "price": "30 USD",
@@ -51,7 +54,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_washing_soda",
     "category": "chems",
     "price": "30 USD",
@@ -68,7 +72,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_baking_soda",
     "category": "chems",
     "price": "30 USD",
@@ -85,7 +90,8 @@
     "count": 250
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mercury",
     "category": "chems",
     "price": "30 cent",
@@ -104,7 +110,8 @@
     "charges": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_mercury_fulminate",
     "category": "chems",
     "price": "9 USD",
@@ -122,7 +129,8 @@
     "count": 2500
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_sodium",
     "category": "chems",
     "price": "30 cent",
@@ -141,7 +149,8 @@
     "charges": 250
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_potassium",
     "category": "chems",
     "price": "30 cent",
@@ -160,7 +169,8 @@
     "charges": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_lead_azide",
     "category": "chems",
     "price": "9 USD",
@@ -178,7 +188,8 @@
     "count": 2500
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "abstract_hair_dye",
     "category": "other",
     "price": "20 USD",
@@ -197,7 +208,8 @@
     "charges": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_black",
     "name": { "str_sp": "black hair dye" },
     "description": "Some black hair dye.",
@@ -205,7 +217,8 @@
     "color": "black"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_blond",
     "name": { "str_sp": "blond hair dye" },
     "description": "Some blond hair dye.",
@@ -213,7 +226,8 @@
     "color": "yellow"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_blue",
     "name": { "str_sp": "blue hair dye" },
     "description": "Some blue hair dye.",
@@ -221,7 +235,8 @@
     "color": "blue"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_brown",
     "name": { "str_sp": "brown hair dye" },
     "description": "Some brown hair dye.",
@@ -229,7 +244,8 @@
     "color": "brown"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_gray",
     "name": { "str_sp": "gray hair dye" },
     "description": "Some gray hair dye.",
@@ -237,7 +253,8 @@
     "color": "dark_gray"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_green",
     "name": { "str_sp": "green hair dye" },
     "description": "Some green hair dye.",
@@ -245,14 +262,16 @@
     "color": "green"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_red",
     "name": { "str_sp": "red hair dye" },
     "description": "Some red hair dye.",
     "copy-from": "abstract_hair_dye"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_pink",
     "name": { "str_sp": "pink hair dye" },
     "description": "Some pink hair dye.",
@@ -260,7 +279,8 @@
     "color": "pink"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hair_dye_white",
     "name": { "str_sp": "white hair dye" },
     "description": "Some white hair dye.",

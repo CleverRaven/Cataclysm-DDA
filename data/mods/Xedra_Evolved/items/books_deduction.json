@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_deduction",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Esoteric Investigations Weekly", "str_pl": "issues of Esoteric Investigations Weekly" },
     "description": "A magazine for occult investigators.  These types of magazines proliferated in the decade prior to the Cataclysm.",
@@ -21,7 +22,8 @@
   },
   {
     "id": "mag_deduction_tabloid",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "mag_deduction",
     "name": { "str": "The Noon", "str_pl": "issues of The Noon" },
@@ -35,7 +37,8 @@
   },
   {
     "id": "manual_deduction",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Holmesian Guide to Magickal Practice", "str_pl": "copies of The Holmesian Guide to Magickal Practice" },
     "description": "It's big and heavy, but full of great information about esoteric investigations.",
@@ -55,7 +58,8 @@
   },
   {
     "id": "book_teens_deduction",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Scraggy-Boo and the Mystery Crew", "str_pl": "copies of Scraggy-Boo and the Mystery Crew" },
     "description": "A guide for teens interested in pursuing occult knowledge.  Readers often speak of encountering a guide in their dreams of a Russian Sheepdog, who introduces himself as Scraggy-Boo.",
@@ -74,7 +78,8 @@
   },
   {
     "id": "book_deduction_black_iron_prison",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Escaping the Black Iron Prison", "str_pl": "copies of Escaping the Black Iron Prison" },
     "description": "A hardbound book detailing numerous rituals and thought modifications in order to teach its readers how to break the shackles of mundanity.",

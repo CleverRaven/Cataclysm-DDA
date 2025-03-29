@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "alien_hydrogen_sacs",
     "copy-from": "mutant_bug_hydrogen_sacs",
     "category": "spare_parts",

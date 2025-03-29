@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "sling-ready_molotov",
     "name": { "str": "sling-ready Molotov cocktail" },
     "description": "A bottle of flammable liquid with a long fuse inserted, ready to be used in a staff sling with a modified cradle.  To throw this item without a sling, use it light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
@@ -35,7 +36,8 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "sling-ready_grenade",
     "name": { "str": "sling-ready grenade" },
     "description": "A military-grade fragmentary hand grenade, modified with a retaining fuse for use in a staff sling with a modified cradle.  To throw this item without a sling, use it to snap the fuse and activate the grenade.  You will then have five seconds before it explodes; throwing it would be a good idea.",
@@ -69,7 +71,8 @@
   {
     "id": "sling-ready_small_homemade_grenade",
     "copy-from": "sling-ready_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "sling-ready small homemade grenade" },
     "looks_like": "homemade_grenade",
     "description": "An improvised explosive device cobbled together from spare parts and modified with a retaining fuse for use in a staff sling.  To throw this item without a sling, use it to snap the fuse and activate the grenade.  You will then have 5 seconds before it explodes; throwing it would be a good idea.",
@@ -98,7 +101,8 @@
   {
     "id": "sling-ready_homemade_grenade",
     "copy-from": "sling-ready_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "sling-ready homemade grenade" },
     "description": "An improvised explosive device cobbled together from spare parts and modified with a retaining fuse for use in a staff sling with a modified cradle.  To throw this item without a sling, use it to snap the fuse and activate the grenade.  You will then have 5 seconds before it explodes; throwing it would be a good idea.",
     "ascii_picture": "sling-ready_homemade_grenade",
@@ -124,7 +128,8 @@
   {
     "id": "sling-ready_small_homemade_grenade_2",
     "copy-from": "sling-ready_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "sling-ready military explosive small homemade grenade" },
     "description": "An improvised explosive device cobbled together from parts and modified with a retaining fuse for use in a staff sling.  To throw this item without a sling, use it to snap the fuse and activate the grenade.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
     "ascii_picture": "sling-ready_small_homemade_grenade_2",
@@ -152,7 +157,8 @@
   {
     "id": "sling-ready_homemade_grenade_2",
     "copy-from": "sling-ready_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "sling-ready military explosive homemade grenade" },
     "description": "An improvised explosive device cobbled together from parts and modified with a retaining fuse for use in a staff sling with a modified cradle.  To throw this item without a sling, use it to snap the fuse and activate the grenade.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
     "ascii_picture": "sling-ready_homemade_grenade_2",

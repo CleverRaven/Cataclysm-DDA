@@ -93,7 +93,8 @@
   },
   {
     "id": "test_item_with_charges",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "charges": 4,
     "stackable": true,
@@ -105,7 +106,8 @@
   },
   {
     "id": "test_item_with_charges_and_container",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "charges": 4,
     "stackable": true,
@@ -118,7 +120,7 @@
   },
   {
     "id": "test_item_without_charges",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "test item without charges",
     "volume": "1ml",
     "weight": "1g",
@@ -127,7 +129,7 @@
   },
   {
     "id": "test_item_with_container_without_charges",
-    "type": "GENERIC",
+    "type": "ITEM",
     "container": "test_backpack",
     "name": "test item without charges",
     "volume": "1ml",

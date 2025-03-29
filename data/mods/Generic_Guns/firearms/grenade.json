@@ -2,7 +2,8 @@
   {
     "id": "grenade_blooper",
     "copy-from": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "grenade launcher" },
     "ammo": [ "ammo_grenade" ],
     "description": "An older single shot grenade launcher, looking something like a sawn off shotgun.  Though it's mostly been replaced by underbarrel launchers, dedicated models like this have seen use by law enforcement and riot personnel.  Still deadly against hard or soft targets, depending on what cartridges are available.",
@@ -12,7 +13,8 @@
   {
     "id": "grenade_hmg",
     "copy-from": "mark19",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "automatic grenade launcher" },
     "ammo": [ "ammo_grenade" ],
     "description": "This large, clumsy looking launcher looks like the offspring of a machine gun and a mortar; its bore is huge, and its action is just as massive.  A huge belt of grenade cartridges loads into its tray, allowing several grenades to be launched in rapid succession.  If one grenade fired from this isn't enough to solve your problems, surely a dozen more are.  This must be mounted on a frame to be fired, and reloading is a bit slow.",
@@ -30,7 +32,8 @@
   {
     "id": "grenade_pistol",
     "copy-from": "m320",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "grenade pistol" },
     "//": "more like granadepistole",
     "ammo": [ "ammo_grenade" ],
@@ -47,7 +50,8 @@
   {
     "id": "grenade_revolver",
     "copy-from": "mgl",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "revolver grenade launcher" },
     "ammo": [ "ammo_grenade" ],
     "description": "Looking something like a large revolver from a cartoon this launcher is capable of firing six grenades in rapid succession.  Its huge cylinder is wound by a clock spring, which hastens firing, but slows reloading, as it must be re-wound.  Needless to say, six well placed shots is an incredible amount of firepower, depending on the cartridges loaded.",

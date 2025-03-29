@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_barter",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Car Buyer's Guide", "str_pl": "copies of Car Buyer's Guide" },
     "description": "Normally this glossy, ad-filled magazine about cars would be pointless, but it has a series of articles on haggling techniques.",
@@ -20,7 +21,8 @@
   },
   {
     "id": "manual_business",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "How to Succeed in Business", "str_pl": "copies of How to Succeed in Business" },
     "description": "Useful if you want to get a good deal when purchasing goods.",
@@ -59,7 +61,8 @@
   },
   {
     "id": "textbook_business",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Advanced Economics", "str_pl": "copies of Advanced Economics" },
     "//": "Biz majors can afford it.  Surely you're gonna make US$60K/yr out of school, and twice that in five years?",

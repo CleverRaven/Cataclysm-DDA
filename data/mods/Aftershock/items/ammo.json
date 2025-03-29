@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "acidic_bore",
     "price": "100 USD",
     "price_postapoc": "5 USD",
@@ -20,7 +21,8 @@
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "High quality energy extracted by our advanced forbearers. Gives lasers extra damage and range. Don't think too much about how it works.",
     "id": "afs_shuttle_beacon",
     "copy-from": "battery",
@@ -33,7 +35,8 @@
     "range_multiplier": 1.5
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "xray_laser_barrel",
     "price": "100 USD",
     "price_postapoc": "5 USD",
@@ -53,7 +56,8 @@
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_nano",
     "price": "20 USD",
     "name": { "str": "nano printed combat arrow" },

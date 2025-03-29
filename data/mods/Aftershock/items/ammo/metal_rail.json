@@ -1,7 +1,8 @@
 [
   {
     "id": "rebar_rail",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "rebar rail" },
     "description": "A short piece of ferromagnetic rebar which has been straightened and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
     "weight": "236 g",
@@ -24,7 +25,8 @@
   {
     "id": "steel_rail",
     "copy-from": "rebar_rail",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "steel rail" },
     "description": "A short piece of steel which has been forged true and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
     "weight": "212 g",

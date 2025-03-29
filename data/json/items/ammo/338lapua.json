@@ -1,7 +1,8 @@
 [
   {
     "id": "338lapua_hpbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua HPBT" },
     "description": ".338 Lapua ammunition, loaded with a 300-grain hollow-point boat-tailed bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  With burgeoning interest among military, law enforcement, and civilian circles before the Cataclysm, the .338 cartridge filled the gap between lighter infantry munitions and anti-material rounds, although its potential utility as a hunting cartridge was somewhat diminished due to its high cost.",
     "weight": "16200 mg",
@@ -26,7 +27,8 @@
   {
     "id": "338lapua_fmjbt",
     "copy-from": "338lapua_hpbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua AP485" },
     "material": [ "steel", "brass", "lead", "powder" ],
     "description": ".338 Lapua ammunition, loaded with a 248-grain armor-piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through, the target.",
@@ -35,7 +37,8 @@
   {
     "id": "338lapua_api",
     "copy-from": "338lapua_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua API526" },
     "material": [ "steel", "brass", "lead", "powder" ],
     "description": ".338 Lapua ammunition, loaded with a 256-grain armor-piercing incendiary bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a tungsten carbide penetrator as well as an extra dose of nastiness in the form of an incendiary loading, which serves to highlight the point of impact and possibly set flammable materials alight.",
@@ -45,7 +48,8 @@
   {
     "id": "bp_338lapua_hpbt",
     "copy-from": "338lapua_hpbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua HPBT, black powder" },
     "proportional": {
       "price": 0.3,
@@ -59,7 +63,8 @@
   {
     "id": "bp_338lapua_fmjbt",
     "copy-from": "338lapua_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua AP485, black powder" },
     "proportional": {
       "price": 0.3,
@@ -73,7 +78,8 @@
   {
     "id": "bp_338lapua_api",
     "copy-from": "338lapua_api",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua API526, black powder" },
     "proportional": {
       "price": 0.3,
@@ -87,7 +93,8 @@
   {
     "id": "reloaded_338lapua_hpbt",
     "copy-from": "338lapua_hpbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua HPBT, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -96,7 +103,8 @@
   {
     "id": "reloaded_338lapua_fmjbt",
     "copy-from": "338lapua_fmjbt",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua AP485, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -105,7 +113,8 @@
   {
     "id": "reloaded_338lapua_api",
     "copy-from": "338lapua_api",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".338 Lapua API526, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

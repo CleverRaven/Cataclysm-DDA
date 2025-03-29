@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_rod_launcher",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "mining rod launcher" },
     "symbol": "=",
     "color": "yellow",

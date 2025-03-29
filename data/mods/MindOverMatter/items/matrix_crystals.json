@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_biokinesis",
     "name": { "str_sp": "strange crystal, pink" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing pink light in its depths.  Holding it, you feel more capable.",
@@ -19,7 +20,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_biokin_dust",
     "name": { "str_sp": "crystalline dust, pink" },
     "description": "A bit of crystalline dust with a faint pink shimmer.",
@@ -31,7 +32,7 @@
     "looks_like": "material_quicklime"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_biokin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, pink" },
     "description": "Concentrated matrix crystal dust.  It glitters pink even in complete darkness.",
@@ -43,7 +44,8 @@
     "looks_like": "material_quicklime"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_clairsentience",
     "name": { "str_sp": "strange crystal, gray" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -57,7 +59,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_clair_dust",
     "name": { "str_sp": "crystalline dust, gray" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -65,7 +67,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_clair_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, gray" },
     "description": "Concentrated matrix crystal dust.  It glitters gray even in complete darkness.",
@@ -73,7 +75,8 @@
     "color": "dark_gray"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_electrokinesis",
     "name": { "str_sp": "strange crystal, cyan" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -87,7 +90,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_electrokin_dust",
     "name": { "str_sp": "crystalline dust, cyan" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -95,7 +98,7 @@
     "color": "cyan"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_electrokin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, cyan" },
     "description": "Concentrated matrix crystal dust.  It glitters cyan even in complete darkness.",
@@ -103,7 +106,8 @@
     "color": "cyan"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_photokinesis",
     "name": { "str_sp": "strange crystal, golden" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -117,7 +121,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_photokin_dust",
     "name": { "str_sp": "crystalline dust, golden" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -125,7 +129,7 @@
     "color": "yellow"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_photokin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, golden" },
     "description": "Concentrated matrix crystal dust.  It glitters gold even in complete darkness.",
@@ -133,7 +137,8 @@
     "color": "yellow"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_pyrokinesis",
     "name": { "str_sp": "strange crystal, red" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -147,7 +152,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_pyrokin_dust",
     "name": { "str_sp": "crystalline dust, red" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -155,7 +160,7 @@
     "color": "red"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_pyrokin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, red" },
     "description": "Concentrated matrix crystal dust.  It glitters red even in complete darkness.",
@@ -163,7 +168,8 @@
     "color": "red"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_telekinesis",
     "name": { "str_sp": "strange crystal, yellow" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -177,7 +183,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_telekin_dust",
     "name": { "str_sp": "crystalline dust, yellow" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -185,7 +191,7 @@
     "color": "yellow"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_telekin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, yellow" },
     "description": "Concentrated matrix crystal dust.  It glitters yellow even in complete darkness.",
@@ -193,7 +199,8 @@
     "color": "yellow"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_telepathy",
     "name": { "str_sp": "strange crystal, white" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -207,7 +214,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_telepath_dust",
     "name": { "str_sp": "crystalline dust, white" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -215,7 +222,7 @@
     "color": "white"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_telepath_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, white" },
     "description": "Concentrated matrix crystal dust.  It glitters white even in complete darkness.",
@@ -223,7 +230,8 @@
     "color": "white"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_teleportation",
     "name": { "str_sp": "strange crystal, blue" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -237,7 +245,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_teleport_dust",
     "name": { "str_sp": "crystalline dust, blue" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -245,7 +253,7 @@
     "color": "blue"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_teleport_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, blue" },
     "description": "Concentrated matrix crystal dust.  It glitters blue even in complete darkness.",
@@ -253,7 +261,8 @@
     "color": "blue"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_vitakinesis",
     "name": { "str_sp": "strange crystal, green" },
     "copy-from": "matrix_crystal_biokinesis",
@@ -267,7 +276,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_vitakin_dust",
     "name": { "str_sp": "crystalline dust, green" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -275,7 +284,7 @@
     "color": "green"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_vitakin_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, green" },
     "description": "Concentrated matrix crystal dust.  It glitters green even in complete darkness.",
@@ -283,7 +292,8 @@
     "color": "green"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_drained",
     "name": { "str_sp": "strange crystal, black" },
     "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, there is a faint light visible in its depths.",
@@ -301,7 +311,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_drained_dust",
     "name": { "str_sp": "crystalline dust, black" },
     "copy-from": "matrix_crystal_biokin_dust",
@@ -309,7 +319,7 @@
     "color": "black"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "matrix_crystal_drained_dust_refined",
     "name": { "str_sp": "refined matrix crystal powder, black" },
     "description": "Concentrated matrix crystal dust.  It seems to completely absorb any light that falls on it.",
@@ -317,7 +327,8 @@
     "color": "black"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_coruscating",
     "name": { "str_sp": "strange crystal, coruscating" },
     "description": "A strange-looking, surprisingly-heavy crystal.  In total darkness, multicolored lights churn and swirl within its depths.",
@@ -331,7 +342,8 @@
     }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "matrix_shard",
     "symbol": ",",
     "color": "white",

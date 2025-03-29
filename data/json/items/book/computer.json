@@ -1,7 +1,8 @@
 [
   {
     "id": "SICP",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "SICP", "str_pl": "copies of SICP" },
     "description": "A classic text, \"The Structure and Interpretation of Computer Programs.\" Written with examples in LISP, but applicable to any language.",
@@ -48,7 +49,8 @@
   },
   {
     "id": "computer_science",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Computer Science 301", "str_pl": "copies of Computer Science 301" },
     "description": "A college textbook on computer science.",
@@ -98,7 +100,8 @@
   },
   {
     "id": "howto_computer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "How to Browse the Web", "str_pl": "copies of How to Browse the Web" },
     "description": "Very beginner-level information about computers.",
@@ -151,7 +154,8 @@
   },
   {
     "id": "mag_computer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Computer World", "str_pl": "issues of Computer World" },
     "description": "An informative magazine all about computers, both hardware and software.",
@@ -197,7 +201,8 @@
   },
   {
     "id": "manual_computer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Computer Science 101", "str_pl": "copies of Computer Science 101" },
     "//": "College-level textbooks are Cheap at $60.",
@@ -247,7 +252,8 @@
   },
   {
     "id": "textbook_computer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Principles of Advanced Programming", "str_pl": "copies of Principles of Advanced Programming" },
     "description": "A heavy textbook dedicated to advanced-level software design, written for several different programming languages.",
@@ -312,7 +318,8 @@
   },
   {
     "id": "webbasics_computer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Web Design Basics", "str_pl": "copies of Web Design Basics" },
     "//": "An entry-level book for younger coders that includes real coding practice.",
@@ -377,7 +384,8 @@
   },
   {
     "id": "hackerman_computer",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Pro Hacker Secrets", "str_pl": "copies of Pro Hacker Secrets" },
     "//": "A pristine, almost untouched book about coding targeted at teenagers.",

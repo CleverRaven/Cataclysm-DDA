@@ -2,7 +2,8 @@
   {
     "id": "rm103a_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "caseless automagnum" },
     "//": "Rivtech don't come cheap.",
@@ -44,7 +45,8 @@
   {
     "id": "rm11b_sniper_rifle",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "caseless scout rifle" },
     "description": "Intended to function as a long-range sharpshooter support weapon for the military, the Rivtech RM11B scout rifle was designed for durability and accuracy under less than ideal circumstances.  Its bullpup layout, digital scope, and two round burst mode allow it to deliver precise long-range takedowns, utilizing the proprietary Rivtech 8mm caseless round.  Accepts stick magazines.",
@@ -91,7 +93,8 @@
   {
     "id": "rm2000_smg",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "caseless submachine gun" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun was designed for durability and ease of carrying under less than ideal circumstances.  Accepts stick magazines.",
@@ -133,7 +136,8 @@
   },
   {
     "id": "rm51_assault_rifle",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "caseless assault rifle" },
     "description": "Originally produced for military use, the Rivtech RM51 assault rifle was designed for durability and ease of use under less than ideal circumstances, with its considerable bulk minimized by a compact and ergonomic layout.  Accepts box magazines.",

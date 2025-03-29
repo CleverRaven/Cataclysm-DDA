@@ -9,7 +9,8 @@
   {
     "id": "mana_wheel",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": "mana wheel",
     "description": "A column of mana energy that enables a floating disk to move.",
     "weight": "500 g",
@@ -98,7 +99,8 @@
   },
   {
     "id": "mana",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "mana core power" },
     "description": { "str": "Seeing this is a bug.", "//~": "NO_I18N" },

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_corpse_old",
     "copy-from": "corpse",
     "name": { "str": "mummified corpse" },
@@ -11,7 +11,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_afs_mon_sentinel_lx",
     "symbol": ",",
     "color": "green",
@@ -28,7 +28,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_bloodhound_drone",
     "symbol": ",",
     "color": "green",
@@ -44,7 +44,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_fumigator",
     "symbol": ",",
     "color": "green",
@@ -60,7 +60,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_utilibot",
     "symbol": ",",
     "color": "light_gray",
@@ -76,13 +76,13 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_utilibot_beehive",
     "name": "broken beehive robot",
     "copy-from": "broken_utilibot"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_laserturret_xray",
     "symbol": ",",
     "color": "green",
@@ -91,7 +91,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_afs_commercial_laser_turret",
     "looks_like": "bot_rifleturret",
     "symbol": ",",
@@ -101,7 +101,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_hazmatbot",
     "name": "broken Likvidator",
     "description": "A broken Likvidator, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
@@ -109,14 +109,14 @@
     "color": "green"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_migoturret_whately",
     "name": "broken Whately turret",
     "copy-from": "broken_afs_mon_migoturret",
     "color": "green"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_utilibot_butler",
     "copy-from": "broken_utilibot",
     "color": "dark_gray",
@@ -124,7 +124,7 @@
     "description": "A broken Famulus, now silent and mangled.  If it wasn't for the obvious rivets and welding, it would look completely human.  Could be stripped down for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_utilibot_const",
     "copy-from": "broken_utilibot",
     "color": "dark_gray",
@@ -134,7 +134,7 @@
     "description": "A broken Udarnik, now wrecked and immobile.  Could be stripped down for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_utilibot_hostile",
     "copy-from": "broken_utilibot_const",
     "color": "dark_gray",
@@ -142,7 +142,7 @@
     "description": "A broken Udarnik, now wrecked and immobile.  Could be stripped down for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_utilibot_fire",
     "copy-from": "broken_utilibot",
     "color": "yellow",
@@ -150,7 +150,7 @@
     "description": "A broken Brandspojt, now cold and inert.  Could be stripped down for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_skitterbot_rat",
     "copy-from": "broken_skitterbot",
     "color": "light_gray",
@@ -158,7 +158,7 @@
     "description": "A broken rat snatcher, now harmless and inert.  Could be stripped down or re-crafted."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_skitterbot_grab",
     "copy-from": "broken_skitterbot",
     "color": "light_gray",
@@ -166,7 +166,7 @@
     "description": "A broken grabber robot, now limp and nonthreatening.  Could be stripped down or re-crafted."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_skitterbot_hunter",
     "copy-from": "broken_skitterbot",
     "color": "light_gray",
@@ -174,7 +174,7 @@
     "description": "A broken pest hunter, now harmless and inert.  Could be gutted for parts or re-crafted."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_imaginifer",
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
@@ -182,7 +182,7 @@
     "description": "A broken military humaniform, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_milbot_40mm",
     "copy-from": "broken_milbot_disarmed",
     "color": "red",
@@ -190,7 +190,7 @@
     "description": "A broken Suppressor, shattered and inert.  Could be stripped for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_eyebot_heater",
     "copy-from": "broken_afs_eyebot",
     "color": "pink",
@@ -198,7 +198,7 @@
     "description": "A broken floating heater, now cold and motionless.  Could be stripped down or re-crafted."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_advbot_disarmed",
     "symbol": ",",
     "color": "white",
@@ -216,7 +216,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_advbot_laser",
     "copy-from": "broken_advbot_disarmed",
     "color": "yellow",
@@ -224,7 +224,7 @@
     "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_wraitheon_irradiant",
     "copy-from": "broken_advbot_disarmed",
     "color": "magenta",
@@ -232,7 +232,7 @@
     "description": "The irreparably broken remains of an Irradiant weapons platform.  Its mounted plasma cannon self-destructed when the robot was rendered inoperable, but its remains could still be disassembled for some valuable parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_wraitheon_isohypsa",
     "copy-from": "broken_advbot_disarmed",
     "color": "magenta",
@@ -240,7 +240,7 @@
     "description": "The broken shell of an Isohypsa drone coordinator.  Most of its sensors and AI units are charred beyond any repair."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_wraitheon_kaburaya",
     "copy-from": "broken_advbot_disarmed",
     "color": "magenta",
@@ -248,7 +248,7 @@
     "description": "A broken Kabura-ya drone.  Could be disassembled for a meager amount of parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_advbot_emp",
     "copy-from": "broken_advbot_disarmed",
     "color": "light_blue",
@@ -256,7 +256,7 @@
     "description": "A broken advanced robot.  This one is armed with an integrated EMP projector.  Could be stripped for parts."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_milbot_disarmed",
     "symbol": ",",
     "color": "green",
@@ -274,7 +274,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_defbot_disarmed",
     "symbol": ",",
     "color": "light_gray",
@@ -292,7 +292,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_medibot",
     "symbol": ",",
     "color": "white",
@@ -310,7 +310,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_afs_eyebot",
     "symbol": ",",
     "color": "green",
@@ -327,7 +327,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_shock_mine",
     "symbol": ",",
     "color": "green",
@@ -344,7 +344,7 @@
     "melee_damage": { "bash": 4, "cut": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_zenit",
     "symbol": ",",
     "color": "green",
@@ -361,7 +361,7 @@
     "melee_damage": { "bash": 4, "cut": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_afs_copbot",
     "symbol": ",",
     "color": "green",
@@ -378,7 +378,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_afs_riotbot",
     "symbol": ",",
     "color": "green",

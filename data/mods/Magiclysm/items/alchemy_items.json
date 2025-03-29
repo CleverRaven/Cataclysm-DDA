@@ -1,7 +1,8 @@
 [
   {
     "id": "owlbear_stone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "owlbear gastrolith",
     "description": "This strangely shaped rock was once a part of an owlbear's complex digestive system, creating a link between owl throat and bear stomach.  It is possible that it could serve a similar purpose in alchemy, helping to bind together two disparate halves.",
     "weight": "2 kg",
@@ -18,7 +19,7 @@
   },
   {
     "id": "stone_shell",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "light_gray",
     "name": "stone shell",
@@ -33,7 +34,8 @@
   {
     "id": "copper_infuser",
     "copy-from": "copper_bracelet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "qualities": [ [ "MANA_INFUSE", 1 ] ],
     "name": { "str": "copper infusion bracelet" },
     "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
@@ -41,14 +43,16 @@
   {
     "id": "silver_infuser",
     "copy-from": "silver_bracelet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "qualities": [ [ "MANA_INFUSE", 2 ] ],
     "name": { "str": "silver infusion bracelet" },
     "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
     "id": "copper_circlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "copper circlet" },
     "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
@@ -67,7 +71,8 @@
   },
   {
     "id": "silver_circlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "silver circlet" },
     "description": "A wooden band with silver trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
@@ -87,14 +92,16 @@
   {
     "id": "potion_starter",
     "copy-from": "mixed_alcohol_strong",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "potion starter" },
     "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
     "id": "potion_starter_superior",
     "copy-from": "chem_ethanol",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "superior potion starter" },
     "charges": 1,
@@ -103,7 +110,8 @@
   {
     "id": "adrenal_gland_large",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large adrenal gland" },
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
     "delete": { "flags": [ "SMOKABLE" ] },
@@ -111,7 +119,7 @@
   },
   {
     "id": "glow_dust",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "yellow",
     "name": "glow dust",
@@ -123,7 +131,7 @@
   },
   {
     "id": "glow_light",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": "magical reading light",
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  Use it to close the cover and hide the light.",
@@ -143,7 +151,7 @@
   },
   {
     "id": "glow_light_off",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "magical reading light (covered)", "str_pl": "magical reading lights (covered)" },
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
@@ -158,7 +166,7 @@
   },
   {
     "id": "bulette_plate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": ")",
     "color": "light_gray",
     "name": "bulette plate",
@@ -170,7 +178,7 @@
   },
   {
     "id": "bulette_pearl",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "red",
     "name": "bulette pearl",
@@ -182,7 +190,8 @@
   },
   {
     "id": "dragon_essence",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "light_red",
     "name": { "str_sp": "dragon essence" },
@@ -198,7 +207,7 @@
   },
   {
     "id": "stirge_proboscis",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "stirge proboscis", "str_pl": "stirge proboscises" },
     "description": "A long sucking apparatus harvested from stirge corpse.  Makes a poor melee weapon.",
     "volume": "100 ml",
@@ -213,7 +222,7 @@
     "melee_damage": { "stab": 7 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "demon_chitin_piece",
     "category": "spare_parts",
     "symbol": ",",
@@ -229,7 +238,7 @@
   },
   {
     "id": "bundle_demon_chitin_piece",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "demon_chitin_piece",
     "symbol": "=",
     "name": { "str": "bundle of demon chitin chunks", "str_pl": "bundles of demon chitin chunks" },
@@ -237,7 +246,7 @@
     "description": "Pieces of demon spider exoskeleton, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "demon_chitin_plate",
     "category": "spare_parts",
     "symbol": "/",
@@ -252,7 +261,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "demon_spider_fang",
     "name": "demon spider fang",
     "description": "A fang from a demon spider.  It seems to still drip with poison; you might be able to use this in some alchemical recipe?",
@@ -268,7 +277,8 @@
     "melee_damage": { "stab": 8 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "alumentum",
     "category": "spare_parts",
     "price": "9 USD",
@@ -286,7 +296,7 @@
   },
   {
     "id": "mana_dust",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "blue",
     "name": "mana dust",
@@ -297,7 +307,7 @@
   },
   {
     "id": "mana_pearl",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "*",
     "color": "blue",
     "name": "mana pearl",
@@ -307,7 +317,7 @@
     "volume": "60 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "enchanted_wood",
     "symbol": "/",
     "color": "blue",
@@ -325,7 +335,8 @@
   },
   {
     "id": "alchemist_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "mana bomb" },
     "description": "Mana bombs are powerful explosive devices developed by a little-known alchemist group for use against enemy spellcasters.  These bombs are fueled by pure arcane energy and can kill instantly.  The exact workings are unclear, but they appear to use some kind of massive mana burn.",
@@ -350,7 +361,8 @@
   },
   {
     "id": "alchemist_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "mana bomb (lit)", "str_pl": "mana bombs (lit)" },
     "description": "The liquid in the bottle is sizzling.  Throwing it away from you, preferably at an enemy, would be a very good idea.",
@@ -371,7 +383,8 @@
   },
   {
     "id": "alchemist_mine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "alchemical mine" },
     "description": "A pair of stabilized alchemist bombs with concentrated mana linking them.  Any movement in the mana linkage zone provokes an extremely powerful explosion in a small area.",
     "weight": "860 g",
