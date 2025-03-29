@@ -1,34 +1,5 @@
 [
   {
-    "id": "gun_crossbow",
-    "type": "GUNMOD",
-    "name": { "str": "rail-mounted crossbow" },
-    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.",
-    "weight": "1450 g",
-    "volume": "500 ml",
-    "price": "500 USD",
-    "price_postapoc": "15 USD",
-    "install_time": "30 m",
-    "material": [ "steel", "wood" ],
-    "symbol": ":",
-    "color": "light_red",
-    "location": "rail",
-    "mod_targets": [ "shotgun", "rifle", "crossbow" ],
-    "gun_data": {
-      "ammo": [ "bolt" ],
-      "skill": "rifle",
-      "range": 8,
-      "ranged_damage": { "damage_type": "stab", "amount": 3 },
-      "dispersion": 180,
-      "durability": 10,
-      "clip_size": 1
-    },
-    "dispersion_modifier": 60,
-    "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NON_FOULING" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
-  },
-  {
     "id": "offset_sights",
     "copy-from": "improve_sights",
     "type": "GUNMOD",
