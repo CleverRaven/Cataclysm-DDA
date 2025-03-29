@@ -1,7 +1,7 @@
 [
   {
     "id": "m107a1",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_50bmg_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "semi-automatic anti-materiel rifle" },
@@ -20,23 +20,16 @@
     "longest_side": "145 cm",
     "barrel_length": "737 mm",
     "price": "14 kUSD 833 USD",
-    "price_postapoc": "120 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "ammo": [ "50" ],
     "range": 100,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 130,
-    "durability": 8,
-    "min_cycle_recoil": 23625,
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m107a1mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m107a1mag" ] } ]
   },
   {
     "id": "m2browning",
-    "copy-from": "rifle_auto",
+    "copy-from": "gun_base_50bmg_semi_rifle",
     "looks_like": "m107a1",
     "type": "GUN",
     "name": { "str_sp": ".50-caliber heavy machine gun" },
@@ -55,14 +48,9 @@
     "barrel_length": "1143 mm",
     "price": "18 kUSD",
     "price_postapoc": "100 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "ammo": [ "50" ],
     "range": 110,
     "dispersion": 250,
-    "durability": 8,
-    "min_cycle_recoil": 23625,
-    "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -75,12 +63,11 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ]
   },
   {
     "id": "as50",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_50bmg_semi_rifle",
     "looks_like": "m107a1",
     "type": "GUN",
     "name": { "str": ".50-caliber precision rifle" },
@@ -98,25 +85,17 @@
     "longest_side": "137 cm",
     "barrel_length": "692 mm",
     "price": "15 kUSD",
-    "price_postapoc": "120 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "ammo": [ "50" ],
     "range": 115,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 80,
-    "durability": 7,
-    "min_cycle_recoil": 23625,
-    "reload": 400,
     "barrel_volume": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "as50mag" ] } ],
-    "melee_damage": { "bash": 13 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "as50mag" ] } ]
   },
   {
     "id": "tac50",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "m107a1",
     "type": "GUN",
     "name": { "str": "bolt-action anti-materiel rifle" },
@@ -135,24 +114,18 @@
     "barrel_length": "737 mm",
     "price": "8 kUSD 700 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "ammo": [ "50" ],
     "range": 45,
+    "ammo": [ "50" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 50,
-    "durability": 8,
-    "blackpowder_tolerance": 24,
-    "reload": 450,
     "barrel_volume": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
-    "flags": [ "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tac50mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tac50mag" ] } ]
   },
   {
     "id": "bfg50",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "m107a1",
     "type": "GUN",
     "name": { "str": "single-shot .50-caliber rifle" },
@@ -171,14 +144,11 @@
     "barrel_length": "749 mm",
     "price": "2 kUSD 395 USD",
     "price_postapoc": "90 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
-    "ammo": [ "50" ],
     "range": 45,
+    "ammo": [ "50" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 110,
-    "durability": 8,
-    "blackpowder_tolerance": 48,
     "barrel_volume": "1250 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -194,8 +164,7 @@
     ],
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "clip_size": 1,
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ]
   }
 ]

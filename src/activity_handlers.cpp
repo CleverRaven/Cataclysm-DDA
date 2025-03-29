@@ -3882,11 +3882,19 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
-            spell_being_cast.cast_all_effects( *you, *target );
-
             if( act->get_value( 2 ) != 0 ) {
                 spell_being_cast.consume_spell_cost( *you, true );
             }
+
+            if( !act->targets.empty() ) {
+                item *it = act->targets.front().get_item();
+                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                    you->consume_charges( *it, it->type->charges_to_use() );
+                }
+            }
+
+            spell_being_cast.cast_all_effects( *you, *target );
+
             if( level_override == -1 ) {
                 if( !spell_being_cast.is_max_level( *you ) ) {
                     // reap the reward
@@ -3906,12 +3914,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
                         }
                     }
-                }
-            }
-            if( !act->targets.empty() ) {
-                item *it = act->targets.front().get_item();
-                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
-                    you->consume_charges( *it, it->type->charges_to_use() );
                 }
             }
             get_event_bus().send<event_type::spellcasting_finish>( you->getID(), true, sp,

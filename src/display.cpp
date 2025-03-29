@@ -1425,7 +1425,7 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
             return display::bodytemp_color( u, bid );
         }
         case bodygraph_var::encumb: {
-            int level = u.get_part_encumbrance_data( bid ).encumbrance;
+            int level = u.get_part_encumbrance( bid );
             return display::encumb_color( level );
         }
         case bodygraph_var::status: {

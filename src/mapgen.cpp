@@ -453,6 +453,16 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
         // Move stuff at random!
         auto item_iterator = md.i_at( current_tile.xy() ).begin();
         while( item_iterator != md.i_at( current_tile.xy() ).end() ) {
+            // Some items must not be moved out of SEALED CONTAINER
+            if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SEALED, current_tile ) &&
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_CONTAINER, current_tile ) ) {
+                // Seed should stay in their planter for map::grow_plant to grow them
+                if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANT, current_tile ) &&
+                    item_iterator->is_seed() ) {
+                    item_iterator++;
+                    continue;
+                }
+            }
             if( x_in_y( 10, 100 ) ) {
                 // pick a new spot...
                 tripoint_bub_ms destination_tile( current_tile.x() + rng( -3, 3 ),

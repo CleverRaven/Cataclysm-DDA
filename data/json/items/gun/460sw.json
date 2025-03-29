@@ -1,7 +1,7 @@
 [
   {
     "id": "460_xvr",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "GUN",
     "name": { "str": ".460 S&W Magnum revolver" },
@@ -22,15 +22,10 @@
     "price": "1639 USD",
     "price_postapoc": "30 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
     "ammo": [ "460sw" ],
     "dispersion": 280,
-    "durability": 8,
-    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "valid_mod_locations": [ [ "sights", 1 ], [ "stock mount", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "460sw": 5 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "460sw": 5 } } ]
   }
 ]

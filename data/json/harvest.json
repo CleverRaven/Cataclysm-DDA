@@ -1602,7 +1602,7 @@
     "copy-from": "zombie_decay_bone_human_skull",
     "extend": {
       "entries": [
-        { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
+        { "drop": "budget_steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
         { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 }
       ]
     }
@@ -1615,7 +1615,7 @@
     "extend": {
       "entries": [
         { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.175 },
-        { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
+        { "drop": "budget_steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
         { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 }
       ]
     }

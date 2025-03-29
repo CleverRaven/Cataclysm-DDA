@@ -1639,7 +1639,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": [ 1, 20 ] } ]
+    "entries": [ { "group": "cigarettes_opened" } ]
   },
   {
     "type": "item_group",

@@ -6658,12 +6658,12 @@ void item::on_wear( Character &p )
             int rhs = 0;
             set_side( side::LEFT );
             for( const bodypart_id &bp : p.get_all_body_parts() ) {
-                lhs += p.get_part_encumbrance_data( bp ).encumbrance;
+                lhs += p.get_part_encumbrance( bp );
             }
 
             set_side( side::RIGHT );
             for( const bodypart_id &bp : p.get_all_body_parts() ) {
-                rhs += p.get_part_encumbrance_data( bp ).encumbrance;
+                rhs += p.get_part_encumbrance( bp );
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -10014,7 +10014,7 @@ bool item::is_food_container() const
 
 bool item::has_temperature() const
 {
-    return is_comestible() || is_corpse();
+    return ( is_comestible() && !has_flag( flag_NO_TEMP ) )  || is_corpse();
 }
 
 bool item::is_corpse() const

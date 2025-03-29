@@ -1,7 +1,7 @@
 [
   {
     "id": "remington700_270",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "bolt-action hunting rifle" },
@@ -20,17 +20,12 @@
     "longest_side": "1135 mm",
     "price": "1 kUSD 126 USD",
     "price_postapoc": "27 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "270win" ],
     "dispersion": 70,
-    "durability": 8,
-    "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_volume": "750 ml",
     "barrel_length": "610 mm",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -43,7 +38,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "270win": 4 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "270win": 4 } } ]
   }
 ]

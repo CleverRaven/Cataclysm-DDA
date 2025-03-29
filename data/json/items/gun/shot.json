@@ -1,7 +1,7 @@
 [
   {
     "id": "ashot",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "12 gauge pistol" },
@@ -14,17 +14,11 @@
     "price": "1 kUSD",
     "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "shot" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 900,
     "durability": 6,
     "clip_size": 1,
-    "reload": 80,
     "valid_mod_locations": [  ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 6 }
   },
@@ -46,7 +40,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
     "energy_drain": "1 kJ",
-    "reload": 200,
+    "reload": 1000,
     "valid_mod_locations": [ [ "sights mount", 1 ], [ "sling", 1 ] ],
     "flags": [ "MOUNTED_GUN", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ],
@@ -54,7 +48,7 @@
   },
   {
     "id": "ksg",
-    "copy-from": "shotgun_pump",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "compact bullpup shotgun" },
@@ -73,15 +67,12 @@
     "longest_side": "672 mm",
     "barrel_length": "470 mm",
     "price": "990 USD",
-    "price_postapoc": "22 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "dispersion": 425,
     "sight_dispersion": 500,
     "durability": 7,
     "clip_size": 7,
     "valid_mod_locations": [
-      [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "mechanism", 2 ],
@@ -91,12 +82,11 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ]
   },
   {
     "id": "mossberg_500",
-    "copy-from": "shotgun_pump_3gun",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "6-round combat shotgun" },
@@ -116,20 +106,17 @@
     "longest_side": "1166 mm",
     "barrel_length": "711 mm",
     "price": "538 USD",
-    "price_postapoc": "22 USD 50 cent",
-    "to_hit": -1,
     "barrel_volume": "186 ml",
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 325,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "durability": 9,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
-    "melee_damage": { "bash": 13 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "mossberg_590",
-    "copy-from": "mossberg_500",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "mossberg_500",
     "type": "GUN",
     "name": { "str": "9-round combat shotgun" },
@@ -153,11 +140,8 @@
     "longest_side": "1043 mm",
     "barrel_length": "508 mm",
     "//": "The true dimensions of the FN SLP are 1092 mm overall length, 558mm barrel length, and 3583 gramme weight.",
-    "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": "700 USD",
-    "price_postapoc": "24 USD",
     "clip_size": 9,
-    "barrel_volume": "0 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
@@ -197,7 +181,6 @@
     "price": "770 USD",
     "price_postapoc": "19 USD",
     "valid_mod_locations": [
-      [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -219,7 +202,7 @@
   },
   {
     "id": "mossberg_930",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "type": "GUN",
     "name": { "str": "8-round auto-loading shotgun" },
     "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that it's harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user's own physical input.",
@@ -243,13 +226,9 @@
     "barrel_length": "470 mm",
     "looks_like": "remington_870",
     "price": "600 USD",
-    "price_postapoc": "22 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 345,
-    "durability": 7,
     "clip_size": 8,
-    "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -262,9 +241,7 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
   },
   {
     "id": "pipe_double_shotgun",
@@ -310,7 +287,7 @@
   },
   {
     "id": "remington_870",
-    "copy-from": "shotgun_pump_3gun",
+    "copy-from": "gun_base_shotgun_manual",
     "//": "Tileset whitelist for shotguns.",
     "type": "GUN",
     "name": { "str": "5-round hunting shotgun" },
@@ -345,16 +322,12 @@
     "longest_side": "1234 mm",
     "barrel_length": "762 mm",
     "price": "587 USD",
-    "price_postapoc": "25 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "dispersion": 305,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "durability": 8,
     "clip_size": 5,
     "barrel_volume": "229 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ],
-    "melee_damage": { "bash": 13 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "remington_870_breacher",
@@ -377,13 +350,10 @@
     "barrel_length": "254 mm",
     "looks_like": "remington_870",
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "skill": "pistol",
-    "modes": [ [ "DEFAULT", "single", 1 ] ],
     "//": "dispersion should be 300 moa, but CDDA exaggerates dispersion.",
     "sight_dispersion": 750,
     "clip_size": 4,
     "price": "538 USD",
-    "price_postapoc": "22 USD 50 cent",
     "barrel_volume": "0 ml",
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
@@ -424,12 +394,11 @@
     "clip_size": 7,
     "barrel_volume": "20 ml",
     "price": "338 USD",
-    "price_postapoc": "27 USD 50 cent",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "revolver_shotgun",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "revolving shotgun" },
@@ -440,8 +409,6 @@
     "longest_side": "60 cm",
     "barrel_length": "300 mm",
     "price": "750 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
     "dispersion": 855,
     "durability": 6,
@@ -450,12 +417,11 @@
     "barrel_volume": "360 ml",
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "saiga_12",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "assault shotgun" },
@@ -473,12 +439,10 @@
     "longest_side": "1068 mm",
     "barrel_length": "483 mm",
     "price": "1 kUSD 890 USD",
-    "price_postapoc": "45 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
+    "delete": { "flags": [ "RELOAD_ONE" ] },
     "dispersion": 395,
     "durability": 7,
-    "min_cycle_recoil": 1250,
     "barrel_volume": "81 ml",
     "valid_mod_locations": [
       [ "sling", 1 ],
@@ -491,8 +455,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga10mag", "saiga30mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga10mag", "saiga30mag" ] } ]
   },
   {
     "id": "shotgun_d",
@@ -509,7 +472,6 @@
     "longest_side": "1111 mm",
     "barrel_length": "660 mm",
     "price": "399 USD",
-    "price_postapoc": "20 USD",
     "barrel_volume": "494 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -521,7 +483,6 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
@@ -539,29 +500,17 @@
       }
     ],
     "clip_size": 3,
-    "modes": [ [ "DEFAULT", "single", 1 ] ],
     "weight": "2721 g",
     "volume": "2926 ml",
     "longest_side": "686 mm",
     "barrel_length": "469 mm",
     "price": "2000 USD",
     "price_postapoc": "2 USD",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "mechanism", 2 ],
-      [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "extend": { "flags": [ "RELOAD_ONE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 3 } } ]
   },
   {
     "id": "shotgun_s",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_manual",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "single barrel shotgun" },
@@ -572,15 +521,13 @@
     "longest_side": "109 cm",
     "barrel_length": "470 mm",
     "price": "100 USD",
-    "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
     "dispersion": 210,
     "durability": 9,
     "clip_size": 1,
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
-      [ "barrel", 1 ],
+      [ "barre", 1 ],
       [ "muzzle", 1 ],
       [ "mechanism", 1 ],
       [ "sights mount", 1 ],
@@ -590,13 +537,11 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "tavor_12",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "type": "GUN",
     "name": { "str": "auto-loading bullpup shotgun" },
     "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  As the weapon's trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
@@ -614,13 +559,9 @@
     "barrel_length": "470 mm",
     "looks_like": "ksg",
     "price": "1 kUSD 800 USD",
-    "price_postapoc": "55 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "dispersion": 320,
     "durability": 6,
-    "min_cycle_recoil": 1250,
-    "clip_size": 5,
     "sight_dispersion": 500,
     "valid_mod_locations": [
       [ "brass catcher", 1 ],
@@ -632,13 +573,11 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 15 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 15 } } ]
   },
   {
     "id": "dp_12",
-    "copy-from": "shotgun_pump",
+    "copy-from": "gun_base_shotgun_manual",
     "type": "GUN",
     "name": { "str": "double-barreled pump shotgun" },
     "description": "A hefty shotgun with a double-barrel configuration, though each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame.  While each barrel has its own associated trigger, considering there is a single pump to actuate both mechanisms, one can't really use it precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges.",
@@ -656,8 +595,6 @@
     "longest_side": "749 mm",
     "barrel_length": "479 mm",
     "price": "1599 USD",
-    "price_postapoc": "35 USD",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "dispersion": 550,
     "sight_dispersion": 700,
@@ -673,12 +610,11 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ]
   },
   {
     "id": "winchester_1887",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_manual",
     "type": "GUN",
     "name": { "str": "bootleg lever-action shotgun" },
     "description": "A lever-action shotgun with a very short barrel and no stock, with room for 6 rounds of 12 gauge shotshells.  Likely a bootlegged replica of a pre-1900 firearm, it would pair nicely with a motorcycle jacket and a Harley Davidson, and seems ready to terminate your cataclysmic adversaries.",
@@ -697,14 +633,10 @@
     "looks_like": "browning_blr",
     "price": "1 kUSD 8 USD",
     "price_postapoc": "22 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
     "dispersion": 860,
     "durability": 6,
     "clip_size": 6,
-    "reload": 120,
-    "skill": "pistol",
-    "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [
       [ "stock mount", 1 ],
       [ "mechanism", 2 ],
@@ -715,13 +647,11 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "winchester_1897",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_manual",
     "type": "GUN",
     "name": { "str": "6-round trenchgun" },
     "description": "Whether or not you ever wondered what would happen if one was to attach a shotgun atop a sword, the result of such an inquiry now rests before you in all its metallic glory.  Coming outfitted with a large 17 inch sword bayonet and a wooden heat shield to protect the user's hands from the barrel when it heats up during firing, this pump-action shotgun practically drips menace and looks like it's straight out of the trenches of World War I.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
@@ -739,7 +669,6 @@
     "barrel_length": "510 mm",
     "looks_like": "remington_870_express",
     "price": "8 kUSD 500 USD",
-    "price_postapoc": "25 USD",
     "material": [ "steel", "wood" ],
     "dispersion": 360,
     "durability": 8,
@@ -758,13 +687,11 @@
       [ "underbarrel", 1 ]
     ],
     "default_mods": [ "sword_bayonet" ],
-    "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
-    "melee_damage": { "bash": 11 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "benelli_sa",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "4-round waterfowl shotgun" },
@@ -788,14 +715,12 @@
     "barrel_length": "660 mm",
     "//": "Based on a 26-inch-barrel field configuration.",
     "price": "1 kUSD 499 USD",
-    "price_postapoc": "18 USD",
     "clip_size": 4,
     "//2": "The capacity of an unmodified M2 is three shells in the tube plus one in the chamber. We're assuming that the player takes the time to rack a cartridge into the chamber and top off the tube when loading in shell number 4.",
     "durability": 10,
     "barrel_volume": "86 ml",
     "//3": "The number's simulating the cubic volume of a 7.5-inch stretch of 20-mm bore barrel being removed.",
     "dispersion": 300,
-    "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
     "default_mods": [ "recoil_stock" ],
     "valid_mod_locations": [
@@ -811,7 +736,6 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NO_TURRET", "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
@@ -891,7 +815,7 @@
   },
   {
     "id": "ar12_shotgun",
-    "copy-from": "shotgun_pump",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "rifle shotgun" },
@@ -958,8 +882,6 @@
     "longest_side": "990 mm",
     "barrel_length": "469 mm",
     "price": "320 USD",
-    "price_postapoc": "12 USD",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "dispersion": 425,
     "sight_dispersion": 500,
@@ -975,12 +897,11 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ]
   },
   {
     "id": "gfy_1",
-    "copy-from": "shotgun_pump",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "bullpup shotgun" },
@@ -1005,8 +926,6 @@
     "longest_side": "723 mm",
     "barrel_length": "469 mm",
     "price": "325 USD",
-    "price_postapoc": "13 USD",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "dispersion": 425,
     "sight_dispersion": 500,
@@ -1022,12 +941,11 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ]
   },
   {
     "id": "srm_1216",
-    "copy-from": "shotgun_pump",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "rotary-magazine shotgun" },
@@ -1046,8 +964,6 @@
     "longest_side": "857 mm",
     "barrel_length": "470 mm",
     "price": "1799 USD",
-    "price_postapoc": "50 USD",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "dispersion": 425,
     "sight_dispersion": 500,
@@ -1063,12 +979,11 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "srm_1216_mag_16" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "srm_1216_mag_16" ] } ]
   },
   {
     "id": "m26_mass_standalone",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_manual",
     "type": "GUN",
     "name": { "str": "M26-MASS standalone shotgun" },
     "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and which fixed most of its predecessor's problems.  This one is configured for standalone usage.",
@@ -1078,11 +993,9 @@
     "longest_side": "610 mm",
     "barrel_length": "197 mm",
     "price": "1 kUSD 890 USD",
-    "price_postapoc": "45 USD",
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
-    "min_cycle_recoil": 1250,
     "barrel_volume": "252 ml",
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
     "built_in_mods": [ "m26_mass_stock" ],

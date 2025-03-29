@@ -794,24 +794,6 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
-    "id": "teleport_banish_self_target",
-    "type": "SPELL",
-    "name": { "str": "Oubliette Self", "//~": "NO_I18N" },
-    "description": { "str": "This is the banishment that the target casts on themselves.", "//~": "NO_I18N" },
-    "valid_targets": [ "self" ],
-    "skill": "metaphysics",
-    "flags": [ "PSIONC", "SILENT", "RANDOM_DAMAGE" ],
-    "effect": "banishment",
-    "shape": "blast",
-    "spell_class": "TELEPORTER",
-    "teachable": false,
-    "min_damage": { "math": [ "u_psi_teleporter_damage" ] },
-    "max_damage": { "math": [ "u_psi_teleporter_damage" ] },
-    "min_range": 0,
-    "max_range": 0,
-    "ignored_monster_species": [ "PSI_NULL" ]
-  },
-  {
     "id": "teleport_loci_establishment",
     "type": "SPELL",
     "name": "[Ψ]Loci Establishment (C)",

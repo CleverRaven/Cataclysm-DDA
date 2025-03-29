@@ -7149,6 +7149,15 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     dbl_or_var dov_real_count = get_dbl_or_var( jo, "real_count", false, 0 );
     dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 1 );
     dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 10 );
+    bool summoner_is_alpha = jo.get_bool( "summoner_is_alpha", false );
+    bool summoner_is_beta = jo.get_bool( "summoner_is_beta", false );
+    std::unordered_map<std::string, str_or_var> set_mon_var;
+    if( jo.has_object( "mon_variables" ) ) {
+        const JsonObject &variables = jo.get_object( "mon_variables" );
+        for( const JsonMember &jv : variables ) {
+            set_mon_var[jv.name()] = get_str_or_var( jv, jv.name(), true );
+        }
+    }
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool indoor_only = jo.get_bool( "indoor_only", false );
@@ -7173,7 +7182,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     return [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
                         dov_max_radius, outdoor_only, indoor_only, group, single_target, dov_lifespan, target_var,
                         spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed, temporary_drop_items,
-                friendly, is_npc, &here]( dialogue & d ) {
+                friendly, summoner_is_alpha, summoner_is_beta, set_mon_var, is_npc, &here]( dialogue & d ) {
         monster target_monster;
         std::vector<Creature *> target_monsters;
         mongroup_id target_mongroup;
@@ -7290,6 +7299,17 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                 if( spawned ) {
                     if( friendly ) {
                         spawned->friendly = -1;
+                    }
+                    if( summoner_is_alpha && d.actor( false )->get_creature() != nullptr ) {
+                        spawned->set_summoner( d.actor( false )->get_creature() );
+                    }
+                    if( summoner_is_beta && d.actor( true )->get_creature() != nullptr ) {
+                        spawned->set_summoner( d.actor( true )->get_creature() );
+                    }
+                    if( !set_mon_var.empty() ) {
+                        for( const auto &val : set_mon_var ) {
+                            spawned->set_value( val.first, val.second.evaluate( d ) );
+                        }
                     }
                     spawns++;
                     if( get_avatar().sees( here, *spawned ) ) {

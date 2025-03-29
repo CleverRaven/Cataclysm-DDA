@@ -229,6 +229,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";
         case ter_furn_flag::TFLAG_WORKOUT_LEGS: return "WORKOUT_LEGS";
         case ter_furn_flag::TFLAG_TRANSLOCATOR: return "TRANSLOCATOR";
+        case ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER: return "TRANSLOCATOR_GREATER";
         case ter_furn_flag::TFLAG_AUTODOC: return "AUTODOC";
         case ter_furn_flag::TFLAG_AUTODOC_COUCH: return "AUTODOC_COUCH";
         case ter_furn_flag::TFLAG_OPENCLOSE_INSIDE: return "OPENCLOSE_INSIDE";

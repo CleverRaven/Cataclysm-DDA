@@ -94,8 +94,8 @@
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ { "transform": "destroyed_window_bars", "x": 0, "y": 0 } ],
       "place_item": [
-        { "item": "steel_lump", "x": 0, "y": 0, "chance": 25 },
-        { "item": "steel_chunk", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "x": 0, "y": 0, "chance": 25 },
+        { "item": "lc_steel_chunk", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
         { "item": "scrap", "x": 0, "y": 0, "repeat": [ 1, 5 ] }
       ]
     }
