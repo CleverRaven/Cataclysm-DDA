@@ -3618,6 +3618,36 @@ Check the map 26 tiles around to find `fd_fire`; if fire is presented, prints it
   },
 ```
 
+#### `construct_coord`
+Create a variable with coordinates out of three numbers
+
+| Syntax | Optionality | Value | Info |
+| --- | --- | --- | --- | 
+| "construct_coord" | **mandatory** | [variable object](#variable-object) | variable, where the location would be saved | 
+| "x", "y", "z" | optional | int, float or [variable object](#variable-object) | default 0; assing the point on coordinate grid for a variable | 
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Saves the coordinates `(10, 10, 10)` into `random_place` variable:
+```json
+{ "construct_coord": { "u_val": "random_place" }, "x": 10, "y": 10, "z": 10 },
+```
+
+find a `_push_direction_correct` location by using `_u_pos` as center coordinate, and `_push_direction_incorrect` as location opposite to what we need
+```json
+{
+  "//": "mirror coordinates to find a position opposite to _push_direction_incorrect",
+  "construct_coord": { "context_val": "push_direction_correct" },
+  "x": { "math": [ "coord_x(_u_pos) * 2 - coord_x(_push_direction_incorrect)" ] },
+  "y": { "math": [ "coord_y(_u_pos) * 2 - coord_y(_push_direction_incorrect)" ] },
+  "z": { "math": [ "coord_z(_u_pos) * 2 - coord_z(_push_direction_incorrect)" ] }
+},
+```
+
 #### `location_variable_adjust`
 Allow adjust location value, obtained by `u_location_variable`, and share the same syntax and rules
 
@@ -4336,7 +4366,7 @@ Beta talker is knocked back for 7 tiles and for 20 seconds
   },
 ```
 
-Store npc location in n_pos, then player picks a tile, centered around n_pos, to check in which direction enemy should fly reeling. mirror_coordinates is used to transform push_direction_incorrect to push_direction_correct, that is later used in the function
+Store npc location in n_pos, then player picks a tile, centered around n_pos, to check in which direction enemy should fly reeling. construct_coord is used to transform push_direction_incorrect to push_direction_correct, that is later used in the function
 ```json
   {
     "type": "effect_on_condition",
@@ -4351,9 +4381,11 @@ Store npc location in n_pos, then player picks a tile, centered around n_pos, to
         "message": "Select where to push the monster."
       },
       {
-        "mirror_coordinates": { "context_val": "push_direction_correct" },
-        "center_var": { "context_val": "n_pos" },
-        "relative_var": { "context_val": "push_direction_incorrect" }
+        "//": "mirror coordinates to find a position opposite to _push_direction_incorrect",
+        "construct_coord": { "context_val": "push_direction_correct" },
+        "x": { "math": [ "coord_x(_u_pos) * 2 - coord_x(_push_direction_incorrect)" ] },
+        "y": { "math": [ "coord_y(_u_pos) * 2 - coord_y(_push_direction_incorrect)" ] },
+        "z": { "math": [ "coord_z(_u_pos) * 2 - coord_z(_push_direction_incorrect)" ] }
       },
       { "npc_knockback": 7, "stun": 10, "dam_mult": 2, "direction_var": { "context_val": "push_direction_correct" } }
     ]
@@ -4508,51 +4540,15 @@ Allow to selects one tile with DIGGABLE flag around the u
         "message": "Select where to push the monster."
       },
       {
-        "mirror_coordinates": { "context_val": "push_direction_correct" },
-        "center_var": { "context_val": "u_pos" },
-        "relative_var": { "context_val": "push_direction_incorrect" }
+        "//": "mirror coordinates to find a position opposite to _push_direction_incorrect",
+        "construct_coord": { "context_val": "push_direction_correct" },
+        "x": { "math": [ "coord_x(_u_pos) * 2 - coord_x(_push_direction_incorrect)" ] },
+        "y": { "math": [ "coord_y(_u_pos) * 2 - coord_y(_push_direction_incorrect)" ] },
+        "z": { "math": [ "coord_z(_u_pos) * 2 - coord_z(_push_direction_incorrect)" ] }
       },
       { "u_knockback": 7, "stun": 10, "dam_mult": 2, "direction_var": { "context_val": "push_direction_correct" } }
     ]
   },
-```
-
-#### `mirror_coordinates`
-Picks two coordinates, and create a third one in opposite direction
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "mirror_coordinates" | **mandatory** | [variable object](#variable-object) | variable, where the mirrored coordinate be stored | 
-| "center_var" | **mandatory** | [variable object](#variable-object) | variable with coordinates that would be the center between `relative_var` and `mirror_coordinates` | 
-| "relative_var" | **mandatory** | [variable object](#variable-object) | variable, that would be used to generate `mirror_coordinates` | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-##### Examples
-
-You pick `first` and `center` locations and store it, then mirror them to create `second` coordinate
-```json
-  {
-    "effect": [
-      {
-        "u_query_tile": "anywhere",
-        "target_var": { "context_val": "first" },
-      },
-      {
-        "u_query_tile": "anywhere",
-        "target_var": { "context_val": "center" },
-      },
-      {
-        "mirror_coordinates": { "context_val": "second" },
-        "center_var": { "context_val": "center" },
-        "relative_var": { "context_val": "first" }
-      },
-    ]
-  }
 ```
 
 #### `u_die`, `npc_die`

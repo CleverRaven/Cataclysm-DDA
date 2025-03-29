@@ -1415,6 +1415,104 @@ diag_eval_dbl_f time_until_eoc_eval( char /* scope */, std::vector<diag_value> c
     };
 }
 
+enum class tripoint_axis : int {
+    x,
+    y,
+    z,
+};
+
+diag_eval_dbl_f _tripoint_abs_eval( std::vector<diag_value> const &params,
+                                    const tripoint_axis axis )
+{
+    var_info loc_var;
+    const diag_value &loc_val = params[0];
+    if( !loc_val.is_empty() ) {
+        loc_var = loc_val.var();
+    }
+    return [loc_var, axis]( const_dialogue const & d ) {
+        const tripoint_abs_ms tripoint_abs = get_tripoint_ms_from_var( loc_var, d, false );
+
+        switch( axis ) {
+            case tripoint_axis::x:
+                return tripoint_abs.x();
+                break;
+            case tripoint_axis::y:
+                return tripoint_abs.y();
+                break;
+            case tripoint_axis::z:
+                return tripoint_abs.z();
+                break;
+            default:
+                return 0;
+        };
+    };
+}
+
+diag_eval_dbl_f tripoint_abs_x_eval( char /* scope */, std::vector<diag_value> const &params,
+                                     diag_kwargs const & /* kwargs */ )
+{
+    return _tripoint_abs_eval( params, tripoint_axis::x );
+}
+
+diag_eval_dbl_f tripoint_abs_y_eval( char /* scope */, std::vector<diag_value> const &params,
+                                     diag_kwargs const & /* kwargs */ )
+{
+    return _tripoint_abs_eval( params, tripoint_axis::y );
+}
+
+diag_eval_dbl_f tripoint_abs_z_eval( char /* scope */, std::vector<diag_value> const &params,
+                                     diag_kwargs const & /* kwargs */ )
+{
+    return _tripoint_abs_eval( params, tripoint_axis::z );
+}
+
+diag_assign_dbl_f _tripoint_abs_ass( std::vector<diag_value> const &params,
+                                     const tripoint_axis axis )
+{
+    var_info loc_var;
+    const diag_value &loc_val = params[0];
+    if( !loc_val.is_empty() ) {
+        loc_var = loc_val.var();
+    }
+
+    return [loc_var, axis]( dialogue & d, double val ) {
+        tripoint_abs_ms tripoint_abs = get_tripoint_ms_from_var( loc_var, d, false );
+
+        switch( axis ) {
+            case tripoint_axis::x:
+                tripoint_abs.x() = val;
+                break;
+            case tripoint_axis::y:
+                tripoint_abs.y() = val;
+                break;
+            case tripoint_axis::z:
+                tripoint_abs.z() = val;
+                break;
+            default:
+                return;
+        };
+        write_var_value( loc_var.type, loc_var.name, &d, tripoint_abs.to_string() );
+    };
+}
+
+diag_assign_dbl_f tripoint_abs_x_ass( char /* scope */, std::vector<diag_value> const &params,
+                                      diag_kwargs const &/* kwargs */ )
+{
+    return _tripoint_abs_ass( params, tripoint_axis::x );
+}
+
+diag_assign_dbl_f tripoint_abs_y_ass( char /* scope */, std::vector<diag_value> const &params,
+                                      diag_kwargs const &/* kwargs */ )
+{
+    return _tripoint_abs_ass( params, tripoint_axis::y );
+}
+
+diag_assign_dbl_f tripoint_abs_z_ass( char /* scope */, std::vector<diag_value> const &params,
+                                      diag_kwargs const &/* kwargs */ )
+{
+    return _tripoint_abs_ass( params, tripoint_axis::z );
+}
+
 diag_eval_dbl_f effect_duration_eval( char scope, std::vector<diag_value> const &params,
                                       diag_kwargs const &kwargs )
 {
@@ -1946,6 +2044,9 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "time_since", { "g", 1, time_since_eval } },
     { "time_until", { "g", 1, time_until_eval } },
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
+    { "coord_x", { "g", 1, tripoint_abs_x_eval, tripoint_abs_x_ass } },
+    { "coord_y", { "g", 1, tripoint_abs_y_eval, tripoint_abs_y_ass } },
+    { "coord_z", { "g", 1, tripoint_abs_z_eval, tripoint_abs_z_ass } },
     { "proficiency", { "un", 1, proficiency_eval, proficiency_ass } },
     { "val", { "un", 1, u_val, u_val_ass } },
     { "npc_anger", { "un", 0, npc_anger_eval, npc_anger_ass } },
