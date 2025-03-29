@@ -5309,7 +5309,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "wooden posts",
+    "name": "long wooden posts",
     "description": "Recipes related to constructing 8 ft wooden posts.",
     "skill_used": "fabrication",
     "nested_category_data": [ "wooden_post_long", "wooden_post_long_by hand" ]
