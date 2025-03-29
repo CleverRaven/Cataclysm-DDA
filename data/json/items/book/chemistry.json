@@ -50,14 +50,14 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 5,
     "max_level": 7,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "modern_tanner",
@@ -103,12 +103,12 @@
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "brown",
-    "skill": "chemistry",
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 3,
     "max_level": 4,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "chemistry"
   },
   {
     "id": "recipe_alpha",
@@ -123,12 +123,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_animal",
@@ -143,12 +143,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_chimera",
@@ -163,12 +163,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_creepy",
@@ -183,12 +183,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -4
+    "read_skill": "chemistry",
+    "read_fun": -4
   },
   {
     "id": "recipe_elfa",
@@ -203,11 +203,11 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_labchem",
@@ -222,12 +222,12 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -1
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "recipe_maiar",
@@ -242,12 +242,12 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -3
+    "read_skill": "chemistry",
+    "read_fun": -3
   },
   {
     "id": "recipe_medicalmut",
@@ -265,13 +265,13 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 13,
     "time": "35 m",
-    "fun": -2,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_raptor",
@@ -286,11 +286,11 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 8,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "recipe_serum",
@@ -305,12 +305,12 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 8,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -4
+    "read_skill": "chemistry",
+    "read_fun": -4
   },
   {
     "id": "reference_cooking",
@@ -328,8 +328,8 @@
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -2,
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": -2
   },
   {
     "id": "textbook_chemistry",
@@ -371,13 +371,13 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "textbook_extraction",
@@ -414,12 +414,12 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 10,
     "time": "60 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "chemistry"
   },
   {
     "id": "textbook_gaswarfare",
@@ -434,12 +434,12 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "basic_chemistry",
@@ -499,11 +499,11 @@
     "looks_like": "recipe_alpha",
     "color": "light_cyan",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
-    "skill": "chemistry",
     "max_level": 3,
     "intelligence": 6,
     "time": "15 m",
-    "fun": 2
+    "read_skill": "chemistry",
+    "read_fun": 2
   },
   {
     "id": "catalytic_cracking_handbook",
@@ -548,12 +548,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_cyan",
-    "skill": "chemistry",
     "required_level": 5,
     "max_level": 7,
     "intelligence": 9,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "chemistry"
   },
   {
     "id": "textbook_biodiesel",
@@ -631,11 +631,11 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "chemistry",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "chemistry"
   }
 ]

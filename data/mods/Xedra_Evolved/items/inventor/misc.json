@@ -85,7 +85,6 @@
     "symbol": ";",
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],
     "use_action": [
@@ -107,7 +106,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "software_AI",
@@ -132,7 +132,6 @@
     "price": "100000 USD",
     "price_postapoc": "1000 USD",
     "charges_per_use": 3125,
-    "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -151,7 +150,8 @@
       }
     ],
     "use_action": [ { "type": "cast_spell", "spell_id": "inventor_portal_closer_spell", "no_fail": true, "level": 0 } ],
-    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ]
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "tool_ammo": "battery"
   },
   {
     "id": "xedra_inventor_time_pierce_tool",
@@ -166,7 +166,6 @@
     "symbol": ";",
     "color": "white",
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 150,
     "use_action": {
       "type": "cast_spell",
@@ -184,6 +183,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "stab": 10 }
+    "melee_damage": { "stab": 10 },
+    "tool_ammo": [ "battery" ]
   }
 ]

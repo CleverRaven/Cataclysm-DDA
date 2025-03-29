@@ -164,7 +164,6 @@
     "material": [ "iron" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "crude_lamp_oil", "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "crude_lamp_oil": 250, "lamp_oil": 250 } } ],
     "charges_per_use": 1,
     "use_action": {
@@ -177,7 +176,8 @@
       "type": "transform"
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "crude_lamp_oil", "lamp_oil" ]
   },
   {
     "id": "kelvinist_booster_2_active",
@@ -236,7 +236,6 @@
     "material": [ "steel" ],
     "symbol": "%",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -253,7 +252,8 @@
       "menu_text": "Activate",
       "type": "transform"
     },
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "technomancer_booster_2_active",
@@ -272,7 +272,6 @@
     "material": [ "steel" ],
     "symbol": "%",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -291,7 +290,8 @@
         "type": "transform"
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "biomancer_booster_1",
@@ -312,7 +312,6 @@
     "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 3, "stab": 12 },
-    "ammo": [ "biomancer_booster_sludge" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "biomancer_booster_sludge": 5 } } ],
     "charges_per_use": 1,
     "use_action": {
@@ -321,7 +320,8 @@
       "effects": [ { "id": "biomancer_cl_booster_effect", "duration": "8 h" } ],
       "stat_adjustments": { "pain": 5 },
       "moves": 50
-    }
+    },
+    "tool_ammo": [ "biomancer_booster_sludge" ]
   },
   {
     "id": "biomancer_booster_2",
@@ -337,7 +337,6 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "steel" ],
-    "ammo": [ "biomancer_booster_sludge" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "biomancer_booster_sludge": 10 } } ],
     "charges_per_use": 1,
     "use_action": {
@@ -349,7 +348,8 @@
       ],
       "moves": 50,
       "stat_adjustments": { "pain": 2 }
-    }
+    },
+    "tool_ammo": [ "biomancer_booster_sludge" ]
   },
   {
     "id": "biomancer_booster_sludge",

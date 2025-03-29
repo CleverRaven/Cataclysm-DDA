@@ -21,7 +21,7 @@
     "color": "light_cyan",
     "time": "15 m",
     "chapters": 16,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "abstract": "book_fict_hard_tpl",
@@ -127,18 +127,18 @@
     "type": "BOOK",
     "name": { "str": "Hardcover Cookbook" },
     "description": "This is a template for books about cooking.",
-    "skill": "cooking",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "intelligence": -1 }
+    "relative": { "intelligence": -1 },
+    "read_skill": "cooking"
   },
   {
     "abstract": "book_nonf_soft_cook_tpl",
     "type": "BOOK",
     "name": { "str": "Softcover Cookbook" },
     "description": "This is a template for books about cooking.",
-    "skill": "cooking",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "intelligence": -1 }
+    "relative": { "intelligence": -1 },
+    "read_skill": "cooking"
   },
   {
     "abstract": "book_nonf_hard_dodge_tpl",
@@ -148,31 +148,31 @@
     "weight": "600 g",
     "price": "10 USD",
     "price_postapoc": "2 USD",
-    "skill": "dodge",
     "intelligence": 4,
     "time": "10 m",
-    "fun": -1,
-    "copy-from": "book_nonf_hard_tpl"
+    "copy-from": "book_nonf_hard_tpl",
+    "read_skill": "dodge",
+    "read_fun": -1
   },
   {
     "abstract": "book_nonf_hard_phil_tpl",
     "type": "BOOK",
     "name": { "str": "Hardcover Philosophy" },
     "description": "This is a template for books about philosophy.",
-    "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "price": "5 USD", "price_postapoc": "-25 USD", "intelligence": 3 }
+    "relative": { "price": "5 USD", "price_postapoc": "-25 USD", "intelligence": 3 },
+    "read_fun": 1
   },
   {
     "abstract": "book_nonf_soft_phil_tpl",
     "type": "BOOK",
     "name": { "str": "Softcover Philosophy." },
     "description": "This is a template for paperbacks about philosophy.",
-    "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "price": "4 USD", "price_postapoc": "-26 USD", "intelligence": 3 }
+    "relative": { "price": "4 USD", "price_postapoc": "-26 USD", "intelligence": 3 },
+    "read_fun": 1
   },
   {
     "abstract": "book_pulp_newage_tpl",
@@ -188,32 +188,32 @@
     "type": "BOOK",
     "name": { "str": "Hardcover Nonfiction Sports Book" },
     "description": "This is a template.",
-    "fun": 1,
-    "copy-from": "book_nonf_hard_tpl"
+    "copy-from": "book_nonf_hard_tpl",
+    "read_fun": 1
   },
   {
     "abstract": "book_nonf_soft_sports_tpl",
     "type": "BOOK",
     "name": { "str": "Softcover Nonfiction Sports Book." },
     "description": "This is a template.",
-    "fun": 1,
-    "copy-from": "book_nonf_soft_tpl"
+    "copy-from": "book_nonf_soft_tpl",
+    "read_fun": 1
   },
   {
     "abstract": "book_fict_hard_sports_tpl",
     "type": "BOOK",
     "name": { "str": "Hardcover Fictional Sports Book" },
     "description": "This is a template.",
-    "fun": 2,
-    "copy-from": "book_fict_hard_tpl"
+    "copy-from": "book_fict_hard_tpl",
+    "read_fun": 2
   },
   {
     "abstract": "book_fict_soft_sports_tpl",
     "type": "BOOK",
     "name": { "str": "Softcover Fictional Sports Book." },
     "description": "This is a template.",
-    "fun": 2,
-    "copy-from": "book_fict_soft_tpl"
+    "copy-from": "book_fict_soft_tpl",
+    "read_fun": 2
   },
   {
     "abstract": "paperback_occult",
@@ -232,7 +232,7 @@
     "time": "35 m",
     "chapters": 30,
     "//": "TODO fun should be conditional for this item",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "abstract": "paperback_romance_spb",
@@ -320,7 +320,7 @@
     "symbol": "?",
     "color": "pink",
     "time": "8 m",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "abstract": "book_nonf_zine_news_tpl",
@@ -345,7 +345,7 @@
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "abstract": "book_antho_tpl",
@@ -358,7 +358,7 @@
     "color": "yellow",
     "time": "15 m",
     "chapters": 16,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "abstract": "book_martial",
@@ -391,8 +391,8 @@
     "looks_like": "story_book",
     "color": "green",
     "intelligence": 7,
-    "skill": "archery",
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "archery"
   },
   {
     "abstract": "holybook_abstract",
@@ -408,7 +408,7 @@
     "flags": [ "INSPIRATIONAL" ],
     "intelligence": 8,
     "time": "10 m",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "abstract": "exodii_blueprint",
@@ -437,13 +437,13 @@
     "price": "1 kUSD",
     "price_postapoc": "7 USD 50 cent",
     "material": [ "paper" ],
-    "skill": "electronics",
     "required_level": 7,
     "max_level": 7,
     "intelligence": 8,
     "time": "55 m",
     "symbol": "ç",
-    "color": "blue"
+    "color": "blue",
+    "read_skill": "electronics"
   },
   {
     "abstract": "abstractmap",

@@ -50,11 +50,11 @@
     "material": [ { "type": "demon_chitin", "portion": 40 }, { "type": "cement", "portion": 60 } ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "alumentum" ],
     "sub": "forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "alumentum": 500 } } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "tool_ammo": [ "alumentum" ]
   },
   {
     "type": "GENERIC",

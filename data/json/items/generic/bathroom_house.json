@@ -296,12 +296,12 @@
     "weight": "680 g",
     "material": [ "plastic", "steel" ],
     "flags": [ "WATER_BREAK" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 35,
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "curling_iron",

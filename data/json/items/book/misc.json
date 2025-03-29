@@ -15,7 +15,7 @@
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "black_box_transcript",
@@ -33,8 +33,8 @@
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_fun": -1
   },
   {
     "id": "commune_prospectus",
@@ -66,11 +66,11 @@
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
-    "skill": "mechanics",
     "required_level": 1,
     "intelligence": 8,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "mechanics",
+    "read_fun": -2
   },
   {
     "id": "essay_book",
@@ -89,7 +89,7 @@
     "time": "26 m",
     "chapters": 40,
     "generic": true,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "guidebook",
@@ -122,7 +122,7 @@
     "looks_like": "mag_glam",
     "color": "light_cyan",
     "time": "7 m",
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "mag_gaming",
@@ -139,7 +139,7 @@
     "color": "pink",
     "intelligence": 7,
     "time": "8 m",
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "mag_news",
@@ -172,7 +172,7 @@
     "time": "10 m",
     "chapters": 4,
     "generic": true,
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "news_regional",
@@ -189,7 +189,7 @@
     "color": "pink",
     "intelligence": 5,
     "time": "5 m",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "novel_adventure",
@@ -200,7 +200,7 @@
     "price": "8 USD 50 cent",
     "price_postapoc": "50 cent",
     "time": "20 m",
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_buddy",
@@ -222,7 +222,7 @@
     "intelligence": 6,
     "time": "20 m",
     "chapters": 24,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_crime2",
@@ -258,7 +258,7 @@
     "intelligence": 7,
     "time": "25 m",
     "chapters": 28,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_erotic",
@@ -294,8 +294,8 @@
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
-    "fun": 3,
-    "looks_like": "dnd_handbook"
+    "looks_like": "dnd_handbook",
+    "read_fun": 3
   },
   {
     "id": "novel_horror",
@@ -307,7 +307,7 @@
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "novel_mystery",
@@ -318,7 +318,7 @@
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_road",
@@ -329,7 +329,7 @@
     "weight": "244 g",
     "volume": "500 ml",
     "time": "20 m",
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "book_fict_soft_west_gore",
@@ -340,7 +340,7 @@
     "intelligence": 6,
     "time": "25 m",
     "chapters": 24,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_romance",
@@ -491,8 +491,8 @@
     "weight": "360 g",
     "time": "1 m",
     "chapters": 127,
-    "fun": 1,
-    "copy-from": "book_fict_soft_satire_tpl"
+    "copy-from": "book_fict_soft_satire_tpl",
+    "read_fun": 1
   },
   {
     "id": "novel_spy",
@@ -503,7 +503,7 @@
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_spy_comefly",
@@ -530,7 +530,7 @@
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
-    "fun": 4
+    "read_fun": 4
   },
   {
     "id": "book_fict_soft_swash_blkfreight",
@@ -565,7 +565,7 @@
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_tragedy",
@@ -590,7 +590,7 @@
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "novel_war2",
@@ -610,7 +610,7 @@
     "intelligence": 5,
     "time": "20 m",
     "chapters": 28,
-    "fun": 4
+    "read_fun": 4
   },
   {
     "id": "book_fict_soft_west_atwixt",
@@ -683,8 +683,8 @@
     "time": "1 m",
     "chapters": 200,
     "generic": true,
-    "fun": -5,
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_fun": -5
   },
   {
     "id": "photo_album",
@@ -702,8 +702,8 @@
     "time": "10 m",
     "chapters": 4,
     "generic": true,
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "flags": [ "INSPIRATIONAL" ],
+    "read_fun": 1
   },
   {
     "id": "plays_book",
@@ -722,7 +722,7 @@
     "time": "18 m",
     "chapters": 36,
     "generic": true,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "poetry_book",
@@ -741,7 +741,7 @@
     "time": "18 m",
     "chapters": 36,
     "generic": true,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "priest_diary",
@@ -758,9 +758,9 @@
     "color": "light_gray",
     "intelligence": 15,
     "time": "30 m",
-    "fun": 1,
     "flags": [ "INSPIRATIONAL" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "read_fun": 1
   },
   {
     "id": "record_accounting",
@@ -777,8 +777,8 @@
     "color": "light_green",
     "intelligence": 10,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_fun": -1
   },
   {
     "id": "record_patient",
@@ -794,8 +794,8 @@
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "read_fun": -1
   },
   {
     "id": "record_weather",
@@ -812,8 +812,8 @@
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": -1
   },
   {
     "id": "story_book",
@@ -832,7 +832,7 @@
     "time": "48 m",
     "chapters": 28,
     "generic": true,
-    "fun": 5
+    "read_fun": 5
   },
   {
     "id": "tall_tales",
@@ -851,7 +851,7 @@
     "time": "18 m",
     "chapters": 24,
     "generic": true,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "id": "visions_solitude",
@@ -868,9 +868,9 @@
     "color": "light_cyan",
     "intelligence": 6,
     "time": "30 m",
-    "fun": 2,
     "flags": [ "INSPIRATIONAL" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "read_fun": 2
   },
   {
     "type": "BOOK",
@@ -987,7 +987,7 @@
     "time": "28 m",
     "chapters": 40,
     "generic": true,
-    "fun": 3
+    "read_fun": 3
   },
   {
     "type": "BOOK",
@@ -1083,7 +1083,7 @@
     "time": "28 m",
     "chapters": 40,
     "generic": true,
-    "fun": 4
+    "read_fun": 4
   },
   {
     "id": "occult_economicon",
@@ -1134,11 +1134,11 @@
     "name": { "str": "Siddur" },
     "description": "A Siddur, or prayerbook, contains the set order of prayers for Jewish religious services.  This one is comprehensive, divided into morning, afternoon, and evening prayers for both weekdays and Shabbat, along with separate sections for minor and major holidays.",
     "copy-from": "book_nonf_hard_phil_tpl",
-    "fun": 1,
     "weight": "750 g",
     "volume": "1 L",
     "longest_side": "20 cm",
-    "time": "45 m"
+    "time": "45 m",
+    "read_fun": 1
   },
   {
     "id": "book_judaica_hardcover",
@@ -1146,7 +1146,6 @@
     "name": { "str": "Judaica hardcover" },
     "description": "This is a book of Judaica.  You're a real mensch if you managed to find this one.",
     "copy-from": "book_nonf_hard_phil_tpl",
-    "fun": 1,
     "weight": "420 g",
     "volume": "773 ml",
     "longest_side": "18 cm",
@@ -1297,7 +1296,8 @@
         "name": { "str": "Shulchan Arukh", "str_pl": "copies of the Shulchan Arukh" },
         "description": "Compiled by Rabbi Yosef Karo in the 16th century, the Shuchan Arukh is the most widely-consulted and authoritative compilation of Jewish law lasting into the present day.  If you need to convene a post-Cataclysmic Beit Din, keep this with you and you'll be set."
       }
-    ]
+    ],
+    "read_fun": 1
   },
   {
     "id": "book_judaica_softcover",
@@ -1307,7 +1307,6 @@
     "copy-from": "book_nonf_soft_phil_tpl",
     "weight": "227 g",
     "volume": "421 ml",
-    "fun": 1,
     "time": "45 m",
     "variant_type": "generic",
     "variants": [
@@ -1444,7 +1443,8 @@
         "name": { "str": "From the Maccabees to the Mishnah", "str_pl": "copies of From the Maccabees to the Mishnah" },
         "description": "A history of the development of Rabbinic Judaism, from the Jewish Revolt in the first century to the writing of the Mishnah, and how Judaism and Christianity fully separated."
       }
-    ]
+    ],
+    "read_fun": 1
   },
   {
     "type": "GENERIC",

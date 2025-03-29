@@ -153,7 +153,7 @@
     "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
     "//": "book data is used so item can work as book and provide recipes",
     "copy-from": "bag_durasack",
-    "book_data": { "max_level": 0, "skill": "fabrication" }
+    "book_data": { "max_level": 0, "read_skill": "fabrication" }
   },
   {
     "id": "bag_canvas",

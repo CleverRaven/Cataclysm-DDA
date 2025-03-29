@@ -366,7 +366,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [
       {
@@ -388,7 +387,8 @@
         "default_magazine": "heavy_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "large_space_heater_on",
@@ -567,7 +567,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": [
       {
@@ -589,7 +588,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "small_space_heater_on",
@@ -702,10 +702,10 @@
         "ammo_restriction": { "teargas_spray": 10 }
       }
     ],
-    "ammo": "teargas_spray",
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP" ],
-    "use_action": [ "MACE" ]
+    "use_action": [ "MACE" ],
+    "tool_ammo": "teargas_spray"
   },
   {
     "id": "c4_payload",
