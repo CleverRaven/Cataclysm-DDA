@@ -172,6 +172,7 @@ class game
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
+        friend map &reality_bubble();
         friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
