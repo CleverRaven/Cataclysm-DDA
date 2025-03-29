@@ -4688,35 +4688,6 @@ talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::
     };
 }
 
-talk_effect_fun_t::func f_mirror_coordinates( const JsonObject &jo, std::string_view member,
-        const std::string_view )
-{
-    // remove it once we get proper coordinate operations in math
-    var_info center_var;
-    if( jo.has_member( "center_var" ) ) {
-        center_var = read_var_info( jo.get_object( "center_var" ) );
-    }
-    var_info relative_var;
-    if( jo.has_member( "relative_var" ) ) {
-        relative_var = read_var_info( jo.get_object( "relative_var" ) );
-    }
-    var_info output_var;
-    if( jo.has_member( member ) ) {
-        output_var = read_var_info( jo.get_object( member ) );
-    }
-    return [center_var, relative_var, output_var]( dialogue & d ) {
-        tripoint_abs_ms const center = get_tripoint_ms_from_var( center_var, d, false );
-        tripoint_abs_ms const relative = get_tripoint_ms_from_var( relative_var, d, false );
-
-        tripoint_abs_ms const mirrored( center.x() * 2 - relative.x(),
-                                        center.y() * 2 - relative.y(),
-                                        center.z() * 2 - relative.z() );
-
-        write_var_value( output_var.type, output_var.name, &d, mirrored.to_string() );
-
-    };
-}
-
 talk_effect_fun_t::func f_transform_line( const JsonObject &jo, std::string_view member,
         const std::string_view )
 {
@@ -4806,6 +4777,22 @@ talk_effect_fun_t::func f_mapgen_update( const JsonObject &jo, std::string_view 
             }
             get_map().invalidate_map_cache( omt_pos.z() );
         }
+    };
+}
+
+talk_effect_fun_t::func f_construct_coord( const JsonObject &jo, std::string_view member,
+        const std::string_view )
+{
+    var_info output_var = read_var_info( jo.get_object( member ) );
+    dbl_or_var x = get_dbl_or_var( jo, "x", false, 0 );
+    dbl_or_var y = get_dbl_or_var( jo, "y", false, 0 );
+    dbl_or_var z = get_dbl_or_var( jo, "z", false, 0 );
+
+    return [output_var, x, y, z]( dialogue & d ) {
+        tripoint_abs_ms const tripoint_abs = tripoint_abs_ms( x.evaluate( d ), y.evaluate( d ),
+                                             z.evaluate( d ) );
+        write_var_value( output_var.type, output_var.name, &d, tripoint_abs.to_string() );
+
     };
 }
 
@@ -7867,12 +7854,12 @@ parsers = {
     { "foreach", jarg::string, &talk_effect_fun::f_foreach },
     { "math", jarg::array, &talk_effect_fun::f_math },
     { "custom_light_level", jarg::member | jarg::array, &talk_effect_fun::f_custom_light_level },
-    { "mirror_coordinates", jarg::member, &talk_effect_fun::f_mirror_coordinates },
     { "u_knockback", "npc_knockback", jarg::member, &talk_effect_fun::f_knockback },
     { "give_equipment", jarg::object, &talk_effect_fun::f_give_equipment },
     { "set_string_var", jarg::member | jarg::array, &talk_effect_fun::f_set_string_var },
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },
     { "set_item_category_spawn_rates", jarg::member | jarg::array, &talk_effect_fun::f_set_item_category_spawn_rates },
+    { "construct_coord", jarg::member, &talk_effect_fun::f_construct_coord },
     { "open_dialogue", jarg::member, &talk_effect_fun::f_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun::f_take_control },
     { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },

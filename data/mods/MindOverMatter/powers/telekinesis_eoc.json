@@ -48,9 +48,11 @@
                           "message": "Select direction."
                         },
                         {
-                          "mirror_coordinates": { "context_val": "push_direction_correct" },
-                          "center_var": { "context_val": "u_pos" },
-                          "relative_var": { "context_val": "push_direction_incorrect" }
+                          "//": "mirror coordinates to find a position opposite to _push_direction_incorrect",
+                          "construct_coord": { "context_val": "push_direction_correct" },
+                          "x": { "math": [ "coord_x(_u_pos) * 2 - coord_x(_push_direction_incorrect)" ] },
+                          "y": { "math": [ "coord_y(_u_pos) * 2 - coord_y(_push_direction_incorrect)" ] },
+                          "z": { "math": [ "coord_z(_u_pos) * 2 - coord_z(_push_direction_incorrect)" ] }
                         },
                         {
                           "u_knockback": { "math": [ "u_telekinesis_shove_spell_level" ] },
