@@ -1791,7 +1791,7 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 4, "group": "cocoa_powder_bag_plastic" },
-      { "prob": 2, "group": "cocoa_powder_bag_paper" }
+      { "prob": 2, "group": "cocoa_powder_bag_paper" },
 	  { "prob": 2, "group": "cocoa_powder_can_food_big_100" }
     ]
   },
