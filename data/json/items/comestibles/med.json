@@ -2174,5 +2174,25 @@
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 3000, "effects": [ { "id": "pkill1_generic", "duration": 720 } ] }
+  },
+  {
+  "id": "nic_pouch",
+  "type": "COMESTIBLE",
+  "comestible_type": "MED",
+  "name": { "str": "nicotine pouch" },
+  "description": "A pouch containing nicotine salts. Comes in a variety of flavors and concentrations",
+  "weight": ".4 g",
+  "volume": ".5 ml",
+  "price": "38 cent",
+  "price_postapoc": "70 cent",
+  "symbol": "=",
+  "color": "white",
+  "container": "nic_pouch_can",
+  "stim": 2,
+  "fun": 4,
+  "addiction_potential": 30,
+  "addiction_type": "nicotine",
+  "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+  "use_action": [ "CHEW" ]
   }
 ]
