@@ -1843,7 +1843,7 @@
     "entries": [
       { "prob": 4, "group": "milk_cocoa_powder_bag_plastic" },
       { "prob": 2, "group": "milk_cocoa_powder_bag_paper" },
-	  { "prob": 2, "group": "milk_cocoa_powder_can_food_big_100" }
+      { "prob": 2, "group": "milk_cocoa_powder_can_food_big_100" }
     ]
   },
   {
