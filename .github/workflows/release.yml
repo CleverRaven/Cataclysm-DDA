@@ -164,6 +164,8 @@ jobs:
       - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest
+          # 4.0.0 has issues compiling old packages in vcpkg
+          cmakeVersion: 3.31.6
       - name: Install dependencies (windows msvc) (1/4)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
