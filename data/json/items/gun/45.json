@@ -1,6 +1,7 @@
 [
   {
     "id": "TDI",
+    "copy-from": "gun_base_45_semi_pistol",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
@@ -26,14 +27,9 @@
     "price": "3 kUSD 100 USD",
     "price_postapoc": "35 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "range": 1,
-    "ammo": [ "45" ],
     "skill": "smg",
     "dispersion": 280,
-    "durability": 7,
-    "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -47,19 +43,10 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
-    ],
     "default_mods": [ "folding_stock" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag_10", "tdi_mag", "glock_21mag", "glock_21mag26" ] }
-    ],
-    "melee_damage": { "bash": 9 }
+    ]
   },
   {
     "id": "modular_ump",
@@ -121,7 +108,7 @@
   },
   {
     "id": "m1911",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_45_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "M1911 pistol" },
@@ -146,25 +133,15 @@
     "longest_side": "245 mm",
     "barrel_length": "127 mm",
     "price": "784 USD",
-    "price_postapoc": "25 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "45" ],
     "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 450,
-    "blackpowder_tolerance": 48,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ]
   },
   {
     "id": "mac_10",
+    "copy-from": "gun_base_45_semi_pistol",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "MAC-10 submachine gun" },
     "description": "A submachine gun chambered in .45 ACP and accepting MAC-10 magazines.",
     "variant_type": "gun",
@@ -182,13 +159,9 @@
     "price": "1 kUSD 800 USD",
     "price_postapoc": "25 USD",
     "material": [ "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "45" ],
     "skill": "smg",
     "dispersion": 520,
     "durability": 7,
-    "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
@@ -203,13 +176,11 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ]
   },
   {
     "id": "hk_usc45",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_45_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "H&K USC 45 carbine" },
@@ -219,15 +190,9 @@
     "longest_side": "900 mm",
     "barrel_length": "406 mm",
     "price": "1 kUSD 600 USD",
-    "price_postapoc": "31 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "range": 6,
-    "ammo": [ "45" ],
     "dispersion": 160,
-    "durability": 9,
-    "min_cycle_recoil": 540,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -240,12 +205,11 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usc10mag", "usc15mag", "usc20mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usc10mag", "usc15mag", "usc20mag" ] } ]
   },
   {
     "id": "smg_45",
-    "copy-from": "smg_base",
+    "copy-from": "mac_10",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "name": { "str": "MAC-10 Luty submachine gun" },
@@ -265,16 +229,9 @@
     "barrel_length": "229 mm",
     "price": "200 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
-    "material": [ "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "45" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 590,
     "durability": 4,
-    "blackpowder_tolerance": 24,
-    "min_cycle_recoil": 456,
-    "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
@@ -287,15 +244,13 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_45_mag", "mac10mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "tommygun",
+    "copy-from": "gun_base_45_semi_rifle",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "Thompson submachine gun" },
     "description": "A submachine gun chambered in .45 ACP and accepting Thompson magazines.",
     "variant_type": "gun",
@@ -311,17 +266,12 @@
     "longest_side": "832 mm",
     "barrel_length": "267 mm",
     "price": "4 kUSD 500 USD",
-    "price_postapoc": "27 USD 50 cent",
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
     "range": 4,
     "//range": "Blish \"lock\" is considered to be a straight blowback in modern firearm design.",
-    "ammo": [ "45" ],
     "skill": "smg",
     "dispersion": 360,
     "durability": 7,
-    "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
@@ -337,18 +287,16 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "usp_45",
-    "copy-from": "usp_9mm",
+    "copy-from": "gun_base_45_semi_pistol",
     "type": "GUN",
     "name": { "str": "USP pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting USP magazines.",
@@ -372,13 +320,11 @@
     "price": "700 USD",
     "price_postapoc": "25 USD",
     "built_in_mods": [ "match_trigger" ],
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usp45mag" ] } ]
   },
   {
     "id": "walther_ppq_45",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_45_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "PPQ pistol" },
@@ -396,21 +342,13 @@
     "longest_side": "224 mm",
     "barrel_length": "108 mm",
     "price": "800 USD",
-    "price_postapoc": "22 USD 50 cent",
     "material": [ "plastic", "steel" ],
-    "color": "dark_gray",
-    "ammo": [ "45" ],
     "dispersion": 480,
-    "durability": 9,
-    "min_cycle_recoil": 540,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ]
   },
   {
     "id": "hptjhp",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_45_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Model JHP pistol" },
@@ -428,21 +366,14 @@
     "longest_side": "238 mm",
     "barrel_length": "114 mm",
     "price": "75 USD",
-    "price_postapoc": "20 USD",
     "material": [ "plastic", "steel", "zinc" ],
-    "color": "dark_gray",
-    "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
-    "min_cycle_recoil": 540,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ]
   },
   {
     "id": "glock_21",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_45_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Glock pistol" },
@@ -461,26 +392,19 @@
     "longest_side": "209 mm",
     "barrel_length": "117 mm",
     "price": "602 USD",
-    "price_postapoc": "26 USD",
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "45" ],
     "dispersion": 480,
-    "durability": 8,
-    "blackpowder_tolerance": 48,
-    "min_cycle_recoil": 450,
     "pocket_data": [
       {
         "magazine_well": "107 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glock_21mag_10", "glock_21mag", "glock_21mag26" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "greasegun",
+    "copy-from": "gun_base_45_semi_rifle",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
@@ -499,16 +423,11 @@
     "longest_side": "740 mm",
     "barrel_length": "203 mm",
     "price": "23 kUSD",
-    "price_postapoc": "40 USD",
     "material": [ "steel" ],
-    "symbol": "(",
-    "color": "light_gray",
     "range": 2,
-    "ammo": [ "45" ],
     "skill": "smg",
     "dispersion": 500,
     "durability": 7,
-    "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "auto", 2 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
@@ -521,8 +440,6 @@
       [ "sights mount", 1 ],
       [ "stock", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "greasegun30mag" ] } ],
-    "melee_damage": { "bash": 9 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "greasegun30mag" ] } ]
   }
 ]

@@ -30,7 +30,7 @@
     "time": "40 m",
     "components": [
       [ [ "rope_6", 1 ] ],
-      [ [ "steel_chunk", 2 ] ],
+      [ [ "mc_steel_chunk", 2 ] ],
       [ [ "chunk_rubber", 2 ] ],
       [ [ "scrap_aluminum", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
@@ -52,7 +52,7 @@
     "difficulty": 4,
     "time": "40 m",
     "components": [
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "mc_steel_chunk", 4 ] ],
       [ [ "chunk_rubber", 3 ] ],
       [ [ "plastic_chunk", 1 ] ],
       [ [ "scrap", 8 ] ],

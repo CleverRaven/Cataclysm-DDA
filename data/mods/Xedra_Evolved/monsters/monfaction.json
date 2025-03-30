@@ -17,6 +17,13 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "vampire_anathema",
+    "copy-from": "vampire",
+    "//": "Like the mentors, they are human enough to be attacked by zombies.  Luring them into other hostiles is a valid strategy.",
+    "extend": { "hate": [ "changeling", "nether", "nightmares", "vampire", "zombie" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "arvore",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
@@ -92,7 +99,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "copy-from": "zombie",
-    "extend": { "hate": [ "changeling" ], "neutral": [ "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire_anathema" ], "neutral": [ "vampire" ] }
   },
   {
     "type": "MONSTER_FACTION",
@@ -110,13 +117,13 @@
     "type": "MONSTER_FACTION",
     "name": "exodii",
     "copy-from": "exodii",
-    "extend": { "hate": [ "changeling", "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire", "vampire_anathema" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "isolated_artisans",
     "copy-from": "isolated_artisans",
-    "extend": { "hate": [ "changeling", "vampire", "nightmares" ] }
+    "extend": { "hate": [ "changeling", "vampire", "nightmares", "vampire_anathema" ] }
   },
   {
     "type": "MONSTER_FACTION",

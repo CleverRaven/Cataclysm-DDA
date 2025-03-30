@@ -294,7 +294,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 8 ] ],
-    "components": [ [ [ "steel_chunk", 4 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 4, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -893,7 +893,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "drift", -1 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 5 ] ] ]
   },
   {
     "result": "xl_knuckle_steel_forged",
@@ -903,7 +903,7 @@
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "drift", -1 ] ] ],
-    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 7 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 7 ] ] ]
   },
   {
     "result": "xs_knuckle_steel_forged",
@@ -913,7 +913,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "drift", -1 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1280,7 +1280,7 @@
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ], [ "pipe_fittings", 1 ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ], [ "steel_lump_any", 1, "LIST" ], [ "pipe_fittings", 1 ] ],
       [ [ "cotton_patchwork", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
@@ -1300,7 +1300,7 @@
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick", 1 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 1 ], [ "pipe_fittings", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 1, "LIST" ], [ "pipe_fittings", 1 ] ],
       [ [ "nails", 2, "LIST" ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]

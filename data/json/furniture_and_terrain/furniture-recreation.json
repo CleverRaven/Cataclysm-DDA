@@ -15,7 +15,7 @@
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
-        { "item": "steel_chunk", "count": 1 },
+        { "item": "mc_steel_chunk", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "lead", "charges": [ 1000, 2000 ] }
       ]
@@ -27,7 +27,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "prob": 50 },
+        { "item": "mc_steel_chunk", "prob": 50 },
         { "item": "pipe", "count": 1 },
         { "item": "lead", "charges": [ 1000, 2000 ] }
       ]
@@ -48,7 +48,7 @@
       "str_max": 60,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "lc_steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
     }
   },
   {
@@ -560,7 +560,7 @@
         { "item": "nail", "charges": [ 10, 15 ] },
         { "item": "lc_wire", "count": [ 4, 12 ] },
         { "item": "plastic_chunk", "count": [ 1, 12 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "cable", "count": [ 1, 3 ] },
         { "item": "motor_tiny", "count": 1 }
       ]
@@ -577,7 +577,7 @@
         { "item": "lc_wire", "count": [ 0, 4 ] },
         { "item": "splinter", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "cable", "count": [ 1, 3 ] }
       ]
     }

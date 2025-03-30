@@ -703,6 +703,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```THIN_OBSTACLE``` ```SPEAR``` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSLOCATOR``` Tile is a translocator gate, for purposes of the `translocator` examine action.
+- ```TRANSLOCATOR_GREATER``` Tile is a greater translocator gate.  When paired with the TRANSLOCATOR flag and translocate furniture action, allows additionally using the gate to translocate to attuned gates.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
 - ```TRANSLUCENT``` Player and monsters can't see through/past it, but it can pass the light
@@ -1108,6 +1109,8 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
 - ```CORNERED_FIGHTER``` This creature will stop fleeing and fight back if enemies pursue it into melee range.
+- ```COPY_SUMMONER_LOOK``` - This monster would copy the texture of whoever casted it, monster or character
+- ```COPY_AVATAR_LOOK```- This monster would copy the texture of avatar, no matter who it is
 - ```DORMANT``` This monster will be revived by dormant corpse traps.
 - ```DEADLY_VIRUS``` This monster can inflict the `zombie_virus` effect.  Used by the Dark Days of the Dead and Deadly Zombie Virus mods.
 - ```DESTROYS``` Bashes down walls and more (2.5x bash multiplier, where base is the critter's max melee bashing).

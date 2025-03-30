@@ -38,7 +38,7 @@
     "flags": [ "OBSTACLE", "RADIOACTIVE", "APPLIANCE", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
-      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
       { "item": "plutonium", "count": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
@@ -84,8 +84,8 @@
     "item": "afs_survival_heater",
     "emissions": [ "afs_emit_survival_heater" ],
     "breaks_into": [
-      { "item": "steel_lump" },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "mc_steel_lump" },
+      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
       { "item": "scrap", "charges": [ 1, 3 ] },
       { "item": "element", "count": [ 0, 2 ] }
     ],
@@ -108,7 +108,7 @@
     "damage_modifier": 10,
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],

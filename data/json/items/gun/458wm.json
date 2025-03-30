@@ -19,7 +19,6 @@
     "price": "1 kUSD 760 USD",
     "price_postapoc": "50 USD",
     "ammo": [ "458wm" ],
-    "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "458wm": 3 } } ]
   }
 ]

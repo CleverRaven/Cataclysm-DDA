@@ -201,7 +201,7 @@ float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &b
                     }
                 }
             }
-            total = std::min( total + id.first.get_limb_score( limb_score_manip, -1, override_encumb,
+            total = std::min( total + id.first.get_limb_score( *this, limb_score_manip, -1, override_encumb,
                               override_wounds ) * id.second * local_mul,
                               id.first.get_limb_score_max( limb_score_manip ) * local_mul * id.second );
         }
@@ -240,9 +240,9 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         float mod = 0.0f;
         if( bp == body_part_type::type::num_types ) {
-            mod = id.second.get_limb_score( score, skill, override_encumb, override_wounds );
+            mod = id.second.get_limb_score( *this, score, skill, override_encumb, override_wounds );
         } else if( id.first->has_type( bp ) ) {
-            mod = id.second.get_limb_score( score, skill, override_encumb,
+            mod = id.second.get_limb_score( *this, score, skill, override_encumb,
                                             override_wounds ) * id.first->limbtypes.at( bp );
         }
         if( cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) {

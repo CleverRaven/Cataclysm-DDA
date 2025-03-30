@@ -4,6 +4,7 @@
     "id": [ "church", "church_1" ],
     "copy-from": "generic_city_building",
     "name": "church",
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 80 },
     "sym": "C",
     "color": "light_red"
   },
@@ -30,6 +31,7 @@
     "id": [ "rural_church", "rural_church_parking" ],
     "vision_levels": "isolated_building",
     "name": "rural church",
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 3, 12 ], "chance": 100 },
     "sym": "C",
     "color": "light_red",
     "see_cost": "high"
@@ -58,6 +60,7 @@
     "vision_levels": "underground_dirt",
     "see_cost": "full_high",
     "name": "church basement",
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 2, 8 ], "chance": 80 },
     "sym": "B",
     "color": "light_red"
   },

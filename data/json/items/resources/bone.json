@@ -20,25 +20,29 @@
     "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ] ],
     "melee_damage": { "bash": 3 },
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
-    "flags": [ "RAW", "INEDIBLE", "LUPINE" ]
+    "flags": [ "RAW", "INEDIBLE", "LUPINE", "NO_TEMP" ]
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "large_bone",
     "name": { "str": "large bone" },
     "description": "A huge bone of a large creature.",
     "weight": "17700 g",
     "volume": "19550 ml",
     "longest_side": "110 cm",
-    "//1": "Values based roughly on an adult female African elephant femur.",
+    "//1": "Values based roughly on an adult female African elephant femur. 61 times the size of the normal bone.",
     "symbol": "I",
     "color": "white",
     "material": [ "bone" ],
+    "comestible_type": "FOOD",
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "//2": "While it would make sense to be able to mill it, the bone won't fit into a mill…",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 15 }
+    "melee_damage": { "bash": 15 },
+    "calories": 10436,
+    "vitamins": [ [ "calcium", "1561750 mg" ], [ "meat_allergen", 1 ] ],
+    "flags": [ "RAW", "INEDIBLE", "NO_TEMP" ]
   },
   {
     "type": "COMESTIBLE",
@@ -85,7 +89,7 @@
     "vitamins": [ [ "calcium", "5294 mg" ], [ "meat_allergen", 1 ] ],
     "material": [ "powder" ],
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "fun": -10
   },
   {

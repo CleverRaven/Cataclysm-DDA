@@ -127,6 +127,7 @@ Minor Riot Damage Tweaks
 Refactor the pulping
 Makes sound effects play in slow motion while the player has slowed down time
 Add ``character_takeoff_item`` event
+Rebalance the chance for armor to be damaged by attacks.
 
 
 ## Content:
@@ -296,6 +297,7 @@ Most toilets now have toilet supplies
 Add 2 new social practice recipes
 FEMA camps are now mutables
 Added a new fast food restaurant with drive-through
+Mortar framework
 
 
 ## Interface:
@@ -780,6 +782,7 @@ Isolation Protocol: Office Levels
 [MoM] Project TURQUOISE KEYSTONE
 [ Aftershock:Exoplanet ] Autotravel works on Salus IV now
 [Isolation Protocol] Add the Last Scion class
+[MoM] Add volume limits to Blink and Farstep
 
 
 ## Balance:
