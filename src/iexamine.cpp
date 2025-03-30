@@ -3263,7 +3263,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
     pick_firestarter_and_fire( you, examp, firestarter_actor::start_type::KILN );
 }
 
-bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
+bool iexamine::kiln_prep( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     const furn_id &cur_kiln_type = here.furn( examp );
