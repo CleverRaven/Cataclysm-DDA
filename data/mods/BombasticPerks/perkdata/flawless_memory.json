@@ -6,6 +6,7 @@
     "name": { "str_sp": "Flawless memory" },
     "description": "You can remember with perfect detail everything you've ever lived, even allowing you to read books and play games by remembering them.",
     "charges_per_use": 0,
+    "etransfer_rate": "30 MB",
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
