@@ -311,7 +311,7 @@
       { "prob": 3, "group": "can_pineapple_can_food_big_12" },
       { "prob": 3, "group": "can_corn_can_food_big_6" },
       { "item": "sauce_red", "prob": 3, "charges": 48, "container-item": "can_food_big" },
-      { "prob": 6, "group": "coffee_raw_can_food_big_240" },
+      { "prob": 6, "group": "coffee_raw_can_food_big_240" }
     ]
   },
   {
