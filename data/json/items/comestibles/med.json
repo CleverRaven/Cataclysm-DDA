@@ -2182,7 +2182,7 @@
   "name": { "str": "nicotine pouch" },
   "description": "A pouch containing nicotine salts.",
   "weight": ".4 g",
-  "volume": ".5 ml",
+  "volume": ".8 ml",
   "price": "38 cent",
   "price_postapoc": "70 cent",
   "symbol": "=",
