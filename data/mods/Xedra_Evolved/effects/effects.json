@@ -7,9 +7,9 @@
   },
   {
     "type": "effect_type",
-    "id": "haste",
-    "name": [ "Hasted" ],
-    "desc": [ "Your speed is boosted enormously." ],
+    "id": "haste_vampire",
+    "name": [ "Blood Haste" ],
+    "desc": [ "Stolen blood is boosting your speed enormously." ],
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
