@@ -1864,6 +1864,27 @@
     "looks_like": "fd_tear_gas"
   },
   {
+    "id": "fd_insecticidal_spray_gas",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "insecticidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
+      { "name": "insecticidal haze", "color": "light_gray", "concentration": 2 },
+      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 100,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "priority": 8,
+    "half_life": "3 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_insecticidal_gas"
+  },
+  {
     "id": "fd_smoke_vent",
     "type": "field_type",
     "legacy_enum_id": 50,

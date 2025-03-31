@@ -345,6 +345,13 @@
     "qty": 10
   },
   {
+    "id": "emit_insecticidal_puff",
+    "type": "emit",
+    "field": "fd_insecticidal_gas",
+    "intensity": 1,
+    "qty": 1
+  },
+  {
     "id": "emit_fungal_haze_plume",
     "type": "emit",
     "field": "fd_fungal_haze",
