@@ -2,7 +2,9 @@ from .enchant import parse_enchant
 from ..helper import get_singular_name
 from .use_action import parse_use_action
 from ..write_text import write_text
-
+from .gun import parse_gun
+from .gunmod import parse_gunmod
+from .magazine import parse_magazine
 
 def parse_generic(json, origin):
     name = ""
@@ -16,7 +18,16 @@ def parse_generic(json, origin):
                    plural=True, c_format=False)
     elif "id" in json:
         name = json["id"]
-
+    
+    if "subtypes" in json:
+        subtypes_list = json["subtypes"]
+        if "GUN" in subtypes_list:
+            parse_gun(json, origin)
+        if "GUNMOD" in subtypes_list:
+            parse_gunmod(json, origin)
+        if "MAGAZINE" in subtypes_list:
+            parse_magazine(json, origin)
+    
     if "description" in json:
         write_text(json["description"], origin, c_format=False,
                    comment=comment + ["Description of \"{}\"".format(name)])

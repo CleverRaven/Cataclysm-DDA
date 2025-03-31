@@ -2,7 +2,8 @@
   {
     "abstract": "spell_wand",
     "name": { "str": "Magic Wand" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "weight": "230 g",
     "volume": "500 ml",
     "longest_side": "38 cm",
@@ -13,7 +14,6 @@
     "color": "brown",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "charges_per_use": 1,
-    "ammo": [ "crystallized_mana" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -23,12 +23,14 @@
         "item_restriction": [ "small_mana_crystal" ]
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "crystallized_mana" ]
   },
   {
     "abstract": "disp_wand",
     "name": { "str": "Disposable Wand" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "weight": "230 g",
     "volume": "500 ml",
     "longest_side": "38 cm",
@@ -43,7 +45,8 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_magic_missile_minor",
     "name": { "str": "minor wand of magic missile", "str_pl": "minor wands of magic missile" },
     "copy-from": "spell_wand",
@@ -52,7 +55,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_magic_missile_lesser",
     "name": { "str": "lesser wand of magic missile", "str_pl": "lesser wands of magic missile" },
     "copy-from": "spell_wand",
@@ -61,7 +65,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_magic_missile_greater",
     "name": { "str": "greater wand of magic missile", "str_pl": "greater wands of magic missile" },
     "copy-from": "spell_wand",
@@ -70,7 +75,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_fireball_minor",
     "name": { "str": "minor wand of fireball", "str_pl": "minor wands of fireball" },
     "copy-from": "spell_wand",
@@ -78,7 +84,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_fireball_lesser",
     "name": { "str": "lesser wand of fireball", "str_pl": "lesser wands of fireball" },
     "copy-from": "spell_wand",
@@ -87,7 +94,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_fireball_greater",
     "name": { "str": "greater wand of fireball", "str_pl": "greater wands of fireball" },
     "copy-from": "spell_wand",
@@ -96,7 +104,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_mana_beam_minor",
     "name": { "str": "minor wand of mana beam", "str_pl": "minor wands of mana beam" },
     "copy-from": "spell_wand",
@@ -104,7 +113,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_mana_beam_lesser",
     "name": { "str": "lesser wand of mana beam", "str_pl": "lesser wands of mana beam" },
     "copy-from": "spell_wand",
@@ -113,7 +123,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_mana_beam_greater",
     "name": { "str": "greater wand of mana beam", "str_pl": "greater wands of mana beam" },
     "copy-from": "spell_wand",
@@ -122,7 +133,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_point_flare_minor",
     "name": { "str": "minor wand of point flare", "str_pl": "minor wands of point flare" },
     "copy-from": "spell_wand",
@@ -130,7 +142,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_point_flare_lesser",
     "name": { "str": "lesser wand of point flare", "str_pl": "lesser wands of point flare" },
     "copy-from": "spell_wand",
@@ -139,7 +152,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_point_flare_greater",
     "name": { "str": "greater wand of point flare", "str_pl": "greater wands of point flare" },
     "copy-from": "spell_wand",
@@ -148,7 +162,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_hoaryblast_minor",
     "name": { "str": "minor wand of hoary blast", "str_pl": "minor wands of hoary blast" },
     "copy-from": "spell_wand",
@@ -156,7 +171,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_hoaryblast_lesser",
     "name": { "str": "lesser wand of hoary blast", "str_pl": "lesser wands of hoary blast" },
     "copy-from": "spell_wand",
@@ -165,7 +181,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_hoaryblast_greater",
     "name": { "str": "greater wand of hoary blast", "str_pl": "greater wands of hoary blast" },
     "copy-from": "spell_wand",
@@ -174,7 +191,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_cone_cold_minor",
     "name": { "str": "minor wand of cone of cold", "str_pl": "minor wands of cone of cold" },
     "copy-from": "spell_wand",
@@ -182,7 +200,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_cone_cold_lesser",
     "name": { "str": "lesser wand of cone of cold", "str_pl": "lesser wands of cone of cold" },
     "copy-from": "spell_wand",
@@ -191,7 +210,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_cone_cold_greater",
     "name": { "str": "greater wand of cone of cold", "str_pl": "greater wands of cone of cold" },
     "copy-from": "spell_wand",
@@ -200,7 +220,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_knock_minor",
     "name": { "str": "minor wand of knock", "str_pl": "minor wands of knock" },
     "copy-from": "spell_wand",
@@ -209,7 +230,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_knock_lesser",
     "name": { "str": "lesser wand of knock", "str_pl": "lesser wands of knock" },
     "copy-from": "spell_wand",
@@ -218,7 +240,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_knock_greater",
     "name": { "str": "greater wand of knock", "str_pl": "greater wands of knock" },
     "copy-from": "spell_wand",
@@ -227,7 +250,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_improved_knock_minor",
     "name": { "str": "minor wand of improved knock", "str_pl": "minor wands of improved knock" },
     "copy-from": "spell_wand",
@@ -236,7 +260,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_improved_knock_lesser",
     "name": { "str": "lesser wand of improved knock", "str_pl": "lesser wands of improved knock" },
     "copy-from": "spell_wand",
@@ -245,7 +270,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_improved_knock_greater",
     "name": { "str": "greater wand of improved knock", "str_pl": "greater wands of improved knock" },
     "copy-from": "spell_wand",
@@ -254,7 +280,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_magic_missile_minor",
     "name": { "str": "disposable minor wand of magic missile", "str_pl": "disposable minor wands of magic missile" },
     "copy-from": "disp_wand",
@@ -262,7 +289,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_magic_missile_lesser",
     "name": { "str": "disposable lesser wand of magic missile", "str_pl": "disposable lesser wands of magic missile" },
     "copy-from": "disp_wand",
@@ -271,7 +299,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_magic_missile_greater",
     "name": { "str": "disposable greater wand of magic missile", "str_pl": "disposable greater wands of magic missile" },
     "copy-from": "disp_wand",
@@ -280,7 +309,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_fireball_minor",
     "name": { "str": "disposable minor wand of fireball", "str_pl": "disposable minor wands of fireball" },
     "copy-from": "disp_wand",
@@ -288,7 +318,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_fireball_lesser",
     "name": { "str": "disposable lesser wand of fireball", "str_pl": "disposable lesser wands of fireball" },
     "copy-from": "disp_wand",
@@ -297,7 +328,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_fireball_greater",
     "name": { "str": "disposable greater wand of fireball", "str_pl": "disposable greater wands of fireball" },
     "copy-from": "disp_wand",
@@ -306,7 +338,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_mana_beam_minor",
     "name": { "str": "disposable minor wand of mana beam", "str_pl": "disposable minor wands of mana beam" },
     "copy-from": "disp_wand",
@@ -314,7 +347,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_mana_beam_lesser",
     "name": { "str": "disposable lesser wand of mana beam", "str_pl": "disposable lesser wands of mana beam" },
     "copy-from": "disp_wand",
@@ -323,7 +357,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_mana_beam_greater",
     "name": { "str": "disposable greater wand of mana beam", "str_pl": "disposable greater wands of mana beam" },
     "copy-from": "disp_wand",
@@ -332,7 +367,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_point_flare_minor",
     "name": { "str": "disposable minor wand of point flare", "str_pl": "disposable minor wands of point flare" },
     "copy-from": "disp_wand",
@@ -340,7 +376,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_point_flare_lesser",
     "name": { "str": "disposable lesser wand of point flare", "str_pl": "disposable lesser wands of point flare" },
     "copy-from": "disp_wand",
@@ -349,7 +386,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_point_flare_greater",
     "name": { "str": "disposable greater wand of point flare", "str_pl": "disposable greater wands of point flare" },
     "copy-from": "disp_wand",
@@ -358,7 +396,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_hoaryblast_minor",
     "name": { "str": "disposable minor wand of hoary blast", "str_pl": "disposable minor wands of hoary blast" },
     "copy-from": "disp_wand",
@@ -366,7 +405,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_hoaryblast_lesser",
     "name": { "str": "disposable lesser wand of hoary blast", "str_pl": "disposable lesser wands of hoary blast" },
     "copy-from": "disp_wand",
@@ -375,7 +415,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_hoaryblast_greater",
     "name": { "str": "disposable greater wand of hoary blast", "str_pl": "disposable greater wands of hoary blast" },
     "copy-from": "disp_wand",
@@ -384,7 +425,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_cone_cold_minor",
     "name": { "str": "disposable minor wand of cone of cold", "str_pl": "disposable minor wands of cone of cold" },
     "copy-from": "disp_wand",
@@ -392,7 +434,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_cone_cold_lesser",
     "name": { "str": "disposable lesser wand of cone of cold", "str_pl": "disposable lesser wands of cone of cold" },
     "copy-from": "disp_wand",
@@ -401,7 +444,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_cone_cold_greater",
     "name": { "str": "disposable greater wand of cone of cold", "str_pl": "disposable greater wands of cone of cold" },
     "copy-from": "disp_wand",
@@ -410,7 +454,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_knock_minor",
     "name": { "str": "disposable minor wand of knock", "str_pl": "disposable minor wands of knock" },
     "copy-from": "disp_wand",
@@ -419,7 +464,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_knock_lesser",
     "name": { "str": "disposable lesser wand of knock", "str_pl": "disposable lesser wands of knock" },
     "copy-from": "disp_wand",
@@ -428,7 +474,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_knock_greater",
     "name": { "str": "disposable greater wand of knock", "str_pl": "disposable greater wands of knock" },
     "copy-from": "disp_wand",
@@ -437,7 +484,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_improved_knock_minor",
     "name": { "str": "disposable minor wand of improved knock", "str_pl": "disposable minor wands of improved knock" },
     "copy-from": "disp_wand",
@@ -446,7 +494,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_improved_knock_lesser",
     "name": { "str": "disposable lesser wand of improved knock", "str_pl": "disposable lesser wands of improved knock" },
     "copy-from": "disp_wand",
@@ -455,7 +504,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "wand_disp_improved_knock_greater",
     "name": { "str": "disposable greater wand of improved knock", "str_pl": "disposable greater wands of improved knock" },
     "copy-from": "disp_wand",

@@ -1,7 +1,8 @@
 [
   {
     "id": "portable_dark_age",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "portable dark age" },
     "description": "In this device the Mad Genius creates an extremely strong magnetic field.  Then in the next step of its creation they split that field in two in such a way it is perpetually trying to reconnect.  When activated the timer counts down til the moment the two fields reconnect.  Upon reconnection, energy is released in the form of EMP.",
@@ -27,7 +28,8 @@
   },
   {
     "id": "portable_dark_age_apct",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active EMP bomb" },
     "description": "The Portable Dark Age™ is now active and will soon end all electronic devices in range.  Prepare yourself for a life without mp3s and cell phones, at least in the closest 60 meters.",

@@ -1,7 +1,8 @@
 [
   {
     "id": "77mm_arisaka_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.7x58mm Japanese JSP" },
     "description": "This is a 7.7x58mm Arisaka cartridge loaded with a 174 gr soft point bullet, excellent against larger game and, now, zombies.  Adopted as the Japanese empire's standard service cartridge in 1939 (though chambered in machine guns before then) to replace the less potent 6.5x50mm Arisaka round, the 7.7mm bullet was, while more deadly, never quite able to supplant the older munitions.  Having acquired a following as a hunting cartridge before the Cataclysm, mainly due to the prevalence of captured or surrendered Japanese rifles, the round was more common than its older 6.5x50mm counterpart.",
     "weight": "17 g",
@@ -86,7 +87,8 @@
   {
     "id": "bp_77mm_arisaka_jsp",
     "copy-from": "77mm_arisaka_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.7x58mm Japanese JSP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -100,7 +102,8 @@
   {
     "id": "reloaded_77mm_arisaka_jsp",
     "copy-from": "77mm_arisaka_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.7x58mm Japanese JSP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

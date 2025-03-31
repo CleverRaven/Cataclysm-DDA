@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_cutting",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "All About Swords", "str_pl": "issues of All About Swords" },
     "description": "An interesting magazine that contains information about swords and sword fighting techniques from all across the world.",
@@ -47,15 +48,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "cutting",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "cutting",
+    "read_fun": 1
   },
   {
     "id": "manual_cutting",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "knife fighter's notes", "str_pl": "collections of knife fighter's notes" },
     "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for beginners.",
@@ -104,14 +106,15 @@
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "green",
-    "skill": "cutting",
     "max_level": 3,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "cutting"
   },
   {
     "id": "manual_swords",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "USMC Sword Manual Procedure", "str_pl": "copies of USMC Sword Manual Procedures" },
     "description": "A text on stationary sword drills in US Marine Corps.",
@@ -160,10 +163,10 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "blue",
-    "skill": "cutting",
     "required_level": 1,
     "max_level": 4,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "cutting"
   }
 ]

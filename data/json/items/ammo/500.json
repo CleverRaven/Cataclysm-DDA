@@ -1,7 +1,8 @@
 [
   {
     "id": "500_Magnum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".500 S&W Magnum" },
     "description": ".500 S&W Magnum ammunition with a 500gr bullet.  The .500 S&W Magnum round is a colossally powerful handgun cartridge capable of killing almost any target with one hit.  It has extremely high damage, and recoil to match.",
     "ascii_picture": "500_Magnum",
@@ -27,7 +28,8 @@
   {
     "id": "bp_500_Magnum",
     "copy-from": "500_Magnum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".500 S&W Magnum, black powder" },
     "proportional": {
       "price": 0.3,
@@ -41,7 +43,8 @@
   {
     "id": "reloaded_500_Magnum",
     "copy-from": "500_Magnum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".500 S&W Magnum, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

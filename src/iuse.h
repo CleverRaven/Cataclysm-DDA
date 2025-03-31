@@ -338,7 +338,7 @@ struct use_function {
     public:
         use_function() = default;
         use_function( const std::string &type, use_function_pointer f );
-        explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
+        explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {};
 
         // TODO: Replace map unaware overload with map aware.
         std::optional<int> call( Character *, item &, const tripoint_bub_ms & ) const;

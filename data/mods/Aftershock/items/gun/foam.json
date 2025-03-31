@@ -2,7 +2,8 @@
   {
     "id": "afs_foamgun",
     "looks_like": "nailgun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise": "pshht",
     "name": { "str": "foam gun" },
     "description": "A stubby industrial tool used to shoot expanding foam.  Using it as a weapon might require some creative thinking.",

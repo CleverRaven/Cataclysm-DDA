@@ -1,7 +1,8 @@
 [
   {
     "id": "rune_biomancer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "pink",
     "name": { "str": "Biomancer rune" },
@@ -13,7 +14,8 @@
   },
   {
     "id": "rune_technomancer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "blue",
     "name": { "str": "Technomancer rune" },
@@ -25,7 +27,8 @@
   },
   {
     "id": "rune_magus",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "magenta",
     "name": { "str": "Magus rune", "str_pl": "Magi runes" },
@@ -37,7 +40,8 @@
   },
   {
     "id": "rune_earthshaper",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "green",
     "name": { "str": "Earthshaper rune" },
@@ -49,7 +53,8 @@
   },
   {
     "id": "rune_kelvinist",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "red",
     "name": { "str": "Kelvinist rune" },
@@ -61,7 +66,8 @@
   },
   {
     "id": "rune_stormshaper",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "yellow",
     "name": { "str": "Stormshaper rune" },
@@ -73,7 +79,8 @@
   },
   {
     "id": "rune_druid",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "brown",
     "name": { "str": "Druid rune" },
@@ -85,7 +92,8 @@
   },
   {
     "id": "rune_animist",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "light_red",
     "name": { "str": "Animist rune" },
@@ -97,7 +105,8 @@
   },
   {
     "id": "rune_alchemist",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "=",
     "color": "black",
     "name": { "str": "alchemist rune" },

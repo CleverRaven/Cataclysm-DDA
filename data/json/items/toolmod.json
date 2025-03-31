@@ -1,7 +1,8 @@
 [
   {
     "abstract": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "name": { "str": "base toolmod", "//~": "NO_I18N" },
     "weight": "142 g",
     "volume": "250 ml",
@@ -14,7 +15,8 @@
   {
     "id": "battery_ups",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "UPS conversion mod" },
     "description": "A device that replaces conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can be used without a battery as long as you have a charged UPS with you.",
@@ -23,7 +25,8 @@
   {
     "id": "battery_bionic",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "bionic power conversion mod" },
     "description": "A kit that permanently replaces conventional battery connections with the circuitry and cables required to draw power from a Standard Neurobionics Interface (SNI).  Any device modified with this is powered by your own bionic power storage instead of conventional batteries.",
@@ -32,7 +35,8 @@
   {
     "id": "magazine_battery_mod",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "battery compartment mod" },
     "description": "A battery compartment mod that allows using vehicle batteries and small storage batteries in regular tools.",
@@ -49,7 +53,8 @@
   {
     "id": "pseudo_magazine_mod",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "pseudo magazine mod", "//~": "NO_I18N" },
     "description": { "str": "For containing pseudo magazines, obviously.", "//~": "NO_I18N" },
@@ -60,7 +65,8 @@
   {
     "id": "magazine_battery_light_mod",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "light battery mod" },
     "description": "A battery compartment mod that allows the use of light and ultra-light batteries in tools that otherwise could not.",
@@ -77,7 +83,8 @@
   {
     "id": "magazine_battery_medium_mod",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "medium battery mod" },
     "description": "A battery compartment mod that allows the use of medium batteries in tools that otherwise could not.",
@@ -90,7 +97,8 @@
   {
     "id": "magazine_battery_heavy_mod",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": { "str": "tool battery mod" },
     "description": "A battery compartment mod that allows the use of tool batteries in tools that otherwise could not.",

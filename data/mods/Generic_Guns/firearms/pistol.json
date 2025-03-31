@@ -2,7 +2,8 @@
   {
     "id": "pistol_levergun",
     "copy-from": "henry_big_boy",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "cowboy carbine" },
     "ammo": [ "ammo_pistol" ],
     "description": "Since the early days of western expansion, when ammunition supply was infrequent, shooters sought to share ammo between their sidearms and long arms.  This tube magazine lever-action carbine allows the shooter to reduce the number of calibers carried and squeeze more power from their pistol ammunition.",
@@ -12,7 +13,8 @@
   {
     "id": "pistol_machine",
     "copy-from": "glock_18c",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "machine pistol" },
     "ammo": [ "ammo_pistol" ],
     "description": "This pistol is a tiny machinegun you can stuff into a holster, with which you could dump its magazine at a blistering rate into any close range foes.  Machine pistols mostly see use by vehicle crewmen or bodyguards of VIPs.  Due to its preposterous rate of fire it is difficult to control.",
@@ -30,7 +32,8 @@
   {
     "id": "pistol_medium",
     "copy-from": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "defensive pistol" },
     "ammo": [ "ammo_pistol" ],
     "description": "A modern pistol fit for duty, military service, or personal defense, with a detachable box magazine and a reliable action.  Though its chambering is capable of meeting FBI penetration minimums, the lack of a shoulder stock limits its utility.",
@@ -48,7 +51,8 @@
   {
     "id": "pistol_pcc",
     "copy-from": "m1carbine",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "survivalist carbine",
     "ammo": [ "ammo_pistol" ],
     "description": "These small carbines share ammunition and magazines with common pistols, offering a more controllable carbine than a normal rifle, while also reducing ammunition costs.  Because of their compatibility, they pair well with duty pistols, allowing one to transition to a more stable weapon without carrying extra ammo or magazines.",
@@ -66,7 +70,8 @@
   {
     "id": "pistol_revolver",
     "copy-from": "model_10_revolver",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "police revolver" },
     "ammo": [ "ammo_pistol" ],
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
@@ -78,7 +83,8 @@
   {
     "id": "pistol_smg",
     "copy-from": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "submachine gun",
     "ammo": [ "ammo_pistol" ],
     "description": "Chambered in common pistol ammunition, this compact long arm is perfect for trench raiders, vehicular crewmen, SWAT teams and special forces.  Though not as accurate as a proper rifle, especially at longer ranges, it is very controllable in automatic fire.  It feeds from detachable box magazines, which are easy to unload into close range targets.",
@@ -96,7 +102,8 @@
   {
     "id": "pistol_pipe_smg",
     "copy-from": "smg_9mm",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "survivor subgun",
     "ammo": [ "ammo_pistol" ],
     "description": "A crudely constructed fully automatic submachinegun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies… right?  Accepts standard pistol ammunition.",

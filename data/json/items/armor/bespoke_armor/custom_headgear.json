@@ -1,7 +1,8 @@
 [
   {
     "id": "helmet_nomad",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "nomad cowl" },
     "description": "A denim cowl with additional leather padding stitched onto the head with integrated protection from a plastic visor, sun brim, and filter cartridge intake, designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
     "weight": "470 g",
@@ -54,14 +55,15 @@
         "default_magazine": "gasfilter_sm"
       }
     ],
-    "ammo": "gasfilter_s",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ],
+    "tool_ammo": "gasfilter_s"
   },
   {
     "id": "xl_helmet_nomad",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "helmet_nomad",
     "name": { "str": "nomad cowl" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -69,7 +71,8 @@
   },
   {
     "id": "xs_helmet_nomad",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "helmet_nomad",
     "name": { "str": "nomad cowl" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -77,7 +80,8 @@
   },
   {
     "id": "hood_survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "survivor hood" },
     "description": "A customized armored leather and Kevlar hood, designed to balance comfort and protection.",
@@ -98,7 +102,8 @@
   },
   {
     "id": "hood_wsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "winter survivor hood" },
     "description": "A customized armored Kevlar hood.  Warm thanks to the real fur lining.",
@@ -118,7 +123,8 @@
   },
   {
     "id": "xl_hood_wsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_wsurvivor",
     "name": { "str": "winter survivor hood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -126,7 +132,8 @@
   },
   {
     "id": "xs_hood_wsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_wsurvivor",
     "name": { "str": "winter survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -134,7 +141,8 @@
   },
   {
     "id": "hood_xlsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_survivor",
     "name": { "str": "survivor hood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -142,7 +150,8 @@
   },
   {
     "id": "hood_xssurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_survivor",
     "name": { "str": "survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -150,7 +159,8 @@
   },
   {
     "id": "hood_lsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "light survivor hood" },
     "description": "A customized armored cloth and Kevlar hood, light yet durable.",
@@ -170,7 +180,8 @@
   },
   {
     "id": "xl_hood_lsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_lsurvivor",
     "name": { "str": "light survivor hood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -178,7 +189,8 @@
   },
   {
     "id": "xs_hood_lsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_lsurvivor",
     "name": { "str": "light survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -186,7 +198,8 @@
   },
   {
     "id": "hood_wsurvivor_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "winter faux fur survivor hood" },
     "description": "A customized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
     "copy-from": "hood_wsurvivor",
@@ -198,7 +211,8 @@
   },
   {
     "id": "xl_hood_wsurvivor_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_wsurvivor",
     "material": [ "kevlar", "faux_fur" ],
     "color": "pink",
@@ -209,7 +223,8 @@
   },
   {
     "id": "xs_hood_wsurvivor_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_wsurvivor_nofur",
     "name": { "str": "winter faux fur survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -217,7 +232,8 @@
   },
   {
     "id": "hood_h20survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "Kevlar wetsuit hood" },
     "description": "A customized armored neoprene and Kevlar hood, very strong and durable.",
@@ -277,7 +293,8 @@
   },
   {
     "id": "xl_hood_h20survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_h20survivor",
     "name": { "str": "Kevlar wetsuit hood" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
@@ -285,7 +302,8 @@
   },
   {
     "id": "xs_hood_h20survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_h20survivor",
     "name": { "str": "Kevlar wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -293,7 +311,8 @@
   },
   {
     "id": "hood_h20survivor_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "light Kevlar wetsuit overhood" },
     "description": "A customized light armored neoprene and Kevlar overhood, very strong and durable.",
@@ -354,7 +373,8 @@
   },
   {
     "id": "xl_hood_h20survivor_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_h20survivor_light",
     "name": { "str": "light Kevlar wetsuit overhood" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
@@ -362,7 +382,8 @@
   },
   {
     "id": "xs_hood_h20survivor_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_h20survivor_light",
     "name": { "str": "light Kevlar wetsuit overhood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -370,7 +391,8 @@
   },
   {
     "id": "hood_h20survivor_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "thick Kevlar wetsuit hood" },
     "description": "A customized thick armored neoprene and Kevlar hood, very strong and durable.",
@@ -430,7 +452,8 @@
   },
   {
     "id": "xl_hood_h20survivor_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_h20survivor_thick",
     "name": { "str": "thick Kevlar wetsuit hood" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
@@ -438,7 +461,8 @@
   },
   {
     "id": "xs_hood_h20survivor_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_h20survivor_thick",
     "name": { "str": "thick Kevlar wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -446,7 +470,8 @@
   },
   {
     "id": "helmet_scavenger",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "//": "I based these changes on the OKZK cap, as a general design but with a few changes and considerations. I removed the ballistic kevlar primarily due to it being unsuitable for headwear",
     "name": { "str": "mercenary cowl" },
     "description": "A sturdy canvas hat and cowl extending down to the neck, fitted with a shade brim, plastic eye visor and integrated filter cartridge intake built into the mouth section.  Provides smoke protection, and is cleverly designed to be relatively unencumbering and protective.",
@@ -498,14 +523,15 @@
         "default_magazine": "gasfilter_sm"
       }
     ],
-    "ammo": "gasfilter_s",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ],
+    "tool_ammo": "gasfilter_s"
   },
   {
     "id": "xl_helmet_scavenger",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "helmet_scavenger",
     "name": { "str": "scavenger cowl" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -513,7 +539,8 @@
   },
   {
     "id": "helmet_scavenger_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "helmet_scavenger",
     "name": { "str": "scavenger cowl" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },

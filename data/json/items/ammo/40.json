@@ -1,7 +1,8 @@
 [
   {
     "id": "40fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".40 S&W FMJ" },
     "description": ".40 S&W ammunition with a 180gr FMJ bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular among law enforcement before the FBI switched to 9mm.",
     "ascii_picture": "40sw",
@@ -53,7 +54,8 @@
   {
     "id": "40sw",
     "copy-from": "40fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".40 S&W JHP" },
     "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular among law enforcement before the FBI switched to 9mm.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -6 } }
@@ -61,7 +63,8 @@
   {
     "id": "bp_40fmj",
     "copy-from": "40fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".40 S&W FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -75,7 +78,8 @@
   {
     "id": "bp_40sw",
     "copy-from": "40sw",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".40 S&W JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -89,7 +93,8 @@
   {
     "id": "reloaded_40fmj",
     "copy-from": "40fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".40 S&W FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -98,7 +103,8 @@
   {
     "id": "reloaded_40sw",
     "copy-from": "40sw",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".40 S&W JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -107,7 +113,8 @@
   {
     "id": "matchhead_40fmj",
     "copy-from": "bp_40fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".40 S&W FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -117,7 +124,8 @@
   {
     "id": "matchhead_40sw",
     "copy-from": "bp_40sw",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".40 S&W JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

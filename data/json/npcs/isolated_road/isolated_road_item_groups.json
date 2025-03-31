@@ -190,7 +190,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "blacksmith_prototypes",
     "category": "books",
     "symbol": ",",

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_deep_one",
     "copy-from": "corpse",
     "symbol": "%",
@@ -12,7 +12,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_male_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -21,7 +21,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_female_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -32,7 +32,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_bloody_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -41,7 +41,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_scorched_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -50,7 +50,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_stabbed_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -59,7 +59,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_gunned_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -68,7 +68,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_halved_upper_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -80,7 +80,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_half_beheaded_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },
@@ -89,7 +89,7 @@
     "material": [ "flesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_gunned_deep_one",
     "copy-from": "corpse_generic_deep_one",
     "name": { "str": "deep one corpse" },

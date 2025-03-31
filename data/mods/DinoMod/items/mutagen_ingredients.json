@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "raptor_sample",
     "symbol": "q",
     "color": "light_green",
@@ -15,7 +15,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tyrant_sample",
     "symbol": "q",
     "color": "light_red",
@@ -30,7 +30,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stego_sample",
     "symbol": "q",
     "color": "light_blue",
@@ -45,7 +45,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "horns_sample",
     "symbol": "q",
     "color": "light_blue",

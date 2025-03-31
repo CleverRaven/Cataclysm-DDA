@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "treesung_spear",
     "copy-from": "spear_wood",
     "looks_like": "spear_wood",
@@ -11,7 +11,7 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "DURABLE_MELEE" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "treesung_pike",
     "copy-from": "pike_wood",
     "looks_like": "pike_wood",
@@ -22,7 +22,7 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "treesung_mace",
     "copy-from": "mace",
     "looks_like": "mace",
@@ -34,7 +34,7 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "treesung_q_staff",
     "copy-from": "q_staff",
     "looks_like": "q_staff",
@@ -46,7 +46,7 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "DURABLE_MELEE" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "treesung_warhammer",
     "copy-from": "warhammer",
     "looks_like": "warhammer",
@@ -58,7 +58,7 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "treesung_naginata",
     "copy-from": "naginata",
     "looks_like": "naginata",
@@ -71,7 +71,7 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "treesung_baselard",
     "copy-from": "knife_baselard",
     "looks_like": "knife_baselard",

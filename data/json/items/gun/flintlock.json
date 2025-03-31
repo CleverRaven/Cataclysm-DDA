@@ -3,7 +3,8 @@
     "id": "carbine_flintlock",
     "copy-from": "rifle_flintlock",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "price": "400 USD",
     "price_postapoc": "22 USD 50 cent",
     "name": { "str": "flintlock carbine" },
@@ -27,7 +28,8 @@
   {
     "id": "carbine_flintlock_double",
     "copy-from": "carbine_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "handmade double-barrel flintlock" },
     "description": "A compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
     "clip_size": 2,
@@ -41,7 +43,8 @@
   {
     "id": "pistol_flintlock",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "flintlock pistol" },
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't make you feel a pirate, nothing will.",
@@ -71,7 +74,8 @@
   {
     "id": "rifle_flintlock",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "flintlock musket" },
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
@@ -110,7 +114,8 @@
   {
     "id": "longrifle_flintlock",
     "copy-from": "rifle_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "flintlock rifle" },
     "description": "Also called a Pennsylvania rifle, this long-barreled rifled flintlock gun has significantly increased accuracy at the cost of taking even longer to reload.",
     "variants": [

@@ -2,7 +2,8 @@
   {
     "id": "22_cb",
     "copy-from": "22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 CB" },
     "description": ".22 Conical Ball, a variety of .22 ammunition that propels its bullet using a primer instead of gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
     "ascii_picture": "22_cb",
@@ -19,14 +20,16 @@
   {
     "id": "22_fmj",
     "copy-from": "22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 FMJ" },
     "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This type is marginally better at piercing through targets, but deals even less damage as a result.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -1, "armor_penetration": 2 } }
   },
   {
     "id": "22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 LR" },
     "description": ".22 Long Rifle ammunition with a 40gr unjacketed bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  It is most useful for target practice and hunting small animals.",
     "ascii_picture": "22_lr",
@@ -52,7 +55,8 @@
   {
     "id": "22_ratshot",
     "copy-from": "22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 rat-shot" },
     "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and poor penetration ability, but the spread of shot can hit targets with greater ease.",
     "ascii_picture": "22_ratshot",
@@ -68,7 +72,8 @@
   {
     "id": "bp_22_fmj",
     "copy-from": "22_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 LR FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -82,7 +87,8 @@
   {
     "id": "bp_22_lr",
     "copy-from": "22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 LR, black powder" },
     "proportional": {
       "price": 0.3,
@@ -96,7 +102,8 @@
   {
     "id": "reloaded_22_lr",
     "copy-from": "22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 LR, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -105,7 +112,8 @@
   {
     "id": "reloaded_22_fmj",
     "copy-from": "22_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".22 FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -114,7 +122,8 @@
   {
     "id": "matchhead_22_fmj",
     "copy-from": "bp_22_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".22 FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -124,7 +133,8 @@
   {
     "id": "matchhead_22_lr",
     "copy-from": "bp_22_lr",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".22 LR, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

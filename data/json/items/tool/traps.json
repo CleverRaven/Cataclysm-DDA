@@ -1,7 +1,8 @@
 [
   {
     "id": "beartrap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bear trap" },
     "category": "traps",
     "description": "A spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
@@ -27,7 +28,8 @@
   },
   {
     "id": "light_snare_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "light snare kit",
     "category": "traps",
     "description": "A simple loop snare, comprising a carefully wound loop of string, two anchor points, and a tool to hammer them in.  It is suitable for immobilizing only small animals.  It has no means of harming its target, as live meat lasts longer.",
@@ -50,7 +52,8 @@
   },
   {
     "id": "blade_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "blade trap" },
     "category": "traps",
     "description": "A machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
@@ -75,7 +78,8 @@
   },
   {
     "id": "board_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "nailboard trap" },
     "category": "traps",
     "description": "Several pieces of wood nailed together, with some nails sticking straight up.  If an unsuspecting victim steps on it, they'll get nails through the foot.",
@@ -101,7 +105,8 @@
   },
   {
     "id": "boobytrap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "booby trap" },
     "category": "traps",
     "description": "A crude explosive device triggered by a piece of string.  Use it to set it up and wait for some poor bastard to trigger it.",
@@ -124,7 +129,8 @@
   },
   {
     "id": "bubblewrap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bubble wrap" },
     "category": "traps",
     "description": "A sheet of plastic covered with air-filled bubbles.  Use it to set it on the ground, creating a trap that will warn you with noise when something steps on it.",
@@ -147,7 +153,8 @@
   },
   {
     "id": "caltrops",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "loose caltrops" },
     "category": "traps",
     "description": "A handful of small metal objects covered with many sharp points.  If an unsuspecting victim steps on one, they'll get a spine through the foot.",
@@ -171,7 +178,8 @@
   },
   {
     "id": "caltrops_glass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "loose glass caltrops" },
     "category": "traps",
     "description": "A handful of glass shards glued together to expose all their sharp edges.  If an unsuspecting victim steps on one, they'll get cut.",
@@ -195,7 +203,8 @@
   },
   {
     "id": "crossbow_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "crossbow trap" },
     "category": "traps",
     "description": "A simple tripwire attached to the trigger of a loaded crossbow.  When the tripwire is pulled, the crossbow fires.  Only a single bolt can be used, after which the trap is disabled.",
@@ -218,7 +227,8 @@
   },
   {
     "id": "landmine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "land mine" },
     "category": "traps",
     "description": "A military anti-personnel fragmentation mine that is triggered when stepped on.",
@@ -244,7 +254,8 @@
   },
   {
     "id": "shotgun_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "shotgun trap" },
     "category": "traps",
     "description": "A simple tripwire attached to the trigger of a loaded double slam-fire shotgun.  When the tripwire is pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
@@ -267,7 +278,8 @@
   },
   {
     "id": "tripwire",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tripwire trap" },
     "category": "traps",
     "description": "A length of thin string with some affixing tools on either end.  It must be placed across a doorway or other thin passage to function.  Its purpose is to trip up trespassers, causing them to stumble and possibly hurt themselves slightly.",
@@ -291,7 +303,8 @@
   },
   {
     "id": "caltrops_teeth",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "loose teeth caltrops" },
     "category": "traps",
     "description": "A handful of small impossibly-sharp teeth glued together.  If an unsuspecting victim steps on one, they'll get a tooth through the foot.",

@@ -2,7 +2,8 @@
   {
     "id": "pistol_magnum_mag",
     "copy-from": "deaglemag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "magnum pistol magazine" },
     "description": "An 8 round magazine for use with semi-automatic magnum pistols.",
     "ammo_type": [ "ammo_pistol_magnum" ],

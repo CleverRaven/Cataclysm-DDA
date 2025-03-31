@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_biomaterial_1",
     "copy-from": "afs_scrap_1",
     "name": { "str_sp": "monomeric slurry" },
@@ -8,7 +8,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_biomaterial_2",
     "copy-from": "afs_scrap_2",
     "name": { "str": "micellular growth medium" },
@@ -16,7 +16,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_biomaterial_3",
     "copy-from": "afs_scrap_1",
     "name": { "str_sp": "artificial muscle fibers" },
@@ -24,7 +24,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_biomaterial_4",
     "copy-from": "afs_scrap_4",
     "name": { "str_sp": "self healing polymers" },
@@ -32,7 +32,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_biomaterial_5",
     "copy-from": "afs_scrap_5",
     "name": { "str": "autologous totipotent tissue culture" },

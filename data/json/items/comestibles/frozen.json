@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milkshake",
     "name": { "str_sp": "milkshake" },
     "//": "they bring the boys to the yard",
@@ -24,7 +25,8 @@
     "flags": [ "MELTS" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "milkshake",
     "id": "milkshake_fastfood",
     "name": { "str_sp": "fast food milkshake" },
@@ -39,7 +41,8 @@
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milkshake_choc",
     "name": { "str_sp": "chocolate milkshake" },
     "copy-from": "milkshake",
@@ -48,7 +51,8 @@
     "calories": 170
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "milkshake",
     "id": "milkshake_deluxe",
     "name": { "str_sp": "deluxe milkshake" },
@@ -64,7 +68,8 @@
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "milkshake_deluxe_choc",
     "name": { "str_sp": "deluxe chocolate milkshake" },
     "copy-from": "milkshake_deluxe",
@@ -72,7 +77,8 @@
     "calories": 285
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frozen_lemonade",
     "name": { "str_sp": "frozen lemonade" },
     "copy-from": "milkshake",
@@ -84,7 +90,8 @@
     "vitamins": [ [ "vitC", 6 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "snowcone",
     "name": { "str": "snow cone" },
     "conditional_names": [
@@ -167,7 +174,8 @@
     "vitamins": [  ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "snowcone_alcoholic",
     "name": { "str": "snow cone" },
     "conditional_names": [
@@ -263,7 +271,8 @@
     "vitamins": [  ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "icecream",
     "name": { "str": "serving of ice cream", "str_pl": "servings of ice cream" },
     "description": "A sweet, frozen food made with milk and liberal amounts of sugar.",
@@ -288,7 +297,8 @@
     "flags": [ "MELTS" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "icecream",
     "id": "icecream_artificial",
     "name": { "str": "serving of dairy dessert", "str_pl": "servings of dairy dessert" },
@@ -300,7 +310,8 @@
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "icecream_choc",
     "name": { "str": "serving of chocolate ice cream", "str_pl": "servings of chocolate ice cream" },
     "copy-from": "icecream",
@@ -309,7 +320,8 @@
     "calories": 345
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sundae_cup",
     "//": "based on Hoodsie cups, a popular brand in New England",
     "name": { "str": "sundae cup" },
@@ -322,7 +334,8 @@
     "calories": 121
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "icecream",
     "id": "icecream_candy",
     "name": { "str": "serving of candy ice cream", "str_pl": "servings of candy ice cream" },
@@ -336,7 +349,8 @@
     "material": [ "milk", "junk" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "icecream",
     "id": "icecream_fruit",
     "name": { "str": "serving of fruity ice cream", "str_pl": "servings of fruity ice cream" },
@@ -350,7 +364,8 @@
     "material": [ "milk", "fruit" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "icecream",
     "id": "icecream_custard",
     "name": { "str": "serving of frozen custard", "str_pl": "servings of frozen custard" },
@@ -364,7 +379,8 @@
     "material": [ "milk", "egg" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "icecream",
     "id": "icecream_yogurt",
     "name": { "str": "serving of frozen yogurt", "str_pl": "servings of frozen yogurt" },
@@ -378,7 +394,8 @@
     "material": [ "milk" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "icecream",
     "id": "icecream_sorbet",
     "name": { "str": "serving of sorbet", "str_pl": "servings of sorbet" },
@@ -394,7 +411,8 @@
     "material": [ "water", "fruit" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "icecream",
     "id": "icecream_gelato",
     "name": { "str": "serving of gelato", "str_pl": "servings of gelato" },

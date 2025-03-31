@@ -1,7 +1,8 @@
 [
   {
     "id": "novel_scifi",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "scifi novel" },
     "description": "Aliens, ray guns, and space ships.",
     "snippet_category": [
@@ -137,7 +138,8 @@
   },
   {
     "id": "book_fict_soft_scifi_dune",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Dune", "str_pl": "copies of Dune" },
     "description": "This is a dog-eared copy of \"Dune\" by Frank Herbert.  It has sand between some of its pages.  Weird.",
     "//isbn13": 9780450011849,
@@ -147,7 +149,8 @@
   },
   {
     "id": "book_fict_hard_scifi_dune",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Dune", "str_pl": "copies of Dune" },
     "description": "This is a sturdy copy of \"Dune\" by Frank Herbert.  It is a fairly new reprint with the words \"SOON TO BE A MAJOR MOTION PICTURE\" splashed across its dust jacket.",
     "//isbn13": 9780593099322,
@@ -157,7 +160,8 @@
   },
   {
     "id": "book_fict_hard_scifi_talnt",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Parable of the Talents", "str_pl": "copies of Parable of the Talents" },
     "description": "This is a sturdy copy of \"Parable of the Talents.\".  It is Octavia Butler's sequel to her book \"Parable of the Sower.\"",
     "//isbn13": 9780613914314,
@@ -171,7 +175,8 @@
   },
   {
     "id": "book_fict_hard_scifi_fifth",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Fifth Season", "str_pl": "signed copies of Fifth Season" },
     "description": "This is a signed hardcover copy of the Hugo award winning \"The Fifth Season\" by N. K. Jemisin.  It smells faintly of dirt.",
     "//isbn13": 9780356511931,
@@ -181,7 +186,8 @@
   },
   {
     "id": "book_fict_hard_scifi_zamwe",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "We", "str_pl": "copies of We" },
     "description": "This hardback book is titled \"The Annotated We: A New Translation of Yevgeny Zamyatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamyatin's language.",
     "//isbn13": 9781611461787,
@@ -198,7 +204,8 @@
   },
   {
     "id": "book_fict_soft_scifi_zamwe",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "We", "str_pl": "copies of We" },
     "description": "A seminal work of dystopian fiction, Yevgeny Zamyatin's \"We\" was first published in 1924 but suppressed by the Soviet Union until 1988.\n\nThis mass-market 1993 edition you've found was translated from the Russian by Clarence Brown and includes a short introduction.  The slightly worn cover features a surrealist photo of a person gazing backward suspiciously.",
     "//isbn13": 9780140185850,
@@ -214,7 +221,8 @@
   },
   {
     "id": "book_fict_soft_scifi_cybrd",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Cyberiad", "str_pl": "copies of The Cyberiad" },
     "description": "This 350 page paperback presents the exploits and robotic rivalries of Trurl and Klapaucius.  Originally written in Polish by Stanisław Lem, it has been masterfully translated into English by Michael Kandel.",
     "//isbn13": 9780241467992,
@@ -223,7 +231,8 @@
   },
   {
     "id": "book_fict_soft_scifi_brave",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Brave New World", "str_pl": "copies of Brave New World" },
     "description": "This is weather worn copy of \"Brave New World\" by Aldous Huxley looks like it has been left out in rain.  The novel begins in a bleak building where fetuses are grown in bottles on an assembly line.",
     "copy-from": "book_fict_soft_scifi_tpl",
@@ -231,14 +240,16 @@
   },
   {
     "id": "book_fict_soft_scifi_roadp",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Roadside Picnic", "str_pl": "copies of Roadside Picnic" },
     "description": "This is a paperback copy of \"Roadside Picnic\" by Arkady and Boris Strugatsky.  It has been translated into over 20 languages, occasionally under the name \"Stalker.\"  This copy, fortunately for you, just happens to be in your native tongue.",
     "copy-from": "book_fict_soft_scifi_tpl"
   },
   {
     "id": "book_fict_soft_scifi_f451",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Fahrenheit 451", "str_pl": "copies of Fahrenheit 451" },
     "description": "This is a copy of Ray Bradbury's \"Fahrenheit 451.\"",
     "snippet_category": [
@@ -266,18 +277,19 @@
     "copy-from": "book_fict_soft_scifi_tpl",
     "time": "60 m",
     "chapters": 3,
-    "fun": 8,
-    "relative": { "intelligence": -2 }
+    "relative": { "intelligence": -2 },
+    "read_fun": 8
   },
   {
     "id": "book_fict_soft_docu_AWT",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "All Things Weird", "str_pl": "copies of All Things Weird" },
     "description": "This is a copy of Felicity Powell's All Things Weird.  It tells the story of a survivor following The Reckoning, interjected with comedy and dramatic twists.",
     "copy-from": "book_fict_soft_scifi_tpl",
     "time": "60 m",
     "chapters": 34,
-    "fun": 10,
-    "relative": { "intelligence": 1 }
+    "relative": { "intelligence": 1 },
+    "read_fun": 10
   }
 ]

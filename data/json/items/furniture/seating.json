@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chair_wood",
     "name": { "str": "wooden chair" },
     "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
@@ -18,7 +18,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "armchair",
     "name": { "str": "armchair" },
     "description": "A simple upholstered chair with armrests.  Soft and fairly warm, it definitely beats the ground for sleeping on, though not by much.",
@@ -36,7 +36,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stool_wood",
     "name": { "str": "wooden stool" },
     "description": "A simple stool, with four legs and a seat.  While it's a touch more maneuverable to sit on, the lack of back support means it's significantly less comfortable than a normal chair.",
@@ -54,7 +54,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stool_log",
     "name": { "str": "log stool" },
     "description": "A short section from a tree trunk with one of the flat ends smoothed down.  Makes for a decent place to sit, but not quite a real chair.",
@@ -72,7 +72,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "barstool",
     "name": { "str": "bar stool" },
     "description": "A bar stool with a leather seat on a steel support.  Not practical for sleeping at all but it does feel nicer than sitting on the ground.",
@@ -90,7 +90,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chair_plywood",
     "name": { "str": "plywood chair" },
     "description": "A simple chair made of plywood on a steel frame.  Quite uncomfortable but works for sleeping if it's the only option available.",
@@ -108,7 +108,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chair_wood_black",
     "name": { "str": "black wooden chair" },
     "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted black.",
@@ -116,7 +116,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chair_wood_white",
     "name": { "str": "white wooden chair" },
     "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted white.",

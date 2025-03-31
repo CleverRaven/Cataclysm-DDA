@@ -3,7 +3,8 @@
     "id": "afs_seyfert_84K",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "10mm Pistol" },
     "description": "Commonly carried by shipping crews that can afford it, Seyfert Armistice's 84K pistol doesn't particularly shine or show anything special but it keeps you safe on long journeys in the vast dark of Orion's Arm.",
     "variants": [
@@ -63,7 +64,8 @@
     "id": "afs_marsec_4",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "MarSec. 4" },
     "description": {
       "//NOLINT(cata-text-style)": "not a period after 'MarSec'",
@@ -113,7 +115,8 @@
     "id": "afs_silvergram_pistol",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "name": { "str": "W1011 Silvergram" },
     "description": "A finely sculpted white and silver pistol entrusted to Wraitheon's corporate elite.  It employs advanced targeting and precision guiding capabilities to deliver devastating bursts of guided 10mm microjet darts.  Firing is as expensive as it looks.",
     "weight": "780 g",
@@ -155,8 +158,8 @@
     ],
     "valid_mod_locations": [  ],
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
     "melee_damage": { "bash": 8 },
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "passive_effects": [ { "id": "ench_smart_gun" } ]
   }
 ]

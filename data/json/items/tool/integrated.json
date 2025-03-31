@@ -1,7 +1,8 @@
 [
   {
     "id": "internal_gasoline_tank",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "container",
     "name": { "str": "internal gasoline tank" },
     "description": "The internal tank for a gasoline fuel cell bionic.",
@@ -26,7 +27,8 @@
   },
   {
     "id": "internal_ethanol_tank",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "container",
     "name": { "str": "internal ethanol tank" },
     "description": "The internal ethanol tank for an ethanol burner bionic.",
@@ -51,7 +53,8 @@
   },
   {
     "id": "internal_oil_tank",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "container",
     "name": { "str": "internal oil tank" },
     "description": "The internal oil tank for an oil generator bionic.",
@@ -76,7 +79,8 @@
   },
   {
     "id": "internal_battery_compartment",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "internal battery compartment" },
     "description": "The internal compartment for holding medium sized batteries, for a battery system bionic.",
     "volume": "750 ml",
@@ -86,7 +90,6 @@
     "symbol": "(",
     "color": "magenta",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -94,11 +97,13 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "toolset",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "100 g",
     "volume": "75 ml",
@@ -152,7 +157,8 @@
   },
   {
     "id": "integrated_welder",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "100 g",
     "volume": "50 ml",
@@ -212,13 +218,14 @@
         "tool_quality": 10
       }
     ],
-    "ammo": [ "battery" ],
     "charges_per_use": 20,
-    "charged_qualities": [ [ "WELD", 2 ] ]
+    "charged_qualities": [ [ "WELD", 2 ] ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "integrated_multimeter",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "50 g",
     "volume": "25 ml",
@@ -247,7 +254,8 @@
   },
   {
     "id": "integrated_electrokit",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "50 g",
     "volume": "25 ml",
@@ -282,8 +290,8 @@
         "move_cost": 1500
       }
     ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ]
+    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
+    "tool_ammo": [ "battery" ]
   }
 ]

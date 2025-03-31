@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dragon_black_scale",
     "category": "spare_parts",
     "symbol": "o",
@@ -16,7 +16,7 @@
   },
   {
     "id": "bundle_black_scale",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "dragon_black_scale",
     "symbol": "=",
     "name": { "str": "bundle of black dragon scales", "str_pl": "bundles of black dragon scales" },
@@ -25,7 +25,8 @@
     "description": "Scales from a black dragon, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "black_dragon_hide_raw",
     "category": "spare_parts",
     "name": { "str_sp": "raw black dragon hide" },
@@ -48,7 +49,8 @@
   },
   {
     "id": "black_dragon_tanning_hide",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": "tanning black dragon hide",
     "description": "A treated black dragon hide which is undergoing the chemical processes required to become workable.  You will be able to activate it to unroll and make use of it when it is done.",
@@ -70,7 +72,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "black_dragon_tanned_hide",
     "symbol": ",",
     "color": "black_white",
@@ -85,7 +87,7 @@
   },
   {
     "id": "bundle_black_hide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "black_dragon_tanned_hide",
     "symbol": ",",
     "name": { "str": "bundle of black dragon hides", "str_pl": "bundles of black dragon hides" },
@@ -95,7 +97,8 @@
   },
   {
     "id": "boots_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of black dragonscale boots", "str_pl": "pairs of black dragonscale boots" },
     "description": "Boots made of black incredibly durable dragonscale.  Very protective, and surprisingly light.",
@@ -114,7 +117,8 @@
   },
   {
     "id": "boots_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of black dragonhide boots", "str_pl": "pairs of black dragonhide boots" },
     "description": "Boots made of very durable black dragonhide.  Very protective, and surprisingly light.",
@@ -133,7 +137,8 @@
   },
   {
     "id": "helmet_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": "black dragonscale helmet",
     "description": "A helmet made from black incredibly durable dragonscale, held together with black dragonhide.  It comes equipped with a full face visor with only a thin slit to see out of.  Activate to raise the visor.",
@@ -158,7 +163,8 @@
   },
   {
     "id": "helmet_black_dragon_scale_raised",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "copy-from": "helmet_black_dragon_scale",
     "name": { "str": "black dragonscale helmet (raised visor)", "str_pl": "black dragonscale helmets (raised visor)" },
@@ -172,7 +178,8 @@
   },
   {
     "id": "helmet_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": "black dragonhide helmet",
     "description": "A helmet made from very durable black dragonhide.  It protects your head well, but doesn't cover your face.",
@@ -193,7 +200,8 @@
   },
   {
     "id": "suit_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": "black dragonscale armor",
     "description": "A full suit of incredibly durable black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms, with the benefit of being very light and flexible.",
@@ -213,7 +221,8 @@
   },
   {
     "id": "suit_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": "black dragonhide armor",
     "description": "A full suit of very durable black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms, with the benefit of being very light and flexible.",
@@ -233,7 +242,8 @@
   },
   {
     "id": "gauntlets_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of black dragonscale gauntlets", "str_pl": "pairs of black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of incredibly durable black dragonscale that covers your hands.",
@@ -251,7 +261,8 @@
   },
   {
     "id": "gloves_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of black dragonhide gloves", "str_pl": "pairs of black dragonhide gloves" },
     "description": "A pair of gloves made of very durable black dragonhide, modified to be easy to wear while providing maximum protection under extreme conditions.",
@@ -270,7 +281,8 @@
   {
     "id": "boots_xlblack_dragon_scale",
     "copy-from": "boots_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of black dragonscale boots", "str_pl": "pairs of black dragonscale boots" },
     "description": "Massive boots made of incredibly durable black dragonscale, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "1545 g",
@@ -283,7 +295,8 @@
   {
     "id": "boots_xlblack_dragon_hide",
     "copy-from": "boots_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of black dragonhide boots", "str_pl": "pairs of black dragonhide boots" },
     "description": "Massive boots made of very durable black dragonhide, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "955 g",
@@ -296,7 +309,8 @@
   {
     "id": "gauntlets_xlblack_dragon_scale",
     "copy-from": "gauntlets_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of black dragonscale gauntlets", "str_pl": "pairs of black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of incredibly durable black dragonscale that covers your hands, or whatever you use as hands.",
     "weight": "680 g",
@@ -309,7 +323,8 @@
   {
     "id": "gloves_xlblack_dragon_hide",
     "copy-from": "gloves_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of black dragonhide gloves", "str_pl": "pairs of black dragonhide gloves" },
     "description": "A pair of gloves made of very durable black dragonhide, modified to be easy to wear while providing maximum protection under extreme conditions.  Sized to fit even the strangest of anatomy.",
     "weight": "430 g",
@@ -322,7 +337,8 @@
   {
     "id": "helmet_xlblack_dragon_scale",
     "copy-from": "helmet_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "black dragonscale helmet",
     "description": "A massive helmet made from incredibly durable black dragonscale, held together with black dragonhide.  It comes equipped with a full face visor you can raise and is large enough to fit even the strangest of heads.",
     "use_action": { "type": "transform", "target": "helmet_xlblack_dragon_scale_raised", "msg": "You raise your visor." },
@@ -339,7 +355,8 @@
   {
     "id": "helmet_xlblack_dragon_scale_raised",
     "copy-from": "helmet_black_dragon_scale_raised",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "black dragonscale helmet (raised visor)", "str_pl": "black dragonscale helmets (raised visor)" },
     "description": "A massive helmet made from incredibly durable black dragonscale, held together with black dragonhide.  It is large enough to fit even the strangest of heads.  The visor is raised",
     "use_action": { "type": "transform", "target": "helmet_xlblack_dragon_scale", "msg": "You put down your visor." },
@@ -353,7 +370,8 @@
   {
     "id": "helmet_xlblack_dragon_hide",
     "copy-from": "helmet_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "black dragonhide helmet",
     "description": "A massive helmet made from very durable black dragonhide.  It protects your head well, and doesn't cover your face, but is large enough to fit even the strangest of heads.",
     "weight": "815 g",
@@ -366,7 +384,8 @@
   {
     "id": "suit_xlblack_dragon_scale",
     "copy-from": "suit_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "black dragonscale armor",
     "description": "A massive full suit of incredibly durable black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
     "weight": "6250 g",
@@ -379,7 +398,8 @@
   {
     "id": "suit_xlblack_dragon_hide",
     "copy-from": "suit_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "black dragonhide armor",
     "description": "A massive full suit of very durable black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
     "weight": "5500 g",
@@ -392,7 +412,8 @@
   {
     "id": "backpack_black_dragon_hide",
     "//": "After adding more dragons, maybe make it more generic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "dragonhide backpack",
     "description": "A custom-built backpack.  Made of very durable dragon leather and carefully crafted to hold as much stuff as possible.",
     "weight": "900 g",
@@ -422,7 +443,8 @@
   {
     "id": "backpack_xl_black_dragon_hide",
     "copy-from": "backpack_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "dragonhide backpack",
     "weight": "1200 g",
     "volume": "6250 ml",

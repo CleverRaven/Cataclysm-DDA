@@ -31,6 +31,9 @@ struct shrapnel_data {
         , recovery( recovery )
         , drop( drop ) {
     }
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 struct explosion_data {
@@ -55,6 +58,9 @@ struct explosion_data {
         , fire( fire )
         , shrapnel( shrapnel ) {
     }
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 // handles explosion related functions

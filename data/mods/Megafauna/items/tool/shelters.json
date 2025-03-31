@@ -1,7 +1,8 @@
 [
   {
     "id": "mammoth_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mammoth shelter kit" },
     "description": "This is a small shelter, made of large bones, mammoth tusks, and skins.  Use it to place.",
     "weight": "1360 g",
@@ -25,7 +26,8 @@
   },
   {
     "id": "large_mammoth_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large mammoth shelter kit" },
     "description": "This is a big shelter, made of large bones, mammoth tusks, and skins.  Use it to place.",
     "weight": "4080 g",

@@ -38,6 +38,18 @@ void mass::serialize( JsonOut &jsout ) const
 }
 
 template<>
+void mass::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::mass_units );
+}
+
+template<>
+void money::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::money_units );
+}
+
+template<>
 void length::deserialize( const JsonValue &jv )
 {
     *this = read_from_json_string( jv, units::length_units );

@@ -1,7 +1,7 @@
 [
   {
     "abstract": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "spare parts", "//~": "NO_I18N" },
     "description": {
@@ -14,7 +14,7 @@
   {
     "id": "drivebelt",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "drive belt" },
     "description": "A synthetic rubber V-belt with steel reinforcement fibers.  Commonly fitted to engines or other industrial equipment.",
     "material": [ "rubber", "steel" ],
@@ -26,7 +26,7 @@
   {
     "id": "drivebelt_makeshift",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift drive belt" },
     "description": "An improvised belt useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "cotton", "leather" ],
@@ -38,7 +38,7 @@
   {
     "id": "five-point_harness",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "5-point harness", "str_pl": "5-point harnesses" },
     "description": "A harness made of five belts meant to be mounted on vehicle to fasten a passenger securely to their seat.",
     "material": [ "nylon", "steel" ],
@@ -50,7 +50,7 @@
   {
     "id": "filter_air",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "air filter" },
     "description": "A plastic box containing creped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
@@ -62,7 +62,7 @@
   {
     "id": "filter_air_makeshift",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift air filter" },
     "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "plastic", "paper" ],
@@ -74,7 +74,7 @@
   {
     "id": "filter_liquid",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "wix 51333",
     "name": { "str": "automotive filter" },
     "description": "A steel can containing filter paper designed for automotive use.",
@@ -87,7 +87,7 @@
   {
     "id": "filter_liquid_makeshift",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift automotive filter" },
     "description": "An improvised automotive filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "steel", "paper" ],
@@ -99,7 +99,7 @@
   {
     "id": "glowplug",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "glow plug" },
     "description": "A cylindrical heating device designed to be screwed in to a diesel engine to aid starting in cold weather.",
     "material": [ "plastic", "copper" ],
@@ -111,7 +111,7 @@
   {
     "id": "pump_complex",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "high-pressure pump" },
     "description": "A complex mechanical pump capable of achieving high pressures.  Far beyond anything you could reasonably improvise.",
     "material": [ "iron" ],
@@ -124,7 +124,7 @@
   {
     "id": "well_pump",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "mechanical pump" },
     "description": "A simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -136,7 +136,7 @@
   {
     "id": "compressor",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "compressor" },
     "description": "An electrically-powered device which compresses gas to increase pressure.  Used in fridges, air conditioners and many other appliances.",
     "material": [ "steel" ],
@@ -150,7 +150,7 @@
   {
     "id": "nitrogen_membrane_filter",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "nitrogen membrane filter" },
     "description": "A straight pipe with high-tech membrane filter inside it, designed to separate nitrogen from compressed air that is pumped through it.",
     "material": [ "steel" ],
@@ -163,7 +163,8 @@
   },
   {
     "id": "magnet",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "magnet" },
     "description": "A small but strong permanent magnet made from alnico alloy, which produces a magnetic field that attracts ferromagnetic materials such as steel.  Useful for crafting.",
@@ -179,7 +180,7 @@
   {
     "id": "hd_pipe",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "heavy duty pipe" },
     "description": "A section of steel pipe with very thick walls built to contain very high pressure, probably intended to be a part of industrial equipment.",
     "material": [ "steel" ],
@@ -192,7 +193,7 @@
   {
     "id": "hd_pipe_fittings",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "set of heavy duty pipe fittings", "str_pl": "sets of heavy duty pipe fittings" },
     "description": "A loose assortment of very thick-walled steel pipe fittings - end caps, pipe junctions, and similar items.  Probably intended to be a part of industrial equipment.",
     "material": [ "steel" ],
@@ -204,7 +205,7 @@
   {
     "id": "hd_valve",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "heavy duty valve" },
     "description": "A short section of thick-walled pipe with a valve integrated into it, allowing an operator to regulate the flow of gas or liquid through it.",
     "material": [ "steel" ],
@@ -216,7 +217,7 @@
   {
     "id": "pressure_gauge",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pressure gauge" },
     "description": "A short section of thick-walled pipe with a device which shows the internal pressure built into it.",
     "material": [ "steel" ],
@@ -228,7 +229,7 @@
   {
     "id": "pyrometer",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pyrometer" },
     "description": "A small electronic device used for measuring high temperatures.",
     "material": [ "steel" ],
@@ -240,7 +241,7 @@
   {
     "id": "hd_compressor",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "industrial compressor" },
     "description": "A bulky and very powerful compressor which can produce very high pressure if fitted to a pipe.  Much more powerful than whatever you'd find in common household appliances.",
     "material": [ "steel" ],
@@ -252,7 +253,7 @@
   {
     "id": "large_pressure_vessel",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "large pressure vessel" },
     "description": "An enormously bulky and heavy steel vessel with thick walls.  Likely meant to be a reaction chamber for industrial processes requiring high pressure.",
     "material": [ "steel" ],
@@ -265,7 +266,7 @@
   {
     "id": "small_pressure_vessel",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "small pressure vessel" },
     "description": "A rather small steel vessel with thick walls designed to contain high pressure.  Quite heavy for its size.",
     "material": [ "steel" ],
@@ -278,7 +279,7 @@
   {
     "id": "pipe_fittings",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "set of pipe fittings", "str_pl": "sets of pipe fittings" },
     "description": "A loose assortment of metal pipe fittings - end caps, pipe junctions, and similar items.  They can be used in a variety of projects.",
     "material": [ "iron" ],
@@ -290,7 +291,7 @@
   {
     "id": "simple_crank",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "simple crank mechanism" },
     "description": "A simple cranking mechanism, consisting of a bent metal arm attached at a right angle to a rotating shaft.  It can be used to convert circular motion into reciprocating motion, or vice versa, by means of muscle power.",
     "material": [ "iron" ],
