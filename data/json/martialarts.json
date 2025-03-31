@@ -301,7 +301,7 @@
       {
         "id": "buff_brawling_onpause",
         "name": "Preparation to Hit",
-        "description": "You take a moment to prepare your stance before the enemy, allowing you to hit a little more accurately.\n\n+1 accuracy.  Lasts 2 turns.  Stacks 2 times",
+        "description": "You take a moment to prepare your stance before the enemy, allowing you to hit a little more accurately.\n\n+1 accuracy.  Lasts 2 turns.  Stacks 2 times.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
@@ -751,7 +751,7 @@
       {
         "id": "buff_kickboxing_stance_static",
         "name": "Kick stance",
-        "description": "You have adopted a stance which allows for greater mobility and stability.  Your hands are in a guard position with elbows forward to protect yourself.\n\nBlocked damage reduced by 25% of Strength.\n+1.0 Dodging skill",
+        "description": "You have adopted a stance which allows for greater mobility and stability.  Your hands are in a guard position with elbows forward to protect yourself.\n\nBlocked damage reduced by 25% of Strength.\n+1.0 Dodging skill.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 } ]
       }

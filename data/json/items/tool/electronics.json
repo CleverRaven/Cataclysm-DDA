@@ -504,7 +504,7 @@
     "charges_per_use": 10,
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate the recorder's printer",
+      "description": "Activate the recorder's printer.",
       "effect_on_conditions": [ "print_nre_data" ]
     },
     "pocket_data": [

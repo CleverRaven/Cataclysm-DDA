@@ -862,7 +862,7 @@
       {
         "id": "ammo_box_army_10_338",
         "name": { "str": ".338 Lapua Magnum ammo box", "str_pl": ".338 Lapua Magnum ammo boxes" },
-        "description": "A small painted in white ammo box.  Black text printed on the front says:\n10 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT",
+        "description": "A small painted in white ammo box.  Black text printed on the front says:\n10 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT.",
         "weight": 0
       }
     ]

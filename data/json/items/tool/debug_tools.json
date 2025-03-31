@@ -4,7 +4,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "debug lux meter" },
-    "description": "This debug tool will tell you about light",
+    "description": "This debug tool will tell you about light.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "plastic" ],

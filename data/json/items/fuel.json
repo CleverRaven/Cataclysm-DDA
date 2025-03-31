@@ -207,7 +207,7 @@
     "id": "crude_oil",
     "type": "AMMO",
     "name": { "str_sp": "crude oil" },
-    "description": "A thick black slurry that can be refined to produce usable products including gasoline or diesel",
+    "description": "A thick black slurry that can be refined to produce usable products including gasoline or diesel.",
     "category": "fuel",
     "weight": "800 mg",
     "volume": "200ml",

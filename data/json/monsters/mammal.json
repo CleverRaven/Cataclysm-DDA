@@ -1574,7 +1574,7 @@
     "type": "MONSTER",
     "copy-from": "mon_dog",
     "name": { "str": "Flat-coated Retriever" },
-    "description": "A large, black retriever with a luxurious, glossy coat and almond-shaped brown eyes that glitter with intelligence.  The Flat-coated Retriever has a temperament that can only be described as 'superb', having the energy to accompany humans who love physical activity, and the loyalty to lay around with those that do not.  Flat-coated Retriever will often do little more than bark at potential threats",
+    "description": "A large, black retriever with a luxurious, glossy coat and almond-shaped brown eyes that glitter with intelligence.  The Flat-coated Retriever has a temperament that can only be described as 'superb', having the energy to accompany humans who love physical activity, and the loyalty to lay around with those that do not.  Flat-coated Retriever will often do little more than bark at potential threats.",
     "color": "black",
     "weight": "28 kg",
     "aggression": -20,
