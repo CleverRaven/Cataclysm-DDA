@@ -192,5 +192,31 @@
     "price": "90 USD",
     "price_postapoc": "5 USD",
     "melee_damage": { "bash": 5, "stab": 16 }
+  },
+  {
+    "type": "AMMO",
+    "id": "nether_huntsman_javelin",
+    "name": { "str": "huntsman outgrowth" },
+    "copy-from": "javelin_fletched",
+    "symbol": "/",
+    "color": "light_gray",
+    "description": "A wet alien rod with a sharp point at the end, vaguely shaped like a javelin of sorts.  It is heavier than what you expected, and gives off a weird acidic smell you can't quite describe.",
+    "material": [ "bone" ],
+    "volume": "1400 ml",
+    "weight": "1200 g",
+    "longest_side": "76 cm",
+    "ammo_type": "nether_huntsman_javelin_ammo",
+    "damage": { "damage_type": "stab", "amount": 14 },
+    "count": 1,
+    "stack_size": 1,
+    "dispersion": 15,
+    "loudness": 0,
+    "recovery_chance": 90,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 10 } ],
+    "flags": [ "NONCONDUCTIVE", "JAVELIN", "NPC_THROWN" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "price_postapoc": "50 cent",
+    "melee_damage": { "bash": 5, "stab": 10 }
   }
 ]
