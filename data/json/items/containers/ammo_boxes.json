@@ -2,6 +2,7 @@
   {
     "id": "9mm_ammo_box_20",
     "type": "GENERIC",
+    "category": "container",
     "name": { "str": "9mm ammo box", "str_pl": "9mm ammo boxes" },
     "description": "This box holds 20 rounds of 9mm ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "material": [ "cardboard" ],
