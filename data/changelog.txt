@@ -128,6 +128,8 @@ Refactor the pulping
 Makes sound effects play in slow motion while the player has slowed down time
 Add ``character_takeoff_item`` event
 Rebalance the chance for armor to be damaged by attacks.
+Add NO_TEMP" flag and apply it
+Adds the futile fighter profession
 
 
 ## Content:
@@ -298,6 +300,13 @@ Add 2 new social practice recipes
 FEMA camps are now mutables
 Added a new fast food restaurant with drive-through
 Mortar framework
+Add a Bombastic Perk “Damage Dice” and add ammo context var to event character_ranged_attacks_character and character_ranged_attacks_monster
+Delayed NPC anger due to construct until confirm construction in menu.
+Add cigarette variants
+Improves/adds missions, rewards and interactions with the New England Community Church
+Military outposts have been revamped
+Added billboards
+Ferals yell at danger
 
 
 ## Interface:
@@ -783,6 +792,16 @@ Isolation Protocol: Office Levels
 [ Aftershock:Exoplanet ] Autotravel works on Salus IV now
 [Isolation Protocol] Add the Last Scion class
 [MoM] Add volume limits to Blink and Farstep
+[MoM] Rework teleportation volume calculations (again)
+ [MoM] Add new Photokinetic power, Phantom Legion
+[MOM] Add encumbrance enchantment and convert Enhanced Mobility to use it
+[Magiclysm] Add Translocation Portal
+[MoM] Jmath updates in power learning
+Updates candy butchery from MSC
+[MoM] Add possible Wary Sleeper perk
+[MoM] Rework Oubliette to use new u_/n_die functionality
+[XE] Adds a special boss encounter for tier 5 vampires.
+Manual recipe for long wooden post for innawoods
 
 
 ## Balance:
@@ -878,6 +897,9 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
+The player has to give the cook at the New England Church Community 40x 3 liter glass jars in exchanged for 10 icons.
+Economy of berries
+Adjust Alpha Mutations point balance
 
 
 ## Bugfixes:
@@ -1226,6 +1248,18 @@ Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
+Fixes Dana's special sourdough disappearing into thin air
+Small almost insignificant fix to the first Chris mission, and preventive fix to an unused Pablo mission
+Fix the riot damage's random moving of items for SEALED CONTAINER
+fix both AIM-panels selected
+Port messenger bag sided function fix from TLG
+Fix mutating resetting stats and stamina
+Movecost can never be 0 or negative
+Overhaul firearm copy-froms
+[Magiclysm/XE] Fix accidentally-deleted custom integrated armor
+Spells consume energy before casting effects
+Show correct amount from can_contain
+Flawless Memory item: adding etransfer_rate field
 
 
 ## Performance:
