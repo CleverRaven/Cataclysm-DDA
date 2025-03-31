@@ -23,6 +23,17 @@
     "material": [ "steel", "plastic" ],
     "ammo": [ "338lapua" ],
     "dispersion": 50,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ]
   },
@@ -57,12 +68,12 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "stock mount", 1 ]
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ],
@@ -99,14 +110,14 @@
     "default_mods": [ "match_trigger", "muzzle_brake" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "grip", 1 ],
+      [ "brass catcher", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
-      [ "stock accessory", 2 ]
+      [ "stock accessory", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mrad_338lapua_mag" ] } ]
   },
@@ -141,7 +152,6 @@
     "blackpowder_tolerance": 24,
     "default_mods": [ "match_trigger", "high_end_folding_stock" ],
     "valid_mod_locations": [
-      [ "grip", 1 ],
       [ "bore", 1 ],
       [ "mechanism", 2 ],
       [ "rail", 1 ],

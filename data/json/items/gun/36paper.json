@@ -22,6 +22,7 @@
     "material": [ "steel", "wood" ],
     "ammo": [ "36paper" ],
     "dispersion": 450,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "stock mount", 1 ] ],
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
