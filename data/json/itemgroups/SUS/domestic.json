@@ -611,12 +611,6 @@
         ],
         "prob": 30
       },
-          { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
-          { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
-          { "item": "milk_UHT", "prob": 10 }
-        ],
-        "prob": 30
-      },
       {
         "distribution": [ { "item": "honey_glassed", "prob": 20 }, { "item": "honey_bottled", "prob": 80 } ],
         "prob": 60
