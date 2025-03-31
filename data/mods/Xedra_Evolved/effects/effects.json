@@ -10,7 +10,7 @@
     "id": "haste_vampire",
     "name": [ "Blood Haste" ],
     "desc": [ "Stolen blood is boosting your speed enormously." ],
-    "apply_message": "Your speed is boosted to superhuman levels!",
+    "apply_message": "",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
     "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
