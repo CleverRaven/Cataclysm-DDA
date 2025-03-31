@@ -1,5 +1,10 @@
 [
   {
+    "type": "overmap_location",
+    "id": "subterranean_empty",
+    "terrains": [ "deep_rock", "solid_glacier", "empty_rock", "solid_earth" ]
+  },
+  {
     "type": "start_location",
     "id": "sloc_augustmoon_docking",
     "name": "Port Augustmoon",
