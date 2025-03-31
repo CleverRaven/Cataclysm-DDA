@@ -4103,7 +4103,7 @@
     "name": "modified attachments",
     "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "bipod_mod", "grip_mod", "muzzle_brake_mod", "nested_modified_gunmods_weapons", "nested_modified_gunmods_sights" ]
+    "nested_category_data": [ "bipod_mod", "grip_mod", "nested_modified_gunmods_weapons", "nested_modified_gunmods_sights" ]
   },
   {
     "id": "nested_modified_gunmods_weapons",
