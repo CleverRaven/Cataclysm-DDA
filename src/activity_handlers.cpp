@@ -491,7 +491,7 @@ static bool do_cannibalism_piss_people_off( Character &you )
 
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_active() && guy.sees( here, you ) && !guy.okay_with_eating_humans() ) {
-            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
+            guy.say( _( "<swear!>  Are you butchering them?  That's not okay, <name_b>." ) );
             // massive opinion penalty
             guy.op_of_u.trust -= 5;
             guy.op_of_u.value -= 5;
