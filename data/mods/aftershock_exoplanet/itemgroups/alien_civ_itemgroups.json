@@ -1,0 +1,9 @@
+[
+  {
+    "type": "item_group",
+    "//": "Very high value alien artifacts: high quality weapons, combat tools or supplies.",
+    "id": "alienciv_artifact_5",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_hardlight_longbow", "prob": 1 }, { "item": "alien_battery", "charges": 4500, "prob": 10 } ]
+  }
+]

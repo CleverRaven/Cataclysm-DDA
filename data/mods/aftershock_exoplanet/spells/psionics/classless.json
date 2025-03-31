@@ -1,0 +1,29 @@
+[
+  {
+    "id": "aftershock_psionics",
+    "type": "magic_type",
+    "energy_source": "STAMINA",
+    "cannot_cast_flags": "NO_PSIONICS",
+    "cannot_cast_message": "You can't channel any of the powers you know!",
+    "failure_cost_percent": 1,
+    "failure_eocs": [ "EOC_AFS_PSI_CHANNEL_FAILURE" ]
+  },
+  {
+    "id": "afs_classless_toggleable_concentration_end",
+    "type": "SPELL",
+    "name": "[Ψ]Stop Concentrating",
+    "description": "End your concentration on all of your maintained powers.\n\nChanneling this power <color_green>always succeeds</color>.",
+    "message": "You stop concentrating.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_END_PSI_POWERS_MAINTAINED",
+    "shape": "blast",
+    "max_level": 1,
+    "magic_type": "aftershock_psionics",
+    "base_energy_cost": 0,
+    "base_casting_time": 0
+  }
+]

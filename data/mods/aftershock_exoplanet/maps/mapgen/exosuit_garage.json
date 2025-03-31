@@ -1,0 +1,190 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_exosuit_garage_a1",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "   -       2-   )!))    ",
+        " ---11111111--- ).c)    ",
+        " -.-.$$..$$2-%-))!)))   ",
+        " -...$$..$$...-nn...))  ",
+        " -...$$''$$...-î..'.b)) ",
+        " -$$$$$..$$$$$-jcj..bb/ ",
+        " -...$$..$$...-.hJ..../ ",
+        " -$$$$$..$$$$$-////:/:/ ",
+        " -...$$..$$...-...../~/ ",
+        " -$$$$$..$$$$$-...../// ",
+        " -...$$''$$...---.'.:b/ ",
+        " -...$$..$$...3.!.../// ",
+        " ---444444--3----//.:b/ ",
+        " -fff5.556.-.c-*'&/./// ",
+        " -f.h......-!--/://...# ",
+        " #%......'h...-y.y///:/ ",
+        " -......fff5..-h.h%'..) ",
+        " #......fff...3.......) ",
+        " -............-ll.UjoF/ ",
+        " ------)))))---//:///// ",
+        "            #❷❺/..'h./  ",
+        "            #❶.:..kck/  ",
+        "            /////)))//  ",
+        "                        "
+      ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_exterior",
+        "afs_habitat_life_support",
+        "afs_habitat_residential_furnishing",
+        "afs_light_param_palette"
+      ],
+      "terrain": { "1": "t_afs_security_gate_closed", "3": "t_afs_door_metal_elocked", "4": "t_reinforced_glass_shutter" },
+      "furniture": { "2": "f_security_panel", "5": "f_machinery_light", "6": "f_machinery_electronic", "î": "f_rack" },
+      "items": { "î": { "item": "magazines", "chance": 80, "repeat": [ 2, 5 ] } },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
+      "place_nested": [
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 },
+        { "chunks": [ [ "afs_exosuit_garage_unlooted", 60 ], [ "afs_exosuit_garage_looted", 40 ] ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_exosuit_garage_a1_roof",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "   [[[[[[[[[[   [[[[    ",
+        " [[[££££££££[[[[[££[    ",
+        " [£££££££££££££££££[[   ",
+        " [££££££££££££££££££[[  ",
+        " [£££££££££££££££££££[[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [[[[[[[[[[[[££££££££[[ ",
+        "            [££££££££[  ",
+        "            [££££££££[  ",
+        "            [[[[[[[[[[  ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior" ],
+      "terrain": { " ": "t_open_air" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_exosuit_garage_unlooted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  á          á          ",
+        "                        ",
+        "  á     †    á          ",
+        "               íííí     ",
+        "  á          á          ",
+        "                        ",
+        "  ââ                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "             ê          ",
+        "  ääääé      ê          ",
+        "           7            ",
+        "  ääääé      8          ",
+        "                        ",
+        "                        ",
+        "                 ë      ",
+        "                        ",
+        "                        "
+      ],
+      "//": "Loot still inside, turret friend is there too.",
+      "furniture": {
+        "7": "f_monomolecularsaw",
+        "8": "f_3dprinter",
+        "á": "f_exo_gantry",
+        "â": "f_rack",
+        "ä": "f_rack",
+        "é": "f_sealed_intermodal_crate",
+        "ë": "f_e_safe_l",
+        "ê": "f_rack",
+        "í": "f_locker"
+      },
+      "items": {
+        "á": { "item": "afs_exosuits_civ", "chance": 35 },
+        "â": { "item": "afs_exo_civ_modules", "chance": 60, "repeat": [ 1, 3 ] },
+        "ä": { "item": "afs_robotics_scrapgroup", "chance": 60, "repeat": [ 1, 4 ] },
+        "é": { "item": "afs_crate_robotics" },
+        "ê": { "item": "afs_tools_robot_maintenance", "chance": 50, "repeat": [ 1, 3 ] },
+        "ë": { "item": "afs_cash_safe" },
+        "í": { "item": "afs_exo_underlayer_civ", "chance": 40, "repeat": [ 1, 2 ] }
+      },
+      "monster": { "†": { "monster": "mon_afs_commercial_laser_turret" } },
+      "place_monster": [ { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 2, 13 ], "y": [ 13, 18 ], "pack_size": [ 1, 3 ], "chance": 80 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_exosuit_garage_looted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "    11111111            ",
+        "    22222222            ",
+        "   22222222 2           ",
+        "  2222 22222 2          ",
+        "  á 22 22 2  á          ",
+        "  2 2  2  2 22          ",
+        "  á  2   2   á          ",
+        "        2      íííí     ",
+        "  á     2    á          ",
+        "                        ",
+        "  ââ          3 3       ",
+        "            3           ",
+        "                        ",
+        "            3           ",
+        "             ê          ",
+        "  ääääé      ê          ",
+        "                        ",
+        "  ääääé                 ",
+        "                        ",
+        "                        ",
+        "                 ë      ",
+        "                        ",
+        "                        "
+      ],
+      "//": "Open and looted. Spawn no loot or turret",
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "1": "t_afs_security_door_frame", "2": "t_region_groundcover_urban", "3": "t_door_o" },
+      "furniture": {
+        "á": "f_exo_gantry",
+        "â": "f_rack",
+        "ä": "f_rack",
+        "é": "f_intermodal_crate_open",
+        "ê": "f_rack",
+        "ë": "f_e_safe_o",
+        "í": "f_locker"
+      }
+    }
+  }
+]

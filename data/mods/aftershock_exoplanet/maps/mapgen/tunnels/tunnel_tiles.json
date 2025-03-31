@@ -1,0 +1,812 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_end",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_end_tile" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_straight",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 25 ], [ "tunnel_rocks", 75 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_straight_tile" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_curved",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_curved_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "afs_tunnel_curved_alien_ruin", 5 ] ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_tee",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "tunnel_alienciv_ruin", 10 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
+        { "chunks": [ "afs_tunnel_tee_tile" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_four_way",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
+        { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_four_way_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "tunnel_alienciv_ruin", 10 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "1           2           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1           2           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ],
+      "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "1           2           ",
+        "                        ",
+        "                        ",
+        "       #       #        ",
+        "                        ",
+        "         ###            ",
+        "       ####             ",
+        "       ###              ",
+        "                        ",
+        "                        ",
+        "       #      ##        ",
+        "              ####      ",
+        "1     #     2  ##       ",
+        "                        ",
+        "        ###             ",
+        "       #####            ",
+        "        ##              ",
+        "                        ",
+        "                        ",
+        "             #          ",
+        "                        ",
+        "        #               ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ],
+      "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "###         2           ",
+        "####                    ",
+        "#####       ######      ",
+        "###          #####      ",
+        "####         #####      ",
+        "###       #######       ",
+        "##      #########       ",
+        "##       ####           ",
+        "###                     ",
+        "#######                 ",
+        "####       ###          ",
+        "##        ###           ",
+        "1        ## 2           ",
+        "          ###           ",
+        "                        ",
+        "            ##          ",
+        "           #####        ",
+        "          #####         ",
+        "           ####         ",
+        "          ##            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ],
+      "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "1##         2       ####",
+        "####                 ###",
+        "#   #       ######   ###",
+        "###          #####  ##  ",
+        "####         #####      ",
+        "#         #######       ",
+        "##      #########       ",
+        "##       ####           ",
+        "#                       ",
+        " ######                 ",
+        "####       ###          ",
+        "##        ###           ",
+        "1        ## 2           ",
+        "          ###           ",
+        "       ##               ",
+        "     ##     ##          ",
+        "    ###    #####        ",
+        "   ###    #####         ",
+        "  ####     ####         ",
+        "  ##      ##            ",
+        "                 ####   ",
+        "               ######   ",
+        "                   ###  ",
+        "                     ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ],
+      "nested": { "1": { "chunks": [ "cave_chunk_l" ] }, "2": { "chunks": [ "cave_chunk_r" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "###                  ###",
+        "####                ####",
+        "#####             ######",
+        "####               #####",
+        "##                ######",
+        "######           #######",
+        "######0          ####  #",
+        "####              ##  # ",
+        "####         ##        #",
+        "#            ###      00",
+        "              ###     0 ",
+        "              ####      ",
+        "0              ###     0",
+        "0              ###     #",
+        "###            ##      #",
+        "###      ###          ##",
+        "#####   ####          0#",
+        "####     ##           0#",
+        "#####                ###",
+        "###                  ###",
+        "#####                 ##",
+        "####                  ##",
+        "##                    ##",
+        "##                   ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "## #                 ###",
+        "#                  #####",
+        "##                ######",
+        "  #                #####",
+        "##                ######",
+        "#### #           #######",
+        "######0          #######",
+        "###               ##  ##",
+        "####         ##      ###",
+        "#            ###    ###0",
+        "              ######### ",
+        "             #########  ",
+        "0            ######     ",
+        "#0            ####     #",
+        "##0           #0#     ##",
+        "###00####             00",
+        "####### #             0#",
+        "#######               0#",
+        "######               ###",
+        "####                  ##",
+        "###                    #",
+        "####                   #",
+        "####                 ###",
+        "###                  ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "####                ####",
+        "#####              #####",
+        "######0           ######",
+        "######               ###",
+        "##                ## ###",
+        "####                ####",
+        "##               ### ###",
+        "### #             ##  ##",
+        "#   ##       ##      ###",
+        "    ###      ###      00",
+        "      ##        ###     ",
+        "       ##    ######     ",
+        "0            ######     ",
+        "##            ####     #",
+        " ##    # #    ###     ##",
+        "###  ####             00",
+        "#    ####             0#",
+        "###  ##               0#",
+        "##                   ###",
+        "###                  ###",
+        "###                  ###",
+        "####               #####",
+        "####               #####",
+        "###                  ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_end_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#########000############",
+        "########0000000#########",
+        "######0000000000#0######",
+        "######0          0######",
+        "######0          0######",
+        "######0          0######",
+        "######0          0######",
+        "######0          0######",
+        "######0          0######",
+        "#####             ######",
+        "#####             ######",
+        "####              ######",
+        "####              ######",
+        "###              0######",
+        "###               ######",
+        "####             0  ####",
+        "######0           ######",
+        "###   0            #####",
+        "####                ####",
+        "#### #0               ##",
+        "##                   ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_curved_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "####################### ",
+        "###########  ######  #  ",
+        "#########       ###     ",
+        "######         #0       ",
+        "#######                 ",
+        "######0       ####      ",
+        "####       ######       ",
+        "##  #      ####         ",
+        "###  #     ##           ",
+        "#                       ",
+        "#                       ",
+        "#                       ",
+        "####                    ",
+        "######0                 ",
+        "######                  ",
+        "#####                ## ",
+        "####              ##0## ",
+        "####               #0#  ",
+        "##               0######",
+        "###              0######",
+        "##                 # ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_tee_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "#######000  ##### ######",
+        "0###00000          000##",
+        "00#000##            0000",
+        "                    0000",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "##                     #",
+        "###                  ###",
+        "###                 ####"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_four_way_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "##0                  0##",
+        "##00                 0##",
+        "0000                 00#",
+        "                     00 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "0                       ",
+        "000                  00#",
+        "#0#00               000#",
+        "##0                 ####"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_l",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "###         ",
+        "#####       ",
+        "#  ##       ",
+        "#           ",
+        "  ##       #",
+        "   ##     ##",
+        "#    ##  ## ",
+        "#        #  ",
+        "     ###    ",
+        "   #####    ",
+        " ###        ",
+        "###         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_l",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "###         ",
+        "#####       ",
+        "#  ##       ",
+        "#       #   ",
+        "  ##  ###   ",
+        "   ####     ",
+        "#    ##     ",
+        "#           ",
+        "            ",
+        "   ##       ",
+        " ###        ",
+        "###         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_l",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "###   #     ",
+        "#           ",
+        "#           ",
+        "#           ",
+        "###         ",
+        "####        ",
+        "###         ",
+        "#####       ",
+        "##          ",
+        "####        ",
+        "#####       ",
+        "###         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_l",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "###         ",
+        "#           ",
+        "#           ",
+        "#           ",
+        "            ",
+        "            ",
+        "            ",
+        "#           ",
+        "##          ",
+        "###         ",
+        "##          ",
+        "###         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_l",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "##  # #     ",
+        "#  ##       ",
+        "   ##       ",
+        "            ",
+        "            ",
+        "#   ##      ",
+        "## ###      ",
+        "########    ",
+        "#######     ",
+        "####        ",
+        "####        ",
+        "###         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_l",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "###   #     ",
+        "#   #       ",
+        "   ######   ",
+        "     ###    ",
+        "    ###     ",
+        "#   ##      ",
+        "## ###      ",
+        "########    ",
+        "#######     ",
+        "########    ",
+        "######      ",
+        "###         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_l",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "###         ",
+        "#     ####  ",
+        "      ######",
+        "       #####",
+        "        ### ",
+        "#   ##    # ",
+        "######      ",
+        "########    ",
+        "##   ####   ",
+        "##    ####  ",
+        "##          ",
+        "###         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_r",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "         ###",
+        "       #####",
+        "        ####",
+        "  #    #####",
+        "  #     ####",
+        "  ##     ###",
+        "   ##  #####",
+        "      ######",
+        "   #######  ",
+        "    #####  #",
+        "   #        ",
+        "          ##"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_r",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "         ###",
+        "       #####",
+        "        ####",
+        "       #####",
+        "        ####",
+        "         ###",
+        "          ##",
+        "           #",
+        "           #",
+        "          ##",
+        "          ##",
+        "         ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_r",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "         ###",
+        "   ### #####",
+        " ###    ####",
+        "###    #####",
+        " #      ####",
+        "    #    ###",
+        "  ###     ##",
+        " ####      #",
+        "######     #",
+        "    ##    ##",
+        "          ##",
+        "         ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_r",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "          ##",
+        "           #",
+        "          ##",
+        "          ##",
+        "          ##",
+        "           #",
+        "         ###",
+        "           #",
+        "         ###",
+        "         ###",
+        "          ##",
+        "          ##"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_r",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "          ##",
+        "           #",
+        "          ##",
+        "           #",
+        "            ",
+        "        ##  ",
+        "       #### ",
+        "         ## ",
+        "            ",
+        "           #",
+        "          ##",
+        "         ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_r",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "        ####",
+        "         ###",
+        "          ##",
+        "           #",
+        "     ####   ",
+        "    ######  ",
+        "   ######## ",
+        " ####    ## ",
+        "    ###     ",
+        "           #",
+        "       #####",
+        "         ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cave_chunk_r",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "         ###",
+        "  ##   #####",
+        "  ###   ####",
+        "   ##  #####",
+        "   ##   ####",
+        "  ##     ###",
+        "  ##   #####",
+        "  ##  ######",
+        " ##      ###",
+        " ##       ##",
+        "  ##       #",
+        "   #     ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel" ]
+    }
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_experimental_combat_gear",
+    "items": [ [ "afs_recall_rig", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_pals_pieces",
+    "items": [
+      [ "afs_grenade_pouch", 10 ],
+      { "item": "canteen_pouch", "contents-item": "canteen", "prob": 10 },
+      [ "tool_pouch", 10 ],
+      [ "afs_triple_stacker_pouch", 10 ],
+      [ "tactical_shotshell_pouch", 10 ],
+      [ "gas_mask_pouch", 10 ],
+      [ "belt_loop_medium", 10 ],
+      [ "holster", 10 ],
+      [ "sheath", 10 ],
+      [ "ifak_pouch", 10 ],
+      [ "afs_ammo_satchel", 10 ],
+      [ "XL_holster", 10 ],
+      [ "side_double_holster", 10 ],
+      [ "belt_loop_large", 10 ],
+      [ "nylon_quiver", 1 ]
+    ]
+  }
+]

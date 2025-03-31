@@ -1,0 +1,36 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_wraitheon_droneswarm",
+    "object": {
+      "place_monster": [
+        { "monster": "mon_wraitheon_isohypsa", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        {
+          "monster": "mon_wraitheon_irradiant",
+          "x": 8,
+          "y": 8,
+          "spawn_data": { "patrol": [ { "x": 8, "y": 8 }, { "x": 8, "y": 16 }, { "x": 16, "y": 16 }, { "x": 16, "y": 8 } ] }
+        },
+        { "monster": "mon_wraitheon_kaburaya", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_reaver_bandits",
+    "object": {
+      "place_monster": [
+        { "monster": "afs_mon_reaver_rifle", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        {
+          "monster": "afs_mon_reaver_rifle",
+          "x": 8,
+          "y": 8,
+          "spawn_data": { "patrol": [ { "x": 8, "y": 8 }, { "x": 8, "y": 16 }, { "x": 16, "y": 16 }, { "x": 16, "y": 8 } ] }
+        },
+        { "monster": "afs_mon_reaver", "x": 4, "y": 4, "repeat": [ 1, 6 ] }
+      ]
+    }
+  }
+]

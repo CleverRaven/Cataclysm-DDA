@@ -1,0 +1,125 @@
+[
+  {
+    "id": "nanosmithing_standard",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most physical material hypertech crafting",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "DIAMONDPRESS", "level": 1 }, { "id": "NANO_FORGE", "level": 1 } ],
+    "tools": [ [ [ "nano_forge", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
+    "id": "bone_edible",
+    "type": "requirement",
+    "//": "Any kind of non-poisonous bones, human or not.",
+    "extend": { "components": [ [ [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ] }
+  },
+  {
+    "id": "bone_sturdy",
+    "type": "requirement",
+    "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
+    "extend": { "components": [ [ [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ] }
+  },
+  {
+    "id": "edible_fat",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "extend": { "components": [ [ [ "frost_human_fat", 1 ], [ "alien_fat", 1 ] ] ] }
+  },
+  {
+    "id": "edible_tallow",
+    "type": "requirement",
+    "//": "Any type of edible tallow.",
+    "extend": { "components": [ [ [ "frost_human_tallow", 1 ], [ "alien_tallow", 1 ] ] ] }
+  },
+  {
+    "id": "edible_lard",
+    "type": "requirement",
+    "//": "Lard that is 'safe' for consumption.",
+    "extend": { "components": [ [ [ "frost_human_lard", 1 ], [ "alien_lard", 1 ] ] ] }
+  },
+  {
+    "id": "any_butter",
+    "type": "requirement",
+    "//": "Butter of all types and other future butter substitutes",
+    "extend": { "components": [ [ [ "atomic_butter", 1 ] ] ] }
+  },
+  {
+    "id": "any_butter_or_oil",
+    "type": "requirement",
+    "//": "For when a recipe calls for either cooking oil or butter, like many baking recipes do.",
+    "extend": { "components": [ [ [ "atomic_butter", 1 ] ] ] }
+  },
+  {
+    "id": "meat_offal",
+    "type": "requirement",
+    "//": "Anything you might consider offal or intestines.",
+    "extend": { "components": [ [ [ "alien_liver", 4 ], [ "alien_kidney", 4 ], [ "alien_sweetbread", 4 ] ] ] }
+  },
+  {
+    "id": "meat_raw_steak",
+    "type": "requirement",
+    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
+    "extend": { "components": [ [ [ "frost_human_flesh", 1 ], [ "afs_synthetic_meat", 1 ], [ "alien_flesh", 1 ] ] ] }
+  },
+  {
+    "id": "meat_red_raw",
+    "type": "requirement",
+    "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
+    "extend": { "components": [ [ [ "alien_meat_scrap", 10 ] ] ] }
+  },
+  {
+    "id": "meat_lung",
+    "type": "requirement",
+    "//": "Anything you might consider raw lung.  About 250mL of lungs.",
+    "extend": { "components": [ [ [ "alien_lung", 1 ] ] ] }
+  },
+  {
+    "id": "meat_stomach_large",
+    "type": "requirement",
+    "//": "Anything you might consider a large raw stomach.",
+    "extend": { "components": [ [ [ "alien_stomach_large", 1 ] ] ] }
+  },
+  {
+    "id": "meat_stomach_small",
+    "type": "requirement",
+    "//": "Anything you might consider a small raw stomach.",
+    "extend": { "components": [ [ [ "alien_stomach", 1 ], [ "frost_hstomach", 1 ] ] ] }
+  },
+  {
+    "id": "meat_nofish",
+    "type": "requirement",
+    "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
+    "extend": { "components": [ [ [ "afs_mealgrubs", 1 ], [ "alien_liver", 5 ], [ "alien_kidney", 5 ], [ "alien_sweetbread", 5 ] ] ] }
+  },
+  {
+    "id": "meat_cooked",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "extend": {
+      "components": [ [ [ "alien_flesh_cooked", 1 ], [ "alien_meat_scrap_cooked", 10 ], [ "frost_human_cooked", 1 ], [ "afs_jerky", 1 ] ] ]
+    }
+  },
+  {
+    "id": "human_meat",
+    "type": "requirement",
+    "//": "Raw meat that non-cannibals would be unhappy eating.",
+    "extend": { "components": [ [ [ "frost_human_flesh", 1 ] ] ] }
+  },
+  {
+    "id": "human_meat_cooked",
+    "type": "requirement",
+    "//": "Cooked meat that non-cannibals would be unhappy eating.",
+    "extend": { "components": [ [ [ "frost_human_cooked", 1 ] ] ] }
+  },
+  {
+    "id": "veggy_any_fresh_uncooked",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "extend": { "components": [ [ [ "afs_kelp", 1 ] ] ] }
+  },
+  {
+    "id": "veggy_green",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "extend": { "components": [ [ [ "afs_kelp", 1 ] ] ] }
+  }
+]

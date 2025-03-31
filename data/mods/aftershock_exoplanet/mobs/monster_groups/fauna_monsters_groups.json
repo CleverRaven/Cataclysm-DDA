@@ -1,0 +1,37 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "AFS_GROUP_FAUNA_TUNNELS",
+    "monsters": [
+      { "group": "AFS_GROUP_FAUNA_HERBIVORE", "weight": 70, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "group": "AFS_GROUP_FAUNA_PREDATORS_LOW_RISK", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "group": "AFS_GROUP_FAUNA_PREDATORS_MEDIUM_RISK", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "AFS_GROUP_FAUNA_HERBIVORE",
+    "monsters": [
+      { "monster": "afs_runner", "weight": 350, "cost_multiplier": 0 },
+      { "monster": "afs_grazer", "weight": 250, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "afs_mon_hevel", "weight": 200, "cost_multiplier": 0, "pack_size": [ 6, 12 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "AFS_GROUP_FAUNA_PREDATORS_LOW_RISK",
+    "monsters": [
+      { "monster": "afs_mon_garlander", "weight": 90, "cost_multiplier": 0 },
+      { "group": "AFS_GROUP_FAUNA_PREDATORS_MEDIUM_RISK", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "AFS_GROUP_FAUNA_PREDATORS_MEDIUM_RISK",
+    "monsters": [
+      { "monster": "afs_titanis", "weight": 350, "cost_multiplier": 0 },
+      { "monster": "afs_venandi", "weight": 250, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "afs_mon_boatman", "weight": 200, "cost_multiplier": 0, "pack_size": [ 2, 8 ] }
+    ]
+  }
+]

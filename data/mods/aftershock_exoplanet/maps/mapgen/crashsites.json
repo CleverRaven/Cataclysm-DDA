@@ -1,0 +1,126 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_crashed_cargo_shuttle" ],
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "               -        ",
+        "             ,,0-       ",
+        "        #####,,,        ",
+        "       #----##    T,,   ",
+        "      0-----0--   ,,    ",
+        "      ###,--##     ,    ",
+        "     , ##,--, -   T     ",
+        "    TT,##,--,, #   #    ",
+        "     T,##,--,### TT#    ",
+        "      #---RR--#  ###    ",
+        "      #-,-II-,,   ##,   ",
+        "       ,,#II,  ,   #,   ",
+        "       ,,######,    ,   ",
+        "       ,,#,####      , ,",
+        "         ,###,,,        ",
+        "      TT   ##,,, ,      ",
+        "            ##,, ,      ",
+        "             ##,,,      ",
+        "             ##,,,      ",
+        "                ,,,     ",
+        "         T,     .,,     ",
+        "         ,,             ",
+        "          ,            ,"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "-": "t_afs_space_ship_hull_wall",
+        "T": "t_intermodal_crate",
+        "q": "t_afs_escapepod_g",
+        "!": "t_metal_floor",
+        ",": "t_dirt",
+        "#": "t_dirtmound"
+      },
+      "furniture": {
+        "R": "f_afs_reactor_meltdown",
+        "#": [ [ "f_wreckage", 1 ], [ "f_null", 15 ] ],
+        "I": "f_afs_shuttle_fusion_engine",
+        "0": "f_afs_shuttle_manuevering_thruster"
+      },
+      "items": {
+        "T": { "item": "afs_useless_cargo", "chance": 100 },
+        ",": { "item": "afs_shuttle_debris", "chance": 30 },
+        "#": { "item": "afs_shuttle_debris", "chance": 6 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_crashed_cargo_shuttle_wraitheon" ],
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "               -        ",
+        "  x  x       ,,0-    x  ",
+        "        #####,,,        ",
+        "   x   #----####  ,,,  x",
+        "      0----,0--#  ,,    ",
+        "      ###,--## ##  ,    ",
+        "     , ##,-,, - ##,     ",
+        "     T,##,-,,  #####    ",
+        "      ,##,--,#######   x",
+        "    A #---RR--#  ###    ",
+        "      #-,-II-,,   ##,   ",
+        "       ,,#II,, , x #,   ",
+        "       ,,####,#,    ,   ",
+        "       ,,#,##,#x  W  , ,",
+        "         ,###,,,      x ",
+        "           ##,,, ,      ",
+        "          x ##,, ,A     ",
+        "             ##,,,      ",
+        "   x         ##,,,      ",
+        "                , ,     ",
+        "                .,,     ",
+        "                        ",
+        "                    x  ,"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "-": "t_afs_space_ship_hull_wall",
+        "T": "t_intermodal_crate",
+        "!": "t_metal_floor",
+        ",": "t_dirt",
+        "#": "t_dirtmound"
+      },
+      "furniture": {
+        "R": "f_afs_reactor_meltdown",
+        "#": [ [ "f_wreckage", 1 ], [ "f_null", 15 ] ],
+        "I": "f_afs_shuttle_fusion_engine",
+        "0": "f_afs_shuttle_manuevering_thruster"
+      },
+      "items": {
+        "T": { "item": "afs_wraitheon_carsh_site_cache", "chance": 100 },
+        ",": { "item": "afs_shuttle_debris", "chance": 30 },
+        "#": { "item": "afs_shuttle_debris", "chance": 6 }
+      },
+      "monster": {
+        "W": { "monster": "mon_wraitheon_isohypsa" },
+        "A": { "monster": "mon_wraitheon_irradiant" },
+        "x": { "monster": "mon_wraitheon_kaburaya" }
+      }
+    }
+  },
+  {
+    "id": "afs_shuttle_debris",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scrap", "prob": 30 },
+      { "item": "ch_steel_chunk", "prob": 20 },
+      { "item": "afs_material_1", "prob": 10 },
+      { "item": "sheet_metal_small", "prob": 10 },
+      { "item": "sheet_metal", "prob": 5 }
+    ]
+  }
+]

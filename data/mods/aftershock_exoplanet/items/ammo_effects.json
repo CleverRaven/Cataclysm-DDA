@@ -1,0 +1,8 @@
+[
+  {
+    "id": "FOAMCRETE",
+    "type": "ammo_effect",
+    "//": "Applies foamcrete effect on hit.",
+    "foamcrete_build": true
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "achievement_kill_moxie",
+    "type": "achievement",
+    "name": "Breaking the Ice",
+    "requirements": [ { "event_statistic": "num_avatar_moxie_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_10_moxies",
+    "type": "achievement",
+    "name": "Salus IV Antivirus",
+    "requirements": [ { "event_statistic": "num_avatar_moxie_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_moxies",
+    "type": "achievement",
+    "name": "Ned Ludd",
+    "hidden_by": [ "achievement_kill_10_moxies" ],
+    "requirements": [ { "event_statistic": "num_avatar_moxie_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_moxies",
+    "type": "achievement",
+    "name": "KILL ALL MOXIES",
+    "requirements": [ { "event_statistic": "num_avatar_moxie_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_moxies",
+    "type": "achievement",
+    "name": "Heat Ray",
+    "hidden_by": [ "achievement_kill_1000_moxies" ],
+    "requirements": [ { "event_statistic": "num_avatar_moxie_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_moxies",
+    "type": "achievement",
+    "name": "Eradication is the Only Option",
+    "hidden_by": [ "achievement_kill_10000_moxies" ],
+    "requirements": [ { "event_statistic": "num_avatar_moxie_kills", "is": ">=", "target": 100000 } ]
+  },
+  {
+    "id": "achievement_kill_uplift",
+    "type": "achievement",
+    "name": "I killed Mufasa!",
+    "requirements": [ { "event_statistic": "num_avatar_uplift_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_10_uplifts",
+    "type": "achievement",
+    "name": "The Food of the Gods",
+    "requirements": [ { "event_statistic": "num_avatar_uplift_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_uplifts",
+    "type": "achievement",
+    "name": "Escape from the Island of Dr. Moreau",
+    "hidden_by": [ "achievement_kill_10_uplifts" ],
+    "requirements": [ { "event_statistic": "num_avatar_uplift_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_uplifts",
+    "type": "achievement",
+    "name": "Infinity's Shore",
+    "requirements": [ { "event_statistic": "num_avatar_uplift_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_uplifts",
+    "type": "achievement",
+    "name": "Blade Runner 2539",
+    "hidden_by": [ "achievement_kill_1000_uplifts" ],
+    "requirements": [ { "event_statistic": "num_avatar_uplift_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_uplifts",
+    "type": "achievement",
+    "name": "Extinction level event",
+    "hidden_by": [ "achievement_kill_10000_uplifts" ],
+    "requirements": [ { "event_statistic": "num_avatar_uplift_kills", "is": ">=", "target": 100000 } ]
+  }
+]

@@ -1,0 +1,357 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_river_start",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_straight_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_river_start_tile" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_river_end",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_end_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_river_end_tile" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_river_straight",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_straight_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_river_straight_tile" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_river_curved",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_curved_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_river_curved_tile" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_river_tee",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [ { "chunks": [ "afs_tunnel_tee_tile" ], "x": 0, "y": 0 }, { "chunks": [ "afs_tunnel_river_con" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_tunnel_river_four_way",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "place_nested": [
+        { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_four_way_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_tunnel_river_con" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_river_start_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ,,,,          ",
+        "         ,,,,,,,        ",
+        "        ,,,,ss,,,,,     ",
+        "     ,,,,,ss,ss,,,      ",
+        "       ss,wwww,,,       ",
+        "      ,,,wWWWWws,,      ",
+        "    ,,,,wWWWWw,ss,,     ",
+        "     ,,wWWWWwwwww,,     ",
+        "     ,,wWWWWWWWWww,,    ",
+        "      ,,wWWWWWWWWw,,,   ",
+        "     ,,wwWWWWWWWWwws,   ",
+        "     ,,,wwWWWWWWWWWw,,  ",
+        "   ,,,,wwwWWWWWWwww,,   ",
+        "    I,,wWWWWwwwww,,s    ",
+        "   ,,,,,wwWWWWww,I,     ",
+        "    ,,,,,,wWWWWw,,,     ",
+        "     ,ss,wWWWWw,,       ",
+        "    ,,,,wWWWWw,,I       ",
+        "     ,,,wwWWWWw,,,      ",
+        "    ,,,,,wWWWWw,,,I,    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel_any" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_river_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        ,wWWWWw,,       ",
+        "        ,,wWWWWw,,      ",
+        "       ,s,wWWWWws,      ",
+        "       ,,wWWWWw,s,      ",
+        "       ,,,wWWWWw,,      ",
+        "      ,,,wWWWWw,,       ",
+        "      s wWWWWw,,        ",
+        "      ,wWWWWw,,         ",
+        "     ,s,wWWWWw,,        ",
+        "     sIs,wWWWWw,        ",
+        "      ,,wWWWWwI,,       ",
+        "        wWWWWw,,        ",
+        "       wWWWWwI,,s       ",
+        "       wWWWWw,,ss,      ",
+        "        wWWWWw,F,,      ",
+        "       ,,wWWWWw,,       ",
+        "     ,,,,,wWWWWw,,      ",
+        "      ,sI,,wWWWWw       ",
+        "     ,,ss,,wWWWWw       ",
+        "       F,,,wWWWWw       ",
+        "      ,,,FwWWWWw,       ",
+        "        ,,,wWWWWw,      ",
+        "       ,,wWWWWw,,       ",
+        "      ,,wWWWWw,         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel_any" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_river_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "         wWWWWw,        ",
+        "          wWWWWw,       ",
+        "          wWWWWw,,,     ",
+        "         wWWWWw,,,      ",
+        "         ,wWWWWw,       ",
+        "       ,,wWWWWw         ",
+        "      ,,wWWWWw,         ",
+        "     ,,wWWWWw,,,        ",
+        "     IsssWWWWw,,        ",
+        "     ,sFswWWWWwI,       ",
+        "     ,s,wWWWWw,,,       ",
+        "     ,,wWWWWwI,,        ",
+        "      IwWWWWwI,         ",
+        "        wWWWWw,,        ",
+        "         wWWWWw,,,      ",
+        "          wWWWWw,,      ",
+        "          ,wWWWWw,s,    ",
+        "          ,wWWWWw,s,    ",
+        "          ,wWWWWw,,     ",
+        "        s,wWWWWw,,,,    ",
+        "        ,s,wWWWWw,      ",
+        "        I,wWWWWw,s      ",
+        "      I,,wWWWWw,s,      ",
+        "      ,,wWWWWw,,,       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel_any" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_river_curved_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  ,, ,,w",
+        "               ,,,,,,,wW",
+        "              ,,wwwwwwWW",
+        "            Is,wWWWwWWWW",
+        "           ,,swWWWWWWWWW",
+        "         ssF,wwWWWWWwwww",
+        "         ,,wwwWWWWwws,,,",
+        "        ,,,wWWWWWw,ss,, ",
+        "       ,,sswWWWWwwsIs,, ",
+        "        IF,wWWWw,,,,s,  ",
+        "        ,,wWWWWw,,,,    ",
+        "        ,s,wWWWWw,      ",
+        "       sFswWWWWw,I      ",
+        "      ,I,wWWWWw,,       ",
+        "      ,,wWWWWw,,        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel_any" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_river_end_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "########################",
+        "########################",
+        "########WW##############",
+        "######WWWWWW#WWW########",
+        "#######WWWWWWWWWW#W#####",
+        "######WWWWWWWWWWWW######",
+        "####WWWWWWWWWWWW########",
+        "#####WWWWWWWWWWWWW######",
+        "#####WWWWWWWWWWWWWW#####",
+        "########WWWWWWWWW#######",
+        "#####WWWWWWWWWWWW#######",
+        "######WWWWWWWWWWWW######",
+        "#####WWWWWWWWWWWWW######",
+        "#####WWWWWWWWWWWWWW#####",
+        "####WWWWWWWWWWWWWWw#####",
+        "####wwWWWWWWWWWwww######",
+        "###sswWWWWWWWWWwss######",
+        "###s,wwWWWWWWWwssss#####",
+        "####ssswWWWWWww,,sss####",
+        "######IwwWWWWw,,ss######",
+        "###,,ss,,wwWWWw,,, #####",
+        "####,ss,wWWWWW,,,,  ####",
+        "####,#IwwWWWWw,,      ##",
+        "##   ,,,,wWWWWw,,,   ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel_any" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [
+      [ "afs_tunnel_lake1", "afs_tunnel_lake2", "afs_tunnel_lake3" ],
+      [ "afs_tunnel_lake4", "afs_tunnel_lake5", "afs_tunnel_lake6" ]
+    ],
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "############,,, ,,############# ,,,    #################################",
+        "####,F,,I,,,,,,,I,,##,,,,####,,,,,,,,,,,,,,#############################",
+        "###,,,,,Is,F,,ss,,,,,,,,,##,,,,,,,,,w,w,,,,,##,###s#####################",
+        "##,,,,,,,,,,,,,,,,,,,,, ,,I,,,,ww,wwwwww,w,,,,,ssss#####################",
+        "#,,,,I,F,,,,,,,sss,,,,F,,,,wwwwwwwwwwwwwww,,,,  FIss####################",
+        " ### ss,,,wwwww,,,ss,,,,Iwwwwwwwwwwwwwwwwwww,,,   ######################",
+        " ## ,,sI,wwwwwwwww,,,wwwwwwwwwwwwwwwwwwwwwwwww,,,, sss#s################",
+        "  # ,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,,sss################",
+        "  I ,,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,Isss ################",
+        "sss,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,s,ss #s #############",
+        "# s,I,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,,ss,,##############",
+        "# ss,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,s,www##############",
+        "#  ,,,,wwwwwwwwwwwww,,,,,,,,,,wwwwwwwwwwwwwwwwwwwww,wwwww###############",
+        "## wwwwwwwwwwwwww,,,,,,####,,,,,wwwwwwwwwwwwwwwwwwwwwwwwww##############",
+        "###wwwwwwwwwwwww,,sss#####,#,,,,,wwwwwwwwwwwwwwwwwwwwwwwwwww############",
+        "## wwwwwwwwww,,,,sss#####ssss,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwww#w#########",
+        "##I,,wwwwwww,,ss#######,, I s,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,######",
+        " ,ss,,wwwww,,ssss###s,,   ss,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,I,,,####",
+        "  ,,,,wwwwww ,,,sssss   ,,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,,,,,,,###",
+        " I ,wwwwwwwww,,,,ss,  F ,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,F,,,,###",
+        " s,,,,,,wwwwwwww,,,sssss ,F,,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,I,,###",
+        "#  ss,,I,wwwwwwwwww,,Iss  ,I,,w,wwwwwwwwwwwwwwwwwwwwwwwwwww,,,,,,s,,####",
+        "# ,,,wwwwwwwwwwwwwww,,,s, ,,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,,ss,###",
+        "##, ,wwwwwwwwwwwwwwww,,sI,#####,,,, wwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,ss,#",
+        "#  ,wwwwwwwwwwwwwwwww,,,,######,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,    ",
+        "# ,,Iwwwwwwwwwwwwwwwwww,ss,,,,,,  wwwwwwww,,,, wwwwwwwwwwwwwwww,s,     #",
+        " ,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,s,I,,,,,,wwwwwwwwww,,      ##",
+        " # wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,s  ,,,,,,,,wwww,,,,   ,s,,0#",
+        "##wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,ss,      s,,I,,,,,s,     ,,F, # ",
+        "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,            ,,                   ",
+        "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww,ss,,,,                                ",
+        "#,wwwwwwwwwwwwwwwwwwwwwwwwwww,,,,,,,,,,,,,,,                          # ",
+        "# ,,wwwwwwwwwwwwwwwwwwwwwww,,,,,,I,###,,sss,,,                          ",
+        "## I,wwwwwwwwwwwwwwwwwwww,,s,,,,,#####,ssFss,,,,                       #",
+        "##,,wwwwwwwwwwwwwwwwwwwww,,,,,,, ####,#,ssF###,,,                    ###",
+        "##wwwwwwwwwwwwwwwwwwwwww,,,,,,,,,,#####,,#####,,,              ,,,, ####",
+        "##,,wwwwwwwwwwwwwwwwwwwww,I,s,,,I,#############,              ,,,#######",
+        "#, wwwwwwwwwwwwwwwwwwwwwwww,,,,,,,,,,ww,########              ,,###ss###",
+        "#,ss,,wwwwwwwwwwwwwwwww,,,,,,,,,s,wwwwww###Is###             ,,,#,sssI##",
+        "  ,,,,s,wwwwwwwwwwwwww,,,ss,,,,,,www,,wwwwsss###            ,,,#s,F,,,s,",
+        "##  ,,,wwwwwwwwwww,,,,,,,,,,ss,,,,,,F,wwwwFIss#          ,,,,,sss,,,,I,,",
+        "###,sswwwwwwwwwww,,,,,,,,,,I,,,,,,,,,,,,,              ,,,,##sss,ss,,,s#",
+        "#,,, ,,,,,,wwwwww,,s,,I,,,s,,,,F,,,,,,w,,          ,,,,,,,###I,,ssFs,ss#",
+        ",,s  ,sss,,,,wwwww,,,,,,,,ss,,,,,,,,,,,          ,,,,,,,,##s,,,,,,,,ss##",
+        ",    ,,,,wwwwwww,,s,,,,,,I,s,ssI##,,,,,,,       ,,,,,,####ss I ,,sssI###",
+        ",   ,I,,,,wwwww,s,,,,,s,,sss,#####,,,,,#,,      ,,#########sss,,ssI#####",
+        ",,  s ,,wwwwww,,, ,,I,,,###############,,,###  ,,,###########ss#########",
+        "##      ,wWWWWw,   ,,###################################################"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel_any" ],
+      "place_items": [  ],
+      "place_monsters": [  ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_tunnel_river_con",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      ,,,wWWWWww        ",
+        "   ,,,s,wwWWWWWWw,,,    ",
+        "  ,,wwwwwwwwwwwwww,,    ",
+        "  ,,wwwWWWWWWWWWWw,,,   ",
+        " ,,wwWWWWWWWWWWWWw,,,,  ",
+        " ,swWWWWWWWWWWWWWwww,   ",
+        " ,swWWWWWWWWWWWWWWwww,  ",
+        ",wwWWWWWWWWWWWWWWWwww,, ",
+        ",wWWWWWWWWWWWWWWWWww,,, ",
+        "wWWWWWWWWWWWWWWWww,,I,,,",
+        "wWWWWWWWWWWWWWWWws,ss,w ",
+        "wWWWWWWWWWWWWWWWwwwwwwWw",
+        "WWWWWWWWWWWWWWWWWWWwWWWw",
+        ",wWWWWWWWWWWWWWWWWWWWWWW",
+        ",wwwwWWWWWWWWWWWWWWWwwww",
+        " ,swWWWWWWWWWWWWWWWws,,,",
+        ",,sswWWWWWWWWWWWWw,ss,, ",
+        " ,s,,wWWWWWWWWWWWwsIs,, ",
+        "  ,,,WWWWWWWWWWw,,,,s,  ",
+        "  ,,,wWWWWWWWWWw,,,,    ",
+        "  ,,,,wwwwwwWWWWw,      ",
+        "    ,,,sFswWWWWw,I      ",
+        "    ,,,I,wWWWWw,,       ",
+        "      ,,wWWWWw,,        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_tunnel_any" ]
+    }
+  }
+]

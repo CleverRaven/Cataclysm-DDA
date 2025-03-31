@@ -1,0 +1,172 @@
+[
+  {
+    "id": "eoc_bio_superheater_on",
+    "type": "effect_on_condition",
+    "effect": { "u_add_var": "bio_superheater_on", "value": "yes" }
+  },
+  {
+    "id": "eoc_bio_superheater_off",
+    "type": "effect_on_condition",
+    "effect": { "u_lose_var": "bio_superheater_on" }
+  },
+  {
+    "id": "eoc_bio_blade_electric_on",
+    "type": "effect_on_condition",
+    "effect": { "u_add_var": "bio_blade_electric_on", "value": "yes" }
+  },
+  {
+    "id": "eoc_bio_blade_electric_off",
+    "type": "effect_on_condition",
+    "effect": { "u_lose_var": "bio_blade_electric_on" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_blood_brain_heal",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_bionics": "afs_bio_blood_brain" },
+    "effect": [ { "math": [ "u_hp('head') = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chembaseline",
+    "effect": [
+      { "u_lose_effect": "decreased_performance" },
+      {
+        "u_add_morale": "morale_afs_drugs",
+        "bonus": 20,
+        "max_bonus": 60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_baseline",
+    "effect": [
+      { "u_add_effect": "decreased_performance", "duration": "6 hours" },
+      { "u_add_effect": "disrupted_sleep", "duration": "8 hours" },
+      {
+        "u_add_morale": "morale_afs_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chemspeed",
+    "effect": [ { "u_lose_effect": "post_speed_injection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_speed",
+    "effect": [
+      { "u_add_effect": "post_speed_injection", "duration": "6 hours" },
+      { "u_add_effect": "disrupted_sleep", "duration": "8 hours" },
+      {
+        "u_add_morale": "morale_afs_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chemhealing",
+    "effect": [ { "u_lose_effect": "post_healing_injection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chemhealing_pkill",
+    "condition": { "one_in_chance": 40 },
+    "effect": [ { "math": [ "u_pain()--" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_healing",
+    "effect": [
+      { "u_add_effect": "post_healing_injection", "duration": "6 hours", "target_part": "torso" },
+      { "math": [ "u_val('sleepiness')", "+=", "80" ] },
+      {
+        "u_add_morale": "morale_afs_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_chemstrength",
+    "effect": [ { "u_lose_effect": "post_strength_injection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_strength",
+    "effect": [
+      { "u_add_effect": "post_strength_injection", "duration": "6 hours" },
+      { "math": [ "u_val('sleepiness')", "+=", "80" ] },
+      {
+        "u_add_morale": "morale_afs_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "id": "EOC_bio_start_shield",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "if": { "not": { "u_has_worn_with_flag": "ENERGY_SHIELD" } },
+        "then": [
+          { "u_cast_spell": { "id": "spawn_shield", "hit_self": true } },
+          { "u_message": { "context_val": "success_message" } },
+          { "math": [ "_shield_uid = rand(1200)" ] },
+          { "math": [ "u_shield_gen_uid = _shield_uid" ] },
+          { "math": [ "u_shield_power_ratio = u_val('power_percentage')" ] },
+          {
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "id": [ "afs_energy_shield" ] } ],
+            "true_eocs": [
+              {
+                "id": "_BIO_SHIELD_SETUP",
+                "effect": [
+                  { "math": [ "n_shield_uid = _shield_uid" ] },
+                  { "math": [ "n_shield_is_bionic = 1" ] },
+                  { "math": [ "n_shield_turn = 0" ] },
+                  { "math": [ "n_SHIELD_REGEN = 0" ] },
+                  { "math": [ "n_SHIELD_REGEN_RATE = 0" ] },
+                  { "math": [ "n_ENERGY_SHIELD_HP = _shield_max_hp*0.1" ] },
+                  { "math": [ "n_ENERGY_SHIELD_MAX_HP = _shield_max_hp" ] },
+                  { "math": [ "n_SHIELD_REGEN = _shield_regen" ] },
+                  { "math": [ "n_SHIELD_REGEN_RATE = shield_regen_rate" ] },
+                  { "math": [ "u_shield_ratio = n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP" ] }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": { "u_message": { "context_val": "failure_message" } }
+      }
+    ]
+  },
+  {
+    "id": "EOC_bio_stop_shield",
+    "type": "effect_on_condition",
+    "effect": [ { "u_remove_item_with": "afs_energy_shield" }, { "math": [ "u_shield_ratio = -1" ] } ]
+  },
+  {
+    "id": "EOC_bio_update_ui",
+    "type": "effect_on_condition",
+    "effect": { "math": [ "u_shield_power_ratio = u_val('power_percentage')" ] }
+  }
+]

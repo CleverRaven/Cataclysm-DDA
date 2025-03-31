@@ -1,0 +1,293 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_studying_power",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_headache",
+    "name": [
+      "Headache",
+      "Headache",
+      "Headache",
+      "Bad Headache",
+      "Bad Headache",
+      "Splitting Headache",
+      "Splitting Headache",
+      "Excruciating Headache",
+      "Excruciating Headache",
+      "Pure Agony"
+    ],
+    "desc": [
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head throbs and it's hard to see straight.",
+      "Your head throbs and it's hard to see straight.",
+      "You can barely think through the pain in your head.",
+      "You can barely think through the pain in your head.",
+      "Your skull feels like it's going to explode.",
+      "Your skull feels like it's going to explode.",
+      "The agony is the only thing in the world that matters."
+    ],
+    "rating": "bad",
+    "int_add_val": 1,
+    "max_intensity": 10,
+    "max_duration": "24 hours",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "pain_chance": [ 100 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 1 ],
+      "pain_max_val": [ 20 ],
+      "pain_tick": [ 200 ],
+      "vomit_chance": [ 100 ],
+      "vomit_tick": [ 200 ],
+      "hurt_chance": [ 300 ],
+      "hurt_amount": [ 0 ],
+      "hurt_tick": [ 200 ]
+    },
+    "scaling_mods": {
+      "per_mod": [ -0.8 ],
+      "int_mod": [ -0.6 ],
+      "pain_min": [ 0 ],
+      "pain_max": [ 0 ],
+      "pain_max_val": [ 5 ],
+      "vomit_chance": [ -2 ],
+      "hurt_chance": [ -5 ],
+      "hurt_amount": [ 2, 1 ],
+      "hurt_tick": [ -15 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_health_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "max_duration": "30 seconds",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_stunned",
+    "//": "Separate ID to allow telepaths and telepathy-immune monsters to defend against it.",
+    "name": [ "Stunned" ],
+    "desc": [ "Your mind is reeling." ],
+    "apply_message": "You're stunned!",
+    "rating": "bad",
+    "show_in_info": true,
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.2 }, { "limb_score": "reaction", "modifier": 0.0 } ],
+    "immune_flags": [ "TEEPSHIELD", "TEEP_IMMUNE" ],
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD", "NO_SPELLCASTING", "NO_PSIONICS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_electrokin_see_electricity",
+    "name": [ "Spark Sight" ],
+    "desc": [ "Your powers reveal electrical creatures and robots to you." ],
+    "apply_message": "",
+    "remove_message": "You can no longer sense the flow of current.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": {
+              "math": [ "( ( u_spell_level('electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) )" ]
+            },
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_electrokin_zap_enemies",
+    "name": [ "Electrical Discharge" ],
+    "desc": [ "Your body is filled with electrical currents." ],
+    "apply_message": "",
+    "remove_message": "The tingling on your skin fades.",
+    "decay_messages": [ [ "The protective electrical currents are nearly gone.", "bad" ], [ "Your skin is losing its charge.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "20 minutes",
+    "max_intensity": 49,
+    "dur_add_perc": 10,
+    "int_dur_factor": "25 s",
+    "enchantments": [ "enchant_afs_electrokin_zap_enemies" ],
+    "flags": [ "EMP_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_electrokin_hacking_interface",
+    "name": [ "Hacking Interface" ],
+    "desc": [ "You are capable of hacking into computers with only the power of your mind." ],
+    "apply_message": "",
+    "remove_message": "You can no longer manipulate the circuitry of nearby devices.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_electrokin_personal_battery",
+    "name": [ "Electron Overflow" ],
+    "desc": [ "You are generating a wireless aura of electrical power." ],
+    "apply_message": "",
+    "remove_message": "You stop the flow of electricity to your devices.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_telekinetic_momentum",
+    "name": [ "Altered Momentum" ],
+    "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
+    "apply_message": "",
+    "remove_message": "Nearby movement returns to normal.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          {
+            "type": "bash",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.01 ) * scaling_factor(u_val('intelligence') )" ] }
+          },
+          {
+            "type": "stab",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') )" ] }
+          },
+          {
+            "type": "cut",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') ) " ] }
+          },
+          {
+            "type": "bullet",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.02 ) * scaling_factor(u_val('intelligence') )" ] }
+          }
+        ],
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') ) ) ), -0.15)"
+              ]
+            }
+          },
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.01 ) * scaling_factor(u_val('intelligence') )" ] }
+          }
+        ]
+      }
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_telepath_sense_minds",
+    "name": [ "Sensing Minds" ],
+    "desc": [ "You are looking out for other minds." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of other minds fades away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": {
+              "and": [
+                {
+                  "or": [
+                    { "and": [ { "not": { "npc_has_species": "PSI_NULL" } }, { "npc_has_flag": "HAS_MIND" } ] },
+                    {
+                      "and": [
+                        { "not": { "npc_has_species": "PSI_NULL" } },
+                        { "not": { "npc_has_species": "ZOMBIE" } },
+                        { "npc_has_flag": "HUMAN" }
+                      ]
+                    },
+                    "npc_is_npc"
+                  ]
+                },
+                { "not": { "npc_has_effect": "eff_monster_immune_to_telepathy" } },
+                { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+              ]
+            },
+            "distance": { "math": [ "( ( u_spell_level('afs_telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+            "descriptions": [ { "id": "sense_minds", "symbol": "@", "color": "c_white", "text": "You sense something sapient here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_telepathic_suggestion",
+    "name": [ "Mind Trick" ],
+    "desc": [ "You are preparing to influence the minds of others to make them more amenable to your point of view." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SOCIAL_INTIMIDATE",
+            "add": { "math": [ "( (u_spell_level('afs_telepathic_suggestion') * 2.5) + 3) * (scaling_factor(u_val('intelligence') ) ) " ] }
+          },
+          {
+            "value": "SOCIAL_LIE",
+            "add": { "math": [ "( (u_spell_level('afs_telepathic_suggestion') * 2.5) + 3) * (scaling_factor(u_val('intelligence') ) ) " ] }
+          },
+          {
+            "value": "SOCIAL_PERSUADE",
+            "add": { "math": [ "( (u_spell_level('afs_telepathic_suggestion') * 2.5) + 3) * (scaling_factor(u_val('intelligence') ) ) " ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_telepathic_psi_armor",
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "Your mind is warded against telepathic attack or detection." ],
+    "apply_message": "",
+    "remove_message": "Your thoughts are once again unguarded.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 17,
+    "removes_effects": [
+      "taint",
+      "tindrift",
+      "hallu",
+      "hallucination_attacks",
+      "visuals",
+      "fearparalyze",
+      "amigara",
+      "psi_stunned",
+      "telepathic_ignorance"
+    ],
+    "flags": [ "TEEPSHIELD" ]
+  }
+]

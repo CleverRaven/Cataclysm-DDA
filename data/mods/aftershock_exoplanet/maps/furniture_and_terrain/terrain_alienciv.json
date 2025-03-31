@@ -1,0 +1,43 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_coral_floor_no_roof",
+    "name": "coral floor",
+    "description": "Thin shelves of coral latch together into a flat mosaic and portray the geometries of life.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "ter_set": "t_null",
+      "items": [ { "item": "resin_chunk", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_coral_wall",
+    "name": "coral floor",
+    "description": "Filaments of white coral grow tall and weave themselves into a sinuous wall.  The living surface is ornately grooved, and golden light slowly flows within its gaps.",
+    "roof": "t_coral_floor_no_roof",
+    "symbol": "#",
+    "looks_like": "t_rock_wall",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 39,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_broken_prefab",
+      "items": [ { "item": "resin_chunk", "count": [ 30, 40 ] } ]
+    }
+  }
+]

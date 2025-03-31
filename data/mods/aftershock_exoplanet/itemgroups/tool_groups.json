@@ -1,0 +1,292 @@
+[
+  {
+    "id": "afs_hard_hat",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "hat_hard" },
+      { "item": "attachable_ear_muffs", "prob": 50 },
+      { "item": "nape_protector", "prob": 20 },
+      { "item": "sun_shield", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_space_emergency",
+    "//": "Emergency Firefighting and repair tools for inside an habitat or spaceship. Can get as specialized as needed.",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "extinguisher", "prob": 35, "charges": [ 75, 100 ] },
+          { "item": "throw_extinguisher", "prob": 75, "count": [ 3, 5 ] }
+        ],
+        "prob": 100
+      },
+      { "item": "rebreather", "ammo-item": "rebreather_filler_soda_lime", "charges": 60, "prob": 75 },
+      { "distribution": [ { "item": "fire_ax", "prob": 20 }, { "item": "crash_axe", "prob": 80 } ], "prob": 30 },
+      {
+        "collection": [ { "item": "afs_foamgun" }, { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30, "prob": 100 } ],
+        "prob": 10
+      },
+      { "item": "afs_oxygen_candle", "prob": 75, "count": [ 2, 4 ] },
+      { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_robot_maintenance",
+    "//": "tools used for fixing robots.",
+    "items": [
+      { "group": "afs_robotics_scrapgroup", "prob": 10 },
+      [ "glasses_safety", 5 ],
+      { "group": "afs_tools_electric_repair", "prob": 10 },
+      { "group": "afs_tools_welding", "prob": 5 },
+      [ "vac_mold", 5 ],
+      { "group": "tools_toolbox", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_portable_power",
+    "//": "Solar panels, power banks, RTGs and more.",
+    "items": [ [ "folding_solar_panel_v2", 20 ], [ "UPS_OFF", 30 ], [ "afs_cRTG", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_electric_repair",
+    "//": "Keeps your solar panels, lights and well everything going.",
+    "items": [
+      [ "screwdriver_set", 20 ],
+      { "group": "superglue", "prob": 30 },
+      [ "pliers", 10 ],
+      [ "multitool", 20 ],
+      [ "voltmeter", 20 ],
+      [ "jumper_cable", 10 ],
+      [ "hd_tow_cable", 5 ],
+      [ "recharge_station", 10 ],
+      [ "magnifying_glass", 10 ],
+      { "item": "gloves_work", "prob": 10 },
+      { "group": "ammo_any_batteries_full", "prob": 20 },
+      { "group": "tools_lighting_industrial", "prob": 10 },
+      { "item": "UPS_OFF", "prob": 10, "charges": [ 0, 1000 ] },
+      { "group": "writing_utensils", "prob": 10 },
+      { "item": "soldering_iron", "prob": 30 },
+      { "item": "soldering_iron_portable", "prob": 30, "charges": [ 0, 50 ] },
+      { "item": "solder_wire", "prob": 30 },
+      { "group": "duct_tape_roll_part", "prob": 30, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_vehicle_repair",
+    "//": "Fixes up rovers, shuttlecraft, aerocraft and more. (Group stubed created for someone more knowledgable to fill)",
+    "items": [ { "group": "afs_tools_structural_repair", "prob": 40 }, { "group": "afs_tools_electric_repair", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_structural_repair",
+    "//": "Fixes up spaceships, habitats and probably more.",
+    "items": [
+      {
+        "distribution": [
+          { "group": "afs_tools_welding", "prob": 20 },
+          {
+            "collection": [
+              { "item": "afs_foamgun", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30, "prob": 100, "count": [ 1, 2 ] }
+            ],
+            "prob": 20
+          },
+          {
+            "collection": [
+              { "item": "plastic_sheet", "prob": 100, "count": [ 3, 6 ] },
+              { "group": "duct_tape_roll_part", "prob": 100, "count": [ 1, 5 ] }
+            ],
+            "prob": 60
+          }
+        ],
+        "prob": 80
+      },
+      { "item": "afs_imager", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_welding",
+    "//": "tools used for sci-fi and not sci-fi welding.",
+    "ammo": 75,
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "welder", "prob": 40 },
+          {
+            "collection": [
+              { "item": "oxy_torch", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] },
+              { "item": "weldtank", "prob": 50, "count": [ 1, 2 ] }
+            ],
+            "prob": 20
+          },
+          {
+            "collection": [
+              { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
+            ],
+            "prob": 40
+          }
+        ],
+        "prob": 30
+      },
+      { "item": "polisher", "prob": 20 },
+      { "item": "angle_grinder", "prob": 20 },
+      [ "clamp", 10 ],
+      [ "metal_file", 10 ],
+      [ "sandpaper", 10 ],
+      [ "goggles_welding", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_welding_consumable",
+    "items": [
+      { "item": "welding_rod_steel", "prob": 90, "charges": [ 1000, 1600 ] },
+      { "item": "welding_rod_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
+      { "item": "welding_wire_steel", "prob": 90, "charges": [ 1000, 1600 ] },
+      { "item": "welding_wire_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
+      { "item": "brazing_rod_bronze", "prob": 80, "charges": [ 500, 1500 ] },
+      { "item": "brazing_rod_alloy", "prob": 30, "charges": [ 400, 1200 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_programing",
+    "//": "tools used by legitimate and illegitimate programmers.",
+    "items": [
+      { "item": "laptop", "prob": 50, "charges": [ 0, 500 ] },
+      { "item": "electrohack", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "control_laptop", "prob": 2, "charges": [ 0, 500 ] },
+      { "item": "afs_wrist_computer", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_police_hacker_gear",
+    "//": "specialized tools used specifcally by cyber security specialists. Currently difers to the programming group but if advanced hacking tools get made they should be placed here.",
+    "subtype": "collection",
+    "items": [ { "group": "afs_tools_programing", "prob": 60 }, { "group": "afs_consumer_vr", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_agricultural_hazardous",
+    "//": "tools used by large farms",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "item": "afs_foamgun", "prob": 100 },
+          { "item": "afs_foam_tank", "ammo-item": "afs_foamtoxic", "charges": 30, "prob": 100, "count": [ 1, 2 ] },
+          { "item": "prophylactic_antivenom", "prob": 1, "count": 5 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_pocket",
+    "//": "General use tools that fit in small pockets.",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 50 },
+          { "item": "knife_folding", "prob": 30 },
+          { "item": "knife_swissarmy", "prob": 10 },
+          { "item": "switchblade", "prob": 10 }
+        ],
+        "prob": 15
+      },
+      {
+        "distribution": [
+          { "item": "lighter", "prob": 100, "charges": [ 0, 100 ] },
+          { "item": "ref_lighter", "prob": 40, "charges": [ 0, 50 ] },
+          { "item": "matches", "prob": 20, "charges": [ 0, 20 ] }
+        ],
+        "prob": 5
+      },
+      { "item": "multitool", "prob": 5 },
+      { "item": "screwdriver_set", "prob": 15 },
+      { "item": "pliers", "prob": 5 },
+      { "group": "superglue", "prob": 5 },
+      { "group": "duct_tape_roll_part", "prob": 10, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_scavenging",
+    "//": "lightweight tools used for finding and getting into places where you don't belong.",
+    "items": [
+      { "item": "electrohack", "prob": 100 },
+      {
+        "collection": [
+          { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "collection": [ { "item": "afs_jetpack", "prob": 50 }, { "item": "ammonia_liquid", "prob": 100, "count": [ 1, 2 ] } ],
+        "prob": 10
+      },
+      { "item": "afs_imager", "prob": 30 },
+      { "item": "afs_motion_sensor", "prob": 30 },
+      { "item": "UPS_OFF", "prob": 20 },
+      { "item": "grapnel", "prob": 20 },
+      { "distribution": [ { "item": "geiger_off", "prob": 2 }, { "item": "rad_monitor", "prob": 1 } ], "prob": 10 },
+      { "distribution": [ { "item": "scrap_axe", "prob": 5 }, { "item": "boarding_axe", "prob": 1 } ], "prob": 10 },
+      { "item": "emf_detector", "prob": 50 },
+      { "item": "tskbem_master_keycard", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "farming_tools",
+    "items": [
+      [ "hoe", 60 ],
+      [ "shovel", 60 ],
+      [ "g_shovel", 60 ],
+      [ "trimmer_off", 60 ],
+      [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
+      [ "gloves_rubber", 60 ],
+      [ "fertilizer_liquid", 20 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
+      [ "fungicide", 20 ],
+      { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] },
+      [ "sickle", 40 ],
+      { "group": "tools_toolbox", "prob": 10 },
+      [ "bullwhip", 30 ],
+      [ "distaff_spindle", 2 ],
+      [ "carding_paddles", 2 ],
+      [ "scythe", 40 ],
+      [ "scythe_fake", 1 ],
+      [ "shears", 20 ],
+      [ "elec_shears", 10 ],
+      [ "tree_spile", 40 ],
+      { "group": "quicklime_bag", "prob": 30 },
+      [ "pitchfork", 40 ],
+      [ "v_plow_item", 41 ],
+      [ "v_planter_item", 41 ],
+      [ "v_reaper_item", 41 ],
+      [ "v_reaper_item_advanced", 8 ],
+      [ "v_planter_item_advanced", 8 ],
+      [ "rake", 40 ],
+      [ "rake_plastic", 50 ],
+      [ "shovel_snow", 40 ],
+      [ "shovel_snow_plastic", 50 ],
+      [ "hose_garden", 60 ]
+    ]
+  }
+]

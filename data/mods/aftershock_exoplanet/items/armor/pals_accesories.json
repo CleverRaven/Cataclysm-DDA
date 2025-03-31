@@ -1,0 +1,184 @@
+[
+  {
+    "id": "afs_triple_stacker_pouch",
+    "type": "ARMOR",
+    "//": "modified to hold SR-77 mags.",
+    "name": { "str": "U5s magazine carrier" },
+    "description": "A collection of 6 pockets, designed to hold rifle magazines and keep them accessible and secure.  Has MOLLE straps for attaching to an ILBE or can be strapped directly to your chest.  Standard issue in UICA forces.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": "20 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "280 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "280 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "280 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "280 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "280 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "280 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "afs_grenade_pouch",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.tacticalassaultgearstore.com/molle-frag-grenade-pouch.html",
+    "name": { "str": "grenadier pouch", "str_pl": "grenadier pouches" },
+    "description": "A pouch designed to hold six military grenades, keeping them both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "200 g",
+    "volume": "100 ml",
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 30,
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "material_thickness": 0.5,
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "afs_ammo_satchel",
+    "type": "ARMOR",
+    "name": { "str": "U7s ammo satchel" },
+    "description": "A large magnetic magazine carrier.  It is capable of holding two large magazines close at hand.",
+    "weight": "180 g",
+    "volume": "500 ml",
+    "price": "20 USD",
+    "price_postapoc": "6 USD",
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "500 mm",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "4 kg",
+        "moves": 40,
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "500 mm",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "4 kg",
+        "moves": 40,
+        "holster": true,
+        "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  }
+]
