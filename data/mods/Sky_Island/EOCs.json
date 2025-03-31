@@ -85,6 +85,7 @@
       },
       { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
       { "u_remove_item_with": "warphome" },
+      { "u_remove_item_with": "warp_healing_salve" },
       { "math": [ "raidstotal++" ] },
       { "u_lose_trait": "awayfromhome" },
       { "u_lose_effect": [ "warpsickness", "warpdisintegration" ] },
