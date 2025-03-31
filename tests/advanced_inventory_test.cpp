@@ -28,8 +28,8 @@
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
-static const itype_id itype_test_heavy_debug_backpack( "test_heavy_debug_backpack" );
 static const itype_id itype_knife_combat( "knife_combat" );
+static const itype_id itype_test_heavy_debug_backpack( "test_heavy_debug_backpack" );
 static const itype_id itype_test_9mm_ammo( "test_9mm_ammo" );
 
 
