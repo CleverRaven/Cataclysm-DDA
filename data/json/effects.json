@@ -405,6 +405,14 @@
   },
   {
     "type": "effect_type",
+    "id": "maimed_huntsman_arm",
+    "name": [ "Broken Appendage" ],
+    "//": "Disables javelin throwing.",
+    "desc": [ { "str": "Your long grotesque throwing appendage has been compromised.", "//~": "NO_I18N" } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "elec_charged",
     "name": [ { "str": "Charged Capacitor", "//~": "NO_I18N" } ],
     "desc": [ { "str": "Your capacitors sizzle with bioelectricity.", "//~": "NO_I18N" } ]
