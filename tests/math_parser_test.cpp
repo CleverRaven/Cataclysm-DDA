@@ -19,9 +19,6 @@
 #include "math_parser_type.h"
 #include "npc.h"
 #include "talker.h"
-#include "type_id.h"
-
-static const skill_id skill_survival( "survival" );
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
 TEST_CASE( "math_parser_parsing", "[math_parser]" )
@@ -163,14 +160,12 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 3 ) );
 
     // diag functions. _test_diag adds up all the (kw)args except for "test_unused_kwarg"
-    CHECK( testexp.parse( "_test_diag_('1', 2, 3*4)" ) ); // mixed arg types
+    CHECK( testexp.parse( "_test_diag_(1, 2, 3*4)" ) ); // mixed arg types
     CHECK( testexp.eval( d ) == Approx( 15 ) );
     CHECK( testexp.parse( "_test_diag_('1+2*3:() sin(1)')" ) ); // string with token delimiters
-    CHECK( testexp.parse( "_test_diag_(sin(pi), _test_diag_('1'))" ) ); // compounding
+    CHECK( testexp.parse( "_test_diag_(sin(pi), _test_diag_(1))" ) ); // composition
     CHECK( testexp.eval( d ) == Approx( 1 ) );
-    CHECK( testexp.parse( "_test_diag_('1':'2')" ) );  // string kwarg
-    CHECK( testexp.eval( d ) == Approx( 2 ) );
-    CHECK( testexp.parse( "_test_diag_(1, '2', '1':'2', '3':'4')" ) );  // kwargs after positional
+    CHECK( testexp.parse( "_test_diag_(1, 2, '1':2, '3':4)" ) );  // kwargs after positional
     CHECK( testexp.eval( d ) == Approx( 9 ) );
     CHECK( testexp.parse( "_test_diag_('1':2)" ) );  // double kwarg
     CHECK( testexp.eval( d ) == Approx( 2 ) );
@@ -180,7 +175,7 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 3.5 ) );
     CHECK( testexp.parse( "_test_diag_('1':0==0?1:2)" ) );  // ternary kwarg
     CHECK( testexp.eval( d ) == Approx( 1 ) );
-    CHECK( testexp.parse( "_test_diag_('1':2*_test_diag_('2':'3'))" ) );  // kwarg compounding
+    CHECK( testexp.parse( "_test_diag_('1':2*_test_diag_('2':3))" ) );  // kwarg composition
     CHECK( testexp.eval( d ) == Approx( 6 ) );
     CHECK( testexp.parse( "_test_diag_([1,2,2+1])" ) );  // array arg
     CHECK( testexp.eval( d ) == Approx( 6 ) );
@@ -322,12 +317,20 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "has_var(_ctx)?19:20" ) );
     CHECK( testexp.eval( d ) == Approx( 19 ) );
 
-    // reading scoped values with u_val shim
-    std::string dmsg = capture_debugmsg_during( [&testexp]() {
-        CHECK_FALSE( testexp.parse( "u_val( 3 )" ) ); // this function doesn't support numbers
-        CHECK_FALSE( testexp.parse( "u_val(myval)" ) ); // this function doesn't support variables
+    // wrong arg type
+    std::string dmsg = capture_debugmsg_during( [&testexp, &d]() {
+        CHECK( testexp.parse( "_test_diag_( '3' )" ) ); // this function doesn't support strings
+        bool expected_string = false;
+        try {
+            testexp.eval( d );
+        } catch( math::exception const &ex ) {
+            std::string_view what( ex.what() );
+            expected_string = what.find( "Expected double" ) != std::string_view::npos;
+        }
+        CHECK( expected_string );
         CHECK_FALSE( testexp.parse( "val( 'stamina' )" ) ); // invalid scope for this function
     } );
+    // reading scoped values with u_val shim
     CHECK( testexp.parse( "u_val('stamina')" ) );
     CHECK( testexp.eval( d ) == get_avatar().get_stamina() );
 
@@ -341,9 +344,8 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
 
     // evaluating string variables in dialogue functions
     globvars.set_global_value( "someskill", "survival" );
-    CHECK( testexp.parse( "u_skill(someskill)" ) );
-    get_avatar().set_skill_level( skill_survival, 3 );
-    CHECK( testexp.eval( d ) == 3 );
+    CHECK( testexp.parse( "_test_str_len_([someskill])" ) );
+    CHECK( testexp.eval( d ) == 8 );
 
     // assignment to scoped variables
     CHECK( testexp.parse( "u_testvar = 159" ) );

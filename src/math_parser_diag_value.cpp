@@ -5,7 +5,6 @@
 #include <variant>
 
 #include "cata_utility.h"
-#include "math_parser.h"
 #include "math_parser_type.h"
 #include "string_formatter.h"
 
@@ -20,8 +19,6 @@ constexpr std::string_view _str_type_of( T /* t */ )
         return "string";
     } else if constexpr( std::is_same_v<T, var_info> ) {
         return "variable";
-    } else if constexpr( std::is_same_v<T, math_exp> ) {
-        return "sub-expression";
     } else if constexpr( std::is_same_v<T, diag_array> ) {
         return "array";
     }
@@ -94,10 +91,6 @@ double diag_value::dbl( const_dialogue const &d ) const
             throw math::runtime_error( R"(Could not convert variable "%s" with value "%s" to double)", v.name,
                                        val );
         },
-        [&d]( math_exp const & v ) -> double
-        {
-            return v.eval( d );
-        },
         []( diag_array const & ) -> double
         {
             throw math::runtime_error( R"(Cannot directly convert array to doubles)" );
@@ -135,11 +128,6 @@ std::string diag_value::str( const_dialogue const &d ) const
         [&d]( var_info const & v )
         {
             return read_var_value( v, d );
-        },
-        [&d]( math_exp const & v )
-        {
-            // NOLINTNEXTLINE(cata-translate-string-literal)
-            return string_format( "%g", v.eval( d ) );
         },
         []( diag_array const & )
         {

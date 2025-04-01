@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "dialogue_helpers.h"
-#include "math_parser.h"
 
 struct const_dialogue;
 struct diag_value;
@@ -30,7 +29,7 @@ using is_variant_type = is_one_of<T, V>;
 // *INDENT-ON*
 
 struct diag_value {
-    using impl_t = std::variant<std::monostate, double, std::string, var_info, math_exp, diag_array>;
+    using impl_t = std::variant<std::monostate, double, std::string, var_info, diag_array>;
 
     diag_value() = default;
 
@@ -82,26 +81,5 @@ constexpr bool operator==( diag_value const &lhs, std::string_view rhs )
 {
     return std::holds_alternative<std::string>( lhs.data ) && std::get<std::string>( lhs.data ) == rhs;
 }
-
-// helper struct that makes it easy to determine whether a kwarg's value has been used
-struct deref_diag_value {
-    public:
-        deref_diag_value() = default;
-        explicit deref_diag_value( diag_value &&dv ) : _val( dv ) {}
-        diag_value const *operator->() const {
-            _used = true;
-            return &_val;
-        }
-        diag_value const &operator*() const {
-            _used = true;
-            return _val;
-        }
-        bool was_used() const {
-            return _used;
-        }
-    private:
-        bool mutable _used = false;
-        diag_value _val;
-};
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_VALUE_H
