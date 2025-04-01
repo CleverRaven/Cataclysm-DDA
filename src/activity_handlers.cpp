@@ -476,6 +476,57 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
+static bool empathy_cannibalism_check( const Character &you, const mtype_id &monster )
+{
+    const map &here = get_map();
+
+    if( !you.is_avatar() ) {
+        return true; // NPCs dont accidentally cause player hate
+    }
+
+    std::set<npc&> empathy_list;
+    bool you_empathize = you.empathizes_with( monster );
+
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with( monster ) ) {
+            empathy_list.emplace( guy );
+        }
+    }
+
+    if( you_empathize && empathy_list.size() > 0 ) {
+        if( !query_yn(
+                _( "Really desecrate the mortal remains of this being by butchering them for meat?  You feel others may take issue with your action." ) ) ) {
+            return false; // player cancels
+        }
+    } else if ( you_empathize && empathy_list.size() == 0 ) {
+        if( !query_yn(
+                _( "Really desecrate the mortal remains of this being by butchering them for meat?" ) ) ) {
+            return false; // player cancels
+        }
+    } else if ( !you_empathize && empathy_list.size() > 0 ) {
+        if( !query_yn(
+                _( "Really take this thing apart?  You feel others may take issue with your action." ) ) ) {
+            return false; // player cancels
+        }
+    }
+    // !you_empathize && empathy_list.size() == 0 means no check.  Will likely happen for most combinations.
+
+    for( npc &guy : empathy_list ) {
+        if( guy.is_active() && guy.sees( here, you ) && !guy.okay_with_eating_humans() ) {
+            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
+            // massive opinion penalty
+            guy.op_of_u.trust -= 5;
+            guy.op_of_u.value -= 5;
+            guy.op_of_u.anger += 5;
+            if( guy.turned_hostile() ) {
+                guy.make_angry();
+            }
+        }
+    }
+
+    return true;
+}
+
 static bool do_cannibalism_piss_people_off( Character &you )
 {
     const map &here = get_map();
@@ -485,7 +536,7 @@ static bool do_cannibalism_piss_people_off( Character &you )
     }
 
     if( !query_yn(
-            _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+            _( "Really desecrate the mortal remains of a fellow being by butchering them for meat?" ) ) ) {
         return false; // player cancels
     }
 
@@ -628,13 +679,12 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                           corpse.in_species( species_FERAL );
 
     // applies to all butchery actions except for dissections or dismemberment
-    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() &&
-        action != butcher_type::DISMEMBER ) {
+    if( you.empathizes_with( corpse.id ) && action != butcher_type::DISSECT && action != butcher_type::DISMEMBER ) {
         //first determine if the butcherer has the dissect_humans proficiency.
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
             if( you.is_avatar() ) {
-                if( do_cannibalism_piss_people_off( you ) ) {
+                if( empathy_cannibalism_check( you, corpse.id ) ) {
                     //give the player a random message showing their disgust and cause morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -662,7 +712,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         } else {
             //this runs if the butcherer does NOT have prof_dissect_humans
             if( you.is_avatar() ) {
-                if( do_cannibalism_piss_people_off( you ) ) {
+                if( empathy_cannibalism_check( you, corpse.id ) ) {
                     //random message and morale penalty
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -691,7 +741,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     }
 
     // applies to only dissections, so that dissect_humans training makes a difference.
-    if( is_human && action == butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
+    if( you.empathizes_with( corpse.id ) && action == butcher_type::DISSECT ) {
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //you're either trained for this, densensitized, or both. doesn't bother you.
             if( you.is_avatar() ) {
