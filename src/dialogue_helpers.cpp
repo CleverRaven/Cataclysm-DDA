@@ -6,8 +6,7 @@
 #include "rng.h"
 #include "talker.h"
 
-std::optional<std::string> maybe_read_var_value( const var_info &info, const_dialogue const &d,
-        int call_depth )
+std::optional<std::string> maybe_read_var_value( const var_info &info, const_dialogue const &d )
 {
     global_variables &globvars = get_globals();
     switch( info.type ) {
@@ -21,14 +20,7 @@ std::optional<std::string> maybe_read_var_value( const var_info &info, const_dia
             return d.const_actor( true )->maybe_get_value( info.name );
         case var_type::var: {
             std::optional<std::string> const var_val = d.maybe_get_value( info.name );
-            if( call_depth > 1000 && var_val ) {
-                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
-                          info.name, var_val.value(), d.get_callstack() );
-                return std::nullopt;
-            } else {
-                return var_val ? maybe_read_var_value( process_variable( *var_val ), d,
-                                                       call_depth + 1 ) : std::nullopt;
-            }
+            return var_val ? maybe_read_var_value( process_variable( *var_val ), d ) : std::nullopt;
         }
         case var_type::last:
             return std::nullopt;
@@ -49,30 +41,15 @@ var_info process_variable( const std::string &type )
     if( type.compare( 0, 2, "u_" ) == 0 ) {
         vt = var_type::u;
         ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 4, "npc_" ) == 0 ) {
-        vt = var_type::npc;
-        ret_str = type.substr( 4, type.size() - 4 );
     } else if( type.compare( 0, 2, "n_" ) == 0 ) {
         vt = var_type::npc;
         ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 7, "global_" ) == 0 ) {
-        vt = var_type::global;
-        ret_str = type.substr( 7, type.size() - 7 );
-    } else if( type.compare( 0, 2, "g_" ) == 0 ) {
-        vt = var_type::global;
-        ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 2, "v_" ) == 0 ) {
-        vt = var_type::var;
-        ret_str = type.substr( 2, type.size() - 2 );
-    } else if( type.compare( 0, 8, "context_" ) == 0 ) {
-        vt = var_type::context;
-        ret_str = type.substr( 8, type.size() - 8 );
     } else if( type.compare( 0, 1, "_" ) == 0 ) {
         vt = var_type::context;
         ret_str = type.substr( 1, type.size() - 1 );
     }
 
-    return var_info( vt, ret_str );
+    return { vt, ret_str };
 }
 
 template<>
