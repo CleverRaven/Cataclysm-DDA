@@ -1905,7 +1905,6 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         return;
     }
 
-    
     std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
 
     // Sound happens even if we can't hear it
