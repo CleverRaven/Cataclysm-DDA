@@ -727,7 +727,7 @@
       "RADIO_ACTIVATION",
       "RADIO_MODABLE",
       "RADIO_INVOKE_PROC",
-      "RADIOSIGNAL_1",
+      "RADIOSIGNAL_3",
       "WATER_BREAK",
       "ELECTRONIC"
     ],
@@ -759,7 +759,7 @@
       "RADIO_ACTIVATION",
       "RADIO_MODABLE",
       "RADIO_INVOKE_PROC",
-      "RADIOSIGNAL_1",
+      "RADIOSIGNAL_3",
       "STEREO",
       "TRADER_AVOID"
     ]
