@@ -360,7 +360,7 @@
       { "math": [ "u_vitamin('instability') = 0" ] },
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
-      { "u_add_effect": "cureall", "duration": "1 s", "intensity": 1 },
+      { "math": [ "u_val('pkill') = 0" ] },
       { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
       {
         "u_lose_effect": [
@@ -379,7 +379,29 @@
           "fetid_goop",
           "sap",
           "nausea",
-          "bleed"
+          "bleed",
+          "fungus",
+          "dermatik",
+          "bloodworms",
+          "paincysts",
+          "brainworms",
+          "tapeworm",
+          "blind",
+          "poison",
+          "venom_dmg",
+          "venom_weaken",
+          "stung",
+          "badpoison",
+          "foodpoison",
+          "paralyzepoison",
+          "tetanus",
+          "rat_bite_fever",
+          "infected",
+          "asthma",
+          "common_cold",
+          "flu",
+          "pre_flu",
+          "pre_common_cold"
         ]
       },
       {
