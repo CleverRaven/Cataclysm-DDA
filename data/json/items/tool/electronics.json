@@ -854,7 +854,7 @@
     "copy-from": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone (locked)" },
-    "description": "A popular, fancy smartphone.  Sadly for you, person that used it used it's security features, rendering you unable to use most of the features.  You are still able to check the time and use a flashlight.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
+    "description": "A popular, fancy smartphone.  Sadly for you, its previous user used its security features, rendering you unable to use most of its qualities.  You are still able to check the time and use a flashlight.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
     "etransfer_rate": "0 MB",
     "e_port": "",
     "use_action": [
@@ -871,7 +871,7 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Recover",
-        "description": "You can reset the smartphone to be able to use all it's functions.",
+        "description": "You can reset the smartphone to be able to use all its functions.",
         "effect_on_conditions": [ "EOC_SMARTPHONE_RECOVERY" ]
       }
     ],
