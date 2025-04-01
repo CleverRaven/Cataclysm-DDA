@@ -390,7 +390,9 @@
         "u_message": "Your hunger for blood submerges you for a moment, as the blood of the Anathema combines with your own.  Vampires, mortals, what's the difference?  You'll drink them all dry anyway.",
         "type": "mixed"
       },
-      { "u_add_trait": "VAMPIRE_ANATHEMA" }
+      { "u_add_trait": "VAMPIRE_ANATHEMA" },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }
     ],
     "false_effect": [
       {

@@ -68,7 +68,16 @@
         { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" } ]
+    "effect": [
+      {
+        "if": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+        "then": [
+          { "math": [ "u_vitamin('vampire_blood_vitamin')", "+=", "30 + rand(20)" ] },
+          { "u_message": "Though it cannot sustain you, this blood can empower you.", "type": "mixed" }
+        ],
+        "else": { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -138,7 +147,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_WEAKNESSES",
     "//": "This EOC checks how many weaknesses the player should gain when reshuffling.  Gaining the traits run the weakness-giving EOC directly.",
-    "//2": "Tier 3 grants 1 weakness, Tier 4 grants 1 more, Tier 5 grants two more.",
+    "//2": "Tier 3 grants one weakness, Tier 4 grants one more, Tier 5 grants two more, becoming an Anathema gives two more, reaching the Anathema threshold gives three more.",
     "effect": [
       {
         "run_eocs": [
@@ -156,6 +165,20 @@
             "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_5",
             "condition": { "u_has_trait": "BLOOD_DRINKER" },
             "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }, { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_ANATHEMA",
+            "condition": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }, { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_ANATHEMA",
+            "condition": { "u_has_trait": "THRESH_VAMPIRE_ANATHEMA" },
+            "effect": [
+              { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+              { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+              { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }
+            ]
           }
         ]
       }

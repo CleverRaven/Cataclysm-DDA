@@ -25,6 +25,16 @@
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
   },
   {
+    "id": "vampire_blood_vitamin",
+    "type": "vitamin",
+    "//": "Only Vampire Anathema can gain this vitamin.  It is used to give them their mutataions in a way that won't interact with the mutation system as they still can mutate, despite being locked from thresholds.",
+    "vit_type": "counter",
+    "name": { "str": "Stolen Vampire Blood" },
+    "min": 0,
+    "max": 100000,
+    "rate": "0 m"
+  },
+  {
     "id": "lilin_ruach_vitamin",
     "type": "vitamin",
     "vit_type": "counter",
