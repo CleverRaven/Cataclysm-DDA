@@ -243,6 +243,7 @@
       { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
       { "item": "butane_can", "prob": 10, "charges": [ 200, 400 ] },
+      { "item": "insecticide_spray_can", "prob": 20, "charges": [ 3, 10 ], "count": [ 1, 2 ] },
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "vac_pump", "prob": 3 },
       { "item": "recovery_pump", "prob": 3 },
