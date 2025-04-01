@@ -34,14 +34,12 @@ struct diag_value {
     // *INDENT-OFF* astyle formatting isn't stable here
     template <typename D,
               std::enable_if_t<!is_variant_type<D, impl_t>{} && std::is_arithmetic_v<D>, int> = 0>
-    // NOLINTNEXTLINE(google-explicit-constructor)
-    diag_value( D d ) : data( std::in_place_type<double>, std::forward<D>( d ) ) {}
+    explicit diag_value( D d ) : data( std::in_place_type<double>, std::forward<D>( d ) ) {}
 
     template <typename S,
               std::enable_if_t<
                   !is_variant_type<S, impl_t>{} && std::is_convertible_v<S, std::string>, int> = 0>
-    // NOLINTNEXTLINE(google-explicit-constructor)
-    diag_value( S s ) : data( std::in_place_type<std::string>, std::forward<S>( s ) ) {}
+    explicit diag_value( S s ) : data( std::in_place_type<std::string>, std::forward<S>( s ) ) {}
 
     template <class U, std::enable_if_t<is_variant_type<U, impl_t>{}, int> = 0>
     explicit diag_value( U u ) : data( std::in_place_type<U>, std::forward<U>( u ) ) {}
