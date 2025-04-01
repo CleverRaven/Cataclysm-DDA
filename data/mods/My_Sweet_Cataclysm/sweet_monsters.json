@@ -644,6 +644,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "dodge": 2,
     "mountable_weight_ratio": 0.3,
+    "harvest": "gummy_bear",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ],
     "petfood": {
       "food": [ "apple_gummy" ],
