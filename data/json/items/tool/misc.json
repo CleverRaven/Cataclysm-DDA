@@ -673,6 +673,7 @@
     "price": "8 USD",
     "price_postapoc": "1 USD",
     "material": [ "aluminum" ],
+    "looks_like": "spray_can",
     "symbol": ";",
     "color": "yellow",
     "charges_per_use": 1,
