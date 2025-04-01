@@ -739,7 +739,7 @@
     "type": "TOOL",
     "name": { "str": "smart speaker (on)", "str_pl": "smart speakers (on)" },
     "description": "A smart speaker which can be deactivated remotely.  Currently it is turned on.",
-    "power_draw": "1321 mW",
+    "power_draw": "10 W",
     "revert_to": "smart_speaker",
     "use_action": [
       {
