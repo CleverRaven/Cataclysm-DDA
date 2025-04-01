@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MATH_PARSER_DIAG_VALUE_H
 #define CATA_SRC_MATH_PARSER_DIAG_VALUE_H
 
+#include <memory>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -28,7 +29,11 @@ using is_variant_type = is_one_of<T, V>;
 // *INDENT-ON*
 
 struct diag_value {
-    using impl_t = std::variant<std::monostate, double, std::string, diag_array, tripoint_abs_ms>;
+    struct legacy_value;
+    using impl_t = std::variant <
+                   std::monostate, double, std::string,
+                   diag_array, tripoint_abs_ms, legacy_value
+                   >;
 
     diag_value() = default;
 
@@ -56,20 +61,25 @@ struct diag_value {
     bool is_tripoint() const;
     bool is_empty() const;
 
-    // These functions can be used at parse time if the parameter needs
-    // to be of exactly this type with no conversion.
-    // These throw a math::syntax_error for type mismatches
+    // These functions show a debugmsg on type mismatches
     double dbl() const;
     std::string const &str() const;
     diag_array const &array() const;
     tripoint_abs_ms const &tripoint() const;
 
-    // Evaluate and possibly convert the parameter to this type.
-    // These throw a math::runtime_error for failed conversions
+    // These functions throw a math::runtime_error on type mismatches
+    // and are meant to be used only inside EOC and math code
     double dbl( const_dialogue const &d ) const;
     std::string const &str( const_dialogue const &d ) const;
-    diag_array const &array( const_dialogue const &/* d */ ) const;
+    diag_array const &array( const_dialogue const &d ) const;
     tripoint_abs_ms const &tripoint( const_dialogue const &d ) const;
+
+    struct legacy_value {
+        std::string val;
+        std::shared_ptr<diag_value::impl_t> mutable converted;
+
+        explicit legacy_value( std::string in_ ) : val( std::move( in_ ) ) {}
+    };
 
     impl_t data;
 };
