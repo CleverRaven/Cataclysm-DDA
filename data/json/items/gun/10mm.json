@@ -251,7 +251,7 @@
     "looks_like": "glock_19",
     "type": "GUN",
     "name": { "str": "XD-M pistol" },
-    "description": "A semi-automatic pistol chambered in 10mm and accepting XD-M magazines",
+    "description": "A semi-automatic pistol chambered in 10mm and accepting XD-M magazines.",
     "variant_type": "gun",
     "variants": [
       {

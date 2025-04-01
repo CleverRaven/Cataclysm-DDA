@@ -967,7 +967,7 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "wearable professional camera" },
-    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck",
+    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck.",
     "price": "8 kUSD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "steel" ],

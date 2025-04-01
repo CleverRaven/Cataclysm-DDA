@@ -236,7 +236,7 @@
     "type": "MONSTER",
     "name": { "str": "spearcat hunter" },
     "copy-from": "mon_zougar",
-    "description": "This undead cougar's eyes ooze with dark, oily fluid, and its fur is torn, revealing deep, festering wounds.  Its claws and teeth are unnaturally long, and sharpened into dangerous looking spikes",
+    "description": "This undead cougar's eyes ooze with dark, oily fluid, and its fur is torn, revealing deep, festering wounds.  Its claws and teeth are unnaturally long, and sharpened into dangerous looking spikes.",
     "hp": 200,
     "speed": 190,
     "attack_cost": 190,

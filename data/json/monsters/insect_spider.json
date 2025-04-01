@@ -1808,7 +1808,7 @@
     "id": "mon_spider_web_s",
     "type": "MONSTER",
     "name": { "str": "web spiderling" },
-    "description": "A juvenile giant grass spider, about the size of a beer bottle.  Too young to be venomous, or to walk proficiently for that matter",
+    "description": "A juvenile giant grass spider, about the size of a beer bottle.  Too young to be venomous, or to walk proficiently for that matter.",
     "copy-from": "mon_larva_abstract",
     "default_faction": "spider_web",
     "bodytype": "spider",

@@ -2016,7 +2016,7 @@
     "color": "dark_gray",
     "move_cost_mod": 4,
     "coverage": 40,
-    "description": "An area of heaped large rocks, not easily traversable",
+    "description": "An area of heaped large rocks, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
     "deconstruct": { "items": [ { "item": "rock_large", "count": 166 } ] },

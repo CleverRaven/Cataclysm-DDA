@@ -51,7 +51,7 @@
       "str": "The New World Translation of the Holy Scriptures",
       "str_pl": "copies of the New World Translation of the Holy Scriptures"
     },
-    "description": "An English translation of the Bible published by the Watch Tower Bible and Tract Society, used and distributed by Jehovah's Witnesses",
+    "description": "An English translation of the Bible published by the Watch Tower Bible and Tract Society, used and distributed by Jehovah's Witnesses.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -534,7 +534,7 @@
     "id": "holybook_pana",
     "type": "BOOK",
     "name": { "str": "Panaturan", "str_pl": "copies of the Panaturan" },
-    "description": "A extremely rare English translation of the Panaturan, the Holy Scripture of the Kaharingan religion.  It is a guide for its adherents and followers, providing them with spiritual teachings, moral lessons, and principles to live by",
+    "description": "A extremely rare English translation of the Panaturan, the Holy Scripture of the Kaharingan religion.  It is a guide for its adherents and followers, providing them with spiritual teachings, moral lessons, and principles to live by.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1299,7 +1299,7 @@
     "id": "holybook_romancult",
     "type": "BOOK",
     "name": { "str": "Res Gestae Divi Augusti", "str_pl": "copies of the Res Gestae Divi Augusti" },
-    "description": "A rare, paperback English translation of the Res Gestae Divi Augusti, or 'Deeds of the Divine Augustus', a inscription commissioned by the Roman Emperor Augustus himself.  It is a list of his accomplishments and claims to divine status, emphasizing his role in the Roman Imperial Cult.  This inscription provides insight into the religious beliefs and practices surrounding the emperor during these stages of the Roman Imperial Cult",
+    "description": "A rare, paperback English translation of the Res Gestae Divi Augusti, or 'Deeds of the Divine Augustus', a inscription commissioned by the Roman Emperor Augustus himself.  It is a list of his accomplishments and claims to divine status, emphasizing his role in the Roman Imperial Cult.  This inscription provides insight into the religious beliefs and practices surrounding the emperor during these stages of the Roman Imperial Cult.",
     "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1594,7 +1594,7 @@
           "str": "Talmud, Vol. 14, Tractate Shabbat (Part 1)",
           "str_pl": "copies of the Talmud, Vol. 14, Tractate Shabbat (Part 1)"
         },
-        "description": "This is volume 14 of 51, containing the first part of Tractate Shabbat.  It discusses the thirty-nine types of prohibited labor",
+        "description": "This is volume 14 of 51, containing the first part of Tractate Shabbat.  It discusses the thirty-nine types of prohibited labor.",
         "append": true
       },
       {
