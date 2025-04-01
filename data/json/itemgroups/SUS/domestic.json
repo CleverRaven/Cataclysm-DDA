@@ -593,7 +593,7 @@
             "item": "cocoa_powder",
             "count": [ 5, 20 ],
             "container-item": "null",
-            "entry-wrapper": "jar_glass_sealed",
+            "entry-wrapper": "jar_3l_glass_sealed",
             "prob": 60,
             "sealed": false
           },
@@ -601,7 +601,7 @@
             "item": "cocoa_powder_milk",
             "count": [ 5, 20 ],
             "container-item": "null",
-            "entry-wrapper": "jar_glass_sealed",
+            "entry-wrapper": "jar_3l_glass_sealed",
             "prob": 60,
             "sealed": false
           },
