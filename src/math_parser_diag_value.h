@@ -74,6 +74,8 @@ struct diag_value {
     diag_array const &array( const_dialogue const &d ) const;
     tripoint_abs_ms const &tripoint( const_dialogue const &d ) const;
 
+    std::string to_string( bool i18n = false ) const;
+
     struct legacy_value {
         std::string val;
         std::shared_ptr<diag_value::impl_t> mutable converted;
