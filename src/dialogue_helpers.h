@@ -87,8 +87,7 @@ struct talk_effect_fun_t {
 };
 
 std::string read_var_value( const var_info &info, const_dialogue const &d );
-std::optional<std::string> maybe_read_var_value(
-    const var_info &info, const_dialogue const &d, int call_depth = 0 );
+std::optional<std::string> maybe_read_var_value( const var_info &info, const_dialogue const &d );
 
 var_info process_variable( const std::string &type );
 

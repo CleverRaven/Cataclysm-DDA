@@ -59,7 +59,7 @@ tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dia
         bool is_npc );
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
-                      const std::string &value, int call_depth = 0 );
+                      const std::string &value );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value );
 void write_var_value( var_type type, const std::string &name, const_dialogue const &d,

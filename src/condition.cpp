@@ -431,7 +431,7 @@ var_info read_var_info( const JsonObject &jo )
 }
 
 void write_var_value( var_type type, const std::string &name, dialogue *d,
-                      const std::string &value, int call_depth )
+                      const std::string &value )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -443,13 +443,7 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
         case var_type::var:
             ret = d->get_value( name );
             vinfo = process_variable( ret );
-            if( call_depth > 1000 ) {
-                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
-                          name, vinfo.name, d->get_callstack() );
-            } else {
-                write_var_value( vinfo.type, vinfo.name, d, value,
-                                 call_depth + 1 );
-            }
+            write_var_value( vinfo.type, vinfo.name, d, value );
             break;
         case var_type::u:
             if( d->has_alpha ) {
