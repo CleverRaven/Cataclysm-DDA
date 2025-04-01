@@ -68,5 +68,22 @@
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "material": [ "junk" ],
     "vitamins": [ [ "junk_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "apple_gummy",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "gummy apple" },
+    "description": "An apple-shaped gummy. Way firmer than other gummy candy, but still nice and chewy.",
+    "weight": "100g",
+    "volume": "50ml",
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "junk" ],
+    "symbol": "o",
+    "calories": 200,
+    "vitamins": [ "junk_allergen", 1 ],
+    "fun": 10,
+    "spoils_in": "120 days"
   }
 ]
