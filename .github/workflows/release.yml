@@ -217,7 +217,7 @@ jobs:
           sudo make install
           cp ../LICENSE.txt ${{ github.workspace }}/LICENSE-SDL.txt
           sudo apt-get install libncursesw5-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+            libsdl2-mixer-dev libpulse-dev ccache gettext parallel python-is-python3
       - name: Install Emscripten (WebAssembly)
         if: matrix.wasm
         uses: mymindstorm/setup-emsdk@v13
@@ -242,12 +242,7 @@ jobs:
       - name: Create VERSION.TXT
         shell: bash
         run: |
-          cat >VERSION.txt <<EOL
-          build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
-          commit sha: ${{ github.sha }}
-          commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-          EOL
+          python3 build-scripts/version.py ARTIFACT=${{ matrix.artifact }} TIMESTAMP=${{ needs.release.outputs.timestamp }}
       - name: Compile translations (windows)
         if: runner.os == 'Windows'
         shell: msys2 {0}
