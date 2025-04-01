@@ -12,12 +12,21 @@
     "faction": "no_faction"
   },
   {
+    "type": "snippet",
+    "category": "<end_talking_bye_portal_person>",
+    "text": [
+      "<npcname> makes a simple arm gesture, ending the conversation.",
+      "<npcname> says something, but you don't understand.  You can understand only that they don't want to talk now."
+    ]
+  },
+  {
     "type": "npc_class",
     "id": "NC_PORTAL_PERSON",
     "name": { "str": "No class" },
     "common": false,
     "job_description": "I'm from another world.",
     "traits": [ { "group": "Appearance_Latin" } ],
+    "bye_message_override": "<end_talking_bye_portal_person>",
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ]
