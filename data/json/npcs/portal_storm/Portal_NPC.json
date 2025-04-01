@@ -14,10 +14,7 @@
   {
     "type": "snippet",
     "category": "<end_talking_bye_portal_person>",
-    "text": [
-      "<npcname> makes a simple arm gesture, ending the conversation.",
-      "<npcname> says something, but you don't understand.  You can understand only that they don't want to talk now."
-    ]
+    "text": [ "Pfum." ]
   },
   {
     "type": "npc_class",
