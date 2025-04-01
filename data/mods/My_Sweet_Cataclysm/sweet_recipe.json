@@ -43,5 +43,26 @@
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "milk_choc", 1 ] ] ],
     "charges": 4
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "apple_gummy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "60 m",
+    "batch_time_factors": [ 20, 1 ],
+    "book_learn": [ [ "sugarkin_flyer", 1 ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
+    "components": [
+      [ [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
+      [ [ "beet_syrup", 1 ] ],
+      [ [ "gelatin_powder", 25 ], [ "gelatin_fresh", 2 ] ],
+      [ [ "sugar", 50 ] ],
+      [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
+    ]
   }
 ]

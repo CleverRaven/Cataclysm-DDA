@@ -82,8 +82,10 @@
     "material": [ "junk" ],
     "symbol": "o",
     "calories": 200,
-    "vitamins": [ "junk_allergen", 1 ],
+    "vitamins": [ [ "junk_allergen", 1 ] ],
     "fun": 10,
-    "spoils_in": "120 days"
+    "spoils_in": "120 days",
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "apple_gummy" ]
   }
 ]
