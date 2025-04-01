@@ -720,17 +720,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 33 } } ],
-    "flags": [
-      "NO_UNLOAD",
-      "NO_RELOAD",
-      "ALLOWS_REMOTE_USE",
-      "RADIO_ACTIVATION",
-      "RADIO_MODABLE",
-      "RADIO_INVOKE_PROC",
-      "RADIOSIGNAL_3",
-      "WATER_BREAK",
-      "ELECTRONIC"
-    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "RADIOSIGNAL_3", "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -752,16 +742,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
     ],
     "tick_action": [ "NOISE_EMITTER_ON" ],
-    "flags": [
-      "NO_UNLOAD",
-      "NO_RELOAD",
-      "ALLOWS_REMOTE_USE",
-      "RADIO_ACTIVATION",
-      "RADIO_MODABLE",
-      "RADIO_INVOKE_PROC",
-      "RADIOSIGNAL_3",
-      "TRADER_AVOID"
-    ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "RADIOSIGNAL_3", "TRADER_AVOID" ]
   },
   {
     "id": "emf_detector",
