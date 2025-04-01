@@ -1204,7 +1204,7 @@
     "id": "VAMPIRE_BLOOD_FOR_POTENCY",
     "name": { "str": "Boiling Crimson Cauldron" },
     "points": 0,
-    "description": "The powers of vampires come through their sustenance of blood, and you now know how to use this at your advantage.  You can increase your need for blood to boost your vammpiric potency until you decide to stop the effect or run out of blood.",
+    "description": "The powers of vampires come through their sustenance of blood, and you now know how to use this at your advantage.  You can increase your need for blood to boost your vampiric potency until you decide to stop the effect or run out of blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
@@ -1272,7 +1272,7 @@
   {
     "type": "mutation",
     "id": "ANATHEMA_WEAKNESS_SUN_BURN",
-    "name": { "str": "Anathena's Weakness: Slain by the Sun" },
+    "name": { "str": "Anathema's Weakness: Slain by the Sun" },
     "points": -1,
     "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  While under the sun, you will take constant damage no matter how covered you are.",
     "starting_trait": false,
@@ -1282,7 +1282,7 @@
   {
     "type": "mutation",
     "id": "ANATHEMA_WEAKNESS_MIND_CHAOS",
-    "name": { "str": "Anathena's Weakness: Blood-Muddled Mind" },
+    "name": { "str": "Anathema's Weakness: Blood-Muddled Mind" },
     "points": -1,
     "description": "Your constant consumption of vampire blood has permanently destabilized your mind, and it will only grow worse with each new vampire drained.  Each time you drink vampire blood, you have a growing chance to gain a new mental affliction.",
     "starting_trait": false,
@@ -1292,7 +1292,7 @@
   {
     "type": "mutation",
     "id": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD",
-    "name": { "str": "Anathena's Weakness: Apex's Thirst" },
+    "name": { "str": "Anathema's Weakness: Apex's Thirst" },
     "points": -1,
     "description": "Drinking all this vampire blood has left your body yearning for more.  Going too long without drinking vampire blood will progressively increase your thirst for blood with each passing day until you starve or drink vampire blood.",
     "starting_trait": false,
