@@ -692,6 +692,79 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
+    "id": "smart_speaker",
+    "type": "TOOL",
+    "name": { "str": "smart speaker (off)", "str_pl": "smart speakers (off)" },
+    "description": "A smart speaker that can be activated remotely.",
+    "//": "https://www.amazon.com/Sonos-Era-100-Wireless-Speaker/dp/B0BW34LCB8?th=1&asc_source=&asc_campaign=5a9720a9086151385ac8524e%7CqFvMDHsJtJFBwFivU2P7wp&asc_refurl=https%3A%2F%2Fwww.wired.com%2Fstory%2Fbest-smart-speakers&tag=w050b-20&ascsubtag=5a9720a9086151385ac8524e",
+    "weight": "2020 g",
+    "volume": "1 L",
+    "price": "147 USD",
+    "price_postapoc": "1 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "&",
+    "color": "blue",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "target": "smart_speaker_on",
+        "msg": "You turn the smart speaker on.",
+		"menu_text": "Turn on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The smart speaker batteries are dead.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 33 } } ],
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "ALLOWS_REMOTE_USE",
+      "RADIO_ACTIVATION",
+      "RADIO_MODABLE",
+      "RADIO_INVOKE_PROC",
+      "RADIOSIGNAL_1",
+      "WATER_BREAK",
+      "ELECTRONIC"
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "smart_speaker_on",
+    "copy-from": "smart_speaker",
+    "type": "TOOL",
+    "name": { "str": "smart speaker (on)", "str_pl": "smart speakers (on)" },
+    "description": "A smart speaker which can be deactivated remotely.  Currently it is turned on.",
+    "power_draw": "1321 mW",
+    "revert_to": "smart_speaker",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "smart_speaker",
+        "msg": "Your smart speaker turned off.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
+    ],
+    "tick_action": [ "NOISE_EMITTER_ON" ],
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "ALLOWS_REMOTE_USE",
+      "RADIO_ACTIVATION",
+      "RADIO_MODABLE",
+      "RADIO_INVOKE_PROC",
+      "RADIOSIGNAL_1",
+      "STEREO",
+      "TRADER_AVOID"
+    ]
+  },
+  {
     "id": "emf_detector",
     "//": "Based off the TRIFIELD EMF Meter Model TF2.  Supposed to use 9volt, but uses medium battery instead",
     "type": "TOOL",
