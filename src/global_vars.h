@@ -36,6 +36,10 @@ class global_variables
             return ret ? *ret : null_val;
         }
 
+        impl_t &get_global_values() {
+            return global_values;
+        }
+
         impl_t const &get_global_values() const {
             return global_values;
         }
