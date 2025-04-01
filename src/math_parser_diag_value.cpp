@@ -89,6 +89,53 @@ constexpr R _diag_value_helper( diag_value::impl_t const &data, const_dialogue c
 
 } // namespace
 
+std::string diag_value::to_string( bool i18n ) const
+{
+    return std::visit( overloaded{
+        []( std::monostate const &/* std */ )
+        {
+            return std::string{};
+        },
+        [i18n]( double v )
+        {
+            std::ostringstream conv;
+            if( !i18n ) {
+                conv.imbue( std::locale::classic() );
+            }
+            conv << v;
+            return conv.str();
+        },
+        [i18n]( std::string const & v )
+        {
+            if( i18n ) {
+                // FIXME: is this the correct place to translate?
+                return to_translation( v ).translated();
+            }
+            return v;
+        },
+        []( diag_array const & v )
+        {
+            std::string ret = "[";
+            for( diag_value const &e : v ) {
+                ret += e.to_string();
+                ret += ",";
+            }
+            ret += "]";
+            return ret;
+        },
+        []( tripoint_abs_ms const & v )
+        {
+            return v.to_string();
+        },
+        []( legacy_value const & v )
+        {
+            return v.val;
+        },
+    },
+    data );
+
+}
+
 bool diag_value::is_dbl() const
 {
     return std::holds_alternative<double>( data );
