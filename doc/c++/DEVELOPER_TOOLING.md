@@ -113,12 +113,7 @@ here](https://apt.llvm.org/) to your `sources.list`, install the needed packages
 libclang-18-dev llvm-18-dev llvm-18-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
-You can use the automated install script instead:
-```bash
-wget https://apt.llvm.org/llvm.sh
-chmod +x llvm.sh
-sudo ./llvm.sh 18
-```
+[apt.llvm.org](apt.llvm.org) also has an automated install script.
 
 #### Other Linux distributions
 
