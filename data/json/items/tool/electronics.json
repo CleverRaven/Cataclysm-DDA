@@ -853,7 +853,7 @@
     "id": "smart_phone_locked",
     "copy-from": "smart_phone",
     "type": "TOOL",
-    "name": { "str": "smartphone (locked)" },
+    "name": { "str": "smartphone (locked)", "str_pl": "smartphones (locked)" },
     "description": "A popular, fancy smartphone.  Sadly for you, its previous user used its security features, rendering you unable to use most of its qualities.  You are still able to check the time and use a flashlight.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
     "etransfer_rate": "0 MB",
     "e_port": "",
