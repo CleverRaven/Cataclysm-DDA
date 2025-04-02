@@ -12115,6 +12115,10 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::empathizes_with( const species_id &species ) const
 {
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
     // Negative empathy list.  Takes precedence over positive traits or human
     for( const trait_id &mut : get_functioning_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
