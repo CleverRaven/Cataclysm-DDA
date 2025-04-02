@@ -228,7 +228,7 @@
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "material": "silver", "worn_only": true }, { "material": "gold", "worn_only": true } ],
-        "true_eocs": [ { "id": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP_TRUE", "effect": [ { "math": [ "_shiny_count == 1" ] } ] } ]
+        "true_eocs": [ { "id": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP_TRUE", "effect": [ { "math": [ "_shiny_count += 1" ] } ] } ]
       },
       {
         "if": { "math": [ "_shiny_count < 6" ] },
