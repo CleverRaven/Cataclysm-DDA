@@ -237,7 +237,7 @@
       { "item": "decoy_elfa", "prob": 5 },
       { "item": "fuel_tin", "prob": 4 },
       { "item": "spray_can", "prob": 2 },
-      { "item": "insecticide_spray_can", "prob": 10, "charges": [ 0, 2 ] },
+      { "item": "insecticide_spray_can", "prob": 5, "charges": [ 0, 2 ] },
       { "item": "jar_glass_sealed", "prob": 5 },
       { "item": "jar_3l_glass_sealed", "prob": 4 },
       { "item": "handflare_dead", "prob": 3 },
