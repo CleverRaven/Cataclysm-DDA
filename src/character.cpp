@@ -12158,7 +12158,7 @@ bool Character::empathizes_with( const mtype_id &monster ) const
         }
     }
     // used since this method is called on corpse ids, which are null for npc corpses.
-    if( monster == mtype_id::NULL_ID() && empathizes_with( species_id("HUMAN") ) ) {
+    if( monster == mtype_id::NULL_ID() && empathizes_with( species_id( "HUMAN" ) ) ) {
         return true;
     }
     return false;
