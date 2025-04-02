@@ -202,6 +202,7 @@
     "name": { "str_sp": "churning vampire blood mixture" },
     "description": "Vampire blood mixed with blood none would consume and different toxic substances.  The hostile environment is already driving the vampire blood to devour itself.  It will be ready to consume in a few days.",
     "material": [ "vampire_blood" ],
+    "phase": "liquid",
     "weight": "6360 g",
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
