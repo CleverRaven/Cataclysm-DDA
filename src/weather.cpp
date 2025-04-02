@@ -21,7 +21,6 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
