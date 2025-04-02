@@ -201,14 +201,14 @@ constexpr void _validate_operand( thingie const &thing, std::string_view symbol 
     }
 }
 
-// void _validate_unused_kwargs( diag_kwargs const &kwargs )
-// {
-//     for( diag_kwargs::impl_t::value_type const &v : kwargs.kwargs ) {
-//         if( !v.second.was_used() ) {
-//             throw math::syntax_error( R"(Unused kwarg "%s")", v.first );
-//         }
-//     }
-// }
+void _validate_unused_kwargs( pdiag_func df, std::map<std::string, thingie> const &kwargs )
+{
+    for( auto const &v : kwargs ) {
+        if( std::find( df->kwargs.begin(), df->kwargs.end(), v.first ) == df->kwargs.end() ) {
+            throw math::syntax_error( R"(Unused kwarg "%s")", v.first );
+        }
+    }
+}
 
 diag_value _get_diag_value( const_dialogue const &d, thingie const &param )
 {
@@ -727,6 +727,7 @@ void math_exp::math_exp_impl::new_func()
         std::visit( overloaded{
             [&params, &kwargs, this]( scoped_diag_proto const & v )
             {
+                _validate_unused_kwargs( v.df, kwargs );
                 output.emplace( std::in_place_type_t<func_diag>(), v.df->fe, v.df->fa, v.scope,
                                 params, kwargs );
             },

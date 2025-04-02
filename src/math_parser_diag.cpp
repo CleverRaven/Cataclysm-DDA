@@ -1356,9 +1356,7 @@ double _test_func( const_dialogue const &d, std::vector<diag_value> const &param
 {
     std::vector<diag_value> all_params( params );
     for( diag_kwargs::impl_t::value_type const &v : kwargs.kwargs ) {
-        if( v.first != "test_unused_kwarg" ) {
-            all_params.emplace_back( v.second );
-        }
+        all_params.emplace_back( v.second );
     }
     double ret = 0;
     for( diag_value const &v : all_params ) {
@@ -1482,8 +1480,6 @@ double calories_eval( const_dialogue const &d, char scope,
                       std::vector<diag_value> const & /* params */, diag_kwargs const &kwargs )
 {
     diag_value format_value = kwargs.kwarg_or( "format", "raw" );
-    // dummy kwarg, intentionally discarded!
-    diag_value ignore_weariness_val = kwargs.kwarg_or( "dont_affect_weariness" );
 
     std::string format = format_value.str( d );
     if( format != "raw" && format != "percent" ) {
@@ -1656,74 +1652,74 @@ double climate_control_str_chill_eval( const_dialogue const &d, char scope,
     return d.const_actor( is_beta( scope ) )->climate_control_str_chill();
 }
 
-// { "name", { "scopes", num_args, eval function, assign function } }
+// { "name", { "scopes", num_args, eval function, assign function, { allowed kwargs, ... } } }
 // kwargs are not included in num_args
 std::map<std::string_view, dialogue_func> const dialogue_funcs{
-    { "_test_diag_", { "g", -1, test_diag } },
-    { "_test_str_len_", { "g", -1, test_str_len } },
+    { "_test_diag_", { "g", -1, test_diag, {}, { "1", "2", "3", "blorg" } } },
+    { "_test_str_len_", { "g", -1, test_str_len, {}, { "1", "2", "3" } } },
     { "addiction_intensity", { "un", 1, addiction_intensity_eval } },
     { "addiction_turns", { "un", 1, addiction_turns_eval, addiction_turns_ass } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "speed", { "un", 0, move_speed_eval } },
-    { "characters_nearby", { "ung", 0, characters_nearby_eval } },
+    { "characters_nearby", { "ung", 0, characters_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
     { "degradation", { "un", 0, degradation_eval, degradation_ass } },
     { "distance", { "g", 2, distance_eval } },
-    { "effect_intensity", { "un", 1, effect_intensity_eval } },
-    { "effect_duration", { "un", 1, effect_duration_eval } },
+    { "effect_intensity", { "un", 1, effect_intensity_eval, {}, { "bodypart" } } },
+    { "effect_duration", { "un", 1, effect_duration_eval, {}, { "bodypart", "unit" } } },
     { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_eval, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_eval, faction_trust_ass } },
-    { "faction_food_supply", { "g", 1, faction_food_supply_eval, faction_food_supply_ass } },
+    { "faction_food_supply", { "g", 1, faction_food_supply_eval, faction_food_supply_ass, { "vitamin" } } },
     { "faction_wealth", { "g", 1, faction_wealth_eval, faction_wealth_ass } },
     { "faction_power", { "g", 1, faction_power_eval, faction_power_ass } },
     { "faction_size", { "g", 1, faction_size_eval, faction_size_ass } },
-    { "field_strength", { "ung", 1, field_strength_eval } },
+    { "field_strength", { "ung", 1, field_strength_eval, {}, { "location" } } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
-    { "sum_traits_of_category", { "un", 1, sum_traits_of_category_eval } },
-    { "sum_traits_of_category_char_has", { "un", 1, sum_traits_of_category_char_has_eval } },
+    { "sum_traits_of_category", { "un", 1, sum_traits_of_category_eval, {}, { "type" } } },
+    { "sum_traits_of_category_char_has", { "un", 1, sum_traits_of_category_char_has_eval, {}, { "type" } } },
     { "has_proficiency", { "un", 1, knows_proficiency_eval } },
     { "has_var", { "g", 1, has_var_eval } },
     { "hp", { "un", 1, hp_eval, hp_ass } },
     { "hp_max", { "un", 1, hp_max_eval } },
     { "item_count", { "un", 1, item_count_eval } },
-    { "item_rad", { "un", 1, item_rad_eval } },
+    { "item_rad", { "un", 1, item_rad_eval, {}, { "aggregate" } } },
     { "melee_damage", { "un", 1, melee_damage_eval } },
     { "mod_load_order", { "g", 1, mod_order_eval } },
-    { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
-    { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
-    { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },
+    { "monsters_nearby", { "ung", -1, monsters_nearby_eval, {}, { "radius", "attitude", "location" } } },
+    { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval, {}, { "radius", "attitude", "location" } } },
+    { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
-    { "pain", { "un", 0, pain_eval, pain_ass } },
+    { "pain", { "un", 0, pain_eval, pain_ass, { "type" } } },
     { "school_level", { "un", 1, school_level_eval } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },
-    { "spellcasting_adjustment", { "u", 1, nullptr, spellcasting_adjustment_ass } },
-    { "get_calories_daily", { "g", 0, get_daily_calories } },
-    { "quality", { "un", 1, quality_eval } },
+    { "spellcasting_adjustment", { "u", 1, {}, spellcasting_adjustment_ass, { "mod", "school", "spell", "flag_whitelist", "flag_blacklist" } } },
+    { "get_calories_daily", { "g", 0, get_daily_calories, {}, { "type", "day" } } },
+    { "quality", { "un", 1, quality_eval, {}, { "strict" } } },
     { "skill", { "un", 1, skill_eval, skill_ass } },
-    { "skill_exp", { "un", 1, skill_exp_eval, skill_exp_ass } },
-    { "spell_count", { "un", 0, spell_count_eval } },
+    { "skill_exp", { "un", 1, skill_exp_eval, skill_exp_ass, { "format" } } },
+    { "spell_count", { "un", 0, spell_count_eval, {}, { "school" } } },
     { "spell_difficulty", { "un", 1, spell_difficulty_eval } },
     { "spell_exp", { "un", 1, spell_exp_eval, spell_exp_ass } },
     { "spell_exp_for_level", { "g", 2, spell_exp_for_level_eval } },
     { "spell_level", { "un", 1, spell_level_eval, spell_level_ass } },
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval, spell_level_adjustment_ass } },
-    { "spell_level_sum", { "un", 0, spell_sum_eval } },
-    { "time", { "g", 1, time_eval, time_ass } },
-    { "time_since", { "g", 1, time_since_eval } },
-    { "time_until", { "g", 1, time_until_eval } },
-    { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
-    { "proficiency", { "un", 1, proficiency_eval, proficiency_ass } },
+    { "spell_level_sum", { "un", 0, spell_sum_eval, {}, { "school", "level" } } },
+    { "time", { "g", 1, time_eval, time_ass, { "unit" } } },
+    { "time_since", { "g", 1, time_since_eval, {}, { "unit" } } },
+    { "time_until", { "g", 1, time_until_eval, {}, { "unit" } } },
+    { "time_until_eoc", { "g", 1, time_until_eoc_eval, {}, { "unit" } } },
+    { "proficiency", { "un", 1, proficiency_eval, proficiency_ass, { "format", "direct" } } },
     { "val", { "un", 1, u_val, u_val_ass } },
     { "npc_anger", { "un", 0, npc_anger_eval, npc_anger_ass } },
     { "npc_fear", { "un", 0, npc_fear_eval, npc_fear_ass } },
@@ -1733,7 +1729,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "value_or", { "g", 2, value_or_eval } },
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval, vitamin_ass } },
-    { "calories", { "un", 0, calories_eval, calories_ass } },
+    { "calories", { "un", 0, calories_eval, calories_ass, { "format", "dont_affect_weariness" } } },
     { "weight", { "un", 0, weight_eval } },
     { "volume", { "un", 0, volume_eval } },
     { "warmth", { "un", 1, warmth_eval } },

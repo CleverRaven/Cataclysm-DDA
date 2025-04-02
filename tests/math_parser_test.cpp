@@ -181,9 +181,9 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 6 ) );
     CHECK( testexp.parse( "_test_diag_([1,1+1,3], 'blorg': [3+1,5,6])" ) );  // array kwarg
     CHECK( testexp.eval( d ) == Approx( 21 ) );
-    CHECK( testexp.parse( "_test_str_len_(['1','2'], 'test_str_arr': ['one','two'])" ) );  // str array
+    CHECK( testexp.parse( "_test_str_len_(['1','2'], '1': ['one','two'])" ) );  // str array
     CHECK( testexp.eval( d ) == Approx( 8 ) );
-    CHECK( testexp.parse( "_test_diag_([1,2,3], 'blorg': [4,5,_test_diag_([6,7,8], 'blarg':[9])])" ) );  // yo dawg
+    CHECK( testexp.parse( "_test_diag_([1,2,3], 'blorg': [4,5,_test_diag_([6,7,8], '2':[9])])" ) );  // yo dawg
     CHECK( testexp.eval( d ) == Approx( 45 ) );
     CHECK( testexp.parse( "_test_diag_([[0,-1],[2,0],[3,4]])" ) );  // nested arrays
     CHECK( testexp.parse( "_test_diag_([[0,-1],[2,0],[3,(3+1)]])" ) );
