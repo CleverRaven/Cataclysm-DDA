@@ -1208,7 +1208,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             for( item &body : corpses ) {
                 const mtype &corpse = *body.get_mtype();
                 for( species_id species : corpse.species ) {
-                    if( you.empathizes_with( species ) ) {
+                    if( you.empathizes_with_species( species ) ) {
                         return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
                     }
                 }

@@ -234,9 +234,6 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
-static const species_id species_FERAL( "FERAL" );
-static const species_id species_HUMAN( "HUMAN" );
-
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_tree( "t_tree" );
 
@@ -484,11 +481,11 @@ static bool empathy_cannibalism_check( const Character &you, const mtype_id &mon
         return true; // NPCs dont accidentally cause player hate
     }
 
-    bool you_empathize = you.empathizes_with( monster );
+    bool you_empathize = you.empathizes_with_monster( monster );
     bool nearby_empathetic_npc = false;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with( monster ) ) {
+        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with_monster( monster ) ) {
             nearby_empathetic_npc = true;
             break;
         }
@@ -513,7 +510,7 @@ static bool empathy_cannibalism_check( const Character &you, const mtype_id &mon
     // !you_empathize && !nearby_empathetic_npc means no check.  Will likely happen for most combinations.
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with( monster ) ) {
+        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with_monster( monster ) ) {
             guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
             // massive opinion penalty
             guy.op_of_u.trust -= 5;
@@ -649,7 +646,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     // Dissections are slightly less angering than other butcher types
     if( action == butcher_type::DISSECT ) {
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
-            if( you.empathizes_with( corpse.id ) ) {
+            if( you.empathizes_with_monster( corpse.id ) ) {
                 // this is a dissection, and we are trained for dissection, so no morale penalty, anger, and lighter flavor text.
                 switch( rng( 1, 3 ) ) {
                     case 1:
@@ -667,7 +664,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
             }
         } else {
             if( empathy_cannibalism_check( you, corpse.id ) ) {
-                if( you.empathizes_with( corpse.id ) ) {
+                if( you.empathizes_with_monster( corpse.id ) ) {
                     // give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -693,7 +690,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     } else if( action != butcher_type::DISMEMBER ) {
         if( empathy_cannibalism_check( you, corpse.id ) ) {
-            if( you.empathizes_with( corpse.id ) ) {
+            if( you.empathizes_with_monster( corpse.id ) ) {
                 // give the player a random message showing their disgust and cause morale penalty.
                 switch( rng( 1, 3 ) ) {
                     case 1:

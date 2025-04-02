@@ -12113,7 +12113,7 @@ int Character::count_flag( const json_character_flag &flag ) const
            count_mabuff_flag( flag );
 }
 
-bool Character::empathizes_with( const species_id &species ) const
+bool Character::empathizes_with_species( const species_id &species ) const
 {
     if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
@@ -12129,7 +12129,7 @@ bool Character::empathizes_with( const species_id &species ) const
     }
 
     // Human empathy by default.
-    if( species == species_id( "HUMAN" ) ) {
+    if( species == species_HUMAN ) {
         return true;
     }
 
@@ -12146,19 +12146,19 @@ bool Character::empathizes_with( const species_id &species ) const
     return false;
 }
 
-bool Character::empathizes_with( const mtype_id &monster ) const
+bool Character::empathizes_with_monster( const mtype_id &monster ) const
 {
     if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
         has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
     for( species_id species : monster->species ) {
-        if( empathizes_with( species ) ) {
+        if( empathizes_with_species( species ) ) {
             return true;
         }
     }
     // used since this method is called on corpse ids, which are null for npc corpses.
-    if( monster == mtype_id::NULL_ID() && empathizes_with( species_id( "HUMAN" ) ) ) {
+    if( monster == mtype_id::NULL_ID() && empathizes_with_species( species_HUMAN ) ) {
         return true;
     }
     return false;

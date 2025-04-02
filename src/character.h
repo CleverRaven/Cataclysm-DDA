@@ -1401,9 +1401,9 @@ class Character : public Creature, public visitable
         /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
         int count_flag( const json_character_flag &flag ) const;
         /** Whether the character feels significant empathy for the given species.  HUMAN is empathized with by default */
-        bool empathizes_with( const species_id &species ) const;
+        bool empathizes_with_species( const species_id &species ) const;
         /** Whether the character feels significant empathy for the given monster.  HUMAN is empathized with by default */
-        bool empathizes_with( const mtype_id &species ) const;
+        bool empathizes_with_monster( const mtype_id &species ) const;
 
     private:
         // Cache if character has a flag on their mutations. It is cleared whenever my_mutations is modified.
