@@ -340,20 +340,19 @@ double field_strength_eval( const_dialogue const &d, char scope,
     std::optional<var_info> loc_var;
     diag_value loc_val = kwargs.kwarg_or( "location" );
 
+    tripoint_abs_ms loc;
+
     if( !loc_val.is_empty() ) {
-        loc_var = loc_val.var();
+        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("field_strength" needs either an actor scope (u/n) or a 'location' kwarg)" );
-    }
-
-    map &here = get_map();
-    tripoint_abs_ms loc;
-    if( loc_var.has_value() ) {
-        loc = get_tripoint_ms_from_var( loc_var, d, is_beta( scope ) );
     } else {
         loc = d.const_actor( is_beta( scope ) )->pos_abs();
     }
+
+    map &here = get_map();
+
     field_type_id ft = field_type_id( params[0].str( d ) );
     field_entry *fp = here.field_at( here.get_bub( loc ) ).find_field( ft );
     return fp ? fp->get_field_intensity() : 0;
@@ -439,10 +438,10 @@ double has_flag_eval( const_dialogue const &d, char scope, std::vector<diag_valu
     return actor->has_flag( jcf );
 }
 
-double has_var_eval( const_dialogue const &d, char /* scope */,
+double has_var_eval( const_dialogue const &/* d */, char /* scope */,
                      std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
-    return maybe_read_var_value( params[0].var(), d ).has_value();
+    return static_cast<double>( !params[0].is_empty() );
 }
 
 double knows_proficiency_eval( const_dialogue const &d, char scope,
@@ -523,7 +522,7 @@ void spellcasting_adjustment_ass( double val, dialogue &d, char scope,
     diag_value whitelist = kwargs.kwarg_or( "flag_whitelist" );
     diag_value blacklist = kwargs.kwarg_or( "flag_blacklist" );
 
-    diag_value spellcasting_property = params[0];
+    diag_value const &spellcasting_property = params[0];
     std::string const filter_str = filter.str( d );
     switch( spellsearch_scope ) {
         case scope_spell:
@@ -701,20 +700,15 @@ double _characters_nearby_eval( const_dialogue const &d, char scope,
     diag_value radius_val = kwargs.kwarg_or( "radius", 1000 );
     diag_value filter_val = kwargs.kwarg_or( "attitude", "any" );
     diag_value allow_hallucinations_val = kwargs.kwarg_or( "allow_hallucinations" );
-    std::optional<var_info> loc_var;
     diag_value loc_val = kwargs.kwarg_or( "location" );
+    bool const beta = is_beta( scope );
+    tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc_var = loc_val.var();
+        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
-    }
-    bool const beta = is_beta( scope );
-
-    tripoint_abs_ms loc;
-    if( loc_var.has_value() ) {
-        loc = get_tripoint_ms_from_var( loc_var, d, beta );
     } else {
         loc = d.const_actor( beta )->pos_abs();
     }
@@ -818,18 +812,13 @@ double _monsters_nearby_eval( const_dialogue const &d, char scope,
     diag_value radius_val = kwargs.kwarg_or( "radius", 1000 );
     diag_value filter_val = kwargs.kwarg_or( "attitude", "hostile" );
     diag_value loc_val = kwargs.kwarg_or( "location" );
-    std::optional<var_info> loc_var;
+    tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc_var = loc_val.var();
+        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
-    }
-
-    tripoint_abs_ms loc;
-    if( loc_var.has_value() ) {
-        loc = get_tripoint_ms_from_var( loc_var, d, is_beta( scope ) );
     } else {
         loc = d.const_actor( is_beta( scope ) )->pos_abs();
     }
@@ -1195,18 +1184,22 @@ double time_since_eval( const_dialogue const &d, char /* scope */,
 
     double ret{};
     diag_value const &val = params[0];
-    std::string const val_str = val.str( d );
-    if( val_str == "cataclysm" ) {
-        ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
-    } else if( val_str == "midnight" ) {
-        ret = to_turns<double>( time_past_midnight( calendar::turn ) );
-    } else if( val_str == "noon" ) {
-        ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
-    } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
+    if( val.is_empty() ) {
         return -1.0;
-    } else {
-        ret = to_turn<double>( calendar::turn ) - val.dbl( d );
     }
+    {
+        std::string const val_str = val.str( d );
+        if( val_str == "cataclysm" ) {
+            ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
+        } else if( val_str == "midnight" ) {
+            ret = to_turns<double>( time_past_midnight( calendar::turn ) );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
+        } else {
+            ret = to_turn<double>( calendar::turn ) - val.dbl( d );
+        }
+    }
+
     return _time_in_unit( ret, unit_val.str( d ) );
 }
 
@@ -1217,28 +1210,30 @@ double time_until_eval( const_dialogue const &d, char /* scope */,
 
     double ret{};
     diag_value const &val = params[0];
-    std::string const val_str = val.str( d );
-    if( val_str == "night_time" ) {
-        ret = to_turns<double>( night_time( calendar::turn ) - calendar::turn );
-    } else if( val_str == "daylight_time" ) {
-        ret = to_turns<double>( daylight_time( calendar::turn ) - calendar::turn );
-    } else if( val_str == "sunset" ) {
-        ret = to_turns<double>( sunset( calendar::turn ) - calendar::turn );
-    } else if( val_str == "sunrise" ) {
-        ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
-    } else if( val_str == "noon" ) {
-        ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
-    } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
+    if( val.is_empty() ) {
         return -1.0;
-    } else {
-        ret = val.dbl( d ) - to_turn<double>( calendar::turn );
     }
-    if( val_str == "night_time" || val_str == "daylight_time" || val_str == "sunset" ||
-        val_str == "sunrise" ) {
+    {
+        std::string const val_str = val.str( d );
+        if( val_str == "night_time" ) {
+            ret = to_turns<double>( night_time( calendar::turn ) - calendar::turn );
+        } else if( val_str == "daylight_time" ) {
+            ret = to_turns<double>( daylight_time( calendar::turn ) - calendar::turn );
+        } else if( val_str == "sunset" ) {
+            ret = to_turns<double>( sunset( calendar::turn ) - calendar::turn );
+        } else if( val_str == "sunrise" ) {
+            ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
+        } else {
+            ret = val.dbl( d ) - to_turn<double>( calendar::turn );
+        }
+
         if( ret < 0 ) {
             ret += to_turns<double>( 1_days );
         }
     }
+
     return _time_in_unit( ret, unit_val.str( d ) );
 }
 
@@ -1394,8 +1389,9 @@ double ugliness_eval( const_dialogue const &d, char scope,
 double value_or_eval( const_dialogue const &d, char /* scope */,
                       std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
-    if( std::optional<std::string> has = maybe_read_var_value( params[0].var(), d ); has ) {
-        return diag_value{ *has }.dbl( d );
+    diag_value const &has = params[0];
+    if( !has.is_empty() ) {
+        return has.dbl( d );
     }
     return params[1].dbl( d );
 }

@@ -223,9 +223,13 @@ diag_value _get_diag_value( const_dialogue const &d, thingie const &param )
             }
             val = diag_value{ arr };
         },
-        [&val]( var const & v )
+        [&val, &d]( var const & v )
         {
-            val = diag_value{ v.varinfo };
+            if( std::optional<std::string> ret = maybe_read_var_value( v.varinfo, d ); ret ) {
+                val = diag_value{ *ret };
+            } else {
+                val = diag_value{};
+            }
         },
         [&val, &d]( auto const & v )
         {

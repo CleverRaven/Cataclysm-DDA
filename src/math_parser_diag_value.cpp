@@ -17,8 +17,6 @@ constexpr std::string_view _str_type_of( T /* t */ )
         return "double";
     } else if constexpr( std::is_same_v<T, std::string> ) {
         return "string";
-    } else if constexpr( std::is_same_v<T, var_info> ) {
-        return "variable";
     } else if constexpr( std::is_same_v<T, diag_array> ) {
         return "array";
     }
@@ -64,7 +62,7 @@ double diag_value::dbl() const
     return _diag_value_at_parse_time<double>( data );
 }
 
-double diag_value::dbl( const_dialogue const &d ) const
+double diag_value::dbl( const_dialogue const &/* d */ ) const
 {
     return std::visit( overloaded{
         []( std::monostate const &/* std */ )
@@ -81,15 +79,6 @@ double diag_value::dbl( const_dialogue const &d ) const
                 return *ret;
             }
             throw math::runtime_error( R"(Could not convert string "%s" to double)", v );
-        },
-        [&d]( var_info const & v )
-        {
-            std::string const val = read_var_value( v, d );
-            if( std::optional<double> ret = svtod( val ); ret ) {
-                return *ret;
-            }
-            throw math::runtime_error( R"(Could not convert variable "%s" with value "%s" to double)", v.name,
-                                       val );
         },
         []( diag_array const & ) -> double
         {
@@ -109,7 +98,7 @@ std::string_view diag_value::str() const
     return _diag_value_at_parse_time<std::string, std::string_view>( data );
 }
 
-std::string diag_value::str( const_dialogue const &d ) const
+std::string diag_value::str( const_dialogue const &/* d */ ) const
 {
     return std::visit( overloaded{
         []( std::monostate const &/* std */ )
@@ -125,10 +114,6 @@ std::string diag_value::str( const_dialogue const &d ) const
         {
             return v;
         },
-        [&d]( var_info const & v )
-        {
-            return read_var_value( v, d );
-        },
         []( diag_array const & )
         {
             throw math::runtime_error( R"(Cannot directly convert array to strings)" );
@@ -136,21 +121,6 @@ std::string diag_value::str( const_dialogue const &d ) const
         },
     },
     data );
-}
-
-bool diag_value::is_var() const
-{
-    return std::holds_alternative<var_info>( data );
-}
-
-var_info diag_value::var() const
-{
-    return _diag_value_at_parse_time<var_info>( data );
-}
-
-var_info diag_value::var( const_dialogue const &/* d */ ) const
-{
-    return _diag_value_at_parse_time<var_info, var_info const &, true>( data );
 }
 
 bool diag_value::is_array() const
