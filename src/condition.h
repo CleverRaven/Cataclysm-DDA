@@ -58,6 +58,8 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       const tripoint_abs_ms &value );
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      const diag_value &value );
 std::string get_talk_varname( const JsonObject &jo, std::string_view member );
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );
