@@ -33,14 +33,18 @@ struct dialogue_func {
     using fa_t = void( * )( double val, dialogue &, char, std::vector<diag_value> const &,
                             diag_kwargs const & );
 
-    dialogue_func( std::string_view sc_, int n_, fe_t fe_, fa_t fa_ = {} )
-        : scopes( sc_ ), num_params( n_ ), fe( fe_ ), fa( fa_ )
+    using kwargs_t = std::vector<std::string_view>;
+
+    dialogue_func( std::string_view sc_, int n_, fe_t fe_, fa_t fa_ = {}, kwargs_t kw_ = {} )
+        : scopes( sc_ ), num_params( n_ ), fe( fe_ ), fa( fa_ ), kwargs( std::move( kw_ ) )
     {}
     std::string_view scopes;
     int num_params{};
 
     fe_t fe;
     fa_t fa;
+
+    kwargs_t kwargs;
 };
 using pdiag_func = dialogue_func const *;
 
