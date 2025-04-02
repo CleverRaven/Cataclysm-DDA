@@ -1556,7 +1556,7 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     CHECK( globvars.get_global_value( "alpha_name" ) == "mixin fail alpha" );
     CHECK( globvars.get_global_value( "beta_name" ) == "mixin fail beta" );
 
-    d2.set_value( "alpha_var", mon_loc.to_string() );
+    d2.set_value( "alpha_var", mon_loc );
     CHECK( effect_on_condition_run_eocs_talker_mixes_loc->activate( d2 ) );
     CHECK( globvars.get_global_value( "alpha_name" ) == zombie->get_name() );
 }

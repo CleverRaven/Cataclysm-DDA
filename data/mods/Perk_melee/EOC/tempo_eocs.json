@@ -42,7 +42,7 @@
             "id": "EOC_PERK_tempo_assault_attack",
             "condition": { "math": [ "u_assault_attacked != 1" ] },
             "effect": [
-              { "run_eocs": "EOC_PERK_MOVEMENT_ATTACK", "alpha_loc": "avatar", "beta_talker": "u" },
+              { "run_eocs": "EOC_PERK_MOVEMENT_ATTACK", "alpha_talker": "avatar", "beta_talker": "u" },
               { "math": [ "u_assault_attacked = 1" ] }
             ]
           }
