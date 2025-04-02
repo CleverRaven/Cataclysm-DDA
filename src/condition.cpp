@@ -2251,14 +2251,6 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
                                  true )->get_const_creature(),
                              crit, dodge_counter, block_counter, bl ).str() );
         };
-    } else if( mutator == "u_loc_relative" || mutator == "npc_loc_relative" ) {
-        str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
-        bool use_beta_talker = mutator == "npc_loc_relative";
-        return [target, use_beta_talker, ret_func]( const_dialogue const & d ) {
-            tripoint_abs_ms char_pos = d.const_actor( use_beta_talker )->pos_abs();
-            tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
-            return ret_func( target_pos.to_string() );
-        };
     } else if( mutator == "topic_item" ) {
         return [ret_func]( const_dialogue const & d ) {
             return ret_func( d.cur_item.str() );

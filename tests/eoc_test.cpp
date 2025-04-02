@@ -87,8 +87,6 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
-static const effect_on_condition_id
-effect_on_condition_EOC_loc_relative_test( "EOC_loc_relative_test" );
 static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
@@ -1386,38 +1384,6 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_map_test->activate( d ) );
     CHECK( globvars.get_global_value( "key_distance_loc" ) == "14" );
     CHECK( globvars.get_global_value( "key_distance_npc" ) == "10" );
-}
-
-TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
-{
-    global_variables &globvars = get_globals();
-    globvars.clear_global_values();
-    clear_avatar();
-    clear_map();
-
-    map &m = get_map();
-    g->place_player( tripoint_bub_ms::zero );
-
-    const tripoint_abs_ms start = get_avatar().pos_abs();
-    const tripoint_bub_ms tgt = m.get_bub( start + tripoint::north );
-    m.furn_set( tgt, furn_test_f_eoc );
-    m.furn( tgt )->examine( get_avatar(), tgt );
-
-    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point::east * 10;
-    npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
-    dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
-
-    CHECK( effect_on_condition_EOC_loc_relative_test->activate( d ) );
-    tripoint_abs_ms tmp_abs_a = tripoint_abs_ms( tripoint::from_string(
-                                    globvars.get_global_value( "map_test_loc_a" ) ) );
-    tripoint_abs_ms tmp_abs_b = tripoint_abs_ms( tripoint::from_string(
-                                    globvars.get_global_value( "map_test_loc_b" ) ) );
-    CHECK( m.get_bub( tmp_abs_a ) == tripoint_bub_ms( 70, 70, 0 ) );
-    CHECK( m.get_bub( tmp_abs_b ) == tripoint_bub_ms( 70, 60, 0 ) );
-
-    globvars.clear_global_values();
-    clear_avatar();
-    clear_map();
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )
