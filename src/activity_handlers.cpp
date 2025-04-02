@@ -646,11 +646,6 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    // TODO: Extract this bool into a function
-    const bool is_human = corpse.id == mtype_id::NULL_ID() ||
-                          corpse.in_species( species_HUMAN ) ||
-                          corpse.in_species( species_FERAL );
-
     // applies to all butchery actions except for dissections or dismemberment
     if( you.empathizes_with( corpse.id ) && action != butcher_type::DISSECT &&
         action != butcher_type::DISMEMBER ) {
