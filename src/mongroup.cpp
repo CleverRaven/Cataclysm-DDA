@@ -117,20 +117,6 @@ float mongroup::avg_speed() const
     return avg_speed;
 }
 
-const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id &group )
-{
-    const MonsterGroup *groupptr = &group.obj();
-    if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-        const time_duration replace_time = groupptr->monster_group_time *
-                                           get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-        while( groupptr->replace_monster_group &&
-               calendar::turn - time_point( calendar::start_of_cataclysm ) > replace_time ) {
-            groupptr = &groupptr->new_monster_group.obj();
-        }
-    }
-    return *groupptr;
-}
-
 static bool is_spawn_valid(
     const MonsterGroupEntry &entry, const time_point &sunset, const time_point &sunrise,
     const season_type season, const bool can_spawn_events )
@@ -210,7 +196,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
     const mongroup_id &group_name, int *quantity, bool *mon_found, bool is_recursive,
     bool *returned_default, bool use_pack_size )
 {
-    const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
+    const MonsterGroup &group = GetMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     //Our spawn details specify, by default, a single instance of the default monster
     std::vector<MonsterGroupResult> spawn_details;

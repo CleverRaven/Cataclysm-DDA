@@ -2762,8 +2762,8 @@ void options_manager::add_options_world_default()
 
         add( "MONSTER_UPGRADE_FACTOR", page_id,
              to_translation( "Monster evolution slowdown" ),
-             to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-             0.0, 100, 4.0, 0.01
+             to_translation( "A multiplier for the time between monster upgrades. For example a value of 2.00 would cause evolution to occur at half speed.  Set to 0.00 to turn off monster upgrades." ),
+             0.0, 100, 1.0, 0.01
            );
     } );
     add_empty_line();
