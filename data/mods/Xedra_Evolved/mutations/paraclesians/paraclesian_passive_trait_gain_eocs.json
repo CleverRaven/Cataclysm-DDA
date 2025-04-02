@@ -61,12 +61,13 @@
     "condition": { "u_has_trait": "HOMULLUS" },
     "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
     "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
         "if": {
           "or": [
             { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
             { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
-            { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
+            { "map_in_city": { "context_val": "check_loc" } }
           ]
         },
         "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },

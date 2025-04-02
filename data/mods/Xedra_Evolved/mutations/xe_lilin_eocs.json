@@ -286,8 +286,9 @@
     "required_event": "avatar_enters_omt",
     "condition": { "u_has_trait": "LILIN_TRAITS" },
     "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
-        "if": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
+        "if": { "map_in_city": { "context_val": "check_loc" } },
         "then": { "math": [ "u_lilit_is_in_civilization = 1" ] },
         "else": { "math": [ "u_lilit_is_in_civilization = 0" ] }
       }
