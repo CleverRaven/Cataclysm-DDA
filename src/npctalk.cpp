@@ -6238,7 +6238,8 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
                             d.get_context() };
 
         for( const auto &val : context ) {
-            newDialog.set_value( val.first, val.second.evaluate( d ) );
+            // FXIXME: typed variables
+            newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
         }
 
         if( dov_time ) {
@@ -6402,7 +6403,8 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         }
         if( !context.empty() ) {
             for( const auto &val : context[contextIndex] ) {
-                newDialog.set_value( val.first, val.second.evaluate( d ) );
+                // FIXME: typed variables
+                newDialog.set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
             }
         }
 
