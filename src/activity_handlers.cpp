@@ -484,64 +484,36 @@ static bool empathy_cannibalism_check( const Character &you, const mtype_id &mon
         return true; // NPCs dont accidentally cause player hate
     }
 
-    std::set<npc&> empathy_list;
     bool you_empathize = you.empathizes_with( monster );
+    bool nearby_empathetic_npc = false;
 
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with( monster ) ) {
-            empathy_list.emplace( guy );
+            nearby_empathetic_npc = true;
+            break;
         }
     }
 
-    if( you_empathize && empathy_list.size() > 0 ) {
+    if( you_empathize && nearby_empathetic_npc ) {
         if( !query_yn(
                 _( "Really desecrate the mortal remains of this being by butchering them for meat?  You feel others may take issue with your action." ) ) ) {
             return false; // player cancels
         }
-    } else if ( you_empathize && empathy_list.size() == 0 ) {
+    } else if( you_empathize && !nearby_empathetic_npc ) {
         if( !query_yn(
                 _( "Really desecrate the mortal remains of this being by butchering them for meat?" ) ) ) {
             return false; // player cancels
         }
-    } else if ( !you_empathize && empathy_list.size() > 0 ) {
+    } else if( !you_empathize && nearby_empathetic_npc ) {
         if( !query_yn(
                 _( "Really take this thing apart?  You feel others may take issue with your action." ) ) ) {
             return false; // player cancels
         }
     }
-    // !you_empathize && empathy_list.size() == 0 means no check.  Will likely happen for most combinations.
-
-    for( npc &guy : empathy_list ) {
-        if( guy.is_active() && guy.sees( here, you ) && !guy.okay_with_eating_humans() ) {
-            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
-            // massive opinion penalty
-            guy.op_of_u.trust -= 5;
-            guy.op_of_u.value -= 5;
-            guy.op_of_u.anger += 5;
-            if( guy.turned_hostile() ) {
-                guy.make_angry();
-            }
-        }
-    }
-
-    return true;
-}
-
-static bool do_cannibalism_piss_people_off( Character &you )
-{
-    const map &here = get_map();
-
-    if( !you.is_avatar() ) {
-        return true; // NPCs dont accidentally cause player hate
-    }
-
-    if( !query_yn(
-            _( "Really desecrate the mortal remains of a fellow being by butchering them for meat?" ) ) ) {
-        return false; // player cancels
-    }
+    // !you_empathize && !nearby_empathetic_npc means no check.  Will likely happen for most combinations.
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_active() && guy.sees( here, you ) && !guy.okay_with_eating_humans() ) {
+        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with( monster ) ) {
             guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
             // massive opinion penalty
             guy.op_of_u.trust -= 5;
@@ -552,6 +524,7 @@ static bool do_cannibalism_piss_people_off( Character &you )
             }
         }
     }
+
     return true;
 }
 
@@ -679,7 +652,8 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                           corpse.in_species( species_FERAL );
 
     // applies to all butchery actions except for dissections or dismemberment
-    if( you.empathizes_with( corpse.id ) && action != butcher_type::DISSECT && action != butcher_type::DISMEMBER ) {
+    if( you.empathizes_with( corpse.id ) && action != butcher_type::DISSECT &&
+        action != butcher_type::DISMEMBER ) {
         //first determine if the butcherer has the dissect_humans proficiency.
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.

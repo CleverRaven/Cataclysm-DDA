@@ -7,7 +7,7 @@
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "FERAL" ],
+    "species": [ "FERAL", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 84,

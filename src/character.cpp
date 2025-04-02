@@ -12118,20 +12118,22 @@ bool Character::empathizes_with( const species_id &species ) const
     // Negative empathy list.  Takes precedence over positive traits or human
     for( const trait_id &mut : get_functioning_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
-        if( std::find(mut_data.no_empathize_with.begin(), mut_data.no_empathize_with.end(), species ) != mut_data.no_empathize_with.end() ) {
+        if( std::find( mut_data.no_empathize_with.begin(), mut_data.no_empathize_with.end(),
+                       species ) != mut_data.no_empathize_with.end() ) {
             return false;
         }
     }
 
     // Human empathy by default.
-    if( species == species_id("HUMAN") ) {
+    if( species == species_id( "HUMAN" ) ) {
         return true;
     }
-    
+
     // positive empathy list
     for( const trait_id &mut : get_functioning_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
-        if( std::find(mut_data.empathize_with.begin(), mut_data.empathize_with.end(), species ) != mut_data.empathize_with.end() ) {
+        if( std::find( mut_data.empathize_with.begin(), mut_data.empathize_with.end(),
+                       species ) != mut_data.empathize_with.end() ) {
             return true;
         }
     }
@@ -12142,10 +12144,11 @@ bool Character::empathizes_with( const species_id &species ) const
 
 bool Character::empathizes_with( const mtype_id &monster ) const
 {
-    if( has_flag( json_flag_PSYCHOPATH ) || has_flag( json_flag_SAPIOVORE ) ) {
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
         return false;
     }
-    for( species_id species: monster->species ) {
+    for( species_id species : monster->species ) {
         if( empathizes_with( species ) ) {
             return true;
         }
