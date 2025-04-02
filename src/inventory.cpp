@@ -30,7 +30,6 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
