@@ -231,9 +231,12 @@
         "true_eocs": [ { "id": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP_TRUE", "effect": [ { "math": [ "_shiny_count == 1" ] } ] } ]
       },
       {
-        "u_add_morale": "morale_need_shiny_objects",
-        "bonus": { "math": [ "-30 + min( (_shiny_count * 5), 30)" ] },
-        "duration": "168 hours"
+        "if": { "math": [ "_shiny_count < 6" ] },
+        "then": {
+          "u_add_morale": "morale_need_shiny_objects",
+          "bonus": { "math": [ "-30 +( _shiny_count * 5)" ] },
+          "duration": "168 hours"
+        }
       }
     ]
   }
