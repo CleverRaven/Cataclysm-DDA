@@ -50,7 +50,7 @@ var_info process_variable( const std::string &type )
 }
 
 template<>
-std::string str_or_var::evaluate( const_dialogue const &d ) const
+std::string str_or_var::evaluate( const_dialogue const &d, bool convert ) const
 {
     if( function.has_value() ) {
         return function.value()( d );
@@ -61,6 +61,9 @@ std::string str_or_var::evaluate( const_dialogue const &d ) const
     if( var_val.has_value() ) {
         diag_value const *val = read_var_value( var_val.value(), d );
         if( val ) {
+            if( convert ) {
+                return val->to_string();
+            }
             return val->str();
         }
         if( default_val.has_value() ) {
@@ -73,7 +76,7 @@ std::string str_or_var::evaluate( const_dialogue const &d ) const
 }
 
 template<>
-std::string translation_or_var::evaluate( const_dialogue const &d ) const
+std::string translation_or_var::evaluate( const_dialogue const &d, bool convert ) const
 {
     if( function.has_value() ) {
         return function.value()( d ).translated();
@@ -84,6 +87,9 @@ std::string translation_or_var::evaluate( const_dialogue const &d ) const
     if( var_val.has_value() ) {
         diag_value const *val = read_var_value( var_val.value(), d );
         if( val ) {
+            if( convert ) {
+                return val->to_string( true );
+            }
             return val->str();
         }
         if( default_val.has_value() ) {
@@ -95,10 +101,10 @@ std::string translation_or_var::evaluate( const_dialogue const &d ) const
     return {};
 }
 
-std::string str_translation_or_var::evaluate( const_dialogue const &d ) const
+std::string str_translation_or_var::evaluate( const_dialogue const &d, bool convert ) const
 {
-    return std::visit( [&d]( auto &&val ) {
-        return val.evaluate( d );
+    return std::visit( [&d, convert]( auto &&val ) {
+        return val.evaluate( d, convert );
     }, val );
 }
 

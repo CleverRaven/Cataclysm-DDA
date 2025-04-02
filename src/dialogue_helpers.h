@@ -56,7 +56,7 @@ struct abstract_str_or_var {
     std::optional<var_info> var_val;
     std::optional<T> default_val;
     std::optional<std::function<T( const_dialogue const & )>> function;
-    std::string evaluate( const_dialogue const & ) const;
+    std::string evaluate( const_dialogue const &, bool convert = false ) const;
     abstract_str_or_var() = default;
     explicit abstract_str_or_var( T str ) : str_val( str ) {};
 };
@@ -66,7 +66,7 @@ using translation_or_var = abstract_str_or_var<translation>;
 
 struct str_translation_or_var {
     std::variant<str_or_var, translation_or_var> val;
-    std::string evaluate( const_dialogue const & ) const;
+    std::string evaluate( const_dialogue const &, bool convert = false ) const;
 };
 
 struct talk_effect_fun_t {
