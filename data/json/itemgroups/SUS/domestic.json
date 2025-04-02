@@ -500,7 +500,8 @@
       { "item": "chem_methanol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_washing_soda", "prob": 50, "charges": [ 1, -1 ] },
       { "item": "bleach", "prob": 75, "charges": [ 1, -1 ] },
-      { "item": "ammonia_hydroxide", "prob": 65, "charges": [ 1, -1 ] }
+      { "item": "ammonia_hydroxide", "prob": 65, "charges": [ 1, -1 ] },
+      { "item": "insecticide_spray_can", "prob": 65, "charges": [ 2, 10 ] }
     ]
   },
   {
