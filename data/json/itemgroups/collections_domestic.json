@@ -173,6 +173,7 @@
       { "item": "hygrometer", "prob": 3 },
       { "item": "barometer", "prob": 3 },
       { "item": "smart_lamp", "prob": 3, "charges": [ 0, 100 ] },
+      { "item": "smart_speaker", "prob": 3, "charges": [ 0, 100 ] },
       {
         "collection": [ { "group": "charcoal_bag_part", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ],
         "prob": 30
@@ -518,6 +519,7 @@
       { "item": "bigback", "prob": 1 },
       { "item": "petpack", "prob": 1 },
       { "item": "smart_lamp", "prob": 1 },
+      { "item": "smart_speaker", "prob": 1 },
       { "item": "runner_bag", "prob": 5 },
       { "item": "flip_flops", "prob": 35 },
       { "item": "flip_flops_exp", "prob": 5 },
@@ -808,6 +810,7 @@
       { "item": "atomic_light", "prob": 1 },
       { "item": "atomic_lamp", "prob": 1 },
       { "item": "smart_lamp", "prob": 2 },
+      { "item": "smart_speaker", "prob": 2 },
       { "item": "dog_whistle", "prob": 5 },
       { "item": "dogfood", "prob": 10, "container-item": "can_medium" },
       { "item": "catfood", "prob": 10, "container-item": "can_food" },
@@ -1141,6 +1144,7 @@
       { "group": "civilian_memory_cards", "prob": 4 },
       { "group": "civilian_usb_drives", "prob": 15 },
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
+      { "item": "smart_speaker", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
