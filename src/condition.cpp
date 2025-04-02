@@ -465,6 +465,12 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
     _write_var_value( type, name, d, value );
 }
 
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      diag_value const &value )
+{
+    _write_var_value( type, name, d, value );
+}
+
 static bodypart_id get_bp_from_str( const std::string &ctxt )
 {
     bodypart_id bid = bodypart_str_id::NULL_ID();

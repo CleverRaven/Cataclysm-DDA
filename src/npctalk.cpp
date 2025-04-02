@@ -5701,6 +5701,18 @@ talk_effect_fun_t::func f_next_weather()
     };
 }
 
+talk_effect_fun_t::func f_copy_var( const JsonObject &jo, std::string_view member,
+                                    const std::string_view /* src */ )
+{
+    var_info from = read_var_info( jo.get_member( member ) );
+    var_info to = read_var_info( jo.get_member( "target_var" ) );
+
+    return [from, to]( dialogue & d ) {
+        diag_value const *fd = read_var_value( from, d );
+        write_var_value( to.type, to.name, &d, fd ? *fd : diag_value{} );
+    };
+}
+
 talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view member,
         const std::string_view )
 {
@@ -7867,6 +7879,7 @@ parsers = {
     { "u_map_run_eocs", "npc_map_run_eocs", jarg::member, &talk_effect_fun::f_map_run_eocs },
     { "u_map_run_item_eocs", "npc_map_run_item_eocs", jarg::member, &talk_effect_fun::f_map_run_item_eocs },
     { "companion_mission", jarg::string, &talk_effect_fun::f_companion_mission },
+    { "copy_var", jarg::member, &talk_effect_fun::f_copy_var },
     { "reveal_map", jarg::object, &talk_effect_fun::f_reveal_map },
     { "reveal_route", jarg::object, &talk_effect_fun::f_reveal_route },
     { "closest_city", jarg::object, &talk_effect_fun::f_closest_city },
