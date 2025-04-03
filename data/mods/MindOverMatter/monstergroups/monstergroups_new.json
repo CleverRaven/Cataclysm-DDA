@@ -62,6 +62,18 @@
     ]
   },
   {
+    "id": "GROUP_FERAL_BIOKINETIC_VITAKINETIC",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_bio", "weight": 25 },
+      { "monster": "mon_feral_human_vita", "weight": 25 },
+      { "monster": "mon_feral_human_bio2", "weight": 8 },
+      { "monster": "mon_feral_human_vita2", "weight": 8 },
+      { "monster": "mon_feral_human_bio3", "weight": 1 },
+      { "monster": "mon_feral_human_vita3", "weight": 1 }
+    ]
+  },
+  {
     "id": "GROUP_FERAL_TELEPATH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_feral_human_teep", "weight": 25 }, { "monster": "mon_feral_human_teep2", "weight": 8 } ]
