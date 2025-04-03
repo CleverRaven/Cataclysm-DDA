@@ -26,23 +26,6 @@
     ]
   },
   {
-    "id": "dhampir_detect_vampires_spell",
-    "type": "SPELL",
-    "name": "Blood Calls to Blood",
-    "description": "Drawing on the connection of your heritage, you can sense nearby vampires or their servants.",
-    "message": "",
-    "teachable": false,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_DHAMPIR_DETECT_VAMPIRES_activated",
-    "shape": "blast",
-    "valid_targets": [ "self" ],
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
-    "skill": "deduction",
-    "spell_class": "VAMPIRE",
-    "base_casting_time": 25,
-    "difficulty": 1
-  },
-  {
     "id": "vampire_smell_nearby_blood_spell",
     "type": "SPELL",
     "name": "Scent of Blood",
