@@ -2181,8 +2181,8 @@
   "comestible_type": "MED",
   "name": { "str": "nicotine pouch" },
   "description": "A pouch containing nicotine salts.",
-  "weight": ".4 g",
-  "volume": ".8 ml",
+  "weight": "40 mg",
+  "volume": "1 ml",
   "price": "38 cent",
   "price_postapoc": "70 cent",
   "symbol": "=",
@@ -2196,7 +2196,6 @@
   "use_action": {
     "type": "consume_drug",
     "activation_message": "You put in a pouch.",
-    "effects": [ { "id": "cig", "duration": "60 m" } ],
     "stat_adjustments": { "hunger": -2 }
     },
   "variants": [
