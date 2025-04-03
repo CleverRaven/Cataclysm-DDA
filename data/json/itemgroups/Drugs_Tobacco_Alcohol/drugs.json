@@ -842,15 +842,62 @@
     "subtype": "distribution",
     "container-item": "nic_pouch_can",
     "items": [
-      { "item": "nic_pouch", "variant": "nic_pouch_basic", "prob": 20, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_mint", "prob": 15, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_peppermint", "prob": 15, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_wintergreen", "prob": 12, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_coffee", "prob": 10, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_cinnamon", "prob": 8, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_menthol", "prob": 10, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_spearmint", "prob": 5, "count": [1, 10], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_citrus", "prob": 5, "count": [1, 10], "container-item": "null" }
+      { 
+        "item": "nic_pouch", 
+        "variant": "nic_pouch_basic", 
+        "prob": 20, "count": [ 1, 14 ], 
+        "container-item": "null" },
+      { 
+        "item": "nic_pouch", 
+        "variant": "nic_pouch_mint", 
+        "prob": 15, "count": [ 1, 14 ], 
+        "container-item": "null" },
+      { 
+        "item": "nic_pouch", 
+        "variant": "nic_pouch_coffee", 
+        "prob": 10, "count": [ 1, 14 ], 
+        "container-item": "null" },
+      { 
+        "item": "nic_pouch", 
+        "variant": "nic_pouch_citrus", 
+        "prob": 5, 
+        "count": [ 1, 14 ], 
+        "container-item": "null" },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_cinnamon",
+        "prob": 8,
+        "count": [ 1, 14 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_menthol",
+        "prob": 10,
+        "count": [ 1, 14 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_spearmint",
+        "prob": 5,
+        "count": [ 1, 14 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_peppermint",
+        "prob": 15,
+        "count": [ 1, 14 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_wintergreen",
+        "prob": 12,
+        "count": [ 1, 14 ],
+        "container-item": "null"
+      }
     ]
   },
   {
@@ -859,16 +906,65 @@
     "subtype": "distribution",
     "container-item": "nic_pouch_can",
     "items": [
-      { "item": "nic_pouch", "variant": "nic_pouch_basic", "prob": 20, "count": [15, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_mint", "prob": 15, "count": [15, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_peppermint", "prob": 15, "count": [15, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_wintergreen", "prob": 12, "count": [15, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_coffee", "prob": 10, "count": [15, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_cinnamon", "prob": 8, "count": [15, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_menthol", "prob": 10, "count": [10, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_spearmint", "prob": 5, "count": [15, 15], "container-item": "null" },
-      { "item": "nic_pouch", "variant": "nic_pouch_citrus", "prob": 5, "count": [15, 15], "container-item": "null" }
+      { 
+        "item": "nic_pouch", 
+        "variant": "nic_pouch_basic", 
+        "prob": 20, "count": [ 15, 15 ], 
+        "container-item": "null" 
+      },
+      { 
+        "item": "nic_pouch", 
+        "variant": "nic_pouch_mint",
+        "prob": 15, "count": [ 15, 15 ], 
+        "container-item": "null" },
+      { 
+        "item": "nic_pouch", 
+        "variant": "nic_pouch_citrus", 
+        "prob": 5, "count": [ 15, 15 ], 
+        "container-item": "null" 
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_coffee",
+        "prob": 10,
+        "count": [ 15, 15 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_cinnamon",
+        "prob": 8,
+        "count": [ 15, 15 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_menthol",
+        "prob": 10,
+        "count": [ 15, 15 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_spearmint",
+        "prob": 5,
+        "count": [ 15, 15 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_peppermint",
+        "prob": 15,
+        "count": [ 15, 15 ],
+        "container-item": "null"
+      },
+      {
+        "item": "nic_pouch",
+        "variant": "nic_pouch_wintergreen",
+        "prob": 12,
+        "count": [ 15, 15 ],
+        "container-item": "null"
+      }
     ]
-  }
-  
+  } 
 ]

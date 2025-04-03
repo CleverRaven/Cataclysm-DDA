@@ -5054,7 +5054,7 @@
     "category": "container",
     "name": { "str": "nicotine pouch can" },
     "looks_like": "box_small",
-    "description": "TYNN 15 NICOTINE POUCHES WARNING: This product contains nicotine. Nicotine is an addictive chemical.",
+    "description": "TYNN 15 NICOTINE POUCHES WARNING: This product contains an addictive chemical, nicotine.",
     "ascii_picture": "nic_pouch_can",
     "weight": "17 g",
     "volume": "90 ml",
