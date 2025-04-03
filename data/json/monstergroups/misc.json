@@ -115,14 +115,14 @@
         "starts": "56 days"
       },
       { "monster": "mon_sludge_crawler", "weight": 50 },
-      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 2, "starts": "168 hours" },
+      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 2, "starts": "7 days" },
       { "monster": "mon_dog_thing", "weight": 20, "cost_multiplier": 2 },
       { "group": "GROUP_STRAY_DOGS", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_blank", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_kreck", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_gracke", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_hunting_horror", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 3, "starts": "168 hours" }
+      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 3, "starts": "7 days" }
     ]
   },
   {
@@ -138,14 +138,14 @@
         "weight": 100,
         "cost_multiplier": 3,
         "pack_size": [ 1, 3 ],
-        "starts": "168 hours"
+        "starts": "7 days"
       },
       {
         "monster": "mon_zombie_survivor_elite",
         "weight": 100,
         "cost_multiplier": 4,
         "pack_size": [ 1, 3 ],
-        "starts": "720 hours"
+        "starts": "30 days"
       },
       { "monster": "mon_zombie_technician", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_shady", "weight": 200, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
@@ -178,7 +178,7 @@
         "weight": 70,
         "cost_multiplier": 2,
         "pack_size": [ 1, 2 ],
-        "starts": "2160 hours"
+        "starts": "90 days"
       },
       { "monster": "mon_sludge_crawler", "weight": 50 },
       { "monster": "mon_dog_thing", "weight": 50 },

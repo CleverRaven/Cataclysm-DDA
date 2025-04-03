@@ -163,54 +163,54 @@
     "id": "GROUP_WASP_NEST",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_wasp_small", "weight": 500, "ends": "720 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_wasp_small", "weight": 500, "ends": "30 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
         "monster": "mon_wasp_small",
         "weight": 500,
-        "starts": "720 hours",
-        "ends": "2160 hours",
+        "starts": "30 days",
+        "ends": "90 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_small_guard",
         "weight": 500,
-        "ends": "720 hours",
+        "ends": "30 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_small_guard",
         "weight": 500,
-        "starts": "720 hours",
-        "ends": "2160 hours",
+        "starts": "30 days",
+        "ends": "90 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp",
         "weight": 500,
-        "starts": "720 hours",
-        "ends": "2160 hours",
+        "starts": "30 days",
+        "ends": "90 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp",
         "weight": 500,
-        "starts": "2160 hours",
+        "starts": "90 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_guard",
         "weight": 500,
-        "starts": "720 hours",
-        "ends": "2160 hours",
+        "starts": "30 days",
+        "ends": "90 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_guard",
         "weight": 500,
-        "starts": "2160 hours",
+        "starts": "90 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
@@ -220,12 +220,12 @@
     "id": "GROUP_WASP_FORAGER",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_wasp_small", "weight": 1000, "ends": "720 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_wasp_small", "weight": 1000, "ends": "30 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
         "monster": "mon_wasp_small",
         "weight": 500,
-        "starts": "720 hours",
-        "ends": "2160 hours",
+        "starts": "30 days",
+        "ends": "90 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -249,31 +249,26 @@
     "id": "GROUP_WASP_GUARD",
     "type": "monstergroup",
     "monsters": [
-      {
-        "monster": "mon_wasp_small_guard",
-        "weight": 1000,
-        "ends": "720 hours",
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
+      { "monster": "mon_wasp_small_guard", "weight": 1000, "ends": "30 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
         "monster": "mon_wasp_small_guard",
         "weight": 500,
-        "starts": "720 hours",
-        "ends": "2160 hours",
+        "starts": "30 days",
+        "ends": "90 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_guard",
         "weight": 500,
-        "starts": "720 hours",
-        "ends": "2160 hours",
+        "starts": "30 days",
+        "ends": "90 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_wasp_guard",
         "weight": 500,
-        "starts": "2160 hours",
+        "starts": "90 days",
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }

@@ -29,7 +29,7 @@
     "monsters": [
       { "monster": "mon_flying_polyp", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_unseen_hunter", "weight": 100, "starts": "720 hours" },
+      { "monster": "mon_unseen_hunter", "weight": 100, "starts": "30 days" },
       { "monster": "mon_yugg", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire_coiling", "weight": 50, "cost_multiplier": 0 },

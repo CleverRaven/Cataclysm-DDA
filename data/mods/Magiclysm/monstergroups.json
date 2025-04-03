@@ -33,16 +33,10 @@
         "cost_multiplier": 5,
         "conditions": [ "NIGHT" ],
         "pack_size": [ 2, 4 ],
-        "starts": "3000 hours"
+        "starts": "125 days"
       },
-      { "monster": "mon_were_zolf", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ], "starts": "3200 hours" },
-      {
-        "monster": "mon_winter_wolf",
-        "weight": 4,
-        "cost_multiplier": 5,
-        "pack_size": [ 1, 3 ],
-        "starts": "3000 hours"
-      },
+      { "monster": "mon_were_zolf", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ], "starts": "133 days" },
+      { "monster": "mon_winter_wolf", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 3 ], "starts": "125 days" },
       {
         "monster": "mon_goblin_warrior",
         "weight": 10,
@@ -596,24 +590,24 @@
     "type": "monstergroup",
     "id": "GROUP_MI-GO_CAMP_OM",
     "monsters": [
-      { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 20, "starts": "840 hours" },
-      { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 20, "starts": "840 hours" }
+      { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 20, "starts": "35 days" },
+      { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 20, "starts": "35 days" }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_COMMON",
     "monsters": [
-      { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 2, "starts": "840 hours" },
-      { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 2, "starts": "840 hours" }
+      { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 2, "starts": "35 days" }
     ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_BASE_CAPTORS",
     "monsters": [
-      { "monster": "mon_mi_go_fleshwarper", "weight": 300, "cost_multiplier": 2, "starts": "840 hours" },
-      { "monster": "mon_mi_go_nethermancer", "weight": 100, "cost_multiplier": 2, "starts": "840 hours" }
+      { "monster": "mon_mi_go_fleshwarper", "weight": 300, "cost_multiplier": 2, "starts": "35 days" },
+      { "monster": "mon_mi_go_nethermancer", "weight": 100, "cost_multiplier": 2, "starts": "35 days" }
     ]
   },
   {
@@ -633,7 +627,7 @@
     "monsters": [
       { "monster": "mon_flying_polyp_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_hunting_horror_migo", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_unseen_hunter_migo", "weight": 100, "starts": "720 hours" },
+      { "monster": "mon_unseen_hunter_migo", "weight": 100, "starts": "30 days" },
       { "monster": "mon_yugg_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gelatin_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye_migo", "weight": 100, "cost_multiplier": 0 },
