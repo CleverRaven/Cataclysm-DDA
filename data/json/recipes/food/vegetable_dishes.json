@@ -246,7 +246,7 @@
     "result": "vegan_butter",
     "id_suffix": "from_butternuts",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CSC_FOOD",
+    "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 2,
