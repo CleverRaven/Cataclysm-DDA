@@ -29,7 +29,8 @@
       "SHADE_EVOLUTION_GLAND",
       "RADIOTROPHIC",
       "GRACKEN"
-    ]
+    ],
+    "types": [ "HERITAGE" ]
   },
   {
     "type": "mutation",
