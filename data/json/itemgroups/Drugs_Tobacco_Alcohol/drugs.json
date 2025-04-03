@@ -842,27 +842,10 @@
     "subtype": "distribution",
     "container-item": "nic_pouch_can",
     "items": [
-      { 
-        "item": "nic_pouch", 
-        "variant": "nic_pouch_basic", 
-        "prob": 20, "count": [ 1, 14 ], 
-        "container-item": "null" },
-      { 
-        "item": "nic_pouch", 
-        "variant": "nic_pouch_mint", 
-        "prob": 15, "count": [ 1, 14 ], 
-        "container-item": "null" },
-      { 
-        "item": "nic_pouch", 
-        "variant": "nic_pouch_coffee", 
-        "prob": 10, "count": [ 1, 14 ], 
-        "container-item": "null" },
-      { 
-        "item": "nic_pouch", 
-        "variant": "nic_pouch_citrus", 
-        "prob": 5, 
-        "count": [ 1, 14 ], 
-        "container-item": "null" },
+      { "item": "nic_pouch", "variant": "nic_pouch_basic", "prob": 20, "count": [ 1, 14 ], "container-item": "null" },
+      { "item": "nic_pouch", "variant": "nic_pouch_mint", "prob": 15, "count": [ 1, 14 ], "container-item": "null" },
+      { "item": "nic_pouch", "variant": "nic_pouch_coffee", "prob": 10, "count": [ 1, 14 ], "container-item": "null" },
+      { "item": "nic_pouch", "variant": "nic_pouch_citrus", "prob": 5, "count": [ 1, 14 ], "container-item": "null" },
       {
         "item": "nic_pouch",
         "variant": "nic_pouch_cinnamon",
