@@ -2458,5 +2458,10 @@
     "id": "jeans_red",
     "type": "MIGRATION",
     "replace": "jeans"
+  },
+  {
+    "id": "muzzle_brake_mod",
+    "type": "MIGRATION",
+    "replace": "muzzle_brake"
   }
 ]

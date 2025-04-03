@@ -196,6 +196,7 @@ cataclysm.a
 # clang tooling
 compile_commands.json
 .clangd
+clang-tidy-trace/
 
 # IDA database
 Cataclysm.i64

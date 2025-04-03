@@ -698,7 +698,7 @@
     "id": "gloves_denim_fingerless",
     "type": "ARMOR",
     "name": { "str": "pair of fingerless denim gloves", "str_pl": "pairs of fingerless denim gloves" },
-    "description": "A pair of fingerless denim gloves.  Much less cumbersome this way, but not as protective or warm",
+    "description": "A pair of fingerless denim gloves.  Much less cumbersome this way, but not as protective or warm.",
     "weight": "122 g",
     "volume": "270 ml",
     "price_postapoc": "3 USD 50 cent",

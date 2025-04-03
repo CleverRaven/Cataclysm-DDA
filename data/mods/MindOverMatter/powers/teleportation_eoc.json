@@ -61,7 +61,7 @@
         ],
         "else": [
           {
-            "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much..",
+            "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much.",
             "type": "bad"
           }
         ]

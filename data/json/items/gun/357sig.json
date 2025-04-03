@@ -13,6 +13,7 @@
     "price": "500 USD",
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p226mag_12rd_357sig" ] } ]
   },
   {
@@ -52,6 +53,7 @@
     "price": "690 USD",
     "material": [ "plastic", "steel" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p320mag_13rd_357sig" ] } ]
   }
 ]

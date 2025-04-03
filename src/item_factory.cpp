@@ -3379,7 +3379,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "healthy", healthy );
     optional( jo, was_loaded, "parasites", parasites, numeric_bound_reader<int> {0} );
     optional( jo, was_loaded, "freezing_point", freeze_point );
-    optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{1_hours} );
+    optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
     optional( jo, was_loaded, "smoking_result", smoking_result );
     optional( jo, was_loaded, "petfood", petfood );
