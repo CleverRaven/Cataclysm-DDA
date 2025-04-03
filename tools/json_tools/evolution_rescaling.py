@@ -74,18 +74,12 @@ def readWriteJson(path, jo_function):
 def evolution_rescaling(jo, changed):
     assert "type" in jo
     if jo["type"] == "MONSTER":
-        if "upgrades" in jo and not isinstance(jo["upgrades"], bool):
-            if "half_life" in jo["upgrades"]:
-                old_value = jo["upgrades"]["half_life"]
-                new_value = old_value * 4
-                jo["upgrades"]["half_life"] = new_value
-                return jo
-            if "age_grow" in jo["upgrades"]:
-                old_value = jo["upgrades"]["age_grow"]
-                new_value = old_value * 4
-                jo["upgrades"]["age_grow"] = new_value
-                return jo
-    if jo["type"] == "monstergroup":
+        if "upgrades" in jo and not isinstance(jo["upgrades"], bool) and "half_life" in jo["upgrades"]:
+            old_value = jo["upgrades"]["half_life"]
+            new_value = old_value * 4
+            jo["upgrades"]["half_life"] = new_value
+            return jo
+    elif jo["type"] == "monstergroup":
         assert "monsters" in jo
         change = False
         for monster in jo["monsters"]:
