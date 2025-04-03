@@ -442,6 +442,22 @@
     }
   },
   {
+    "id": "warp_healing_salve",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str": "healing salve" },
+    "description": "A lump of purplish goo, smooth but yielding, sculptable like clay.  If you rub it on a wound, it will immediately heal some of the damage you have taken, but the air of the lower world destabilizes its structure and it will only last a single trip to the surface.",
+    "price_postapoc": "6 USD",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "looks_like": "spiral_stone",
+    "flags": [ "UNBREAKABLE", "SINGLE_USE" ],
+    "material": [ "alien_resin" ],
+    "symbol": ",",
+    "color": "magenta",
+    "use_action": { "type": "heal", "bite": 0.01, "move_cost": 2500, "limb_power": 21, "head_power": 21, "torso_power": 21 }
+  },
+  {
     "id": "warp_waterwalking_stone",
     "type": "AMMO",
     "category": "other",

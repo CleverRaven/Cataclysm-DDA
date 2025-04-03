@@ -229,7 +229,7 @@
     "type": "BOOK",
     "name": { "str": "crime novel" },
     "copy-from": "novel_crime",
-    "description": "A story about three people in the fictional city of Los Santos: a gangster, an upper-class man, and a psychopath.  They eventually band together to pull off the biggest heist in the city's history",
+    "description": "A story about three people in the fictional city of Los Santos: a gangster, an upper-class man, and a psychopath.  They eventually band together to pull off the biggest heist in the city's history.",
     "time": "18 m",
     "relative": { "chapters": -3 }
   },

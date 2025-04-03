@@ -15,6 +15,7 @@
     "material": [ "steel", "plastic" ],
     "ammo": [ "38super" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag_10rd_38super" ] } ]
   }
 ]

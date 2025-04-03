@@ -18,7 +18,6 @@
     "dispersion": 900,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [  ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 6 }
   },
@@ -73,14 +72,13 @@
     "durability": 7,
     "clip_size": 7,
     "valid_mod_locations": [
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 2 ]
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ]
   },
@@ -109,6 +107,18 @@
     "barrel_volume": "186 ml",
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 325,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "durability": 9,
     "clip_size": 6,
@@ -144,17 +154,14 @@
     "clip_size": 9,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bayonet lug", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "loading port", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
-      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
@@ -181,16 +188,14 @@
     "price": "770 USD",
     "price_postapoc": "19 USD",
     "valid_mod_locations": [
-      [ "bayonet lug", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
-      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [
@@ -230,15 +235,15 @@
     "dispersion": 345,
     "clip_size": 8,
     "valid_mod_locations": [
-      [ "sling", 1 ],
       [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
       [ "loading port", 1 ],
-      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
-      [ "sights", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
@@ -324,6 +329,18 @@
     "price": "587 USD",
     "material": [ "steel", "plastic" ],
     "dispersion": 305,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "clip_size": 5,
     "barrel_volume": "229 ml",
@@ -355,17 +372,15 @@
     "clip_size": 4,
     "price": "538 USD",
     "barrel_volume": "0 ml",
-    "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "loading port", 1 ],
       [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
@@ -391,6 +406,18 @@
     "barrel_length": "470 mm",
     "looks_like": "remington_870",
     "dispersion": 345,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "clip_size": 7,
     "barrel_volume": "20 ml",
     "price": "338 USD",
@@ -445,14 +472,14 @@
     "durability": 7,
     "barrel_volume": "81 ml",
     "valid_mod_locations": [
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "mechanism", 2 ],
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga10mag", "saiga30mag" ] } ]
@@ -473,16 +500,6 @@
     "barrel_length": "660 mm",
     "price": "399 USD",
     "barrel_volume": "494 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "mechanism", 2 ],
-      [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
@@ -527,14 +544,14 @@
     "clip_size": 1,
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
-      [ "barre", 1 ],
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "mechanism", 1 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
@@ -564,14 +581,15 @@
     "durability": 6,
     "sight_dispersion": 500,
     "valid_mod_locations": [
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "barrel", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "underbarrel", 2 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 15 } } ]
   },
@@ -601,14 +619,14 @@
     "durability": 7,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 2 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ]
   },
@@ -638,13 +656,14 @@
     "durability": 6,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "stock mount", 1 ],
-      [ "mechanism", 2 ],
       [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
@@ -674,17 +693,15 @@
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "stock mount", 1 ],
-      [ "bayonet lug", 1 ],
-      [ "mechanism", 2 ],
       [ "barrel", 1 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "underbarrel", 1 ]
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "default_mods": [ "sword_bayonet" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
@@ -725,15 +742,14 @@
     "default_mods": [ "recoil_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
       [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
       [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
@@ -888,14 +904,14 @@
     "durability": 7,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ]
   },
@@ -932,14 +948,14 @@
     "durability": 7,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mka_1919_5", "mka_1919_10", "mka_1919_20" ] } ]
   },
@@ -970,14 +986,14 @@
     "durability": 7,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "srm_1216_mag_16" ] } ]
   },

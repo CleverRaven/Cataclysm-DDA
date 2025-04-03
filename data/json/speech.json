@@ -3677,6 +3677,30 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_nether_huntsman" ],
+    "sound": "wet clicking, turning into a drone.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nether_huntsman" ],
+    "sound": "a series of clicks, changing in pitch.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nether_huntsman" ],
+    "sound": "a visceral hissing screech!",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_nether_huntsman" ],
+    "sound": "a quiet drone.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
     "speaker": [
       "mon_feral_human_pipe",
       "mon_feral_sapien_spear",
