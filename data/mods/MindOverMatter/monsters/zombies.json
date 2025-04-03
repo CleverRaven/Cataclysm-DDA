@@ -23,7 +23,7 @@
     "vision_night": 5,
     "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "delete_nullifying_fields_monster", "hit_self": true } },
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_BLANK_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_BLANK_UPGRADE" },
     "extend": {
       "flags": [ "FIREPROOF", "ENERVATE_IMMUNE", "PHOTOKIN_MONSTER_IMMUNE", "TELEPORT_IMMUNE", "TEEP_IMMUNE", "TELEKIN_IMMUNE" ]
     },
@@ -92,7 +92,7 @@
       }
     ],
     "death_function": { "effect": { "id": "delete_nullifying_fields_monster", "hit_self": true } },
-    "upgrades": { "half_life": 30, "into": "mon_zombie_psi_void" },
+    "upgrades": { "half_life": 120, "into": "mon_zombie_psi_void" },
     "extend": {
       "flags": [ "FIREPROOF", "ENERVATE_IMMUNE", "PHOTOKIN_MONSTER_IMMUNE", "TELEPORT_IMMUNE", "TEEP_IMMUNE", "TELEKIN_IMMUNE" ]
     },
