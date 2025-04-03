@@ -37,7 +37,7 @@
         ]
       },
       {
-        "u_message": "Oods of gaining a new power are <u_val:dhampir_blood_spent_compare_value_for_powers> in <context_val:target_value>.",
+        "u_message": "Odds of gaining a new power are <u_val:dhampir_blood_spent_compare_value_for_powers> in <context_val:target_value>.",
         "type": "debug"
       },
       {
@@ -64,8 +64,7 @@
             "VAMPIRIC_STRENGTH",
             "VAMPIRIC_RESILIENCE",
             "VAMPIRE_HEIGHTENED_SENSES",
-            "VAMPIRE_SILENT_MOVE",
-            "DHAMPIR_FANGS"
+            "VAMPIRE_SILENT_MOVE"
           ],
           "type": "mutation",
           "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
@@ -75,10 +74,10 @@
               "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
               "effect": [
                 {
-                  "if": { "math": [ "(vampire_total_tier_two_traits() + rand(8) > 10 ) " ] },
+                  "if": { "math": [ "(vampire_total_tier_two_traits() + rand(8) > 11 ) " ] },
                   "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER_TIER_3" },
                   "else": {
-                    "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE", "VAMPIRIC_DODGE", "VAMPIRE_FEAR_GAZE", "VAMPIRE_SEE_HEAT" ],
+                    "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE", "VAMPIRIC_DODGE", "VAMPIRE_FEAR_GAZE", "VAMPIRE_SEE_HEAT", "DHAMPIR_FANGS" ],
                     "type": "mutation",
                     "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
                     "false_eocs": [

@@ -217,6 +217,42 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_FANGS",
+    "name": { "str": "Dhampir Fangs" },
+    "points": 1,
+    "description": "You have a set of small fangs, not as long as a true vampire's, but on the other hand, you can retract them to more easily conceal them.  Activate to extend your fangs.",
+    "types": [ "TEETH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "Your fangs lengthen.",
+    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "DHAMPIR_FANGS_ACTIVE" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_FANGS_ACTIVE",
+    "name": { "str": "Dhampir Fangs on", "//~": "NO_I18N" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 2,
+    "description": { "str": "Fang on!", "//~": "NO_I18N" },
+    "types": [ "TEETH" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 7 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease" },
     "points": 0,
