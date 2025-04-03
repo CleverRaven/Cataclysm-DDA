@@ -450,7 +450,7 @@ std::map<mongroup_id, MonsterGroup> &MonsterGroupManager::Get_all_Groups()
 
 void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
-    float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+    float mon_upgrade_factor = get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
 
     MonsterGroup g;
     int freq_total = 0;
