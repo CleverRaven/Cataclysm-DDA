@@ -2187,7 +2187,6 @@
     "price_postapoc": "70 cent",
     "symbol": "=",
     "color": "white",
-    "container": "nic_pouch_can",
     "stim": 2,
     "fun": 4,
     "addiction_potential": 30,
