@@ -473,7 +473,8 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
-static bool check_anger_empathetic_npcs_with_cannibalism( const Character &you, const mtype_id &monster )
+static bool check_anger_empathetic_npcs_with_cannibalism( const Character &you,
+        const mtype_id &monster )
 {
     const map &here = get_map();
 
