@@ -32,6 +32,7 @@
 #include "recipe.h"
 #include "relic.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translation.h"
 #include "translation_cache.h"
 #include "translations.h"
@@ -445,6 +446,26 @@ std::string vars( item const &it, unsigned int /* quantity */,
                                   item::nname( itype_id( it.get_var( "NANOFAB_ITEM_ID" ) ) ) );
         }
         ret += string_format( " (%s)", item::nname( itype_id( it.get_var( "NANOFAB_ITEM_ID" ) ) ) );
+    }
+
+    if( it.has_var( "snippet_file" ) ) {
+        std::string has_snippet = it.get_var( "snippet_file" );
+        if( has_snippet == "has" ) {
+            std::optional<translation> snippet_name =
+                SNIPPET.get_name_by_id( snippet_id( it.get_var( "local_files_simple_snippet_id" ) ) );
+            if( snippet_name ) {
+                ret += string_format( " (%s)", snippet_name->translated() );
+            }
+        } else {
+            ret += _( " (uninteresting)" );
+        }
+    }
+
+    if( it.has_var( "map_cache" ) ) {
+        std::string has_map_cache = it.get_var( "map_cache" );
+        if( has_map_cache == "read" ) {
+            ret += _( " (read)" );
+        }
     }
 
     if( it.already_used_by_player( get_avatar() ) ) {
