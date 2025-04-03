@@ -2765,7 +2765,7 @@ void options_manager::add_options_world_default()
 
         add( "EVOLUTION_INVERSE_MULTIPLIER", page_id,
              to_translation( "Monster evolution slowdown" ),
-             to_translation( "A multiplier for the time between monster upgrades. For example a value of 2.00 would cause evolution to occur at half speed.  Set to 0.00 to turn off monster upgrades." ),
+             to_translation( "A multiplier for the time between monster upgrades.  For example a value of 2.00 would cause evolution to occur at half speed.  Set to 0.00 to turn off monster upgrades." ),
              0.0, 100, 1.0, 0.01
            );
     } );
