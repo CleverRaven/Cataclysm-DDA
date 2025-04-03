@@ -3608,9 +3608,10 @@
   {
     "type": "effect_type",
     "id": "cig",
-    "name": [ 
-      "Nicotine Buzz",
-      "Nic Sick"
+    "name": [ "Nicotine Buzz", "Nic Sick" ],
+    "desc": [
+      "You had a reasonable amount of nicotine and are experiencing a pleasant buzz.",
+      "You had way to much nicotine and feel awful."
     ],
     "desc": [ "You had a reasonable amount of nicotine and are experiencing a pleasant buzz.", "You had way to much nicotine and feel awful." ],
     "max_intensity": 2,
