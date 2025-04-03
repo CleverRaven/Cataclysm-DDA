@@ -3613,7 +3613,6 @@
       "You had a reasonable amount of nicotine and are experiencing a pleasant buzz.",
       "You had way to much nicotine and feel awful."
     ],
-    "desc": [ "You had a reasonable amount of nicotine and are experiencing a pleasant buzz.", "You had way to much nicotine and feel awful." ],
     "max_intensity": 2,
     "int_dur_factor": "10 m",
     "scaling_mods": { "vomit_chance": [ 500 ] },
