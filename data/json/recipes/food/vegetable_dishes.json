@@ -236,7 +236,7 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "charges": 20,
-    "byproducts": [ "butternut_husk", 20 ],
+    "byproducts": [ [ "butternut_husk", 20 ] ],
     "qualities": [ { "id": "ANVIL", "level": 1 } ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
     "components": [ [ [ "butternut", 20 ] ] ]
