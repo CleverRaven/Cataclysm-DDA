@@ -88,6 +88,169 @@
     ]
   },
   {
+    "id": "glock_43"
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "GUN",
+    "name": { "str": "Glock pocket pistol" },
+    "description": "A 9x19mm pistol of diminutive proportions, produced by the popular Glock gun company and mainly built from plastic polymers.  Unfortunately it is incompatible with other 9mm Glock magazines.",
+    "variant_type": "gun", 
+    "variants": [
+      {
+        "id": "glock_43",
+        "name": { "str": "Glock 43 pistol" },
+        "description": "[placeholder] Does not accept G43x magazines."
+      }
+    ],
+    "weight": "460 g",
+    "volume": "XXX ml",
+    "longest_side": "159 mm",
+    "barrel_length": "87 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": XXX,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "glock43_6"
+        ]
+      }
+    ]
+  },  
+  {
+    "id": "glock_43xmos"
+    "//:" "This one uses 10 round doublestack mags, which are incompatible with the standard version, and has an underbarrel rail. If they weren't just as common, if not more than the standard version, I wouldn't be including it."
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "GUN",
+    "name": { "str": "Glock tactical pocket pistol" },
+    "description": "A 9x19mm pistol of diminutive proportions, produced by the popular Glock gun company and mainly built from plastic polymers.  This one, despite its size, sports both an underbarrel mount and an optic mount. Unfortunately, it does not accept standard glock magazines.",
+    "variant_type": "gun", 
+    "variants": [
+      {
+        "id": "glock_43xmos",
+        "name": { "str": "Glock 43x MOS pistol" },
+        "description": "[placeholder]. "
+      }
+    ],
+    "weight": "461 g",
+    "volume": "XXX ml",
+    "longest_side": "165 mm",
+    "barrel_length": "87 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights mount", 1 ] ],
+    "dispersion": XXX,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "glock43/48x_10"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "glock_26",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "GUN",
+    "name": { "str": "Glock concealable pistol" },
+    "description": "A common 9x19mm pistol of modest proportions, produced by the popular Glock gun company and mainly built from plastic polymers. [Placeholder]",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_26",
+        "name": { "str": "Glock 19 pistol" },
+        "description": "[Placeholder]"
+      },
+    ],
+    "weight": "550 g",
+    "volume": "XXX ml",
+    "longest_side": "165 mm",
+    "barrel_length": "87 mm",
+    "price": "690 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": XXX,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "glock_17",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "//": "Tilelist whitelist for pistols.",
+    "type": "GUN",
+    "name": { "str": "Glock duty pistol" },
+    "description": "Designed for all shooters, this offering from the Glock gun company is a full-sized 9x19mm pistol marketed towards law-enforcement and military users.  Because of the long magazine well, it can't fit magazines shorter than the standard 17-round ones.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_17",
+        "name": { "str": "Glock 17 pistol" },
+        "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same, but due to the longer magazine well, it can't fit magazines shorter than the standard 17-round ones."
+      }
+    ],
+    "ascii_picture": "glock_17",
+    "weight": "630 g",
+    "volume": "427 ml",
+    "longest_side": "233 mm",
+    "barrel_length": "114 mm",
+    "price": "690 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glock17_10", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
+      }
+    ]
+  },
+  {
+    "id": "glock_18c",
+    "copy-from": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Glock machine pistol" },
+    "description": "A military, fully automatic capable version of the popular 9x19mm handguns produced by the Glock arms company, this machine pistol makes use of Glock magazines.  The weapon has had its barrel modified to lessen recoil, a useful feature considering its high rate of fire and lack of a default buttstock.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_18c",
+        "name": { "str": "Glock 18C pistol" },
+        "description": "A selective-fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable."
+      }
+    ],
+    "ascii_picture": "glock_18c",
+    "weight": "620 g",
+    "price": "1 kUSD",
+    "price_postapoc": "25 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
+    "built_in_mods": [ "barrel_ported" ]
+  },
+  {
     "id": "hk_mp5",
     "copy-from": "gun_base_9mm_semi_rifle",
     "//": "Tileset whitelist for SMGs",
@@ -632,61 +795,6 @@
         "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
     ]
-  },
-  {
-    "id": "glock_17",
-    "copy-from": "gun_base_9mm_semi_pistol",
-    "//": "Tilelist whitelist for pistols.",
-    "type": "GUN",
-    "name": { "str": "Glock duty pistol" },
-    "description": "Designed for all shooters, this offering from the Glock gun company is a full-sized 9x19mm pistol marketed towards law-enforcement and military users.  Because of the long magazine well, it can't fit magazines shorter than the standard 17-round ones.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "glock_17",
-        "name": { "str": "Glock 17 pistol" },
-        "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same, but due to the longer magazine well, it can't fit magazines shorter than the standard 17-round ones."
-      }
-    ],
-    "ascii_picture": "glock_17",
-    "weight": "630 g",
-    "volume": "427 ml",
-    "longest_side": "233 mm",
-    "barrel_length": "114 mm",
-    "price": "690 USD",
-    "material": [ "plastic", "steel" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
-    "dispersion": 480,
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
-    "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glock17_10", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
-      }
-    ]
-  },
-  {
-    "id": "glock_18c",
-    "copy-from": "glock_17",
-    "type": "GUN",
-    "name": { "str": "Glock machine pistol" },
-    "description": "A military, fully automatic capable version of the popular 9x19mm handguns produced by the Glock arms company, this machine pistol makes use of Glock magazines.  The weapon has had its barrel modified to lessen recoil, a useful feature considering its high rate of fire and lack of a default buttstock.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "glock_18c",
-        "name": { "str": "Glock 18C pistol" },
-        "description": "A selective-fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable."
-      }
-    ],
-    "ascii_picture": "glock_18c",
-    "weight": "620 g",
-    "price": "1 kUSD",
-    "price_postapoc": "25 USD",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
-    "built_in_mods": [ "barrel_ported" ]
   },
   {
     "id": "m11",
