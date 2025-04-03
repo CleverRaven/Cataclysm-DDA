@@ -820,18 +820,19 @@
     "color": "i_light_blue"
   },
   {
-	  "type": "overmap_terrain",
+    "type": "overmap_terrain",
     "id": [ "office_dentist" ],
-	  "name": "dentist office",
-	  "copy-from": "generic_city_building",
-	  "sym": "D",
-	  "color": "i_light_blue"
+    "name": "dentist office",
+    "copy-from": "generic_city_building",
+    "sym": "D",
+    "color": "i_light_blue"
   },
   {
-	  "type": "overmap_terrain",
-	  "id": [ "office_dentist_roof" ],
-	  "name": "dentist office roof",
-	  "sym": "D",
-	  "color": "i_light_blue"
+    "type": "overmap_terrain",
+    "id": [ "office_dentist_roof" ],
+    "name": "dentist office roof",
+    "copy-from": "generic_city_building_roof",
+    "sym": "D",
+    "color": "i_light_blue"
   }
 ]

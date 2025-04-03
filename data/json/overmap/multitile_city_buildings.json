@@ -5375,12 +5375,12 @@
     ]
   },
   {
-	  "type": "city_building",
-	  "id": "office_dentist",
-	  "locations": [ "land" ],
-	  "overmaps": [
-	    { "point": [ 0, 0, 0 ], "overmap": "office_dentist_north" },
-	    { "point": [ 0, 0, 1 ], "overmap": "office_dentist_roof_north" }
-	  ]
+    "type": "city_building",
+    "id": "office_dentist",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_dentist_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_dentist_roof_north" }
+    ]
   }
 ]
