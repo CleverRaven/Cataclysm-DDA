@@ -1096,7 +1096,7 @@
       { "group": "bags_unisex", "prob": 50 }
     ]
   },
-    {
+  {
     "id": "SUS_dresser_mens_small_bags",
     "type": "item_group",
     "//": "clothing found in a man's dresser",
@@ -1140,7 +1140,7 @@
       { "group": "bags_unisex", "prob": 50 }
     ]
   },
-    {
+  {
     "id": "SUS_dresser_womens_small_bags",
     "type": "item_group",
     "//": "clothing found in a woman's dresser",
