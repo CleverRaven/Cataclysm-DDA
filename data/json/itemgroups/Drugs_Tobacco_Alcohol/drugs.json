@@ -358,9 +358,8 @@
       { "item": "elec_hairtrimmer", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "nic_gum", "prob": 25, "count": [ 1, 10 ] },
       { "prob": 30, "group": "weak_antibiotic_bottle_plastic_pill_prescription_1_5" },
-      { "prob": 20, "group": "nic_pouch_can_opened"},
-      { "prob": 10, "group": "nic_pouch_can_new"}
-
+      { "prob": 20, "group": "nic_pouch_can_opened" },
+      { "prob": 10, "group": "nic_pouch_can_new" }
     ]
   },
   {
