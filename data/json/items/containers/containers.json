@@ -5057,12 +5057,12 @@
     "description": "TYNN 15 NICOTINE POUCHES WARNING: This product contains nicotine. Nicotine is an addictive chemical.",
     "ascii_picture": "nic_pouch_can",
     "weight": "17 g",
-    "volume": "50 ml",
+    "volume": "90 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "50 ml", "max_contains_weight": "2000 g" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "45 ml", "max_contains_weight": "30 g" } ]
   }
 ]
