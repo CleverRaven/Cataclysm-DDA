@@ -2215,7 +2215,7 @@
         "description": "A pouch containing wintergreen-flavored nicotine salts."
       },
       {
-        "id": "nic_pouch_coffe",
+        "id": "nic_pouch_coffee",
         "name" : { "str" : "coffee flavored nicotine pouch" },
         "description": "A pouch containing coffee-flavored nicotine salts."
       },
