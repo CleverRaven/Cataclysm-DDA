@@ -473,7 +473,7 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
-static bool empathy_cannibalism_check( const Character &you, const mtype_id &monster )
+static bool check_anger_empathetic_npcs_with_cannibalism( const Character &you, const mtype_id &monster )
 {
     const map &here = get_map();
 
@@ -663,7 +663,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             }
         } else {
-            if( empathy_cannibalism_check( you, corpse.id ) ) {
+            if( check_anger_empathetic_npcs_with_cannibalism( you, corpse.id ) ) {
                 if( you.empathizes_with_monster( corpse.id ) ) {
                     // give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
                     switch( rng( 1, 3 ) ) {
@@ -689,7 +689,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
             }
         }
     } else if( action != butcher_type::DISMEMBER ) {
-        if( empathy_cannibalism_check( you, corpse.id ) ) {
+        if( check_anger_empathetic_npcs_with_cannibalism( you, corpse.id ) ) {
             if( you.empathizes_with_monster( corpse.id ) ) {
                 // give the player a random message showing their disgust and cause morale penalty.
                 switch( rng( 1, 3 ) ) {
