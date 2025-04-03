@@ -1403,7 +1403,7 @@ class Character : public Creature, public visitable
         /** Whether the character feels significant empathy for the given species.  HUMAN is empathized with by default */
         bool empathizes_with_species( const species_id &species ) const;
         /** Whether the character feels significant empathy for the given monster.  HUMAN is empathized with by default */
-        bool empathizes_with_monster( const mtype_id &species ) const;
+        bool empathizes_with_monster( const mtype_id &monster ) const;
 
     private:
         // Cache if character has a flag on their mutations. It is cleared whenever my_mutations is modified.

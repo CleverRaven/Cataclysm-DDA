@@ -125,9 +125,6 @@ static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
-static const species_id species_FERAL( "FERAL" );
-static const species_id species_HUMAN( "HUMAN" );
-
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
