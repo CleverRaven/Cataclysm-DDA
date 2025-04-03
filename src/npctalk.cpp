@@ -5612,9 +5612,19 @@ talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view m
                                         const std::string_view, bool is_npc )
 {
     JsonObject job = jo.get_object( member );
-    std::optional<bool> remove_corpse = job.get_bool( "remove_corpse" );
-    std::optional<bool> supress_message = job.get_bool( "supress_message" );
-    std::optional<bool> remove_from_creature_tracker = job.get_bool( "remove_from_creature_tracker" );
+    std::optional<bool> remove_corpse;
+    std::optional<bool> supress_message;
+    std::optional<bool> remove_from_creature_tracker;
+
+    if( job.has_bool( "remove_corpse" ) ) {
+        remove_corpse = job.get_bool( "remove_corpse" );
+    }
+    if( job.has_bool( "supress_message" ) ) {
+        supress_message = job.get_bool( "supress_message" );
+    }
+    if( job.has_bool( "remove_from_creature_tracker" ) ) {
+        remove_from_creature_tracker = job.get_bool( "remove_from_creature_tracker" );
+    }
 
     return [remove_corpse, supress_message, remove_from_creature_tracker,
                    is_npc]( dialogue const & d ) {
