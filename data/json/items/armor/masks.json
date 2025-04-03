@@ -554,7 +554,7 @@
       {
         "id": "michael_myers_mask",
         "name": { "str": "Michael Myers' mask" },
-        "description": "A full-head mask with hair, much like the one worn by Michael Myers in Halloween",
+        "description": "A full-head mask with hair, much like the one worn by Michael Myers in Halloween.",
         "weight": 17
       },
       {

@@ -1033,7 +1033,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHASTE_activated",
-    "condition": { "not": { "u_has_effect": "haste" } },
+    "condition": { "not": { "u_has_effect": "haste_vampire" } },
     "effect": [
       {
         "run_eocs": [
@@ -1043,8 +1043,8 @@
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
-              { "u_add_effect": "haste", "duration": "PERMANENT" },
-              { "u_message": "You movements accelerate to superhuman levels.", "type": "good" },
+              { "u_add_effect": "haste_vampire", "duration": "PERMANENT" },
+              { "u_message": "Warmth floods your limbs as you move with inhuman speed.", "type": "good" },
               {
                 "run_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
@@ -1067,8 +1067,8 @@
         "run_eocs": [
           {
             "id": "EOC_BLOODHASTE_deactivated",
-            "condition": { "u_has_effect": "haste" },
-            "effect": [ { "u_message": "Your speed returns to normal.", "type": "neutral" }, { "u_lose_effect": "haste" } ]
+            "condition": { "u_has_effect": "haste_vampire" },
+            "effect": [ { "u_lose_effect": "haste" }, { "u_lose_effect": "haste_vampire" } ]
           }
         ]
       }
@@ -1083,7 +1083,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHASTE_maintenance",
-    "condition": { "u_has_effect": "haste" },
+    "condition": { "u_has_effect": "haste_vampire" },
     "effect": [
       {
         "run_eocs": [
@@ -1104,6 +1104,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain your blood-driven speed.", "type": "bad" },
+              { "u_lose_effect": "haste_vampire" },
               { "u_lose_effect": "haste" },
               { "u_deactivate_trait": "BLOODHASTE" }
             ]

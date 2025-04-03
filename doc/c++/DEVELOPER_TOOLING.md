@@ -68,7 +68,7 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 12.0.0 with CI, so for the most
+codebase.  We test with `clang-tidy` from LLVM 18.0.0 with CI, so for the most
 consistent results, you might want to use that version.
 
 To run it, you have a few options.
@@ -97,29 +97,31 @@ work requires some extra steps.
 #### Extreme tl;dr for Ubuntu Focal (including WSL)
 The following set of commands should take you from zero to running clang-tidy equivalent to the CI job. This will lint all sources in a random order.
 ```sh
-sudo apt install build-essential cmake clang-12 libclang-12-dev llvm-12 llvm-12-dev llvm-12-tools pip
+sudo apt install build-essential cmake clang-18 libclang-18-dev llvm-18 llvm-18-dev llvm-18-tools pip
 sudo pip install compiledb lit
 test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
 # The following command invokes clang-tidy exactly like CI does
-COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
-COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
+COMPILER=clang++-18 CLANG=clang++-18 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
+COMPILER=clang++-18 CLANG=clang++-18 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
 ```
 
 #### Ubuntu Focal
 
 If you are on Ubuntu Focal then you might be able to get it working the same
-way our CI does.  Add the LLVM 12 Focal source [listed
-here](https://apt.llvm.org/) to your `sources.list`, install the needed packages (`clang-12
-libclang-12-dev llvm-12-dev llvm-12-tools`), and build Cataclysm with CMake,
+way our CI does.  Add the LLVM 18 Focal source [listed
+here](https://apt.llvm.org/) to your `sources.list`, install the needed packages (`clang-18
+libclang-18-dev llvm-18-dev llvm-18-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
+
+[apt.llvm.org](apt.llvm.org) also has an automated install script.
 
 #### Other Linux distributions
 
 On other distributions you will probably need to build `clang-tidy` yourself.
 * Expect this process to take about 80GB of disk space.
-* Check out the `llvm` project, release 12 branch, with e.g.
-  `git clone --branch release/12.x --depth 1 https://github.com/llvm/llvm-project.git llvm-12`.
-* Enter the newly cloned repo `cd llvm-12`.
+* Check out the `llvm` project, release 18 branch, with e.g.
+  `git clone --branch release/18.x --depth 1 https://github.com/llvm/llvm-project.git llvm-18`.
+* Enter the newly cloned repo `cd llvm-18`.
 * Patch in plugin support for `clang-tidy` using [this
   patch](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/plugin-support.patch).
   `curl https://raw.githubusercontent.com/jbytheway/clang-tidy-plugin-support/master/plugin-support.patch | patch -p1`
@@ -421,7 +423,7 @@ After the tools are installed, a patch still needs to be applied before building
 LLVM, since `clang-tidy` as distributed by LLVM doesn't support plugins.
 
 First, clone the LLVM repo from, for example, [the official github repo](https://github.com/llvm/llvm-project.git).
-Checkout the `release/12.x` branch, since that's what our patch was based on.
+Checkout the `release/18.x` branch, since that's what our patch was based on.
 
 On Windows, in addition to applying `plugin-support.patch` mentioned in the previous section, you
 should also apply

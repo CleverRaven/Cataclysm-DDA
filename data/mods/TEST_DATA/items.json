@@ -2089,6 +2089,137 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "test_heavy_debug_backpack",
+    "type": "ARMOR",
+    "name": { "str": "debug pocket universe" },
+    "description": "A pocket universe.  Can store approximately 384 * 10^6 bugs.  Still applies weight to the character",
+    "weight": "1 g",
+    "volume": "1 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "yellow",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like it could calm local conditions.",
+      "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
+    },
+    "pocket_data": [
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      }
+    ],
+    "warmth": 0,
+    "material_thickness": 0,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE", "WATCH", "THERMOMETER" ],
+    "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
     "id": "test_quiver",
     "type": "ARMOR",
     "name": { "str": "test quiver" },

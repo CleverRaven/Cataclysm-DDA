@@ -511,7 +511,7 @@ static bool empathy_cannibalism_check( const Character &you, const mtype_id &mon
 
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with_monster( monster ) ) {
-            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
+            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <name_b>." ) );
             // massive opinion penalty
             guy.op_of_u.trust -= 5;
             guy.op_of_u.value -= 5;
