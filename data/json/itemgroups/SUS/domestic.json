@@ -1050,19 +1050,12 @@
     "//": "clothing found in a man's wardrobe",
     "subtype": "collection",
     "entries": [
-      { "group": "shoes_unisex", "prob": 50 },
-      { "group": "pants_mens", "prob": 1 },
-      { "item": "fishing_waders", "prob": 1 },
-      { "item": "football_armor", "prob": 2 },
+      { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
       { "item": "sleeping_bag_roll", "prob": 5 },
-      { "item": "bscabbard", "prob": 1 },
-      { "item": "chaps_leather", "prob": 1 },
-      { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 50 },
-      { "group": "suits_mens", "prob": 10 },
-      { "group": "bags_unisex", "prob": 20 },
-      { "group": "hats_unisex", "prob": 20 },
-      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "coats_unisex", "prob": 50, "count": [ 0, 3 ] },
+      { "group": "suits_unisex", "prob": 50, "count": [ 0, 2 ] },
+      { "group": "suits_mens", "prob": 25, "count": [ 0, 2 ] },
+      { "group": "SUS_dresser_mens", "prob": 100 },
       { "item": "crutches", "prob": 1 }
     ]
   },
@@ -1072,29 +1065,14 @@
     "//": "clothing found in a woman's wardrobe",
     "subtype": "collection",
     "entries": [
-      { "group": "shoes_unisex", "prob": 50 },
-      { "group": "shoes_womens", "prob": 60 },
-      { "item": "fishing_waders", "prob": 1 },
-      { "item": "football_armor", "prob": 1 },
-      { "item": "pom_poms", "prob": 1 },
-      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
-      { "item": "cheerleader_top_short", "prob": 1 },
-      { "item": "cheerleader_skirt", "prob": 1 },
-      { "item": "cheerleader_skirt_short", "prob": 1 },
-      { "group": "pants_womens", "prob": 10 },
-      { "item": "bscabbard", "prob": 1 },
+      { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "shoes_womens", "prob": 60, "count": [ 1, 2 ] },
       { "item": "sleeping_bag_roll", "prob": 5 },
-      { "item": "chaps_leather", "prob": 1 },
-      { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 40 },
-      { "group": "suits_womens", "prob": 50 },
-      { "group": "bags_unisex", "prob": 20 },
-      { "group": "hats_unisex", "prob": 20 },
-      { "group": "scarfs_unisex", "prob": 20 },
-      { "item": "crutches", "prob": 1 },
-      { "item": "woven_anklet", "prob": 5 },
-      { "item": "bat_anklet", "prob": 5 },
-      { "item": "flower_anklet", "prob": 5 }
+      { "group": "coats_unisex", "prob": 50, "count": [ 0, 3 ] },
+      { "group": "suits_unisex", "prob": 50, "count": [ 0, 2 ] },
+      { "group": "suits_womens", "prob": 25, "count": [ 0, 2 ] },
+      { "group": "SUS_dresser_womens", "prob": 100 },
+      { "item": "crutches", "prob": 1 }
     ]
   },
   {
@@ -1114,7 +1092,8 @@
       { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 50 },
       { "group": "pants_male", "count": [ 4, 7 ], "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex", "prob": 50 }
     ]
   },
   {
@@ -1136,7 +1115,8 @@
       { "group": "pants_female", "count": [ 4, 7 ], "prob": 100 },
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex", "prob": 50 }
     ]
   },
   {
