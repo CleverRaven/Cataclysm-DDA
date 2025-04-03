@@ -5,6 +5,7 @@
     "name": "Living Paradox",
     "points": 0,
     "description": "You have an intimate sense for the flow of time, and you can use your power to manipulate it.  Activate this trait to spend learned insight.",
+    "types": [ "HERITAGE" ],
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
