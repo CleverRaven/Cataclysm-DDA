@@ -857,29 +857,6 @@
     ]
   },
   {
-    "id": "office_supplies",
-    "type": "item_group",
-    "items": [
-      [ "paper", 100 ],
-      { "group": "writing_utensils", "prob": 35 },
-      [ "file", 15 ],
-      { "group": "duct_tape_roll_part", "prob": 15 },
-      { "group": "superglue", "prob": 15 },
-      [ "file", 15 ],
-      [ "office_holepunch", 15 ],
-      [ "bubblewrap", 15 ],
-      [ "rubber_band", 15 ],
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      { "item": "flashlight", "prob": 7, "charges": [ 0, 300 ] },
-      { "group": "used_laptops", "prob": 7, "contents-group": "SUS_efiles_office" },
-      { "group": "used_eink_tablet_pcs", "prob": 7, "contents-group": "SUS_efiles_office" },
-      { "group": "used_usb_drives", "prob": 5, "contents-group": "SUS_efiles_office" },
-      { "item": "cash_card", "prob": 5, "charges": [ 0, 50000 ] },
-      [ "record_accounting", 1 ],
-      [ "money_strap_twenty", 1 ]
-    ]
-  },
-  {
     "id": "gym_school",
     "type": "item_group",
     "items": [

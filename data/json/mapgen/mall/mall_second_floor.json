@@ -691,7 +691,7 @@
       "items": {
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] },
         "M": { "item": "smoke_shop", "chance": 70, "repeat": [ 2, 4 ] },
-        "J": { "item": "office_supplies", "chance": 10 },
+        "J": { "item": "SUS_office_desk", "chance": 10 },
         "P": { "item": "cleaning", "chance": 60, "repeat": [ 2, 4 ] },
         "K": { "item": "kitchen_counters", "chance": 50, "repeat": [ 1, 2 ] },
         "0": { "item": "smoke_shop", "chance": 50, "repeat": [ 1, 2 ] },
