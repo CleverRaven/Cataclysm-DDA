@@ -174,7 +174,7 @@
       }
     },
     "effect": [
-      { "place_override": { "global_val": "place_name", "default_str": "strange cavern" }, "length": "10 seconds" },
+      { "place_override": { "global_val": "place_name", "default": "strange cavern" }, "length": "10 seconds" },
       { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
       {
         "run_eocs": [
