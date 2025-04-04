@@ -3,14 +3,11 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
-#include <cerrno>
 #include <cmath>
 #include <cstdlib>
-#include <cstring>
 #include <iomanip>
 #include <iterator>
 #include <limits>
-#include <locale>
 #include <memory>
 #include <optional>
 #include <set>
@@ -117,7 +114,6 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "try_parse_integer.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -647,7 +643,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         if( one_in( 20 ) ) {
             result.set_flag( flag_REVIVE_SPECIAL );
         }
-        result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
+        result.set_var( "upgrade_time", upgrade_time );
     }
 
     if( !mt->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
@@ -1610,7 +1606,7 @@ bool _stacks_ethereal( item const &lhs, item const &rhs )
 {
     static const std::string varname( "ethereal" );
     return ( !lhs.ethereal && !rhs.ethereal ) ||
-           ( lhs. ethereal && rhs.ethereal && lhs.get_var( varname ) == rhs.get_var( varname ) );
+           ( lhs. ethereal && rhs.ethereal && lhs.get_var( varname, 0 ) == rhs.get_var( varname, 0 ) );
 }
 
 bool _stacks_ups( item const &lhs, item const &rhs )
@@ -1843,131 +1839,54 @@ void item::force_insert_item( const item &it, pocket_type pk_type )
     on_contents_changed();
 }
 
-void item::set_var( const std::string &name, const int value )
+void item::set_var( const std::string &key, diag_value value )
 {
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
+    item_vars[ key ] = std::move( value );
 }
 
-void item::set_var( const std::string &name, const long long value )
+double item::get_var( const std::string &key, double default_value ) const
 {
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
-}
-
-// NOLINTNEXTLINE(cata-no-long)
-void item::set_var( const std::string &name, const long value )
-{
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
-}
-
-void item::set_var( const std::string &name, const double value )
-{
-    item_vars[name] = string_format( "%f", value );
-}
-
-double item::get_var( const std::string &name, const double default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    const std::string &val = it->second;
-    char *end;
-    errno = 0;
-    double result = strtod( val.data(), &end );
-    if( errno != 0 ) {
-        debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
-                  val, strerror( errno ) );
-        return default_value;
-    }
-    if( end != val.data() + val.size() ) {
-        if( *end == ',' ) {
-            // likely legacy format with localized ',' for fraction separator instead of '.'
-            std::string converted_val = val;
-            converted_val[end - val.data()] = '.';
-            errno = 0;
-            double result = strtod( converted_val.data(), &end );
-            if( errno != 0 ) {
-                debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
-                          val, strerror( errno ) );
-                return default_value;
-            }
-            if( end != converted_val.data() + converted_val.size() ) {
-                debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
-            }
-            return result;
-        }
-        debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
-    }
-    return result;
-}
-
-void item::set_var( const std::string &name, const tripoint_abs_ms &value )
-{
-    item_vars[name] = value.to_string();
-}
-
-tripoint_abs_ms item::get_var( const std::string &name,
-                               const tripoint_abs_ms &default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->dbl();
     }
 
-    // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
-    // first is produced by tripoint::to_string, second was old custom format
-    if( it->second[0] == '(' ) {
-        return tripoint_abs_ms{tripoint::from_string( it->second )};
+    return default_value;
+}
+
+std::string item::get_var( const std::string &key, std::string default_value ) const
+{
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->str();
     }
 
-    std::vector<std::string> values = string_split( it->second, ',' );
-    cata_assert( values.size() == 3 );
-    auto convert_or_error = []( const std::string_view s ) {
-        ret_val<int> result = try_parse_integer<int>( s, false );
-        if( result.success() ) {
-            return result.value();
-        } else {
-            debugmsg( "Error parsing tripoint coordinate in item::get_var: %s", result.str() );
-            return 0;
-        }
-    };
-    return tripoint_abs_ms( convert_or_error( values[0] ),
-                            convert_or_error( values[1] ),
-                            convert_or_error( values[2] ) );
+    return default_value;
 }
 
-void item::set_var( const std::string &name, const std::string &value )
+tripoint_abs_ms item::get_var( const std::string &key, tripoint_abs_ms default_value ) const
 {
-    item_vars[name] = value;
-}
-
-std::string item::get_var( const std::string &name, const std::string &default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->tripoint();
     }
-    return it->second;
+
+    return default_value;
 }
 
-std::string item::get_var( const std::string &name ) const
+void item::remove_var( const std::string &key )
 {
-    return get_var( name, "" );
+    item_vars.erase( key );
 }
 
-std::optional<std::string> item::maybe_get_var( const std::string &name ) const
+diag_value const &item::get_value( const std::string &name ) const
 {
-    const auto it = item_vars.find( name );
-    return it == item_vars.end() ? std::nullopt : std::optional<std::string> { it->second };
+    static diag_value const null_val;
+    diag_value const *ret = maybe_get_value( name );
+    return ret ? *ret : null_val;
+}
+
+diag_value const *item::maybe_get_value( const std::string &name ) const
+{
+    auto it = item_vars.find( name );
+    return it == item_vars.end() ? nullptr : &it->second;
 }
 
 bool item::has_var( const std::string &name ) const
@@ -2473,7 +2392,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
+        global_variables::impl_t::const_iterator const idescription =
             item_vars.find( "description" );
         const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
@@ -2494,7 +2413,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 get_avatar().add_snippet( snip_id );
             }
         } else if( idescription != item_vars.end() ) {
-            info.emplace_back( "DESCRIPTION", idescription->second );
+            info.emplace_back( "DESCRIPTION", idescription->second.str() );
         } else if( has_itype_variant() ) {
             info.emplace_back( "DESCRIPTION", variant_description() );
         } else {
@@ -2611,7 +2530,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( auto const &imap : item_vars ) {
                 info.emplace_back( "BASE",
                                    string_format( _( "item var: %s, %s" ), imap.first,
-                                                  imap.second ) );
+                                                  imap.second.to_string() ) );
             }
 
             info.emplace_back( "BASE", _( "wetness: " ),
@@ -2711,7 +2630,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     nutrients max_nutr;
 
     Character &player_character = get_player_character();
-    std::string recipe_exemplar = get_var( "recipe_exemplar", "" );
+    std::string recipe_exemplar = get_var( "recipe_exemplar", std::string{} );
     if( recipe_exemplar.empty() ) {
         min_nutr = max_nutr = player_character.compute_effective_nutrients( *food_item );
     } else {
@@ -6102,27 +6021,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
+    auto const item_note = item_vars.find( "item_note" );
 
     if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
         insert_separation_line( info );
         std::string ntext;
-        std::map<std::string, std::string>::const_iterator item_note_tool =
-            item_vars.find( "item_note_tool" );
+        auto const item_note_tool = item_vars.find( "item_note_tool" );
         const use_function *use_func =
             item_note_tool != item_vars.end() ?
             item_controller->find_template(
-                itype_id( item_note_tool->second ) )->get_use( "inscribe" ) :
+                itype_id( item_note_tool->second.str() ) )->get_use( "inscribe" ) :
             nullptr;
         const inscribe_actor *use_actor =
             use_func ? dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
         if( use_actor ) {
             //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
             ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
-                                   use_actor->gerund, tname(), item_note->second );
+                                   use_actor->gerund, tname(), item_note->second.str() );
         } else {
             //~ %1$s: inscription text
-            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
+            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second.str() );
         }
         info.emplace_back( "DESCRIPTION", ntext );
     }
@@ -7276,11 +7194,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     units::mass ret;
     double ret_mul = 1.0;
-    std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
-    if( local_str_mass.empty() ) {
+    diag_value const &local_mass = get_value( integral ? "integral_weight" : "weight" );
+    if( local_mass.is_empty() ) {
         ret = integral ? type->integral_weight : type->weight;
     } else {
-        ret = units::from_milligram( std::stoll( local_str_mass ) );
+        ret = units::from_milligram( local_mass.dbl() );
     }
 
     if( has_flag( flag_REDUCED_WEIGHT ) ) {
@@ -13297,18 +13215,19 @@ bool item::already_used_by_player( const Character &p ) const
     // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
     // id has been added.
     const std::string needle = string_format( ";%d;", p.getID().get_value() );
-    return it->second.find( needle ) != std::string::npos;
+    return it->second.str().find( needle ) != std::string::npos;
 }
 
 void item::mark_as_used_by_player( const Character &p )
 {
-    std::string &used_by_ids = item_vars[ USED_BY_IDS ];
+    std::string used_by_ids = get_value( USED_BY_IDS ).str();
     if( used_by_ids.empty() ) {
         // *always* start with a ';'
         used_by_ids = ";";
     }
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID().get_value() );
+    set_var( USED_BY_IDS, used_by_ids );
 }
 
 bool item::can_holster( const item &obj ) const
@@ -14835,11 +14754,13 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                              float insulation, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     if( ethereal ) {
-        if( !has_var( "ethereal" ) ) {
+        diag_value const &eth = get_value( "ethereal" );
+        if( eth.is_empty() ) {
             return true;
         }
-        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
-        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        double const set = eth.dbl() - 1;
+        set_var( "ethereal", set );
+        const bool processed = set <= 0;
         if( processed && carrier != nullptr ) {
             carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
         }
@@ -15272,7 +15193,7 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
                                   corpse->nname() );
         }
     } else if( iter != item_vars.end() ) {
-        return iter->second;
+        return iter->second.str();
     } else if( use_variant && has_itype_variant() ) {
         ret_name = itype_variant().alt_name.translated( quantity );
     } else {

@@ -379,7 +379,7 @@ str_translation_or_var get_str_translation_or_var(
 
 tripoint_abs_ms get_tripoint_ms_from_var( var_info const &var, const_dialogue const &d )
 {
-    std::optional<diag_value> value = read_var_value( var, d );
+    diag_value const *value = read_var_value( var, d );
     if( value ) {
         return value->tripoint( d );
     }
@@ -417,7 +417,7 @@ namespace
 
 template<typename T>
 void _write_var_value( var_type type, const std::string &name, dialogue *d,
-                       T value )
+                       T const &value )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -464,6 +464,12 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
 
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value )
+{
+    _write_var_value( type, name, d, value );
+}
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      tripoint_abs_ms const &value )
 {
     _write_var_value( type, name, d, value );
 }

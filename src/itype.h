@@ -25,6 +25,7 @@
 #include "explosion.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
@@ -1367,7 +1368,7 @@ struct itype {
         std::map<std::string, std::string> properties;
 
         // Item vars are loaded from the type, but assigned and de/serialized with the item itself
-        std::map<std::string, std::string> item_variables;
+        global_variables::impl_t item_variables;
 
         // What we're made of (material names). .size() == made of nothing.
         // First -> the material

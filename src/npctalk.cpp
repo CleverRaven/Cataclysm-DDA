@@ -2427,7 +2427,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            phrase.replace( fa, l, u.get_value( var ) );
+            phrase.replace( fa, l, u.get_value( var ).to_string() );
         } else if( tag.find( "<npc_val:" ) == 0 ) {
             //adding a npc variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2435,7 +2435,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            phrase.replace( fa, l, me.get_value( var ) );
+            phrase.replace( fa, l, me.get_value( var ).to_string() );
         } else if( tag.find( "<global_val:" ) == 0 ) {
             //adding a global variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2444,7 +2444,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             global_variables &globvars = get_globals();
-            phrase.replace( fa, l, globvars.get_global_value( var ).str( d ) );
+            phrase.replace( fa, l, globvars.get_global_value( var ).to_string() );
         } else if( tag.find( "<context_val:" ) == 0 ) {
             //adding a context variable to the string requires dialogue to exist
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2452,7 +2452,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             var.pop_back();
             // resolve nest
             parse_tags( var, u, me, d, item_type );
-            phrase.replace( fa, l, d.get_value( var ).str( d ) );
+            phrase.replace( fa, l, d.get_value( var ).to_string() );
         } else if( tag.find( "<item_name:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2615,15 +2615,17 @@ void const_dialogue::remove_value( const std::string &key )
     context->erase( key );
 }
 
-diag_value const_dialogue::get_value( const std::string &key ) const
+diag_value const &const_dialogue::get_value( const std::string &key ) const
 {
-    return maybe_get_value( key ).value_or( diag_value{} );
+    static diag_value const null_val;
+    diag_value const *ret = maybe_get_value( key );
+    return ret ? *ret : null_val;
 }
 
-std::optional<diag_value> const_dialogue::maybe_get_value( const std::string &key ) const
+diag_value const *const_dialogue::maybe_get_value( const std::string &key ) const
 {
     auto it = context->find( key );
-    return it == context->end() ? std::nullopt : std::optional<diag_value> { it->second };
+    return it == context->end() ? nullptr : &it->second;
 }
 
 void const_dialogue::set_conditional( const std::string &key,
@@ -4364,7 +4366,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             target_pos = target_pos + tripoint( 0, 0,
                                                 dov_z_adjust.evaluate( d ) );
         }
-        write_var_value( type, var_name, &d, target_pos.to_string() );
+        write_var_value( type, var_name, &d, target_pos );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -4401,9 +4403,9 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
             target_pos = target_pos + tripoint( 0, 0, dov_z_adjust.evaluate( d ) );
         }
         if( output_var.has_value() ) {
-            write_var_value( output_var.value().type, output_var.value().name, &d, target_pos.to_string() );
+            write_var_value( output_var.value().type, output_var.value().name, &d, target_pos );
         } else {
-            write_var_value( input_var.type, input_var.name,   &d, target_pos.to_string() );
+            write_var_value( input_var.type, input_var.name,   &d, target_pos );
         }
     };
 }
@@ -4586,8 +4588,7 @@ talk_effect_fun_t::func f_query_tile( const JsonObject &jo, std::string_view mem
         }
         if( loc.has_value() ) {
             tripoint_abs_ms pos_global = here.get_abs( *loc );
-            write_var_value( target_var.type, target_var.name, &d,
-                             pos_global.to_string() );
+            write_var_value( target_var.type, target_var.name, &d, pos_global );
         }
         return loc.has_value();
     };
@@ -4630,7 +4631,7 @@ talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view memb
                 // aim at the center of OMT
                 abs_pos_ms.x() += rng_float( 12 - spread.evaluate( d ), 12 + spread.evaluate( d ) );
                 abs_pos_ms.y() += rng_float( 12 - spread.evaluate( d ), 12 + spread.evaluate( d ) );
-                write_var_value( var.type, var.name, &d, abs_pos_ms.to_string() );
+                write_var_value( var.type, var.name, &d, abs_pos_ms );
                 return;
             }
             return;
@@ -4687,7 +4688,7 @@ talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::
 
         const std::function<bool( const tripoint_bub_ms & )> f = [cond, &d, &here](
         const tripoint_bub_ms & pnt ) {
-            write_var_value( var_type::context, "loc", &d, here.get_abs( pnt ).to_string_writable() );
+            write_var_value( var_type::context, "loc", &d, here.get_abs( pnt ) );
             return cond( d );
         };
 
@@ -4696,7 +4697,7 @@ talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::
 
         if( picked_coord.has_value() ) {
             write_var_value( output_var.type, output_var.name, &d,
-                             here.get_abs( picked_coord.value() ).to_string_writable() );
+                             here.get_abs( picked_coord.value() ) );
         } else {
             run_eoc_vector( false_eocs, d );
         }
@@ -4727,7 +4728,7 @@ talk_effect_fun_t::func f_mirror_coordinates( const JsonObject &jo, std::string_
                                         center.y() * 2 - relative.y(),
                                         center.z() * 2 - relative.z() );
 
-        write_var_value( output_var.type, output_var.name, &d, mirrored.to_string() );
+        write_var_value( output_var.type, output_var.name, &d, mirrored );
 
     };
 }
@@ -5288,7 +5289,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
         if( snippet ) {
             if( same_snippet ) {
                 talker *target_talker = d.actor( !is_npc );
-                sid = target_talker->get_value( snip_id.evaluate( d ) + "_snippet_id" );
+                sid = target_talker->get_value( snip_id.evaluate( d ) + "_snippet_id" ).to_string();
                 if( sid.empty() ) {
                     sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
                     target_talker->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
@@ -6073,7 +6074,7 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
         if( snippet ) {
             if( same_snippet ) {
                 talker *target = d.actor( !is_npc );
-                std::string sid = target->get_value( snip_id.evaluate( d ) + "_snippet_id" );
+                std::string sid = target->get_value( snip_id.evaluate( d ) + "_snippet_id" ).to_string();
                 if( sid.empty() ) {
                     sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
                     target->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
@@ -6713,7 +6714,7 @@ talk_effect_fun_t::func f_map_run_eocs( const JsonObject &jo, std::string_view m
         std::vector<tripoint_abs_ms> adjacent = closest_points_first( pos, range.evaluate( d ) );
 
         for( tripoint_abs_ms point : adjacent ) {
-            write_var_value( store_coordinates_in.type, store_coordinates_in.name, &d, point.to_string() );
+            write_var_value( store_coordinates_in.type, store_coordinates_in.name, &d, point );
             for( effect_on_condition_id eoc_id : eocs ) {
                 if( cond( d ) ) {
                     eoc_id->activate( d );
@@ -7594,7 +7595,7 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
             city_reference city = overmap_buffer.closest_known_city( loc_sm );
             if( city ) {
                 tripoint_abs_omt city_center_omt = project_to<coords::omt>( city.abs_sm_pos );
-                write_var_value( type, var_name, &d, city_center_omt.to_string() );
+                write_var_value( type, var_name, &d, tripoint_abs_ms{ city_center_omt.raw() } );
                 write_var_value( var_type::context, "city_name", &d, city.city->name );
                 write_var_value( var_type::context, "city_size", &d, city.city->size );
             } else {
@@ -7604,7 +7605,7 @@ talk_effect_fun_t::func f_closest_city( const JsonObject &jo, std::string_view m
             city_reference city = overmap_buffer.closest_city( loc_sm );
             if( city ) {
                 tripoint_abs_omt city_center_omt = project_to<coords::omt>( city.abs_sm_pos );
-                write_var_value( type, var_name, &d, city_center_omt.to_string() );
+                write_var_value( type, var_name, &d, tripoint_abs_ms{ city_center_omt.raw() } );
                 write_var_value( var_type::context, "city_name", &d, city.city->name );
                 write_var_value( var_type::context, "city_size", &d, city.city->size );
             }

@@ -28,6 +28,7 @@
 #include "itype.h"
 #include "mutation.h"
 #include "options.h"
+#include "point.h"
 #include "recipe.h"
 #include "relic.h"
 #include "string_formatter.h"
@@ -323,7 +324,7 @@ std::string ethereal( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
     if( it.ethereal ) {
-        return string_format( _( " (%s turns)" ), it.get_var( "ethereal" ) );
+        return string_format( _( " (%s turns)" ), it.get_var( "ethereal", 0 ) );
     }
     return {};
 }

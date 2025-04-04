@@ -46,6 +46,7 @@
 #include "make_static.h"
 #include "mapdata.h"
 #include "material.h"
+#include "math_parser_diag_value.h"
 #include "mod_tracker.h"
 #include "options.h"
 #include "output.h"

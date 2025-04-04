@@ -86,9 +86,9 @@ struct diag_value {
     impl_t data;
 };
 
-constexpr bool operator==( diag_value const &lhs, std::string_view rhs )
-{
-    return std::holds_alternative<std::string>( lhs.data ) && std::get<std::string>( lhs.data ) == rhs;
-}
+bool operator==( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs );
+bool operator!=( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs );
+bool operator==( diag_value const &lhs, diag_value const &rhs );
+bool operator!=( diag_value const &lhs, diag_value const &rhs );
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_VALUE_H
