@@ -137,14 +137,14 @@
     "copy-from": "stash_food",
     "extend": {
       "items": [
-        [ "candy3", 1 ],
-        [ "cookies", 3 ],
-        [ "grahmcrackers", 2 ],
-        [ "marshmallow", 1 ],
-        [ "gum", 2 ],
-        [ "smores", 2 ],
-        [ "caff_gum", 2 ],
-        [ "cow_candy", 1 ]
+        [ "candy3", 10 ],
+        [ "cookies", 30 ],
+        [ "grahmcrackers", 20 ],
+        [ "marshmallow", 10 ],
+        [ "gum", 20 ],
+        [ "smores", 20 ],
+        [ "caff_gum", 20 ],
+        [ "cow_candy", 10 ]
       ]
     }
   }
