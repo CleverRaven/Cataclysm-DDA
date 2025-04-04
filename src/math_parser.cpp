@@ -246,27 +246,9 @@ diag_value _get_diag_value( const_dialogue const &d, thingie const &param )
     return val;
 }
 
-std::vector<diag_value> _get_diag_args( const_dialogue const &d,
-                                        std::vector<thingie> const &params_ )
-{
-    std::vector<diag_value> vals( params_.size() );
-
-    for( decltype( vals )::size_type i = 0; i < params_.size(); i++ ) {
-        vals[i] = _get_diag_value( d, params_[i] );
-    }
-    return vals;
-}
-
-diag_kwargs _get_diag_kwargs( const_dialogue const &d,
-                              std::map<std::string, thingie> const &kwargs_ )
-{
-    diag_kwargs vals;
-
-    for( std::map<std::string, thingie>::value_type const &blorg : kwargs_ ) {
-        vals.kwargs.emplace( blorg.first, _get_diag_value( d, blorg.second ) );
-    }
-    return vals;
-}
+template<typename T>
+constexpr bool v_is_static = std::is_same_v<double, std::decay_t<T>> ||
+                             std::is_same_v<std::string, std::decay_t<T>>;
 
 } // namespace
 
@@ -355,12 +337,56 @@ double ass_oper::eval( dialogue &d ) const
     return 0;
 }
 
+func_diag::func_diag( eval_f const &fe_, ass_f const &fa_, char s, std::vector<thingie> p,
+                      std::map<std::string, thingie> k )
+    : fe( fe_ ), fa( fa_ ), scope( s ), params( p.size() ), params_dyn( std::move( p ) ),
+      kwargs_dyn( std::move( k ) )
+{
+    _update_diag_args<false>();
+    _update_diag_kwargs<false>();
+}
+
+template<bool at_runtime>
+void func_diag::_update_diag_args( const_dialogue const *d ) const
+{
+    for( std::size_t i = 0; i < params_dyn.size(); i++ ) {
+        thingie const &thing = params_dyn[i];
+        std::visit( overloaded{
+            [thing, this, i, d]( auto const & v )
+            {
+                if constexpr( at_runtime ^ v_is_static<decltype( v )> ) {
+                    params[i] = _get_diag_value( *d, thing );
+                }
+            },
+        },
+        thing.data );
+
+    }
+}
+
+template<bool at_runtime>
+void func_diag::_update_diag_kwargs( const_dialogue const *d ) const
+{
+    for( std::map<std::string, thingie>::value_type const &blorg : kwargs_dyn ) {
+        std::visit( overloaded{
+            [this, blorg, d]( auto const & v )
+            {
+                if constexpr( at_runtime ^ v_is_static<decltype( v )> ) {
+                    kwargs.kwargs[ blorg.first ] = _get_diag_value( *d, blorg.second );
+                }
+            },
+        },
+        blorg.second.data );
+    }
+}
+
+
 double func_diag::eval( const_dialogue const &d ) const
 {
     if( fe != nullptr ) {
-        std::vector<diag_value> args = _get_diag_args( d, params );
-        diag_kwargs kw = _get_diag_kwargs( d, kwargs );
-        return fe( d, scope, args, kw );
+        _update_diag_args<true>( &d );
+        _update_diag_kwargs<true>( &d );
+        return fe( d, scope, params, kwargs );
     }
     throw math::internal_error( "math called eval() on unexpected function that cannot evaluate" );
 }
@@ -368,9 +394,9 @@ double func_diag::eval( const_dialogue const &d ) const
 void func_diag::assign( dialogue &d, double val ) const
 {
     if( fa != nullptr ) {
-        std::vector<diag_value> args = _get_diag_args( d, params );
-        diag_kwargs kw = _get_diag_kwargs( d, kwargs );
-        fa( val, d, scope, args, kw );
+        _update_diag_args<true>( &d );
+        _update_diag_kwargs<true>( &d );
+        fa( val, d, scope, params, kwargs );
         return;
     }
     throw math::internal_error( "math called assign() on unexpected function that cannot assign" );
