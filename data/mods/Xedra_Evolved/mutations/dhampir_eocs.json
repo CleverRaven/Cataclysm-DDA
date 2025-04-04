@@ -22,13 +22,7 @@
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_CHECK_FOR_POWER_UPGRADES",
     "recurrence": 3600,
-    "condition": {
-      "and": [
-        { "u_has_trait": "DHAMPIR_TRAIT" },
-        { "math": [ "u_dhampir_blood_spent_compare_value_for_powers > 0" ] },
-        { "not": { "u_has_effect": "sleep" } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "math": [ "u_dhampir_blood_spent_compare_value_for_powers > 0" ] } ] },
     "deactivate_condition": { "not": { "u_has_trait": "DHAMPIR_TRAIT" } },
     "effect": [
       {
@@ -42,9 +36,15 @@
       },
       {
         "if": {
-          "x_in_y_chance": { "x": { "math": [ "u_dhampir_blood_spent_compare_value_for_powers" ] }, "y": { "math": [ "_target_value" ] } }
+          "and": [
+            { "not": { "u_has_effect": "sleep" } },
+            {
+              "x_in_y_chance": { "x": { "math": [ "u_dhampir_blood_spent_compare_value_for_powers" ] }, "y": { "math": [ "_target_value" ] } }
+            }
+          ]
         },
-        "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER" }
+        "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER" },
+        "else": { "math": [ "u_dhampir_blood_spent_compare_value_for_powers -= (rand(2) + 1)" ] }
       }
     ]
   },
