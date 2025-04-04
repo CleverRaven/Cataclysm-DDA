@@ -72,8 +72,44 @@
       {
         "if": { "u_has_trait": "VAMPIRE_ANATHEMA" },
         "then": [
-          { "math": [ "u_vitamin('vampire_blood_vitamin')", "+=", "30 + rand(20)" ] },
-          { "u_message": "Though it cannot sustain you, this blood can empower you.", "type": "mixed" }
+          {
+            "if": { "u_has_trait": "VAMPIRE_DRINK_VAMPIRE_BLOOD" },
+            "then": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+              { "math": [ "u_vitamin('vampire_blood_vitamin')", "+=", "30 + rand(20)" ] },
+              { "u_message": "This blood is the best you could drink.  You want more.", "type": "good" },
+              {
+                "if": { "u_has_trait": "BLOOD_FUN" },
+                "then": [
+                  {
+                    "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
+                    "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
+                    "else": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+                  }
+                ]
+              },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_MIND_CHAOS" },
+                "then": [ { "math": [ "u_counter_anathema_mind_chaos++" ] } ]
+              },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" },
+                "then": [ { "u_add_effect": "effect_recent_vampire_drink", "duration": "4 days" } ]
+              }
+            ],
+            "else": [
+              { "math": [ "u_vitamin('vampire_blood_vitamin')", "+=", "30 + rand(20)" ] },
+              { "u_message": "Though it cannot sustain you, this blood can empower you.", "type": "mixed" },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_MIND_CHAOS" },
+                "then": [ { "math": [ "u_counter_anathema_mind_chaos++" ] } ]
+              },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" },
+                "then": [ { "u_add_effect": "effect_recent_vampire_drink", "duration": "4 days" } ]
+              }
+            ]
+          }
         ],
         "else": { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" }
       }
@@ -132,7 +168,13 @@
         { "u_has_trait": "BLOOD_FUN" }
       ]
     },
-    "effect": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+    "effect": [
+      {
+        "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
+        "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
+        "else": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -141,7 +183,39 @@
     "recurrence": 1,
     "condition": { "u_has_effect": "vampire_virus" },
     "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
-    "effect": [ { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] } ]
+    "effect": [
+      { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] },
+      {
+        "math": [
+          "u_max_blood_amount_for_graph",
+          "=",
+          "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000))"
+        ]
+      },
+      { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_MAX_LIMIT",
+    "condition": {
+      "math": [
+        "u_vitamin('human_blood_vitamin')",
+        ">=",
+        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+      ]
+    },
+    "effect": [
+      {
+        "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 32600" ] },
+        "else": {
+          "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" },
+          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 14600" ] },
+          "else": { "math": [ "u_vitamin('human_blood_vitamin') = 5600" ] }
+        }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -421,7 +495,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EYEGLEAM_maintenance",
-    "condition": { "u_has_effect": "eyegleam" },
+    "condition": { "and": [ { "u_has_effect": "eyegleam" }, { "not": { "u_has_trait": "EYEGLEAM_UPGRADE" } } ] },
     "effect": [
       {
         "run_eocs": [

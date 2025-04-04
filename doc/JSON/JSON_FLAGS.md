@@ -384,6 +384,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
+- ```INSTANT_BLEED``` You bleed corpses in 1 second each.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded
 - ```INVISIBLE``` You can't be seen.
 - ```ITEM_WATERPROOFING``` Gear on your person is immune to being dissolved or broken while you're underwater.

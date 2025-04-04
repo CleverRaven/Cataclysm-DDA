@@ -1091,8 +1091,13 @@
       {
         "special_vision": [
           {
-            "condition": { "npc_has_species": "VAMPIRE" },
-            "distance": 50,
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 3" ] },
             "precise": true,
             "ignores_aiming_cone": true,
             "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]

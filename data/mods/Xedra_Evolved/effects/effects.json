@@ -3338,5 +3338,13 @@
     "max_intensity": 1000,
     "name": [ "Apex Vampire's Potency" ],
     "desc": [ "All the vampire blood you drank has empowered you." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_recent_vampire_drink",
+    "//": "This tracks if the player recently drank vampire blood.  This is used for the Apex's Thirst weakness.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "5 days"
   }
 ]
