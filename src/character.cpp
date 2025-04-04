@@ -8055,7 +8055,7 @@ bool Character::unwield()
 
     const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
 
-    if( test_mode || !dispose_item( item_location( *this, &weapon ), query ) ) {
+    if( !dispose_item( item_location( *this, &weapon ), query ) ) {
         return false;
     }
 
