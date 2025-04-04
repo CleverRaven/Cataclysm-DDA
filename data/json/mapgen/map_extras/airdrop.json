@@ -136,10 +136,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_item": [
-        { "item": "laptop", "x": 0, "y": 0, "repeat": [ 0, 4 ] },
-        { "item": "smart_phone", "x": 0, "y": 0, "repeat": [ 2, 7 ] }
-      ],
+      "place_item": [ { "item": "laptop", "x": 0, "y": 0, "repeat": [ 0, 4 ] } ],
+      "place_items": [ { "item": "civilian_phones", "x": 0, "y": 0, "repeat": [ 2, 7 ] } ],
       "place_furniture": [ { "furn": "f_active_backup_generator", "x": 0, "y": 0 } ]
     }
   }

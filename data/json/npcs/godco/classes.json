@@ -974,7 +974,7 @@
     "type": "item_group",
     "id": "GODCO_sonia_carried",
     "subtype": "collection",
-    "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 }, { "group": "snacks", "count": [ 1, 2 ] } ]
+    "entries": [ { "group": "civilian_phones", "ammo-item": "battery", "charges": 120 }, { "group": "snacks", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

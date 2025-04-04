@@ -259,6 +259,9 @@ struct mutation_branch {
         /**Map of angered species and there intensity*/
         std::map<species_id, int> anger_relations;
 
+        std::vector<species_id> empathize_with;
+        std::vector<species_id> no_empathize_with;
+
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
 
