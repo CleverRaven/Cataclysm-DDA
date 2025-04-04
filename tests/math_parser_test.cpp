@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
 
 #include "avatar.h"
 #include "cata_catch.h"
@@ -15,6 +16,7 @@
 #include "dialogue.h"
 #include "global_vars.h"
 #include "math_parser.h"
+#include "math_parser_diag_value.h"
 #include "math_parser_func.h"
 #include "math_parser_type.h"
 #include "npc.h"
@@ -169,8 +171,6 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 9 ) );
     CHECK( testexp.parse( "_test_diag_('1':2)" ) );  // double kwarg
     CHECK( testexp.eval( d ) == Approx( 2 ) );
-    CHECK( testexp.parse( "_test_diag_('1':2*3)" ) );  // sub-expression kwarg
-    CHECK( testexp.eval( d ) == Approx( 6 ) );
     CHECK( testexp.parse( "_test_diag_('1':3.5*sin(pi/2))" ) );  // sub-expression kwarg
     CHECK( testexp.eval( d ) == Approx( 3.5 ) );
     CHECK( testexp.parse( "_test_diag_('1':0==0?1:2)" ) );  // ternary kwarg
@@ -257,7 +257,7 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
             testexp.eval( d );
         } catch( math::runtime_error const &ex ) {
             std::string_view what( ex.what() );
-            expected_array = what.find( "Expected array" ) != std::string_view::npos;
+            expected_array = what.find( "requested array" ) != std::string_view::npos;
         }
         CHECK( expected_array );
         CHECK_FALSE( testexp.parse( "'1':'2'" ) );
@@ -287,13 +287,13 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     global_variables &globvars = get_globals();
 
     // reading scoped variables
-    globvars.set_global_value( "x", "100" );
+    globvars.set_global_value( "x", 100 );
     CHECK( testexp.parse( "x" ) );
     CHECK( testexp.eval( d ) == Approx( 100 ) );
-    get_avatar().set_value( "x", "92" );
+    get_avatar().set_value( "x", 92 );
     CHECK( testexp.parse( "u_x" ) );
     CHECK( testexp.eval( d ) == Approx( 92 ) );
-    dude.set_value( "x", "21" );
+    dude.set_value( "x", 21 );
     CHECK( testexp.parse( "n_x" ) );
     CHECK( testexp.eval( d ) == Approx( 21 ) );
     CHECK( testexp.parse( "x + u_x + n_x" ) );
@@ -307,7 +307,7 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "has_var(_ctx)?19:20" ) );
     CHECK( testexp.eval( d ) == Approx( 20 ) );
 
-    d.set_value( "ctx", "14" );
+    d.set_value( "ctx", 14 );
 
     CHECK( testexp.parse( "_ctx" ) );
     CHECK( testexp.eval( d ) == Approx( 14 ) );
@@ -325,7 +325,8 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
             testexp.eval( d );
         } catch( math::exception const &ex ) {
             std::string_view what( ex.what() );
-            expected_string = what.find( "Expected double" ) != std::string_view::npos;
+            expected_string = what.find( "requested double" ) != std::string_view::npos;
+            CAPTURE( what );
         }
         CHECK( expected_string );
         CHECK_FALSE( testexp.parse( "val( 'stamina' )" ) ); // invalid scope for this function
@@ -351,41 +352,41 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     // assignment to scoped variables
     CHECK( testexp.parse( "u_testvar = 159" ) );
     testexp.eval( d );
-    CHECK( std::stoi( get_avatar().get_value( "testvar" ) ) == 159 );
+    CHECK( get_avatar().get_value( "testvar" ) == 159 );
     CHECK( testexp.parse( "testvar = 259" ) );
     testexp.eval( d );
-    CHECK( std::stoi( globvars.get_global_value( "testvar" ) ) == 259 );
+    CHECK( globvars.get_global_value( "testvar" ) == 259 );
     CHECK( testexp.parse( "n_testvar = 359" ) );
     testexp.eval( d );
-    CHECK( std::stoi( dude.get_value( "testvar" ) ) == 359 );
+    CHECK( dude.get_value( "testvar" ) == 359 );
     CHECK( testexp.parse( "_testvar = 159" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 159 );
+    CHECK( d.get_value( "testvar" ) == 159 );
     CHECK( testexp.parse( "_testvar += 1" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 160 );
+    CHECK( d.get_value( "testvar" ) == 160 );
     CHECK( testexp.parse( "_testvar -= 1" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 159 );
+    CHECK( d.get_value( "testvar" ) == 159 );
     CHECK( testexp.parse( "_testvar *= 2" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 318 );
+    CHECK( d.get_value( "testvar" ) == 318 );
     CHECK( testexp.parse( "_testvar /= 2" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 159 );
+    CHECK( d.get_value( "testvar" ) == 159 );
     CHECK( testexp.parse( "_testvar %= 2" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 1 );
+    CHECK( d.get_value( "testvar" ) == 1 );
     CHECK( testexp.parse( "_blorg = ((((((((5+7)*7.123)-3)-((5+7)-(7.123*3)))-((5*(7-(7.123*3)))/((5*7)+(7.123+3))))-((((5+7)-(7.123*3))+((5/7)+(7.123+3)))+(((5*7)+(7.123+3))*((5/7)/(7.123-3)))))-(((((5/7)-(7.321/3))*((5-7)+(7.321+3)))*(((5-7)-(7.321+3))+((5-7)*(7.321/3))))*((((5-7)+(7.321+3))-((5*7)*(7.321+3)))-(((5-7)*(7.321/3))/(5+((7/7.321)+3)))))))" ) );
     testexp.eval( d );
-    CHECK( std::stod( d.get_value( "blorg" ) ) == 87139.7 );
+    CHECK( d.get_value( "blorg" ).dbl() == Approx( 87139.724 ) );
 
     CHECK( testexp.parse( "_testvar++" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 2 );
+    CHECK( d.get_value( "testvar" ) == 2 );
     CHECK( testexp.parse( "_testvar --" ) );
     testexp.eval( d );
-    CHECK( std::stoi( d.get_value( "testvar" ) ) == 1 );
+    CHECK( d.get_value( "testvar" ) == 1 );
 
     // assignment to scoped values with u_val shim
     CHECK( testexp.parse( "u_val('stamina') = 459" ) );

@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 #include <variant>
@@ -98,5 +99,13 @@ bool operator==( diag_value::legacy_value const &lhs, diag_value::legacy_value c
 bool operator!=( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs );
 bool operator==( diag_value const &lhs, diag_value const &rhs );
 bool operator!=( diag_value const &lhs, diag_value const &rhs );
+
+// these ignore legacy_value so only use them in new code
+bool operator==( diag_value const &lhs, double rhs );
+bool operator!=( diag_value const &lhs, double rhs );
+bool operator==( diag_value const &lhs, std::string_view rhs );
+bool operator!=( diag_value const &lhs, std::string_view rhs );
+bool operator==( diag_value const &lhs, tripoint_abs_ms const &rhs );
+bool operator!=( diag_value const &lhs, tripoint_abs_ms const &rhs );
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_VALUE_H

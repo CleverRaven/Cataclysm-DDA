@@ -236,12 +236,48 @@ bool operator!=( diag_value::legacy_value const &lhs, diag_value::legacy_value c
 
 bool operator==( diag_value const &lhs, diag_value const &rhs )
 {
+    if( lhs.is_dbl() && rhs.is_dbl() ) {
+        return lhs == rhs.dbl();
+    }
     return lhs.data == rhs.data;
 }
 
 bool operator!=( diag_value const &lhs, diag_value const &rhs )
 {
+    if( lhs.is_dbl() && rhs.is_dbl() ) {
+        return lhs != rhs.dbl();
+    }
     return lhs.data != rhs.data;
+}
+
+bool operator==( diag_value const &lhs, double rhs )
+{
+    return lhs.is_dbl() && float_equals( lhs.dbl(), rhs );
+}
+
+bool operator!=( diag_value const &lhs, double rhs )
+{
+    return !lhs.is_dbl() || !float_equals( lhs.dbl(), rhs );
+}
+
+bool operator==( diag_value const &lhs, std::string_view rhs )
+{
+    return lhs.is_str() && lhs.str() == rhs;
+}
+
+bool operator!=( diag_value const &lhs, std::string_view rhs )
+{
+    return !lhs.is_str() || lhs.str() != rhs;
+}
+
+bool operator==( diag_value const &lhs, tripoint_abs_ms const &rhs )
+{
+    return lhs.is_tripoint() && lhs.tripoint() == rhs;
+}
+
+bool operator!=( diag_value const &lhs, tripoint_abs_ms const &rhs )
+{
+    return !lhs.is_tripoint() || lhs.tripoint() != rhs;
 }
 
 namespace
