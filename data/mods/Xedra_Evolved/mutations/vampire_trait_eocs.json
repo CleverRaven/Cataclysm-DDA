@@ -153,8 +153,10 @@
     "id": "EOC_VAMPIRE_BLOOD_NUMBER_UI",
     "//": "Until the day UI widgets can directly access vitamin levels, this will have to be.",
     "recurrence": 1,
-    "condition": { "u_has_effect": "vampire_virus" },
-    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
+    "condition": { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] },
+    "deactivate_condition": {
+      "and": [ { "not": { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] } }, { "not": { "u_has_effect": "vampire_virus" } } ]
+    },
     "effect": [ { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] } ]
   },
   {
