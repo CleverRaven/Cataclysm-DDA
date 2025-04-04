@@ -566,7 +566,7 @@ void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
         dialogue d;
         global_variables::impl_t context;
         for( const auto &val : e.data() ) {
-            context[val.first] = diag_value{ val.second.get_string() };
+            context[val.first] = diag_value{ val.second };
         }
 
         // if we have an NPC to trigger this event for, do so,
