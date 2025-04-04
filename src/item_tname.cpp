@@ -323,7 +323,7 @@ std::string ethereal( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
     if( it.ethereal ) {
-        return string_format( _( " (%s turns)" ), it.get_var( "ethereal" ) );
+        return string_format( _( " (%s turns)" ), it.get_var( "ethereal", 0 ) );
     }
     return {};
 }

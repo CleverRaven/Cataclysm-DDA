@@ -88,9 +88,37 @@ struct diag_value {
     impl_t data;
 };
 
+bool operator==( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs );
+bool operator!=( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs );
+
+constexpr bool operator==( diag_value const &lhs, diag_value const &rhs )
+{
+    return lhs.data == rhs.data;
+}
+
+constexpr bool operator!=( diag_value const &lhs, diag_value const &rhs )
+{
+    return lhs.data != rhs.data;
+}
+
 constexpr bool operator==( diag_value const &lhs, std::string_view rhs )
 {
     return std::holds_alternative<std::string>( lhs.data ) && std::get<std::string>( lhs.data ) == rhs;
+}
+
+constexpr bool operator!=( diag_value const &lhs, std::string_view rhs )
+{
+    return !std::holds_alternative<std::string>( lhs.data ) || std::get<std::string>( lhs.data ) != rhs;
+}
+
+constexpr bool operator==( diag_value const &lhs, double rhs )
+{
+    return std::holds_alternative<double>( lhs.data ) && float_equals( lhs.dbl(), rhs );
+}
+
+constexpr bool operator==( diag_value const &lhs, tripoint_abs_ms const &rhs )
+{
+    return std::holds_alternative<tripoint_abs_ms>( lhs.data ) && lhs.tripoint() == rhs;
 }
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_VALUE_H

@@ -195,3 +195,12 @@ diag_array const &diag_value::array( const_dialogue const &d ) const
 {
     return _diag_value_helper<diag_array, true>( data, d );
 }
+
+bool operator==( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs )
+{
+    return lhs.val == rhs.val;
+}
+bool operator!=( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs )
+{
+    return lhs.val != rhs.val;
+}

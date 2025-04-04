@@ -58,9 +58,9 @@ tripoint_abs_omt talker_item_const::pos_abs_omt() const
     return get_player_character().pos_abs_omt();
 }
 
-std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const
+diag_value const *talker_item_const::maybe_get_value( const std::string &var_name ) const
 {
-    return me_it_const->get_item()->maybe_get_var( var_name );
+    return me_it_const->get_item()->maybe_get_value( var_name );
 }
 
 bool talker_item_const::has_flag( const flag_id &f ) const
@@ -138,7 +138,7 @@ int talker_item_const::get_quality( const std::string &quality, bool strict ) co
     return me_it_const->get_quality( quality, strict );
 }
 
-void talker_item::set_value( const std::string &var_name, const std::string &value )
+void talker_item::set_value( const std::string &var_name, diag_value value )
 {
     me_it->get_item()->set_var( var_name, value );
 }
