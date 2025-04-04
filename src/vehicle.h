@@ -810,7 +810,7 @@ class vehicle
     private:
         // TODO: Get rid of untyped overload.
         // Miscellaneous key/value pairs.
-        std::unordered_map<std::string, std::string> values;
+        global_variables::impl_t values;
         bool has_structural_part( const point &dp ) const;
         bool has_structural_part( const point_rel_ms &dp ) const;
         bool is_structural_part_removed() const;
@@ -875,10 +875,14 @@ class vehicle
         static std::map<Vehicle *, float> search_connected_vehicles( const map &here, Vehicle *start );
     public:
         std::vector<std::string> chat_topics; // What it has to say.
-        void set_value( const std::string &key, const std::string &value );
+        void set_value( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         void remove_value( const std::string &key );
-        std::string get_value( const std::string &key ) const;
-        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+        diag_value const &get_value( const std::string &key ) const;
+        diag_value const *maybe_get_value( const std::string &key ) const;
         void clear_values();
         void add_chat_topic( const std::string &topic );
         int get_passenger_count( bool hostile ) const;
