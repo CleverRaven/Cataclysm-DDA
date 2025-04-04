@@ -184,15 +184,18 @@ double coverage_eval( const_dialogue const &d, char scope, std::vector<diag_valu
 double distance_eval( const_dialogue const &d, char /* scope */,
                       std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
-    const auto get_pos = [&d]( std::string_view str ) {
-        if( str == "u" ) {
-            return d.const_actor( false )->pos_abs();
-        } else if( str == "npc" ) {
-            return d.const_actor( true )->pos_abs();
+    const auto get_pos = [&d]( diag_value const & dv ) {
+        if( dv.is_str() ) {
+            std::string const &str = dv.str( d );
+            if( str == "u" ) {
+                return d.const_actor( false )->pos_abs();
+            } else if( str == "npc" ) {
+                return d.const_actor( true )->pos_abs();
+            }
         }
-        return tripoint_abs_ms( tripoint::from_string( str.data() ) );
+        return dv.tripoint( d );
     };
-    return rl_dist( get_pos( params[0].str( d ) ), get_pos( params[1].str( d ) ) );
+    return rl_dist( get_pos( params[0] ), get_pos( params[1] ) );
 }
 
 double damage_level_eval( const_dialogue const &d, char scope,
@@ -342,7 +345,7 @@ double field_strength_eval( const_dialogue const &d, char scope,
     tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
+        loc = loc_val.tripoint( d );
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("field_strength" needs either an actor scope (u/n) or a 'location' kwarg)" );
@@ -385,7 +388,7 @@ double sum_traits_of_category_eval( const_dialogue const &d, char scope,
 
     diag_value type = kwargs.kwarg_or( "type", "ALL" );
 
-    mutation_category_id cat = mutation_category_id( params[0].str() );
+    mutation_category_id cat = mutation_category_id( params[0].str( d ) );
     std::string thing = type.str( d );
     mut_count_type count_type;
 
@@ -396,7 +399,7 @@ double sum_traits_of_category_eval( const_dialogue const &d, char scope,
     } else if( thing == "ALL" ) {
         count_type = mut_count_type::ALL;
     } else {
-        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str( d ) );
     }
 
     return d.const_actor( is_beta( scope ) )->get_total_in_category( cat, count_type );
@@ -409,7 +412,7 @@ double sum_traits_of_category_char_has_eval( const_dialogue const &d, char scope
 
     diag_value type = kwargs.kwarg_or( "type", "ALL" );
 
-    mutation_category_id cat = mutation_category_id( params[0].str() );
+    mutation_category_id cat = mutation_category_id( params[0].str( d ) );
     std::string thing = type.str( d );
     mut_count_type count_type;
 
@@ -420,7 +423,7 @@ double sum_traits_of_category_char_has_eval( const_dialogue const &d, char scope
     } else if( thing == "ALL" ) {
         count_type = mut_count_type::ALL;
     } else {
-        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str( d ) );
     }
 
     return d.const_actor( is_beta( scope ) )->get_total_in_category_char_has( cat, count_type );
@@ -704,7 +707,7 @@ double _characters_nearby_eval( const_dialogue const &d, char scope,
     tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
+        loc = loc_val.tripoint( d );
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
@@ -814,7 +817,7 @@ double _monsters_nearby_eval( const_dialogue const &d, char scope,
     tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
+        loc = loc_val.tripoint( d );
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
@@ -1337,11 +1340,11 @@ double _test_add( diag_value const &v, const_dialogue const &d )
 {
     double ret{};
     if( v.is_array() ) {
-        for( diag_value const &w : v.array() ) {
+        for( diag_value const &w : v.array( d ) ) {
             ret += _test_add( w, d );
         }
     } else {
-        ret += v.dbl();
+        ret += v.dbl( d );
     }
     return ret;
 }
@@ -1635,7 +1638,7 @@ void weather_ass( double val, dialogue &d, char /* scope */, std::vector<diag_va
     } else if( aspect == "pressure" ) {
         get_weather().weather_precise->pressure = val;
     } else {
-        throw math::syntax_error( "Unknown weather aspect %s", params[0].str() );
+        throw math::syntax_error( "Unknown weather aspect %s", params[0].str( d ) );
     }
 
     get_weather().clear_temp_cache();
