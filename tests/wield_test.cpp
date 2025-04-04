@@ -1,22 +1,24 @@
 #include <list>
+#include <memory>
 #include <optional>
 #include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -77,7 +79,7 @@ TEST_CASE( "Wield_test", "[wield]" )
 
     map &here = get_map();
 
-    Character &player = get_player_character();
+    avatar &player = get_avatar();
     player.setpos( here, {player_pos.x(), player_pos.y(), 0} );
     player.set_body();
     player.clear_worn();
@@ -144,18 +146,65 @@ TEST_CASE( "Wield_test", "[wield]" )
             }
         }
 
-        GIVEN( "Wielding a container with contained item" ) {
-            REQUIRE( player.wield( sheath ) );
-            item_location sheath_loc = player.get_wielded_item();
-            item_location knife_loc = player.try_add( knife_combat );
-            REQUIRE( sheath_loc.eventually_contains( knife_loc ) );
+        GIVEN( "Wearing an sheath with another item in its pocket" ) {
+            REQUIRE( player.amount_worn( itype_sheath ) == 0 );
+            player.wear_item( sheath );
+            item_location sheath_loc = player.worn.top_items_loc( player ).front();
+            REQUIRE( sheath_loc );
+            REQUIRE( player.amount_worn( itype_sheath ) == 1 );
+            REQUIRE( sheath_loc->empty() );
 
-            WHEN( "trying to wield contained item" ) {
-                REQUIRE_FALSE( player.wield( *knife_loc ) );
+            item_location knife_loc = player.try_add( knife_combat );
+            INFO( knife_loc.describe( &player ) );
+            REQUIRE_FALSE( sheath_loc->empty() );
+            REQUIRE( knife_loc.has_parent() );
+
+
+            WHEN( "wielding the worn sheath item" ) {
+                REQUIRE( player.wield( *sheath_loc ) );
+
+                item_location wielded_sheath = player.get_wielded_item();
+                REQUIRE_FALSE( wielded_sheath->get_contents().empty() );
+                knife_loc = item_location( wielded_sheath, &wielded_sheath->get_contents().first_item() );
+
+
+                THEN( "you wield the sheath" ) {
+                    REQUIRE( wielded_sheath );
+                }
+
+                AND_THEN( "the knife is still in the sheath" ) {
+                    REQUIRE( knife_loc );
+                }
+
+                AND_THEN( "you no longer wear the item" ) {
+                    INFO( player.worn.top_items_loc( player ).size() );
+                    REQUIRE( player.amount_worn( itype_sheath ) == 0 );
+                }
+
+                AND_WHEN( "trying to wield contained item" ) {
+                    REQUIRE_FALSE( player.wield( *knife_loc ) );
+                }
+
+                AND_WHEN( "trying to wield contained item_location" ) {
+                    REQUIRE_FALSE( player.wield( knife_loc ) );
+
+                    THEN( "you still wield the sheath" ) {
+                        REQUIRE( player.is_wielding( *wielded_sheath ) );
+                    }
+                }
             }
 
-            WHEN( "trying to wield contained item_location" ) {
-                REQUIRE_FALSE( player.wield( knife_loc ) );
+            WHEN( "wielding the worn sheath location" ) {
+                REQUIRE( player.wield( sheath_loc ) );
+                item_location wielded = player.get_wielded_item();
+                REQUIRE_FALSE( wielded->empty() );
+
+                THEN( "you wield the sheath" ) {
+                    REQUIRE( wielded );
+                }
+                AND_THEN( "you no longer wear the item" ) {
+                    REQUIRE( player.amount_worn( itype_sheath ) == 0 );
+                }
             }
         }
     }
@@ -190,18 +239,50 @@ TEST_CASE( "Wield_test", "[wield]" )
             }
         }
 
-        GIVEN( "Wielding a container with contained item" ) {
-            REQUIRE( guy.wield( sheath ) );
-            item_location sheath_loc = guy.get_wielded_item();
+        GIVEN( "Wearing an sheath with another item in its pocket" ) {
+            REQUIRE( guy.amount_worn( itype_sheath ) == 0 );
+            guy.wear_item( sheath );
+            item_location sheath_loc = guy.worn.top_items_loc( guy ).front();
+            REQUIRE( sheath_loc );
+            REQUIRE( guy.amount_worn( itype_sheath ) == 1 );
+            REQUIRE( sheath_loc->empty() );
+
             item_location knife_loc = guy.try_add( knife_combat );
-            REQUIRE( sheath_loc.eventually_contains( knife_loc ) );
+            INFO( knife_loc.describe( &guy ) );
+            REQUIRE_FALSE( sheath_loc->empty() );
+            REQUIRE( knife_loc.has_parent() );
+            WHEN( "wielding the worn sheath item" ) {
+                REQUIRE( guy.wield( *sheath_loc ) );
 
-            WHEN( "trying to wield contained item" ) {
-                REQUIRE_FALSE( guy.wield( *knife_loc ) );
-            }
+                item_location wielded_sheath = guy.get_wielded_item();
+                REQUIRE_FALSE( wielded_sheath->get_contents().empty() );
+                knife_loc = item_location( wielded_sheath, &wielded_sheath->get_contents().first_item() );
 
-            WHEN( "trying to wield contained item_location" ) {
-                REQUIRE_FALSE( guy.wield( knife_loc ) );
+
+                THEN( "you wield the sheath" ) {
+                    REQUIRE( wielded_sheath );
+                }
+
+                AND_THEN( "the knife is still in the sheath" ) {
+                    REQUIRE( knife_loc );
+                }
+
+                AND_THEN( "you no longer wear the item" ) {
+                    INFO( guy.worn.top_items_loc( guy ).size() );
+                    REQUIRE( guy.amount_worn( itype_sheath ) == 0 );
+                }
+
+                AND_WHEN( "trying to wield contained item" ) {
+                    REQUIRE_FALSE( guy.wield( *knife_loc ) );
+                }
+
+                AND_WHEN( "trying to wield contained item_location" ) {
+                    REQUIRE_FALSE( guy.wield( knife_loc ) );
+
+                    THEN( "you still wield the sheath" ) {
+                        REQUIRE( guy.is_wielding( *wielded_sheath ) );
+                    }
+                }
             }
         }
 
