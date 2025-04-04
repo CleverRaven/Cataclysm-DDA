@@ -288,8 +288,6 @@ TEST_CASE( "Wield_test", "[wield]" )
         }
 
         AND_GIVEN( "you already wield an item" ) {
-            // from the previous test
-
             guy.remove_weapon();
             REQUIRE( guy.wield( knife_hunting ) );
 
@@ -308,11 +306,6 @@ TEST_CASE( "Wield_test", "[wield]" )
             AND_WHEN( "you try to wield it again with item_location" ) {
                 INFO( "should probably be made consisten with the item implementation" );
                 REQUIRE_FALSE( guy.wield( weapon ) );
-                // item_location new_weap = guy.get_wielded_item();
-                // REQUIRE( new_weap );
-                // THEN( "you un-wield the item" ) {
-                //     REQUIRE( new_weap == weapon );
-                // }
             }
 
             AND_WHEN( "you try and wield another item" ) {
