@@ -283,7 +283,7 @@
       { "item": "recipe_augs", "prob": 4 },
       { "item": "vac_sealer", "prob": 10 },
       { "item": "cell_phone", "prob": 15, "charges": [ 0, -1 ] },
-      { "item": "smart_phone", "prob": 55, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 55, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 15 },
       { "item": "memory_card_unread", "prob": 15 },
       { "item": "camera", "prob": 15, "charges": [ 0, -1 ] },

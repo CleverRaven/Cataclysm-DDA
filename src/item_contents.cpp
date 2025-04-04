@@ -868,9 +868,6 @@ ret_val<item *> item_contents::insert_item( const item &it,
     if( !pocket.success() ) {
         return ret_val<item *>::make_failure( nullptr, pocket.str() );
     }
-    if( pocket.value()->is_forbidden() ) {
-        return ret_val<item *>::make_failure( nullptr, _( "Can't store anything in this." ) );
-    }
 
     ret_val<item *> inserted = pocket.value()->insert_item( it, false, true, ignore_contents );
     if( inserted.success() ) {

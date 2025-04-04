@@ -215,13 +215,16 @@
     "subtype": "distribution",
     "id": "new_phones_case",
     "container-item": "waterproof_smart_phone_case",
-    "items": [ { "item": "smart_phone", "charges": 100 } ]
+    "items": [ { "group": "smart_phone_maybe_locked", "charges": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "new_phones_no_case",
-    "items": [ { "item": "cell_phone", "prob": 1, "charges": 100 }, { "item": "smart_phone", "prob": 17, "charges": 100 } ]
+    "items": [
+      { "item": "cell_phone", "prob": 1, "charges": 100 },
+      { "group": "smart_phone_maybe_locked", "prob": 17, "charges": 100 }
+    ]
   },
   {
     "type": "item_group",
@@ -235,8 +238,18 @@
     "id": "civilian_phones_case",
     "container-item": "waterproof_smart_phone_case",
     "items": [
-      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ], "contents-group": "civilian_smartphone_efiles" },
-      { "item": "smart_phone", "prob": 1, "charges": 100, "contents-group": "civilian_smartphone_efiles" }
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 17,
+        "charges": [ 0, 15 ],
+        "contents-group": "civilian_smartphone_efiles"
+      },
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 1,
+        "charges": 100,
+        "contents-group": "civilian_smartphone_efiles"
+      }
     ]
   },
   {
@@ -246,8 +259,26 @@
     "items": [
       { "item": "cell_phone", "prob": 2, "charges": [ 0, 15 ] },
       { "item": "cell_phone", "prob": 1, "charges": 100 },
-      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ], "contents-group": "civilian_smartphone_efiles" },
-      { "item": "smart_phone", "prob": 1, "charges": 100, "contents-group": "civilian_smartphone_efiles" }
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 17,
+        "charges": [ 0, 15 ],
+        "contents-group": "civilian_smartphone_efiles"
+      },
+      {
+        "group": "smart_phone_maybe_locked",
+        "prob": 1,
+        "charges": 100,
+        "contents-group": "civilian_smartphone_efiles"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "smart_phone_maybe_locked",
+    "items": [
+      { "item": "smart_phone", "prob": 25, "charges": [ 0, 24 ] },
+      { "item": "smart_phone_locked", "prob": 75, "charges": [ 0, 24 ] }
     ]
   },
   {
