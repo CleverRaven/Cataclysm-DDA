@@ -979,5 +979,82 @@
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dental_xray",
+    "name": "dental X-ray machine",
+    "description": "A device for creating radiographic images of the teeth.",
+    "symbol": "n",
+    "bgcolor": "white",
+    "move_cost_mod": 4,
+    "coverage": 65,
+    "required_str": -1,
+    "looks_like": "f_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exam_chair",
+    "name": "exam chair",
+    "description": "A medical exam chair with an overhead light, bolted to the floor.",
+    "symbol": "h",
+    "bgcolor": "white",
+    "move_cost_mod": 4,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [ 4, 8 ] },
+        { "item": "lightstrip", "count": 2 },
+        { "item": "pipe", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 4 ] },
+        { "item": "leather", "count": [ 2, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "glass_shard", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": 1 }
+      ]
+    }
   }
 ]
