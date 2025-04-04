@@ -117,7 +117,7 @@ TEST_CASE( "Wield_test", "[wield]" )
                 item_location wield_loc = player.get_wielded_item();
 
                 THEN( "the old item is not removed" ) {
-                    INFO( "should be made consistent with items from the inventory, but currently too many things rely on it working this way." );
+                    INFO( "If wielded by item you have to manually remove the old item" );
                     CHECK( item_loc.get_item() );
                 }
 
