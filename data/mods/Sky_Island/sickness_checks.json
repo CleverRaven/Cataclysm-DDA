@@ -6,6 +6,8 @@
     "recurrence": { "global_val": "var", "var_name": "currentpulselength", "default": "15 m" },
     "condition": { "u_has_trait": "awayfromhome" },
     "deactivate_condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "global": true,
+    "run_for_npcs": true,
     "effect": [
       { "math": [ "timeawayfromhome++" ] },
       { "math": [ "readablepulsesleft = 9 - timeawayfromhome" ] },
