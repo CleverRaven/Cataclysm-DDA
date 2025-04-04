@@ -3742,10 +3742,13 @@ bool target_ui::action_aim()
     set_last_target();
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
+    double hold_recoil = you->recoil;
     for( int i = 0; i < 10; ++i ) {
         do_aim( *you, *relevant, min_recoil );
     }
-
+    add_msg_debug( debugmode::debug_filter::DF_BALLISTIC,
+                   "you reduced recoil from %f to %f in 10 moves",
+                   hold_recoil, you->recoil );
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 

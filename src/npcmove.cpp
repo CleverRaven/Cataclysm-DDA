@@ -157,7 +157,6 @@ static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
-static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
@@ -2037,25 +2036,30 @@ void npc::evaluate_best_attack( const Creature *target )
     std::shared_ptr<npc_attack> best_attack;
     npc_attack_rating best_evaluated_attack;
     const auto compare = [&best_attack, &best_evaluated_attack, this, &target]
-    ( const std::shared_ptr<npc_attack> &potential_attack ) {
+    ( const std::shared_ptr<npc_attack> &potential_attack, const std::string & disp ) {
         const npc_attack_rating evaluated = potential_attack->evaluate( *this, target );
-        if( evaluated > best_evaluated_attack ) {
-            best_attack = potential_attack;
-            best_evaluated_attack = evaluated;
+        if( evaluated.value() ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s: Item %s has effectiveness %d",
+                           this->get_name(), disp, *evaluated.value() );
+            if( evaluated > best_evaluated_attack ) {
+                best_attack = potential_attack;
+                best_evaluated_attack = evaluated;
+            }
         }
     };
 
     // punching things is always available
-    compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
+    compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded" );
     visit_items( [&compare, this, &here]( item * it, item * ) {
         if( can_wield( *it ).success() ) {
             // you can theoretically melee with anything.
-            compare( std::make_shared<npc_attack_melee>( *it ) );
+            compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) " + it->display_name() );
             if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
-                compare( std::make_shared<npc_attack_throw>( *it ) );
+                compare( std::make_shared<npc_attack_throw>( *it ), "(as THROWN) " + it->display_name() );
             }
             if( !it->type->use_methods.empty() ) {
-                compare( std::make_shared<npc_attack_activate_item>( *it ) );
+                compare( std::make_shared<npc_attack_activate_item>( *it ),
+                         "(as ACTIVATED) " + it->display_name() );
             }
             if( rules.has_flag( ally_rule::use_guns ) ) {
                 for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
@@ -2064,9 +2068,9 @@ void npc::evaluate_best_attack( const Creature *target )
                            ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                              !mode.second->is_silent() ) ) ) {
                         if( it->shots_remaining( here, this ) > 0 || can_reload_current() ) {
-                            compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
+                            compare( std::make_shared<npc_attack_gun>( *it, mode.second ), "(as FIRED) " + it->display_name() );
                         } else {
-                            compare( std::make_shared<npc_attack_melee>( *it ) );
+                            compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) " + it->display_name() );
                         }
                     }
                 }
@@ -2080,7 +2084,7 @@ void npc::evaluate_best_attack( const Creature *target )
         magic->evaluate_opens_spellbook_data();
     }
     for( const spell_id &sp : magic->spells() ) {
-        compare( std::make_shared<npc_attack_spell>( sp ) );
+        compare( std::make_shared<npc_attack_spell>( sp ), sp.c_str() );
     }
 
     ai_cache.current_attack = best_attack;
@@ -2751,8 +2755,8 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
-    add_msg_debug( debugmode::DF_NPC, "confident_gun (%s<=%.2f) at %.1f", gun.tname(), confident_range,
-                   max_dispersion );
+    add_msg_debug( debugmode::DF_NPC, "%s: Even Chance Dist / Max Dispersion: %.1f / %.1f",
+                   gun.tname(), even_chance_range, max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
 
@@ -2788,7 +2792,7 @@ bool npc::wont_hit_friend( const tripoint_bub_ms &tar, const item &it, bool thro
 
     for( const auto &fr : ai_cache.friends ) {
         const shared_ptr_fast<Creature> ally_p = fr.lock();
-        if( !ally_p ) {
+        if( !ally_p || !sees( here, *ally_p ) ) {
             continue;
         }
         const Creature &ally = *ally_p;
@@ -2859,12 +2863,17 @@ void npc::aim( const Target_attributes &target_attributes )
     const item_location weapon = get_wielded_item();
     double aim_amount = weapon ? aim_per_move( *weapon, recoil ) : 0.0;
     const aim_mods_cache aim_cache = gen_aim_mods_cache( *weapon );
+    int hold_moves = moves;
+    double hold_recoil = recoil;
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
         aim_amount = aim_per_move( *weapon, recoil, target_attributes, { std::ref( aim_cache ) } );
     }
+    add_msg_debug( debugmode::debug_filter::DF_NPC_COMBATAI,
+                   "%s reduced recoil from %f to %f in %d moves",
+                   this->get_name(), hold_recoil, recoil, hold_moves );
 }
 
 bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool force )
@@ -3438,20 +3447,7 @@ void npc::move_pause()
             return;
         }
     }
-    // NPCs currently always aim when using a gun, even with no target
-    // This simulates them aiming at stuff just at the edge of their range
-    if( !get_wielded_item() || !get_wielded_item()->is_gun() ) {
-        pause();
-        return;
-    }
-
-    // Stop, drop, and roll
-    if( has_effect( effect_onfire ) ) {
-        pause();
-    } else {
-        aim( Target_attributes() );
-        moves = std::min( moves, 0 );
-    }
+    pause();
 }
 
 static std::optional<tripoint_bub_ms> nearest_passable( const tripoint_bub_ms &p,
