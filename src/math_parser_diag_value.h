@@ -12,6 +12,8 @@
 #include "cata_variant.h"
 #include "coordinates.h"
 
+class JsonOut;
+class JsonValue;
 struct const_dialogue;
 struct diag_value;
 
@@ -78,6 +80,9 @@ struct diag_value {
     tripoint_abs_ms const &tripoint( const_dialogue const &d ) const;
 
     std::string to_string( bool i18n = false ) const;
+
+    void serialize( JsonOut & ) const;
+    void deserialize( const JsonValue &jsin );
 
     struct legacy_value {
         std::string val;

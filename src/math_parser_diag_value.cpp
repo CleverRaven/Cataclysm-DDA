@@ -12,6 +12,8 @@
 #include "cata_variant.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
+#include "json.h"
 #include "math_parser_type.h"
 #include "point.h"
 #include "translation.h"
@@ -240,4 +242,79 @@ bool operator==( diag_value const &lhs, diag_value const &rhs )
 bool operator!=( diag_value const &lhs, diag_value const &rhs )
 {
     return lhs.data != rhs.data;
+}
+
+namespace
+{
+
+void _serialize( diag_value::impl_t const &data, JsonOut &jsout )
+{
+    std::visit( overloaded{
+        [&jsout]( std::monostate const &/* std */ )
+        {
+            jsout.write_null();
+        },
+        [&jsout]( double v )
+        {
+            jsout.write( v );
+        },
+        [&jsout]( std::string const & v )
+        {
+            jsout.start_object();
+            jsout.member( "str", v );
+            jsout.end_object();
+        },
+        [&jsout]( diag_array const & v )
+        {
+            jsout.write_as_array( v );
+        },
+        [&jsout]( tripoint_abs_ms const & v )
+        {
+            jsout.start_object();
+            jsout.member( "tripoint", v );
+            jsout.end_object();
+        },
+        [&jsout]( diag_value::legacy_value const & v )
+        {
+            if( v.converted ) {
+                _serialize( *v.converted, jsout );
+            } else {
+                jsout.write( v.val );
+            }
+        },
+    },
+    data );
+}
+
+} //namespace
+
+void diag_value::serialize( JsonOut &jsout ) const
+{
+    _serialize( data, jsout );
+}
+
+void diag_value::deserialize( const JsonValue &jsin )
+{
+    if( jsin.test_null() ) {
+        data = std::monostate{};
+    } else if( jsin.test_float() ) {
+        data = jsin.get_float();
+    } else if( jsin.test_string() ) {
+        data = legacy_value{ jsin.get_string() };
+    } else if( jsin.test_array() ) {
+        diag_array a;
+        jsin.read( a );
+        data = a;
+    } else if( jsin.test_object() ) {
+        JsonObject const &jo = jsin.get_object();
+        if( jo.has_member( "tripoint" ) ) {
+            tripoint_abs_ms t;
+            jo.read( "tripoint", t );
+            data = t;
+        } else if( jo.has_member( "str" ) ) {
+            std::string str;
+            jo.read( "str", str );
+            data = str;
+        }
+    }
 }
