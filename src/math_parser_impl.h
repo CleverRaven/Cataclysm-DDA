@@ -92,8 +92,7 @@ struct func_diag {
     using eval_f = dialogue_func::fe_t;
     using ass_f = dialogue_func::fa_t;
     explicit func_diag( eval_f const &fe_, ass_f const &fa_, char s, std::vector<thingie> p,
-                        std::map<std::string, thingie> k )
-        : fe( fe_ ), fa( fa_ ), scope( s ), params( std::move( p ) ), kwargs( std::move( k ) ) {}
+                        std::map<std::string, thingie> k );
 
     double eval( const_dialogue const &d ) const;
 
@@ -102,8 +101,16 @@ struct func_diag {
     eval_f fe;
     ass_f fa;
     char scope;
-    std::vector<thingie> params;
-    std::map<std::string, thingie> kwargs;
+    mutable std::vector<diag_value> params;
+    mutable diag_kwargs kwargs;
+
+    std::vector<thingie> params_dyn;
+    std::map<std::string, thingie> kwargs_dyn;
+
+    template<bool at_runtime>
+    void _update_diag_args( const_dialogue const *d = nullptr ) const;
+    template<bool at_runtime>
+    void _update_diag_kwargs( const_dialogue const *d = nullptr ) const;
 };
 
 struct var {
