@@ -8551,7 +8551,7 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
         const std::string sentinel = jo.get_string( "sentinel" );
         const std::string varname = "sentinel_" + id + "_" + sentinel;
         condition = [varname, tmp_condition]( dialogue & d ) {
-            return d.actor( false )->get_value( varname ) != "yes" && tmp_condition( d );
+            return d.actor( false )->get_value( varname ).str() != "yes" && tmp_condition( d );
         };
         std::function<void( const dialogue &d )> function = [varname]( const dialogue & d ) {
             d.actor( false )->set_value( varname, "yes" );

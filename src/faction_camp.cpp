@@ -61,6 +61,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
+#include "math_parser_diag_value.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -1593,11 +1594,10 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
 void basecamp::choose_new_leader()
 {
-    // This is ugly, but dialogue vars are stored as strings, even if they hold data for times.
-    time_point last_succession_time = time_point::from_turn( std::stof(
-                                          get_player_character().get_value( var_timer_time_of_last_succession ) ) );
-    time_duration succession_cooldown = time_duration::from_turns( get_globals().get_global_value(
-                                            var_time_between_succession ).dbl() );
+    time_point last_succession_time = time_point::from_turn(
+                                          get_avatar().get_value( var_timer_time_of_last_succession ).dbl() );
+    time_duration succession_cooldown = time_duration::from_turns(
+                                            get_globals().get_global_value( var_time_between_succession ).dbl() );
     time_point next_succession_chance = last_succession_time + succession_cooldown;
     int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
     if( next_succession_chance >= calendar::turn ) {
@@ -1627,8 +1627,7 @@ void basecamp::choose_new_leader()
         }
         get_avatar().control_npc_menu( false );
         // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
-        get_player_character().set_value( var_timer_time_of_last_succession,
-                                          std::to_string( current_time_int ) );
+        get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
     }
 
     // Vector of pairs containing a pointer to an NPC and their modified social score
@@ -1657,8 +1656,7 @@ void basecamp::choose_new_leader()
         // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
         if( selected == 0 ) {
             popup( _( "Fate calls for you to remain in your role as leader… for now." ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
+            get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
         npc_ptr chosen = followers.at( selected ).first;
@@ -1680,8 +1678,7 @@ void basecamp::choose_new_leader()
         // you == nullptr
         if( elected == nullptr ) {
             popup( _( "You win the election!" ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
+            get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
         popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),

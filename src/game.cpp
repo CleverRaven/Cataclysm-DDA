@@ -2831,13 +2831,13 @@ vehicle *game::remoteveh()
         return remoteveh_cache;
     }
     remoteveh_cache_time = calendar::turn;
-    std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str().empty() ||
+    diag_value const *remote_controlling_vehicle = u.maybe_get_value( "remote_controlling_vehicle" );
+    if( !remote_controlling_vehicle ||
         ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( itype_remotevehcontrol ) ) ) {
         remoteveh_cache = nullptr;
     } else {
-        tripoint_bub_ms vp;
-        remote_veh_string >> vp.x() >> vp.y() >> vp.z();
+        // FIXME: migrate to abs
+        tripoint_bub_ms vp( remote_controlling_vehicle->tripoint().raw() );
         vehicle *veh = veh_pointer_or_null( here.veh_at( vp ) );
         if( veh && veh->fuel_left( here, itype_battery ) > 0 ) {
             remoteveh_cache = veh;
@@ -2865,10 +2865,8 @@ void game::setremoteveh( vehicle *veh )
         return;
     }
 
-    std::stringstream remote_veh_string;
-    const tripoint_bub_ms vehpos = veh->pos_bub( here );
-    remote_veh_string << vehpos.x() << ' ' << vehpos.y() << ' ' << vehpos.z();
-    u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
+    // FIXME: migrate to abs
+    u.set_value( "remote_controlling_vehicle", tripoint_abs_ms{ veh->pos_bub( here ).raw() } );
 }
 
 bool game::try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target )
