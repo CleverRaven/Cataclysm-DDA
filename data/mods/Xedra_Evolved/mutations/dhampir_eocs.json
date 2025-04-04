@@ -20,7 +20,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_DHAMPIR_UPDATE_BLOOD_SPENT_AMOUNTS",
+    "id": "EOC_DHAMPIR_CHECK_FOR_POWER_UPGRADES",
     "recurrence": 3600,
     "condition": {
       "and": [
@@ -33,7 +33,7 @@
     "effect": [
       {
         "math": [
-          "_target_value = (100000 + ( (vampire_total_tier_one_traits() * 5000) + (vampire_total_tier_two_traits() * 7500) ) + (vampire_total_tier_three_traits() * 10000) ))"
+          "_target_value = (100000 + ( (vampire_total_tier_one_traits() * 5000) + (vampire_total_tier_two_traits() * 7500) + (vampire_total_tier_three_traits() * 10000) ) )"
         ]
       },
       {
@@ -106,11 +106,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE",
-    "effect": [ { "effect": "You have unlocked a new ability from you uise of your tainted blood.", "type": "mixed" } ]
+    "effect": [ { "u_message": "You have unlocked a new ability from your use of your tainted blood.", "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE",
-    "effect": [ { "math": [ "u_dhampir_blood_spent_compare_value_for_powers = 0 ) " ] } ]
+    "effect": [ { "math": [ "u_dhampir_blood_spent_compare_value_for_powers = 0" ] } ]
   }
 ]

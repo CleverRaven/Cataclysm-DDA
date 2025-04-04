@@ -175,7 +175,8 @@
       {
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1800" ] },
         "ench_effects": [ { "effect": "effect_dhampir_slow_blood_gain", "intensity": 1 } ]
-      }
+      },
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
     ],
     "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
     "flags": [ "HEMOVORE" ],
@@ -192,6 +193,7 @@
     "valid": false,
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "You open your senses to the presence of the night-hunters.",
     "enchantments": [
       {
         "condition": "ACTIVE",
