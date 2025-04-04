@@ -173,7 +173,7 @@
     "mixed_effect": true,
     "enchantments": [
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1800" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] },
         "ench_effects": [ { "effect": "effect_dhampir_slow_blood_gain", "intensity": 1 } ]
       },
       {
