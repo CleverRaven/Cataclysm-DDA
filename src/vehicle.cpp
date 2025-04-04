@@ -58,6 +58,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "math_defines.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mod_manager.h"
 #include "monster.h"
@@ -1186,9 +1187,9 @@ int vehicle::power_to_energy_bat( const units::power power, const time_duration 
 }
 
 // Methods for setting/getting misc key/value pairs.
-void vehicle::set_value( const std::string &key, const std::string &value )
+void vehicle::set_value( const std::string &key, diag_value value )
 {
-    values[ key ] = value;
+    values[ key ] = std::move( value );
 }
 
 void vehicle::remove_value( const std::string &key )
@@ -1196,15 +1197,17 @@ void vehicle::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::string vehicle::get_value( const std::string &key ) const
+diag_value const &vehicle::get_value( const std::string &key ) const
 {
-    return maybe_get_value( key ).value_or( std::string{} );
+    static diag_value const null_val;
+    diag_value const *ret = maybe_get_value( key );
+    return ret ? *ret : null_val;
 }
 
-std::optional<std::string> vehicle::maybe_get_value( const std::string &key ) const
+diag_value const *vehicle::maybe_get_value( const std::string &key ) const
 {
     auto it = values.find( key );
-    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
+    return it == values.end() ? nullptr : &it->second;
 }
 
 void vehicle::clear_values()
@@ -3212,7 +3215,7 @@ int vehicle::get_next_shifted_index( int original_index, Character &you ) const
     int ret_index = original_index;
     bool found_shifted_index = false;
     for( const vpart_reference &vpr : get_all_parts() ) {
-        if( you.get_value( "veh_index_type" ) == vpr.info().name() ) {
+        if( you.get_value( "veh_index_type" ).str() == vpr.info().name() ) {
             ret_index = vpr.part_index();
             found_shifted_index = true;
             break;
