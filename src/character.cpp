@@ -6953,9 +6953,7 @@ void Character::mod_stamina( int mod )
     float quarter_thresh = 0.25 * get_stamina_max();
     float half_thresh = 0.5 * get_stamina_max();
 
-    std::string quarter_stam_counter_str = get_value( "quarter_stam_counter" );
-    int quarter_stam_counter = quarter_stam_counter_str.empty() ? 0 : std::stoi(
-                                   quarter_stam_counter_str );
+    int quarter_stam_counter = get_value( "quarter_stam_counter" ).dbl();
 
     if( stamina > half_thresh && stamina + mod < half_thresh ) {
         set_value( "got_to_half_stam", "true" );
@@ -6963,7 +6961,7 @@ void Character::mod_stamina( int mod )
 
     if( stamina > quarter_thresh && stamina + mod < quarter_thresh && quarter_stam_counter < 5 ) {
         quarter_stam_counter++;
-        set_value( "quarter_stam_counter", std::to_string( quarter_stam_counter ) );
+        set_value( "quarter_stam_counter", quarter_stam_counter );
         mod_daily_health( 1, 5 );
     }
 
@@ -8664,7 +8662,7 @@ scenttype_id Character::get_type_of_scent() const
 
 void Character::restore_scent()
 {
-    const std::string prev_scent = get_value( "prev_scent" );
+    const std::string prev_scent = get_value( "prev_scent" ).str();
     if( !prev_scent.empty() ) {
         remove_effect( effect_masked_scent );
         set_type_of_scent( scenttype_id( prev_scent ) );

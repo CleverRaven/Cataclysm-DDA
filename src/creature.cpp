@@ -2149,9 +2149,9 @@ bool Creature::has_trait( const trait_id &/*flag*/ ) const
 }
 
 // Methods for setting/getting misc key/value pairs.
-void Creature::set_value( const std::string &key, const std::string &value )
+void Creature::set_value( const std::string &key, diag_value value )
 {
-    values[ key ] = value;
+    values[ key ] = std::move( value );
 }
 
 void Creature::remove_value( const std::string &key )
@@ -2159,15 +2159,17 @@ void Creature::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::string Creature::get_value( const std::string &key ) const
+diag_value const &Creature::get_value( const std::string &key ) const
 {
-    return maybe_get_value( key ).value_or( std::string{} );
+    static diag_value const null_val;
+    diag_value const *ret = maybe_get_value( key );
+    return ret ? *ret : null_val;
 }
 
-std::optional<std::string> Creature::maybe_get_value( const std::string &key ) const
+diag_value const *Creature::maybe_get_value( const std::string &key ) const
 {
     auto it = values.find( key );
-    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
+    return it == values.end() ? nullptr : &it->second;
 }
 
 void Creature::clear_values()
@@ -3273,7 +3275,7 @@ bool Creature::is_symbol_highlighted() const
     return false;
 }
 
-std::unordered_map<std::string, std::string> &Creature::get_values()
+global_variables::impl_t &Creature::get_values()
 {
     return values;
 }
