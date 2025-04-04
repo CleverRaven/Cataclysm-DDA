@@ -137,9 +137,7 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "SIGHT_RANGE_HUMAN", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } }
-        ]
+        "values": [ { "value": "SIGHT_RANGE_HUMAN", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } } ]
       }
     ]
   },
@@ -155,9 +153,7 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "SIGHT_RANGE_VAMPIRE", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } }
-        ]
+        "values": [ { "value": "SIGHT_RANGE_VAMPIRE", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } } ]
       }
     ]
   },
