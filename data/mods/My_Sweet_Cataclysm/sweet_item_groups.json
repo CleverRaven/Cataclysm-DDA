@@ -135,16 +135,17 @@
     "type": "item_group",
     "id": "stash_food",
     "copy-from": "stash_food",
+    "subtype": "collection",
     "extend": {
       "items": [
-        [ "candy3", 10 ],
-        [ "cookies", 30 ],
-        [ "grahmcrackers", 20 ],
-        [ "marshmallow", 10 ],
-        [ "gum", 20 ],
-        [ "smores", 20 ],
-        [ "caff_gum", 20 ],
-        [ "cow_candy", 10 ]
+        { "item": "candy3", "prob": 10 },
+        { "item": "cookies", "prob": 30 },
+        { "item": "grahmcrackers", "prob": 20 },
+        { "item": "marshmallow", "prob": 10 },
+        { "item": "gum", "prob": 20 },
+        { "item": "smores", "prob": 20 },
+        { "item": "caff_gum", "prob": 20 },
+        { "item": "cow_candy", "prob": 10 }
       ]
     }
   }
