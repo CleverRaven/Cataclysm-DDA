@@ -81,6 +81,9 @@ struct diag_value {
 
     std::string to_string( bool i18n = false ) const;
 
+    void serialize( JsonOut & ) const;
+    void deserialize( const JsonValue &jsin );
+
     struct legacy_value {
         std::string val;
         std::shared_ptr<diag_value::impl_t> mutable converted;
