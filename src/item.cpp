@@ -13435,7 +13435,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             temp = std::max( temp, temperatures::normal );
             break;
         case temperature_flag::ROOT_CELLAR:
-            temp = AVERAGE_ANNUAL_TEMPERATURE;
+            temp = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             break;
         default:
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
@@ -13488,7 +13488,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             if( pos.z() >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
                 env_temperature = wgen.get_weather_temperature( get_map().get_abs( pos ), time, seed );
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                env_temperature = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             }
             env_temperature += temp_mod;
 
@@ -13506,7 +13506,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
                     env_temperature = std::max( env_temperature, temperatures::normal );
                     break;
                 case temperature_flag::ROOT_CELLAR:
-                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                    env_temperature =  units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
                     break;
                 default:
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
