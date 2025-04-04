@@ -62,7 +62,8 @@
       { "item": "cig_butt", "prob": 10, "count": [ 1, 5 ] },
       { "//": "Lore items" },
       { "group": "SUS_book_nonf_zine_news", "prob": 5 },
-      { "item": "flyer", "prob": 5 }
+      { "item": "flyer", "prob": 5 },
+      { "item": "survnote", "prob": 1 }
     ]
   },
   {
