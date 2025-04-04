@@ -3671,9 +3671,9 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
 {
     // Mandatory
     move_cost = obj.get_int( "move_cost" );
-    limb_power = obj.get_float( "limb_power", 0 );
 
     // Optional
+    limb_power = obj.get_float( "limb_power", 0 );
     bandages_power = obj.get_float( "bandages_power", 0 );
     bandages_scaling = obj.get_float( "bandages_scaling", 0.25f * bandages_power );
     disinfectant_power = obj.get_float( "disinfectant_power", 0 );
@@ -3698,8 +3698,13 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
         }
     }
 
-    if( !bandages_power && !disinfectant_power && !bleed && !bite && !infect &&
-        !obj.has_array( "effects" ) ) {
+    const bool does_instant_healing = limb_power || head_power || torso_power;
+    const bool heal_over_time = bandages_power;
+    const bool stops_bleed = bleed;
+    const bool has_any_disinfect = disinfectant_power || bite || infect;
+    const bool has_scripted_effect = obj.has_array( "effects" );
+    if( !does_instant_healing && !heal_over_time && !stops_bleed
+        && !has_any_disinfect && !has_scripted_effect ) {
         obj.throw_error( _( "Heal actor is missing any valid healing effect" ) );
     }
 
