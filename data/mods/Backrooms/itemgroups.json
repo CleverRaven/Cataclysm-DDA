@@ -142,7 +142,7 @@
       { "group": "alcohol", "prob": 25 },
       { "item": "water_clean", "prob": 100 },
       { "group": "misc_smoking", "prob": 20 },
-      { "group": "SUS_office_supplies ", "prob": 5 },
+      { "group": "SUS_office_supplies", "prob": 5 },
       { "group": "car_misc", "prob": 5 },
       { "group": "file_room", "prob": 15 },
       { "group": "office_mess", "prob": 15 },
@@ -638,7 +638,7 @@
       { "group": "SUS_office_filing_cabinet", "prob": 100 },
       { "group": "file_room", "count": [ 2, 10 ], "prob": 25 },
       { "group": "office_mess", "count": [ 2, 8 ], "prob": 10 },
-      { "group": "SUS_office_supplies ", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "SUS_office_supplies", "count": [ 1, 2 ], "prob": 10 },
       { "group": "stash_drugs", "count": [ 1, 3 ], "prob": 5 }
     ]
   },
