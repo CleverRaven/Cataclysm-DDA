@@ -2,15 +2,16 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
