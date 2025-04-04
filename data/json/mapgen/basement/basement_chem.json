@@ -189,7 +189,7 @@
         "F": [ { "item": "chem_home", "chance": 50 }, { "item": "supplies_reagents_lab", "chance": 20 } ],
         "T": [ { "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 } ],
         "f": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 5 ] } ],
-        "G": [ { "item": "office_paper", "chance": 30 } ],
+        "G": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ],
         "&": { "item": "SUS_toilet", "chance": 50 }
       },

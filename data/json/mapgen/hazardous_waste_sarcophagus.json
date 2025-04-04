@@ -125,7 +125,7 @@
           { "item": "tools_common", "chance": 85, "repeat": [ 1, 2 ] },
           { "item": "cleaning", "chance": 85, "repeat": 2 }
         ],
-        "F": { "item": "office_paper", "chance": 50 }
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 50 }
       },
       "place_item": [ { "item": "id_military", "x": 22, "y": 20 }, { "item": "cleansuit", "x": 28, "y": 24 } ],
       "set": [
@@ -353,7 +353,7 @@
         "d": { "item": "office", "chance": 50 },
         "c": { "item": "office_supplies", "chance": 60 },
         "l": { "item": "cleaning", "chance": 60, "repeat": 2 },
-        "F": { "item": "office_paper", "chance": 50 },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 50 },
         "&": { "item": "SUS_toilet", "chance": 50 },
         "~": [
           { "item": "SUS_trash_floor", "chance": 15 },

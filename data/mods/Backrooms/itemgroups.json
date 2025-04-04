@@ -600,7 +600,7 @@
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 100 },
       { "group": "office", "count": [ 1, 5 ], "prob": 100 },
       { "group": "office_mess", "count": [ 1, 6 ], "prob": 35 },
-      { "group": "office_paper", "prob": 50 },
+      { "group": "SUS_office_desk", "prob": 50 },
       { "group": "office_supplies", "count": [ 2, 6 ], "prob": 50 }
     ]
   },
@@ -638,7 +638,6 @@
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_office_filing_cabinet", "prob": 100 },
-      { "group": "office_paper", "prob": 50 },
       { "group": "file_room", "count": [ 2, 10 ], "prob": 25 },
       { "group": "office_mess", "count": [ 2, 8 ], "prob": 10 },
       { "group": "office_supplies", "count": [ 1, 2 ], "prob": 10 },

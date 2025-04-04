@@ -102,7 +102,7 @@
         { "item": "used_1st_aid", "chance": 15 },
         { "item": "lab_bookshelves", "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "office_supplies", "chance": 5 },
-        { "item": "office_paper", "chance": 30, "repeat": [ 3, 4 ] },
+        { "item": "SUS_office_desk", "chance": 30, "repeat": [ 3, 4 ] },
         { "item": "literature", "chance": 5 },
         { "item": "novels", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "hardware_books", "chance": 20, "repeat": [ 1, 2 ] },
@@ -171,10 +171,8 @@
       "Z": [
         { "item": "magazines", "chance": 5 },
         { "item": "file_room", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "office_paper", "chance": 50, "repeat": [ 3, 4 ] },
-        { "item": "office", "chance": 25 },
+        { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 3, 4 ] },
         { "item": "maps", "chance": 3 },
-        { "item": "office_mess", "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "office_supplies", "chance": 25 }
       ],
