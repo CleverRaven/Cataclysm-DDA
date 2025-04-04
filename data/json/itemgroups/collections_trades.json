@@ -96,7 +96,7 @@
       { "item": "dentures", "count": [ 1, 2 ], "prob": 40 },
       { "item": "medical_gauze", "count": [ 1, 4 ], "prob": 20 },
       { "item": "syringe", "prob": 30 },
-      { "item": "mask_dust", "prob": 60 }
+      { "item": "mask_dust", "prob": 60 },
       { "item": "gloves_medical", "prob": 70 },
       { "item": "disinfectant", "prob": 30, "charges": [ 1, 10 ] },
       { "item": "anesthetic_kit", "prob": 10, "charges": [ 0, -1 ] },
