@@ -31,6 +31,7 @@ static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_metal_tank( "metal_tank" );
 static const itype_id itype_pants_cargo( "pants_cargo" );
 static const itype_id itype_sheath( "sheath" );
+static const itype_id itype_test_9mm_ammo( "test_9mm_ammo" );
 
 static constexpr point_bub_ms player_pos{ 50, 50 };
 
@@ -75,6 +76,7 @@ TEST_CASE( "Wield_test", "[wield]" )
     item knife_hunting( itype_knife_hunting );
     item knife_combat( itype_knife_combat );
     item sheath( itype_sheath );
+    item ammo_9mm( itype_test_9mm_ammo );
 
     REQUIRE( sheath.can_holster( knife_combat ) );
 
@@ -208,6 +210,45 @@ TEST_CASE( "Wield_test", "[wield]" )
                 }
             }
         }
+
+        GIVEN( "item with charges wielded and on the ground" ) {
+            int charges = 100;
+            ammo_9mm.charges = charges;
+            item &spawned_item = here.add_item_or_charges( pos, ammo_9mm );
+            item_location item_loc( map_cursor( pos ), &spawned_item );
+            REQUIRE( item_loc );
+            REQUIRE( player.wield( ammo_9mm ) );
+            item_location wielded = player.get_wielded_item();
+
+            AND_THEN( "the wielded item has the correct amount of charges" ) {
+                REQUIRE( wielded );
+                REQUIRE( wielded->charges == charges );
+            }
+
+            AND_WHEN( "wielding the item" ) {
+                REQUIRE( player.wield( spawned_item ) );
+                THEN( "the charges get merged" ) {
+                    REQUIRE( wielded == player.get_wielded_item() );
+                    REQUIRE( wielded->charges == 2 * charges );
+                }
+                AND_THEN( "the old item is not removed" ) {
+                    INFO( "If wielded by item you have to manually remove the old item" );
+                    REQUIRE( item_loc );
+                    REQUIRE_FALSE( here.i_at( pos ).empty() );
+                }
+            }
+            WHEN( "wielding the location" ) {
+                REQUIRE( player.wield( item_loc ) );
+                THEN( "the charges get merged" ) {
+                    REQUIRE( wielded == player.get_wielded_item() );
+                    REQUIRE( wielded->charges == 2 * charges );
+                }
+                AND_THEN( "the old item is removed" ) {
+                    REQUIRE_FALSE( item_loc );
+                    REQUIRE( here.i_at( pos ).empty() );
+                }
+            }
+        }
     }
 
     GIVEN( "A NPC" ) {
@@ -288,14 +329,14 @@ TEST_CASE( "Wield_test", "[wield]" )
             }
         }
 
-        AND_GIVEN( "you already wield an item" ) {
+        AND_GIVEN( "already wielding an item" ) {
             guy.remove_weapon();
             REQUIRE( guy.wield( knife_hunting ) );
 
             item_location weapon = guy.get_wielded_item();
             REQUIRE( weapon );
 
-            WHEN( "you try to wield it again with item" ) {
+            WHEN( "trying to wield it again with item" ) {
                 INFO( "some tests require returning true, even if nothing changes" );
                 REQUIRE( guy.wield( *weapon ) );
                 THEN( "you wield the item again" ) {
@@ -303,15 +344,14 @@ TEST_CASE( "Wield_test", "[wield]" )
                 }
             }
 
-            AND_WHEN( "you try to wield it again with item_location" ) {
-                INFO( "should probably be made consisten with the item implementation" );
-                REQUIRE_FALSE( guy.wield( weapon ) );
+            AND_WHEN( "trying to wield it again with item_location" ) {
+                REQUIRE( guy.wield( weapon ) );
             }
 
-            AND_WHEN( "you try and wield another item" ) {
+            AND_WHEN( "trying and wield another item" ) {
                 REQUIRE_FALSE( guy.can_stash( *weapon ) );
                 REQUIRE( guy.wield( knife_combat ) );
-                THEN( "you wield the other item" ) {
+                THEN( "wield the other item" ) {
                     REQUIRE( guy.get_wielded_item() );
                     REQUIRE( guy.get_wielded_item()->typeId() == itype_knife_combat );
                 }

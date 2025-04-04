@@ -1543,8 +1543,10 @@ bool npc::wield( item_location loc, bool remove_old )
     if( !Character::wield( std::move( loc ), remove_old ) ) {
         return false;
     }
-    add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
-                            get_wielded_item()->tname() );
+    if( get_wielded_item() ) {
+        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+                                get_wielded_item()->tname() );
+    }
 
     invalidate_range_cache();
     return true;
