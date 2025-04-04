@@ -245,6 +245,7 @@ TEST_CASE( "Wield_test", "[wield]" )
             guy.wear_item( sheath );
             item_location sheath_loc = guy.worn.top_items_loc( guy ).front();
             REQUIRE( sheath_loc );
+            REQUIRE( sheath_loc->typeId() == itype_sheath );
             REQUIRE( guy.amount_worn( itype_sheath ) == 1 );
             REQUIRE( sheath_loc->empty() );
 
@@ -252,13 +253,13 @@ TEST_CASE( "Wield_test", "[wield]" )
             INFO( knife_loc.describe( &guy ) );
             REQUIRE_FALSE( sheath_loc->empty() );
             REQUIRE( knife_loc.has_parent() );
+
             WHEN( "wielding the worn sheath item" ) {
                 REQUIRE( guy.wield( *sheath_loc ) );
 
                 item_location wielded_sheath = guy.get_wielded_item();
                 REQUIRE_FALSE( wielded_sheath->get_contents().empty() );
                 knife_loc = item_location( wielded_sheath, &wielded_sheath->get_contents().first_item() );
-
 
                 THEN( "you wield the sheath" ) {
                     REQUIRE( wielded_sheath );
@@ -294,7 +295,6 @@ TEST_CASE( "Wield_test", "[wield]" )
             item_location weapon = guy.get_wielded_item();
             REQUIRE( weapon );
 
-
             WHEN( "you try to wield it again with item" ) {
                 INFO( "some tests require returning true, even if nothing changes" );
                 REQUIRE( guy.wield( *weapon ) );
@@ -322,7 +322,6 @@ TEST_CASE( "Wield_test", "[wield]" )
             }
         }
     }
-
 }
 
 TEST_CASE( "Wield_time_test", "[wield]" )
