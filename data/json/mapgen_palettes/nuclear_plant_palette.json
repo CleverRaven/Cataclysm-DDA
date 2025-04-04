@@ -135,7 +135,7 @@
         { "item": "clothing_work_set", "chance": 40 },
         { "item": "magazines", "chance": 2 },
         { "item": "misc_smoking", "chance": 15 },
-        { "item": "SUS_office_supplies ", "chance": 25 },
+        { "item": "SUS_office_supplies", "chance": 25 },
         { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "supplies_electronics", "chance": 10 },
         { "item": "consumer_electronics", "chance": 15 },
@@ -157,7 +157,7 @@
       "z": [
         { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "lab_bookshelves", "chance": 5 },
-        { "item": "SUS_office_supplies ", "chance": 5 },
+        { "item": "SUS_office_supplies", "chance": 5 },
         { "item": "tools_home", "chance": 40 },
         { "item": "camping", "chance": 10 },
         { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] },
@@ -179,7 +179,7 @@
         { "item": "office_mess", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "office", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "consumer_electronics", "chance": 1 },
-        { "item": "SUS_office_desk ", "chance": 1 }
+        { "item": "SUS_office_desk", "chance": 1 }
       ],
       "Q": [
         { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 3 ] },

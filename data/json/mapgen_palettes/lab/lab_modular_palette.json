@@ -410,7 +410,7 @@
       ],
       "r": [
         { "item": "office_mess", "chance": 5 },
-        { "item": "SUS_office_supplies ", "chance": 25 },
+        { "item": "SUS_office_supplies", "chance": 25 },
         { "item": "lab_files_biology", "chance": 10 }
       ],
       "s": [ { "item": "consumer_electronics", "chance": 10 } ],
@@ -536,7 +536,7 @@
       ],
       "r": [
         { "item": "office_mess", "chance": 5 },
-        { "item": "SUS_office_supplies ", "chance": 25 },
+        { "item": "SUS_office_supplies", "chance": 25 },
         { "item": "lab_files_psychology", "chance": 10 }
       ],
       "s": [ { "item": "consumer_electronics", "chance": 10 } ],

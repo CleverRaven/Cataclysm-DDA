@@ -379,7 +379,7 @@
     "items": [
       { "group": "concrete_bag", "prob": 30 },
       { "group": "concrete_bag_part", "prob": 50 },
-      { "group": "bag_durasack", "prob": 20 }
+      { "item": "bag_durasack", "prob": 20 }
     ]
   },
   {
@@ -389,14 +389,14 @@
     "items": [
       { "group": "cement_bag", "prob": 30 },
       { "group": "cement_bag_part", "prob": 50 },
-      { "group": "bag_durasack", "prob": 20 }
+      { "item": "bag_durasack", "prob": 20 }
     ]
   },
   {
     "type": "item_group",
     "id": "sandbag_any",
     "subtype": "distribution",
-    "items": [ { "group": "sandbag", "prob": 30 }, { "group": "sandbag_part", "prob": 50 }, { "group": "bag_durasack", "prob": 20 } ]
+    "items": [ { "group": "sandbag", "prob": 30 }, { "group": "sandbag_part", "prob": 50 }, { "item": "bag_durasack", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -405,7 +405,7 @@
     "items": [
       { "group": "gravelbag", "prob": 30 },
       { "group": "gravelbag_part", "prob": 50 },
-      { "group": "bag_durasack", "prob": 20 }
+      { "item": "bag_durasack", "prob": 20 }
     ]
   },
   {
