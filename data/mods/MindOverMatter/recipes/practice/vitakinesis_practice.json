@@ -265,7 +265,6 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY",
-        "condition": { "math": [ "u_spell_level('vita_health_power_ally') >= 1" ] },
         "effect": [
           { "set_string_var": "vita_health_power_ally", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
