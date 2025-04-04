@@ -1521,7 +1521,7 @@ bool npc::wield( item &it )
     if( is_wielding( it ) ) {
         return true;
     }
-    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded itm
+    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded item
     if( has_wield_conflicts( it ) && !get_wielded_item()->has_item( it ) ) {
         stow_item( *get_wielded_item() );
     }
