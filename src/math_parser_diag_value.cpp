@@ -9,6 +9,7 @@
 #include <variant>
 
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "math_parser_type.h"
@@ -140,6 +141,21 @@ std::string diag_value::to_string( bool i18n ) const
     },
     data );
 
+}
+
+diag_value::diag_value( cata_variant const &cv )
+{
+    diag_value blorg;
+    if( cv.type() == cata_variant_type::int_ ) {
+        blorg = diag_value( cv.get<cata_variant_type::int_>() );
+    } else if( cv.type() == cata_variant_type::bool_ ) {
+        blorg = diag_value( cv.get<cata_variant_type::bool_>() );
+    } else if( cv.type() == cata_variant_type::tripoint ) {
+        blorg = diag_value( tripoint_abs_ms{ cv.get<cata_variant_type::tripoint>() } );
+    } else {
+        blorg = diag_value( cv.get_string() );
+    }
+    data = std::move( blorg.data );
 }
 
 bool diag_value::is_dbl() const

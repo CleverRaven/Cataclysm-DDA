@@ -9,6 +9,7 @@
 #include <variant>
 #include <vector>
 
+#include "cata_variant.h"
 #include "coordinates.h"
 
 struct const_dialogue;
@@ -54,6 +55,8 @@ struct diag_value {
     template <class T, class... Args>
     explicit diag_value( std::in_place_type_t<T> /*t*/, Args &&...args )
         : data( std::in_place_type<T>, std::forward<Args>( args )... ) {}
+
+    explicit diag_value( cata_variant const &cv );
 
     bool is_dbl() const;
     bool is_str() const;

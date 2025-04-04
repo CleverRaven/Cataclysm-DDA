@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <list>
 #include <memory>
+#include <unordered_map>
 #include <ostream>
 #include <queue>
 
@@ -20,6 +21,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "math_parser_diag_value.h"
 #include "mod_tracker.h"
 #include "npc.h"
 #include "output.h"
@@ -566,7 +568,7 @@ void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
         dialogue d;
         global_variables::impl_t context;
         for( const auto &val : e.data() ) {
-            context[val.first] = diag_value{ val.second.get_string() };
+            context[val.first] = diag_value{ val.second };
         }
 
         // if we have an NPC to trigger this event for, do so,
