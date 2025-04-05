@@ -455,7 +455,7 @@
     "material": [ "alien_resin" ],
     "symbol": ",",
     "color": "magenta",
-    "use_action": { "type": "heal", "bite": 0.01, "move_cost": 2500, "limb_power": 21, "head_power": 21, "torso_power": 21 }
+    "use_action": { "type": "heal", "move_cost": 2500, "limb_power": 21, "head_power": 21, "torso_power": 21 }
   },
   {
     "id": "warp_waterwalking_stone",
