@@ -59,6 +59,9 @@ struct MOD_INFORMATION {
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;
 
+        /** What other mods are incompatible with this one? */
+        std::vector<mod_id> conflicts;
+
         /** Core mods are loaded before any other mods */
         bool core = false;
 

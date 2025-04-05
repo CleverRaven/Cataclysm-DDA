@@ -13,6 +13,7 @@ mods_this_time = []
 
 exclusions = [
     # Tuple of (mod_id, mod_id) - these two mods will be incompatible
+    ("isolation_protocol", "generic_guns")
 ]
 
 
