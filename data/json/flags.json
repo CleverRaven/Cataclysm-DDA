@@ -2686,5 +2686,10 @@
     "id": "NATURAL_UNDERGROUND",
     "type": "json_flag",
     "//": "Wall tiles with this flag occur naturally underground and are not manmade."
+  },
+  {
+    "id": "INSTANT_BLEED",
+    "type": "json_flag",
+    "//": "Having this flag makes the player bleed corpses in 1 second each.  Used for a XE vampire power."
   }
 ]

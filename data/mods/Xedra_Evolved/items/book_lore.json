@@ -294,6 +294,9 @@
     "type": "effect_on_condition",
     "id": "EOC_LEARN_FROM_VAMPIRE_ANATHEMA_BOOK",
     "condition": { "not": { "compare_string": [ "yes", { "u_val": "you_know_vampire_anathema_recipe" } ] } },
-    "effect": [  ]
+    "effect": [
+      { "u_learn_recipe": "anathema_blood_catalyst_unready" },
+      { "u_add_var": "you_know_vampire_anathema_recipe", "value": "yes" }
+    ]
   }
 ]
