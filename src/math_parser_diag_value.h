@@ -9,9 +9,6 @@
 #include <variant>
 #include <vector>
 
-#include "dialogue_helpers.h"
-#include "math_parser.h"
-
 struct const_dialogue;
 struct diag_value;
 
@@ -30,7 +27,7 @@ using is_variant_type = is_one_of<T, V>;
 // *INDENT-ON*
 
 struct diag_value {
-    using impl_t = std::variant<std::monostate, double, std::string, var_info, math_exp, diag_array>;
+    using impl_t = std::variant<std::monostate, double, std::string, diag_array>;
 
     diag_value() = default;
 
@@ -56,7 +53,6 @@ struct diag_value {
 
     bool is_dbl() const;
     bool is_str() const;
-    bool is_var() const;
     bool is_array() const;
     bool is_empty() const;
 
@@ -66,13 +62,11 @@ struct diag_value {
     double dbl() const;
     std::string_view str() const;
     diag_array const &array() const;
-    var_info var() const;
 
     // Evaluate and possibly convert the parameter to this type.
     // These throw a math::runtime_error for failed conversions
     double dbl( const_dialogue const &d ) const;
     std::string str( const_dialogue const &d ) const;
-    var_info var( const_dialogue const &/* d */ ) const;
     diag_array const &array( const_dialogue const &/* d */ ) const;
 
     impl_t data;
@@ -82,26 +76,5 @@ constexpr bool operator==( diag_value const &lhs, std::string_view rhs )
 {
     return std::holds_alternative<std::string>( lhs.data ) && std::get<std::string>( lhs.data ) == rhs;
 }
-
-// helper struct that makes it easy to determine whether a kwarg's value has been used
-struct deref_diag_value {
-    public:
-        deref_diag_value() = default;
-        explicit deref_diag_value( diag_value &&dv ) : _val( dv ) {}
-        diag_value const *operator->() const {
-            _used = true;
-            return &_val;
-        }
-        diag_value const &operator*() const {
-            _used = true;
-            return _val;
-        }
-        bool was_used() const {
-            return _used;
-        }
-    private:
-        bool mutable _used = false;
-        diag_value _val;
-};
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_VALUE_H

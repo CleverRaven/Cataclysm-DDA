@@ -2335,6 +2335,9 @@ std::function<std::string( const_dialogue const & )> conditional_t::get_get_stri
 
 namespace
 {
+// *******
+// Stop adding garbage to this list and write specific math functions instead
+// *******
 std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_get_vals = {
     { "activity_level", &const_talker::get_activity_level },
     { "age", &const_talker::get_age },
@@ -2386,77 +2389,60 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
 };
 } // namespace
 
-// Consider adding new, single-purpose math functions instead of feeding this monster another else-if
-std::function<double( const_dialogue const & )>
-conditional_t::get_get_dbl( std::string_view checked_value, char scope )
+// *******
+// Stop adding garbage to this function and write specific math functions instead
+// *******
+double  conditional_t::get_legacy_dbl( const_dialogue const &d, std::string_view checked_value,
+                                       char scope )
 {
     const bool is_npc = scope == 'n';
 
     if( auto iter = f_get_vals.find( checked_value ); iter != f_get_vals.end() ) {
-        return [is_npc, func = iter->second]( const_dialogue const & d ) {
-            return ( d.const_actor( is_npc )->*func )();
-        };
+        return ( d.const_actor( is_npc )->*( iter->second ) )();
 
     } else if( checked_value == "allies" ) {
         if( is_npc ) {
-            throw math::syntax_error( "Can't get allies count for NPCs" );
+            throw math::runtime_error( "Can't get allies count for NPCs" );
         }
-        return []( const_dialogue const & /* d */ ) {
-            return static_cast<double>( g->allies().size() );
-        };
+        return static_cast<double>( g->allies().size() );
     } else if( checked_value == "dodge" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            return d.const_actor( is_npc )->get_const_character()->get_dodge();
-        };
+        return d.const_actor( is_npc )->get_const_character()->get_dodge();
     } else if( checked_value == "power_percentage" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            // Energy in milijoule
-            units::energy::value_type power_max = d.const_actor( is_npc )->power_max().value();
-            if( power_max == 0 ) {
-                return 0.0; //Default value if character does not have power, avoids division with 0.
-            }
-            return static_cast<double>( d.const_actor( is_npc )->power_cur().value() * 100.0L / power_max );
-        };
+        // Energy in milijoule
+        units::energy::value_type power_max = d.const_actor( is_npc )->power_max().value();
+        if( power_max == 0 ) {
+            return 0.0; //Default value if character does not have power, avoids division with 0.
+        }
+        return static_cast<double>( d.const_actor( is_npc )->power_cur().value() * 100.0L / power_max );
     } else if( checked_value == "mana_percentage" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            int mana_max = d.const_actor( is_npc )->mana_max();
-            if( mana_max == 0 ) {
-                return 0.0; //Default value if character does not have mana, avoids division with 0.
-            }
-            return d.const_actor( is_npc )->mana_cur() * 100.0 / mana_max;
-        };
+        int mana_max = d.const_actor( is_npc )->mana_max();
+        if( mana_max == 0 ) {
+            return 0.0; //Default value if character does not have mana, avoids division with 0.
+        }
+        return d.const_actor( is_npc )->mana_cur() * 100.0 / mana_max;
     } else if( checked_value == "body_temp" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            return units::to_legacy_bodypart_temp( d.const_actor( is_npc )->get_body_temp() );
-        };
+        return units::to_legacy_bodypart_temp( d.const_actor( is_npc )->get_body_temp() );
     } else if( checked_value == "body_temp_delta" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            return units::to_legacy_bodypart_temp_delta( d.const_actor( is_npc )->get_body_temp_delta() );
-        };
+        return units::to_legacy_bodypart_temp_delta( d.const_actor( is_npc )->get_body_temp_delta() );
     } else if( checked_value == "power" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            // Energy in milijoule
-            return static_cast<double>( d.const_actor( is_npc )->power_cur().value() );
-        };
+        // Energy in milijoule
+        return static_cast<double>( d.const_actor( is_npc )->power_cur().value() );
     } else if( checked_value == "power_max" ) {
-        return [is_npc]( const_dialogue const & d ) {
-            // Energy in milijoule
-            return static_cast<double>( d.const_actor( is_npc )->power_max().value() );
-        };
+        // Energy in milijoule
+        return static_cast<double>( d.const_actor( is_npc )->power_max().value() );
     } else if( checked_value == "pos_x" ) {
-        return[is_npc]( const_dialogue const & d ) {
-            return static_cast<double>( d.const_actor( is_npc )->pos_abs().x() );
-        };
+        return static_cast<double>( d.const_actor( is_npc )->pos_abs().x() );
     } else if( checked_value == "pos_y" ) {
-        return[is_npc]( const_dialogue const & d ) {
-            return static_cast<double>( d.const_actor( is_npc )->pos_abs( ).y() );
-        };
+        return static_cast<double>( d.const_actor( is_npc )->pos_abs( ).y() );
     }
-    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
+    throw math::runtime_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 namespace
 {
+// *******
+// Stop adding garbage to this list and write specific math functions instead
+// *******
 std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals = {
     { "age", &talker::set_age },
     { "anger", &talker::set_anger },
@@ -2484,60 +2470,43 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
 };
 } // namespace
 
-// Consider adding new, single-purpose math functions instead of feeding this monster another else-if
-std::function<void( dialogue &, double )>
-conditional_t::get_set_dbl( std::string_view checked_value, char scope )
+// *******
+// Stop adding garbage to this function and write specific math functions instead
+// *******
+void conditional_t::set_legacy_dbl( dialogue &d, double input, std::string_view checked_value,
+                                    char scope )
 {
     const bool is_npc = scope == 'n';
 
     if( auto iter = f_set_vals.find( checked_value ); iter != f_set_vals.end() ) {
-        return [is_npc, func = iter->second ]( dialogue & d, double input ) {
-            ( d.actor( is_npc )->*func )( input );
-        };
+        ( d.actor( is_npc )->*( iter->second ) )( input );
 
     } else if( checked_value == "owed" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->add_debt( input - d.actor( is_npc )->debt() );
-        };
+        d.actor( is_npc )->add_debt( input - d.actor( is_npc )->debt() );
     } else if( checked_value == "sold" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->add_sold( input - d.actor( is_npc )->sold() );
-        };
+        d.actor( is_npc )->add_sold( input - d.actor( is_npc )->sold() );
     } else if( checked_value == "pos_x" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
-            d.actor( is_npc )->set_pos( tripoint_abs_ms( static_cast<int>( input ), tr.y(), tr.z() ) );
-        };
+        tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+        d.actor( is_npc )->set_pos( tripoint_abs_ms( static_cast<int>( input ), tr.y(), tr.z() ) );
     } else if( checked_value == "pos_y" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
-            d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.x(), static_cast<int>( input ), tr.z() ) );
-        };
+        tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+        d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.x(), static_cast<int>( input ), tr.z() ) );
     } else if( checked_value == "pos_z" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
-            d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.xy(), static_cast<int>( input ) ) );
-        };
+        tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+        d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.xy(), static_cast<int>( input ) ) );
     } else if( checked_value == "power" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            // Energy in milijoule
-            d.actor( is_npc )->set_power_cur( 1_mJ * input );
-        };
+        // Energy in milijoule
+        d.actor( is_npc )->set_power_cur( 1_mJ * input );
     } else if( checked_value == "power_percentage" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            // Energy in milijoule
-            d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
-        };
+        // Energy in milijoule
+        d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
     } else if( checked_value == "focus" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
-        };
+        d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
     } else if( checked_value == "mana_percentage" ) {
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
-        };
+        d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
+    } else {
+        throw math::runtime_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
     }
-    throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
 void deferred_math::_validate_type() const
