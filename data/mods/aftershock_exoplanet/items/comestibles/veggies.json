@@ -1,0 +1,53 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_kelp",
+    "copy-from": "spinach",
+    "name": { "str_sp": "kelp" },
+    "description": "Thin wafers of kelp, the essential greens of frontier cuisine.  These were probably grown in some farm ship or another.",
+    "volume": "166 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_soup_veggy",
+    "looks_like": "water",
+    "name": { "str_sp": "vegan ramen" },
+    "weight": "254 g",
+    "color": "red",
+    "spoils_in": "5 days",
+    "container": "can_medium",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 8,
+    "calories": 165,
+    "description": "Most ramen served in the frontier is already vegan through the use of synthetic meat and other meat substitutes.  This variant simply doesn't pretend to include any meat at all.  Slightly spicy.",
+    "price": "12 USD",
+    "price_postapoc": "12 USD",
+    "material": [ "veggy" ],
+    "volume": "500 ml",
+    "charges": 2,
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
+    "fun": 1
+  },
+  {
+    "id": "afs_kibble",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "spiced chops" },
+    "description": "Kibble made for humans.  A heavy dressing of spices makes it impossible to discern the original flavors it might have had.",
+    "weight": "223 g",
+    "spoils_in": "1 day",
+    "volume": "125 ml",
+    "price": "250 cent",
+    "to_hit": -5,
+    "material": [ "veggy" ],
+    "symbol": ";",
+    "quench": 2,
+    "calories": 800,
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "bad_food", 1 ], [ "veggy_allergen", 1 ] ],
+    "fun": 1,
+    "color": "brown"
+  }
+]

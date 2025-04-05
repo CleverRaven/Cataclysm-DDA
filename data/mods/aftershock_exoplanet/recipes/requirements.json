@@ -1,0 +1,30 @@
+[
+  {
+    "id": "surface_heat",
+    "type": "requirement",
+    "//copy-from": "surface_heat",
+    "extend": { "tools": [ [ [ "afs_atompot", -1 ] ] ] }
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else.",
+    "//copy-from": "water_boiling_heat",
+    "extend": { "tools": [ [ [ "afs_atompot", -1 ], [ "atomic_coffeepot", -1 ] ] ] }
+  },
+  {
+    "id": "electric_probing",
+    "type": "requirement",
+    "tools": [ [ [ "voltmeter", -1 ], [ "toolset", -1 ] ] ]
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "afs_plasma_torch_gun", 2 ], [ "afs_plasma_torch", 1 ] ] ] }
+  },
+  {
+    "id": "afs_nanofab_material_3",
+    "type": "requirement",
+    "components": [ [ [ "afs_material_3", 2 ] ] ]
+  }
+]

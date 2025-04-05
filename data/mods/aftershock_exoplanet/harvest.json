@@ -1,0 +1,14 @@
+[
+  {
+    "id": "yum_lichen_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "yum_lichen", "base_num": [ 1, 4 ] } ]
+  },
+  {
+    "id": "cyborg_harvest",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "cyborg_harvest",
+    "extend": { "entries": [ { "item": "afs_neural_io_5", "prob": 40 } ] }
+  }
+]

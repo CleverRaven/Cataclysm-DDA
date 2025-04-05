@@ -1,0 +1,19 @@
+[
+  {
+    "result": "burnt_out_bionic",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 7,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 1 } ],
+    "components": [
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_magnet_1", 2 ] ],
+      [ [ "afs_energy_storage_2", 1 ] ],
+      [ [ "afs_neural_io_1", 2 ] ],
+      [ [ "afs_material_1", 1 ] ]
+    ]
+  }
+]

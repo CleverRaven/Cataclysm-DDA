@@ -1,0 +1,40 @@
+[
+  {
+    "id": "afs_foamcrete",
+    "type": "AMMO",
+    "name": { "str_sp": "foamcrete" },
+    "description": "The chemical precursors of foamcrete, a quick-hardening, resilient substance that readily expands on contact with air.  Originally designed for structural repair in commercial spaceflight, it can be used to quickly erect walls and platforms, or to encase foes.",
+    "weight": "250 g",
+    "volume": "2 L",
+    "price": "35 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "container": "afs_foam_tank",
+    "phase": "liquid",
+    "ammo_type": "afs_foam",
+    "range": 8,
+    "count": 30,
+    "effects": [ "FOAMCRETE", "NEVER_MISFIRES", "JET", "NO_PENETRATE_OBSTACLES" ]
+  },
+  {
+    "id": "afs_foamtoxic",
+    "type": "AMMO",
+    "name": { "str_sp": "wide-range pesticide" },
+    "description": "An old Thistle Industries neurotoxic pesticide that can be used to kill insects, plants, mammals, nematodes, fungi and most organisms not genetically engineered to withstand its assault.  Even short exposure is likely to prove fatal.  Frontier rated only.",
+    "weight": "250 g",
+    "volume": "2 L",
+    "price": "150 USD",
+    "price_postapoc": "150 USD",
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "light_green",
+    "container": "afs_foam_tank",
+    "phase": "liquid",
+    "ammo_type": "afs_foam",
+    "range": 8,
+    "count": 30,
+    "effects": [ "TOXIC_FOAM", "NEVER_MISFIRES", "JET", "NO_PENETRATE_OBSTACLES", "NO_OVERSHOOT" ]
+  }
+]

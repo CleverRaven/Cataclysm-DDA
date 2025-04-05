@@ -1,0 +1,69 @@
+[
+  {
+    "//": "Aftershock - weapons testing",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "|--------|....|--------|",
+        "|x]]]]]]x|....|x]]]]]]x|",
+        "|........|...6|........|",
+        "|x......S|....|htth...&|",
+        "|x......S|-LL-|htth....|",
+        "|........|....|6.......|",
+        "|......................|",
+        "|-----|................|",
+        "|rrrrr|................|",
+        "|.....|ggg|************|",
+        "|.....|l.dg************|",
+        "|.....L.hdg************|",
+        "|rrrrr|7.dg************|",
+        "|-----|-G-|--ssssx--W--|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|,,,,,,,,,,,,,,,,,,,,,,|",
+        "|----------------------|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "furniture": { "7": "f_console", "S": "f_sofa", "s": "f_sandbag_half", "&": "f_trashcan" },
+      "terrain": { "*": "t_thconc_floor" },
+      "mapping": {
+        "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
+        "]": { "items": [ { "item": "book_military", "chance": 20 } ] },
+        "t": { "items": [ { "item": "book_military", "chance": 10 } ] },
+        "d": { "items": [ { "item": "office", "chance": 50 } ] },
+        "r": {
+          "items": [
+            { "item": "ammo_milspec", "chance": 40 },
+            { "item": "guns_milspec", "chance": 40 },
+            { "item": "afs_weapons_rare", "chance": 6 }
+          ]
+        },
+        "*": { "items": [ { "item": "casings", "chance": 10 } ] }
+      },
+      "computers": {
+        "6": {
+          "name": "Weapons Testing Range",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "7": {
+          "name": "Armory Entrance",
+          "security": 6,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  }
+]

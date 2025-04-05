@@ -1,0 +1,19 @@
+[
+  {
+    "//": "expansions of vanilla clothing groups in this file.",
+    "type": "item_group",
+    "id": "mil_armor",
+    "subtype": "distribution",
+    "//2": "replace helmet full carbide's below with body armors once those are made.",
+    "copy-from": "mil_armor",
+    "extend": {
+      "entries": [
+        { "item": "helmet_full_carbide", "prob": 2 },
+        { "item": "tac_fullhelmet_uicas", "prob": 2 },
+        { "item": "tac_helmet_uicas", "prob": 5 },
+        { "item": "nanomesh_vest", "prob": 1 },
+        { "item": "carbide_cuirass", "prob": 1 }
+      ]
+    }
+  }
+]

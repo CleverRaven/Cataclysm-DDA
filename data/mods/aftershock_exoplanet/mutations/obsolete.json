@@ -1,0 +1,152 @@
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "AFS_PROF_SKIIER",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "AFS_PROF_STRONGMAN",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "LEATHER_FEET",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SKINFOLDS",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "WEAKJOINTS",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SPECAILIZED_DIET",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ELEPHANTINE_SMELL",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "GIANT_STEPS",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SLOWANDSTEADY",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SHORTFUR",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "MEDIUMFUR",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "MUT_TANK",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "MUT_TANK2",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "MUT_TANK3",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ELEPHANTINE",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ELEPHANTINE_OK",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "GIGANTIC",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "GIGANTIC_OK",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "YAKSMELL",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIG_FOOD",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "LARGE_DIET",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "FLUSH",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "H20NEEDS",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "DELIBERATE1",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "DELIBERATE2",
+    "//": "remove after 0.I",
+    "remove": true
+  }
+]

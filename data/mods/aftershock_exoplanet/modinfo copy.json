@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "aftershock",
+    "name": "Aftershock",
+    "authors": [ "Esther", "Coolthulu", "Maleclypse", "Candlebury", "Mom_Bun" ],
+    "maintainers": [ "Maleclypse", "Candlebury", "Mom_Bun", "Drew4484" ],
+    "description": "Moving towards a survival horror full conversion mod set in a mostly abandoned extrasolar colony far from Earth hundreds of years from today.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]

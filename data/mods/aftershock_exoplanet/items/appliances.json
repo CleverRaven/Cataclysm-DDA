@@ -1,0 +1,130 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "ap_exo_gantry",
+    "looks_like": "welding_rig",
+    "symbol": "T",
+    "color": "blue",
+    "name": { "str": "freezer" },
+    "description": "A gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.",
+    "longest_side": "1400 mm",
+    "insulation": 15,
+    "volume": "900 L",
+    "weight": "50 kg",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "450 L", "max_contains_weight": "400 kg" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_cRTG",
+    "name": { "str": "U-344 RTG (deployed)" },
+    "looks_like": "f_reactor",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_color": "blue",
+    "location": "fuel_source",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A compact radioisotope thermoelectric generator, complying with UASTA 344 standards.  It provides a steady if limited supply of power.",
+    "epower": "50 W",
+    "remove_as": "afs_cRTG",
+    "item": "afs_cRTG",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "APPLIANCE", "PERPETUAL", "REACTOR" ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "count": [ 0, 2 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_ap_battery_charger",
+    "name": { "str": "portable battery charger" },
+    "looks_like": "box_battery_charger",
+    "categories": [ "cargo" ],
+    "color": "light_green",
+    "broken_color": "blue",
+    "damage_modifier": 10,
+    "durability": 40,
+    "description": "A",
+    "bonus": 15,
+    "size": "10 L",
+    "remove_as": "afs_battery_charger",
+    "item": "afs_battery_charger",
+    "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "breaks_into": [
+      { "item": "plastic_chunk", "count": [ 3, 5 ] },
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 2, 5 ] }
+    ],
+    "damage_reduction": { "all": 5 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "afs_ap_survival_heater",
+    "type": "vehicle_part",
+    "name": { "str": "portable survival heater" },
+    "looks_like": "large_space_heater",
+    "categories": [ "utility" ],
+    "color": "red",
+    "durability": 400,
+    "epower": "-1500 W",
+    "bonus": 10,
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
+    "item": "afs_survival_heater",
+    "emissions": [ "afs_emit_survival_heater" ],
+    "breaks_into": [
+      { "item": "mc_steel_lump" },
+      { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 1, 3 ] },
+      { "item": "element", "count": [ 0, 2 ] }
+    ],
+    "damage_reduction": { "all": 15 },
+    "variants": [ { "symbols": ";", "symbols_broken": ":" } ]
+  },
+  {
+    "id": "afs_ap_tripod_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "tri-pod lamp" },
+    "looks_like": "f_floor_lamp",
+    "item": "afs_tripod_light",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "A light mounted on a tall expanded tri-pod.  Illuminates the area around itself when powered.",
+    "epower": "-10 W",
+    "bonus": 200,
+    "damage_modifier": 10,
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
+  },
+  {
+    "id": "afs_ap_survival_battery",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "portable survival battery" },
+    "item": "afs_survival_battery",
+    "description": "A small battery to store electrical power in a static power grid.",
+    "color": "white",
+    "flags": [ "APPLIANCE" ],
+    "durability": 100,
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "requirements": { "removal": { "time": "6 m" } }
+  }
+]

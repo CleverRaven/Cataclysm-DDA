@@ -1,0 +1,94 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "nano_forge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "3 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "schematics_nano_forge", 6 ], [ "recipes_cryolab", 9 ], [ "recipe_augs", 9 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "tools": [
+      [
+        [ "welder", 400 ],
+        [ "welder_crude", 600 ],
+        [ "integrated_welder", 600 ],
+        [ "soldering_iron", 600 ],
+        [ "soldering_iron_portable", 600 ],
+        [ "oxy_torch", 80 ]
+      ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [
+      [ [ "afs_material_4", 8 ] ],
+      [ [ "afs_material_2", 12 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "afs_magnet_3", 4 ] ],
+      [ [ "afs_magnet_2", 12 ] ],
+      [ [ "afs_circuitry_1", 20 ] ],
+      [ [ "afs_magnet_3", 4 ] ],
+      [ [ "ai_module_advanced", 1 ] ],
+      [ [ "afs_circuitry_3", 1 ] ],
+      [ [ "afs_energy_storage_1", 4 ] ],
+      [ [ "afs_energy_storage_2", 3 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_circuitry_2", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "diamond_press",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "3 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "book_learn": [ [ "schematics_diamond_press", 7 ], [ "recipes_cryolab", 9 ], [ "recipe_augs", 9 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "tools": [
+      [
+        [ "welder", 300 ],
+        [ "welder_crude", 450 ],
+        [ "integrated_welder", 450 ],
+        [ "soldering_iron", 450 ],
+        [ "soldering_iron_portable", 450 ],
+        [ "oxy_torch", 60 ]
+      ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [
+      [ [ "afs_material_3", 8 ] ],
+      [ [ "afs_material_2", 12 ] ],
+      [ [ "afs_material_1", 28 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "afs_magnet_3", 8 ] ],
+      [ [ "afs_magnet_2", 12 ] ],
+      [ [ "afs_circuitry_1", 20 ] ],
+      [ [ "afs_magnet_3", 4 ] ],
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "afs_circuitry_3", 1 ] ],
+      [ [ "afs_energy_storage_1", 2 ] ],
+      [ [ "afs_energy_storage_2", 2 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_circuitry_2", 3 ] ]
+    ]
+  }
+]
