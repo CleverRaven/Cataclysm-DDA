@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_constantticking",
     "//": "This EOC triggers once every x amount of minutes where x is determined by your difficulty.  This happens only while you're away from base, otherwise it's dormant.  All it does is increase your sickness counter by 1 every time it triggers and then calls the more detailed sickness check EOC.",
-    "recurrence": { "global_val": "var", "var_name": "currentpulselength", "default": "15 m" },
+    "recurrence": { "global_val": "currentpulselength", "default": "15 m" },
     "condition": { "u_has_trait": "awayfromhome" },
     "deactivate_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "effect": [

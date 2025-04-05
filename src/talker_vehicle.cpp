@@ -51,13 +51,12 @@ tripoint_abs_omt talker_vehicle_const::pos_abs_omt() const
     return me_veh_const->pos_abs_omt();
 }
 
-std::optional<std::string> talker_vehicle_const::maybe_get_value( const std::string &var_name )
-const
+diag_value const *talker_vehicle_const::maybe_get_value( const std::string &var_name ) const
 {
     return me_veh_const->maybe_get_value( var_name );
 }
 
-void talker_vehicle::set_value( const std::string &var_name, const std::string &value )
+void talker_vehicle::set_value( const std::string &var_name, diag_value value )
 {
     me_veh->set_value( var_name, value );
 }

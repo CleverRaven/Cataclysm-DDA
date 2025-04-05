@@ -274,9 +274,11 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             queued_eoc temp;
             temp.time = time_point( elem.get_int( "time" ) );
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            std::unordered_map<std::string, std::string> context;
+            global_variables::impl_t context;
             for( const JsonMember &jm : elem.get_object( "context" ) ) {
-                context[jm.name()] = jm.get_string();
+                diag_value val;
+                jm.read( val );
+                context.emplace( jm.name(), val );
             }
             temp.context = context;
             queued_global_effect_on_conditions.push( temp );

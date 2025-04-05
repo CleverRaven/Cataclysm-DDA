@@ -34,6 +34,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "dialogue.h"
 #include "diary.h"
 #include "distraction_manager.h"
 #include "do_turn.h"
@@ -451,15 +452,15 @@ static void rcdrive( const point_rel_ms &d )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
-    std::stringstream car_location_string( player_character.get_value( "remote_controlling" ) );
+    diag_value const *car_location = player_character.maybe_get_value( "remote_controlling" );
 
-    if( car_location_string.str().empty() ) {
+    if( !car_location ) {
         //no turned radio car found
         add_msg( m_warning, _( "No radio car connected." ) );
         return;
     }
-    tripoint_bub_ms c;
-    car_location_string >> c.x() >> c.y() >> c.z();
+    // FIXME: migrate to abs
+    tripoint_bub_ms c{ car_location->tripoint().raw() };
 
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
@@ -487,9 +488,8 @@ static void rcdrive( const point_rel_ms &d )
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         here.i_rem( src, rc_car );
-        car_location_string.clear();
-        car_location_string << dest.x() << ' ' << dest.y() << ' ' << dest.z();
-        player_character.set_value( "remote_controlling", car_location_string.str() );
+        // FIXME: migrate to abs
+        player_character.set_value( "remote_controlling", tripoint_abs_ms{ dest.raw() } );
         return;
     }
 }
@@ -2327,7 +2327,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_MOVE_BACK_LEFT:
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT:
-            if( !player_character.get_value( "remote_controlling" ).empty() &&
+            if( player_character.maybe_get_value( "remote_controlling" ) &&
                 ( player_character.has_active_item( itype_radiocontrol ) ||
                   player_character.has_active_bionic( bio_remote ) ) ) {
                 rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
@@ -3003,7 +3003,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 // ERROR
                 add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ),
-                         player_character.get_value( "THIEF_MODE" ) );
+                         player_character.get_value( "THIEF_MODE" ).to_string() );
             }
             break;
 

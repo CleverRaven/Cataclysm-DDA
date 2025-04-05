@@ -127,9 +127,9 @@ void computer::set_mission( const int id )
 }
 
 // Methods for setting/getting misc key/value pairs.
-void computer::set_value( const std::string &key, const std::string &value )
+void computer::set_value( const std::string &key, diag_value value )
 {
-    values[ key ] = value;
+    values[ key ] = std::move( value );
 }
 
 void computer::remove_value( const std::string &key )
@@ -137,10 +137,9 @@ void computer::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::optional<std::string> computer::maybe_get_value( const std::string &key ) const
+diag_value const *computer::maybe_get_value( const std::string &key ) const
 {
-    auto it = values.find( key );
-    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
+    return global_variables::_common_maybe_get_value( key, values );
 }
 
 static computer_action computer_action_from_legacy_enum( int val );

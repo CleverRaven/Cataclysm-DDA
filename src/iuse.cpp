@@ -7198,7 +7198,7 @@ std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, const tripoi
     if( !it->ammo_sufficient( p ) ) {
         it->active = false;
         p->remove_value( "remote_controlling" );
-    } else if( p->get_value( "remote_controlling" ).empty() ) {
+    } else if( !p->maybe_get_value( "remote_controlling" ) ) {
         it->active = false;
     }
 
@@ -7241,13 +7241,10 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bu
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
                 return 1;
             } else {
-                std::stringstream car_location_string;
-                // Populate with the point and stash it.
-                car_location_string << rc_item_location.x() << ' ' <<
-                                    rc_item_location.y() << ' ' << rc_item_location.z();
                 p->add_msg_if_player( m_good, _( "You take control of the RC car." ) );
 
-                p->set_value( "remote_controlling", car_location_string.str() );
+                // FIXME: migrate to abs
+                p->set_value( "remote_controlling", tripoint_abs_ms{ rc_item_location.raw() } );
                 it->active = true;
             }
         }

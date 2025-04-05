@@ -1927,8 +1927,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
             d = dialogue( nullptr, get_talker_for( caster ) );
         }
         const tripoint_abs_ms target_abs = get_map().get_abs( potential_target );
-        write_var_value( var_type::context, "spell_location", &d,
-                         target_abs.to_string() );
+        write_var_value( var_type::context, "spell_location", &d, target_abs );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
         if( eoc->type == eoc_type::ACTIVATION ) {

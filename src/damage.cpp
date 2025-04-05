@@ -432,8 +432,8 @@ void damage_type::ondamage_effects( Creature *source, Creature *target, bodypart
         dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
                     target == nullptr ? nullptr : get_talker_for( target ) );
 
-        d.set_value( "damage_taken", std::to_string( damage_taken ) );
-        d.set_value( "total_damage", std::to_string( total_damage ) );
+        d.set_value( "damage_taken", damage_taken );
+        d.set_value( "total_damage", total_damage );
         d.set_value( "bp", bp.str() );
 
         if( eoc->type == eoc_type::ACTIVATION ) {

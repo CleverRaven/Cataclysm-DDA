@@ -44,13 +44,12 @@ tripoint_abs_omt talker_furniture_const::pos_abs_omt() const
     return get_player_character().pos_abs_omt();
 }
 
-std::optional<std::string> talker_furniture_const::maybe_get_value( const std::string &var_name )
-const
+diag_value const *talker_furniture_const::maybe_get_value( const std::string &var_name ) const
 {
     return me_comp->maybe_get_value( var_name );
 }
 
-void talker_furniture::set_value( const std::string &var_name, const std::string &value )
+void talker_furniture::set_value( const std::string &var_name, diag_value value )
 {
     me_comp->set_value( var_name, value );
 }

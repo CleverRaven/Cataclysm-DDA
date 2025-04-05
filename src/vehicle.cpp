@@ -1186,9 +1186,9 @@ int vehicle::power_to_energy_bat( const units::power power, const time_duration 
 }
 
 // Methods for setting/getting misc key/value pairs.
-void vehicle::set_value( const std::string &key, const std::string &value )
+void vehicle::set_value( const std::string &key, diag_value value )
 {
-    values[ key ] = value;
+    values[ key ] = std::move( value );
 }
 
 void vehicle::remove_value( const std::string &key )
@@ -1196,15 +1196,14 @@ void vehicle::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::string vehicle::get_value( const std::string &key ) const
+diag_value const &vehicle::get_value( const std::string &key ) const
 {
-    return maybe_get_value( key ).value_or( std::string{} );
+    return global_variables::_common_get_value( key, values );
 }
 
-std::optional<std::string> vehicle::maybe_get_value( const std::string &key ) const
+diag_value const *vehicle::maybe_get_value( const std::string &key ) const
 {
-    auto it = values.find( key );
-    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
+    return global_variables::_common_maybe_get_value( key, values );
 }
 
 void vehicle::clear_values()
