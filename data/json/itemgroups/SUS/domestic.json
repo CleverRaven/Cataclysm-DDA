@@ -593,6 +593,22 @@
             "prob": 60,
             "sealed": false
           },
+          {
+            "item": "cocoa_powder",
+            "count": [ 5, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "jar_3l_glass_sealed",
+            "prob": 60,
+            "sealed": false
+          },
+          {
+            "item": "cocoa_powder_milk",
+            "count": [ 5, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "jar_3l_glass_sealed",
+            "prob": 60,
+            "sealed": false
+          },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 10 }

@@ -703,6 +703,8 @@
       { "item": "ammonia_hydroxide", "prob": 24, "charges": [ 1, -1 ] },
       { "item": "butane_can", "prob": 10, "charges": [ 200, 400 ] },
       { "prob": 15, "group": "milk_powder_various" },
+      { "prob": 15, "group": "cocoa_powder_various" },
+      { "prob": 15, "group": "milk_cocoa_powder_various" },
       { "prob": 20, "group": "powder_eggs_bottle_plastic_small_16" },
       { "prob": 12, "group": "protein_powder_bottle_plastic_small_1_9" },
       { "group": "dry_goods", "prob": 365 },
@@ -1782,6 +1784,86 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 5, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_various",
+    "subtype": "distribution",
+    "entries": [ { "prob": 4, "group": "cocoa_powder_bag_plastic" }, { "prob": 2, "group": "cocoa_powder_bag_paper" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_various_full",
+    "subtype": "distribution",
+    "entries": [ { "prob": 1, "group": "cocoa_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": [ 5, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_various",
+    "subtype": "distribution",
+    "entries": [ { "prob": 4, "group": "milk_cocoa_powder_bag_plastic" }, { "prob": 2, "group": "milk_cocoa_powder_bag_paper" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_various_full",
+    "subtype": "distribution",
+    "entries": [ { "prob": 1, "group": "milk_cocoa_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": [ 5, 40 ] } ]
   },
   {
     "type": "item_group",
