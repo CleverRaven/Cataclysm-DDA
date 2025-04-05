@@ -2163,15 +2163,12 @@ void Creature::remove_value( const std::string &key )
 
 diag_value const &Creature::get_value( const std::string &key ) const
 {
-    static diag_value const null_val;
-    diag_value const *ret = maybe_get_value( key );
-    return ret ? *ret : null_val;
+    return global_variables::_common_get_value( key, values );
 }
 
 diag_value const *Creature::maybe_get_value( const std::string &key ) const
 {
-    auto it = values.find( key );
-    return it == values.end() ? nullptr : &it->second;
+    return global_variables::_common_maybe_get_value( key, values );
 }
 
 void Creature::clear_values()

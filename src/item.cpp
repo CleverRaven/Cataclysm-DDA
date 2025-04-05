@@ -1878,15 +1878,12 @@ void item::remove_var( const std::string &key )
 
 diag_value const &item::get_value( const std::string &name ) const
 {
-    static diag_value const null_val;
-    diag_value const *ret = maybe_get_value( name );
-    return ret ? *ret : null_val;
+    return global_variables::_common_get_value( name, item_vars );
 }
 
 diag_value const *item::maybe_get_value( const std::string &name ) const
 {
-    auto it = item_vars.find( name );
-    return it == item_vars.end() ? nullptr : &it->second;
+    return global_variables::_common_maybe_get_value( name, item_vars );
 }
 
 bool item::has_var( const std::string &name ) const
