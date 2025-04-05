@@ -181,7 +181,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( read_var_value( *params.target_var, d )->tripoint() );
+        return project_to<coords::omt>( read_var_value( *params.target_var, d ).tripoint() );
     }
 
     omt_find_params find_params;

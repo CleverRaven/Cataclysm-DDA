@@ -95,7 +95,8 @@ struct talk_effect_fun_t {
         }
 };
 
-diag_value const *read_var_value( const var_info &info, const_dialogue const &d );
+diag_value const &read_var_value( const var_info &info, const_dialogue const &d );
+diag_value const *maybe_read_var_value( const var_info &info, const_dialogue const &d );
 
 var_info process_variable( const std::string &type );
 

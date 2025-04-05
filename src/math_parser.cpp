@@ -225,11 +225,7 @@ diag_value _get_diag_value( const_dialogue const &d, thingie const &param )
         },
         [&val, &d]( var const & v )
         {
-            if( diag_value const *ret = read_var_value( v.varinfo, d ); ret ) {
-                val = *ret;
-            } else {
-                val = diag_value{};
-            }
+            val = read_var_value( v.varinfo, d );
         },
         [&val, &d]( auto const & v )
         {
@@ -270,7 +266,7 @@ double func_jmath::eval( const_dialogue const &d ) const
 
 double var::eval( const_dialogue const &d ) const
 {
-    if( diag_value const *ret = read_var_value( varinfo, d ); ret ) {
+    if( diag_value const *ret = maybe_read_var_value( varinfo, d ); ret ) {
         try {
             return ret->dbl( d );
         } catch( math::exception &ex ) {
