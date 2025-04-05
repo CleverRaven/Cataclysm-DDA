@@ -2552,7 +2552,7 @@
     "id": "last_breath_mist_cooldown",
     "name": [ "Recovering from the last breath's mist" ],
     "desc": [
-      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
+      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way another time yet."
     ]
   },
   {
@@ -3249,6 +3249,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_slain_by_the_sun",
+    "name": [ "Slain by the Sun" ],
+    "desc": [ "The sun is burning you like a dry leaf in a wildfire." ],
+    "miss_messages": [ [ "The sun is burning you.", 2 ] ],
+    "rating": "bad",
+    "main_parts_only": true,
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sun_burn_grace_period",
+    "//": "Hidden effect, gives a few hours before the player burns from the sun due to that weakness.",
+    "max_duration": "24 hours",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_drank_blood_recently",
     "//": "Hidden effect, ensuring that blood cravings are canceled by drinking blood.",
     "removes_effects": [ "blood_craving" ],
@@ -3346,5 +3365,79 @@
     "name": [ "" ],
     "desc": [ "" ],
     "max_duration": "5 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_need_vampire_blood",
+    "//": "This tracks how long the player went without vampire blood.  This is used for the Apex's Thirst weakness.",
+    "max_intensity": 100,
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_invisible_in_dark",
+    "name": [ "Shrouded by the Shadowed Path" ],
+    "//": "When the required check will exist, this power will depend on darkness to work, not on not being under the sun.",
+    "desc": [ "Until the shadows you gathered fade or the sun shines upon you, you cannot be seen." ],
+    "apply_message": "The shadows you gathered meld with you, hiding you from sight.",
+    "remove_message": "The shadows aren't hiding you anymore.",
+    "rating": "good",
+    "flags": [ "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_lose_invisible_in_dark",
+    "//": "This revoves the invisibility power when the vampire stands under the sun.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_vampire_invisible_in_dark" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_no_illness",
+    "//": "Removes all illnesses, parasites and poisons no matter if they are magical or mundane.  No effect on the vampire cure.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [
+      "venom_blind",
+      "formication",
+      "migo_atmosphere",
+      "nausea",
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "poison",
+      "venom_dmg",
+      "venom_weaken",
+      "stung",
+      "badpoison",
+      "foodpoison",
+      "paralyzepoison",
+      "tetanus",
+      "rat_bite_fever",
+      "infected",
+      "common_cold",
+      "flu",
+      "pre_flu",
+      "pre_common_cold",
+      "blood_spiders",
+      "visuals"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_mind_chaos",
+    "name": [ "Blood-Muddled Mind" ],
+    "desc": [ "Your mind reels from all the vampire blood you drank." ],
+    "rating": "bad",
+    "max_intensity": 5,
+    "base_mods": { "int_mod": [ -4 ] },
+    "scaling_mods": { "int_mod": [ -2 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.1 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

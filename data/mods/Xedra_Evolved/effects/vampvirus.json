@@ -519,6 +519,75 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ANATHEMA_UPGRADE_ORDER",
+    "//": "Ensures the player cannot gain a mutation without its prerequisite.",
+    "effect": [
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" } } ]
+        },
+        "then": [ { "u_lose_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" }, { "u_add_trait": "VAMPIRE_STORE_MORE_BLOOD" } ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" }, { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } } ]
+        },
+        "then": [ { "u_lose_trait": "VAMPIRE_STORE_MORE_BLOOD" }, { "u_add_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "EYEGLEAM_UPGRADE" }, { "not": { "u_has_trait": "EYEGLEAM" } } ] },
+        "then": [ { "u_lose_trait": "EYEGLEAM_UPGRADE" }, { "u_add_trait": "EYEGLEAM" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "BLOOD_FUN_UPGRADE" }, { "not": { "u_has_trait": "BLOOD_FUN" } } ] },
+        "then": [ { "u_lose_trait": "BLOOD_FUN_UPGRADE" }, { "u_add_trait": "BLOOD_FUN" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "VAMPIRE_SILENT_MOVE_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_SILENT_MOVE" } } ] },
+        "then": [ { "u_lose_trait": "VAMPIRE_SILENT_MOVE_UPGRADE" }, { "u_add_trait": "VAMPIRE_SILENT_MOVE" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "VAMPIRE_NO_ILLNESS_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_NO_ILLNESS" } } ] },
+        "then": [ { "u_lose_trait": "VAMPIRE_NO_ILLNESS_UPGRADE" }, { "u_add_trait": "VAMPIRE_NO_ILLNESS" } ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
+            { "not": { "u_has_trait": "VAMPIRE_BAT_FORM" } },
+            { "not": { "u_has_trait": "VAMPIRE_WOLF_FORM" } },
+            { "not": { "u_has_trait": "VAMPIRE_MIST_FORM" } },
+            { "not": { "u_has_trait": "VAMPIRE_SHADOW_FORM" } }
+          ]
+        },
+        "then": [
+          { "u_lose_trait": "VAMPIRE_FORM_UPGRADE" },
+          {
+            "u_roll_remainder": [ "VAMPIRE_BAT_FORM", "VAMPIRE_WOLF_FORM", "VAMPIRE_MIST_FORM", "VAMPIRE_SHADOW_FORM" ],
+            "type": "mutation"
+          }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST" } } ]
+        },
+        "then": [
+          { "u_lose_trait": "VAMPIRE_LAST_BREATH_MIST_UPGRADE" },
+          { "u_add_trait": "VAMPIRE_LAST_BREATH_MIST" },
+          { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" }, { "not": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND" } } ]
+        },
+        "then": [ { "u_lose_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" }, { "u_add_trait": "VAMPIRE_MASTER_MORTAL_MIND" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ANATHEMA_ADD_WEAKNESS",
     "//": "The message can be removed once roll_remainder can trigger gain_mutation EOCs, as each of these has a custom message ready.",
     "effect": [
@@ -536,7 +605,8 @@
             {
               "u_message": "You have a sudden feeling of dread.  In a few hours, the sun will burn you to a crisp if you ever stand under its unblocked rays.",
               "type": "bad"
-            }
+            },
+            { "u_add_effect": "effect_sun_burn_grace_period", "intensity": 1, "duration": "5 hours" }
           ]
         }
       }

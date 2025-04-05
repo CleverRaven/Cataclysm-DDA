@@ -1072,11 +1072,12 @@
     "id": "VAMPIRE_INSTANT_BLEED",
     "name": { "str": "Claim the Crimson Wine" },
     "points": 0,
-    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can maintain a floating blood container at a constant expense of mana.",
+    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers by spending mana.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "INSTANT_BLEED" ]
+    "flags": [ "INSTANT_BLEED" ],
+    "spells_learned": [ [ "vampire_summon_blood_container", 1 ] ]
   },
   {
     "type": "mutation",
@@ -1141,7 +1142,8 @@
     "id": "BLOOD_FUN_UPGRADE",
     "name": { "str": "Sanguine Paradise" },
     "points": 0,
-    "description": "Becoming more vampire than vampires are has affected your new palate, making the consumption of blood feel even better than before.",
+    "//": "The main draw of BLOOD_FUN is fae blood being a net morale positive.  The main draw of this upgrade is getting stat boosts from the high morale.",
+    "description": "Becoming more vampire than vampires are has affected your new palate, making the consumption of blood feel even better than before.  You now enjoy drinking blood so much that enough of it will bolster your resolve for a while.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
@@ -1163,8 +1165,7 @@
     "name": { "str": "Ascended Anathema" },
     "points": 0,
     "//": "Behaves as the anathema's threshold, letting the EOC give the stronger traits.  The enabler is a threshold to limit mixing regular mutations and this path.",
-    "//2": "It also gives a defining weakness if you have yet to get one.",
-    "//3": "A few mentors knew that this was possible, but they kept the secret to not threaten the plan.",
+    "//2": "A few mentors knew that this was possible, but they kept the secret to not threaten the plan.",
     "description": "You drank enough vampire blood to gain access to power the mentors never thought possible.  There is no more limit to how powerful of a vampire you can be.",
     "starting_trait": false,
     "purifiable": false,
@@ -1185,18 +1186,26 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_INVISIBLE_IN_DARK",
-    "name": { "str": "Shrouded by the Night" },
+    "name": { "str": "Shrouded by the Shadowed Path" },
     "points": 0,
     "//": "should only work in the dark, but such checks aren't yet.",
     "description": "Darkness is your home, and you can call it to shroud you from others.  When away from the sun, you can become invisible with a constant expense of blood.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "spells_learned": [ [ "vampire_invisible_in_dark", 1 ] ],
+    "//": "This enchantment removes the effect if the vampire is outside at day.",
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun " } } ] },
+        "ench_effects": [ { "effect": "effect_vampire_lose_invisible_in_dark", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "VAMPIRE_HEAL_IN_DARK",
-    "name": { "str": "Shadowy Regeneration" },
+    "name": { "str": "Stitched by the Shadowed Path" },
     "points": 0,
     "//": "should only work in the dark, but such checks aren't yet.",
     "description": "Darkness is your new friend, and like a good friend it helps you through hard times.  Passively heal your wounds and reduce your pain while away from the sun.",
@@ -1209,10 +1218,31 @@
     "id": "VAMPIRE_BLOOD_FOR_POTENCY",
     "name": { "str": "Boiling Crimson Cauldron" },
     "points": 0,
-    "description": "The powers of vampires come through their sustenance of blood, and you now know how to use this at your advantage.  You can increase your need for blood to boost your vampiric potency until you decide to stop the effect or run out of blood.",
+    "description": "The powers of vampires come through their sustenance of blood, and you now know how to use this at your advantage.  You can increase your need for blood to boost your vampiric potency until you decide to stop the effect.  If you do not have enough blood, it will have no effect until you drink more blood.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "Your power increases as your blood burns away.",
+    "enchantments": [
+      {
+        "condition": { "and": "ACTIVE", "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+        "mutations": [ "VAMPIRE_BLOOD_FOR_POTENCY_REAL" ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BLOOD_FOR_POTENCY_REAL",
+    "name": { "str": "Boiling Crimson Cauldron Real", "//~": "NO_I18N" },
+    "points": 0,
+    "description": "Increases blood potency and drain while the player-visible version is active and has enough blood.  You should never see this.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 2 ] ]
   },
   {
     "type": "mutation",
@@ -1222,7 +1252,8 @@
     "description": "Being protected against mundane afflictions only is something your flesh has stopped tolerating.  Your condition now protects you from any illness, parasite and poison, no matter how dangerous they are.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "ench_effects": [ { "effect": "effect_vampire_no_illness", "intensity": 1 } ]
   },
   {
     "type": "mutation",
@@ -1239,7 +1270,7 @@
     "id": "VAMPIRE_LAST_BREATH_MIST_UPGRADE",
     "name": { "str": "Second Final Breath" },
     "points": 0,
-    "description": "Your instinctive mastery of your mist form has expanded.  You can now trigger Last Breath's Mist a total of two times per week.",
+    "description": "Your instinctive mastery of your mist form has expanded.  You now recover from triggering Last Breath's Mist twice as quickly.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
@@ -1282,7 +1313,8 @@
     "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  While under the sun, you will take constant damage no matter how covered you are.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "enchantments": [ "ench_slain_by_the_sun" ]
   },
   {
     "type": "mutation",

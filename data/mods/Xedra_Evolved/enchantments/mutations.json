@@ -61,5 +61,26 @@
     "id": "KI_STRIKE",
     "condition": { "not": "u_has_weapon" },
     "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_skill('unarmed') * 2" ] } } ]
+  },
+  {
+    "id": "ench_slain_by_the_sun",
+    "//": "Apply the damage effect to Anathema with the weakness.",
+    "type": "enchantment",
+    "condition": {
+      "and": [
+        "is_day",
+        "u_is_outside",
+        { "not": { "is_weather": "blotted_sun" } },
+        { "not": { "u_has_effect": "effect_sun_burn_grace_period" } }
+      ]
+    },
+    "ench_effects": [
+      { "effect": "effect_slain_by_the_sun", "intensity": 1, "target_part": "arm_l" },
+      { "effect": "effect_slain_by_the_sun", "intensity": 1, "target_part": "arm_r" },
+      { "effect": "effect_slain_by_the_sun", "intensity": 1, "target_part": "leg_l" },
+      { "effect": "effect_slain_by_the_sun", "intensity": 1, "target_part": "leg_r" },
+      { "effect": "effect_slain_by_the_sun", "intensity": 1, "target_part": "torso" },
+      { "effect": "effect_slain_by_the_sun", "intensity": 1, "target_part": "head" }
+    ]
   }
 ]
