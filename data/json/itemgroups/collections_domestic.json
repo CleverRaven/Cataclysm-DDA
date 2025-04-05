@@ -1792,7 +1792,7 @@
     "entries": [
       { "prob": 4, "group": "cocoa_powder_bag_plastic" },
       { "prob": 2, "group": "cocoa_powder_bag_paper" },
-      { "prob": 2, "group": "cocoa_powder_can_food_big_95" }
+      { "prob": 2, "group": "cocoa_powder_can_food_big_48" }
     ]
   },
   {
@@ -1817,10 +1817,10 @@
   },
   {
     "type": "item_group",
-    "id": "cocoa_powder_can_food_big_95",
+    "id": "cocoa_powder_can_food_big_48",
     "subtype": "collection",
     "container-item": "can_food_big",
-    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 95 } ]
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 48 } ]
   },
   {
     "type": "item_group",
@@ -1843,7 +1843,7 @@
     "entries": [
       { "prob": 4, "group": "milk_cocoa_powder_bag_plastic" },
       { "prob": 2, "group": "milk_cocoa_powder_bag_paper" },
-      { "prob": 2, "group": "milk_cocoa_powder_can_food_big_95" }
+      { "prob": 2, "group": "milk_cocoa_powder_can_food_big_48" }
     ]
   },
   {
@@ -1868,10 +1868,10 @@
   },
   {
     "type": "item_group",
-    "id": "milk_cocoa_powder_can_food_big_95",
+    "id": "milk_cocoa_powder_can_food_big_48",
     "subtype": "collection",
     "container-item": "can_food_big",
-    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 95 } ]
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 48 } ]
   },
   {
     "type": "item_group",
