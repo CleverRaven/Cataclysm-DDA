@@ -1534,6 +1534,20 @@
   },
   {
     "type": "AMMO",
+    "id": "quill_ink",
+    "name": { "str_sp": "quill ink" },
+    "symbol": "~",
+    "description": "Ink made from a variety of sources for use in quill style pens.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "dark_gray",
+    "looks_like": "permanent_ink",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "quill_ink"
+  },
+  {
+    "type": "AMMO",
     "id": "black_pen_ink",
     "name": { "str_sp": "black pen ink" },
     "symbol": "~",

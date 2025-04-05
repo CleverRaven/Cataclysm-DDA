@@ -657,5 +657,26 @@
       "transform_age": 518400,
       "not_ready_msg": "The acorns are still bitter."
     }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "vegan_butter",
+    "name": { "str_sp": "vegan butter" },
+    "weight": "14180 mg",
+    "color": "brown",
+    "spoils_in": "18 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 101,
+    "container": "wrapper",
+    "description": "A light brown butter substitute made from nuts.  Differs from other nut butters in that the fats are removed from the meat and only the fats retained.",
+    "price": "9 cent",
+    "price_postapoc": "23 cent",
+    "material": [ "nut" ],
+    "volume": "15 ml",
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": -1,
+    "vitamins": [ [ "nut_allergen", 1 ] ]
   }
 ]

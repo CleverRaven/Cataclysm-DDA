@@ -890,6 +890,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "quill_ink",
+    "name": "quill ink",
+    "default": "quill_ink"
+  },
+  {
+    "type": "ammunition_type",
     "id": "black_pen_ink",
     "name": "black pen ink",
     "default": "black_pen_ink"

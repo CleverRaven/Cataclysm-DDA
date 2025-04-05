@@ -1335,6 +1335,20 @@
     "volume": "250 ml"
   },
   {
+    "type": "GENERIC",
+    "id": "butternut_husk",
+    "category": "food",
+    "symbol": "%",
+    "color": "yellow",
+    "name": { "str_sp": "butternut husks" },
+    "description": "A handful of husks from a butternuts, emptied of their meat.",
+    "//spoils_in": "180 days",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "weight": "210 g",
+    "volume": "250 ml"
+  },
+  {
     "type": "COMESTIBLE",
     "id": "water_sewage",
     "name": { "str_sp": "sewage water" },
