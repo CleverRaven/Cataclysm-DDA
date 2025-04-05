@@ -5047,5 +5047,22 @@
         "moves": 150
       }
     ]
+  },
+  {
+    "id": "nic_pouch_can",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "nicotine pouch can" },
+    "looks_like": "box_small",
+    "description": "TYNN 15 NICOTINE POUCHES WARNING: This product contains an addictive chemical, nicotine.",
+    "ascii_picture": "nic_pouch_can",
+    "weight": "17 g",
+    "volume": "90 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "symbol": "o",
+    "color": "white",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "45 ml", "max_contains_weight": "30 g" } ]
   }
 ]
