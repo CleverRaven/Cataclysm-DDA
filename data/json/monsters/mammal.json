@@ -2396,7 +2396,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "vision_night": 5,
     "stomach_size": 200,
-    "upgrades": { "half_life": 30, "into": "mon_raccoon_mutant" },
+    "upgrades": { "half_life": 120, "into": "mon_raccoon_mutant" },
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]

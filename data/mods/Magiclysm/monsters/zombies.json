@@ -33,7 +33,7 @@
         "no_dmg_msg_npc": "%1$s hits <npcname>, but their armor protects them."
       }
     ],
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_THAUMIC" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_THAUMIC" }
   },
   {
     "type": "effect_on_condition",
@@ -58,7 +58,7 @@
     "relative": { "armor": { "nether": 6 } },
     "special_attacks": [ [ "PARROT", 400 ], [ "PARROT_AT_DANGER", 0 ], { "id": "grab" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "luminance": 10,
-    "upgrades": { "half_life": 30, "into": "mon_zombie_levinbolt" }
+    "upgrades": { "half_life": 120, "into": "mon_zombie_levinbolt" }
   },
   {
     "type": "MONSTER",
@@ -84,7 +84,7 @@
       }
     ],
     "luminance": 20,
-    "upgrades": { "half_life": 30, "into": "mon_zombie_manastorm" }
+    "upgrades": { "half_life": 120, "into": "mon_zombie_manastorm" }
   },
   {
     "type": "MONSTER",
@@ -131,7 +131,7 @@
       "armor": { "nether": 50, "sonic": 50, "necrotic": 50, "psionic": 50, "electric": 50, "cold": 50, "heat": 50, "light": 50 }
     },
     "luminance": 2,
-    "upgrades": { "half_life": 30, "into": "mon_zombie_disruptor" }
+    "upgrades": { "half_life": 120, "into": "mon_zombie_disruptor" }
   },
   {
     "type": "MONSTER",
@@ -156,7 +156,7 @@
         "light": 500
       }
     },
-    "upgrades": { "half_life": 30, "into": "mon_zombie_magebreaker" }
+    "upgrades": { "half_life": 120, "into": "mon_zombie_magebreaker" }
   },
   {
     "type": "MONSTER",

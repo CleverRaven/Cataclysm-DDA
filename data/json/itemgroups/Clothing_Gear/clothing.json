@@ -4063,6 +4063,62 @@
     ]
   },
   {
+    "id": "bags_unisex_small",
+    "type": "item_group",
+    "//": "worn bags of all sorts for domestic buildings",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [ { "item": "2lcanteen", "prob": 50 }, { "item": "camelbak", "prob": 25 }, { "item": "canteen", "prob": 70 } ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          { "item": "fanny", "prob": 60 },
+          { "item": "mbag", "prob": 35 },
+          { "item": "runner_bag", "prob": 45 },
+          { "item": "slingpack", "prob": 65 },
+          { "item": "purse", "prob": 70 },
+          { "item": "leg_bag", "prob": 1 },
+          { "item": "leg_small_bag", "prob": 1 },
+          { "item": "armrig", "prob": 1 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "case_violin", "prob": 5 },
+          { "item": "bookstrap", "prob": 5 },
+          { "item": "camera_bag", "prob": 20 },
+          { "item": "quiver_takedown_bow", "prob": 2 },
+          { "item": "nylon_quiver", "prob": 12 },
+          { "item": "quiver", "prob": 8 },
+          { "item": "quiver_large", "prob": 15 },
+          { "item": "solarpack", "prob": 5 },
+          { "item": "ammo_satchel", "prob": 10 },
+          { "item": "ammo_pouch", "prob": 10 },
+          { "item": "chestrig", "prob": 20 },
+          { "item": "chestrig", "variant": "flag_chestrig", "prob": 2 },
+          { "item": "dive_bag", "prob": 25 },
+          { "item": "dry_bag", "prob": 25 },
+          { "item": "chestrig", "variant": "flag_chestrig", "prob": 70, "event": "independence_day" }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "item": "daypack", "prob": 25 },
+          { "item": "backpack_leather", "prob": 40 },
+          { "item": "backpack", "prob": 85 },
+          { "item": "backpack_denim", "prob": 5 },
+          { "item": "travelpack", "prob": 25 },
+          { "item": "gobag", "prob": 1 }
+        ],
+        "prob": 80
+      }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "formal_set_mens",
     "subtype": "collection",
