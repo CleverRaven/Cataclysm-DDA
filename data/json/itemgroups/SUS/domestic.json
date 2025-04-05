@@ -1049,6 +1049,7 @@
     "type": "item_group",
     "//": "clothing found in a man's wardrobe",
     "subtype": "collection",
+    "on_overflow": "spill",
     "entries": [
       { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
       { "item": "sleeping_bag_roll", "prob": 5 },
@@ -1064,6 +1065,7 @@
     "type": "item_group",
     "//": "clothing found in a woman's wardrobe",
     "subtype": "collection",
+    "on_overflow": "spill",
     "entries": [
       { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
       { "group": "shoes_womens", "prob": 60, "count": [ 1, 2 ] },
@@ -1080,6 +1082,7 @@
     "type": "item_group",
     "//": "clothing found in a man's dresser",
     "subtype": "collection",
+    "on_overflow": "spill",
     "entries": [
       { "group": "accesories_personal_unisex", "prob": 10 },
       { "group": "accesories_personal_mens", "prob": 10 },
@@ -1122,6 +1125,7 @@
     "type": "item_group",
     "//": "clothing found in a woman's dresser",
     "subtype": "collection",
+    "on_overflow": "spill",
     "entries": [
       { "group": "accesories_personal_unisex", "prob": 30 },
       { "group": "accesories_personal_womens", "prob": 5 },
