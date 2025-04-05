@@ -122,6 +122,7 @@
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
+#include "wound.h"
 
 #if defined(TILES)
 #include "sdltiles.h"
@@ -509,6 +510,7 @@ void DynamicDataLoader::initialize()
     add( "conduct", &achievement::load_achievement );
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
+    add( "wound", &wound_type::load_wound );
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
 #if defined(TILES)
@@ -852,6 +854,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize_all },
             { _( "Achievements" ), &achievement::finalize },
+            { _( "Wounds" ), &wound_type::finalize },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
             { _( "Faults" ), &faults::finalize },
