@@ -1122,7 +1122,6 @@
     "type": "item_group",
     "//": "clothing found in a woman's dresser",
     "subtype": "collection",
-    "on_overflow": "spill",
     "entries": [
       { "group": "accesories_personal_unisex", "prob": 30 },
       { "group": "accesories_personal_womens", "prob": 5 },
