@@ -60,7 +60,7 @@
     },
     "items": {
       "d": { "item": "SUS_office_desk", "chance": 40 },
-      ";": { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] },
+      ";": { "item": "SUS_office_supplies", "chance": 65, "repeat": [ 1, 4 ] },
       "y": { "item": "SUS_janitors_closet", "chance": 90 },
       "Y": { "item": "coat_rack", "chance": 66, "repeat": [ 1, 5 ] },
       "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },

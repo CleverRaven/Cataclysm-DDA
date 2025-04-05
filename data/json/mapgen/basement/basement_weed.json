@@ -103,7 +103,7 @@
           { "item": "office_breakroom", "chance": 30 },
           { "item": "homeguns", "chance": 5 }
         ],
-        "G": [ { "item": "office_paper", "chance": 40 }, { "item": "dollar_books", "chance": 40 } ],
+        "G": [ { "item": "SUS_office_desk", "chance": 40 }, { "item": "dollar_books", "chance": 40 } ],
         "U": [ { "item": "home_hw", "chance": 50 } ],
         "X": [
           { "item": "supplies_farming", "chance": 50 },

@@ -488,7 +488,7 @@
         ],
         "K": { "item": "kitchen", "chance": 40 },
         "o": { "item": "oven", "chance": 70 },
-        "d": [ { "item": "office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
@@ -607,7 +607,7 @@
         ],
         "K": { "item": "kitchen", "chance": 40 },
         "o": { "item": "oven", "chance": 70 },
-        "d": [ { "item": "office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
         "r": [ { "item": "tools_earthworking", "chance": 50 }, { "item": "supplies_farming", "chance": 70, "repeat": [ 1, 3 ] } ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
         "B": [
@@ -712,7 +712,7 @@
           { "item": "robots", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "supplies_electronics", "chance": 50, "repeat": [ 1, 3 ] }
         ],
-        "d": [ { "item": "office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }

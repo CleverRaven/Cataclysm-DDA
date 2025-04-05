@@ -138,8 +138,8 @@
         "R": { "item": "SUS_trash_trashcan", "chance": 50 },
         "o": { "item": "waitingroom", "chance": 25 },
         "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
-        "f": { "item": "office_paper", "chance": 90 },
-        "F": { "item": "office_paper", "chance": 90 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
+        "F": { "item": "SUS_office_desk", "chance": 90 },
         "£": [ { "item": "bionics_civilian", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "autodoc_supplies", "chance": 20 } ],
         "d": { "item": "office", "chance": 60 },
         "l": [

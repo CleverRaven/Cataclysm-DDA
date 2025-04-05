@@ -52,7 +52,7 @@
         { "item": "misc_smoking", "chance": 2 },
         { "item": "alcohol", "chance": 4 },
         { "item": "foodintincan", "chance": 3, "repeat": [ 1, 3 ] },
-        { "item": "stash_food", "chance": 2, "repeat": [ 1, 2 ] },
+        { "item": "stash_food", "chance": 2 },
         { "item": "allclothes_damaged", "chance": 10, "repeat": [ 1, 5 ] }
       ]
     }

@@ -42,7 +42,7 @@
         "c": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "t": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
         "^": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
@@ -358,7 +358,7 @@
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "C": { "item": "dresser", "chance": 75 },
         "T": { "item": "office_breakroom", "chance": 80 },
-        "f": { "item": "office_paper", "chance": 90 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
         "H": [
           { "item": "harddrugs", "chance": 60 },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
@@ -425,7 +425,7 @@
       "furniture": { "b": "f_bed", "c": "f_armchair", "i": "f_filing_cabinet", "?": "f_bed", "/": "f_bed" },
       "items": {
         "b": { "item": "hospital_bed", "chance": 60 },
-        "i": { "item": "office_paper", "chance": 70 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 70 },
         "L": [
           { "item": "harddrugs", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },

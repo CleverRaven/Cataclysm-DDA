@@ -128,8 +128,8 @@
         { "item": "mechanics", "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 3 ] }
       ],
-      ")": [ { "item": "office_supplies", "chance": 80, "repeat": [ 2, 11 ] } ],
-      "{": [ { "item": "maps_milspec", "chance": 15 }, { "item": "office_supplies", "chance": 80, "repeat": [ 2, 11 ] } ],
+      ")": [ { "item": "SUS_office_desk", "chance": 80, "repeat": [ 1, 2 ] } ],
+      "{": [ { "item": "maps_milspec", "chance": 15 }, { "item": "SUS_office_desk", "chance": 80, "repeat": [ 1, 2 ] } ],
       "x": [ { "item": "entertainment_center_loot", "chance": 100, "repeat": [ 1, 3 ] } ],
       "}": [
         { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 3 ] },
@@ -244,7 +244,7 @@
         { "item": "chem_home", "chance": 60, "repeat": [ 0, 2 ] },
         { "item": "tailoring_fabric", "chance": 30, "repeat": [ 0, 2 ] },
         { "item": "supplies_plumbing", "chance": 50, "repeat": [ 0, 2 ] },
-        { "item": "office_supplies", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "SUS_office_supplies", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "writing_utensils", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "candy_chocolate", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "salty_snacks", "chance": 50, "repeat": [ 0, 2 ] },

@@ -1151,7 +1151,7 @@
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
       "items": {
-        "d": [ { "item": "office_paper", "chance": 25 } ],
+        "d": [ { "item": "SUS_office_filing_cabinet", "chance": 25 } ],
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "B": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]

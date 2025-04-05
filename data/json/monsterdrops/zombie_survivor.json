@@ -171,7 +171,7 @@
           },
           { "group": "grenades", "prob": 10 },
           { "group": "launchers", "prob": 1 },
-          { "group": "stash_food", "prob": 40 },
+          { "group": "stash_food", "prob": 10 },
           { "group": "ammo_common_boxed_used", "prob": 26 },
           { "group": "stash_drugs", "prob": 28 },
           { "group": "gear_survival", "prob": 18 },

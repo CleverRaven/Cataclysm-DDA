@@ -162,7 +162,7 @@
           { "item": "consumer_electronics", "chance": 5 },
           { "item": "tools_common", "chance": 10 },
           { "item": "tools_electronics", "chance": 5, "repeat": [ 0, 2 ] },
-          { "item": "office_supplies", "chance": 5 }
+          { "item": "SUS_office_desk", "chance": 5 }
         ],
         "N": [
           { "item": "drugs_pharmacy", "chance": 90, "repeat": [ 1, 3 ] },

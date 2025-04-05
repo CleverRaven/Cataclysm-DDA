@@ -422,8 +422,7 @@
       "R": [
         { "item": "camping", "chance": 20 },
         { "item": "gear_survival", "chance": 20 },
-        { "item": "cannedfood", "chance": 20 },
-        { "item": "stash_food", "chance": 20 }
+        { "item": "cannedfood", "chance": 20 }
       ],
       "s": [
         { "item": "SUS_bathroom_sink", "chance": 20 },

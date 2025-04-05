@@ -139,7 +139,6 @@
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
-        { "item": "cannedfood", "chance": 50, "repeat": [ 2, 4 ] },
         { "item": "stash_food", "chance": 50 }
       ],
       "s": [

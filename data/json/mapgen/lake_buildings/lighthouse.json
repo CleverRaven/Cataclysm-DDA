@@ -352,7 +352,6 @@
           { "item": "home_hw", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "allclothes", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "textbooks", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "preserved_food", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       }

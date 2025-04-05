@@ -197,7 +197,7 @@
         "description": "The fungaloid shambler throws a rock!"
       }
     ],
-    "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "SUS_trash_forest_no_manmade", "count": 5 } ],
+    "death_drops": [ { "group": "SUS_trash_metal", "count": 5 }, { "group": "SUS_trash_forest_no_manmade", "count": 5 } ],
     "upgrades": false,
     "armor": { "bash": 4, "cut": 10, "stab": 20, "acid": 3, "bullet": 20, "electric": 3 }
   },
