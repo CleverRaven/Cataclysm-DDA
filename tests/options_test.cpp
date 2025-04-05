@@ -28,7 +28,7 @@ TEST_CASE( "option_slider_test", "[option]" )
         { "MONSTER_SPEED", "100%" },
         { "MONSTER_RESILIENCE", "100%" },
         { "SPAWN_DENSITY", "1.00" },
-        { "MONSTER_UPGRADE_FACTOR", "4.00" },
+        { "EVOLUTION_INVERSE_MULTIPLIER", "1.00" },
         { "ITEM_SPAWNRATE", "1.00" },
         { "ETERNAL_SEASON", "false" },
         { "ETERNAL_TIME_OF_DAY", "normal" }
@@ -38,7 +38,7 @@ TEST_CASE( "option_slider_test", "[option]" )
         { "MONSTER_SPEED", "120%" },
         { "MONSTER_RESILIENCE", "200%" },
         { "SPAWN_DENSITY", "3.00" },
-        { "MONSTER_UPGRADE_FACTOR", "3.00" },
+        { "EVOLUTION_INVERSE_MULTIPLIER", "0.75" },
         { "ITEM_SPAWNRATE", "0.50" },
         { "ETERNAL_SEASON", "true" },
         { "ETERNAL_TIME_OF_DAY", "night" }

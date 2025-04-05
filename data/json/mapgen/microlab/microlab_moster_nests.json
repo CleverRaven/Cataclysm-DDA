@@ -9,7 +9,7 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_rust", "weight": 250 },
-      { "monster": "mon_zombie_urchin", "weight": 20, "starts": "7 days" }
+      { "monster": "mon_zombie_urchin", "weight": 20, "starts": "28 days" }
     ]
   },
   {
@@ -17,7 +17,7 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_acidic", "weight": 250 },
-      { "monster": "mon_zombie_spitter", "weight": 20, "starts": "7 days" }
+      { "monster": "mon_zombie_spitter", "weight": 20, "starts": "28 days" }
     ]
   },
   {
@@ -25,7 +25,7 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_phase_skulker", "weight": 250 },
-      { "monster": "mon_zombie_phase_shrike", "weight": 20, "starts": "7 days" }
+      { "monster": "mon_zombie_phase_shrike", "weight": 20, "starts": "28 days" }
     ]
   },
   {
@@ -33,7 +33,7 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_hunter", "weight": 250 },
-      { "monster": "mon_zombie_predator", "weight": 20, "starts": "7 days" }
+      { "monster": "mon_zombie_predator", "weight": 20, "starts": "28 days" }
     ]
   },
   {

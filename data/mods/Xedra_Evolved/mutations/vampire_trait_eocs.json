@@ -1698,7 +1698,7 @@
       { "math": [ "u_val('rad') = 0" ] },
       { "u_location_variable": { "global_val": "last_breath_new_pos" }, "min_radius": 25, "max_radius": 30 },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2400" ] },
-      { "u_add_effect": "last_breath_mist_cooldown", "duration": "168 hours" },
+      { "u_add_effect": "last_breath_mist_cooldown", "duration": "7 days" },
       { "u_teleport": { "global_val": "last_breath_new_pos" }, "force": true },
       {
         "u_message": "As you are about to die, your body instinctively turns to mist before reappearing nearby with some of its wounds closed.",

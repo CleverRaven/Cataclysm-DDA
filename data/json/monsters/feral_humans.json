@@ -51,7 +51,7 @@
       [ "PARROT_AT_DANGER", 0 ]
     ],
     "death_drops": "feral_humans_death_drops_pipe",
-    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 360, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
@@ -210,7 +210,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 56, "into": "mon_fungaloid" },
     "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
@@ -220,7 +220,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.  Their mouth opens and closes softly in a silent moan.",
     "copy-from": "mon_feral_human_crowbar",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 56, "into": "mon_fungaloid" },
     "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
@@ -230,7 +230,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_axe",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 56, "into": "mon_fungaloid" },
     "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
