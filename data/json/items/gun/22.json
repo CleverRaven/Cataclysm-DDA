@@ -360,7 +360,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "built_in_mods": [ "bipod" ],
+    "default_mods": [ "bipod" ],
     "pocket_data": [
       {
         "magazine_well": "34 ml",
