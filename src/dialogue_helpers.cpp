@@ -8,7 +8,14 @@
 #include "talker.h"
 #include "math_parser_diag_value.h"
 
-diag_value const *read_var_value( const var_info &info, const_dialogue const &d )
+diag_value const &read_var_value( const var_info &info, const_dialogue const &d )
+{
+    static diag_value const null_val;
+    diag_value const *ret = maybe_read_var_value( info, d );
+    return ret ? *ret : null_val;
+}
+
+diag_value const *maybe_read_var_value( const var_info &info, const_dialogue const &d )
 {
     global_variables &globvars = get_globals();
     switch( info.type ) {
@@ -22,7 +29,7 @@ diag_value const *read_var_value( const var_info &info, const_dialogue const &d 
             return d.const_actor( true )->maybe_get_value( info.name );
         case var_type::var: {
             diag_value const *const var_val = d.maybe_get_value( info.name );
-            return var_val ? read_var_value( process_variable( var_val->str() ), d ) : nullptr;
+            return var_val ? maybe_read_var_value( process_variable( var_val->str() ), d ) : nullptr;
         }
         case var_type::last:
             return nullptr;
@@ -59,7 +66,7 @@ std::string str_or_var::evaluate( const_dialogue const &d, bool convert ) const
         return str_val.value();
     }
     if( var_val.has_value() ) {
-        diag_value const *val = read_var_value( var_val.value(), d );
+        diag_value const *val = maybe_read_var_value( var_val.value(), d );
         if( val ) {
             if( convert ) {
                 return val->to_string();
@@ -85,7 +92,7 @@ std::string translation_or_var::evaluate( const_dialogue const &d, bool convert 
         return str_val.value().translated();
     }
     if( var_val.has_value() ) {
-        diag_value const *val = read_var_value( var_val.value(), d );
+        diag_value const *val = maybe_read_var_value( var_val.value(), d );
         if( val ) {
             if( convert ) {
                 return val->to_string( true );
@@ -114,7 +121,7 @@ double dbl_or_var_part::evaluate( const_dialogue const &d ) const
         return dbl_val.value();
     }
     if( var_val.has_value() ) {
-        diag_value const *val = read_var_value( var_val.value(), d );
+        diag_value const *val = maybe_read_var_value( var_val.value(), d );
         if( val ) {
             return val->dbl();
         }
@@ -144,7 +151,7 @@ time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
         return dur_val.value();
     }
     if( var_val.has_value() ) {
-        diag_value const *val = read_var_value( var_val.value(), d );
+        diag_value const *val = maybe_read_var_value( var_val.value(), d );
         if( val ) {
             return time_duration::from_turns( val->dbl() );
         }
