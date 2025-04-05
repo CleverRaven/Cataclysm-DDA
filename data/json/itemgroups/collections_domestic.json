@@ -1813,7 +1813,7 @@
     "id": "cocoa_powder_bag_plastic_full",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 40 } ]
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 8 } ]
   },
   {
     "type": "item_group",
@@ -1864,7 +1864,7 @@
     "id": "milk_cocoa_powder_bag_plastic_full",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 40 } ]
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 8 } ]
   },
   {
     "type": "item_group",
