@@ -26,13 +26,21 @@ class global_variables
         }
 
         diag_value const *maybe_get_global_value( const std::string &key ) const {
-            auto it = global_values.find( key );
-            return it == global_values.end() ? nullptr : &it->second;
+            return _common_maybe_get_value( key, global_values );
         }
 
         diag_value const &get_global_value( const std::string &key ) const {
+            return _common_get_value( key, global_values );
+        }
+
+        static diag_value const *_common_maybe_get_value( const std::string &key, const impl_t &cont ) {
+            auto it = cont.find( key );
+            return it == cont.end() ? nullptr : &it->second;
+        }
+
+        static diag_value const &_common_get_value( const std::string &key, const impl_t &cont ) {
             static diag_value const null_val;
-            diag_value const *ret = maybe_get_global_value( key );
+            diag_value const *ret = _common_maybe_get_value( key, cont );
             return ret ? *ret : null_val;
         }
 

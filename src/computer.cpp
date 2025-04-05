@@ -139,8 +139,7 @@ void computer::remove_value( const std::string &key )
 
 diag_value const *computer::maybe_get_value( const std::string &key ) const
 {
-    auto it = values.find( key );
-    return it == values.end() ? nullptr : &it->second;
+    return global_variables::_common_maybe_get_value( key, values );
 }
 
 static computer_action computer_action_from_legacy_enum( int val );

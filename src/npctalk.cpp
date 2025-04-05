@@ -2617,15 +2617,12 @@ void const_dialogue::remove_value( const std::string &key )
 
 diag_value const &const_dialogue::get_value( const std::string &key ) const
 {
-    static diag_value const null_val;
-    diag_value const *ret = maybe_get_value( key );
-    return ret ? *ret : null_val;
+    return global_variables::_common_get_value( key, context );
 }
 
 diag_value const *const_dialogue::maybe_get_value( const std::string &key ) const
 {
-    auto it = context->find( key );
-    return it == context->end() ? nullptr : &it->second;
+    return global_variables::_common_maybe_get_value( key, context );
 }
 
 void const_dialogue::set_conditional( const std::string &key,
