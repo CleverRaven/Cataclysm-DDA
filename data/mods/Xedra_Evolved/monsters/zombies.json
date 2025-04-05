@@ -20,7 +20,7 @@
         "monster_message": "%1$s flickers and all of its injuries disappear!"
       }
     ],
-    "upgrades": { "half_life": 25, "into_group": "GROUP_ZOMBIE_MONOCHROME_UPGRADE" }
+    "upgrades": { "half_life": 100, "into_group": "GROUP_ZOMBIE_MONOCHROME_UPGRADE" }
   },
   {
     "id": "mon_zombie_monochrome_2",
@@ -44,7 +44,7 @@
         "monster_message": "%1$s flickers and all of its injuries disappear!"
       }
     ],
-    "upgrades": { "half_life": 25, "into": "mon_zombie_monochrome_3" },
+    "upgrades": { "half_life": 100, "into": "mon_zombie_monochrome_3" },
     "extend": { "flags": [ "PULP_PRYING", "STABILIZED_TIMELINE" ] }
   },
   {

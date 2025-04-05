@@ -3,9 +3,9 @@
     "type": "monstergroup",
     "id": "GROUP_ZOMBIE",
     "monsters": [
-      { "monster": "mon_afs_headless_horror", "weight": 20, "cost_multiplier": 2, "starts": 400 },
-      { "monster": "mon_zombie_upliftedbear", "weight": 5, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "weight": 8, "cost_multiplier": 10, "starts": 1086 }
+      { "monster": "mon_afs_headless_horror", "weight": 20, "cost_multiplier": 2, "starts": "67 days" },
+      { "monster": "mon_zombie_upliftedbear", "weight": 5, "cost_multiplier": 10, "starts": "181 days" },
+      { "monster": "mon_uplifted_ape_zed", "weight": 8, "cost_multiplier": 10, "starts": "181 days" }
     ]
   },
   {
@@ -13,8 +13,8 @@
     "id": "GROUP_ZOMBIE_MID",
     "monsters": [
       { "monster": "mon_afs_headless_horror", "weight": 10, "cost_multiplier": 20 },
-      { "monster": "mon_zombie_upliftedbear", "weight": 3, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "weight": 5, "cost_multiplier": 10, "starts": 1086 }
+      { "monster": "mon_zombie_upliftedbear", "weight": 3, "cost_multiplier": 10, "starts": "181 days" },
+      { "monster": "mon_uplifted_ape_zed", "weight": 5, "cost_multiplier": 10, "starts": "181 days" }
     ]
   },
   {
@@ -50,8 +50,8 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_uplifted_bear", "weight": 1, "cost_multiplier": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_zombie_upliftedbear", "weight": 1, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "weight": 1, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_zombie_upliftedbear", "weight": 1, "cost_multiplier": 10, "starts": "181 days" },
+      { "monster": "mon_uplifted_ape_zed", "weight": 1, "cost_multiplier": 10, "starts": "181 days" },
       {
         "monster": "afs_mon_boatman",
         "weight": 1,
@@ -115,8 +115,8 @@
     "id": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_upliftedbear", "weight": 10, "pack_size": [ 2, 3 ], "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "weight": 10, "pack_size": [ 2, 3 ], "starts": 1086 }
+      { "monster": "mon_zombie_upliftedbear", "weight": 10, "pack_size": [ 2, 3 ], "starts": "181 days" },
+      { "monster": "mon_uplifted_ape_zed", "weight": 10, "pack_size": [ 2, 3 ], "starts": "181 days" }
     ]
   },
   {
@@ -156,8 +156,8 @@
     "monsters": [
       { "monster": "mon_uplifted_octupus", "weight": 3, "cost_multiplier": 10 },
       { "monster": "mon_zombie_upliftedoctopus", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_deep_go", "weight": 1, "cost_multiplier": 10, "starts": 500 },
-      { "monster": "mon_deep_go_slaver", "weight": 1, "cost_multiplier": 10, "starts": 1086 }
+      { "monster": "mon_deep_go", "weight": 1, "cost_multiplier": 10, "starts": "83 days" },
+      { "monster": "mon_deep_go_slaver", "weight": 1, "cost_multiplier": 10, "starts": "181 days" }
     ]
   },
   {
@@ -168,8 +168,8 @@
       { "monster": "mon_mutant_evolved", "weight": 5, "cost_multiplier": 10 },
       { "monster": "mon_broken_cyborg", "weight": 8, "cost_multiplier": 10 },
       { "monster": "mon_mutant_cryo", "weight": 940, "cost_multiplier": 2 },
-      { "monster": "mon_mi_go", "weight": 5, "cost_multiplier": 10, "starts": 500 },
-      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_mi_go", "weight": 5, "cost_multiplier": 10, "starts": "83 days" },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": "181 days" },
       { "monster": "mon_cryokinetic", "weight": 8, "cost_multiplier": 10 }
     ]
   },

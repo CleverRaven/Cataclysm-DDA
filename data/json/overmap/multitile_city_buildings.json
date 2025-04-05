@@ -5373,5 +5373,11 @@
       { "point": [ 0, 0, 0 ], "overmap": "small_kindergarten_north" },
       { "point": [ 0, 0, 1 ], "overmap": "small_kindergarten_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_airsoft",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_airsoft_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_airsoft_roof_north" } ]
   }
 ]

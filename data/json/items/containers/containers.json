@@ -3139,7 +3139,7 @@
         "watertight": true,
         "rigid": true,
         "transparent": true,
-        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
+        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music", "smart_phone_locked", "smart_phone_locked_flashlight" ]
       }
     ]
   },

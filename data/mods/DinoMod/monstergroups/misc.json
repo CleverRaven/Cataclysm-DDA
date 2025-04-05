@@ -72,21 +72,69 @@
       { "monster": "mon_tawa", "weight": 100, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_coelophysis", "weight": 100, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_dilophosaurus", "weight": 10, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
+      {
+        "monster": "mon_zilophosaurus",
+        "weight": 2,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "starts": "12 days"
+      },
+      {
+        "monster": "mon_zilophosaurus",
+        "weight": 2,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zilophosaurus",
+        "weight": 2,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "starts": "112 days"
+      },
+      {
+        "monster": "mon_zilophosaurus",
+        "weight": 2,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "starts": "360 days"
+      },
       { "monster": "mon_ceratosaurus", "weight": 10, "cost_multiplier": 30 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 72 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "12 days" },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "28 days" },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "112 days" },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "360 days" },
       { "monster": "mon_compsognathus", "weight": 300, "pack_size": [ 4, 12 ] },
       { "monster": "mon_deinonychus", "weight": 100, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "12 days",
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "28 days",
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "112 days",
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "360 days",
+        "pack_size": [ 2, 3 ]
+      },
       { "monster": "mon_dromaeosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_stenonychosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 200, "pack_size": [ 4, 12 ] },
@@ -98,18 +146,60 @@
     "type": "monstergroup",
     "id": "GROUP_SEWER_ZINO",
     "monsters": [
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
-      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 72 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
-      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": "12 days" },
+      {
+        "monster": "mon_zilophosaurus",
+        "weight": 2,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "starts": "28 days"
+      },
+      {
+        "monster": "mon_zilophosaurus",
+        "weight": 2,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "starts": "112 days"
+      },
+      {
+        "monster": "mon_zilophosaurus",
+        "weight": 2,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "starts": "360 days"
+      },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "12 days" },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "28 days" },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "112 days" },
+      { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": "360 days" },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "12 days",
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "28 days",
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "112 days",
+        "pack_size": [ 2, 3 ]
+      },
+      {
+        "monster": "mon_zeinonychus",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "360 days",
+        "pack_size": [ 2, 3 ]
+      }
     ]
   },
   {

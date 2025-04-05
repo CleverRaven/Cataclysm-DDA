@@ -237,7 +237,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
     "harvest": "mon_zomborg",
     "dissect": "dissect_mon_zomborg",
-    "upgrades": { "half_life": 43, "into": "mon_zomborg_devourer" },
+    "upgrades": { "half_life": 172, "into": "mon_zomborg_devourer" },
     "armor": { "bash": 12, "cut": 28, "bullet": 8 },
     "flags": [
       "SEES",

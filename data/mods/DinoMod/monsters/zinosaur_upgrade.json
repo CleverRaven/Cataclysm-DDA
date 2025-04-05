@@ -101,7 +101,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -122,7 +122,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -143,7 +143,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -164,7 +164,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -186,7 +186,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -208,7 +208,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -230,7 +230,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -252,7 +252,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -274,7 +274,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -294,7 +294,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -316,7 +316,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -338,7 +338,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -704,7 +704,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -725,7 +725,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -746,7 +746,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -767,7 +767,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -788,7 +788,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -809,7 +809,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -830,7 +830,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -893,7 +893,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -914,7 +914,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -935,7 +935,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -956,7 +956,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -977,7 +977,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -998,7 +998,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1019,7 +1019,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1040,7 +1040,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1061,7 +1061,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1082,7 +1082,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1103,7 +1103,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1460,7 +1460,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1481,7 +1481,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1502,7 +1502,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1523,7 +1523,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1544,7 +1544,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1565,7 +1565,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1586,7 +1586,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1607,7 +1607,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1628,7 +1628,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1649,7 +1649,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1670,7 +1670,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1691,7 +1691,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1712,7 +1712,7 @@
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1787,7 +1787,7 @@
     "name": { "str": "shady dilophosaurus zombie" },
     "copy-from": "mon_zilophosaurus",
     "looks_like": "mon_dilophosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zilophosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zilophosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with sharp teeth and bulges on the head.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1799,7 +1799,7 @@
     "id": "mon_zeratosaurus_shady",
     "name": { "str": "shady ceratosaurus zombie" },
     "copy-from": "mon_zeratosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zeratosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zeratosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bipedal dinosaur with horns, spikes, and big sharp teeth.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1811,7 +1811,7 @@
     "id": "mon_zpinosaurus_shady",
     "name": { "str": "shady spinosaurus zombie" },
     "copy-from": "mon_zpinosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zpinosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zpinosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with a tattered sail.  The head is long and narrow, with a V-shaped snout.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1823,7 +1823,7 @@
     "id": "mon_zorvosaurus_shady",
     "name": { "str": "shady torvosaurus zombie" },
     "copy-from": "mon_zorvosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zorvosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zorvosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with a large head and a tail.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1836,7 +1836,7 @@
     "name": { "str": "shady allosaurus zombie" },
     "copy-from": "mon_zallosaurus",
     "looks_like": "mon_allosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zallosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zallosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1848,7 +1848,7 @@
     "id": "mon_zacrocanthosaurus_shady",
     "name": { "str": "shady acrocanthosaurus zombie" },
     "copy-from": "mon_zacrocanthosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zacrocanthosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zacrocanthosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1860,7 +1860,7 @@
     "id": "mon_ziganotosaurus_shady",
     "name": { "str": "shady giganotosaurus zombie" },
     "copy-from": "mon_ziganotosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_ziganotosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_ziganotosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with big, sharp teeth.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1872,7 +1872,7 @@
     "id": "mon_ziats_shady",
     "name": { "str": "shady siats zombie" },
     "copy-from": "mon_ziats",
-    "upgrades": { "half_life": 15, "into": "mon_ziats_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_ziats_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1884,7 +1884,7 @@
     "id": "mon_zryptosaurus_shady",
     "name": { "str": "shady dryptosaurus zombie" },
     "copy-from": "mon_zryptosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zryptosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zryptosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1896,7 +1896,7 @@
     "id": "mon_zappalachiosaurus_shady",
     "name": { "str": "shady appalachiosaurus zombie" },
     "copy-from": "mon_zappalachiosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zappalachiosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zappalachiosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1908,7 +1908,7 @@
     "id": "mon_zorgosaurus_shady",
     "name": { "str": "shady gorgosaurus zombie" },
     "copy-from": "mon_zorgosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zorgosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zorgosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1920,7 +1920,7 @@
     "id": "mon_zalbertosaurus_shady",
     "name": { "str": "shady albertosaurus zombie" },
     "copy-from": "mon_zalbertosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zalbertosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zalbertosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1932,7 +1932,7 @@
     "id": "mon_zianzhousaurus_shady",
     "name": { "str": "shady qianzhousaurus zombie" },
     "copy-from": "mon_zianzhousaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zianzhousaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zianzhousaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1944,7 +1944,7 @@
     "id": "mon_zanuqsaurus_shady",
     "name": { "str": "shady nanuqsaurus zombie" },
     "copy-from": "mon_zanuqsaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zanuqsaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zanuqsaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1956,7 +1956,7 @@
     "id": "mon_zaspletosaurus_shady",
     "name": { "str": "shady daspletosaurus zombie" },
     "copy-from": "mon_zaspletosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zaspletosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zaspletosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1968,7 +1968,7 @@
     "id": "mon_zyrannosaurus_shady",
     "name": { "str": "shady tyrannosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zyrannosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zyrannosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks large - lots of big teeth would fit in it.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1980,7 +1980,7 @@
     "id": "mon_zedcolbertia_shady",
     "name": { "str": "shady nedcolbertia zombie" },
     "copy-from": "mon_zedcolbertia",
-    "upgrades": { "half_life": 15, "into": "mon_zedcolbertia_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zedcolbertia_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.",
     "color": "light_gray",
     "vision_day": 3,
@@ -1993,7 +1993,7 @@
     "id": "mon_zallimimus_shady",
     "name": { "str": "shady gallimimus zombie" },
     "copy-from": "mon_zallimimus",
-    "upgrades": { "half_life": 15, "into": "mon_zallimimus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zallimimus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2007,7 +2007,7 @@
     "name": { "str": "shady struthiomimus zombie" },
     "copy-from": "mon_ztruthiomimus",
     "looks_like": "mon_gallimimus",
-    "upgrades": { "half_life": 15, "into": "mon_ztruthiomimus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_ztruthiomimus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2019,7 +2019,7 @@
     "id": "mon_zornithomimus_shady",
     "name": { "str": "shady ornithomimus zombie" },
     "copy-from": "mon_zornithomimus",
-    "upgrades": { "half_life": 15, "into": "mon_zornithomimus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zornithomimus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2031,7 +2031,7 @@
     "id": "mon_zalcarius_shady",
     "name": { "str": "shady falcarius zombie" },
     "copy-from": "mon_zalcarius",
-    "upgrades": { "half_life": 15, "into": "mon_zalcarius_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zalcarius_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2043,7 +2043,7 @@
     "id": "mon_zerizinosaurus_shady",
     "name": { "str": "shady therizinosaurus zombie" },
     "copy-from": "mon_zerizinosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zerizinosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zerizinosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2055,7 +2055,7 @@
     "id": "mon_zothronychus_shady",
     "name": { "str": "shady nothronychus zombie" },
     "copy-from": "mon_zothronychus",
-    "upgrades": { "half_life": 15, "into": "mon_zothronychus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zothronychus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long curved claws protrude from its hands.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2067,7 +2067,7 @@
     "id": "mon_zanzu_shady",
     "name": { "str": "shady anzu zombie" },
     "copy-from": "mon_zanzu",
-    "upgrades": { "half_life": 15, "into": "mon_zanzu_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zanzu_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2079,7 +2079,7 @@
     "id": "mon_zeinonychus_shady",
     "name": { "str": "shady deinonychus zombie" },
     "copy-from": "mon_zeinonychus",
-    "upgrades": { "half_life": 15, "into": "mon_zeinonychus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zeinonychus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2091,7 +2091,7 @@
     "id": "mon_zutahraptor_shady",
     "name": { "str": "shady utahraptor zombie" },
     "copy-from": "mon_zutahraptor",
-    "upgrades": { "half_life": 15, "into": "mon_zutahraptor_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zutahraptor_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a big, bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2103,7 +2103,7 @@
     "id": "mon_zankylosaurus_shady",
     "name": { "str": "shady ankylosaurus zombie" },
     "copy-from": "mon_zankylosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zankylosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zankylosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2115,7 +2115,7 @@
     "id": "mon_zona_shady",
     "name": { "str": "shady fona zombie" },
     "copy-from": "mon_zona",
-    "upgrades": { "half_life": 15, "into": "mon_zona_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zona_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a long tail.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2127,7 +2127,7 @@
     "id": "mon_zescelosaurus_shady",
     "name": { "str": "shady thescelosaurus zombie" },
     "copy-from": "mon_zescelosaurus",
-    "upgrades": { "half_life": 15, "into": "mon_zescelosaurus_nightstalker" },
+    "upgrades": { "half_life": 60, "into": "mon_zescelosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
     "color": "light_gray",
     "vision_day": 3,
@@ -2766,7 +2766,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 15, "into": "mon_silophosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_silophosaurus_brute" },
     "special_attacks": [ [ "scratch", 10 ], { "id": "teeth_zino_mid", "cooldown": 10 } ],
     "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "harvest": "mr_bones",
@@ -2804,7 +2804,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_skinosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_skinosaurus_brute" },
     "extend": { "flags": [ "DESTROYS" ] }
   },
   {
@@ -2817,7 +2817,7 @@
     "hp": 105,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 16 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sorvosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sorvosaurus_brute" },
     "flags": [ "SEES", "HEARS", "POISON", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -2833,7 +2833,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -2846,7 +2846,7 @@
     "hp": 105,
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -2859,7 +2859,7 @@
     "hp": 350,
     "melee_dice": 5,
     "melee_dice_sides": 8,
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -2877,7 +2877,7 @@
       { "id": "grab_drag" },
       { "id": "drag_followup" }
     ],
-    "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -2895,7 +2895,7 @@
       { "id": "bite_grab", "cooldown": 15 },
       { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ],
-    "upgrades": { "half_life": 15, "into": "mon_syrannosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_syrannosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3006,7 +3006,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sallimimus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallimimus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3023,7 +3023,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sallimimus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sallimimus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3061,7 +3061,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_salcarius_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_salcarius_brute" }
   },
   {
     "type": "MONSTER",
@@ -3077,7 +3077,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_serizinosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_serizinosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3092,7 +3092,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sothronychus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sothronychus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3103,7 +3103,7 @@
     "weight": "250 kg",
     "speed": 85,
     "attack_cost": 85,
-    "upgrades": { "half_life": 15, "into": "mon_sanzu_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sanzu_brute" }
   },
   {
     "type": "MONSTER",
@@ -3120,7 +3120,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 11,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sutahraptor_brute" },
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "scratch", 10 ],
@@ -3142,7 +3142,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sutahraptor_brute" }
   },
   {
     "type": "MONSTER",
@@ -4424,7 +4424,7 @@
     "attack_cost": 75,
     "hp": 60,
     "melee_dice": 1,
-    "upgrades": { "half_life": 15, "into": "mon_sona_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sona_brute" }
   },
   {
     "type": "MONSTER",
@@ -4441,7 +4441,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-    "upgrades": { "half_life": 15, "into": "mon_sescelosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sescelosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -4778,7 +4778,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_silophosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_silophosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -4825,7 +4825,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_skinosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_skinosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -4869,7 +4869,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sorvosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sorvosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -4913,7 +4913,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sallosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sallosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -4953,7 +4953,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 30 } ],
     "relative": { "vision_day": 35, "vision_night": 3, "armor": { "bash": 12, "cut": 15, "bullet": 6 } },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_syrannosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_syrannosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -4996,7 +4996,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sallimimus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sallimimus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5043,7 +5043,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_salcarius_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_salcarius_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5089,7 +5089,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_serizinosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_serizinosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5136,7 +5136,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sothronychus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sothronychus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5183,7 +5183,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sanzu_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sanzu_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5230,7 +5230,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sutahraptor_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sutahraptor_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5277,7 +5277,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sescelosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -5299,7 +5299,7 @@
       "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
-    "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
+    "upgrades": { "half_life": 48, "into": "mon_sescelosaurus_hulk" },
     "special_attacks": [
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }

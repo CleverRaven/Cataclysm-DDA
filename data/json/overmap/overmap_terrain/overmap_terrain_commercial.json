@@ -2080,5 +2080,21 @@
     "looks_like": "barber_shop_roof",
     "sym": "b",
     "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_airsoft" ],
+    "copy-from": "generic_city_building",
+    "name": "airsoft store",
+    "sym": "a",
+    "color": "red_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_airsoft_roof" ],
+    "copy-from": "generic_city_building_roof",
+    "name": "airsoft store roof",
+    "sym": "a",
+    "color": "red_white"
   }
 ]

@@ -138,5 +138,18 @@
       { "u_lose_trait": "ACIDBLOOD" },
       { "u_lose_trait": "ACIDPROOF" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_RAVENFOLK_HOARDER_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ { "u_has_trait": "RAVENFOLK_BUILD" }, { "math": [ "u_has_ravenfolk_loves_gold_update != 1" ] } ] },
+    "effect": [
+      { "u_add_trait": "LOVES_SHINY_OBJECTS" },
+      { "u_lose_trait": "HOARDER" },
+      { "math": [ "u_has_ravenfolk_loves_gold_update = 1" ] },
+      { "u_message": "Your ravenfolk traits have been updated.", "type": "mixed" }
+    ]
   }
 ]
