@@ -1097,6 +1097,27 @@
     ]
   },
   {
+    "id": "SUS_dresser_mens_small_bags",
+    "type": "item_group",
+    "//": "clothing found in a man's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 10 },
+      { "group": "accesories_personal_mens", "prob": 10 },
+      { "group": "masks_unisex", "prob": 3 },
+      { "group": "socks_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "shirts_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "underwear_mens", "count": [ 5, 7 ], "prob": 100 },
+      { "group": "underwear_unisex", "count": [ 3, 7 ], "prob": 100 },
+      { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 50 },
+      { "group": "pants_male", "count": [ 4, 7 ], "prob": 5 },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex_small", "prob": 50 }
+    ]
+  },
+  {
     "id": "SUS_dresser_womens",
     "type": "item_group",
     "//": "clothing found in a woman's dresser",
@@ -1117,6 +1138,29 @@
       { "group": "gloves_unisex", "prob": 30 },
       { "group": "hats_unisex", "prob": 10 },
       { "group": "bags_unisex", "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_womens_small_bags",
+    "type": "item_group",
+    "//": "clothing found in a woman's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 30 },
+      { "group": "accesories_personal_womens", "prob": 5 },
+      { "group": "masks_unisex", "prob": 3 },
+      { "group": "socks_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "shirts_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "shirts_womens", "count": [ 1, 4 ], "prob": 50 },
+      { "group": "underwear_womens", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "underwear_unisex", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "pants_female", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "gloves_womens", "prob": 5 },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex_small", "prob": 50 }
     ]
   },
   {
