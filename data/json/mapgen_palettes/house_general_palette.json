@@ -112,8 +112,8 @@
   },
   {
     "type": "palette",
-    "id": "standard_domestic_palette",
-    "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.",
+    "id": "standard_domestic_palette_no_items",
+    "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.  This one has no items and is used in standard_domestic_palette, these are split up as a (temporary) solution until #80078 has an implementation",
     "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "house_fence_type": {
@@ -243,7 +243,12 @@
       ],
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down"
-    },
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette",
+    "palettes": [ "standard_domestic_palette_no_items" ],
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
       "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
