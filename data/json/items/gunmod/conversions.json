@@ -429,7 +429,14 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "modular_ar15", "modular_m4_carbine", "modular_m16a4", "modular_m16_auto_rifle", "modular_m27_assault_rifle" ],
+    "mod_targets": [
+      "modular_ar15",
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle",
+      "modular_ar_pistol"
+    ],
     "install_time": "5 m",
     "ammo_modifier": [ "762" ],
     "magazine_adaptor": [ [ "762", [ "762_ar15mag_5rd", "762_ar15mag_10rd", "762_ar15mag_20rd", "762_ar15mag_30rd" ] ] ],
