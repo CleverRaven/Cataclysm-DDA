@@ -1789,10 +1789,7 @@
     "type": "item_group",
     "id": "cocoa_powder_various",
     "subtype": "distribution",
-    "entries": [
-      { "prob": 4, "group": "cocoa_powder_bag_plastic" },
-      { "prob": 2, "group": "cocoa_powder_bag_paper" }
-    ]
+    "entries": [ { "prob": 4, "group": "cocoa_powder_bag_plastic" }, { "prob": 2, "group": "cocoa_powder_bag_paper" } ]
   },
   {
     "type": "item_group",
