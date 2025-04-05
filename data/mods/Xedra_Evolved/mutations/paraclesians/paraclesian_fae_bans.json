@@ -71,24 +71,26 @@
     "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "THRESH_ARVORE" }, { "u_has_trait": "ARVORE_MOSS" } ] },
-        {
-          "or": [
-            { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
-            { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
-          ]
-        }
-      ]
-    },
     "effect": [
-      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
-      { "math": [ "u_val('sleepiness')", "+=", "150" ] },
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
-        "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
-        "type": "bad"
+        "if": {
+          "and": [
+            { "or": [ { "u_has_trait": "THRESH_ARVORE" }, { "u_has_trait": "ARVORE_MOSS" } ] },
+            {
+              "or": [ { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" }, { "map_in_city": { "context_val": "check_loc" } } ]
+            }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+          { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+          { "math": [ "u_val('sleepiness') += 150" ] },
+          {
+            "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
+            "type": "bad"
+          }
+        ]
       }
     ]
   },

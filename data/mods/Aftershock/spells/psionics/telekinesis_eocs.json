@@ -67,7 +67,7 @@
                   {
                     "id": "EOC_AFS_TELEKINETIC_PUSH_DIRECTION_PICKER",
                     "effect": [
-                      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "u_pos" } },
+                      { "u_location_variable": { "context_val": "u_pos" } },
                       {
                         "npc_choose_adjacent_highlight": { "context_val": "push_direction_incorrect" },
                         "target_var": { "context_val": "u_pos" },
