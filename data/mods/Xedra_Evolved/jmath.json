@@ -210,7 +210,7 @@
     "type": "jmath_function",
     "id": "vampire_total_tier_two_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRE_SEE_HEAT')"
+    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRE_SEE_HEAT') + u_has_trait('DHAMPIR_FANGS')"
   },
   {
     "type": "jmath_function",

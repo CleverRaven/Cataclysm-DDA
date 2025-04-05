@@ -532,6 +532,23 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_slow_blood_gain",
+    "//": "Hidden--provides blood every ~60 seconds until 1 below the blood_quenched level",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "30 s", "90 s" ] } ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_slow_blood_loss",
+    "//": "Hidden--removes blood every ~60 seconds until 1 below the blood_quenched level",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ -1, -1 ] ], "tick": [ "30 s", "90 s" ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "eyegleam",
     "name": [ "Eye Gleam" ],
     "desc": [ "You can see in the dark." ],

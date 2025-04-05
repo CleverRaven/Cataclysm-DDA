@@ -1494,6 +1494,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
