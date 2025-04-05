@@ -170,6 +170,7 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },

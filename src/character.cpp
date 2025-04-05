@@ -332,7 +332,9 @@ static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
@@ -12109,6 +12111,57 @@ int Character::count_flag( const json_character_flag &flag ) const
            has_effect_with_flag( flag ) +
            count_bodypart_with_flag( flag ) +
            count_mabuff_flag( flag );
+}
+
+bool Character::empathizes_with_species( const species_id &species ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    // Negative empathy list.  Takes precedence over positive traits or human
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.no_empathize_with.begin(), mut_data.no_empathize_with.end(),
+                       species ) != mut_data.no_empathize_with.end() ) {
+            return false;
+        }
+    }
+
+    // Human empathy by default.
+    if( species == species_HUMAN ) {
+        return true;
+    }
+
+    // positive empathy list
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.empathize_with.begin(), mut_data.empathize_with.end(),
+                       species ) != mut_data.empathize_with.end() ) {
+            return true;
+        }
+    }
+
+    // Don't empathize with any species other than HUMAN by default.
+    return false;
+}
+
+bool Character::empathizes_with_monster( const mtype_id &monster ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    for( species_id species : monster->species ) {
+        if( empathizes_with_species( species ) ) {
+            return true;
+        }
+    }
+    // used since this method is called on corpse ids, which are null for npc corpses.
+    if( monster == mtype_id::NULL_ID() && empathizes_with_species( species_HUMAN ) ) {
+        return true;
+    }
+    return false;
 }
 
 bool Character::is_driving() const

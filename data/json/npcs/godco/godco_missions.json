@@ -321,7 +321,7 @@
         { "math": [ "darryl_building_coop = 1" ] },
         {
           "run_eocs": "godco_place_coop_new",
-          "time_in_future": "168 hours",
+          "time_in_future": "7 days",
           "variables": { "search_locale": { "context_val": "search_locale" } }
         },
         { "u_spawn_item": "icon", "count": 5 }
