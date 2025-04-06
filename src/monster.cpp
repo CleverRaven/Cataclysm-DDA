@@ -396,7 +396,7 @@ void monster::poly( const mtype_id &id )
 
 bool monster::can_upgrade() const
 {
-    return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
+    return upgrades && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
 }
 
 void monster::gravity_check()
@@ -419,7 +419,7 @@ void monster::hasten_upgrade()
         return;
     }
 
-    const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+    const int scaled_half_life = type->half_life * get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
     upgrade_time -= rng( 1, scaled_half_life );
     if( upgrade_time < 0 ) {
         upgrade_time = 0;
@@ -444,7 +444,7 @@ int monster::next_upgrade_time()
     if( type->age_grow > 0 ) {
         return type->age_grow;
     }
-    const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+    const int scaled_half_life = type->half_life * get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
     int day = 1; // 1 day of guaranteed evolve time
     for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
         if( one_in( 2 ) ) {

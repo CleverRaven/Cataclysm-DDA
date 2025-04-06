@@ -1696,12 +1696,20 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
                                     //if browsing, no compatibility check
                                     ( action == EF_READ && fast_transfer ) || //if reading, only fast-compatible edevices
                                     compat != efile_activity_actor::edevice_compatible::ECOMPAT_NONE; //otherwise, any compatible edevice
+            bool is_not_forbidden = true;
+            for( const pocket_data &pocket : loc->type->pockets ) {
+                if( pocket.type == pocket_type::E_FILE_STORAGE && pocket.forbidden ) {
+                    is_not_forbidden = false;
+                }
+            }
+
             bool preset_bool = is_tool_has_charge &&
                                used_edevice_check &&
                                has_use_check &&
                                browsed_equal_check &&
                                compatible_check &&
-                               no_files_check;
+                               no_files_check &&
+                               is_not_forbidden;
             if( preset_bool ) {
                 add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "found edevice %s", loc->display_name() ) );
             }

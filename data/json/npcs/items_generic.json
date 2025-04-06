@@ -434,7 +434,7 @@
       [ "carrot", 3 ],
       { "item": "catfood", "prob": 3, "container-item": "can_food" },
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 17, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 17, "charges": [ 0, -1 ] },
       [ "ceramic_armor", 1 ],
       [ "cereal", 5 ],
       [ "cereal2", 5 ],

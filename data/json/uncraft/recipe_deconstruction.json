@@ -2113,6 +2113,22 @@
     ]
   },
   {
+    "result": "smart_phone_locked",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "3 m 30 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "scrap_aluminum", 1 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "memory_card", 1 ] ],
+      [ [ "processor", 1 ] ]
+    ]
+  },
+  {
     "result": "mp3",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

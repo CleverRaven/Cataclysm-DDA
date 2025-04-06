@@ -258,7 +258,7 @@
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
       { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 44, "charges": [ 0, -1 ] },
       [ "mp3", 50 ],
       { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]

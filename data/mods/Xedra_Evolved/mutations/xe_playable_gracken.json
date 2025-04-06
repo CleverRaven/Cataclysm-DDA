@@ -46,6 +46,8 @@
     "types": [ "HERITAGE" ],
     "allowed_category": [ "GRACKEN" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "empathize_with": [ "GRACKEN" ],
+    "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
