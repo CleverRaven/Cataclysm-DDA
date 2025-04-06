@@ -162,6 +162,103 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_TRAIT",
+    "name": { "str": "Dhampir" },
+    "points": 0,
+    "description": "You are a dhampir, the child of a vampire.  You have inherited a portion of their vampiric power, as well as the ability to drink blood.  Hopefully you can keep your urges under control.\n\nAs a dhampir, your blood naturally slowly fills with power over time, which you can use to fuel your abilities.",
+    "types": [ "HERITAGE" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mixed_effect": true,
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_slow_blood_gain", "intensity": 1 } ]
+      },
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_slow_blood_loss", "intensity": 1 } ]
+      },
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+    ],
+    "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
+    "flags": [ "HEMOVORE" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_DETECT_VAMPIRES",
+    "name": { "str": "Blood Calls to Blood" },
+    "points": 1,
+    "description": "You can use the connection of your heritage to sense nearby vampires and their minions.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You open your senses to the presence of the night-hunters.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "npc_has_species": "RENFIELD" },
+            "distance": { "math": [ "u_val('perception') * 1.5" ] },
+            "descriptions": [ { "id": "infrared_creature_medium", "text": "You sense one of the vampires' servants here." } ]
+          },
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 1.5" ] },
+            "descriptions": [ { "id": "vampire_sense", "text": "You sense a vampire here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_FANGS",
+    "name": { "str": "Dhampir Fangs" },
+    "points": 1,
+    "description": "You have a set of small fangs, not as long as a true vampire's, but on the other hand, you can retract them to more easily conceal them.  Activate to extend your fangs.",
+    "types": [ "TEETH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "Your fangs lengthen.",
+    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "DHAMPIR_FANGS_ACTIVE" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_FANGS_ACTIVE",
+    "name": { "str": "Dhampir Fangs on", "//~": "NO_I18N" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 2,
+    "description": { "str": "Fang on!", "//~": "NO_I18N" },
+    "types": [ "TEETH" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 7 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease" },
     "points": 0,
