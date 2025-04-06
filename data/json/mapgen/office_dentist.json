@@ -99,7 +99,7 @@
       "items": {
         "L": { "item": "cleaning", "chance": 70, "repeat": [ 2, 4 ] },
         "R": { "item": "SUS_fridge_breakroom", "chance": 80 },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
         "B": { "item": "doctors_books", "chance": 50 },
         "P": { "item": "SUS_office_desk", "chance": 80 },
         "n": { "item": "dinnerware", "chance": 25 },
