@@ -532,6 +532,38 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_blood_drinking_target",
+    "//": "Hidden effect, keeps the target immobilized while blood is being drunk.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_drunk_from_in_combat",
+    "//": "Hidden effect, faking a monster target having lost blood volume.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 12,
+    "int_decay_step": -1,
+    "int_decay_tick": 172800,
+    "chance_kill": [
+      [ 1, 2000000 ],
+      [ 1, 1000000 ],
+      [ 1, 500000 ],
+      [ 1, 50000 ],
+      [ 1, 5000 ],
+      [ 1, 1000 ],
+      [ 1, 500 ],
+      [ 1, 100 ],
+      [ 1, 50 ],
+      [ 1, 20 ],
+      [ 1, 5 ],
+      [ 1, 1 ]
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "eyegleam",
     "name": [ "Eye Gleam" ],
     "desc": [ "You can see in the dark." ],
@@ -691,6 +723,16 @@
     "//": "Hidden effect, used to prevent spamming fear gaze repeatedly.",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_hypnotism",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You just can't seem to move or think." ],
+    "remove_message": "You snap out of your fugue.",
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
   },
   {
     "type": "effect_type",

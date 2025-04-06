@@ -314,7 +314,8 @@
         "chance": 20,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       }
-    ]
+    ],
+    "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
     "type": "mutation",
