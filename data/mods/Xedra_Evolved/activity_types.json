@@ -43,6 +43,7 @@
     "id": "ACT_VAMPIRE_DRINKING_BLOOD",
     "activity_level": "NO_EXERCISE",
     "verb": "drinking blood",
-    "based_on": "time"
+    "based_on": "time",
+    "can_resume": false
   }
 ]
