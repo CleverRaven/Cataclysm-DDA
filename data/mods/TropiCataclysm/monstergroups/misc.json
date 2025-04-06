@@ -31,9 +31,9 @@
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_spider_cellar_giant",
     "monsters": [
-      { "monster": "mon_caecilian", "weight": 180, "ends": "180 hours" },
-      { "monster": "mon_caecilian_small", "weight": 180, "starts": "180 hours", "ends": "360 hours" },
-      { "monster": "mon_minhocao", "weight": 180, "starts": "360 hours" },
+      { "monster": "mon_caecilian", "weight": 180, "ends": "30 days" },
+      { "monster": "mon_caecilian_small", "weight": 180, "starts": "30 days", "ends": "60 days" },
+      { "monster": "mon_minhocao", "weight": 180, "starts": "60 days" },
       { "group": "GROUP_ONICOPHORE", "weight": 180 }
     ]
   }

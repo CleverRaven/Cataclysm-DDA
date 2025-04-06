@@ -69,7 +69,7 @@
     "harvest": "zombie_pupating",
     "speed": 95,
     "regenerates": 10,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_BRUTE_PUPA" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_BRUTE_PUPA" },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {

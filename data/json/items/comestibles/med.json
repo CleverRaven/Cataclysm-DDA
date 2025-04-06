@@ -2174,5 +2174,71 @@
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 3000, "effects": [ { "id": "pkill1_generic", "duration": 720 } ] }
+  },
+  {
+    "id": "nic_pouch",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "nicotine pouch" },
+    "description": "A pouch containing nicotine salts.",
+    "weight": "400 mg",
+    "volume": "1 ml",
+    "price": "38 cent",
+    "price_postapoc": "70 cent",
+    "symbol": "=",
+    "color": "white",
+    "stim": 2,
+    "fun": 4,
+    "addiction_potential": 30,
+    "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You put in a pouch.", "effects": [ { "id": "cig", "duration": 600 } ] },
+    "variants": [
+      {
+        "id": "nic_pouch_mint",
+        "name": { "str": "cool mint flavored nicotine pouch" },
+        "description": "A pouch containing cool mint-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_peppermint",
+        "name": { "str": "peppermint flavored nicotine pouch" },
+        "description": "A pouch containing peppermint-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_wintergreen",
+        "name": { "str": "wintergreen flavored nicotine pouch" },
+        "description": "A pouch containing wintergreen-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_coffee",
+        "name": { "str": "coffee flavored nicotine pouch" },
+        "description": "A pouch containing coffee-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_cinnamon",
+        "name": { "str": "cinnamon flavored nicotine pouch" },
+        "description": "A pouch containing cinnamon-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_basic",
+        "name": { "str": "nicotine pouch" },
+        "description": "A pouch containing nicotine salts."
+      },
+      {
+        "id": "nic_pouch_menthol",
+        "name": { "str": "menthol-flavored nicotine pouch" },
+        "description": "A pouch containing menthol-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_spearmint",
+        "name": { "str": "spearmint flavored nicotine pouch" },
+        "description": "A pouch containing spearmint-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_citrus",
+        "name": { "str": "citrus flavored nicotine pouch" },
+        "description": "A pouch containing citrus-flavored nicotine salts."
+      }
+    ]
   }
 ]

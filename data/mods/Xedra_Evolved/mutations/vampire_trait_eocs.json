@@ -13,12 +13,22 @@
             { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] }
           ]
         },
-        { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
+        { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-      { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } }
+      {
+        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
+        "then": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+          {
+            "u_add_effect": "effect_drank_blood_recently",
+            "intensity": 1,
+            "duration": { "math": [ "600 + rand(600)" ] }
+          }
+        ],
+        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
+      }
     ]
   },
   {
@@ -30,13 +40,26 @@
     "condition": {
       "and": [
         { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
-        { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
+        { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-      { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] },
-      { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } }
+      {
+        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
+        "then": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] },
+          {
+            "u_add_effect": "effect_drank_blood_recently",
+            "intensity": 1,
+            "duration": { "math": [ "600 + rand(600)" ] }
+          }
+        ],
+        "else": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] },
+          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }
+        ]
+      }
     ]
   },
   {
@@ -203,8 +226,10 @@
     "id": "EOC_VAMPIRE_BLOOD_NUMBER_UI",
     "//": "Until the day UI widgets can directly access vitamin levels, this will have to be.",
     "recurrence": 1,
-    "condition": { "u_has_effect": "vampire_virus" },
-    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
+    "condition": { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] },
+    "deactivate_condition": {
+      "and": [ { "not": { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] } }, { "not": { "u_has_effect": "vampire_virus" } } ]
+    },
     "effect": [ { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] } ]
   },
   {
@@ -1780,7 +1805,7 @@
       { "math": [ "u_val('rad') = 0" ] },
       { "u_location_variable": { "global_val": "last_breath_new_pos" }, "min_radius": 25, "max_radius": 30 },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2400" ] },
-      { "u_add_effect": "last_breath_mist_cooldown", "duration": "168 hours" },
+      { "u_add_effect": "last_breath_mist_cooldown", "duration": "7 days" },
       { "u_teleport": { "global_val": "last_breath_new_pos" }, "force": true },
       {
         "u_message": "As you are about to die, your body instinctively turns to mist before reappearing nearby with some of its wounds closed.",

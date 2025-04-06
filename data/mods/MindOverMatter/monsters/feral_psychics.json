@@ -32,7 +32,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_bio2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_bio2" },
     "extend": {
       "special_attacks": [
         {
@@ -59,7 +59,7 @@
     "attack_cost": 80,
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_bio3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_bio3" },
     "extend": {
       "special_attacks": [
         {
@@ -204,7 +204,7 @@
     "symbol": "@",
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_clair2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_clair2" },
     "extend": { "special_attacks": [ { "id": "feral_weapon_pipe" } ], "flags": [ "GOODHEARING", "HARDTOSHOOT", "WIELDED_WEAPON" ] }
   },
   {
@@ -222,7 +222,7 @@
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "starting_ammo": { "rock": 6 },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_clair3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_clair3" },
     "extend": {
       "special_attacks": [
         {
@@ -299,7 +299,7 @@
     "armor": { "electric": 15 },
     "death_drops": "feral_humans_death_drops_electro",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_electrokin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_electrokin2" },
     "extend": {
       "special_attacks": [
         {
@@ -327,7 +327,7 @@
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "15 s" } ],
     "death_drops": "feral_humans_death_drops_electro",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_electrokin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_electrokin3" },
     "special_when_hit": [ "ZAPBACK", 80 ],
     "extend": {
       "special_attacks": [
@@ -437,7 +437,7 @@
     "death_drops": "feral_humans_death_drops_photo",
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_blind_oneineight", "hit_self": true } },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_photokin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_photokin2" },
     "extend": {
       "special_attacks": [
         {
@@ -479,7 +479,7 @@
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_blind_oneinfour", "hit_self": true } },
     "luminance": 50,
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_photokin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_photokin3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -603,7 +603,7 @@
     "death_drops": "feral_humans_death_drops_pyro",
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_explosion_oneineight", "hit_self": true } },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_pyrokin2" },
     "extend": {
       "special_attacks": [
         {
@@ -653,7 +653,7 @@
     "zombify_into": "mon_zombie_survivor",
     "death_function": { "effect": { "id": "death_explosion_oneinfour", "hit_self": true } },
     "luminance": 50,
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_pyrokin3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -776,7 +776,7 @@
       "effect": { "id": "death_telekeinetic_hit_oneinfive", "hit_self": true },
       "message": "As the %1$s dies, a wave of force explodes outward!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_telekin2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_telekin2" },
     "starting_ammo": { "rock": 6 },
     "extend": {
       "special_attacks": [
@@ -852,7 +852,7 @@
       "effect": { "id": "death_telekeinetic_hit_oneinthree", "hit_self": true },
       "message": "As the %1$s dies, a wave of force explodes outward!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_telekin3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_telekin3" },
     "extend": {
       "special_attacks": [
         {
@@ -1051,7 +1051,7 @@
       "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 5 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_teep2" },
     "extend": {
       "special_attacks": [
         {
@@ -1088,7 +1088,7 @@
       "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 10 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_teep3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -1135,7 +1135,7 @@
       "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 15 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_teep3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_teep3" },
     "extend": {
       "special_attacks": [
         [ "PARROT_AT_DANGER", 10 ],
@@ -1188,7 +1188,7 @@
     "morale": 25,
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_porter2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_porter2" },
     "extend": {
       "special_attacks": [
         {
@@ -1232,7 +1232,7 @@
     "morale": 25,
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_porter3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_porter3" },
     "extend": {
       "special_attacks": [
         {
@@ -1469,7 +1469,7 @@
     "bleed_rate": 0,
     "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_vita2" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_vita2" },
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
@@ -1512,7 +1512,7 @@
     "bleed_rate": 0,
     "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
-    "upgrades": { "half_life": 45, "into": "mon_feral_human_vita3" },
+    "upgrades": { "half_life": 180, "into": "mon_feral_human_vita3" },
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
