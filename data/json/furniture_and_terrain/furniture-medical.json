@@ -979,7 +979,7 @@
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ]
     }
-  },
+  }
   {
     "type": "furniture",
     "id": "f_dental_xray",
