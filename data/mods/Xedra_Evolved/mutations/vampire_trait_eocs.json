@@ -186,7 +186,7 @@
               ]
             },
             "then": [
-              { "npc_message": "...and it tastes absolutely disgusting!", "type": "bad" },
+              { "npc_message": "…and it tastes absolutely disgusting!", "type": "bad" },
               { "math": [ "n_vitamin('bad_food')", "+=", "rng(10,15)" ] }
             ]
           }
@@ -1163,7 +1163,7 @@
                   { "u_add_effect": "effect_vampire_hypnotism", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } },
                   { "u_add_effect": "dazed", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } }
                 ],
-                "else": [ { "npc_message": "Your target is unaffected by your gaze! ", "type": "bad" } ]
+                "else": [ { "npc_message": "Your target is unaffected by your gaze!", "type": "bad" } ]
               }
             ]
           }
