@@ -1039,8 +1039,8 @@
     "name": { "str": "Vampiric Anathema" },
     "points": 0,
     "//": "Required for vampire blood to have any consumption benefit.  Regular vampires instinctively feel threatened by you and their renfields try to protect them, so they react accordingly.",
-    "//": "The traits unlocked by this have no category, as they aren't given by the regular mutation system.",
-    "description": "Through the consumption of self-cannibalizing vampire blood, you can now consume vampire blood to gain vampiric abilities undreamt of by other vampires.",
+    "//2": "The traits unlocked by this have no category, as they aren't given by the regular mutation system.",
+    "description": "Through the consumption of self-cannibalizing vampire blood, you gained the ability to consume vampire blood to gain vampiric abilities undreamt of by other vampires.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1195,7 +1195,7 @@
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "vampire_invisible_in_dark", 1 ] ],
-    "//": "This enchantment removes the effect if the vampire is outside at day.",
+    "//2": "This enchantment removes the effect if the vampire is outside at day.",
     "enchantments": [
       {
         "condition": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun " } } ] },
@@ -1228,7 +1228,7 @@
     "activation_msg": "Your power increases as your blood burns away.",
     "enchantments": [
       {
-        "condition": { "and": "ACTIVE", "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+        "condition": { "and": [ "ACTIVE", { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] } ] },
         "mutations": [ "VAMPIRE_BLOOD_FOR_POTENCY_REAL" ]
       }
     ]
@@ -1254,7 +1254,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "ench_effects": [ { "effect": "effect_vampire_no_illness", "intensity": 1 } ]
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_vampire_no_illness", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -1314,8 +1314,7 @@
     "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  While under the sun, you will take constant damage no matter how covered you are.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false,
-    "enchantments": [ "ench_slain_by_the_sun" ]
+    "valid": false
   },
   {
     "type": "mutation",

@@ -571,7 +571,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": -1,
-    "material": [ "concentrated_mana" ],
+    "material": [ "blood" ],
     "symbol": "O",
     "color": "red",
     "pocket_data": [

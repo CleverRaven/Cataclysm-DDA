@@ -461,7 +461,7 @@
                   "and": [
                     { "not": { "u_has_trait": "THRESH_VAMPIRE_ANATHEMA" } },
                     {
-                      "x_in_y_chance": { "x": { "math": [ "(vampire_anathema_pre_threshold_traits() - 3))" ], "y": 4 } }
+                      "x_in_y_chance": { "x": { "math": [ "vampire_anathema_pre_threshold_traits() - 3" ] }, "y": 4 }
                     }
                   ]
                 },
