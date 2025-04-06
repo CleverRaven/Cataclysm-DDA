@@ -3608,8 +3608,11 @@
   {
     "type": "effect_type",
     "id": "cig",
-    "name": [ "Nicotine" ],
-    "desc": [ "You had a puff or two.", "You smoked too much." ],
+    "name": [ "Nicotine Buzz", "Nic Sick" ],
+    "desc": [
+      "You had a reasonable amount of nicotine and are experiencing a pleasant buzz.",
+      "You had way too much nicotine and feel awful."
+    ],
     "max_intensity": 2,
     "int_dur_factor": "10 m",
     "scaling_mods": { "vomit_chance": [ 500 ] },
