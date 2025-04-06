@@ -418,7 +418,7 @@
       {
         "run_eocs": {
           "id": "EOC_VAMPIRE_ANATHEMA_GAINING",
-          "condition": { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vampire_blood_vitamin') - 600" ] }, "y": 700 } },
+          "condition": { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vampire_blood_vitamin') - 600" ] }, "y": 100 } },
           "effect": [
             {
               "run_eocs": {
