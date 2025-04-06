@@ -135,8 +135,7 @@
       { "item": "bow_sight_pin", "prob": 50 },
       { "item": "bow_silencer", "prob": 50 },
       { "item": "bow_stabilizer", "prob": 50 },
-      { "item": "bow_stabilizer_set", "prob": 40 },
-      { "item": "gun_crossbow", "prob": 40 }
+      { "item": "bow_stabilizer_set", "prob": 40 }
     ]
   },
   {

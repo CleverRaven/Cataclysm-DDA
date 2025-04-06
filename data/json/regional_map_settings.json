@@ -1246,7 +1246,8 @@
         "homeless_shelter": 100,
         "salon": 500,
         "strip_mall": 750,
-        "barber_shop": 350
+        "barber_shop": 350,
+        "s_airsoft": 100
       }
     },
     "weather": {

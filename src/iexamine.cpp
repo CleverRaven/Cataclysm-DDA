@@ -3263,41 +3263,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
     pick_firestarter_and_fire( you, examp, firestarter_actor::start_type::KILN );
 }
 
-static int kiln_prep_internal( Character &you, const tripoint_bub_ms &examp )
-{
-    map &here = get_map();
-
-    // https://energypedia.info/wiki/Charcoal_Production
-    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
-    // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
-    // 100% efficient conversion would be 1kg wood = 0.25kg charcoal, 1:1 volume conversion
-    // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
-    // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
-    // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
-    ///\EFFECT_FABRICATION decreases loss when firing a kiln
-    const furn_id &cur_kiln_type = here.furn( examp );
-    const float skill = you.get_skill_level( skill_fabrication );
-    int loss = 0;
-    // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
-    if( cur_kiln_type == furn_f_kiln_metal_empty ) {
-        loss = 20 - 2 * skill;
-    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
-        loss = 25 - 2 * skill;
-    } else {
-        loss = 60 - 2 * skill;
-    }
-
-    map_stack items = here.i_at( examp );
-    units::volume total_volume = 0_ml;
-    for( const item &i : items ) {
-        total_volume += i.volume();
-    }
-
-    const itype *char_type = item::find_type( itype_unfinished_charcoal );
-    return char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
-}
-
-bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
+bool iexamine::kiln_prep( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     const furn_id &cur_kiln_type = here.furn( examp );
@@ -3330,13 +3296,6 @@ bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
         return false;
     }
 
-    int char_charges = kiln_prep_internal( you, examp );
-
-    if( char_charges < 1 ) {
-        add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
-        return false;
-    }
-
     return true;
 }
 
@@ -3358,8 +3317,39 @@ bool iexamine::kiln_fire( Character &you, const tripoint_bub_ms &examp )
         next_kiln_type = furn_f_kiln_portable_full;
     }
 
+    // https://energypedia.info/wiki/Charcoal_Production
+    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
+    // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
+    // 100% efficient conversion would be 1kg wood = 0.25kg charcoal, 1:1 volume conversion
+    // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
+    // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
+    // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
+    ///\EFFECT_FABRICATION decreases loss when firing a kiln
+    const float skill = you.get_skill_level( skill_fabrication );
+    int loss = 0;
+    // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
+    if( cur_kiln_type == furn_f_kiln_metal_empty ) {
+        loss = 20 - 2 * skill;
+    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
+        loss = 25 - 2 * skill;
+    } else {
+        loss = 60 - 2 * skill;
+    }
+
     // Burn stuff that should get charred, leave out the rest
-    int char_charges = kiln_prep_internal( you, examp );
+    map_stack items = here.i_at( examp );
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
+
+    const itype *char_type = item::find_type( itype_unfinished_charcoal );
+    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    if( char_charges < 1 ) {
+        add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
+        return false;
+    }
+
     here.i_clear( examp );
     here.furn_set( examp, next_kiln_type );
     item result( itype_unfinished_charcoal, calendar::turn );
@@ -3372,7 +3362,7 @@ bool iexamine::kiln_fire( Character &you, const tripoint_bub_ms &examp )
 void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    const furn_id &cur_kiln_type = here.furn( examp );
+    furn_id cur_kiln_type = here.furn( examp );
     furn_id next_kiln_type = furn_str_id::NULL_ID();
     if( cur_kiln_type == furn_f_kiln_metal_full ) {
         next_kiln_type = furn_f_kiln_metal_empty;
@@ -3382,7 +3372,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
         next_kiln_type = furn_f_kiln_empty;
     } else {
         debugmsg( "Examined furniture has action kiln_full, but is of type %s",
-                  cur_kiln_type.id().c_str() );
+                  here.furn( examp ).id().c_str() );
         return;
     }
     map_stack items = here.i_at( examp );
@@ -3429,6 +3419,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
     here.add_item( examp, result );
     here.furn_set( examp, next_kiln_type );
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
+
 }
 //arc furnance start
 void iexamine::arcfurnace_empty( Character &you, const tripoint_bub_ms &examp )

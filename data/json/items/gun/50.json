@@ -24,7 +24,19 @@
     "range": 100,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 130,
-    "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
+    ],
+    "default_mods": [ "rifle_scope" ],
+    "built_in_mods": [ "bipod", "muzzle_brake" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m107a1mag" ] } ]
   },
   {
@@ -52,16 +64,7 @@
     "range": 110,
     "dispersion": 250,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ] ],
     "flags": [ "MOUNTED_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ]
   },
@@ -90,7 +93,18 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 80,
     "barrel_volume": "1250 ml",
-    "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
+    "default_mods": [ "rifle_scope" ],
+    "built_in_mods": [ "bipod", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "as50mag" ] } ]
   },
   {
@@ -119,8 +133,20 @@
     "ammo": [ "50" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 50,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "barrel_volume": "1250 ml",
-    "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
+    "default_mods": [ "rifle_scope" ],
+    "built_in_mods": [ "bipod", "muzzle_brake", "high_end_folding_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tac50mag" ] } ]
   },
   {
@@ -152,17 +178,15 @@
     "barrel_volume": "1250 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
+      [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
-    "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
+    "default_mods": [ "rifle_scope" ],
+    "built_in_mods": [ "bipod", "muzzle_brake" ],
     "clip_size": 1,
     "flags": [ "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ]

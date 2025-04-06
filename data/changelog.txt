@@ -298,6 +298,8 @@ Add 2 new social practice recipes
 FEMA camps are now mutables
 Added a new fast food restaurant with drive-through
 Mortar framework
+Improves/adds missions, rewards and interactions with the New England Community Church
+Military outposts have been revamped
 
 
 ## Interface:
@@ -783,6 +785,7 @@ Isolation Protocol: Office Levels
 [ Aftershock:Exoplanet ] Autotravel works on Salus IV now
 [Isolation Protocol] Add the Last Scion class
 [MoM] Add volume limits to Blink and Farstep
+[XE] Adds a special boss encounter for tier 5 vampires.
 
 
 ## Balance:

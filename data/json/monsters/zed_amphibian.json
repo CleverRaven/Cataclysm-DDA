@@ -159,7 +159,7 @@
     "copy-from": "mon_proxy_frog_zombie",
     "attack_cost": 50,
     "burn_into": "mon_frog_mummy",
-    "upgrades": { "half_life": 34, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE" }
+    "upgrades": { "half_life": 136, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE" }
   },
   {
     "id": "mon_frog_dad",
@@ -215,7 +215,7 @@
     "color": "brown_green",
     "attack_cost": 50,
     "burn_into": "mon_frog_mummy",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_DEADTOAD_UPGRADE" }
   },
   {
     "id": "mon_frog_shocker",
@@ -315,7 +315,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "death_drops": "explode_toad",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_BLOAT_TOAD_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_BLOAT_TOAD_UPGRADE" },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
     "//": "Create new death_sludge effect."
   },
@@ -362,7 +362,7 @@
       { "id": "drag_followup" }
     ],
     "burn_into": "mon_frog_husk",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
     "//": "Translation note - 'Croaked' is a euphemistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
   },
@@ -559,7 +559,7 @@
       { "id": "drag_followup" }
     ],
     "death_function": { "effect": { "id": "death_smokeburst_tiny", "hit_self": true }, "message": "The %s crumbles!" },
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "REVIVES_HEALTHY", "HARDTOSHOOT", "HIT_AND_RUN" ] },
     "delete": { "flags": [ "RANGED_ATTACKER" ] }
   },
@@ -599,7 +599,7 @@
       }
     ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
-    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_med" },
+    "upgrades": { "half_life": 120, "into": "mon_meat_cocoon_med" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
     "extend": { "flags": [ "REVIVES_HEALTHY" ] }
   },
@@ -640,7 +640,7 @@
       }
     ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
-    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_large" },
+    "upgrades": { "half_life": 120, "into": "mon_meat_cocoon_large" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
     "extend": { "flags": [ "REVIVES_HEALTHY" ] }
   },
