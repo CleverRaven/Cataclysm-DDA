@@ -2507,11 +2507,7 @@
       {
         "if": { "x_in_y_chance": { "x": { "math": [ "u_counter_anathema_need_vampire_blood" ] }, "y": 100 } },
         "then": [
-          {
-            "u_add_effect": "effect_anathema_need_vampire_blood",
-            "intensity": { "math": [ "u_effect_intensity('effect_anathema_need_vampire_blood') + 1" ] },
-            "duration": "PERMANENT"
-          },
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "1 + rand(1)" ] },
           { "math": [ "u_counter_anathema_need_vampire_blood", "=", "0" ] }
         ]
       }
