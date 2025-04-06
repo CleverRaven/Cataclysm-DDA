@@ -91,7 +91,9 @@
     "id": "EOC_VAMPIRE_DRINK_BLOOD_WITH_FANGS_activated",
     "condition": {
       "or": [
-        { "u_has_any_effect": [ "stunned", "dazed", "effect_vampire_hypnotism", "effect_vampire_blood_drinking_target" ] },
+        {
+          "u_has_any_effect": [ "stunned", "dazed", "sleep", "effect_vampire_hypnotism", "effect_vampire_blood_drinking_target" ]
+        },
         { "test_eoc": "EOC_CONDITIONS_VAMPIRE_DRINK_BLOOD_WITH_FANGS_MOM" }
       ]
     },
