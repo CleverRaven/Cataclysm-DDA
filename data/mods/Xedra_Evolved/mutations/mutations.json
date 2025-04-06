@@ -241,7 +241,6 @@
     "visibility": 1,
     "ugliness": 2,
     "description": { "str": "Fang on!", "//~": "NO_I18N" },
-    "types": [ "TEETH" ],
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
