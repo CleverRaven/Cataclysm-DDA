@@ -769,7 +769,7 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
         case butcher_type::QUICK:
             break;
         case butcher_type::BLEED:
-            if ( you.has_flag( json_flag_INSTANT_BLEED ) ) {
+            if( you.has_flag( json_flag_INSTANT_BLEED ) ) {
                 time_to_cut = 1;
             }
             break;
