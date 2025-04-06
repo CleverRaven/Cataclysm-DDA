@@ -1242,6 +1242,8 @@
       [ "maple_candy", 10 ],
       [ "flour", 30 ],
       [ "milk_powder", 30 ],
+      [ "cocoa_powder", 30 ],
+      [ "cocoa_powder_milk", 30 ],
       [ "powder_eggs", 10 ],
       { "group": "egg_bird_unfert_carton_egg_10" },
       [ "cooking_oil", 20 ],
@@ -1979,6 +1981,7 @@
     "id": "hotel_luggage",
     "subtype": "collection",
     "container-item": "suitcase_l",
+    "on_overflow": "discard",
     "entries": [
       {
         "distribution": [ { "group": "SUS_dresser_mens_small_bags", "prob": 50 }, { "group": "SUS_dresser_womens_small_bags", "prob": 50 } ]

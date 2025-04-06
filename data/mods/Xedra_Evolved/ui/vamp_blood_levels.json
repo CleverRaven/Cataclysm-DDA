@@ -10,7 +10,12 @@
         "id": "slumber",
         "text": "Eternal Slumber",
         "color": "dark_gray_red",
-        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin') <= -11999" ] } ] }
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -11999" ] }
+          ]
+        }
       },
       {
         "id": "near_death",
@@ -18,7 +23,7 @@
         "color": "light_gray",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "math": [ "u_vitamin('human_blood_vitamin') <= -6401" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > -11999" ] }
           ]
@@ -30,7 +35,7 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "math": [ "u_vitamin('human_blood_vitamin') <= -5601" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > -6401" ] }
           ]
@@ -42,7 +47,7 @@
         "color": "light_green",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "math": [ "u_vitamin('human_blood_vitamin') <= -4800" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > -5601" ] }
           ]
@@ -54,7 +59,7 @@
         "color": "green",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "math": [ "u_vitamin('human_blood_vitamin') <= 1800" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > -4800" ] }
           ]
@@ -66,7 +71,7 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
             { "math": [ "u_vitamin('human_blood_vitamin') <= 2401" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > 1800" ] }
@@ -79,7 +84,7 @@
         "color": "red",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
             { "math": [ "u_vitamin('human_blood_vitamin') <= 4401" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > 2401" ] }
@@ -92,7 +97,7 @@
         "color": "red_cyan",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
             { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] }
           ]
@@ -104,7 +109,7 @@
         "color": "green",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
             { "math": [ "u_vitamin('human_blood_vitamin') <= 2401" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > 1800" ] }
@@ -117,7 +122,7 @@
         "color": "green",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
             { "math": [ "u_vitamin('human_blood_vitamin') <= 4401" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') > 2401" ] }
@@ -130,7 +135,7 @@
         "color": "green",
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
             { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] }
           ]
@@ -149,7 +154,12 @@
         "id": "vampire_blood_levels_numbers_bad",
         "text": "<color_red><u_val:blood_amount_for_graph></color>     Max: <color_red>5600</color>",
         "parse_tags": true,
-        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin') < 1" ] } ] }
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 1" ] }
+          ]
+        }
       },
       {
         "id": "vampire_blood_levels_numbers_good",
@@ -157,7 +167,7 @@
         "parse_tags": true,
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
             { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] },
             { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] }
@@ -170,7 +180,7 @@
         "parse_tags": true,
         "condition": {
           "and": [
-            { "u_has_effect": "vampire_virus" },
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
             { "math": [ "u_vitamin('human_blood_vitamin') > 1799" ] }
           ]

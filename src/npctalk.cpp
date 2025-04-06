@@ -3599,7 +3599,7 @@ talk_effect_fun_t::func f_add_var( const JsonObject &jo, std::string_view member
                                    const std::string_view, bool is_npc )
 {
     dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
+    const std::string var_name = get_talk_varname( jo, member );
     const std::string var_base_name = get_talk_var_basename( jo, member, false );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
     std::vector<std::string> possible_values = jo.get_string_array( "possible_values" );
@@ -3622,8 +3622,7 @@ talk_effect_fun_t::func f_add_var( const JsonObject &jo, std::string_view member
 talk_effect_fun_t::func f_remove_var( const JsonObject &jo, std::string_view member,
                                       const std::string_view, bool is_npc )
 {
-    dbl_or_var empty;
-    const std::string var_name = get_talk_varname( jo, member, false, empty );
+    const std::string var_name = get_talk_varname( jo, member );
     return [is_npc, var_name]( dialogue const & d ) {
         d.actor( is_npc )->remove_value( var_name );
     };
@@ -6725,7 +6724,7 @@ talk_effect_fun_t::func f_weighted_list_eocs( const JsonObject &jo,
         if( ja.test_int() ) {
             eoc_weight.min = dbl_or_var_part{ ja.next_int() };
         } else {
-            eoc_weight.min = get_dbl_or_var_part( ja.next_value(), member );
+            eoc_weight.min = get_dbl_or_var_part( ja.next_value() );
         }
         eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, src ),
                                 eoc_weight );

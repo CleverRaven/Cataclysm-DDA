@@ -29,6 +29,8 @@
       "roadstop_roof",
       "roadstop_a",
       "roadstop_a_roof",
+      "roadstop_b",
+      "roadstop_b_roof",
       "chemical_lab(_roof)?_ocu",
       "homelesscamp_npc",
       "ranch_camp_77",
