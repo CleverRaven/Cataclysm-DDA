@@ -349,6 +349,7 @@
         [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_TELEPORT_MISJUMP", 4 ],
+        [ "EOC_NETHER_EFFECT_CHECK_PHOTOKIN_EMP", 3 ],
         [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 3 ],
         [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 3 ],
         [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 2 ],
@@ -1108,6 +1109,36 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_PHOTOKIN_EMP",
+    "//": "Base is 2% chance from 160 attunement to 195 attunement, then scaling up 0.25% per attunement up to 10.75% chance at 230 attunement, then scaling up 0.4% chance per attunement up to 18.75% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 160" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 200) * 2.5), 0, 195) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 230) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        },
+        "then": [
+          { "u_message": "There's a sudden burst of light and your hair stands on end!", "type": "bad" },
+          { "u_cast_spell": { "id": "nether_attunement_nether_lightning", "hit_self": false } }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING",
     "//": "Base is 3% chance from 175 attunement to 200 attunement, then scaling up 0.2% per attunement up to 8% chance at 225 attunement, then scaling up 0.45% chance per attunement up to 19.25% chance at max, plus 1/10th the Difficulty squared.",
     "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] },
@@ -1644,7 +1675,7 @@
     },
     "effect": [
       { "u_lose_effect": "effect_teleport_mishap_tindrift_warning" },
-      { "u_message": "...but it's because the hunters have found you.", "type": "bad" },
+      { "u_message": "…but it's because the hunters have found you.", "type": "bad" },
       { "u_add_effect": "tindrift", "duration": "1 day" },
       {
         "u_spawn_monster": "mon_hound_tindalos",
@@ -1653,7 +1684,7 @@
         "max_radius": 8
       },
       {
-        "if": { "math": [ "rand(100) > 96" ] },
+        "if": { "math": [ "rand(100) >= 96" ] },
         "then": [ { "u_spawn_monster": "mon_tindalos", "real_count": 1, "min_radius": 1, "max_radius": 4 } ]
       }
     ]
