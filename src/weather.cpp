@@ -21,7 +21,6 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -142,7 +141,7 @@ void glare( const weather_type_id &w )
 
 float incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
+    return std::max<float>( 0.0f, sun_light_at( t ) * wtype->light_multiplier + wtype->light_modifier );
 }
 
 float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )
@@ -966,7 +965,8 @@ units::temperature weather_manager::get_temperature( const tripoint_bub_ms &loca
     }
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    units::temperature temp = location.z() < 0 ? units::from_celsius(
+                                  get_cur_weather_gen().base_temperature ) : temperature;
 
     if( !g->new_game ) {
         units::temperature_delta temp_mod;
@@ -983,7 +983,8 @@ units::temperature weather_manager::get_temperature( const tripoint_bub_ms &loca
 
 units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location ) const
 {
-    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    return location.z() < 0 ? units::from_celsius(
+               get_weather().get_cur_weather_gen().base_temperature ) : temperature;
 }
 
 void weather_manager::clear_temp_cache()

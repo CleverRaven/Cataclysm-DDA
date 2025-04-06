@@ -1,14 +1,18 @@
 #include "init.h"
 
+#include <algorithm>
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "achievement.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "ammo.h"
 #include "ammo_effect.h"
 #include "anatomy.h"
@@ -31,6 +35,7 @@
 #include "construction_group.h"
 #include "crafting_gui.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -44,7 +49,9 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "gates.h"
+#include "global_vars.h"
 #include "harvest.h"
 #include "help.h"
 #include "input.h"
@@ -58,13 +65,14 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
+#include "magic_type.h"
 #include "map_extras.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
-#include "mission.h"
 #include "math_parser_jmath.h"
+#include "mission.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -72,10 +80,12 @@
 #include "mood_face.h"
 #include "morale_types.h"
 #include "move_mode.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
+#include "options.h"
 #include "overlay_ordering.h"
 #include "overmap.h"
 #include "overmap_connection.h"
@@ -91,13 +101,15 @@
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "scent_map.h"
-#include "sdltiles.h" // IWYU pragma: keep
+#include "shop_cons_rate.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "speed_description.h"
 #include "start_location.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
 #include "test_data.h"
 #include "text_snippets.h"
 #include "translations.h"
@@ -110,6 +122,10 @@
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
 
 DynamicDataLoader::DynamicDataLoader()
 {

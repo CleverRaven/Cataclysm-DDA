@@ -273,6 +273,25 @@
   },
   {
     "type": "effect_type",
+    "id": "afs_android_crawling",
+    "name": [ "Crawling" ],
+    "desc": [ "Even if its been critically damaged, this android continues to crawl towards its target." ],
+    "rating": "bad",
+    "max_duration": "100 d",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.5 } ] } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_weapon_disabled",
+    "name": [ "Disabled weaponry" ],
+    "desc": [ "The main weaponry of this creature is no longer functional." ],
+    "rating": "bad",
+    "max_duration": "100 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "afs_combat_stims",
     "name": [ "Combat Stimulants" ],
     "desc": [ "You are under the effects of powerful military combat stimulants" ],

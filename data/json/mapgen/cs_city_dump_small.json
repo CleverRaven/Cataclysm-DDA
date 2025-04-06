@@ -1,19 +1,5 @@
 [
   {
-    "type": "item_group",
-    "id": "custom_trash",
-    "items": [
-      [ "mag_porn", 10 ],
-      { "group": "ammo_pocket_batteries", "prob": 10 },
-      [ "television", 20 ],
-      [ "two_way_radio", 10 ],
-      [ "eyedrops", 10 ],
-      [ "cotton_patchwork", 20 ],
-      { "item": "cotton_patchwork", "prob": 20, "custom-flags": [ "FILTHY" ] },
-      [ "microwave", 20 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "om_terrain": [ "cs_city_dump_small" ],
     "method": "json",
@@ -23,28 +9,29 @@
         "          oooo          ",
         "          oooo XX XX    ",
         "  --------++++--------  ",
-        "  |*^^,,,,oooo,,,,**,|  ",
-        "  |*** ^,,oooo^X,,,**|  ",
-        "  |*,v*,^,oooo,,*^,*,|  ",
-        "  |,,**,v,oooo^,**,,,|  ",
-        "  |^,**,*,oooo,,,**^,|  ",
-        "  |^,*,*,,oooo1,*^*,,|  ",
-        "  |,1**,SSoooo,****,,|  ",
-        "  |,**,*,*====*,***,,|  ",
-        "  |,2*,^**1*,*,,*,,,^|  ",
-        "  |^,*,****,,,***^*v1|  ",
-        "  |,*,,***,*,v*****,*|  ",
-        "  |,,*,*****,*,*,**,*|  ",
-        "  |vv***,*****,^**B**|  ",
-        "  |,^********33***B1,|  ",
-        "  |*,BB^**,*s v**^**,|  ",
-        "  |*,,,***,******,**,|  ",
-        "  |,*^****^,,21**3***|  ",
-        "  |***,2,,,^,,*,*3*,*|  ",
+        "  |*^^&&&&oooo&&&&**&|  ",
+        "  |*** ^&&oooo^X&&&**|  ",
+        "  |*&v*&^&oooo&&*^&*&|  ",
+        "  |&&**&v&oooo^&**&&&|  ",
+        "  |^&**&*&oooo&&&**^&|  ",
+        "  |^&*&*&&oooo&&*^*&&|  ",
+        "  |&&**&SSoooo&****&&|  ",
+        "  |&**&*&*====*&***&&|  ",
+        "  |&^*&^**&*&*&&*&&&^|  ",
+        "  |^&*&****&&&***^*v&|  ",
+        "  |&*&&***&*&v*****&*|  ",
+        "  |&&*&*****&*&*&**&*|  ",
+        "  |vv***&*****&^**B**|  ",
+        "  |&^********PP***B&&|  ",
+        "  |*&BB^**&*s v**^**&|  ",
+        "  |*&&&***&******&**&|  ",
+        "  |&*^****^&&^&**P***|  ",
+        "  |***&^&&&^&&*&*P*&*|  ",
         "  --------------------  ",
         "                        ",
         "                        "
       ],
+      "palettes": [ "dump_palette" ],
       "terrain": {
         " ": "t_region_groundcover",
         ",": "t_region_soil",
@@ -82,15 +69,11 @@
           "f_crate_o"
         ]
       },
+      "items": { "X": { "item": "SUS_trash_dumpster", "chance": 100 } },
       "place_vehicles": [
         { "vehicle": "pickup", "x": 11, "y": 5, "rotation": 270, "chance": 30 },
         { "vehicle": "bicycle", "x": 5, "y": 3, "rotation": 0, "chance": 40 }
       ],
-      "items": {
-        "1": { "item": "custom_trash", "chance": 70 },
-        "2": { "item": "trash", "chance": 80 },
-        "3": { "item": "trash_forest", "chance": 80 }
-      },
       "place_signs": [ { "signage": "Municipal City Dump", "x": 8, "y": 1 } ]
     }
   }

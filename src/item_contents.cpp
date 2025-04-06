@@ -39,7 +39,7 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 
 static const flag_id json_flag_CASING( "CASING" );
@@ -868,9 +868,6 @@ ret_val<item *> item_contents::insert_item( const item &it,
     if( !pocket.success() ) {
         return ret_val<item *>::make_failure( nullptr, pocket.str() );
     }
-    if( pocket.value()->is_forbidden() ) {
-        return ret_val<item *>::make_failure( nullptr, _( "Can't store anything in this." ) );
-    }
 
     ret_val<item *> inserted = pocket.value()->insert_item( it, false, true, ignore_contents );
     if( inserted.success() ) {
@@ -895,7 +892,8 @@ void item_contents::force_insert_item( const item &it, pocket_type pk_type )
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
         item_location &this_loc, const item *avoid, const bool allow_sealed, const bool ignore_settings,
-        const bool nested, bool ignore_rigidity )
+        const bool nested, bool ignore_rigidity, bool allow_nested
+                                                                  )
 {
     // @TODO: this could be made better by doing a plain preliminary volume check.
     // if the total volume of the parent is not sufficient, a child won't have enough either.
@@ -915,7 +913,10 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // that needs to be something a player explicitly does
             continue;
         }
-        valid_pockets.emplace_back( &pocket );
+        if( allow_nested ) {
+            //if not allow check nested pockets ,it is no need to save valid pockets
+            valid_pockets.emplace_back( &pocket );
+        }
         if( !ignore_settings && !pocket.settings.accepts_item( it ) ) {
             // Item forbidden by whitelist / blacklist
             continue;
@@ -934,23 +935,25 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.second = &pocket;
         }
     }
-    const bool parent_pkt_selected = !!ret.second;
-    for( item_pocket *pocket : valid_pockets ) {
-        std::pair<item_location, item_pocket *const> nested_content_pocket =
-            pocket->best_pocket_in_contents( this_loc, it, avoid, allow_sealed, ignore_settings );
-        if( !nested_content_pocket.second ||
-            ( !nested_content_pocket.second->rigid() && pocket->remaining_volume() < it.volume() ) ) {
-            // no nested pocket found, or the nested pocket is soft and the parent is full
-            continue;
-        }
-        if( parent_pkt_selected ) {
-            if( ret.second->better_pocket( *nested_content_pocket.second, it, true ) ) {
-                // item is whitelisted in nested pocket, prefer that over parent pocket
-                ret = nested_content_pocket;
+    if( allow_nested ) {
+        const bool parent_pkt_selected = !!ret.second;
+        for( item_pocket *pocket : valid_pockets ) {
+            std::pair<item_location, item_pocket *const> nested_content_pocket =
+                pocket->best_pocket_in_contents( this_loc, it, avoid, allow_sealed, ignore_settings );
+            if( !nested_content_pocket.second ||
+                ( !nested_content_pocket.second->rigid() && pocket->remaining_volume() < it.volume() ) ) {
+                // no nested pocket found, or the nested pocket is soft and the parent is full
+                continue;
             }
-            continue;
+            if( parent_pkt_selected ) {
+                if( ret.second->better_pocket( *nested_content_pocket.second, it, true ) ) {
+                    // item is whitelisted in nested pocket, prefer that over parent pocket
+                    ret = nested_content_pocket;
+                }
+                continue;
+            }
+            ret = nested_content_pocket;
         }
-        ret = nested_content_pocket;
     }
     return ret;
 }
@@ -2411,6 +2414,17 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
         }
     }
     return total_vol;
+}
+
+units::volume item_contents::biggest_pocket_capacity() const
+{
+    units::volume max_vol = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+            max_vol = std::max( max_vol, pocket.volume_capacity() );
+        }
+    }
+    return max_vol;
 }
 
 units::volume item_contents::total_standard_capacity( const bool unrestricted_pockets_only ) const

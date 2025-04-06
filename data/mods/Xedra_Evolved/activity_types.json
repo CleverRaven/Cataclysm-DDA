@@ -1,5 +1,12 @@
 [
   {
+    "type": "activity_type",
+    "id": "ACT_CHANGELING_DREAMDROSS_TO_DREAMSPARKS",
+    "activity_level": "NO_EXERCISE",
+    "verb": "extracting dreams",
+    "based_on": "time"
+  },
+  {
     "id": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",

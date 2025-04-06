@@ -1517,49 +1517,37 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
-    const map &here = get_map();
-
-    // sanity check: exit early if we're trying to wield the current weapon
-    // needed for ranged_balance_test
+    // dont unwield if you already wield the item
     if( is_wielding( it ) ) {
         return true;
     }
-
-    item to_wield;
-    if( has_item( it ) ) {
-        to_wield = remove_item( it );
-    } else {
-        to_wield = it;
+    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded item
+    if( has_wield_conflicts( it ) && !get_wielded_item()->has_item( it ) ) {
+        stow_item( *get_wielded_item() );
     }
-    invalidate_leak_level_cache();
-    invalidate_inventory_validity_cache();
-    cached_info.erase( "weapon_value" );
-    item_location weapon = get_wielded_item();
-    if( has_wield_conflicts( to_wield ) ) {
-        stow_item( *weapon );
-        weapon = get_wielded_item();
+    if( !Character::wield( it ) ) {
+        return false;
+    }
+    if( get_wielded_item() ) {
+        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+                                get_wielded_item()->tname() );
     }
 
-    if( to_wield.is_null() ) {
-        set_wielded_item( item() );
-        get_event_bus().send<event_type::character_wields_item>( getID(), item().typeId() );
-        return true;
+
+    invalidate_range_cache();
+    return true;
+}
+
+bool npc::wield( item_location loc, bool remove_old )
+{
+    if( !Character::wield( std::move( loc ), remove_old ) ) {
+        return false;
+    }
+    if( get_wielded_item() ) {
+        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+                                get_wielded_item()->tname() );
     }
 
-    mod_moves( -to_wield.on_wield_cost( *this ) );
-    if( weapon && to_wield.can_combine( *weapon ) ) {
-        weapon->combine( to_wield );
-    } else {
-        set_wielded_item( to_wield );
-    }
-
-    weapon = get_wielded_item();
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon->typeId() );
-    get_event_bus().send_with_talker( this, &weapon, e );
-
-    if( get_player_view().sees( here, pos_bub( here ) ) ) {
-        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
-    }
     invalidate_range_cache();
     return true;
 }
@@ -3021,12 +3009,14 @@ void npc::die( map *here, Creature *nkiller )
     dead = true;
     Character::die( here, nkiller );
 
-    if( is_hallucination() || lifespan_end ) {
-        add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
-        return;
-    }
+    if( !quiet_death ) {
+        if( is_hallucination() || lifespan_end ) {
+            add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
+            return;
+        }
 
-    add_msg_if_player_sees( *this, _( "%s dies!" ), get_name() );
+        add_msg_if_player_sees( *this, _( "%s dies!" ), get_name() );
+    }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
         get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
@@ -3079,7 +3069,9 @@ void npc::die( map *here, Creature *nkiller )
         }
     }
 
-    place_corpse( here );
+    if( spawn_corpse ) {
+        place_corpse( here );
+    }
 }
 
 void npc::prevent_death()
@@ -3335,8 +3327,11 @@ void npc::on_load( map *here )
     shop_restock();
 }
 
-bool npc::query_yn( const std::string &/*msg*/ ) const
+bool npc::query_yn( const std::string &msg ) const
 {
+    add_msg_debug( debugmode::DF_NPC,
+                   "%s declines this query_yn because they are a npc (automatic, always declines).\n %s",
+                   disp_name(), msg );
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
     return false;
 }

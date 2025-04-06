@@ -78,7 +78,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "viewer.h"
@@ -845,11 +845,12 @@ bool mattack::shockstorm( monster *z )
     }
 
     Creature *target = z->attack_target();
-    const tripoint_bub_ms target_pos = target->pos_bub( here );
 
     if( target == nullptr ) {
         return false;
     }
+
+    const tripoint_bub_ms target_pos = target->pos_bub( here );
 
     Character &player_character = get_player_character();
     bool seen = player_character.sees( here, *z );
@@ -3769,7 +3770,7 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                foe->wield( *foe->i_add( handcuffs ) );
+                foe->wield( foe->i_add( handcuffs ) );
                 item_location wielded = foe->get_wielded_item();
                 if( wielded && wielded->type == handcuffs.type ) {
                     wielded->set_flag( flag_NO_UNWIELD );
@@ -3887,7 +3888,7 @@ bool mattack::evolve_kill_strike( monster *z )
     damage_instance damage( z->type->melee_damage );
     damage.mult_damage( 1.33f );
     damage.add( damage_instance( damage_stab, dice( z->type->melee_dice, z->type->melee_sides ),
-                                 rng( 5, 15 ), 1.0, 0.5 ) );
+                                 z->type->melee_dice_ap + rng( 5, 15 ), 1.0, 0.5 ) );
 
     if( target->dodge_check( z, bodypart_id( "torso" ), damage ) ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;

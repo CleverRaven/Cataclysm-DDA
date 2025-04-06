@@ -259,6 +259,9 @@ struct mutation_branch {
         /**Map of angered species and there intensity*/
         std::map<species_id, int> anger_relations;
 
+        std::vector<species_id> empathize_with;
+        std::vector<species_id> no_empathize_with;
+
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
 
@@ -578,7 +581,5 @@ template<>
 struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
-
-void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
 #endif // CATA_SRC_MUTATION_H

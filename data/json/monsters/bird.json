@@ -538,7 +538,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "upgrades": { "half_life": 21, "into_group": "GROUP_CROW_MUTANT" },
+    "upgrades": { "half_life": 84, "into_group": "GROUP_CROW_MUTANT" },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "FLIES", "EATS", "SMALL_HIDER" ]
   },
   {

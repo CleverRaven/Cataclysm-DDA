@@ -113,7 +113,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -332,7 +332,9 @@ static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
@@ -1334,7 +1336,7 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) con
 
 int Character::overmap_sight_range( float light_level ) const
 {
-    // How many map tiles I can given the light??
+    // How many map tiles I can see given the light??
     int sight = sight_range( light_level );
     // What are these doing???
     if( sight < SEEX ) {
@@ -1380,7 +1382,16 @@ int Character::overmap_modified_sight_range( float light_level ) const
                            ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos_bub() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
 
-    if( has_optic ) {
+    const bool has_scoped_gun = cache_has_item_with( "is_gun", &item::is_gun, [&]( const item & gun ) {
+        for( const item *mod : gun.gunmods() ) {
+            if( mod->has_flag( flag_ZOOM ) ) {
+                return true;
+            }
+        }
+        return false;
+    } );
+
+    if( has_optic || has_scoped_gun ) {
         sight *= 2;
     }
 
@@ -1574,6 +1585,16 @@ bool Character::can_stash( const item &it, int &copies_remaining, bool ignore_pk
         }
     }
     return stashed_any;
+}
+
+bool Character::can_stash_partial( const item &it, int &copies_remaining, bool ignore_pkt_settings )
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_stash( copy, copies_remaining, ignore_pkt_settings );
 }
 
 bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
@@ -2083,24 +2104,16 @@ bool Character::uncanny_dodge()
 
     const bool can_dodge_bio = get_power_level() >= trigger_cost &&
                                has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
+    const bool can_dodge_stam = get_stamina() >= 300 && ( has_trait_flag( json_flag_UNCANNY_DODGE ) ||
+                                has_effect_with_flag( json_flag_UNCANNY_DODGE ) );
     const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
                                 get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
 
-    if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
+    if( !( can_dodge_bio || can_dodge_stam || can_dodge_both ) ) {
         return false;
     }
     tripoint_bub_ms adjacent{ adjacent_tile() };
-
-    if( can_dodge_both ) {
-        mod_power_level( -trigger_cost / 2 );
-        burn_energy_legs( -150 );
-    } else if( can_dodge_bio ) {
-        mod_power_level( -trigger_cost );
-    } else if( can_dodge_mut ) {
-        burn_energy_legs( -300 );
-    }
 
     const optional_vpart_position veh_part = here.veh_at( pos_bub( here ) );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
@@ -2124,6 +2137,15 @@ bool Character::uncanny_dodge()
         } else if( seen ) {
             add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
 
+        }
+
+        if( can_dodge_both ) {
+            mod_power_level( -trigger_cost / 2 );
+            burn_energy_legs( -150 );
+        } else if( can_dodge_bio ) {
+            mod_power_level( -trigger_cost );
+        } else if( can_dodge_stam ) {
+            burn_energy_legs( -300 );
         }
         return true;
     }
@@ -2173,8 +2195,8 @@ std::set<matec_id> Character::get_limb_techs() const
     std::set<matec_id> result;
     for( const bodypart_id &part : get_all_body_parts() ) {
         const bodypart *bp = get_part( part );
-        if( !bp->is_limb_overencumbered() && bp->get_hp_cur() > part->health_limit ) {
-            std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
+        if( !bp->is_limb_overencumbered( *this ) && bp->get_hp_cur() > part->health_limit ) {
+            std::set<matec_id> part_tech = get_part( part )->get_limb_techs( *this );
             result.insert( part_tech.begin(), part_tech.end() );
         }
     }
@@ -2187,8 +2209,9 @@ int Character::get_working_arm_count() const
     body_part_type::type arm_type = body_part_type::type::arm;
     for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
-            !get_part( part )->is_limb_overencumbered() ) {
+        if( get_part( part )->get_limb_score( *this,
+                                              limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
+            !get_part( part )->is_limb_overencumbered( *this ) ) {
             limb_count++;
         }
     }
@@ -2408,8 +2431,24 @@ void Character::process_turn()
     for( const trait_id &mut : get_functioning_mutations() ) {
         mutation_reflex_trigger( mut );
     }
+    //Creature::process_turn() uses speed to restore moves, but for Character, speed has not yet been calculated.
+    //So Creature::process_turn() cannot be used directly here.
+    //Exposed the content of Creature::process_turn() except restore moves here,
+    //and do the reset moves later after recalc_speed_bonus().
+    //The following is the content of Creature::process_turn() except restore moves
+    decrement_summon_timer();
+    if( is_dead_state() ) {
+        return;
+    }
+    reset_bonuses();
 
-    Creature::process_turn();
+    process_effects();
+
+    process_damage_over_time();
+
+    // Call this in case any effects have changed our stats
+    reset_stats();
+    //The above is the content of Creature::process_turn() except reset moves
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
@@ -2429,6 +2468,11 @@ void Character::process_turn()
     } );
 
     suffer();
+    recalc_speed_bonus();
+    //
+    if( !has_effect( effect_ridden ) ) {
+        moves += get_speed();
+    }
     // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
@@ -2916,7 +2960,7 @@ units::energy Character::get_max_power_level() const
 {
     units::energy val = enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER,
                         max_power_level_cached + max_power_level_modifier );
-    return clamp( val, 0_kJ, units::energy_max );
+    return clamp( val, 0_kJ, units::energy::max() );
 }
 
 void Character::set_power_level( const units::energy &npower )
@@ -2926,13 +2970,13 @@ void Character::set_power_level( const units::energy &npower )
 
 void Character::set_max_power_level_modifier( const units::energy &capacity )
 {
-    max_power_level_modifier = clamp( capacity, units::energy_min, units::energy_max );
+    max_power_level_modifier = clamp( capacity, units::energy::min(), units::energy::max() );
 }
 
 void Character::set_max_power_level( const units::energy &capacity )
 {
-    max_power_level_modifier = clamp( capacity - max_power_level_cached, units::energy_min,
-                                      units::energy_max );
+    max_power_level_modifier = clamp( capacity - max_power_level_cached, units::energy::min(),
+                                      units::energy::max() );
 }
 
 void Character::mod_power_level( const units::energy &npower )
@@ -2949,8 +2993,8 @@ void Character::mod_power_level( const units::energy &npower )
 
 void Character::mod_max_power_level_modifier( const units::energy &npower )
 {
-    max_power_level_modifier = clamp( max_power_level_modifier + npower, units::energy_min,
-                                      units::energy_max );
+    max_power_level_modifier = clamp( max_power_level_modifier + npower, units::energy::min(),
+                                      units::energy::max() );
 }
 
 bool Character::is_max_power() const
@@ -3336,6 +3380,11 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
+units::mass Character::max_pickup_capacity() const
+{
+    return weight_capacity() * 4;
+}
+
 bool Character::can_pickVolume( const item &it, bool, const item *avoid,
                                 const bool ignore_pkt_settings ) const
 {
@@ -3369,8 +3418,7 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
 bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
-        // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
+        return ( weight_carried() + it.weight() <= max_pickup_capacity() );
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
@@ -3956,6 +4004,7 @@ void Character::reset()
     mod_int_bonus( int_bonus_hardcoded );
     mod_per_bonus( per_bonus_hardcoded );
     reset_stats();
+    recalc_speed_bonus();
 }
 
 bool Character::has_nv_goggles()
@@ -3998,7 +4047,6 @@ void Character::calc_encumbrance()
 
 void Character::calc_encumbrance( const item &new_item )
 {
-
     std::map<bodypart_id, encumbrance_data> enc;
     worn.item_encumb( enc, new_item, *this );
     mut_cbm_encumb( enc );
@@ -4174,7 +4222,7 @@ int Character::encumb( const bodypart_id &bp ) const
         debugmsg( "INFO: Tried to check encumbrance of a bodypart that does not exist." );
         return 0;
     }
-    return get_part_encumbrance_data( bp ).encumbrance;
+    return get_part_encumbrance( bp );
 }
 
 void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
@@ -4212,7 +4260,6 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
 
 void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
-
     for( const bionic_id &bid : get_bionics() ) {
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
             vals[element.first.id()].encumbrance += element.second;
@@ -7780,6 +7827,11 @@ void Character::recalculate_enchantment_cache()
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
+
+    // do final statistic recalculations
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
     recalc_hp();
 }
 
@@ -9706,7 +9758,7 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 std::pair<float, item> Character::get_best_weapon_by_damage_type( const damage_type_id dmg_type )
 const
 {
-    std::pair<float, item> best_weapon = std::make_pair( 0, item() );
+    std::pair<float, item> best_weapon = std::make_pair( 0.0f, item() );
 
     cache_visit_items_with( "best_damage_" + dmg_type.str(), &item::is_melee, [&best_weapon, this,
                   dmg_type]( const item & it ) {
@@ -9721,23 +9773,6 @@ const
     } );
 
     return best_weapon;
-}
-
-std::pair<int, const item *> Character::get_best_tool( const quality_id quality ) const
-{
-    // todo: check edge case of you having bionic tool/mutation,
-    // something that max_quality() is aware but max_quality() is not?
-
-    const int max_qual = max_quality( quality );
-
-    std::vector<const item *> nit = cache_get_items_with( "best_quality_" + quality.str(), {},
-    [quality, max_qual]( const item & i ) {
-        return i.get_quality( quality ) == max_qual;
-    } );
-
-    const item *it = random_entry( nit );
-    const std::pair<int, const item *> best_tool = std::make_pair( max_qual, it );
-    return best_tool;
 }
 
 units::energy Character::available_ups() const
@@ -10322,6 +10357,23 @@ item &Character::best_item_with_quality( const quality_id &qid )
     return null_item_reference();
 }
 
+const item &Character::best_item_with_quality( const quality_id &qid ) const
+{
+    int max_lvl_found = INT_MIN;
+    std::vector<const item *> items = items_with( [qid, &max_lvl_found]( const item & it ) {
+        int qlvl = it.get_quality_nonrecursive( qid );
+        if( qlvl > max_lvl_found ) {
+            max_lvl_found = qlvl;
+            return true;
+        }
+        return false;
+    } );
+    if( max_lvl_found > INT_MIN ) {
+        return *items.back();
+    }
+    return null_item_reference();
+}
+
 int Character::run_cost( int base_cost, bool diag ) const
 {
     float movecost = static_cast<float>( base_cost );
@@ -10501,6 +10553,9 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
                              _( "Downed" ) );
     }
 
+    // minimum possible movecost is 1, no infinispeed
+    movecost = std::max( 1.0f, movecost );
+
     return effects;
 }
 
@@ -10585,6 +10640,15 @@ std::vector<Creature *> Character::get_visible_creatures( const int range ) cons
     return g->get_creatures_if( [this, range, &here]( const Creature & critter ) -> bool {
         return this != &critter && pos_abs() != critter.pos_abs() &&
         rl_dist( pos_abs(), critter.pos_abs() ) <= range && sees( here, critter );
+    } );
+}
+
+std::vector<vehicle *> Character::get_visible_vehicles( const int range ) const
+{
+    const map &here = get_map();
+
+    return g->get_vehicles_if( [this, range, &here]( const vehicle & veh ) -> bool {
+        return rl_dist( pos_abs(), veh.pos_abs() ) <= range && sees( here, veh.pos_bub( here ) );
     } );
 }
 
@@ -11983,7 +12047,7 @@ bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
         if( elem.first->has_flag( flag ) ) {
             return true;
         }
-        if( elem.second.has_conditional_flag( flag ) ) {
+        if( elem.second.has_conditional_flag( *this, flag ) ) {
             // Checking for disabling effects is a bit convoluted
             bool disabled = false;
             if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
@@ -12011,7 +12075,7 @@ int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
         if( bp->has_flag( flag ) ) {
             ret++;
         }
-        if( get_part( bp )->has_conditional_flag( flag ) ) {
+        if( get_part( bp )->has_conditional_flag( *this, flag ) ) {
             bool disabled = false;
             if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
                 for( const effect &eff : get_effects_from_bp( bp ) ) {
@@ -12047,6 +12111,57 @@ int Character::count_flag( const json_character_flag &flag ) const
            has_effect_with_flag( flag ) +
            count_bodypart_with_flag( flag ) +
            count_mabuff_flag( flag );
+}
+
+bool Character::empathizes_with_species( const species_id &species ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    // Negative empathy list.  Takes precedence over positive traits or human
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.no_empathize_with.begin(), mut_data.no_empathize_with.end(),
+                       species ) != mut_data.no_empathize_with.end() ) {
+            return false;
+        }
+    }
+
+    // Human empathy by default.
+    if( species == species_HUMAN ) {
+        return true;
+    }
+
+    // positive empathy list
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.empathize_with.begin(), mut_data.empathize_with.end(),
+                       species ) != mut_data.empathize_with.end() ) {
+            return true;
+        }
+    }
+
+    // Don't empathize with any species other than HUMAN by default.
+    return false;
+}
+
+bool Character::empathizes_with_monster( const mtype_id &monster ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    for( species_id species : monster->species ) {
+        if( empathizes_with_species( species ) ) {
+            return true;
+        }
+    }
+    // used since this method is called on corpse ids, which are null for npc corpses.
+    if( monster == mtype_id::NULL_ID() && empathizes_with_species( species_HUMAN ) ) {
+        return true;
+    }
+    return false;
 }
 
 bool Character::is_driving() const
@@ -13041,6 +13156,115 @@ void Character::search_surroundings()
             add_known_trap( tp, tr );
         }
     }
+}
+
+bool Character::wield( item &it, std::optional<int> obtain_cost )
+{
+    invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
+
+    item_location wielded = get_wielded_item();
+
+    if( has_wield_conflicts( it ) ) {
+        const bool is_unwielding = is_wielding( it );
+        const auto ret = can_unwield( it );
+
+        if( !ret.success() ) {
+            add_msg_if_player( m_info, "%s", ret.c_str() );
+            return false;
+        }
+
+        if( !is_unwielding && wielded->has_item( it ) ) {
+            add_msg_if_player( m_info,
+                               _( "You need to put the bag away before trying to wield something from it." ) );
+            return false;
+        }
+
+        if( !unwield() ) {
+            return false;
+        }
+
+        if( is_unwielding ) {
+            if( !martial_arts_data->selected_is_none() ) {
+                martial_arts_data->martialart_use_message( *this );
+            }
+            return true;
+        }
+    }
+
+    if( !can_wield( it ).success() ) {
+        return false;
+    }
+
+    bool combine_stacks = wielded && it.can_combine( *wielded );
+    cached_info.erase( "weapon_value" );
+
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
+    bool worn = is_worn( it );
+
+    // Ideally the cost should be calculated from wield(item_location), but as backup try it here.
+    const int mv = obtain_cost.value_or( item_handling_cost( it, true,
+                                         INVENTORY_HANDLING_PENALTY / ( worn ? 2 : 1 ) ) );
+
+    if( worn ) {
+        it.on_takeoff( *this );
+    }
+
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
+    mod_moves( -mv );
+
+    item to_wield;
+    if( has_item( it ) ) {
+        to_wield = i_rem( &it );
+    } else {
+        // is_null means fists
+        to_wield = it.is_null() ? item() : it;
+    }
+
+    if( combine_stacks ) {
+        wielded->combine( to_wield );
+    } else {
+        set_wielded_item( to_wield );
+    }
+
+    // set_wielded_item invalidates the weapon item_location, so get it again
+    wielded = get_wielded_item();
+    recoil = MAX_RECOIL;
+
+    // if fists are wielded get_wielded_item returns item_location::nowhere, which is a nullptr
+    if( wielded ) {
+        last_item = wielded->typeId();
+        wielded->on_wield( *this );
+        inv->update_invlet( *wielded );
+        inv->update_cache_with_item( *wielded );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
+        get_event_bus().send_with_talker( this, &wielded, e );
+    } else {
+        last_item = to_wield.typeId();
+        get_event_bus().send<event_type::character_wields_item>( getID(), item().typeId() );
+    }
+    return true;
+}
+
+bool Character::wield( item_location loc, bool remove_old )
+{
+    if( !loc ) {
+        add_msg_if_player( _( "No item." ) );
+        return false;
+    }
+
+    if( !wield( *loc, loc.obtain_cost( *this ) ) ) {
+        return false;
+    }
+
+    if( remove_old && loc ) {
+        loc.remove_item();
+    }
+    return true;
 }
 
 bool Character::wield_contents( item &container, item *internal_item, bool penalties,

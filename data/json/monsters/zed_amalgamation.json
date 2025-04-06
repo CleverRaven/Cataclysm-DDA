@@ -176,7 +176,7 @@
     "copy-from": "mon_amalgamation_abstract_small",
     "//": "Small, nasty glass cannon spawning in groups  WP: mandible, leg",
     "name": { "str": "swarming amalgamation" },
-    "description": "An small, flat creature dashing around erratically on seven short legs.  Its form is dominated by an oversized set of black mandibles on an almost comically small head, featureless apart from a single, black eye.  The rest of the body is covered with sickly white skin crisscrossed by black veins.",
+    "description": "A small, flat creature dashing around erratically on seven short legs.  Its form is dominated by an oversized set of black mandibles on an almost comically small head, featureless apart from a single black eye.  The rest of the body is covered with sickly white skin crisscrossed by black veins.",
     "volume": "20 L",
     "weight": "20 kg",
     "hp": 35,

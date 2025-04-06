@@ -346,21 +346,5 @@
     "spell_class": "VAMPIRE",
     "skill": "deduction",
     "base_casting_time": 500
-  },
-  {
-    "id": "vampire_mist_form_pass_through_doors_and_windows_teleport",
-    "type": "SPELL",
-    "name": { "str": "(Mist Form) Pass Through Barrier Real", "//~": "NO_I18N" },
-    "description": { "str": "The actual spell that lets you seep through a barrier.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ground" ],
-    "spell_class": "VAMPIRE",
-    "skill": "deduction",
-    "flags": [ "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "NO_FAIL", "IGNORE_WALLS" ],
-    "effect": "short_range_teleport",
-    "shape": "blast",
-    "min_range": 2,
-    "max_range": 2
   }
 ]

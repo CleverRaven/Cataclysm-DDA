@@ -121,11 +121,11 @@
       ],
       "palettes": [ "lodge_2ndfloor_palette" ],
       "place_items": [
-        { "item": "roof_trash", "x": [ 35, 37 ], "y": [ 8, 9 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 24, 37 ], "y": [ 10, 15 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 26, 30 ], "y": [ 16, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 8, 23 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 24, 34 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_roof", "x": [ 35, 37 ], "y": [ 8, 9 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 24, 37 ], "y": [ 10, 15 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 26, 30 ], "y": [ 16, 19 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 8, 23 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 24, 34 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] }
       ],
       "place_nested": [
         {
@@ -177,8 +177,8 @@
       "palettes": [ "roof_palette" ],
       "furniture": { "V": "f_wind_vane" },
       "place_items": [
-        { "item": "roof_trash", "x": [ 3, 23 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 24, 39 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_roof", "x": [ 3, 23 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 24, 39 ], "y": [ 1, 6 ], "chance": 20, "repeat": [ 1, 3 ] }
       ]
     }
   },

@@ -11,7 +11,7 @@
         "prob": 30
       },
       { "item": "can_clams", "count": [ 1, 3 ], "prob": 30 },
-      { "item": "lye_powder", "prob": 30 },
+      { "group": "lye_powder_bottle_part", "prob": 30 },
       { "item": "honeycomb", "prob": 30 },
       { "prob": 30, "group": "iodine_bottle_plastic_pill_supplement_10" },
       { "item": "disinfectant", "prob": 30 },
@@ -20,7 +20,7 @@
       { "item": "slime_scrap", "prob": 20 },
       { "item": "datura_seed", "prob": 20 },
       { "item": "chitin_piece", "prob": 20 },
-      { "item": "oxy_powder", "prob": 30 },
+      { "group": "oxy_powder_bottle_part", "prob": 30 },
       { "prob": 10, "group": "heroin_bag_zipper_4" },
       { "item": "lsd", "prob": 10, "count": 5 },
       { "prob": 10, "group": "oxycodone_bottle_plastic_pill_prescription_10" },

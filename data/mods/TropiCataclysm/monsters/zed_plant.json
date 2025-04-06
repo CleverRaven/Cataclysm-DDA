@@ -21,7 +21,7 @@
         "monster_message": "The zombie spews a cloud of pollen!"
       }
     ],
-    "upgrades": { "half_life": 20, "into_group": "GROUP_GARDEN_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 80, "into_group": "GROUP_GARDEN_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -72,7 +72,7 @@
     "death_function": { "effect": { "id": "death_guilt", "min_level": 4 } },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "upgrades": { "half_life": 20, "into": "mon_zombie_flowerchild" },
+    "upgrades": { "half_life": 80, "into": "mon_zombie_flowerchild" },
     "flags": [
       "SEES",
       "HEARS",
@@ -123,7 +123,7 @@
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
-    "upgrades": { "half_life": 14, "into_group": "GROUP_MOSSY_BOOMER_UPGRADE" },
+    "upgrades": { "half_life": 56, "into_group": "GROUP_MOSSY_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_fungus",
     "flags": [
       "SEES",
@@ -244,7 +244,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_scorched_brute",
-    "upgrades": { "half_life": 21, "into": "mon_hulk_thorns" },
+    "upgrades": { "half_life": 84, "into": "mon_hulk_thorns" },
     "flags": [
       "SEES",
       "HEARS",
@@ -338,7 +338,7 @@
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 10, "into": "mon_screecher_vines" },
+    "upgrades": { "half_life": 40, "into": "mon_screecher_vines" },
     "flags": [
       "SEES",
       "HEARS",
@@ -429,7 +429,7 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 28, "into": "mon_swimmer_swampbiter" },
+    "upgrades": { "half_life": 112, "into": "mon_swimmer_swampbiter" },
     "flags": [
       "SEES",
       "HEARS",

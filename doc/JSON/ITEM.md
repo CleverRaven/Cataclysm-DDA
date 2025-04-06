@@ -183,7 +183,7 @@ See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
     "damage_type": "bullet",  // Type of the damage that would be dealt
     "amount": 39,             // Amount of damage to be dealt
     "armor_penetration": 2,   // Flat armor penetration
-    "barrels": [              // Replaces the `amount` when weapon has barrel lenghth defined, allow to change the damage of the single round depending on the barrel length.
+    "barrels": [              // Replaces the `amount` when weapon has barrel length defined, allow to change the damage of the single round depending on the barrel length.
       { "barrel_length": "28 mm", "amount": 13 },  // If weapon has barrel lengh this or less, this amount of the damage would be applied
       { "barrel_length": "30 mm", "amount": 14 },
       { "barrel_length": "35 mm", "amount": 15 },
@@ -830,7 +830,7 @@ Guns can be defined like this:
                            // additional some gun specific entries:
 "skill": "pistol",         // Skill used for firing
 "ammo": [ "357", "38" ],   // Ammo types accepted for reloading
-"ranged_damage": 0,        // Ranged damage when fired
+"ranged_damage": 0,        // Ranged damage when fired (see #ammo)
 "range": 0,                // Range when fired
 "dispersion": 32,          // Inaccuracy of gun, measured in 100ths of Minutes Of Angle (MOA)
 // When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
@@ -982,7 +982,6 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "charges_per_use": 1,      // Charges consumed per tool use
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
-"rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
 "power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used

@@ -164,6 +164,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
+    "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ],
     "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
     "override_look": { "id": "mon_deer", "tile_category": "monster" }
   },
@@ -189,8 +190,7 @@
           { "value": "METABOLISM", "multiply": -0.333 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 40 }
-        ],
-        "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+        ]
       },
       {
         "condition": { "not": { "u_is_on_terrain_with_flag": "SWIMMABLE" } },

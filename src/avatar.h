@@ -302,9 +302,9 @@ class avatar : public Character
         // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
 
-        bool wield( item_location target );
-        bool wield( item &target ) override;
-        bool wield( item &target, int obtain_cost );
+        bool wield( item &it );
+        bool wield( item_location loc, bool remove_old = true );
+
 
         item::reload_option select_ammo( const item_location &base, bool prompt = false,
                                          bool empty = true ) override;

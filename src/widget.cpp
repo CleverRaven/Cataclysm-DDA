@@ -278,7 +278,7 @@ std::string enum_to_string<bodypart_status>( bodypart_status stat )
         case bodypart_status::BITTEN:
             return "bitten";
         case bodypart_status::INFECTED:
-            return "infected";
+            return "septic";
         case bodypart_status::BROKEN:
             return "broken";
         case bodypart_status::SPLINTED:
@@ -943,7 +943,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_encumb:
             // Encumbrance for body part
-            value = ava.get_part_encumbrance_data( only_bp() ).encumbrance;
+            value = ava.get_part_encumbrance( only_bp() );
             break;
         case widget_var::cardio_fit:
             value = ava.get_cardiofit();

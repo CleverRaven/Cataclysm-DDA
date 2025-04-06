@@ -4509,6 +4509,7 @@
       { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str_sp": "Big Iron" } },
       { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str_sp": "Peacemaker's" } },
       { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str_sp": "Judge's Wrath" } },
+      { "type": "COMPONENT_ID", "condition": "460sw_casing", "name": { "str_sp": "Hyper Velocity" } },
       { "type": "COMPONENT_ID", "condition": "45_casing", "name": { "str_sp": "God's Caliber" } },
       { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str_sp": "Heckler's Screamer" } },
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str_sp": "Needle Rain" } },

@@ -24,8 +24,6 @@ static constexpr float moonlight_per_quarter = 1.5f;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
-const time_duration calendar::INDEFINITELY_LONG_DURATION(
-    time_duration::from_turns( std::numeric_limits<int>::max() ) );
 static bool is_eternal_season = false;
 static bool is_eternal_night = false;
 static bool is_eternal_day = false;

@@ -71,7 +71,8 @@
         "B": { "item": "homebooks", "chance": 60, "repeat": [ 1, 5 ] },
         "1": { "item": "office", "chance": 50 },
         "S": { "item": "fireplace_fill", "chance": 80, "repeat": [ 1, 3 ] },
-        "L": { "item": "tools_earthworking", "chance": 40, "repeat": [ 1, 2 ] }
+        "L": { "item": "tools_earthworking", "chance": 40, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_vehicles": [ { "vehicle": "bicycle", "x": 6, "y": 0, "rotation": 0, "chance": 50 } ],
       "place_signs": [ { "signage": "Private Property: No Trespassing", "x": 15, "y": 0 } ]
@@ -160,7 +161,8 @@
         "E": { "item": "bed", "chance": 100, "repeat": [ 1, 5 ] },
         "1": { "item": "office", "chance": 50 },
         "S": { "item": "fireplace_fill", "chance": 100, "repeat": [ 1, 3 ] },
-        "L": { "item": "tools_earthworking", "chance": 70, "repeat": [ 1, 2 ] }
+        "L": { "item": "tools_earthworking", "chance": 70, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_vehicles": [ { "vehicle": "bicycle", "x": 6, "y": 2, "rotation": 0, "chance": 80 } ],
       "place_signs": [ { "signage": "Private Property: No Trespassing", "x": 15, "y": 0 } ]

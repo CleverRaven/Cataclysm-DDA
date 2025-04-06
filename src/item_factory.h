@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Item_group;
 class Item_spawn_data;
@@ -29,6 +30,10 @@ namespace cata
 template <typename T> class value_ptr;
 }  // namespace cata
 
+/**
+ * Blacklists are an old way to remove items from the game.
+ * It doesn't change at runtime.
+ */
 bool item_is_blacklisted( const itype_id &id );
 
 using item_action_id = std::string;
@@ -229,6 +234,14 @@ class Item_factory
         void migrate_item_from_variant( item &obj, const std::string &from_variant );
 
         /**
+         * Add itype_id to m_runtimes.
+         *
+         * If the itype overrides an existing itype, the existing itype is deleted first.
+         * Return the newly created itype.
+         */
+        const itype *add_runtime( const itype_id &id, translation name, translation description ) const;
+
+        /**
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
@@ -253,13 +266,17 @@ class Item_factory
         void load_item_blacklist( const JsonObject &json );
 
         /** Get all item templates (both static and runtime) */
-        std::vector<const itype *> all() const;
-
-        /** Get item types created at runtime. */
-        std::vector<const itype *> get_runtime_types() const;
+        const std::vector<const itype *> &all() const;
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
+        /**
+         * All armor that can be used as a container. Much faster than iterating all items.
+         *
+         * Return begin and end iterators.
+         */
+        std::pair<std::vector<item>::const_iterator, std::vector<item>::const_iterator>
+        get_armor_containers( units::volume min_volume ) const;
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
@@ -272,12 +289,24 @@ class Item_factory
         std::unordered_map<itype_id, itype> m_templates;
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
+        /** Runtimes rarely change. Used for cache templates_all_cache for the all() method. */
+        mutable bool m_runtimes_dirty = true;
+        mutable std::vector<const itype *> templates_all_cache;
 
         using GroupMap = std::map<item_group_id, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
 
         std::unordered_map<itype_id, ammotype> migrated_ammo;
         std::unordered_map<itype_id, itype_id> migrated_magazines;
+
+        /**
+         * Cache for armor_containers.
+         *
+         * If `!armor_containers.empty()` then cache is valid. When valid they have the same size
+         * and `armor_containers[i]` has the biggest pocket volume equal to `volumes[i]`.
+         */
+        mutable std::vector<item> armor_containers;
+        mutable std::vector<units::volume> volumes;
 
         /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.
@@ -314,13 +343,6 @@ class Item_factory
         void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                                  std::string_view member, const std::string &src );
 
-        void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, std::string_view src );
 
         //json data handlers

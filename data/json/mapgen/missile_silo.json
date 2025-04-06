@@ -155,11 +155,11 @@
       },
       "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
       "items": {
-        "r": { "item": "trash_cart", "chance": 10, "repeat": 2 },
+        "r": { "item": "SUS_trash_floor_light", "chance": 10, "repeat": 2 },
         "l": { "item": "lab_dorm", "chance": 10, "repeat": 2 },
         "B": { "item": "bed", "chance": 5 },
-        "C": { "item": "trash", "chance": 10 },
-        "t": { "item": "trash", "chance": 5 },
+        "C": { "item": "SUS_trash_floor", "chance": 10 },
+        "t": { "item": "SUS_trash_floor", "chance": 5 },
         "b": { "item": "bunker_basement_books", "chance": 10, "repeat": 2 }
       },
       "item": { "e": { "item": "microwave", "chance": 20 } },
@@ -245,11 +245,11 @@
       },
       "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
       "items": {
-        "r": { "item": "trash_cart", "chance": 50 },
-        "C": { "item": "trash", "chance": 60 },
-        "d": { "item": "trash", "chance": 50 },
-        "b": { "item": "trash", "chance": 40, "repeat": 2 },
-        "5": { "item": "trash", "chance": 25, "repeat": 2 },
+        "r": { "item": "SUS_trash_floor_light", "chance": 50 },
+        "C": { "item": "SUS_trash_floor", "chance": 60 },
+        "d": { "item": "SUS_trash_floor", "chance": 50 },
+        "b": { "item": "SUS_trash_floor", "chance": 40, "repeat": 2 },
+        "5": { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
         "6": { "item": "plumbing_bulk", "chance": 10, "repeat": 2 },
         "7": { "item": "bunker_basement_food", "chance": 20, "repeat": 2 }
       },
@@ -410,10 +410,10 @@
       "toilets": { "@": {  } },
       "items": {
         "b": { "item": "army_bed", "chance": 5 },
-        "t": { "item": "trash_cart", "chance": 40 },
+        "t": { "item": "SUS_trash_floor_light", "chance": 40 },
         "l": { "item": "bunker_basement_clothing", "chance": 10 },
-        "L": [ { "item": "trash", "chance": 30 } ],
-        "r": [ { "item": "trash", "chance": 45 } ]
+        "L": [ { "item": "SUS_trash_floor", "chance": 30 } ],
+        "r": [ { "item": "SUS_trash_floor", "chance": 45 } ]
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
       "liquids": { "W": { "liquid": "water", "amount": [ 0, 20 ] } }

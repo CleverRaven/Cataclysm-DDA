@@ -221,6 +221,7 @@
       "{": "f_rack",
       "}": "f_bookcase"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {
@@ -246,7 +247,7 @@
       "w": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
       "Y": [ { "item": "jackets", "chance": 15 }, { "item": "hatstore_hats", "chance": 15 }, { "item": "winter", "chance": 10 } ],
       "^": { "item": "shelter", "chance": 30 },
-      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo", "chance": 5, "repeat": [ 3, 7 ] } ],
+      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo_common_boxed", "chance": 5, "repeat": [ 3, 7 ] } ],
       "}": { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }
     }
   },

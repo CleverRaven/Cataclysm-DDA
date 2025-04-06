@@ -332,6 +332,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_warped_strikes",
+    "name": [ "Warped Strikes" ],
+    "desc": [ "Your melee attacks travel further than the range of your weapons makes it seem like they should." ],
+    "show_in_info": true,
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],

@@ -344,14 +344,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
             debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
         }
     } else {
-        if( type->tool && type->tool->rand_charges.size() > 1 ) {
-            const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
-            const int charge_count = rng( type->tool->rand_charges[charge_roll - 1],
-                                          type->tool->rand_charges[charge_roll] );
-            ammo_set( ammo_default(), charge_count );
-        } else {
-            charges = type->charges_default();
-        }
+        charges = type->charges_default();
     }
 
     if( has_flag( flag_SPAWN_ACTIVE ) ) {
@@ -4086,7 +4079,7 @@ void item::pet_armor_protection_info( std::vector<iteminfo> &info,
     }
 }
 
-// simple struct used for organizing encumberance in an ordered set
+// simple struct used for organizing encumbrance in an ordered set
 struct armor_encumb_data {
     int encumb;
     int encumb_max;
@@ -5001,7 +4994,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet ebook recipes
-    if( is_estorage() && !is_broken_on_active() ) {
+    if( is_estorage() && !is_broken_on_active() && is_browsed() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
@@ -6051,28 +6044,41 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    // does the item fit in any holsters?
-    std::vector<const itype *> holsters = Item_factory::find( [this]( const itype & e ) {
-        if( !e.can_use( "holster" ) ) {
-            return false;
+    // Does the item fit into any armor?
+    std::vector<std::reference_wrapper<const item>> armor_containers;
+    auto /*std::vector<item>::const_iterator*/ [begin, end] =
+        item_controller->get_armor_containers( volume() );
+    for( std::vector<item>::const_iterator iter = begin; iter != end; ++iter ) {
+        if( iter->can_contain_directly( *this ).success() ) {
+            armor_containers.emplace_back( *iter );
         }
-        const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                   ( e.get_use( "holster" )->get_actor_ptr() );
-        const item holster_item( &e );
-        return ptr->can_holster( holster_item, *this ) && !item_is_blacklisted( holster_item.typeId() );
-    } );
+    }
 
-    if( !holsters.empty() && parts->test( iteminfo_parts::DESCRIPTION_HOLSTERS ) ) {
+    if( !armor_containers.empty() && parts->test( iteminfo_parts::DESCRIPTION_ARMOR_CONTAINERS ) ) {
         insert_separation_line( info );
-        std::vector<std::string> holsters_str;
-        holsters_str.reserve( holsters.size() );
-        for( const itype *e : holsters ) {
-            holsters_str.emplace_back( player_character.is_wearing( e->get_id() )
-                                       ? string_format( "<good>%s</good>", e->nname( 1 ) )
-                                       : e->nname( 1 ) );
+        const bool too_many_items = armor_containers.size() > 100;
+        std::vector<std::string> armor_containers_str;
+        for( const item &it : armor_containers ) {
+            // This sorts the green worn items in front of others, as '<' sorts before 'a', 'B' etc.
+            if( player_character.is_wearing( it.type->get_id() ) ) {
+                armor_containers_str.emplace_back( string_format( "<good>%s</good>", it.type->nname( 1 ) ) );
+            } else if( !too_many_items ) {
+                armor_containers_str.emplace_back( it.type->nname( 1 ) );
+            }
         }
-        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can be stored in</bold>: %s." ),
-                           enumerate_lcsorted_with_limit( holsters_str, 30 ) ) );
+        const int unworn_items = armor_containers.size() - armor_containers_str.size();
+        if( too_many_items && armor_containers_str.empty() ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in %d unworn wearables.</bold>" ), unworn_items ) );
+        } else if( too_many_items && unworn_items > 0 ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (worn)</bold>: %s.  And %d unworn wearables." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ), unworn_items ) );
+        } else {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (wearables)</bold>: %s." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ) ) );
+        }
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
@@ -6652,12 +6658,12 @@ void item::on_wear( Character &p )
             int rhs = 0;
             set_side( side::LEFT );
             for( const bodypart_id &bp : p.get_all_body_parts() ) {
-                lhs += p.get_part_encumbrance_data( bp ).encumbrance;
+                lhs += p.get_part_encumbrance( bp );
             }
 
             set_side( side::RIGHT );
             for( const bodypart_id &bp : p.get_all_body_parts() ) {
-                rhs += p.get_part_encumbrance_data( bp ).encumbrance;
+                rhs += p.get_part_encumbrance( bp );
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -7310,7 +7316,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     }
 
-    // prevent units::mass_max * 1.0, which results in -units::mass_max
+    // prevent units::mass::max() * 1.0, which results in -units::mass::max()
     if( ret_mul != 1 ) {
         ret *= ret_mul;
     }
@@ -7678,9 +7684,13 @@ damage_instance item::base_damage_thrown() const
 int item::reach_range( const Character &guy ) const
 {
     int res = 1;
+    int reach_attack_add = has_flag( flag_REACH_ATTACK ) ? has_flag( flag_REACH3 ) ? 2 : 1 : 0;
 
-    if( has_flag( flag_REACH_ATTACK ) ) {
-        res = has_flag( flag_REACH3 ) ? 3 : 2;
+    res += reach_attack_add;
+
+    if( !is_gun() ) {
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     // for guns consider any attached gunmods
@@ -7690,7 +7700,9 @@ int item::reach_range( const Character &guy ) const
                 continue;
             }
             if( m.second.melee() ) {
-                res = std::max( res, m.second.qty );
+                res = std::max( res, std::max( 1,
+                                               static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
+                                                       enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) ) );
             }
         }
     }
@@ -7706,6 +7718,11 @@ int item::current_reach_range( const Character &guy ) const
         res = has_flag( flag_REACH3 ) ? 3 : 2;
     } else if( is_gun() && !is_gunmod() && gun_current_mode().melee() ) {
         res = gun_current_mode().target->gun_range();
+    }
+
+    if( !is_gun() || ( is_gun() && !is_gunmod() && gun_current_mode().melee() ) ) {
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     if( is_gun() && !is_gunmod() ) {
@@ -9409,51 +9426,38 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     }
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const float armors_own_resist = resist( du.type, true, bp );
-    if( armors_own_resist > 1000.0f ) {
+    double armors_own_resist = resist( du.type, true, bp );
+    if( armors_own_resist > 1000.0 ) {
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
-    // Fragile items take damage if they block more than 15% of their armor value, this uses the pre-mitigated damage.
-    if( has_flag( flag_FRAGILE ) &&
-        premitigated.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
-        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
-               armor_status::DAMAGED;
-    }
+    /*
+    * Armor damage chance is calculated using the logistics function.
+    *  No matter the damage dealt, an armor piece has at at most 80% chance of being damaged.
+    *  Chance of damage is 40% when the premitigation damage is equal to armor*1.333
+    *  Sturdy items will not take damage if premitigation damage isn't higher than armor*1.333.
+    *
+    *  Non fragile items are considered to always have at least 10 points of armor, this is to prevent
+    *  regular clothes from exploding into ribbons whenever you get punched.
+    */
+    armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0,
+                        armors_own_resist * 1.3333 );
+    double damage_chance = 0.8 / ( 1.0 + std::exp( -( premitigated.amount - armors_own_resist ) ) ) *
+                           enchant_multiplier;
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
-    // before becoming ineffective or being destroyed.
-    const int num_parts_covered = get_covered_body_parts().count();
-    if( !one_in( num_parts_covered ) ) {
+    // before becoming ineffective or being destroyed
+    damage_chance = damage_chance / get_covered_body_parts().count();
+    if( has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist ) {
         return armor_status::UNDAMAGED;
+    } else if( x_in_y( damage_chance, 1.0 ) ) {
+        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+               armor_status::DAMAGED;
     }
-
-    // Don't damage armor as much when bypassed by armor piercing
-    // Most armor piercing damage comes from bypassing armor, not forcing through
-    const float post_mitigated_dmg = du.amount;
-    // more gradual damage chance calc
-    const float damaged_chance = ( 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1 ) *
-                                 enchant_multiplier;
-    if( post_mitigated_dmg > armors_own_resist ) {
-        // handle overflow, if you take a lot of damage your armor should be damaged
-        if( damaged_chance >= 1 ) {
-            return armor_status::DAMAGED;
-        }
-        if( one_in( 1 / ( 1 - damaged_chance ) ) ) {
-            return armor_status::UNDAMAGED;
-        }
-    } else {
-        // Sturdy items and power armors never take chip damage.
-        // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if( has_flag( flag_STURDY ) || is_power_armor() || !one_in( 200 ) ) {
-            return armor_status::UNDAMAGED;
-        }
-    }
-
-    return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
-           armor_status::DAMAGED;
+    return armor_status::UNDAMAGED;
 }
+
 
 item::armor_status item::damage_armor_transforms( damage_unit &du, double enchant_multiplier ) const
 {
@@ -10010,7 +10014,7 @@ bool item::is_food_container() const
 
 bool item::has_temperature() const
 {
-    return is_comestible() || is_corpse();
+    return ( is_comestible() && !has_flag( flag_NO_TEMP ) )  || is_corpse();
 }
 
 bool item::is_corpse() const
@@ -10697,6 +10701,16 @@ ret_val<void> item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
+ret_val<void> item::can_contain_partial( const item &it, int &copies_remaining,
+        bool nested ) const
+{
+    item i_copy = it;
+    if( i_copy.count_by_charges() ) {
+        i_copy.charges = 1;
+    }
+    return can_contain( i_copy, copies_remaining, nested );
+}
+
 ret_val<void> item::can_contain_partial_directly( const item &it ) const
 {
     item i_copy = it;
@@ -10708,10 +10722,10 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
-        const bool nested, bool ignore_rigidity )
+        const bool nested, bool ignore_rigidity, bool allow_nested )
 {
     return contents.best_pocket( it, this_loc, avoid, allow_sealed, ignore_settings,
-                                 nested, ignore_rigidity );
+                                 nested, ignore_rigidity, allow_nested );
 }
 
 bool item::spill_contents( Character &c )
@@ -12709,6 +12723,11 @@ units::mass item::get_used_holster_weight() const
     return contents.get_used_holster_weight();
 }
 
+units::volume item::get_biggest_pocket_capacity() const
+{
+    return contents.biggest_pocket_capacity();
+}
+
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
@@ -12935,6 +12954,7 @@ int item::fill_with( const item &contained, const int amount,
                      const bool allow_sealed,
                      const bool ignore_settings,
                      const bool into_bottom,
+                     const bool allow_nested,
                      Character *carrier )
 {
     if( amount <= 0 ) {
@@ -12957,7 +12977,7 @@ int item::fill_with( const item &contained, const int amount,
                 contained_item.charges = 1;
             }
             pocket = best_pocket( contained_item, loc, /*avoid=*/nullptr, allow_sealed,
-                                  ignore_settings ).second;
+                                  ignore_settings, false, false, allow_nested ).second;
         }
         if( pocket == nullptr ) {
             break;
@@ -13415,7 +13435,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             temp = std::max( temp, temperatures::normal );
             break;
         case temperature_flag::ROOT_CELLAR:
-            temp = AVERAGE_ANNUAL_TEMPERATURE;
+            temp = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             break;
         default:
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
@@ -13468,7 +13488,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             if( pos.z() >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
                 env_temperature = wgen.get_weather_temperature( get_map().get_abs( pos ), time, seed );
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                env_temperature = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             }
             env_temperature += temp_mod;
 
@@ -13486,7 +13506,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
                     env_temperature = std::max( env_temperature, temperatures::normal );
                     break;
                 case temperature_flag::ROOT_CELLAR:
-                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                    env_temperature =  units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
                     break;
                 default:
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
@@ -15472,7 +15492,7 @@ bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 
     avatar &player_character = get_avatar();
 
-    return type->drop_action && type->drop_action.call( &player_character, *this, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, &m, pos );
 }
 
 time_duration item::age() const
@@ -16032,15 +16052,10 @@ void disp_mod_by_barrel::deserialize( const JsonObject &jo )
     mandatory( jo, false, "dispersion", dispersion_modifier );
 }
 
-void rot_spawn_data::load( const JsonObject &jo )
+void rot_spawn_data::deserialize( const JsonObject &jo )
 {
     optional( jo, false, "monster", rot_spawn_monster, mtype_id::NULL_ID() );
     optional( jo, false, "group", rot_spawn_group, mongroup_id::NULL_ID() );
     optional( jo, false, "chance", rot_spawn_chance );
     optional( jo, false, "amount", rot_spawn_monster_amount, {1, 1} );
-}
-
-void rot_spawn_data::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }

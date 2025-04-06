@@ -168,6 +168,20 @@
     "color": "green"
   },
   {
+    "id": "schematics_panaceus",
+    "type": "BOOK",
+    "name": { "str_sp": "compound XV471 schematics" },
+    "description": "This document details the chemical process necessary to create what it calls Compound XV471, which it claims is a pharmaceutical treatment for a wide variety of ills.  According to this, it acts as a near-universal antivenin, an antifungal, an antiparasitic, an antibiotic, cures several common diseases such as influenza or the common cold, improves the immune system generally, and even increases strength, agility, and overall bodily function.  You would think it was too good to be true if you hadn't seen so many other bizarre things since the Cataclysm.",
+    "copy-from": "schematics_generic",
+    "skill": "chemistry",
+    "required_level": 6,
+    "max_level": 6,
+    "intelligence": 12,
+    "time": "60 m",
+    "symbol": "ç",
+    "color": "white"
+  },
+  {
     "id": "schematics_noetic_resilience",
     "type": "BOOK",
     "name": { "str_sp": "noetic resilience treatment schematics" },

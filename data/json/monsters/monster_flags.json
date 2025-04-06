@@ -565,6 +565,16 @@
     "//": "This monster can inflict the vampire_virus effect"
   },
   {
+    "id": "COPY_SUMMONER_LOOK",
+    "type": "monster_flag",
+    "//": "If was summoned by someone, copies the texture of it's summoner."
+  },
+  {
+    "id": "COPY_AVATAR_LOOK",
+    "type": "monster_flag",
+    "//": "Always looks like an avatar (character you play right now)."
+  },
+  {
     "id": "ALWAYS_VISIBLE",
     "type": "monster_flag",
     "//": "This monster can always be seen regardless of los or light or anything"

@@ -175,19 +175,11 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_milbot_556",
+    "id": "broken_imaginifer",
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken Imaginifer",
     "description": "A broken military humaniform, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_milbot_needle",
-    "copy-from": "broken_milbot_disarmed",
-    "color": "light_gray",
-    "name": "broken Hashashiyyin",
-    "description": "A broken Hashashiyyin, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -204,14 +196,6 @@
     "color": "pink",
     "name": "broken floating heater",
     "description": "A broken floating heater, now cold and motionless.  Could be stripped down or re-crafted."
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_defbot_shot",
-    "copy-from": "broken_defbot_disarmed",
-    "color": "light_gray",
-    "name": { "str": "broken Aegis", "str_pl": "broken Aegises" },
-    "description": "A broken defense robot.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",

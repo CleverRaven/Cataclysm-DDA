@@ -90,7 +90,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_appliance.h"
@@ -1130,7 +1130,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, map *here,
 
     const std::optional<tripoint_bub_ms> target_pos =
     random_point( target_range, [here]( const tripoint_bub_ms & t ) {
-        return here->passable( t ) && here->has_floor_or_support( t ) &&
+        return here->passable_through( t ) &&
                !get_creature_tracker().creature_at( t );
     } );
 

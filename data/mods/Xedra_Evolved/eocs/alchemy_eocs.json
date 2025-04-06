@@ -2,15 +2,20 @@
   {
     "type": "effect_on_condition",
     "id": "become_fire_fae",
+    "//": "Each potion is one trait",
     "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
     "effect": [
+      { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
       {
-        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to fire.",
-        "type": "good"
+        "if": { "not": { "u_has_any_trait": [ "FALSE_ARVORE_HATRED", "FALSE_HOMULLUS_HATRED" ] } },
+        "then": { "u_add_trait": "FALSE_SALAMANDER_HATRED" },
+        "else": { "u_add_trait": "FAE_ENMITY" }
       },
-      { "u_add_trait": "SALAMANDER" },
-      { "u_learn_recipe": "mutagen_flamekin" },
-      { "u_learn_recipe": "charred_sacrifice" }
+      { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_flamekin')", "-=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
     ],
     "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
   },
@@ -22,7 +27,7 @@
     "effect": [
       { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
       {
-        "if": { "not": { "u_has_any_trait": [ "FALSE_ARVORE_HATRED" ] } },
+        "if": { "not": { "u_has_any_trait": [ "FALSE_ARVORE_HATRED", "FALSE_SALAMANDER_HATRED" ] } },
         "then": { "u_add_trait": "FALSE_HOMULLUS_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },
@@ -83,7 +88,7 @@
     "effect": [
       { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
       {
-        "if": { "not": { "u_has_any_trait": [ "FALSE_HOMULLUS_HATRED" ] } },
+        "if": { "not": { "u_has_any_trait": [ "FALSE_HOMULLUS_HATRED", "FALSE_SALAMANDER_HATRED" ] } },
         "then": { "u_add_trait": "FALSE_ARVORE_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },

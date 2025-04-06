@@ -475,7 +475,7 @@ units::mass advanced_inventory_pane::free_weight_capacity() const
     } else if( area == AIM_INVENTORY || area == AIM_WORN ) {
         return get_player_character().free_weight_capacity();
     } else {
-        return units::mass_max;
+        return units::mass::max();
     }
 }
 

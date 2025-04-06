@@ -114,6 +114,8 @@ class editmap
 
         point tmax;
 
+        bool run_post_process = true;
+
         void draw_main_ui_overlay();
         void do_ui_invalidation();
 

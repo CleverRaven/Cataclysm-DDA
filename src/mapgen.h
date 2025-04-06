@@ -321,6 +321,12 @@ struct mapgen_constraint {
     T value;
 };
 
+namespace debug_palettes
+{
+
+void debug_view_all_palettes();
+} // namespace debug_palettes
+
 class mapgen_palette
 {
     public:

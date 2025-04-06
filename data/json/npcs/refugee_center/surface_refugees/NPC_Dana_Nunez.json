@@ -453,10 +453,7 @@
     "responses": [
       {
         "text": "Why not?  I'll see what I can do.",
-        "effect": [
-          { "assign_mission": "MISSION_REFUGEE_Dana_Sourdough" },
-          { "u_add_var": "mission_flag_Dana_Sourdough", "value": "yes" }
-        ],
+        "effect": [ { "add_mission": "MISSION_REFUGEE_Dana_Sourdough" }, { "u_add_var": "mission_flag_Dana_Sourdough", "value": "yes" } ],
         "topic": "TALK_DANA_Sourdough2"
       },
       { "text": "Maybe not right now.  <end_talking_leave>", "topic": "TALK_DONE" }

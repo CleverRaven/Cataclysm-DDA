@@ -472,55 +472,6 @@
     "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "jeans_red",
-    "type": "ARMOR",
-    "name": { "str_sp": "red jeans" },
-    "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
-    "weight": "600 g",
-    "volume": "2 L",
-    "price": "50 USD",
-    "price_postapoc": "1 USD 50 cent",
-    "material": [ "denim" ],
-    "symbol": "[",
-    "looks_like": "jeans",
-    "color": "red",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "19 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "19 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1080 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "165 mm",
-        "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1080 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "165 mm",
-        "moves": 100
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 0.65,
-    "//": "Lightweight 10 oz denim jeans.",
-    "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
-  },
-  {
     "id": "kilt",
     "type": "ARMOR",
     "name": { "str": "kilt" },

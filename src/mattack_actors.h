@@ -175,7 +175,7 @@ class melee_actor : public mattack_actor
         /** Message for throwing a non-player. */
         translation throw_msg_npc;
 
-        melee_actor();
+        melee_actor() = default;
         ~melee_actor() override = default;
 
         virtual Creature *find_target( monster &z ) const;

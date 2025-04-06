@@ -84,7 +84,7 @@
         "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
         "condition": {
           "and": [
-            { "math": [ "godco_freemerch_representative_dead != 0" ] },
+            { "math": [ "godco_freemerch_representative_dead != 1" ] },
             { "compare_string": [ "yes", { "u_val": "general_trade_u_think_suspicious_price" } ] },
             { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
           ]
@@ -95,7 +95,7 @@
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
           "and": [
-            { "math": [ "godco_freemerch_representative_dead != 0" ] },
+            { "math": [ "godco_freemerch_representative_dead != 1" ] },
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
             { "u_has_item": "godcotrader_accounting_records_dirty" }
           ]
@@ -106,7 +106,7 @@
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
           "and": [
-            { "not": { "math": [ "godco_freemerch_representative_dead == 0" ] } },
+            { "math": [ "godco_freemerch_representative_dead != 1" ] },
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
             { "u_has_item": "godcotrader_accounting_records_clean" }
           ]

@@ -30,7 +30,7 @@
 #include "string_input_popup.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 safemode &get_safemode()

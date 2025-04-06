@@ -84,7 +84,7 @@
         "F": { "item": "SUS_office_filing_cabinet", "chance": 75 },
         "f": { "item": "mail_postal", "chance": 75, "repeat": [ 1, 12 ] },
         "@": { "item": "packaging_postal", "chance": 75, "repeat": [ 1, 6 ] },
-        "Y": { "item": "trash", "chance": 50, "repeat": [ 2, 4 ] },
+        "Y": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 2, 4 ] },
         "%": { "item": "snacks", "chance": 50, "repeat": [ 2, 4 ] }
       },
       "place_signs": [ { "signage": "SHIPPING SUPPLIES", "x": 13, "y": 19 } ],
@@ -227,11 +227,12 @@
       "items": {
         "l": [ { "item": "clothing_outdoor_torso", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "X": [ { "item": "antique", "chance": 50 }, { "item": "art", "chance": 50 }, { "item": "jewelry_safe", "chance": 10 } ],
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "SUS_office_desk", "chance": 33 },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 75 },
         "f": { "item": "mail_postal", "chance": 75, "repeat": [ 1, 12 ] },
         "@": { "item": "packaging_postal", "chance": 75, "repeat": [ 1, 6 ] },
-        "&": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "toilets": { "T": {  } },
       "place_loot": [ { "group": "cash_register_random", "x": [ 9, 11 ], "y": 15 } ]

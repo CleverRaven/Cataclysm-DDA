@@ -907,6 +907,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_dice_addition_damage",
+    "name": { "str": "Damage dice" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_moonstruck",
     "name": { "str": "Moonstruck" },
     "points": 0,

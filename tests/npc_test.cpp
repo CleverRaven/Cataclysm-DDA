@@ -49,8 +49,8 @@ class Creature;
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_bat( "bat" );
@@ -621,7 +621,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
     // Now give them a TON of junk
-    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
+    for( item &some_trash : item_group::items_from( Item_spawn_data_SUS_trash_forest_manmade ) ) {
         hostile.i_add( some_trash );
     }
     hostile.wield_better_weapon();

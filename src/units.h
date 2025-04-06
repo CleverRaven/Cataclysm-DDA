@@ -55,6 +55,15 @@ class quantity
             value_( other.value() ) {
         }
 
+        //returns the smallest possible value for this unit
+        static constexpr this_type min() {
+            return this_type( std::numeric_limits<value_type>::min(), unit_type{} );
+        }
+        //returns the largest possible value for this unit
+        static constexpr this_type max() {
+            return this_type( std::numeric_limits<value_type>::max(), unit_type{} );
+        }
+
         /**
          * Access the raw dimensionless value. Use it in a properly named wrapper function only.
          */
@@ -294,12 +303,6 @@ operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 /**@}*/
 
-const volume volume_min = units::volume( std::numeric_limits<units::volume::value_type>::min(),
-                          units::volume::unit_type{} );
-
-const volume volume_max = units::volume( std::numeric_limits<units::volume::value_type>::max(),
-                          units::volume::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, volume_in_milliliter_tag> from_milliliter(
     const value_type v )
@@ -323,12 +326,6 @@ inline constexpr double to_liter( const volume &v )
 {
     return v.value() / 1000.0;
 }
-
-const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
-                                   units::mass::unit_type{} );
-
-const mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>::max(),
-                                   units::mass::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
@@ -368,13 +365,6 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000000.0;
 }
 
-// Specific energy
-const specific_energy specific_energy_min = units::specific_energy(
-            std::numeric_limits<units::specific_energy::value_type>::min(), units::specific_energy::unit_type{} );
-
-const specific_energy specific_energy_max = units::specific_energy(
-            std::numeric_limits<units::specific_energy::value_type>::max(), units::specific_energy::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, specific_energy_in_joule_per_gram_tag>
 from_joule_per_gram( const value_type v )
@@ -389,13 +379,6 @@ inline constexpr value_type to_joule_per_gram( const
 {
     return v.value();
 }
-
-// Temperature
-// Absolute zero - possibly should just be INT_MIN
-const temperature temperature_min = units::temperature( 0, units::temperature::unit_type{} );
-
-const temperature temperature_max = units::temperature(
-                                        std::numeric_limits<units::temperature::value_type>::max(), units::temperature::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_kelvin(
@@ -454,15 +437,6 @@ inline constexpr int to_legacy_bodypart_temp( const
     const auto c = units::to_celsius( v );
     return static_cast<int>( ( c - 37.0 ) * 500.0 + 5000.0 );
 }
-
-// Temperature delta
-// Absolute zero - possibly should just be INT_MIN
-const temperature_delta temperature_delta_min = units::temperature_delta( 0,
-        units::temperature_delta::unit_type{} );
-
-const temperature_delta temperature_delta_max = units::temperature_delta(
-            std::numeric_limits<units::temperature_delta::value_type>::max(),
-            units::temperature_delta::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
@@ -524,13 +498,6 @@ inline constexpr int to_legacy_bodypart_temp_delta( const
 }
 
 // Energy
-
-const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
-                          units::energy::unit_type{} );
-
-const energy energy_max = units::energy( std::numeric_limits<units::energy::value_type>::max(),
-                          units::energy::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
     const value_type v )
@@ -578,13 +545,6 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
 }
 
 // Power (watts)
-
-const power power_min = units::power( std::numeric_limits<units::power::value_type>::min(),
-                                      units::power::unit_type{} );
-
-const power power_max = units::power( std::numeric_limits<units::power::value_type>::max(),
-                                      units::power::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, power_in_milliwatt_tag> from_milliwatt(
     const value_type v )
@@ -632,13 +592,6 @@ inline constexpr value_type to_kilowatt( const quantity<value_type, power_in_mil
 }
 
 // Money(cents)
-
-const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
-                                      units::money::unit_type{} );
-
-const money money_max = units::money( std::numeric_limits<units::money::value_type>::max(),
-                                      units::money::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, money_in_cent_tag> from_cent(
     const value_type v )
@@ -675,12 +628,6 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
 {
     return to_usd( v ) / 1000.0;
 }
-
-const length length_min = units::length( std::numeric_limits<units::length::value_type>::min(),
-                          units::length::unit_type{} );
-
-const length length_max = units::length( std::numeric_limits<units::length::value_type>::max(),
-                          units::length::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> from_millimeter(

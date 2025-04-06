@@ -7,7 +7,7 @@
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of steel.",
     "weight": "25 kg",
     "volume": "15 L",
-    "material": [ "qt_steel" ],
+    "material": [ "afs_steel" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
@@ -16,13 +16,13 @@
     "non_functional": "damaged_exo_torso_steel",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "afs_steel", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 5
       },
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "afs_steel", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
@@ -40,13 +40,13 @@
     "non_functional": "destroyed_exo_helmet_steel",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "afs_steel", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "torso" ],
         "coverage": 85,
         "encumbrance": 5
       },
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "afs_steel", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 85,
@@ -130,17 +130,17 @@
     "name": { "str": "carbide torso plate (exosuit)", "str_pl": "carbide torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of vacuum-cast carbide.",
     "weight": "50 kg",
-    "material": [ "vacuum_carbide" ],
+    "material": [ "vacuum_carbide_hard" ],
     "non_functional": "damaged_exo_torso_vcc",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 5
       },
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
@@ -160,13 +160,13 @@
     "non_functional": "destroyed_exo_torso_vcc",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "torso" ],
         "coverage": 85,
         "encumbrance": 5
       },
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 85,

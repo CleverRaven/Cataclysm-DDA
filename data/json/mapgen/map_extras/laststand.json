@@ -4,10 +4,10 @@
     "id": "GROUP_LAST_STAND",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_civilian_police", "weight": 1, "cost_multiplier": 1, "ends": "5 days" },
-      { "monster": "mon_civilian_police_rifle", "weight": 1, "cost_multiplier": 1, "ends": "5 days" },
-      { "monster": "mon_civilian_zombiefighter", "weight": 4, "cost_multiplier": 1, "ends": "5 days" },
-      { "monster": "mon_civilian_zombiegunner", "weight": 4, "cost_multiplier": 1, "ends": "5 days" }
+      { "monster": "mon_civilian_police", "weight": 1, "cost_multiplier": 1, "ends": "20 days" },
+      { "monster": "mon_civilian_police_rifle", "weight": 1, "cost_multiplier": 1, "ends": "20 days" },
+      { "monster": "mon_civilian_zombiefighter", "weight": 4, "cost_multiplier": 1, "ends": "20 days" },
+      { "monster": "mon_civilian_zombiegunner", "weight": 4, "cost_multiplier": 1, "ends": "20 days" }
     ]
   },
   {
@@ -69,7 +69,7 @@
         ]
       },
       "place_monster": [ { "group": "GROUP_LAST_STAND", "x": [ 6, 17 ], "y": [ 6, 16 ], "chance": 100, "repeat": [ 10, 15 ] } ],
-      "place_loot": [ { "group": "trash", "x": [ 6, 17 ], "y": [ 6, 16 ], "repeat": [ 5, 10 ] } ],
+      "place_loot": [ { "group": "SUS_trash_floor", "x": [ 6, 17 ], "y": [ 6, 16 ], "repeat": [ 5, 10 ] } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }

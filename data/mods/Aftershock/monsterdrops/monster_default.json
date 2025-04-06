@@ -51,7 +51,7 @@
           { "item": "handrolled_cig", "prob": 10 },
           { "item": "nic_gum", "prob": 20 },
           { "item": "ecig", "prob": 15 },
-          { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 },
+          { "collection": [ { "item": "advanced_ecig" }, { "group": "nicotine_liquid_bottle_part" } ], "prob": 10 },
           { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 }
         ],
         "prob": 50

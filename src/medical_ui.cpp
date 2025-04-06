@@ -431,7 +431,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
         // INFECTED block
         if( infected ) {
             const effect infected_effect = you.get_effect( effect_infected, part );
-            detail += string_format( _( "[ %s ]" ), colorize( _( "INFECTED" ), c_pink ) );
+            detail += string_format( _( "[ %s ]" ), colorize( _( "SEPTIC" ), c_pink ) );
             description += string_format( "[ %s ] - %s\n",
                                           colorize( infected_effect.get_speed_name(), c_pink ),
                                           infected_effect.disp_short_desc() );
@@ -451,7 +451,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
                 continue;
             }
 
-            float injury_score = bp->get_limb_score( sc.getId(), 0, 0, 1 );
+            float injury_score = bp->get_limb_score( you, sc.getId(), 0, 0, 1 );
             float max_score = part->get_limb_score( sc.getId() );
 
             if( injury_score < max_score ) {
@@ -486,7 +486,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
                     continue;
                 }
                 std::string desc = mod.description().translated();
-                float injury_score = bp->get_limb_score( sc.first, 0, 0, 1 );
+                float injury_score = bp->get_limb_score( you, sc.first, 0, 0, 1 );
                 float max_score = part->get_limb_score( sc.first );
                 nc_color score_c;
 

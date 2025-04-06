@@ -738,6 +738,7 @@
     "purifiable": false,
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
     "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
     "activation_msg": ""
   },
   {
@@ -802,6 +803,16 @@
     "id": "FLEET",
     "copy-from": "FLEET",
     "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LOVES_SHINY_OBJECTS",
+    "name": { "str": "Chrysophilia" },
+    "points": -3,
+    "//": "Name just means 'lover of gold' but at least it fits the format of other negative traits",
+    "description": "You need to have shiny objects on your person or you just can't concentrate very well.  You suffer a morale penalty unless you're wearing at least six items made of gold or silver.",
+    "purifiable": false,
+    "category": [ "SPECIES_RAVENFOLK" ]
   },
   {
     "type": "mutation",

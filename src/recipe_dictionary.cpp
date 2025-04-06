@@ -374,7 +374,7 @@ std::vector<const recipe *> recipe_subset::search(
         case search_type::length: {
             units::length len = can_contain_filter(
                                     "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
-                                    txt, units::length_max, units::length_units );
+                                    txt, units::length::max(), units::length_units );
 
             filtered_fake_itype.longest_side = len;
             filtered_fake_item = item( &filtered_fake_itype );
@@ -385,7 +385,7 @@ std::vector<const recipe *> recipe_subset::search(
         case search_type::volume: {
             units::volume vol = can_contain_filter(
                                     "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
-                                    txt, units::volume_max, units::volume_units );
+                                    txt, units::volume::max(), units::volume_units );
 
             filtered_fake_itype.volume = vol;
             filtered_fake_item = item( &filtered_fake_itype );
@@ -394,7 +394,7 @@ std::vector<const recipe *> recipe_subset::search(
         case search_type::mass: {
             units::mass mas = can_contain_filter(
                                   "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
-                                  txt, units::mass_max, units::mass_units );
+                                  txt, units::mass::max(), units::mass_units );
 
             filtered_fake_itype.weight = mas;
             filtered_fake_item = item( &filtered_fake_itype );

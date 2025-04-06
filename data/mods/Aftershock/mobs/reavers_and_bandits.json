@@ -28,7 +28,8 @@
         "targeting_volume": 20,
         "no_ammo_sound": "a chk!"
       }
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "afs_mon_reaver_rifle",
@@ -60,6 +61,7 @@
         "targeting_volume": 20,
         "no_ammo_sound": "a chk!"
       }
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   }
 ]

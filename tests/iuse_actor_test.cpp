@@ -176,14 +176,14 @@ static void cut_up_yields( const itype_id &target )
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
-    units::mass smallest_yield_mass = units::mass_max;
+    units::mass smallest_yield_mass = units::mass::max();
     for( const auto &mater : target_materials ) {
         if( const std::optional<itype_id> item_id = mater.first->salvaged_into() ) {
             units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
             smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );
         }
     }
-    REQUIRE( smallest_yield_mass != units::mass_max );
+    REQUIRE( smallest_yield_mass != units::mass::max() );
 
     units::mass cut_up_target_mass = cut_up_target.weight();
     item &spawned_item = here.add_item_or_charges( guy.pos_bub(), cut_up_target );

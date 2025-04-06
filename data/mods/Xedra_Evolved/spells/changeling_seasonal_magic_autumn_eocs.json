@@ -122,5 +122,22 @@
       { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
       { "math": [ "magic_weather_dense_fog = 0" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_FREEZE_IN_PLACE",
+    "effect": [
+      { "u_add_effect": "effect_changeling_autumn_freeze_in_place_target", "duration": "PERMANENT" },
+      { "npc_add_effect": "effect_changeling_autumn_freeze_in_place_self", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER", "time_in_future": 0, "alpha_talker": "npc" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_FREEZE_IN_PLACE_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_changeling_autumn_freeze_in_place_self", { "context_val": "effect" } ] },
+    "effect": [ { "u_cast_spell": { "id": "changeling_autumn_freeze_in_place_remover" } } ]
   }
 ]

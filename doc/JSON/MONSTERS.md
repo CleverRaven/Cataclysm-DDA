@@ -81,6 +81,7 @@ Property                 | Description
 `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
+`broken_itype`           | (string) Item that will spawn when the monster dies with `corpse_type` set to `BROKEN`. Can be left empty to create a `broken_` item based on the monster's `id`. 
 `mech_weapon`            | (string) If this monster is a rideable mech with built-in weapons, this is the weapons id
 `mech_str_bonus`         | (integer) If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player when ridden
 `mech_battery`           | (string) If this monster is a rideable mech, this is battery's id. Does not support objects or arrays (i.e. ONE battery id only)
@@ -533,7 +534,7 @@ The upgrades object may have the following members:
 
 Field               | Description
 ---                 | ---
-`half_life`         | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
+`half_life`         | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor which defaults to 1.
 `into_group`        | (string, optional) The upgraded monster's type is taken from the specified group.
 `into`              | (string, optional) The upgraded monster's type.
 `age_grow`          | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.

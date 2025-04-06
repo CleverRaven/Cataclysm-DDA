@@ -64,8 +64,8 @@
         { "group": "GROUP_SMALL_STATION", "x": [ 24, 47 ], "y": [ 24, 47 ], "chance": 35, "repeat": [ 1, 4 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "golf_cart", "x": 106, "y": 20, "chance": 100, "rotation": 90 },
-        { "vehicle": "golf_cart", "x": 110, "y": 20, "chance": 100, "rotation": 90 },
+        { "vehicle": "golf_cart", "x": 106, "y": 20, "rotation": 90 },
+        { "vehicle": "golf_cart", "x": 110, "y": 20, "rotation": 90 },
         { "vehicle": "helicopters", "chance": 40, "fuel": -1, "rotation": 180, "status": -1, "x": 32, "y": 36 }
       ],
       "place_loot": [ { "group": "cash_register_random", "x": 99, "y": [ 20, 21 ] } ]
@@ -344,17 +344,18 @@
       "o": { "item": "SUS_oven", "chance": 70 },
       "y": { "item": "SUS_janitors_closet", "chance": 100 },
       "Y": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 4 ] },
-      "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] },
+      "a": { "item": "SUS_trash_trashcan_public", "chance": 70, "repeat": [ 2, 5 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "F": { "item": "SUS_office_filing_cabinet", "chance": 50 },
       "l": { "item": "clothing_work_set", "chance": 70 },
       "r": { "item": "mechanics", "chance": 30, "repeat": [ 1, 2 ] },
       "k": { "item": "mechanics", "chance": 40, "repeat": [ 1, 3 ] },
-      "D": { "item": "trash", "chance": 70, "repeat": [ 3, 6 ] },
+      "D": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 3, 6 ] },
       "O": [
         { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] }
-      ]
+      ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
     "vehicles": {

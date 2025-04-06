@@ -39,6 +39,14 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 15, "357sig": 15 } } ]
   },
   {
+    "id": "glock40mag_10",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock .40 S&W/.357 SIG 10-round magazine" },
+    "description": "A compact, light-weight polymer magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.  It has been limited to 10 rounds to comply with firearm laws.",
+    "copy-from": "glock40mag",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 10, "357sig": 10 } } ]
+  },
+  {
     "id": "px4_40mag",
     "//": "Audited with ImageJ.  Weight from Beretta 12rd ratio.",
     "looks_like": "glock17_17",
@@ -57,6 +65,16 @@
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 14 } } ]
+  },
+  {
+    "id": "px4_40mag_10",
+    "//": "Audited with ImageJ.  Weight from Beretta 12rd ratio.",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Px4 .40 S&W 10-round magazine" },
+    "description": "A magazine for the Px4 Storm chambered for .40 S&W.  It holds 10 rounds.",
+    "copy-from": "px4_40mag",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 10 } } ]
   },
   {
     "id": "sig40mag",

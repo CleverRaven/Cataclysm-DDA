@@ -777,7 +777,7 @@ static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry
                 if( const std::optional<tripoint_bub_ms> spawn_point =
                         random_point( points_in_radius( p, int_level.monster_spawn_radius ),
                 [&pd]( const tripoint_bub_ms & n ) {
-                return pd.here.passable( n );
+                return pd.here.passable_through( n );
                 } ) ) {
                     const tripoint_bub_ms pt = spawn_point.value();
                     pd.here.add_spawn( mgr, pt );
@@ -1693,7 +1693,7 @@ void map::player_in_field( Character &you )
                 if( rng( 0, 2 ) < cur.get_field_intensity() && you.is_avatar() ) {
                     add_msg( m_bad, _( "You're violently teleported!" ) );
                     you.hurtall( cur.get_field_intensity(), nullptr );
-                    teleport::teleport( you );
+                    teleport::teleport_creature( you );
                 }
             }
         }
@@ -2009,7 +2009,7 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
-                teleport::teleport( z );
+                teleport::teleport_creature( z );
             }
         }
         if( cur_field_type == fd_incendiary ) {

@@ -116,6 +116,7 @@
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "etransfer_rate": "140 MB",
     "e_port": "phone",
+    "variables": { "browsed": "true" },
     "pocket_data": [
       {
         "pocket_type": "E_FILE_STORAGE",

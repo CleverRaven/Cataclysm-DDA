@@ -4,7 +4,7 @@
     "method": "json",
     "update_mapgen_id": "mx_prison_bus",
     "object": {
-      "place_vehicles": [ { "vehicle": "bus_prison", "x": 17, "y": 6, "chance": 100, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "bus_prison", "x": 17, "y": 6, "rotation": 270 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 5 ], "density": 0.1 },
         { "monster": "GROUP_ZOMBIE_COP", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 }
@@ -16,7 +16,7 @@
     "method": "json",
     "update_mapgen_id": "mx_prison_bus",
     "object": {
-      "place_vehicles": [ { "vehicle": "bus_prison", "x": 5, "y": 15, "chance": 100, "rotation": 180 } ],
+      "place_vehicles": [ { "vehicle": "bus_prison", "x": 5, "y": 15, "rotation": 180 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 5 ], "density": 0.1 },
         { "monster": "GROUP_ZOMBIE_COP", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 }
@@ -29,8 +29,8 @@
     "update_mapgen_id": "mx_prison_bus",
     "object": {
       "place_vehicles": [
-        { "vehicle": "bus_prison", "x": 12, "y": 12, "chance": 100, "rotation": 270 },
-        { "vehicle": "highway", "x": 11, "y": 11, "chance": 100, "rotation": 90 }
+        { "vehicle": "bus_prison", "x": 12, "y": 12, "rotation": 270 },
+        { "vehicle": "highway", "x": 11, "y": 11, "rotation": 90 }
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 5 ], "density": 0.1 },

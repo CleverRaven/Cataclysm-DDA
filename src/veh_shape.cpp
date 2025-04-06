@@ -21,7 +21,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "veh_type.h"

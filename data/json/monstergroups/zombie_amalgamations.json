@@ -3,16 +3,16 @@
     "id": "GROUP_COCOON_TINY",
     "type": "monstergroup",
     "//": "All cocoon groups have a token mon_null spawn, increase its weight if they turn out to be too common",
-    "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_amalgamation_swarmer", "weight": 1, "starts": "2 days" } ]
+    "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_amalgamation_swarmer", "weight": 1, "starts": "8 days" } ]
   },
   {
     "id": "GROUP_COCOON_SMALL",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
-      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 1, "starts": "2 days" },
-      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 2, 2 ], "starts": "7 days" },
-      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 3, 3 ], "starts": "28 days" }
+      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 1, "starts": "8 days" },
+      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 2, 2 ], "starts": "28 days" },
+      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 3, 3 ], "starts": "112 days" }
     ]
   },
   {
@@ -20,8 +20,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
-      { "group": "GROUP_COCOON_MED_2", "weight": 1, "starts": "2 days" },
-      { "group": "GROUP_COCOON_MED_2", "weight": 1, "pack_size": [ 2, 2 ], "starts": "14 days" }
+      { "group": "GROUP_COCOON_MED_2", "weight": 1, "starts": "8 days" },
+      { "group": "GROUP_COCOON_MED_2", "weight": 1, "pack_size": [ 2, 2 ], "starts": "56 days" }
     ]
   },
   {
@@ -29,8 +29,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
-      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 2, 2 ], "starts": "2 days" },
-      { "group": "GROUP_AMALGAMATION_MED", "weight": 2, "pack_size": [ 3, 3 ], "starts": "14 days" }
+      { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 2, 2 ], "starts": "8 days" },
+      { "group": "GROUP_AMALGAMATION_MED", "weight": 2, "pack_size": [ 3, 3 ], "starts": "56 days" }
     ]
   },
   {
@@ -39,9 +39,9 @@
     "//": "TODO: big amalgamation line for this (and larger) groups",
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
-      { "group": "GROUP_COCOON_MED_1", "weight": 1, "starts": "2 days" },
-      { "group": "GROUP_COCOON_MED_1", "weight": 1, "pack_size": [ 2, 2 ], "starts": "7 days" },
-      { "group": "GROUP_COCOON_MED_1", "weight": 1, "pack_size": [ 3, 3 ], "starts": "28 days" }
+      { "group": "GROUP_COCOON_MED_1", "weight": 1, "starts": "8 days" },
+      { "group": "GROUP_COCOON_MED_1", "weight": 1, "pack_size": [ 2, 2 ], "starts": "28 days" },
+      { "group": "GROUP_COCOON_MED_1", "weight": 1, "pack_size": [ 3, 3 ], "starts": "112 days" }
     ]
   },
   {
@@ -54,9 +54,9 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_amalgamation_swarmer", "weight": 3, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_amalgamation_spotter", "weight": 1, "starts": "7 days" },
-      { "monster": "mon_amalgamation_corroder", "weight": 2, "starts": "28 days" },
-      { "monster": "mon_amalgamation_corroder", "weight": 3, "starts": "56 days" }
+      { "monster": "mon_amalgamation_spotter", "weight": 1, "starts": "28 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 2, "starts": "112 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 3, "starts": "224 days" }
     ]
   },
   {
@@ -64,10 +64,10 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 4 },
-      { "monster": "mon_amalgamation_soldier", "weight": 1, "starts": "7 days" },
-      { "monster": "mon_amalgamation_soldier", "weight": 2, "starts": "28 days" },
-      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "28 days" },
-      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "56 days" }
+      { "monster": "mon_amalgamation_soldier", "weight": 1, "starts": "28 days" },
+      { "monster": "mon_amalgamation_soldier", "weight": 2, "starts": "112 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "112 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "224 days" }
     ]
   }
 ]

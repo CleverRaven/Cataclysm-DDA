@@ -407,7 +407,8 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0.0,
+        "ememory_max": "2 TB"
       }
     ],
     "relic_data": {

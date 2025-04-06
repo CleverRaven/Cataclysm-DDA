@@ -31,7 +31,7 @@
         " ###################### ",
         "                        "
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_and_variant_domestic_basement_palette" ],
       "terrain": { "~": "t_water_pool" },
       "furniture": { "}": "f_pinball_machine" },
       "place_loot": [

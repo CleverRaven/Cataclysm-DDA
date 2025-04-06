@@ -94,40 +94,10 @@
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ { "transform": "destroyed_window_bars", "x": 0, "y": 0 } ],
       "place_item": [
-        { "item": "steel_lump", "x": 0, "y": 0, "chance": 25 },
-        { "item": "steel_chunk", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "x": 0, "y": 0, "chance": 25 },
+        { "item": "lc_steel_chunk", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
         { "item": "scrap", "x": 0, "y": 0, "repeat": [ 1, 5 ] }
       ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "looted_gunsafe_nested",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_ter_furn_transforms": [ { "transform": "looted_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 50 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "jammed_gunsafe_nested",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_ter_furn_transforms": [ { "transform": "jammed_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 10, 20 ], "chance": 50 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "open_gunsafe_nested",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_ter_furn_transforms": [ { "transform": "open_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 10, 20 ], "chance": 50 } ]
     }
   },
   {
@@ -441,7 +411,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ],
-      "place_items": [ { "item": "loose_ammo", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 50, "repeat": [ 1, 4 ] } ]
+      "place_items": [ { "item": "ammo_common_loose", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 50, "repeat": [ 1, 4 ] } ]
     }
   },
   {

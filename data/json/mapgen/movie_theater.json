@@ -88,11 +88,11 @@
       "toilets": { "&": {  } },
       "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
-        "&": { "item": "alcohol", "chance": 10 },
+        "&": [ { "item": "alcohol", "chance": 10 }, { "item": "SUS_toilet", "chance": 50 } ],
         "T": { "item": "snacks", "chance": 5 },
         "X": { "item": "snacks", "chance": 30, "repeat": [ 6, 12 ] },
         "g": { "item": "fridgesnacks", "chance": 70, "repeat": [ 6, 12 ] },
-        "G": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "G": { "item": "SUS_trash_trashcan_public", "chance": 20, "repeat": [ 2, 4 ] },
         "t": [
           { "item": "snacks", "chance": 3 },
           { "item": "consumer_electronics", "chance": 4 },
@@ -102,13 +102,13 @@
         "#": [
           { "item": "jackets", "chance": 3 },
           { "item": "bags", "chance": 4 },
-          { "item": "trash_cart", "chance": 8 },
+          { "item": "SUS_trash_floor_light", "chance": 8 },
           { "item": "hatstore_accessories", "chance": 5 }
         ],
         "H": [
           { "item": "jackets", "chance": 3 },
           { "item": "bags", "chance": 4 },
-          { "item": "trash_cart", "chance": 10 },
+          { "item": "SUS_trash_floor_light", "chance": 10 },
           { "item": "hatstore_accessories", "chance": 5 }
         ],
         "{": [

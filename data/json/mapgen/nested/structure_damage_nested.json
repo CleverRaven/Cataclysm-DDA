@@ -132,7 +132,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "struc_damage" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 90, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
+      "place_vehicles": [ { "fuel": 10, "rotation": 90, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_8x8_straight_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
@@ -157,7 +157,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "struc_damage" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 35, "status": 1, "vehicle": "cars_only", "x": 5, "y": 3 } ],
+      "place_vehicles": [ { "fuel": 10, "rotation": 35, "status": 1, "vehicle": "cars_only", "x": 5, "y": 3 } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_10x10_diag_fromleft_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
@@ -182,7 +182,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "struc_damage" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 145, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
+      "place_vehicles": [ { "fuel": 10, "rotation": 145, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_10x10_diag_fromright_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
     }
   },

@@ -94,7 +94,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -201,11 +201,12 @@ static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
+static const item_group_id
+Item_spawn_data_SUS_trash_forest_no_manmade( "SUS_trash_forest_no_manmade" );
 static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
 static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
 static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
 static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
@@ -2856,7 +2857,7 @@ void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    // only consume charges every 25 pages
+    // only consume charges every pages_per_charge pages
     if( calendar::once_every( pages_per_charge * time_per_page ) ) {
         if( !ereader->ammo_sufficient( &who ) ) {
             add_msg_if_player_sees(
@@ -5108,7 +5109,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 }
 
 static ret_val<void> try_insert( item_location &holster, drop_location &holstered_item,
-                                 int *charges_added, Character *carrier )
+                                 int *charges_added, Character *carrier, bool allow_fill_charge_item_nested )
 {
     item &it = *holstered_item.first;
     ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
@@ -5172,7 +5173,8 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     }
     int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
     *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
-                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true, carrier );
+                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true, /*allow_nested*/allow_fill_charge_item_nested,
+                                         carrier );
     if( *charges_added <= 0 ) {
         return ret_val<void>::make_failure( _( "item can't be stored there" ) );
     }
@@ -5197,7 +5199,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
 
         if( !it.count_by_charges() ) {
-            ret = try_insert( holster, holstered_item, nullptr, carrier );
+            ret = try_insert( holster, holstered_item, nullptr, carrier, false );
 
             if( ret.success() ) {
                 //~ %1$s: item to put in the container, %2$s: container to put item in
@@ -5209,7 +5211,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             }
         } else {
             int charges_added = 0;
-            ret = try_insert( holster, holstered_item, &charges_added, carrier );
+            ret = try_insert( holster, holstered_item, &charges_added, carrier,
+                              allow_fill_count_by_charge_item_nested );
 
             if( ret.success() ) {
                 item copy( it );
@@ -5278,6 +5281,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "handler", handler );
     jsout.member( "all_pockets_rigid", all_pockets_rigid );
     jsout.member( "reopen_menu", reopen_menu );
+    jsout.member( "allow_fill_charge_item_nested", allow_fill_count_by_charge_item_nested );
 
     jsout.end_object();
 }
@@ -5293,6 +5297,7 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
     data.read( "reopen_menu", actor.reopen_menu );
+    data.read( "allow_fill_charge_item_nested", actor.allow_fill_count_by_charge_item_nested );
 
     return actor.clone();
 }
@@ -5421,9 +5426,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         case 1:
             // This case is only reachable if wield_check is true
 
-            if( who.wield( reloadable ) ) {
-                loc.remove_item();
-            }
+            who.wield( target_loc );
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             break;
@@ -7374,7 +7377,8 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const std::vector<item *> dropped =
-            here.put_items_from_loc( Item_spawn_data_trash_forest, who.pos_bub(), calendar::turn );
+            here.put_items_from_loc( Item_spawn_data_SUS_trash_forest_no_manmade, who.pos_bub(),
+                                     calendar::turn );
         // same as above
         std::vector<item *> handled;
         for( item * const &it : dropped ) {
@@ -7782,7 +7786,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable( src_loc ) ) {
+                if( here.passable_through( src_loc ) ) {
                     route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
                                         you.get_path_avoid() );
                 } else {
@@ -8525,12 +8529,19 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         return false;
     }
 
+    if( !g->can_pulp_acid_corpse( you, *corpse_mtype ) ) {
+        acid_corpse = true;
+        return false;
+    }
+
     pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 
     if( !g->can_pulp_corpse( pd ) ) {
         way_too_long_to_pulp = true;
         return false;
     }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "time to pulp: %s", pd.time_to_pulp );
 
     // 10 minutes
     if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
@@ -8553,12 +8564,12 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         corpse.set_flag( flag_PULPED );
     }
 
-    // 19 splatters on average, no matter of the corpse size
-    if( one_in( pd.time_to_pulp / 19 ) ) {
+    const float corpse_volume = units::to_liter( corpse_mtype->volume );
+
+    if( one_in( corpse_volume / pd.pulp_power ) ) {
         // Splatter some blood around
         // Splatter a bit more randomly, so that it looks cooler
-        const int radius = pd.acid_corpse ? 0
-                           : pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
+        const int radius = pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
         const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
         const field_type_id type_blood = ( pd.mess_radius > 1 && x_in_y( pd.pulp_power, 10000 ) ) ?
                                          corpse.get_mtype()->gibType() :
@@ -8602,6 +8613,12 @@ void pulp_activity_actor::finish( player_activity &act, Character &you )
 void pulp_activity_actor::send_final_message( Character &you ) const
 {
 
+    if( acid_corpse ) {
+        you.add_msg_if_player( m_bad,
+                               _( "You cannot pulp acid-filled corpses without appropriate protection." ) );
+        return;
+    }
+
     if( way_too_long_to_pulp && num_corpses == 0 ) {
         you.add_msg_player_or_npc( n_gettext(
                                        _( "You cannot pulp this corpse, for you have no tool heavy enough to deal with it quickly." ),
@@ -8631,7 +8648,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
     } else {
         tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
     }
-    if( pd.can_severe_cutting ) {
+    if( pd.can_cut_precisely ) {
         tools += string_format( " and a trusty %s", pd.cut_tool );
     }
 
@@ -8695,10 +8712,10 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "too_long_to_pulp", too_long_to_pulp );
     jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
     jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
-    jsout.member( "cut_quality", pd.cut_quality );
+    jsout.member( "acid_corpse", acid_corpse );
     jsout.member( "stomps_only", pd.stomps_only );
     jsout.member( "weapon_only", pd.weapon_only );
-    jsout.member( "can_severe_cutting", pd.can_severe_cutting );
+    jsout.member( "can_cut_precisely", pd.can_cut_precisely );
     jsout.member( "used_pry", pd.used_pry );
     jsout.member( "couldnt_use_pry", pd.couldnt_use_pry );
     jsout.member( "bash_tool", pd.bash_tool );
@@ -8724,10 +8741,10 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "too_long_to_pulp", actor.too_long_to_pulp );
     data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
     data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
-    data.read( "cut_quality", actor.pd.cut_quality );
+    data.read( "acid_corpse", actor.acid_corpse );
     data.read( "stomps_only", actor.pd.stomps_only );
     data.read( "weapon_only", actor.pd.weapon_only );
-    data.read( "can_severe_cutting", actor.pd.can_severe_cutting );
+    data.read( "can_cut_precisely", actor.pd.can_cut_precisely );
     data.read( "used_pry", actor.pd.used_pry );
     data.read( "couldnt_use_pry", actor.pd.couldnt_use_pry );
     data.read( "bash_tool", actor.pd.bash_tool );

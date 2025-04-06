@@ -125,9 +125,6 @@ static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
-static const species_id species_FERAL( "FERAL" );
-static const species_id species_HUMAN( "HUMAN" );
-
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
@@ -345,7 +342,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         return {};
     }
     const std::string ter_name = here->name( where );
-    const bool can_move_there = here->passable( where );
+    const bool can_move_there = here->passable_through( where );
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -666,7 +663,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     map &here = get_map();
 
     for( const tripoint_bub_ms &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp != you.pos_bub() && here.passable( tp ) ) {
+        if( tp != you.pos_bub() && here.passable_through( tp ) ) {
             passable_tiles.emplace( tp );
         }
     }
@@ -694,7 +691,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp == you.pos_bub() || ( here.passable( tp ) && !creatures.creature_at( tp ) ) ) {
+        if( tp == you.pos_bub() || ( here.passable_through( tp ) && !creatures.creature_at( tp ) ) ) {
             passable_tiles.insert( tp );
         }
     }
@@ -848,7 +845,7 @@ bool already_done( construction const &build, tripoint_bub_ms const &loc )
 
 static activity_reason_info find_base_construction(
     Character &you,
-    const inventory &inv,
+    const tripoint_bub_ms &inv_from_loc,
     const tripoint_bub_ms &loc,
     const std::optional<construction_id> &part_con_idx,
     const construction_id &idx )
@@ -878,14 +875,10 @@ static activity_reason_info find_base_construction(
     }
 
     const construction &build = con == nullptr ? idx.obj() : *con;
-    bool pcb = player_can_build( you, inv, build, true );
-    //already done?
     if( already_done( build, loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
-
-    const bool has_skill = you.meets_skill_requirements( build );
-    if( !has_skill ) {
+    if( !you.meets_skill_requirements( build ) ) {
         return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, build.id );
     }
     //if there's an appropriate partial construction on the tile, then we can work on it, no need to check inventories.
@@ -896,16 +889,15 @@ static activity_reason_info find_base_construction(
         }
         return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
     }
-    //can build?
-    if( cc ) {
-        if( pcb ) {
-            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
-        }
+    if( !cc ) {
+        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    }
+    const inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
+    if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
     }
-
-    return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
 }
 
 static bool are_requirements_nearby(
@@ -1212,12 +1204,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( !corpses.empty() ) {
             for( item &body : corpses ) {
                 const mtype &corpse = *body.get_mtype();
-                // TODO: Extract this bool into a function
-                const bool is_human = corpse.id == mtype_id::NULL_ID() ||
-                                      corpse.in_species( species_HUMAN ) ||
-                                      corpse.in_species( species_FERAL );
-                if( is_human && !you.okay_with_eating_humans() ) {
-                    return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
+                for( species_id species : corpse.species ) {
+                    if( you.empathizes_with_species( species ) ) {
+                        return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
+                    }
                 }
             }
             if( big_count > 0 && small_count == 0 ) {
@@ -1295,12 +1285,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
             nearest_src_loc = route.back();
         }
-        const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            return find_base_construction( you, pre_inv, src_loc, part_con_idx,
+            return find_base_construction( you, nearest_src_loc, src_loc, part_con_idx,
                                            index );
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
@@ -2249,7 +2238,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable( src_loc ) ) {
+                if( here.passable_through( src_loc ) ) {
                     route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
                                         you.get_path_avoid() );
                 } else {

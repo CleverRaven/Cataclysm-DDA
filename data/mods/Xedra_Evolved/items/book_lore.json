@@ -262,5 +262,38 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "30 g",
     "volume": "10 ml"
+  },
+  {
+    "id": "vampire_anathema_book",
+    "type": "TOOL",
+    "name": { "str_sp": "old leather-bound journal" },
+    "description": "This handwritten book contains the detailed yet disorganized notes of a vampire who found how to consume other vampires for power.  Reading it might tell you how to do it, if it is what you want.",
+    "//": "As it is a unique item acquired in violent circumstances, I made it fireproof so the player can use fire without fearing the lost of this item.",
+    "weight": "830 g",
+    "volume": "1320 ml",
+    "price": "1 USD",
+    "material": [ "paper_fireproof" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Read the book.",
+      "effect_on_conditions": [ "TALK_READ_VAMPIRE_ANATHEMA_BOOK" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "TALK_READ_VAMPIRE_ANATHEMA_BOOK",
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_READ_VAMPIRE_ANATHEMA_BOOK" } },
+      { "run_eocs": "EOC_LEARN_FROM_VAMPIRE_ANATHEMA_BOOK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEARN_FROM_VAMPIRE_ANATHEMA_BOOK",
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "you_know_vampire_anathema_recipe" } ] } },
+    "effect": [  ]
   }
 ]

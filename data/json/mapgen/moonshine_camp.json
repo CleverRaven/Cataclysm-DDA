@@ -28,7 +28,7 @@
       "t": "f_tourist_table"
     },
     "items": {
-      " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
+      " ": [ { "item": "SUS_trash_floor", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
       "t": { "item": "moonshine_brew", "chance": 70 }
     }
   },

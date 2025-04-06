@@ -1597,7 +1597,7 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
     }
 
     if( copies_remaining > 1 ) {
-        int how_many_copies_fit = std::min( { copies_remaining, copy_weight_capacity, copy_volume_capacity } );
+        int how_many_copies_fit = std::min( { data->holster ? 1 : copies_remaining, copy_weight_capacity, copy_volume_capacity } );
         copies_remaining -= how_many_copies_fit;
     } else {
         copies_remaining = 0;

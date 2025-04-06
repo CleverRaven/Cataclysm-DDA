@@ -63,8 +63,9 @@
 #include "talker.h"
 #include "text.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
+#include "vpart_position.h"
 
 struct species_type;
 
@@ -100,6 +101,8 @@ static std::string target_to_string( spell_target data )
             return pgettext( "Valid spell target", "item" );
         case spell_target::field:
             return pgettext( "Valid spell target", "field" );
+        case spell_target::vehicle:
+            return pgettext( "Valid spell target", "vehicle" );
         case spell_target::num_spell_targets:
             break;
     }
@@ -121,6 +124,7 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::none: return "none";
         case spell_target::item: return "item";
         case spell_target::field: return "field";
+        case spell_target::vehicle: return "vehicle";
         case spell_target::num_spell_targets: break;
     }
     cata_fatal( "Invalid valid_target" );
@@ -1664,6 +1668,9 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
+    } else if( get_map().veh_at( p ) ) {
+        valid = is_valid_target( spell_target::vehicle ) ||
+                is_valid_target( spell_target::ground );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
@@ -2866,7 +2873,9 @@ void spellcasting_callback::display_spell_info( size_t index )
     cataimgui::set_scroll( spell_info_scroll );
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
-    std::vector<std::string> lines = string_split( sp.description(), '\n' );
+    std::string desc = sp.description();
+    parse_tags( desc, *get_avatar().as_character(), *get_avatar().as_character() );
+    std::vector<std::string> lines = string_split( desc, '\n' );
     for( std::string &l : lines ) {
         cataimgui::TextColoredParagraph( c_white, l );
         ImGui::NewLine();

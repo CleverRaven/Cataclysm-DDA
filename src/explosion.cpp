@@ -967,11 +967,12 @@ void process_explosions()
             // to actually overlap the reality bubble, so a large explosion can be detonated without blowing up the PC
             // or have a vehicle run into a crater suddenly appearing just in front of it.
             process_explosions_in_progress = true;
-            m.load( origo, false, false );
+            m.load( origo, true, false );
             m.spawn_monsters( true, true );
             g->load_npcs( &m );
             process_explosions_in_progress = false;
             _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
+            m.process_falling();
         } else {
             _make_explosion( bubble_map, ex.source, bubble_map->get_bub( ex.pos ), ex.data );
         }

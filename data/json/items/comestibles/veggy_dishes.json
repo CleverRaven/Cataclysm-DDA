@@ -1115,7 +1115,7 @@
       { "type": "COMPONENT_ID", "condition": "spinach", "name": { "str_sp": "%s, spinach" } },
       { "type": "COMPONENT_ID", "condition": "sugar_beet", "name": { "str_sp": "%s, sugar beet" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
-      { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
+      { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, triffid flesh" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
       { "type": "COMPONENT_ID", "condition": "wild_garlic", "name": { "str_sp": "%s, wild garlic" } },
       { "type": "COMPONENT_ID", "condition": "wild_herbs", "name": { "str_sp": "%s, wild herbs" } },

@@ -498,6 +498,7 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```NEGATIVE_MONOTONY_OK``` Allows `negative_monotony` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat / auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.
+- ```NO_TEMP``` This item does not rot and does not need temperature tracked.  Any pre-existing items this flag is added to will need to go on the temperature blacklist.
 - ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from.  The `NUTRIENT_OVERRIDE` flag will skip this step.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
@@ -703,6 +704,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```THIN_OBSTACLE``` ```SPEAR``` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSLOCATOR``` Tile is a translocator gate, for purposes of the `translocator` examine action.
+- ```TRANSLOCATOR_GREATER``` Tile is a greater translocator gate.  When paired with the TRANSLOCATOR flag and translocate furniture action, allows additionally using the gate to translocate to attuned gates.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
 - ```TRANSLUCENT``` Player and monsters can't see through/past it, but it can pass the light
@@ -765,6 +767,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BIRD``` Food that only player with `BIRD` threshold mutation can eat.  See also `INEDIBLE`.
 - ```BURNOUT``` You can visually inspect how much it is burned out (candle, torch).
 - ```CALORIES_INTAKE``` This item allows you to see detailed info about your calories intake for today and tomorrow in consuming menu.  Can be used with `CALORIES_INTAKE_TRACKER` `use_action`, that shows the same info.
+- ```CALORIE_BURN``` Same as CALORIES_INTAKE, but for calories burn.
 - ```CAMERA_PRO``` This item is professional camera, and increase the quality of made photos.
 - ```CATTLE``` Food that only player with `CATTLE` threshold mutation can eat.  See also `INEDIBLE`.
 - ```CBM``` This item is CBM, and works respectively.
@@ -1107,6 +1110,8 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
 - ```CORNERED_FIGHTER``` This creature will stop fleeing and fight back if enemies pursue it into melee range.
+- ```COPY_SUMMONER_LOOK``` - This monster would copy the texture of whoever casted it, monster or character
+- ```COPY_AVATAR_LOOK```- This monster would copy the texture of avatar, no matter who it is
 - ```DORMANT``` This monster will be revived by dormant corpse traps.
 - ```DEADLY_VIRUS``` This monster can inflict the `zombie_virus` effect.  Used by the Dark Days of the Dead and Deadly Zombie Virus mods.
 - ```DESTROYS``` Bashes down walls and more (2.5x bash multiplier, where base is the critter's max melee bashing).

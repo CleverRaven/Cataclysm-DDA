@@ -32,7 +32,7 @@
       { "id": "scratch_humanoid" }
     ],
     "death_drops": "mon_zombie_labsecurity_death_drops",
-    "upgrades": { "half_life": 35, "into_group": "GROUP_SOLDIER_UPGRADE" },
+    "upgrades": { "half_life": 140, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4, "electric": 2 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor" ], "families": [ "prof_wp_syn_armored" ] }
   },
@@ -72,7 +72,7 @@
     "luminance": 8,
     "harvest": "zombie_humanoid",
     "decay": "zombie_decay_bone_human_skull",
-    "upgrades": { "half_life": 42, "into": "mon_zombie_phase_shrike" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_phase_shrike" },
     "grab_strength": 20,
     "special_attacks": [
       { "id": "grab" },

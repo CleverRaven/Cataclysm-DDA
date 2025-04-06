@@ -417,7 +417,7 @@
       [ "signal_flare", 25 ],
       [ "airhorn", 20 ],
       [ "whistle", 20 ],
-      [ "charcoal", 20 ],
+      { "group": "charcoal_bag_part", "prob": 20 },
       [ "leathersandals", 10 ],
       [ "espadrilles", 5 ],
       [ "bullwhip", 1 ],

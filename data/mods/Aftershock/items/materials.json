@@ -1,6 +1,25 @@
 [
   {
     "type": "material",
+    "id": "afs_steel",
+    "name": "Tempered Carbon Steel",
+    "//": "For exosuits, thickness 2 is heavy armor, thickness 1 is medium armor.  Roughly.",
+    "density": 8.0,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "conductive": true,
+    "chip_resist": 20,
+    "repaired_with": "mc_steel_chunk",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
+    "resist": { "bash": 17, "cut": 25, "acid": 7, "heat": 12, "bullet": 30, "afs_plasma": 7, "electric": 0 },
+    "repair_difficulty": 7
+  },
+  {
+    "type": "material",
     "id": "titanium",
     "name": "Titanium",
     "density": 4.502,
@@ -10,8 +29,9 @@
     "bash_dmg_verb": "dented",
     "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 4, "cut": 9, "acid": 14, "heat": 4, "bullet": 7, "afs_plasma": 1, "electric": 8 },
-    "repair_difficulty": 5
+    "//": "light armor.",
+    "resist": { "bash": 8, "cut": 10, "acid": 5, "heat": 0, "bullet": 15, "afs_plasma": 0, "electric": 0 },
+    "repair_difficulty": 7
   },
   {
     "type": "material",
@@ -27,7 +47,8 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "soft": true,
-    "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 5, "bullet": 2, "afs_plasma": 1, "electric": 0 },
+    "//": "light armor, more sci-fi than kevlar.",
+    "resist": { "bash": 8, "cut": 10, "acid": 5, "heat": 0, "bullet": 15, "afs_plasma": 0, "electric": 0 },
     "repair_difficulty": 10
   },
   {
@@ -35,14 +56,60 @@
     "id": "vacuum_carbide",
     "name": "Vacuum-cast Carbide",
     "density": 18,
+    "chip_resist": 100,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "breathability": "IMPERMEABLE",
+    "//": "medium armor that is very durable.",
+    "resist": { "bash": 15, "cut": 20, "acid": 17, "heat": 10, "bullet": 30, "afs_plasma": 0, "electric": 0 },
+    "repair_difficulty": 10
+  },
+  {
+    "type": "material",
+    "id": "vacuum_carbide_hard",
+    "name": "High-density Carbide",
+    "density": 18,
     "chip_resist": 25,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "IMPERMEABLE",
-    "//": "only to be used in encumbering armors.",
-    "resist": { "bash": 8, "cut": 14, "acid": 17, "heat": 14, "bullet": 12, "afs_plasma": 5, "electric": -4 },
+    "//": "heavy armor",
+    "resist": { "bash": 37, "cut": 50, "acid": 17, "heat": 30, "bullet": 60, "afs_plasma": 20, "electric": 10 },
     "repair_difficulty": 10
+  },
+  {
+    "type": "material",
+    "id": "vacuum_carbide_vehicle",
+    "name": "Carbide-composite armor",
+    "density": 18,
+    "chip_resist": 25,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "breathability": "IMPERMEABLE",
+    "//": "vehicle armor",
+    "resist": { "bash": 50, "cut": 70, "acid": 17, "heat": 70, "bullet": 90, "afs_plasma": 50, "electric": 25 },
+    "repair_difficulty": 10
+  },
+  {
+    "type": "material",
+    "id": "afs_kevlar",
+    "name": "Aramid Fiber",
+    "density": 1.4,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "chip_resist": 25,
+    "dmg_adj": [ "marked", "scarred", "cut", "ripped" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "soft": true,
+    "breathability": "GOOD",
+    "//": "half of light armor, should be used to replace kevlar from copied vanilla items.",
+    "resist": { "cut": 5, "bash": 4, "bullet": 7, "acid": 2, "heat": 0, "afs_plasma": 0, "electric": 0 },
+    "repair_difficulty": 4
   },
   {
     "type": "material",
@@ -50,13 +117,13 @@
     "name": "Carbide ThermoWeave(c)",
     "density": 18,
     "chip_resist": 25,
-    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "dmg_adj": [ "marked", "dented", "scarred", "ripped" ],
     "bash_dmg_verb": "dented",
     "soft": true,
     "cut_dmg_verb": "scratched",
     "breathability": "AVERAGE",
-    "//": "mostly meant to be lightweight energy armor.",
-    "resist": { "bash": 2, "cut": 4, "acid": 4, "heat": 10, "bullet": 2, "afs_plasma": 10, "electric": 6 },
+    "//": "heavy energy armor that degrades easily.",
+    "resist": { "bash": 8, "cut": 14, "acid": 4, "heat": 30, "bullet": 15, "afs_plasma": 20, "electric": 10 },
     "repair_difficulty": 10
   },
   {
@@ -70,8 +137,8 @@
     "soft": true,
     "cut_dmg_verb": "cut",
     "breathability": "GOOD",
-    "//": "lightweight high-protection-value armors that degrade easily.",
-    "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "afs_plasma": 2, "bullet": 8, "electric": 0 },
+    "//": "lightweight medium armor that degrades easily.",
+    "resist": { "bash": 15, "cut": 20, "acid": 6, "heat": 10, "afs_plasma": 0, "bullet": 30, "electric": 0 },
     "repair_difficulty": 9
   },
   {
@@ -117,6 +184,7 @@
     "bash_dmg_verb": "chipped",
     "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
+    "//": "medium armor",
     "resist": { "bash": 4, "cut": 7, "acid": 2, "heat": 4, "bullet": 6, "afs_plasma": 0, "electric": 8 },
     "repair_difficulty": 7
   }

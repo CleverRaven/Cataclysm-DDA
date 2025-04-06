@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "make_static.h"
 #include "map.h"
@@ -23,6 +24,13 @@ std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.
     return _( _id );
+}
+
+void gun_modifier_data::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "name", name_ );
+    mandatory( jo, false, "amount", qty_ );
+    optional( jo, false, "flags", flags_ );
 }
 
 std::string islot_book::recipe_with_description_t::name() const

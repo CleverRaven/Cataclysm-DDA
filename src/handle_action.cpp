@@ -11,7 +11,6 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -22,6 +21,7 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -57,8 +57,9 @@
 #include "itype.h"
 #include "iuse.h"
 #include "level_cache.h"
-#include "line.h"
 #include "magic.h"
+#include "magic_enchantment.h"
+#include "magic_type.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -70,12 +71,12 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "panels.h"
 #include "player_activity.h"
+#include "point.h"
 #include "popup.h"
 #include "ranged.h"
 #include "rng.h"
@@ -87,8 +88,8 @@
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -99,6 +100,8 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+enum class direction : unsigned int;
 
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -1718,12 +1721,17 @@ static void read()
     }
 }
 
-// Perform a reach attach using wielded weapon
+// Perform a reach attack
 static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    target_handler::trajectory traj;
+    if( you.get_wielded_item() ) {
+        traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    } else {
+        traj = target_handler::mode_unarmed_reach( you );
+    }
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1749,6 +1757,12 @@ static void fire()
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
     if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+        reach_attack( you );
+        return;
+    }
+    if( !weapon &&
+        static_cast<int>( you.calculate_by_enchantment( 1,
+                          enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) > 1 ) {
         reach_attack( you );
         return;
     }
@@ -2583,9 +2597,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             read();
             break;
 
-        case ACTION_WIELD:
-            wield();
+        case ACTION_WIELD: {
+            item_location loc = game_menus::inv::wield();
+            if( loc ) {
+                player_character.wield( loc );
+            }
             break;
+        }
 
         case ACTION_PICK_STYLE:
             player_character.martial_arts_data->pick_style( player_character );
@@ -2735,9 +2753,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( player_character.in_vehicle ) {
                 add_msg( m_info, _( "You can't construct while in a vehicle." ) );
             } else {
-                if( !g->warn_player_maybe_anger_local_faction( true ) ) {
-                    break; // player declined to mess with faction's stuff
-                }
                 construction_menu( false );
             }
             break;

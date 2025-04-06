@@ -7,7 +7,6 @@
     "specific_heat_liquid": 2.03,
     "specific_heat_solid": 2.03,
     "latent_heat": 57,
-    "edible": true,
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",

@@ -133,7 +133,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // by can contain length
         case 'L': {
             return can_contain_filter<units::length>( "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
-            filter, units::length_max, units::length_units, []( itype * typ, units::length len ) {
+            filter, units::length::max(), units::length_units, []( itype * typ, units::length len ) {
                 typ->longest_side = len;
                 item itm( typ );
                 itm.set_flag( flag_HARD );
@@ -143,7 +143,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // by can contain volume
         case 'V': {
             return can_contain_filter<units::volume>( "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
-            filter, units::volume_max, units::volume_units, []( itype * typ, units::volume vol ) {
+            filter, units::volume::max(), units::volume_units, []( itype * typ, units::volume vol ) {
                 typ->volume = vol;
                 return item( typ );
             } );
@@ -151,7 +151,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // by can contain mass
         case 'M': {
             return can_contain_filter<units::mass>( "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
-            filter, units::mass_max, units::mass_units, []( itype * typ, units::mass mas ) {
+            filter, units::mass::max(), units::mass_units, []( itype * typ, units::mass mas ) {
                 typ->weight = mas;
                 return item( typ );
             } );

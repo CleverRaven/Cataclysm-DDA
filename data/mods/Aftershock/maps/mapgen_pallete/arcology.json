@@ -39,6 +39,7 @@
       "l": "f_locker",
       "r": "f_trashcan"
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   },
   {
@@ -80,6 +81,7 @@
       "l": "f_locker",
       "r": "f_trashcan"
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   }
 ]

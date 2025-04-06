@@ -3,11 +3,11 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
 #include <optional>
+#include <ratio>
 #include <set>
 #include <string>
 #include <tuple>
@@ -21,11 +21,19 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
+#include "cata_assert.h"
+#include "cata_variant.h"
+#include "character_id.h"
+#include "debug.h"
 #include "enum_conversions.h"
-#ifdef TILES
-#include "cached_options.h"
-#include "cata_tiles.h"
-#endif // TILES
+#include "input_enums.h"
+#include "mapdata.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
+#include "memory_fast.h"
+#include "monster.h"
+#include "simple_pathfinding.h"
+#include "translation.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -36,8 +44,8 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "display.h"
 #include "debug_menu.h"
+#include "display.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
@@ -65,8 +73,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
@@ -75,7 +83,11 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-class character_id;
+#ifdef TILES
+#include "cached_options.h"
+#endif // TILES
+
+enum class cube_direction : int;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
@@ -1835,6 +1847,25 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
                                        const tripoint_abs_omt dest, const bool driving )
 {
     std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
+
+    if( path.empty() ) {
+        std::string popupmsg;
+        if( dest.z() == player_character.posz() ) {
+            popupmsg = _( "Unable to find a path from the current location:" );
+        } else {
+            popupmsg = _( "Auto travel requires source and destination on same Z level:" );
+        }
+        string_input_popup pop;
+        const std::string ok = _( "OK" );
+        pop
+        .title( popupmsg )
+        .width( ok.length() )
+        .text( ok )
+        .only_digits( false )
+        .query();
+        return false;
+    }
+
     bool dest_is_curs = curs == dest;
     bool path_changed = false;
     if( path.front() == player_character.omt_path.front() && path != player_character.omt_path ) {

@@ -1761,8 +1761,8 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `cost_multiplier` | (_optional_) How many monsters each monster in this definition should count as, if spawning a limited number of monsters.  (default: 1)
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
 | `conditions`      | (_optional_) Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
-| `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
-| `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
+| `starts`          | (_optional_) This entry becomes active after this much time multiplied by the evolution scaling factor.  Specified using time units (See [Time duration](#time-duration)).
+| `ends`            | (_optional_) This entry becomes inactive after this much time multiplied by the evolution scaling factor.  Specified using time units (See [Time duration](#time-duration)).
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
 | `event`           | (_optional_) If present, this entry can only spawn during the specified event. See the `holiday` enum for possible values. Defaults to `none`. (Ex: `"event": "halloween"`)
 
@@ -2425,6 +2425,20 @@ it is present to help catch errors.
   "display_category": "display_ranged",
   "sort_rank": 11000,
   "teachable": true,
+  "level_descriptions_theory": [
+    { "level": 0, "description": "You know absolutely nothing about computers, even in theory." },
+    { "level": 1, "description": "You know how to open browser and search images." },
+    { "level": 2, "description": "foo" },
+    { "level": 3, "description": "bar" },
+    { "level": 4, "description": "xyz" }
+],
+"level_descriptions_practice": [
+    { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
+    { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
+    { "level": 2, "description": "foo" },
+    { "level": 3, "description": "bar" },
+    { "level": 4, "description": "xyz" }
+],
   "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
 }
 ```
@@ -2439,6 +2453,8 @@ it is present to help catch errors.
 | `sort_rank`                | Order in which the skill is shown. |
 | `teachable`                | Whether it's possible to teach this skill between characters. (Default = true) |
 | `companion_skill_practice` | Determines the priority of this skill within a mision skill category when an NPC gains experience from a companion mission. |
+| `level_descriptions_theory`|  Description of your current theoretical level. The smallest one is picked, if you define only level 0 and 2, skill level 1 would show description for level 0 
+| `level_descriptions_practice`| Same as level_descriptions_theory, but for practical skill level.
 | `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
 | `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
 | `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |

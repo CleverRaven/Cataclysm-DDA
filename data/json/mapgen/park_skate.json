@@ -53,7 +53,10 @@
         "-": "t_concrete_railing"
       },
       "furniture": { "&": "f_trashcan", "!": "f_street_light", "b": "f_metal_bench" },
-      "items": { ".": { "item": "skate_park", "chance": 3 }, "&": { "item": "trash", "chance": 30, "repeat": [ 1, 3 ] } },
+      "items": {
+        ".": { "item": "skate_park", "chance": 3 },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 30, "repeat": [ 1, 3 ] }
+      },
       "nested": { "│": { "chunks": [ [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 5 ] ] } },
       "place_monster": [ { "group": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 33, "repeat": [ 1, 5 ] } ]
     }
@@ -99,7 +102,10 @@
         "/": "t_concrete_ramp_down_low"
       },
       "furniture": { "&": "f_trashcan", "!": "f_street_light", "b": "f_metal_bench" },
-      "items": { ".": { "item": "skate_park", "chance": 3 }, "&": { "item": "trash", "chance": 30, "repeat": [ 1, 3 ] } },
+      "items": {
+        ".": { "item": "skate_park", "chance": 3 },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 30, "repeat": [ 1, 3 ] }
+      },
       "place_monster": [ { "group": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 33, "repeat": [ 1, 5 ] } ]
     }
   },

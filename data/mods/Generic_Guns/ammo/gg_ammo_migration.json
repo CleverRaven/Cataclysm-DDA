@@ -60,6 +60,7 @@
       "46mm",
       "57mm",
       "57mm_ss",
+      "57mm_lf",
       "5x50dart",
       "762_25hot",
       "762_25typeP",
@@ -228,7 +229,17 @@
     "replace": "bp_pistol_magnum_ball"
   },
   {
-    "id": [ "357mag_jhp", "44magnum", "454_Casull", "500_Magnum", "50ae_jhp" ],
+    "id": [
+      "357mag_jhp",
+      "44magnum",
+      "454_Casull",
+      "500_Magnum",
+      "50ae_jhp",
+      "460sw",
+      "460sw_jhp",
+      "reloaded_460sw",
+      "reloaded_460sw_jhp"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_jhp"
   },

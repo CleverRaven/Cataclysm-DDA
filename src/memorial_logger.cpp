@@ -1144,6 +1144,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_falls_asleep:
         case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
+        case event_type::character_takeoff_item:
         case event_type::character_wields_item:
         case event_type::character_armor_destroyed:
         case event_type::character_casts_spell:

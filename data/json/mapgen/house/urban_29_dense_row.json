@@ -253,7 +253,7 @@
         "{": "t_ladder_down"
       },
       "furniture": { "ƃ": "f_pillow_fort", "Ŋ": "f_cardboard_fort", "˽": "f_tatami", "Я": "f_tatami" },
-      "place_vehicles": [ { "vehicle": "tricycle", "x": 30, "y": 13, "chance": 100, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "tricycle", "x": 30, "y": 13, "status": 0 } ],
       "nested": {
         "Ƨ": {
           "chunks": [
