@@ -329,6 +329,7 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
         }
         CHECK( expected_string );
         CHECK_FALSE( testexp.parse( "val( 'stamina' )" ) ); // invalid scope for this function
+        CHECK_FALSE( testexp.parse( "_test_str_len_([]) = 2" ) ); // dialogue function cannot assign
     } );
     // reading scoped values with u_val shim
     CHECK( testexp.parse( "u_val('stamina')" ) );
@@ -390,4 +391,5 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "u_val('stamina') = 459" ) );
     testexp.eval( d );
     CHECK( get_avatar().get_stamina() == 459 );
+
 }

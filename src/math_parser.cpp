@@ -178,7 +178,8 @@ bool is_function( op_t const &op )
 bool is_assign_target( thingie const &thing )
 {
     return std::holds_alternative<var>( thing.data ) ||
-           std::holds_alternative<func_diag>( thing.data );
+           ( std::holds_alternative<func_diag>( thing.data ) &&
+             std::get<func_diag>( thing.data ).fa != nullptr );
 }
 
 std::vector<double> _eval_params( std::vector<thingie> const &params, const_dialogue const &d )
