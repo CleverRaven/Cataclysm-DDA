@@ -180,22 +180,32 @@
       {
         "name": "Notes scribbled on notebook paper",
         "id": "lab_file_clairsentience_01",
+        "weight": 600,
         "text": "I'm looking up at the sky.  I can see the same constellations on Earth, but they're shimmering somehow, like there's a haze or a fog or something between us.  Then, the stars start to slowly go out.  Not in a wave, but randomly--one here, one there, faster and faster until the entire sky was dark.  Then the moon disappeared as well and everything went black.\n\nI'm standing on the edge of a cliff.  Below me is the churning sea, the waters black under the stormclouds.  The sea rises slowly as rain falls in sheets, lightning striking the waters.  They break over the edge of the cliff, then over my head.  I drown.\n\nI am standing in a forest.  The trees rustle all around me and the birds sing, and then clouds pass over the sun.  The sun dims and then starts to go black.  It's an eclipse.  The light fades and all the birdsong dies.  I stand in pitch blackness with the rustle of leaves around me."
       },
       {
         "name": "testing report I2-8129",
         "id": "lab_file_clairsentience_02",
+        "weight": 800,
         "text": "Subject O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  Subject was then asked to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being subject's height (158 cm) making it harder to reach the shelf.  Subject was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  Subject was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
       },
       {
         "name": "COLD BELOW progress report",
         "id": "lab_file_clairsentience_03",
+        "weight": 1000,
         "text": "Dr. Richardson,\nAfter all of the time and money I wish I had more promising news to report.  Netherum mathematics is an inexact science, as you well know, so it's very hard to find a protocol that will work the same every time.  Melchior has the advantage of processing speed but our mathematicians have to put in the hours, but they can make connections Melchior cannot because he can only work with the data he's given, whereas NOBLE HORIZON provides new data.  But, unpredictably.  We've discovered any number of immersion destinations where the physical laws are so different even the probes wouldn't work, much less a dive team.  The majority of them, even BURNT NOVEMBER wouldn't be sufficient to sustain a diver.  There's no value in exotic materials that will probably not survive the transition.\n\nOn the other hand, COLD BELOW did discover Plane 398RG and we got quite a few awakenings out of it before testing was prohibited.  And on the other other hand, they found 9472P where the entire world's biomass had been assimilated by XE157 and we lost the entire dive team because XE157 ignored the probes.  It's like that bell curve meme where Melchior is in the middle and COLD BELOW is both ends.  If only we had a better way to get the far side."
       },
       {
         "name": "GRAY DAWN vs. NOBLE HORIZON testing",
         "id": "lab_file_clairsentience_04",
+        "weight": 1000,
         "text": "In the interests of testing Dr. Al-Masri's hypothesis, we assembled a group of NOBLE HORIZON and GRAY DAWN mathematicians and had them both attempt to conduct a simple number guessing game.  Melchior provided a six-digit number and both teams attempted to guess it.  GRAY DAWN were competitive when the number was overseen by a third party, as expected, but when both teams were provided with a terminal interface and instructed to enter their guesses, GRAY DAWN scored no better than chance.  On the other hand, NOBLE HORIZON consistently managed to guess at least three digits and successfully guessed the entire six-digit sequence twice (out of ten total sequences).  This disparity was maintained when both groups were placed in empty rooms, instructed to write down their guesses on a sheet of paper, and place it into a box before leaving the room.  Finally, NOBLE HORIZON attained a better than chance score on the final test, when both groups were instructed to guess the sequence before Melchior was asked to provide a sequence.\n\nThis leads to two conclusions.  The first is that the alarmists are wrong; Melchior is not secretly harboring a genius intellect and plotting to control XEDRA from within, it is a computer, capable of processing vast amounts of data and using Netherum mathematics to process that data much faster than would otherwise be possible.  The second is that while GRAY DAWN requires a specific source from which to attain new information, NOBLE HORIZON does not.  Even in situations where no information transfer would be possible, such as the final two testing scenarios, NOBLE HORIZON still had a better-than-chance rate of correctly determining the sequence."
+      },
+      {
+        "name": "Note on official XEDRA stationary",
+        "id": "lab_file_clairsentience_05",
+        "weight": 500,
+        "text": "Dr Richardson,\nLast night, both J99 and V27 approached me with a concern.  As is consistent with NOBLE HORIZON protocol, they have been keeping a dream journal and noticed during the weekly meeting that a few nights ago they had exactly the same dream, down to the smallest details.  You can find the exact details in the weekly report but the gist of it was a giant hand reaching out of the sky and covering the entire Earth and squeezing the Earth until it cracked.  Looking back through previous journals, I found that W88 and P61 had similar dreams within the last week.  I'm still trying to track down if there was a \"patient zero\", so to speak, and if this is some kind of contagious imagery or there is some other obvious explanation, but in the meantime, I'm baffled.  NOBLE HORIZON visions are usually filtered through the individual psyche of the mathematician, and I have no explanation for why in this case multiple mathematicians would exhibit the exact same manifestion.\n\nI'm going to get to the bottom of this.  We already have bad morale after 947188 and this is not going to help.\nJohn Goldberg\nResearcher"
       }
     ]
   },
@@ -203,7 +213,14 @@
     "type": "snippet",
     "category": "lab_file_electrokinesis",
     "//": "Phavian designation for electrokinetic study is RUBY LOOP",
-    "text": [  ]
+    "text": [
+      {
+        "name": "testing report B2-1711",
+        "id": "lab_file_electrokinesis_01",
+        "weight": 1000,
+        "text": "The testing mathematician was provided with a standard smartphone and instructed to turn on and leave on the flashlight, share their location with multiple provided addresses, and repeatedly delete and re-download several very large testing files (each over 10gb in size).  During breaks, the phone was left streaming HD movies over the cellular network. nResults were very consistent; while the phone's battery rapidly drained while unattended, despite not being connected to power, the battery slowly refilled when the phone was being handled by T47, often reaching or being close to 100% when the time came for a break.\n\nFollowing this, the experiment was modified to have T47 sit and read a book in the same room, but never approach closer than two meters to the phone, which was again set to stream HD movies over the cellular network.  The phone discharged its battery and shut off completely within four hours.  Further testing shows the approximate range of the effect (in T47's case) to be 8 centimeters from their body and that barriers (both conductive and non-conductive) do not impede the effect in any way.  Attempts to use a multimeter to directly measure the strength of the effect were inconclusive, as it changed rapidly up to several times per second and often the multimeter simply could not register any current at all.  I have already submitted a request for further testing to determine the exact parameters of the effect, include its strength and the full variety of devices subject to it, and will submit an update with my results as soon as I have them.\n-Charlotte Manning\nResearcher"
+      }
+    ]
   },
   {
     "type": "snippet",
