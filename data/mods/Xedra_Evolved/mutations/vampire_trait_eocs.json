@@ -127,7 +127,7 @@
           { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN", "alpha_talker": "npc", "beta_talker": "u" },
           { "math": [ "u_vitamin('blood')", "-=", "500 + rand(250)" ] },
           { "math": [ "u_vitamin('redcells')", "-=", "500 + rand(250)" ] },
-          { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,6" ] } },
+          { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,6)" ] } },
           { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" }
         ]
       },
@@ -145,7 +145,7 @@
         "then": [
           { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_NONHUMAN", "alpha_talker": "npc", "beta_talker": "u" },
           { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
-          { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,6" ] } },
+          { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,6)" ] } },
           { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" }
         ]
       },
@@ -159,25 +159,25 @@
             { "not": { "u_has_species": "RENFIELD" } },
             { "not": { "u_has_species": "HOMULLUS" } },
             { "not": { "u_has_trait": "FAE_CREATURE" } }
-          ],
-          "then": [
-            { "npc_message": "You get a taste of blood but stop drinking when you realize it cannot sustain you.", "type": "bad" },
-            {
-              "if": {
-                "or": [
-                  { "u_has_species": "MIGO" },
-                  { "u_has_species": "ZOMBIE" },
-                  { "u_has_species": "HORROR" },
-                  { "u_has_species": "ABERRATION" }
-                ]
-              },
-              "then": [
-                { "npc_message": "...and it tastes absolutely disgusting!", "type": "bad" },
-                { "math": [ "u_vitamin('bad_food')", "+=", "rng(10,15)" ] }
-              ]
-            }
           ]
-        }
+        },
+        "then": [
+          { "npc_message": "You get a taste of blood but stop drinking when you realize it cannot sustain you.", "type": "bad" },
+          {
+            "if": {
+              "or": [
+                { "u_has_species": "MIGO" },
+                { "u_has_species": "ZOMBIE" },
+                { "u_has_species": "HORROR" },
+                { "u_has_species": "ABERRATION" }
+              ]
+            },
+            "then": [
+              { "npc_message": "...and it tastes absolutely disgusting!", "type": "bad" },
+              { "math": [ "u_vitamin('bad_food')", "+=", "rng(10,15)" ] }
+            ]
+          }
+        ]
       }
     ],
     "false_effect": [ { "npc_message": "You can only drink blood from an incapacitated or sleeping target.", "type": "bad" } ]
