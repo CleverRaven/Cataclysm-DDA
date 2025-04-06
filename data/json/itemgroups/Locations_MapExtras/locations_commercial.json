@@ -1979,6 +1979,7 @@
     "id": "hotel_luggage",
     "subtype": "collection",
     "container-item": "suitcase_l",
+    "on_overflow": "discard",
     "entries": [
       {
         "distribution": [ { "group": "SUS_dresser_mens_small_bags", "prob": 50 }, { "group": "SUS_dresser_womens_small_bags", "prob": 50 } ]

@@ -692,7 +692,19 @@ static void run_eoc_menu( Creature *target = nullptr, bool target_as_alpha = fal
         } else {
             newDialog = dialogue( get_talker_for( get_avatar() ), target ? get_talker_for( target ) : nullptr );
         }
+
+        using chrono_scale = std::chrono::microseconds;
+        using parse_timer = std::chrono::time_point<std::chrono::steady_clock, chrono_scale>;
+
+        parse_timer const tp_start =
+            std::chrono::time_point_cast<chrono_scale>( std::chrono::steady_clock::now() );
+
         eocs[eoc_menu.ret].activate( newDialog );
+
+        parse_timer const tp_eval =
+            std::chrono::time_point_cast<chrono_scale>( std::chrono::steady_clock::now() );
+        add_msg_debug( debugmode::DF_GAME, "%s run time: %i us", eocs[eoc_menu.ret].id.str(),
+                       ( tp_eval - tp_start ).count() );
     }
 }
 
