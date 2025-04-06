@@ -562,7 +562,7 @@
     "id": "vampire_blood_ball",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "blood-storing sphere", "str_pl": "blood-storing spheres" },
+    "name": { "str": "blood-storing sphere" },
     "looks_like": "jar_glass_sealed",
     "description": "A magical transparent sphere.  You can use it to store any type of blood, at least until the sphere vanishes.",
     "weight": "1 g",
