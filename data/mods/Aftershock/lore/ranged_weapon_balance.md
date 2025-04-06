@@ -54,7 +54,7 @@ This table contains every single ranged weapon in the mod and is to be used for 
 |salvage bow                    |BOW        |Bow                |ARROW       |45        |       |      |        |    |    |1    |                                          |
 |salvage crossbow               |BOW        |Bow                |ARROW       |60        |       |      |        |    |    |1    |                                          |
 
-## Monster Armor and HP breakpoints 
+## Armor damage and HP breakpoints 
 
 Monster and player armor should be understood to exist in the following categories: unarmored, Light Armor, Medium, Heavy, and Vehicle/Structure. Armor definitions should have the following defensive ratings:
 
@@ -62,34 +62,46 @@ Monster and player armor should be understood to exist in the following categori
 |---------|-----|------|-----------|-------|--------|----------|
 | Light   | 10  | 7.5  | 15        |  0    |  0     |     0    |
 | Medium  | 20  | 15   | 30        | 10    |  0     |     0    |
-| Heavy   | 50  | 37   | 60        | 30    | 20     |    10    |
+| Heavy   | 50  | 30   | 60        | 30    | 20     |    10    |
 | Vehicle | 70  | 50   | 90        | 70    | 50     |    25    |
 
 Monsters and wearable armor pieces should belong to a single armor category (no mix matching E.X. Light melee armor combined with heavy ballistic armor ), if you desire monsters to be weaker against certain attack types, you should use weakpoint sets to achieve this. Armor pieces for players and NPCs should generally be ablative, either using the energy shield functionality or by having the `FRAGILE` flag.
+
+Damage for monsters should be balanced around the armor breakpoints of the table above. A monster capable of deafeating "X" armor should be capable of dealing between 4-10 units of damage in 60% of its attacks attacks against a foe equiped with that type of armor. melee die capable of dealing more than 30 damage in a single turn shouldn't exist.
+
+Good base die you can use for bash damage are:
+
+| Armor     | Bash damage die  |
+|-----------|------------------|
+| Unarmored | 2d3+ (2 Optional)|
+| Light     | 4d3              |
+| Medium    | 4d5 +(4 AP)      |
+| Heavy     | 16d2 +(6 AP)     |
+
 
 The following should apply based on the monster type:
 
 | Monster Archetype         | Example   | Estimate HP | Armor                    | Melee Damage Die | Speed | Notes                              |
 |---------------------------|-----------|-------------|--------------------------|------------------|-------|------------------------------------|
-| Small Alien Fauna         | Hevel     | <30         | unarmored                |                  |       |                                    |
-| Alien Herbivore           | Venandi   | 100         | unarmored                |                  |       |                                    |
-| Alien Predator            | Boatman   | 300         | light armor              |                  |       |                                    |
-| Alien Fauna Bossfight     | none yet  | 700+        | heavy armor              |                  |       |                                    |
-| Moxphore Grunt            | Scavenger | 80          | unarmored                |                  |       | Regens ~10hp                       |
-| Moxphore Specialized      | Elder     | 140         | light armor or medium    |                  |       | Regens ~15hp                       |
-| Moxphore Armored          | Spartan   | 200         | medium armor             |                  |       | Regens ~15hp                       |
-| Moxphore Bossfight        | none yet  | 1500+       | heavy armor              |                  |       | Regens ~30hp                       |
-| Small Utility Drone       | Eyebot    | 30          | light armor              |                  |       |                                    |
-| Flying Utility Drone      | eyebot    | 30          | unarmored                |                  |       |                                    |
-| Human/Medium Utility Robot| seneschal | 150         | medium armor             |                  |       |                                    |
-| Large Utility Robot       | Udarnik   | 600         | medium armor             |                  |       |                                    |
-| Small Combat Drone        | none yet  | 80          | light armor              |                  |       | Armor is up to X3 the base rating  |
-| Human/Medium Combat Drone | Isohypsa  | 600         | heavy armor              |                  |       | Armor is up to X3 the base rating  |
-| Large Combat Drone        | Zenit     | 1500        | vehicle                  |                  |       | Armor is up to X3 the base rating  |
-| Robot Bossfight           | none yet  | 4500+       | vehicle + omnishield     |                  |       | Armor is up to X3 the base rating  |
-| Salvor                    | SALVOR NPC| 80          | light armor              |                  |       |                                    |
-| UICA/Mercenary Grunt      | UICA NPC  | 80          | heavy armor              |                  |       | Armor is blative and wont last     |
-| UICA specops/Solos        | SOLO NPC  | 120+shield  | heavy armor + omnishield |                  |       | Armor is blative and wont last     |
+| Small Alien Fauna         | Hevel     | <30         | unarmored                | unarmored        |       |                                    |
+| Alien Herbivore           | Venandi   | 100         | unarmored                | unarmored        |       |                                    |
+| Alien Predator            | Boatman   | 300         | light armor              | light or medium  |       |                                    |
+| Alien Fauna Bossfight     | none yet  | 700+        | heavy armor              | heavy            |       |                                    |
+| Moxphore Grunt            | Scavenger | 80          | unarmored                | unarmored        |       | Regens ~10hp                       |
+| Moxphore Specialized      | Elder     | 140         | light armor or medium    | light or medium  |       | Regens ~15hp                       |
+| Moxphore Armored          | Spartan   | 200         | medium armor             | medium           |       | Regens ~15hp                       |
+| Moxphore Bossfight        | none yet  | 1500+       | heavy armor              | heavy            |       | Regens ~30hp                       |
+| Small Utility Drone       | Eyebot    | 30          | unarmored                | unarmored        |       |                                    |
+| Flying Utility Drone      | eyebot    | 30          | unarmored                | unarmored        |       |                                    |
+| Human/Medium Utility Robot| seneschal | 150         | medium armor             | medium           |       |                                    |
+| Large Utility Robot       | Udarnik   | 600         | medium armor             | medium or heavy  |       |                                    |
+| Small Combat Drone        | none yet  | 80          | light armor              | medium           |       | Armor is up to X3 the base rating  |
+| Human/Medium Combat Drone | Isohypsa  | 600         | heavy armor              | medium or heavy  |       | Armor is up to X3 the base rating  |
+| Large Combat Drone        | Zenit     | 1500        | vehicle                  | heavy            |       | Armor is up to X3 the base rating  |
+| Robot Bossfight           | none yet  | 4500+       | vehicle + omnishield     | heavy            |       | Armor is up to X3 the base rating  |
+| Salvor                    | SALVOR NPC| 80          | light armor              | light            |       |                                    |
+| UICA/Mercenary Grunt      | UICA NPC  | 80          | heavy armor              | light or medium  |       | Armor is blative and wont last     |
+| UICA specops/Solos        | SOLO NPC  | 120+shield  | heavy armor + omnishield | medium           |       | Armor is blative and wont last     |
 
 # Weapon Categorization
 

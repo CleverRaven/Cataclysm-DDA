@@ -26,7 +26,7 @@
     },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_dusted",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
     "extend": { "weakpoint_sets": [ "wps_humanoid_child_body", "wps_humanoid_head_big" ], "families": [ "prof_wp_child" ] },
     "delete": { "flags": [ "PUSH_MON" ] }
   },

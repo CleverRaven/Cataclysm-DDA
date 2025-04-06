@@ -16,7 +16,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "examine_action": {
       "type": "effect_on_condition",
@@ -86,7 +86,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "ch_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 80,

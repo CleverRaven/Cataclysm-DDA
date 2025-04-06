@@ -60,7 +60,18 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "concentrated_underhill_essence",
-    "tools": [ [ [ "lump_cast_iron", -1 ] ], [ [ "steel_lump", -1 ] ] ],
+    "tools": [
+      [ [ "lump_cast_iron", -1 ] ],
+      [
+        [ "steel_lump", -1 ],
+        [ "budget_steel_lump", -1 ],
+        [ "lc_steel_lump", -1 ],
+        [ "mc_steel_lump", -1 ],
+        [ "hc_steel_lump", -1 ],
+        [ "ch_steel_lump", -1 ],
+        [ "qt_steel_lump", -1 ]
+      ]
+    ],
     "components": [ [ [ "fae_organs", 4 ], [ "fae_fur", 7 ], [ "fae_meat", 7 ], [ "fae_meat_scrap", 50 ], [ "fae_blood", 20 ] ] ],
     "time": "5 m",
     "batch_time_factors": [ 99, 1 ],

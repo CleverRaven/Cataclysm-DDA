@@ -162,6 +162,102 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_TRAIT",
+    "name": { "str": "Dhampir" },
+    "points": 0,
+    "description": "You are a dhampir, the child of a vampire.  You have inherited a portion of their vampiric power, as well as the ability to drink blood.  Hopefully you can keep your urges under control.\n\nAs a dhampir, your blood naturally slowly fills with power over time, which you can use to fuel your abilities.",
+    "types": [ "HERITAGE" ],
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mixed_effect": true,
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_slow_blood_gain", "intensity": 1 } ]
+      },
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_slow_blood_loss", "intensity": 1 } ]
+      },
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+    ],
+    "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
+    "flags": [ "HEMOVORE" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_DETECT_VAMPIRES",
+    "name": { "str": "Blood Calls to Blood" },
+    "points": 1,
+    "description": "You can use the connection of your heritage to sense nearby vampires and their minions.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You open your senses to the presence of the night-hunters.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "npc_has_species": "RENFIELD" },
+            "distance": { "math": [ "u_val('perception') * 1.5" ] },
+            "descriptions": [ { "id": "infrared_creature_medium", "text": "You sense one of the vampires' servants here." } ]
+          },
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 1.5" ] },
+            "descriptions": [ { "id": "vampire_sense", "text": "You sense a vampire here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_FANGS",
+    "name": { "str": "Dhampir Fangs" },
+    "points": 1,
+    "description": "You have a set of small fangs, not as long as a true vampire's, but on the other hand, you can retract them to more easily conceal them.  Activate to extend your fangs.",
+    "types": [ "TEETH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "Your fangs lengthen.",
+    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "DHAMPIR_FANGS_ACTIVE" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_FANGS_ACTIVE",
+    "name": { "str": "Dhampir Fangs on", "//~": "NO_I18N" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 2,
+    "description": { "str": "Fang on!", "//~": "NO_I18N" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 7 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease" },
     "points": 0,
@@ -170,6 +266,7 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
@@ -890,6 +987,147 @@
     "purifiable": false,
     "valid": false,
     "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_MORE_BLOOD",
+    "name": { "str": "Vampiric weakness: blood drain" },
+    "points": -1,
+    "description": "You thirst for blood is more intense than usual.  You now need twice as much blood to prevent blood starvation.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 60 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_GROTESQUE",
+    "name": { "str": "Vampiric weakness: revolting appearance" },
+    "points": -1,
+    "description": "Your body brings to mind a rotting corpse.  Social interactions will be much harder for you.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "visibility": 30,
+    "ugliness": 30,
+    "social_modifiers": { "lie": -30, "persuade": -30, "intimidate": -30 },
+    "//": "You have to convince those you talk to that you're not just a smarter zombie, hence the intimidate malus."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_EARTH_SLEEP",
+    "name": { "str": "Vampiric weakness: earth-sleeper" },
+    "points": -1,
+    "description": "You now depend on the proximity to the earth to sleep well.  Should you sleep or torpor aboveground or not surrounded by earth, you will suffer penalties for the next day.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_HOLY_BURN",
+    "name": { "str": "Vampiric weakness: rebuked by holy ground" },
+    "points": -1,
+    "description": "Your flesh will burn should you ever enter a sanctified area.  Only places that are holy will burn you, so holy places filled with vampires or unholy humans are safe for you to enter.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "//": "Unsafe: churches, cathedrals, synagogues, rural churches, eventual other holy places.",
+    "//2": "Safe: Vampire-filled holy places, the New England Community Church, anywhere not unsafe."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_VAST_WATER_BURN",
+    "name": { "str": "Vampiric weakness: melted by vast water" },
+    "points": -1,
+    "description": "Your flesh will melt should you ever try to cross a large body of water or get too close to them.  Only rivers, lakes and oceans have enough water to trigger this weakness, but it will take effect even if floating or water-walking.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "//": "Unsafe: rivers, lakes, oceans.",
+    "//2": "Safe: anywhere else."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_ANIMAL_HATE",
+    "name": { "str": "Vampiric weakness: hated by animals" },
+    "points": -1,
+    "description": "Animals cannot tolerate your wicked presence.  Expect any animal you encounter to either flee or attack you on sight.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [
+      [ "MAMMAL", 50 ],
+      [ "AMPHIBIAN", 50 ],
+      [ "BIRD", 50 ],
+      [ "REPTILE", 50 ],
+      [ "FISH", 50 ],
+      [ "KRAKEN", 50 ],
+      [ "INSECT", 50 ],
+      [ "CENTIPEDE", 50 ],
+      [ "INSECT_FLYING", 50 ],
+      [ "SPIDER", 50 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_FIRE_VULNERABLE",
+    "name": { "str": "Vampiric weakness: vulnerable to fire" },
+    "points": -1,
+    "description": "Fire damages you far more than it should.  You take massive damage from fire and flames, mundane and magical.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_COLD_BLOODED",
+    "name": { "str": "Vampiric weakness: cold as a corpse" },
+    "points": -1,
+    "description": "You now lack amy body heat.  You feel colder at all times, and being cold will slow you down.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": -20 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD",
+    "name": { "str": "Vampiric weakness: living-drinker" },
+    "points": -1,
+    "description": "You now need to drink some fresh, warm blood from a living being once in a while or suffer growing penalties.  You better find someone willing to share their blood, as blood from fresh corpses won't satisfy this need.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "//": "When the player will be able to drink from living unwilling, this trait should bring its penalties at least twice as quickly."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD",
+    "name": { "str": "Vampiric weakness: picky feeding" },
+    "points": -1,
+    "description": "Your ability to process varied types of blood is now hampered.  Blood that isn't regular human blood will only sate your thirst half as much.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_BLOOD_CRAVING",
+    "name": { "str": "Vampiric weakness: blood cravings" },
+    "points": -1,
+    "description": "Your thirst for blood will occasionally magnify, causing painful cravings.  You can calm these cravings as or before they happen by consuming blood.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
   },
   {
     "type": "mutation",

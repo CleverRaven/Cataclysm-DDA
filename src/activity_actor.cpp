@@ -2857,7 +2857,7 @@ void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    // only consume charges every 25 pages
+    // only consume charges every pages_per_charge pages
     if( calendar::once_every( pages_per_charge * time_per_page ) ) {
         if( !ereader->ammo_sufficient( &who ) ) {
             add_msg_if_player_sees(
@@ -7786,7 +7786,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable( src_loc ) ) {
+                if( here.passable_through( src_loc ) ) {
                     route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
                                         you.get_path_avoid() );
                 } else {
@@ -8529,9 +8529,14 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         return false;
     }
 
+    if( !g->can_pulp_acid_corpse( you, *corpse_mtype ) ) {
+        acid_corpse = true;
+        return false;
+    }
+
     pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 
-    if( !g->can_pulp_corpse( you, *corpse_mtype, pd ) ) {
+    if( !g->can_pulp_corpse( pd ) ) {
         way_too_long_to_pulp = true;
         return false;
     }
@@ -8607,6 +8612,12 @@ void pulp_activity_actor::finish( player_activity &act, Character &you )
 
 void pulp_activity_actor::send_final_message( Character &you ) const
 {
+
+    if( acid_corpse ) {
+        you.add_msg_if_player( m_bad,
+                               _( "You cannot pulp acid-filled corpses without appropriate protection." ) );
+        return;
+    }
 
     if( way_too_long_to_pulp && num_corpses == 0 ) {
         you.add_msg_player_or_npc( n_gettext(
@@ -8701,6 +8712,7 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "too_long_to_pulp", too_long_to_pulp );
     jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
     jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
+    jsout.member( "acid_corpse", acid_corpse );
     jsout.member( "stomps_only", pd.stomps_only );
     jsout.member( "weapon_only", pd.weapon_only );
     jsout.member( "can_cut_precisely", pd.can_cut_precisely );
@@ -8729,6 +8741,7 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "too_long_to_pulp", actor.too_long_to_pulp );
     data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
     data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
+    data.read( "acid_corpse", actor.acid_corpse );
     data.read( "stomps_only", actor.pd.stomps_only );
     data.read( "weapon_only", actor.pd.weapon_only );
     data.read( "can_cut_precisely", actor.pd.can_cut_precisely );

@@ -5,6 +5,27 @@
 echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
+# Android build is its own separate thing, only bundled here for invocation convenience
+if [ -n "$ANDROID" ]
+then
+    cd ./android
+    chmod +x gradlew
+    if [ ${ANDROID} = "arm64" ]
+    then
+        ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
+    elif [ ${ANDROID} = "arm32" ]
+    then
+        ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
+    elif [ ${ANDROID} = "bundle" ]
+    then
+        ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
+    else
+        echo "Unexpected value of ANDROID env var - '${ANDROID}'"
+        exit 1
+    fi
+    exit 0  # no fallthrough
+fi
+
 num_jobs=3
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH

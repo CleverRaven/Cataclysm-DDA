@@ -621,7 +621,7 @@ class cata_tiles
                                              const std::array<bool, 5> &invisible, bool memorize_only );
         void draw_zlevel_overlay( const tripoint_bub_ms &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p, lit_level ll,
-                                        int &height_3d );
+                                        int &height_3d, FacingDirection facing_override = FacingDirection::NONE );
         void draw_entity_with_overlays( const Character &ch, const tripoint_abs_omt &p, lit_level ll,
                                         int &height_3d ) {
             draw_entity_with_overlays( ch, tripoint_bub_ms( p.raw() ), ll, height_3d );

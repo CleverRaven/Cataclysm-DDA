@@ -974,7 +974,7 @@
     "id": "mon_fry_crayfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_crayfish" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_crayfish" },
     "name": { "str": "crustacean larva", "str_pl": "crustacean larvae" },
     "description": "A minuscule half-translucent crustacean larva.  Impossible to identify which species it belongs to.",
     "bodytype": "crab"

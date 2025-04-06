@@ -24,8 +24,8 @@
         " #...------......-c..r# ",
         " #r..------..|||||||I|# ",
         " 8r..........|EEEEt..F# ",
-        " 8r..xxxwyw..|E.c...cE8 ",
-        " 8r..xxxywy..I.......E8 ",
+        " 8r..xxxxxx..|E.c...cE8 ",
+        " 8r..xxxxxx..I.......E8 ",
         " #..........^|.--llll^# ",
         " #D|||D#######L####55## ",
         "4#.S|S.#d<dsssssss      ",
@@ -33,7 +33,7 @@
         " #######ssssssssss      ",
         "                        "
       ],
-      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette", "commercial" ],
       "terrain": {
         "%": "t_region_shrub_decorative",
         "+": "t_door_metal_pickable",
@@ -68,9 +68,15 @@
         "q": "f_stool",
         "r": "f_rack",
         "t": "f_trashcan",
-        "w": "f_washer",
-        "x": "f_console_broken",
-        "y": "f_dryer"
+        "x": [
+          [ "f_console_broken", 10 ],
+          [ "f_washer", 5 ],
+          [ "f_dryer", 5 ],
+          [ { "param": "freezer_to_sell", "fallback": "f_freezer" }, 10 ],
+          [ { "param": "coolers_to_sell", "fallback": "f_fridge" }, 10 ],
+          [ "f_dishwasher", 5 ],
+          [ "f_shredder", 2 ]
+        ]
       },
       "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
@@ -165,16 +171,16 @@
         "    9    xxxpJpxxx  9   ",
         "        xxxxxxxxxxxxxxxx",
         "   ######:::#+##:::### x",
-        " 9 #{{{{{y.......c..Y# x",
-        "   #{............cS..# x",
-        "   #{..{{..{{....c...# x",
-        "   #{..{{..{{....ccc.# x",
-        "   #{..{{..{{........# x",
-        "   #{...........HH..-:px",
-        "   #{..{{..{{.......-:px",
-        "   #{..{{..{{...HH..-:px",
-        "   #{..{{..{{...tt..-:px",
-        "   #{................#px",
+        " 9 #XXXXXy.......c..Y# x",
+        "   #X............cS..# x",
+        "   #X..{{..{{....c...# x",
+        "   #X..{{..{{....ccc.# x",
+        "   #X..{{..{{........# x",
+        "   #X...........HH..-:px",
+        "   #X..{{..{{.......-:px",
+        "   #X..{{..{{...HH..-:px",
+        "   #X..{{..{{...tt..-:px",
+        "   #X................#px",
         "   #-----.--------..y#4x",
         "   #|||||+|||:::|||+|#px",
         "   #@@@t|.|FttGtt.|..:px",
@@ -186,7 +192,7 @@
         "        xxU<UUxxxxxxxxxx",
         "         xUUxxxxxxx     "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_walls_palette", "commercial" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         ".": "t_floor",
@@ -219,7 +225,16 @@
         "F": "f_filing_cabinet",
         "@": "f_sofa",
         "G": "f_workbench",
-        "p": "f_region_flower"
+        "p": "f_region_flower",
+        "X": [
+          [ "f_console_broken", 10 ],
+          [ "f_washer", 5 ],
+          [ "f_dryer", 5 ],
+          [ { "param": "freezer_to_sell", "fallback": "f_freezer" }, 10 ],
+          [ { "param": "coolers_to_sell", "fallback": "f_fridge" }, 10 ],
+          [ "f_dishwasher", 5 ],
+          [ "f_shredder", 2 ]
+        ]
       },
       "toilets": { "&": {  } },
       "items": {

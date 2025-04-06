@@ -2604,7 +2604,7 @@
     "type": "GENERIC",
     "id": "tanbark",
     "name": { "str": "piece of tanbark", "str_pl": "pieces of tanbark" },
-    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
+    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather.",
     "copy-from": "bark_abstract"
   },
   {

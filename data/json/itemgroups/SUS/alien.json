@@ -9,9 +9,9 @@
       {
         "collection": [
           { "item": "chain", "prob": 30, "count": [ 2, 15 ] },
-          { "item": "steel_chunk", "prob": 40, "count": [ 2, 10 ] },
+          { "item": "mc_steel_chunk", "prob": 40, "count": [ 2, 10 ] },
           { "item": "spring", "prob": 20, "count": [ 2, 10 ] },
-          { "item": "steel_lump", "prob": 40, "count": [ 1, 5 ] },
+          { "item": "mc_steel_lump", "prob": 40, "count": [ 1, 5 ] },
           { "item": "frame", "prob": 10, "count": [ 1, 10 ] },
           { "item": "frame", "prob": 10, "count": [ 1, 5 ] },
           { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
@@ -169,7 +169,7 @@
       [ "exodii_sensor", 20 ],
       [ "exodii_motor", 30 ],
       [ "spring", 50 ],
-      [ "steel_lump", 10 ],
+      [ "ch_steel_lump", 10 ],
       [ "pipe", 10 ],
       [ "frame", 20 ],
       [ "hdframe", 20 ],

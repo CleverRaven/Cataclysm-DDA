@@ -1947,6 +1947,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
             effects->erase( eff_id );
         }
     }
+
     return true;
 }
 bool Creature::remove_effect( const efftype_id &eff_id )
@@ -2512,9 +2513,36 @@ int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
     return get_part_helper( *this, id, &bodypart::get_damage_bandaged );
 }
 
-const encumbrance_data &Creature::get_part_encumbrance_data( const bodypart_id &id ) const
+bool Creature::compare_encumbrance_data( const bodypart_id &id_a, const bodypart_id &id_b ) const
 {
-    return get_part_helper( *this, id, &bodypart::get_encumbrance_data );
+    const bodypart *part_a = get_part( id_a );
+    const bodypart *part_b = get_part( id_b );
+    if( part_a && part_b ) {
+        return part_a->compare_encumbrance_data( *part_b );
+    } else if( !part_a && !part_b ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+int Creature::get_part_layer_penalty( const bodypart_id &id ) const
+{
+    return get_part_helper( *this, id, &bodypart::get_layer_penalty );
+}
+
+int Creature::get_part_encumbrance( const bodypart_id &id ) const
+{
+    // semi duplicate get_part_helper code to allow passing get_final_encumbrance the character.
+    const bodypart *const part = get_part( id );
+    if( part ) {
+        return part->get_final_encumbrance( *this );
+    } else {
+        // If the bodypart doesn't exist, return the appropriate accessor on the null bodypart.
+        // Static null bodypart variable, otherwise the compiler notes the possible return of local variable address (#42798).
+        static const bodypart bp_null;
+        return bp_null.get_final_encumbrance( *this );
+    }
 }
 
 int Creature::get_part_drench_capacity( const bodypart_id &id ) const

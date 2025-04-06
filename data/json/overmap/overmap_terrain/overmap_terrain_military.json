@@ -56,6 +56,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "fema_bus",
+    "vision_levels": "large_pavement",
+    "name": "FEMA camp bus stop",
+    "sym": "B",
+    "color": "dark_gray",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 6, 16 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "shelter_abstract",
     "sym": "+",
     "color": "white",
@@ -295,22 +306,11 @@
     "vision_levels": "isolated_building",
     "see_cost": "high",
     "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost_cross",
-    "name": "military outpost",
-    "sym": "M",
-    "color": "red",
-    "vision_levels": "isolated_building",
-    "see_cost": "high",
-    "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "outpost_roof", "outpost_cross_roof" ],
+    "id": [ "outpost_roof" ],
     "name": "military outpost roof",
     "sym": "M",
     "color": "red",

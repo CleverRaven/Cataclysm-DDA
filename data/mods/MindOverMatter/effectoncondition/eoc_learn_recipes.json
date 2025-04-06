@@ -433,7 +433,8 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
-          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE"
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMY"
         ]
       }
     ]
@@ -543,6 +544,12 @@
       "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_disintegrate') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_light_disintegrate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMY",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_army') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_army" } ]
   },
   {
     "type": "effect_on_condition",

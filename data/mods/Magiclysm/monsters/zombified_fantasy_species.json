@@ -10,7 +10,7 @@
     "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
     "vision_day": 15,
     "vision_night": 8,
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -22,7 +22,7 @@
     "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
     "vision_day": 15,
     "vision_night": 8,
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -33,7 +33,7 @@
     "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
     "//": "Better night vision than default zombies, but not as good as living elves.",
     "vision_night": 5,
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_ELF_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_ELF_UPGRADE" },
     "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
@@ -63,7 +63,7 @@
     "vision_day": 3,
     "vision_night": 15,
     "death_drops": "feral_goblin_death_drops",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GOBLIN_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_GOBLIN_UPGRADE" }
   },
   {
     "id": "mon_zombie_ravenfolk",
@@ -116,7 +116,7 @@
     ],
     "vision_day": 35,
     "death_drops": "feral_ravenfolk_death_drops",
-    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE" }
+    "upgrades": { "half_life": 360, "into_group": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE" }
   },
   {
     "id": "mon_zombie_lizardfolk",
@@ -161,6 +161,6 @@
       }
     ],
     "death_drops": "feral_lizardfolk_death_drops",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE" }
   }
 ]

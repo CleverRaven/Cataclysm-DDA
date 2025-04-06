@@ -332,7 +332,9 @@ static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
@@ -2193,8 +2195,8 @@ std::set<matec_id> Character::get_limb_techs() const
     std::set<matec_id> result;
     for( const bodypart_id &part : get_all_body_parts() ) {
         const bodypart *bp = get_part( part );
-        if( !bp->is_limb_overencumbered() && bp->get_hp_cur() > part->health_limit ) {
-            std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
+        if( !bp->is_limb_overencumbered( *this ) && bp->get_hp_cur() > part->health_limit ) {
+            std::set<matec_id> part_tech = get_part( part )->get_limb_techs( *this );
             result.insert( part_tech.begin(), part_tech.end() );
         }
     }
@@ -2207,8 +2209,9 @@ int Character::get_working_arm_count() const
     body_part_type::type arm_type = body_part_type::type::arm;
     for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
-            !get_part( part )->is_limb_overencumbered() ) {
+        if( get_part( part )->get_limb_score( *this,
+                                              limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
+            !get_part( part )->is_limb_overencumbered( *this ) ) {
             limb_count++;
         }
     }
@@ -2428,8 +2431,24 @@ void Character::process_turn()
     for( const trait_id &mut : get_functioning_mutations() ) {
         mutation_reflex_trigger( mut );
     }
+    //Creature::process_turn() uses speed to restore moves, but for Character, speed has not yet been calculated.
+    //So Creature::process_turn() cannot be used directly here.
+    //Exposed the content of Creature::process_turn() except restore moves here,
+    //and do the reset moves later after recalc_speed_bonus().
+    //The following is the content of Creature::process_turn() except restore moves
+    decrement_summon_timer();
+    if( is_dead_state() ) {
+        return;
+    }
+    reset_bonuses();
 
-    Creature::process_turn();
+    process_effects();
+
+    process_damage_over_time();
+
+    // Call this in case any effects have changed our stats
+    reset_stats();
+    //The above is the content of Creature::process_turn() except reset moves
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
@@ -2449,6 +2468,11 @@ void Character::process_turn()
     } );
 
     suffer();
+    recalc_speed_bonus();
+    //
+    if( !has_effect( effect_ridden ) ) {
+        moves += get_speed();
+    }
     // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
@@ -3356,6 +3380,11 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
+units::mass Character::max_pickup_capacity() const
+{
+    return weight_capacity() * 4;
+}
+
 bool Character::can_pickVolume( const item &it, bool, const item *avoid,
                                 const bool ignore_pkt_settings ) const
 {
@@ -3389,8 +3418,7 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
 bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
-        // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
+        return ( weight_carried() + it.weight() <= max_pickup_capacity() );
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
@@ -3976,6 +4004,7 @@ void Character::reset()
     mod_int_bonus( int_bonus_hardcoded );
     mod_per_bonus( per_bonus_hardcoded );
     reset_stats();
+    recalc_speed_bonus();
 }
 
 bool Character::has_nv_goggles()
@@ -4018,7 +4047,6 @@ void Character::calc_encumbrance()
 
 void Character::calc_encumbrance( const item &new_item )
 {
-
     std::map<bodypart_id, encumbrance_data> enc;
     worn.item_encumb( enc, new_item, *this );
     mut_cbm_encumb( enc );
@@ -4194,7 +4222,7 @@ int Character::encumb( const bodypart_id &bp ) const
         debugmsg( "INFO: Tried to check encumbrance of a bodypart that does not exist." );
         return 0;
     }
-    return get_part_encumbrance_data( bp ).encumbrance;
+    return get_part_encumbrance( bp );
 }
 
 void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
@@ -4232,7 +4260,6 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
 
 void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
-
     for( const bionic_id &bid : get_bionics() ) {
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
             vals[element.first.id()].encumbrance += element.second;
@@ -7800,6 +7827,11 @@ void Character::recalculate_enchantment_cache()
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
+
+    // do final statistic recalculations
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
     recalc_hp();
 }
 
@@ -10521,6 +10553,9 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
                              _( "Downed" ) );
     }
 
+    // minimum possible movecost is 1, no infinispeed
+    movecost = std::max( 1.0f, movecost );
+
     return effects;
 }
 
@@ -12012,7 +12047,7 @@ bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
         if( elem.first->has_flag( flag ) ) {
             return true;
         }
-        if( elem.second.has_conditional_flag( flag ) ) {
+        if( elem.second.has_conditional_flag( *this, flag ) ) {
             // Checking for disabling effects is a bit convoluted
             bool disabled = false;
             if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
@@ -12040,7 +12075,7 @@ int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
         if( bp->has_flag( flag ) ) {
             ret++;
         }
-        if( get_part( bp )->has_conditional_flag( flag ) ) {
+        if( get_part( bp )->has_conditional_flag( *this, flag ) ) {
             bool disabled = false;
             if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
                 for( const effect &eff : get_effects_from_bp( bp ) ) {
@@ -12076,6 +12111,57 @@ int Character::count_flag( const json_character_flag &flag ) const
            has_effect_with_flag( flag ) +
            count_bodypart_with_flag( flag ) +
            count_mabuff_flag( flag );
+}
+
+bool Character::empathizes_with_species( const species_id &species ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    // Negative empathy list.  Takes precedence over positive traits or human
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.no_empathize_with.begin(), mut_data.no_empathize_with.end(),
+                       species ) != mut_data.no_empathize_with.end() ) {
+            return false;
+        }
+    }
+
+    // Human empathy by default.
+    if( species == species_HUMAN ) {
+        return true;
+    }
+
+    // positive empathy list
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.empathize_with.begin(), mut_data.empathize_with.end(),
+                       species ) != mut_data.empathize_with.end() ) {
+            return true;
+        }
+    }
+
+    // Don't empathize with any species other than HUMAN by default.
+    return false;
+}
+
+bool Character::empathizes_with_monster( const mtype_id &monster ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    for( species_id species : monster->species ) {
+        if( empathizes_with_species( species ) ) {
+            return true;
+        }
+    }
+    // used since this method is called on corpse ids, which are null for npc corpses.
+    if( monster == mtype_id::NULL_ID() && empathizes_with_species( species_HUMAN ) ) {
+        return true;
+    }
+    return false;
 }
 
 bool Character::is_driving() const
@@ -13077,12 +13163,20 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
 
+    item_location wielded = get_wielded_item();
+
     if( has_wield_conflicts( it ) ) {
         const bool is_unwielding = is_wielding( it );
         const auto ret = can_unwield( it );
 
         if( !ret.success() ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
+            return false;
+        }
+
+        if( !is_unwielding && wielded->has_item( it ) ) {
+            add_msg_if_player( m_info,
+                               _( "You need to put the bag away before trying to wield something from it." ) );
             return false;
         }
 
@@ -13096,13 +13190,6 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
             }
             return true;
         }
-    }
-
-    item_location wielded = get_wielded_item();
-    if( wielded && wielded->has_item( it ) ) {
-        add_msg_if_player( m_info,
-                           _( "You need to put the bag away before trying to wield something from it." ) );
-        return false;
     }
 
     if( !can_wield( it ).success() ) {

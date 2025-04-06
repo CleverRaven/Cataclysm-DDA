@@ -961,8 +961,13 @@
         "description": "Short purple hair style.",
         "weight": 1
       },
-      { "id": "red", "name": { "str": "Hair: red, short" }, "description": "Short red hair style", "weight": 1 },
-      { "id": "white", "name": { "str": "Hair: white, short" }, "description": "Short white hair style", "weight": 1 }
+      { "id": "red", "name": { "str": "Hair: red, short" }, "description": "Short red hair style.", "weight": 1 },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, short" },
+        "description": "Short white hair style.",
+        "weight": 1
+      }
     ],
     "types": [ "hair_style" ]
   },
