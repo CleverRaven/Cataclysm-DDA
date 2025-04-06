@@ -694,4 +694,23 @@
       }
     ]
   }
+  {
+    "id": "glock_44",
+    "copy-from": "gun_base_22_semi_pistol",
+    "type": "GUN",
+    "looks_like": "glock19",
+    "name": { "str": "Glock 44" },
+    "description": "A Glock chambered in .22LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
+    "weight": "358 g",
+    "volume": "398 ml",
+    "longest_side": "212 mm",
+    "barrel_length": "108 mm",
+    "price": "380 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel, plastic" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 580,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ] ],
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock44_mag" ] } ],
+  }
 ]
