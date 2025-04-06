@@ -498,6 +498,7 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```NEGATIVE_MONOTONY_OK``` Allows `negative_monotony` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat / auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.
+- ```NO_TEMP``` This item does not rot and does not need temperature tracked.  Any pre-existing items this flag is added to will need to go on the temperature blacklist.
 - ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from.  The `NUTRIENT_OVERRIDE` flag will skip this step.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.

@@ -5382,5 +5382,10 @@
       { "point": [ 0, 0, 0 ], "overmap": "office_dentist_north" },
       { "point": [ 0, 0, 1 ], "overmap": "office_dentist_roof_north" }
     ]
+  },
+  {
+    "id": "s_airsoft",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_airsoft_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_airsoft_roof_north" } ]
   }
 ]

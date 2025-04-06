@@ -62,7 +62,7 @@
       { "monster": "mon_wraitheon_irradiant", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_tripod", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0, "starts": 1086 },
+      { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0, "starts": "181 days" },
       { "monster": "mon_chickenbot", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_bloodhound_drone", "weight": 220, "cost_multiplier": 0 }
     ]

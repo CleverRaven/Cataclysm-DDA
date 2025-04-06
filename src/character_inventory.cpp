@@ -15,6 +15,7 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -746,6 +747,10 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
 
 bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 {
+    if( test_mode ) {
+        return false;
+    }
+
     uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
     std::vector<dispose_option> opts;

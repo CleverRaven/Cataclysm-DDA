@@ -1521,7 +1521,7 @@ bool npc::wield( item &it )
     if( is_wielding( it ) ) {
         return true;
     }
-    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded itm
+    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded item
     if( has_wield_conflicts( it ) && !get_wielded_item()->has_item( it ) ) {
         stow_item( *get_wielded_item() );
     }
@@ -1543,8 +1543,10 @@ bool npc::wield( item_location loc, bool remove_old )
     if( !Character::wield( std::move( loc ), remove_old ) ) {
         return false;
     }
-    add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
-                            get_wielded_item()->tname() );
+    if( get_wielded_item() ) {
+        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+                                get_wielded_item()->tname() );
+    }
 
     invalidate_range_cache();
     return true;

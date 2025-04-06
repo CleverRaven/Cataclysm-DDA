@@ -1967,7 +1967,8 @@
         "G  I",
         " ccI"
       ],
-      "palettes": [ "domestic_garden_nest_palette" ]
+      "palettes": [ "domestic_garden_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -2024,7 +2025,8 @@
         "     "
       ],
       "palettes": [ "domestic_garden_nest_palette" ],
-      "terrain": { " ": "t_concrete", "f": "t_concrete" }
+      "terrain": { " ": "t_concrete", "f": "t_concrete" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -2043,7 +2045,8 @@
         "     "
       ],
       "palettes": [ "domestic_garden_nest_palette" ],
-      "terrain": { " ": "t_concrete" }
+      "terrain": { " ": "t_concrete" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {

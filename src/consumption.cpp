@@ -154,6 +154,8 @@ static const mutation_category_id mutation_category_URSINE( "URSINE" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_survival( "survival" );
 
+static const species_id species_HUMAN( "HUMAN" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
@@ -959,12 +961,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     return ret_val<edible_rating>::make_success();
 }
 
-bool Character::okay_with_eating_humans() const
-{
-    return has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ||
-           has_flag( json_flag_PSYCHOPATH ) || has_flag( json_flag_SAPIOVORE );
-}
-
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
 {
     ret_val<edible_rating> ret = can_eat( food );
@@ -999,7 +995,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-    if( ( food_is_human_flesh && !okay_with_eating_humans() ) &&
+    if( ( food_is_human_flesh && empathizes_with_species( species_HUMAN ) ) &&
         ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }

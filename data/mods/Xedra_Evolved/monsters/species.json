@@ -79,5 +79,11 @@
     "id": "NIGHTMARE",
     "description": "creatures made from dreams, technically not alive",
     "flags": [ "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "GRACKEN",
+    "description": "Grackens from the nether",
+    "fear_triggers": [ "HURT" ]
   }
 ]
