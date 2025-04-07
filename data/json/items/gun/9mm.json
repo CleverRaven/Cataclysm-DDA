@@ -149,7 +149,7 @@
     "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "Glock 26},
+    "name": { "str": "Glock 26 },
     "description": "A Glock subcompact pistol chambered in 9mm Luger.  Despite its tiny size, it can fit the magazines of its larger brothers.",
     "weight": "550 g",
     "volume": "348 ml",
