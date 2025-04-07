@@ -61,7 +61,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "magazine_well": "250 ml",
-        "item_restriction": [ "glock40mag_9","glock40mag_10", "glock40mag", "glock40bigmag" ]
+        "item_restriction": [ "glock40mag_9", "glock40mag_10", "glock40mag", "glock40bigmag" ]
       }
     ]
   },
