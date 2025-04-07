@@ -3393,7 +3393,7 @@ talk_effect_fun_t::func f_add_effect( const JsonObject &jo, std::string_view mem
 {
     str_or_var new_effect = get_str_or_var( jo.get_member( member ), member, true );
     bool permanent = false;
-    bool force = false;
+    bool force = jo.get_bool( "force", false );
     duration_or_var dov_duration;
     dbl_or_var dov_intensity;
     if( jo.has_string( "duration" ) ) {
@@ -3408,9 +3408,6 @@ talk_effect_fun_t::func f_add_effect( const JsonObject &jo, std::string_view mem
         dov_duration = get_duration_or_var( jo, "duration", true );
     }
     dov_intensity = get_dbl_or_var( jo, "intensity", false, 0 );
-    if( jo.has_bool( "force" ) ) {
-        force = jo.get_bool( "force" );
-    }
     str_or_var target;
     if( jo.has_member( "target_part" ) ) {
         target = get_str_or_var( jo.get_member( "target_part" ), "target_part", false, "bp_null" );
@@ -6319,20 +6316,9 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
                            context.size() ) );
     }
 
-    bool hide_failing = false;
-    if( jo.has_bool( "hide_failing" ) ) {
-        hide_failing = jo.get_bool( "hide_failing" );
-    }
-
-    bool allow_cancel = false;
-    if( jo.has_bool( "allow_cancel" ) ) {
-        allow_cancel = jo.get_bool( "allow_cancel" );
-    }
-
-    bool hilight_disabled = false;
-    if( jo.has_bool( "hilight_disabled" ) ) {
-        hilight_disabled = jo.get_bool( "hilight_disabled" );
-    }
+    bool hide_failing = jo.get_bool( "hide_failing", false );
+    bool allow_cancel = jo.get_bool( "allow_cancel", false );
+    bool hilight_disabled = jo.get_bool( "hilight_disabled", false ) ;
 
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
