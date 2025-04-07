@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_GET_BLOOD_VITAMIN",
+    "id": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN",
     "effect": [
       {
         "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
@@ -56,7 +56,7 @@
         "if": { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
         "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] }
       },
-      { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" }
+      { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" }
     ]
   },
   {
@@ -71,7 +71,7 @@
         { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" } ]
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" } ]
   },
   {
     "type": "effect_on_condition",
@@ -210,7 +210,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT",
     "condition": { "u_has_effect": "effect_vampire_blood_drinking" },
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" } ]
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" } ]
   },
   {
     "id": "EOC_VAMPIRE_DRINK_BLOOD_INTERRUPTED_CHECK",
