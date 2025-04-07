@@ -2362,7 +2362,7 @@ std::optional<int> manualnoise_actor::use( Character *p, item &it,
     return manualnoise_actor::use( p, it, &get_map(), pos );
 }
 
-std::optional<int> manualnoise_actor::use( Character *p, item &, map *here,
+std::optional<int> manualnoise_actor::use( Character *p, item &, map *,
         const tripoint_bub_ms & ) const
 {
     map &bubble_map = reality_bubble();
