@@ -119,7 +119,7 @@
   },  
   {
     "id": "glock_43x",
-    "//:" "This one uses 10 round doublestack mags, which are incompatible with the standard variant",
+    "//": "This one uses 10 round doublestack mags, which are incompatible with the standard variant",
     "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_19",
     "type": "GUN",
