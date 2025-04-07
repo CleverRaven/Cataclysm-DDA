@@ -1479,9 +1479,12 @@ class read_inventory_preset: public pickup_inventory_preset
 
         std::string get_denial( const item_location &loc ) const override {
             std::vector<std::string> denials;
-            if( you.get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
-                !loc->type->can_use( "learn_spell" ) ) {
+            if( ( you.get_book_reader( *loc, denials ) == nullptr &&
+                  !denials.empty() &&
+                  !loc->type->can_use( "learn_spell" ) ) ) {
                 return denials.front();
+            } else if( loc.is_efile() ) {
+                return std::string();
             }
             return pickup_inventory_preset::get_denial( loc );
         }
@@ -1774,7 +1777,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
     bool wiping = action == EF_WIPE;
 
     const inventory_filter_preset preset( [&copying]( const item_location & loc ) {
-        return item::is_efile( loc ) && ( !copying || loc->is_ecopiable() );
+        return loc.is_efile() && ( !copying || loc->is_ecopiable() );
     } );
 
     const int available_charges = to_edevice->ammo_remaining( );
