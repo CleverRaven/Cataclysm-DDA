@@ -1,0 +1,84 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_crashed_escape_pod_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          RRR           ",
+        "          RRR           ",
+        "          RRR           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "R": "t_metal_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_crashed_escape_pod" ],
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ,,,,,          ",
+        "        ,##,,,,         ",
+        "       ,,#-+-#,,        ",
+        "       ,,#q!-##,        ",
+        "       ,,#---##,        ",
+        "        ,,##,#,         ",
+        "         ,,,,,          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       ,"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "-": "t_afs_space_ship_hull_wall",
+        "+": "t_afs_space_ship_hatch_c",
+        "q": "t_afs_escapepod_g",
+        "!": "t_metal_floor",
+        ",": "t_dirt",
+        "#": "t_dirtmound"
+      },
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 11, 11 ], "y": [ 13, 13 ] } ],
+      "furniture": { "!": "f_afs_escape_pod_seat" },
+      "items": { "!": { "item": "afs_escape_pod_suppliesII", "chance": 100 } },
+      "place_nested": [ { "chunks": [ "afs_crashed_escape_pod_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  }
+]

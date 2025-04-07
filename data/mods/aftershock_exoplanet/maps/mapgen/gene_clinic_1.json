@@ -1,0 +1,424 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_gene_clinic_1_a1",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "©©1™™©1©©©1©©™1©™©1™©1™™",
+        "™©|©©©|©™™|™©©|™™©|©©|©™",
+        "™©©™™™©©™™™©©™©©©©™™™©©™",
+        "©©™℗℗℗©℗℗℗©℗℗℗℗℗™©©™™©©©",
+        "™™|)))|)))|))))℗™™™©©|1™",
+        "™™|n2n|n2n|n2n)℗©™™©©©™™",
+        "™™|{;{{{;{{{;2)℗©©™©™™™™",
+        "™™||||||:|||{n)℗3©©©℗©™™",
+        "™||{{nn{{nn||||)|!!|)|™™",
+        "™™#hp{{hp{{{hp|2|{{|2|™™",
+        "™||ck{{ck{{{ck|;|;;|;|™™",
+        "™™|hh{{hh{{{hh|:|!!|:|™™",
+        "™||{{{;{{{{{;{{{{{{{{|™™",
+        "™™#{{n2n{{2{{{{{{{{{y|™™",
+        "™||::|||{pkh{{jcj{2{s|™™",
+        "™™|;;|q:{hch{{j;j{;{s|™™",
+        "™™|{{|q|)))))|J{c{n{s|™™",
+        "™™|<<|{|†††††||||:|:||™™",
+        "™™||||#|||||||||{;|;{|™™",
+        "™™™™™|™|™™™™™™™|~n|~n|™™",
+        "™™™™™™™™™™™™™™™|||||||™™",
+        "™™|™™™|™™™|™™™|™™™™™™™™™",
+        "™™|™™™|™™™|™™™|™™™™™™™™™",
+        "™™™™™™™™™™™™™™™™™™™™™™™™"
+      ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_exterior",
+        "afs_terra",
+        "afs_habitat_residential_furnishing",
+        "afs_light_param_palette"
+      ],
+      "terrain": { "1": "t_sidewalk", "3": "t_sidewalk" },
+      "furniture": { "1": "f_screenmirror", "2": "f_genetech_mannequin" },
+      "signs": {
+        "3": { "signage": "Mercurial Gene Clinic: Welcome <city> to the better you.  Genetech: Embrace the next evolution." }
+      },
+      "items": {
+        "q": { "item": "afs_wintersuit_generic_basic", "chance": 60, "repeat": [ 1, 2 ] },
+        "k": { "item": "office", "chance": 60 }
+      },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 3, 20 ], "y": [ 8, 16 ], "pack_size": [ 2, 5 ], "chance": 60 } ],
+      "place_nested": [
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 },
+        {
+          "chunks": [
+            {
+              "switch": { "param": "lightstatus", "fallback": "null" },
+              "cases": { "null": "afs_dead_plants", "afs_map_lights_on": "null" }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_gene_clinic_1_a2",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "  [[[[[[[[[[[[[[[[[[[[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  ||)|||)|||)||))|||||  ",
+        "  |@yn|@yn|@yn|{{{{{{|  ",
+        "  |@;{|@;{|@;{|;;|;;{|  ",
+        "  |{{c|{{c|{{c|<<|{{{|  ",
+        " ||:|||:|||:|||||4!!1|  ",
+        "  #{{{{;{{{;{{{{{{;{{|  ",
+        " ||{{{{;{{{;{{{{{{;{{|  ",
+        "  |;;|:||:||:||{{||:||  ",
+        " ||{{|;{|;{|;{|;;|{;{|  ",
+        "  #{{|bb|bb|~n|{{|{{{|  ",
+        " ||::||||||||||3:|||||  ",
+        "  |;;|❶❷❺|{{{{v{{|nnl|  ",
+        "  |{{|{;{:{;{{{;{:{{{|  ",
+        "  |>>|❸{❹5hyhhyh{|b;{|  ",
+        "  |||||#|||)))||:|b{{|  ",
+        "  [............|~|b{{|  ",
+        "  [..❻.❻.❻....[|||))||  ",
+        "  [...........[         ",
+        "  [[[[[[[[[[[[[         ",
+        "                        "
+      ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_life_support",
+        "afs_habitat_residential_furnishing",
+        "afs_light_param_palette",
+        "afs_gene_clinc_1_params"
+      ],
+      "terrain": {
+        "1": "t_afs_mercurial_card_reader",
+        "3": "t_concrete_wall",
+        "4": "t_concrete_wall",
+        "5": "t_concrete_wall",
+        " ": "t_open_air",
+        "❻": "t_metal_floor"
+      },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 3, 20 ], "y": [ 5, 17 ], "pack_size": [ 2, 4 ], "chance": 60 } ],
+      "graffiti": {
+        "3": {
+          "text": "Employee Breakroom: We would like to remind you that all staff break times are extensively monitored by Corp Security.  And remember, the customer is always right!  - Management"
+        },
+        "4": {
+          "text": "Gene-Editing Lab: The new you is waiting just beyond these doors.  All clients must be accompanied by Mercurial Staff."
+        },
+        "5": { "text": "Only licensed Mercurial Repair Techs beyond this point: Life Support Room" }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            {
+              "switch": { "param": "looted", "fallback": "afs_gene_clinic_1_a2_unlooted" },
+              "cases": {
+                "afs_gene_clinic_1_a2_unlooted": "afs_gene_clinic_1_a2_unlooted",
+                "afs_gene_clinic_1_a2_looted": "afs_gene_clinic_1_a2_looted"
+              }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_gene_clinic_1_a3",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |||||||||||||)))))))  ",
+        "  |{{@{{|{{@{{|{{{{{{)  ",
+        "  |{{@{{|{{@{{|;;|{;{)  ",
+        "  |{{;{{|{{;{{|>>|{{{)  ",
+        "  |ch{{{|ch{{{||||{{{)  ",
+        "  |))91!|))91!|ck|{;{)  ",
+        "  |{{{{{;{{{{{{{;{{{{)  ",
+        "  |{{{{{;{{{{{{{;{{{{)  ",
+        "  ||!17||||||{{|||||||  ",
+        "  |4..4|4|{{|{{:{{{ch)  ",
+        "  |4''4|)|{{1{{6{{;{{)  ",
+        "  ||!!||{{;{!;;|p{{{v)  ",
+        "  |.'..|{{{{8{{6||||||  ",
+        "  |....|{|{{|{{:{{{ch)  ",
+        "  |||||||||||))|{{;{{)  ",
+        "               |p{{{v)  ",
+        "               |))))))  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_light_param_palette", "afs_gene_clinc_1_params" ],
+      "terrain": {
+        "1": "t_afs_mercurial_card_reader",
+        "4": "t_metal_floor",
+        "6": "t_concrete_wall",
+        "7": "t_concrete_wall",
+        "8": "t_concrete_wall",
+        "9": "t_reinforced_glass",
+        " ": "t_open_air"
+      },
+      "furniture": { "4": "f_drone_recharge_station" },
+      "graffiti": {
+        "6": { "text": "Doctor <given_name>'s Office." },
+        "7": { "text": "Only licensed Mercurial Repair Techs beyond this point: Drone Storage and Maintenance." },
+        "8": { "text": "Gene-Vault: All removal of Genetech products must be promptly logged.  - Management." },
+        "9": { "text": "Operating Theatre" }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            {
+              "switch": { "param": "looted", "fallback": "afs_gene_clinic_1_a3_unlooted" },
+              "cases": {
+                "afs_gene_clinic_1_a2_unlooted": "afs_gene_clinic_1_a3_unlooted",
+                "afs_gene_clinic_1_a2_looted": "afs_gene_clinic_1_a3_looted"
+              }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_gene_clinic_1_a4",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  [[[[[[[[[[[[[[[[[[[[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [..................[  ",
+        "  [[[[[[[[[[[[[[.....[  ",
+        "               [.....[  ",
+        "               [[[[[[[  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "terrain": { " ": "t_open_air" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_gene_clinic_1_a2_unlooted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                   ö    ",
+        "     k   k   k          ",
+        "                        ",
+        "                  11    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       l  l       l q   ",
+        "                  l q   ",
+        "                        ",
+        "          FoUU      l   ",
+        "                    l   ",
+        "                    l   ",
+        "                    l   ",
+        "                    l   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_residential_furnishing" ],
+      "terrain": { "1": "t_door_metal_locked" },
+      "monster": { "ö": { "monster": "mon_afs_commercial_laser_turret" } },
+      "items": { "k": { "item": "office", "chance": 60 }, "q": { "item": "afs_colonist_outfit", "chance": 40 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_gene_clinic_1_a2_looted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    2k  2k  2k          ",
+        "    2   2   2           ",
+        "                  11    ",
+        "    2   22  2    222    ",
+        "    2 2  2 22 2    2    ",
+        "                        ",
+        "      2l 2l       l2q   ",
+        "                  l2q   ",
+        "                        ",
+        "          FoUU      l   ",
+        "          2 22    22l   ",
+        "           22      2l   ",
+        "                   2l   ",
+        "                   2l   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_residential_furnishing_looted" ],
+      "terrain": { "1": "t_mdoor_frame" },
+      "items": { "2": { "item": "SUS_trash_floor", "chance": 10, "repeat": [ 1, 4 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_gene_clinic_1_a3_unlooted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   à  3  à  3           ",
+        "   k     k              ",
+        "   k     k              ",
+        "                        ",
+        "       2     2          ",
+        "                        ",
+        "                        ",
+        "    2                   ",
+        "          qq            ",
+        "                á  k    ",
+        "            2           ",
+        "                        ",
+        "        5 qq            ",
+        "                á  k    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_residential_furnishing" ],
+      "terrain": { "2": "t_door_metal_locked" },
+      "furniture": { "3": "f_gene_editor_inactive", "5": "f_e_safe_l", "à": "f_locker", "á": "f_locker" },
+      "place_item": [ { "item": "bot_sentinel_lx", "x": 8, "y": 13, "amount": 1, "chance": 100 } ],
+      "items": {
+        "5": { "item": "afs_genetech_commerical_safe" },
+        "à": [
+          { "item": "harddrugs", "chance": 60 },
+          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_rare", "chance": 60 },
+          { "item": "surgery", "chance": 60 }
+        ],
+        "á": [ { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] }, { "item": "surgery", "chance": 60 } ],
+        "k": { "item": "office", "chance": 60 },
+        "q": { "item": "afs_genetech_commercial_shelf", "chance": 60 }
+      },
+      "place_monster": [
+        { "group": "AFS_GROUP_ROBOT_MODERATE_RISK", "x": [ 4, 19 ], "y": [ 10, 11 ], "pack_size": 1, "chance": 100 },
+        { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 3, 6 ], "y": [ 13, 14 ], "pack_size": 2, "chance": 30 },
+        { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 3, 13 ], "y": [ 5, 8 ], "pack_size": 1, "chance": 15 },
+        { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 16, 20 ], "y": [ 13, 19 ], "pack_size": 1, "chance": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_gene_clinic_1_a3_looted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   à  3  à  3           ",
+        "   k1 1  k1 1           ",
+        "   k11   k11            ",
+        "      11    11          ",
+        "       2     2          ",
+        "    11   11   1  1      ",
+        "    1 11  1  11  1      ",
+        "    2         1         ",
+        "          qq      1     ",
+        "          1  1  á 1k1   ",
+        "        1  1211  11     ",
+        "          1  1          ",
+        "        5 qq  1   1     ",
+        "                á 1k1   ",
+        "                 11     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_residential_furnishing_looted" ],
+      "terrain": { "2": "t_mdoor_frame" },
+      "furniture": { "3": "f_gene_editor_gutted", "5": "f_e_safe_o", "à": "f_locker", "á": "f_locker" },
+      "items": { "1": { "item": "SUS_trash_floor", "chance": 10, "repeat": [ 1, 4 ] } }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "afs_gene_clinc_1_params",
+    "parameters": {
+      "looted": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ [ "afs_gene_clinic_1_a2_unlooted", 60 ], [ "afs_gene_clinic_1_a2_looted", 40 ] ] }
+      }
+    }
+  }
+]
