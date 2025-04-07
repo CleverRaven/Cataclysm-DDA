@@ -1,6 +1,5 @@
 [
   {
-    "//": "When any new mutation is added, make sure to add it to the jmath statement paraclesian_homullus_total_mutations",
     "type": "mutation",
     "id": "HOMULLUS_SKIN_1",
     "name": { "str": "Mannequin Skin" },
@@ -322,7 +321,7 @@
     "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
     "enchantments": [
       {
-        "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "paraclesian_homullus_total_mutations(1) * 50000000" ] } } ]
+        "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "u_sum_traits_of_category_char_has('HOMULLUS') * 50000000" ] } } ]
       }
     ]
   },
