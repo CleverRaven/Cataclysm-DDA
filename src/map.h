@@ -2238,7 +2238,21 @@ class map
 #endif
 };
 
+// The map the code is currently processing. It is currently (incorrectly) fixed at the
+// reality bubble, but will will have to be constantly adjusted to match the map that's
+// actually processed (so reality bubble coordinates on a mapgen map are actually referring
+// to that map rather than the reality bubble).
 map &get_map();
+
+// The reality bubble map, for when you need it to e.g. determine whether the map
+// you're operating on is the reality bubble. This can be to process things differently
+// between mapgen and the reality bubble, determine whether to carry over map cache info,
+// determine whether to produce a sound, etc.
+// Note that if the game will support more than one reality bubble map for a longer period
+// than a single tick, this operation will have to be split into one for the active bubble
+// for sound etc. processing, and another one for accessing all bubbles for cache
+// synchronization purposes.
+map &reality_bubble();
 
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point_rel_sm &s );
