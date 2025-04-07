@@ -304,10 +304,6 @@ Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster
-Add items with NO_TEMP flag to temperature removal blacklist
-Added an airsoft store
-Added nicotine pouches with variants and related container, adjusted cig effect names to be more flavorful and effect description to reflect the use of all nicotine products 
-Cocoa powder, Milk cocoa powder
 
 
 ## Interface:
@@ -419,7 +415,6 @@ Dont show liquids from held or worn container
 Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
 Debug option to view used palette symbols
-used/unused names for map cache + lore files
 
 
 ## Mods:
@@ -795,9 +790,6 @@ Isolation Protocol: Office Levels
 [Isolation Protocol] Add the Last Scion class
 [MoM] Add volume limits to Blink and Farstep
 [XE] Adds a special boss encounter for tier 5 vampires.
-[Sky Island] Add healing salve
-[MoM] Add compound XV471 schematics
-[Magiclysm] Replace `Hoarder` for Ravenfolk with `Chrysophilia`
 Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
 [Xedra Evolved] Add playable dhampirs
 
@@ -1243,17 +1235,7 @@ Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
-Replace "con_mix" with "concrete_mixing_tool" for fireproof mortar recipe so it recognizes concrete mixer.
-Audit gunmod locations for guns
-Fix charcoal kilns producing no charcoal
 [Sky Island] Fix possible painkiller death loop
-Missing Punctuation Fix
-[Xedra Evolved] Fix Magiclysm haste interactions
-Gotcha! It actually just puts the same time limit on Devon Rex spawns as Sphynx cat spawns. 
-Fix furniture tool pocket error and segfault error
-[Xedra Evolve] Chronomancers can't take species heritage traits
-[MoM] Fix medicinal touch contemplation
-[Xedra Evolved] Remove `teeth` type from active fangs trait
 
 
 ## Performance:
