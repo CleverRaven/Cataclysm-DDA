@@ -439,13 +439,7 @@
     "material": [ "plastic", "steel" ],
     "dispersion": 480,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
-    "pocket_data": [
-      {
-        "magazine_well": "107 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glock36_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "107 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock36_mag" ] } ]
   },
   {
     "id": "greasegun",
