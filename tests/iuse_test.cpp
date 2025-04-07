@@ -747,7 +747,8 @@ static item_location give_tablets( avatar &dummy, int count, bool in_inventory )
         for( int i = 0; i < count; ++i ) {
             container.put_in( item( itype_pur_tablets, calendar::turn ), pocket_type::CONTAINER );
         }
-        item_location container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container, true );
+        item_location container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container,
+                                      true );
         REQUIRE( container_loc );
         std::list<item *> all_tablets = container_loc->all_items_top();
         REQUIRE( !all_tablets.empty() );
