@@ -12204,7 +12204,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                            bool intentional )
 {
     map &here = get_map();
-    const tripoint_bub_ms pos = c->pos_bub( here );
+    tripoint_bub_ms pos = c->pos_bub( here );
 
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -12325,6 +12325,8 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                 // If we're flinging the player around, make sure the map stays centered on them.
                 if( is_u ) {
                     update_map( pt.x(), pt.y() );
+                    // update_map invalidates all bubble coordinates if it shifts the map.
+                    pos = c->pos_bub( here );
                 } else {
                     you->setpos( here, pt );
                 }
