@@ -370,8 +370,6 @@ class item : public visitable
         units::ememory occupied_ememory() const;
         /** @return remaining electronic memory on this e-device */
         units::ememory remaining_ememory() const;
-        /** Returns whether the given item location is inside an e-device) */
-        static bool is_efile( const item_location &loc );
         /** Returns the recipe catalog for this item if it exists, otherwise returns nullptr */
         item *get_recipe_catalog();
         const item *get_recipe_catalog() const;
