@@ -496,5 +496,5 @@
     "ammo_type": [ "22" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
-  },
+  }
 ]
