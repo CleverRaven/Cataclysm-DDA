@@ -549,6 +549,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_fall_one_story",
+    "//": "Hidden--tied to a conditional enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "WINGS_1" ]
+  },
+  {
+    "type": "effect_type",
     "id": "eyegleam",
     "name": [ "Eye Gleam" ],
     "desc": [ "You can see in the dark." ],
