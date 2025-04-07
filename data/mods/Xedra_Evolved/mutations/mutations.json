@@ -99,7 +99,7 @@
     "id": "EXTEND_LIFE",
     "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
     "name": { "str": "Extended Life" },
-    "points": 0,
+    "points": 10,
     "description": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
     "valid": false,
     "flags": [ "MEND_ALL" ]
@@ -276,7 +276,7 @@
   {
     "type": "mutation",
     "id": "EYEGLEAM",
-    "points": 0,
+    "points": 2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -290,7 +290,7 @@
   {
     "type": "mutation",
     "id": "BLOOD_FUN",
-    "points": 0,
+    "points": 2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -300,7 +300,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRIC_STRENGTH",
-    "points": 0,
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -315,7 +315,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRIC_RESILIENCE",
-    "points": 0,
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -339,7 +339,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_HEIGHTENED_SENSES",
-    "points": 0,
+    "points": 2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -351,7 +351,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_SILENT_MOVE",
-    "points": 0,
+    "points": 1,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -366,14 +366,14 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "points": 0,
+    "points": 1,
     "description": "Your fingers have developed bloodsucking properties, you can now suck up blood through them.  You're not sure where the blood goes but with a thought you can use these deposits.",
     "integrated_armor": [ "integrated_bloodbank" ]
   },
   {
     "type": "mutation",
     "id": "STAMINAFORBLOOD",
-    "points": 0,
+    "points": 2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -384,7 +384,7 @@
   {
     "type": "mutation",
     "id": "COMMUNE_NIGHT",
-    "points": 0,
+    "points": 2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -420,7 +420,7 @@
   {
     "type": "mutation",
     "id": "COAGULANTWEAVE",
-    "points": 0,
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -434,7 +434,7 @@
   {
     "type": "mutation",
     "id": "BLOODHEAL",
-    "points": 0,
+    "points": 4,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -445,7 +445,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRIC_DODGE",
-    "points": 0,
+    "points": 4,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -460,7 +460,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_FEAR_GAZE",
-    "points": 0,
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -471,7 +471,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_WALK_ON_WALLS",
-    "points": 0,
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -482,7 +482,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BEAST_CLAWS",
-    "points": 0,
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -514,7 +514,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_SEE_HEAT",
-    "points": 0,
+    "points": 2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -542,7 +542,7 @@
   {
     "type": "mutation",
     "id": "HYPNOTIC_GAZE",
-    "points": 0,
+    "points": 4,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -553,7 +553,7 @@
   {
     "type": "mutation",
     "id": "BLOODHASTE",
-    "points": 0,
+    "points": 5,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -567,7 +567,7 @@
   {
     "type": "mutation",
     "id": "MAGICFORBLOOD",
-    "points": 0,
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -578,7 +578,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_COMMAND_BEAST",
-    "points": 0,
+    "points": 4,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -589,7 +589,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_EARTH_SLUMBER",
-    "points": 0,
+    "points": 4,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -657,7 +657,7 @@
   {
     "type": "mutation",
     "id": "TRUE_VAMPIRE_POWER",
-    "points": 0,
+    "points": 6,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -667,7 +667,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_TORPOR",
-    "points": 0,
+    "points": 5,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -678,7 +678,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_DOMINATE",
-    "points": 0,
+    "points": 7,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -689,7 +689,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_NO_BREATHE",
-    "points": 0,
+    "points": 6,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -702,7 +702,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_NO_ILLNESS",
-    "points": 0,
+    "points": 6,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -715,7 +715,7 @@
     "type": "mutation",
     "id": "VAMPIRE_BAT_FORM",
     "name": { "str": "Shape of the Night Flier" },
-    "points": 0,
+    "points": 8,
     "description": "You can transform yourself into a bat and take wing on the night air.",
     "starting_trait": false,
     "purifiable": false,
@@ -764,7 +764,7 @@
     "type": "mutation",
     "id": "VAMPIRE_WOLF_FORM",
     "name": { "str": "Shape of the Pack Hunter" },
-    "points": 0,
+    "points": 6,
     "description": "You can transform yourself into a wolf and stalk your enemies.",
     "starting_trait": false,
     "purifiable": false,
@@ -818,7 +818,7 @@
     "type": "mutation",
     "id": "VAMPIRE_MIST_FORM",
     "name": { "str": "Shape of the Billowing Mists" },
-    "points": 0,
+    "points": 8,
     "description": "You can transform yourself into a cloud of mist and flee any dangers.",
     "starting_trait": false,
     "purifiable": false,
@@ -868,7 +868,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_MASTER_MORTAL_MIND",
-    "points": 0,
+    "points": 10,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -878,7 +878,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_DISTILLATE_INNER_BLOOD",
-    "points": 0,
+    "points": 8,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -889,7 +889,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_SHADOW_FORM",
-    "points": 0,
+    "points": 10,
     "name": { "str": "Shape of the Shadowed Path" },
     "description": "You can shroud your body and what you are carrying with shadows, amplifying your combat ability but preventing communication and using other powers until you return to your normal form.  It also costs blood for every second you spend in that state.",
     "starting_trait": false,
@@ -933,7 +933,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_LAST_BREATH_MIST",
-    "points": 0,
+    "points": 11,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -943,7 +943,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_IRON_MIND",
-    "points": 0,
+    "points": 8,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -955,7 +955,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BLIND_THE_SUN",
-    "points": 0,
+    "points": 10,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
