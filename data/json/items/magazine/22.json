@@ -485,7 +485,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock 44 10 round magazine" },
     "description": "A compact, light-weight polymer magazine for use with the Glock 44.",
-    "weight": "70 g",
+    "weight": "57 g",
     "volume": "76 ml",
     "longest_side": "111 mm",
     "price": "25 USD",
