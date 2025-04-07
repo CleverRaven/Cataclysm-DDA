@@ -192,7 +192,7 @@ item_location mdeath::splatter( map *here, monster &z )
         if( !z.has_eaten_enough() ) {
             corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
         }
-        return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
+        return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
     }
     return {};
 }
@@ -289,5 +289,5 @@ item_location make_mon_corpse( map *here, monster &z, int damageLvl )
     if( !z.has_eaten_enough() ) {
         corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
-    return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
+    return here->add_item_or_charges_ret_loc( z.pos_bub( *here ), corpse );
 }

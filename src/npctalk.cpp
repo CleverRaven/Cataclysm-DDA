@@ -4470,7 +4470,7 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
     }
 
     JsonObject jo_explosion = jo.get_object( member );
-    dov_power = get_dbl_or_var( jo_explosion, "power", true );
+    dov_power = get_dbl_or_var( jo_explosion, "power", false, 0 );
     dov_distance_factor = get_dbl_or_var( jo_explosion, "distance_factor", false, 0.75f );
     dov_max_noise = get_dbl_or_var( jo_explosion, "max_noise", false, 90000000 );
     fire = jo_explosion.get_bool( "fire", false );
@@ -4484,8 +4484,11 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
         dov_shrapnel_drop = get_str_or_var( jo_shr.get_member( "drop" ), "drop", false, "null" );
     }
 
+    bool emp_blast = jo.get_bool( "emp_blast", false );
+    bool scrambler_blast = jo.get_bool( "scrambler_blast", false );
+
     return [target_var, dov_power, dov_distance_factor, dov_max_noise, fire, dov_shrapnel_casing_mass,
-                        dov_shrapnel_fragment_mass, dov_shrapnel_recovery, dov_shrapnel_drop,
+                        dov_shrapnel_fragment_mass, dov_shrapnel_recovery, dov_shrapnel_drop, emp_blast, scrambler_blast,
                 is_npc, &here]( dialogue const & d ) {
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
@@ -4507,6 +4510,13 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
         expl_data.shrapnel.drop = itype_id( dov_shrapnel_drop.evaluate( d ) );
 
         explosion_handler::explosion( &guy, target_pos, expl_data );
+
+        if( emp_blast ) {
+            explosion_handler::emp_blast( target_pos );
+        }
+        if( scrambler_blast ) {
+            explosion_handler::scrambler_blast( target_pos );
+        }
     };
 }
 
@@ -6319,11 +6329,16 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         allow_cancel = jo.get_bool( "allow_cancel" );
     }
 
+    bool hilight_disabled = false;
+    if( jo.has_bool( "hilight_disabled" ) ) {
+        hilight_disabled = jo.get_bool( "hilight_disabled" );
+    }
+
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
 
     return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
-          hide_failing, allow_cancel]( dialogue & d ) {
+          hide_failing, allow_cancel, hilight_disabled]( dialogue & d ) {
         uilist eoc_list;
 
         std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
@@ -6334,6 +6349,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         eoc_list.text = title.translated();
         eoc_list.allow_cancel = allow_cancel;
         eoc_list.desc_enabled = !eoc_descriptions.empty();
+        eoc_list.hilight_disabled = hilight_disabled;
         parse_tags( eoc_list.text, alpha, beta, d );
 
         for( size_t i = 0; i < eocs.size(); i++ ) {

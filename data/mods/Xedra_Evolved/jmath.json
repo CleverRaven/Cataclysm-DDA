@@ -195,13 +195,6 @@
   },
   {
     "type": "jmath_function",
-    "id": "paraclesian_homullus_total_mutations",
-    "//": "Yes, this is horrible, but there's apparently no way to check the total number of mutations in a category otherwise.",
-    "num_args": 1,
-    "return": "_0 + u_has_trait('HOMULLUS_DURABILITY_MULT_1') + u_has_trait('HOMULLUS_DURABILITY_MULT_2') + u_has_trait('HOMULLUS_SKIN_1') + u_has_trait('HOMULLUS_SKIN_2') + u_has_trait('HOMULLUS_SKIN_3') + u_has_trait('HOMULLUS_EYES') + u_has_trait('HOMULLUS_BETTER_AT_LYING') + u_has_trait('HOMULLUS_DREAMWALKER') + u_has_trait('HOMULLUS_CHARM_FERALS') + u_has_trait('HOMULLUS_SUMMON_FERALS') + u_has_trait('HOMULLUS_SELF_DECEPTION') + u_has_trait('HOMULLUS_INVISIBLE_TO_HUMANS') + u_has_trait('HOMULLUS_REDUCED_VISIBILITY_ALLY') + u_has_trait('HOMULLUS_RESTORE_POWER') + u_has_trait('HOMULLUS_ADD_LEARNING_FOCUS') + u_has_trait('HOMULLUS_CULTIVATE_GOBLIN_FRUIT') + u_has_trait('NO_TRACE_YET_I_WISH') + u_has_trait('HOMULLUS_BACKSTAGE') + u_has_trait('HOMULLUS_CBM_INSTALL') + u_has_trait('HOMULLUS_CBM_MANA_1') + u_has_trait('HOMULLUS_CBM_MANA_2') + u_has_trait('HOMULLUS_PASSIVE_BIONIC_POWER') + u_has_trait('HOMULLUS_ARMOR_MULT_1') + u_has_trait('HOMULLUS_ARMOR_MULT_2') + u_has_trait('HOMULLUS_GAIN_BIONIC_POWER') + u_has_trait('HOMULLUS_GAIN_BIONIC_POWER_AND_MANA') + u_has_trait('HOMULLUS_CITY_STRIDER') + u_has_trait('HOMULLUS_THE_HUNTER') + u_has_trait('HOMULLUS_EAT_DEMIHUMANS') + u_has_trait('HOMULLUS_TEMPERATURE_TOLERANCE') + u_has_trait('HOMULLUS_CRAFTING_BONUS_1') + u_has_trait('HOMULLUS_CRAFTING_BONUS_2') + u_has_trait('HOMULLUS_CRAFTING_BONUS_3') + u_has_trait('HOMULLUS_GAIN_INTEGRATED_TOOLS') + u_has_trait('HOMULLUS_GAIN_INTEGRATED_HACKER') + u_has_trait('HOMULLUS_EXPANDED_MUTATIONS') + u_has_trait('HOMULLUS_THE_HUNTER2') + u_has_trait('HOMULLUS_DOLL_FORM') + u_has_trait('SOCIAL1') + u_has_trait('SOCIAL2') + u_has_trait('PRETTY') + u_has_trait('BEAUTIFUL') + u_has_trait('BEAUTIFUL2') + u_has_trait('BEAUTIFUL3') + u_has_trait('STR_UP') + u_has_trait('STR_UP_2') + u_has_trait('STR_ALPHA') + u_has_trait('DEX_UP')+ u_has_trait('DEX_UP_2') + u_has_trait('DEX_ALPHA') + u_has_trait('INT_UP') + u_has_trait('INT_UP_2') + u_has_trait('INT_ALPHA') + u_has_trait('PER_UP') + u_has_trait('PER_UP_2') + u_has_trait('PER_ALPHA')"
-  },
-  {
-    "type": "jmath_function",
     "id": "vampire_total_tier_one_traits",
     "num_args": 0,
     "return": "u_has_trait('EYEGLEAM') + u_has_trait('BLOOD_FUN') + u_has_trait('STAMINAFORBLOOD') + u_has_trait('COMMUNE_NIGHT') + u_has_trait('VAMPIRIC_STRENGTH') + u_has_trait('VAMPIRIC_RESILIENCE') + u_has_trait('VAMPIRE_HEIGHTENED_SENSES') + u_has_trait('VAMPIRE_SILENT_MOVE')"

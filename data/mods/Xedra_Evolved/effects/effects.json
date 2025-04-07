@@ -532,6 +532,47 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_blood_drinking",
+    "//": "Hidden effect, prevents the vampire from gaining blood if they're interrupted.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_blood_drinking_target",
+    "//": "Hidden effect, keeps the target immobilized while blood is being drunk.",
+    "name": [ "Vampire's Kiss" ],
+    "desc": [ "You are having your blood drunk by a vampire and are still in a swoon." ],
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_drunk_from_in_combat",
+    "//": "Hidden effect, faking a monster target having lost blood volume.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "int_add_val": 1,
+    "max_intensity": 12,
+    "int_decay_step": -1,
+    "int_decay_tick": 172800,
+    "chance_kill": [
+      [ 1, 2000000 ],
+      [ 1, 1000000 ],
+      [ 1, 500000 ],
+      [ 1, 200000 ],
+      [ 1, 100000 ],
+      [ 1, 50000 ],
+      [ 1, 5000 ],
+      [ 1, 1000 ],
+      [ 1, 500 ],
+      [ 1, 100 ],
+      [ 1, 50 ],
+      [ 1, 10 ]
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_slow_blood_gain",
     "//": "Hidden--provides blood every ~60 seconds until 1 below the blood_quenched level",
     "name": [ "" ],
@@ -708,6 +749,16 @@
     "//": "Hidden effect, used to prevent spamming fear gaze repeatedly.",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_hypnotism",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You just can't seem to move or think." ],
+    "remove_message": "You snap out of your fugue.",
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
   },
   {
     "type": "effect_type",

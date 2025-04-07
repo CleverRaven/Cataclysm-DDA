@@ -69,6 +69,7 @@
       {
         "run_eoc_selector": [ "EOC_SMARTPHONE_RECOVERY_BASIC", "EOC_SMARTPHONE_RECOVERY_ADVANCED" ],
         "allow_cancel": true,
+        "hilight_disabled": true,
         "names": [ "Simple recovery", "Advanced recovery" ],
         "title": "Pick the recovery type",
         "descriptions": [

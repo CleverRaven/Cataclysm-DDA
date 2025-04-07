@@ -1,0 +1,64 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sieged_fungal_tower" ],
+    "object": {
+      "rows": [
+        "     ..............     ",
+        "  ......Z..&&.........  ",
+        " .Z....,,,&,,,,,,Z..... ",
+        " ....,,,,,&,&,,,,,,.... ",
+        " ...,,,,,&&__&,,,,,,.Z. ",
+        "...,,,,&&&___&___,,,,...",
+        "...,,,&&____&_____,,&...",
+        "..,,,,_&&&&&___&__&&,,..",
+        "..&&,_&__&__&&&_&&_,,,..",
+        "..,,&_&_&_______&__,,,..",
+        "..Z,_&_&&_X_____&__&&,..",
+        "..,&&&_&______&&&&&&,,..",
+        ".&&,&__&Y__X__&_&___,,..",
+        "..&,&__&&_____&_&_&_,,..",
+        "..&&&&__&&&&&&___&&,,,..",
+        "..,&,&&_______&____,,,..",
+        "..,&,,&____&&&___&&&,,Z.",
+        "...&,,&&__&____&&_,,,...",
+        "..&,,,,&&&_&&&&__,,,,...",
+        " ...,,,,,&__&_,,,,,,.Z. ",
+        " ...Z,,,&&,,,&,,,,,.... ",
+        " ......&,,,,,,&&,...... ",
+        "  .........Z....&&....  ",
+        "     ..............     "
+      ],
+      "terrain": {
+        " ": [ [ "t_grass_dead", 4 ], "t_dirtmound", "t_grass", "t_fungus" ],
+        ".": [ [ "t_grass_dead", 2 ], "t_fungus" ],
+        ",": [ [ "t_grass_dead", 3 ], [ "t_fungus", 7 ], "t_fungus_mound" ],
+        "_": [ [ "t_fungus", 25 ], "t_fungus_mound", [ "t_tree_fungal", 3 ], [ "t_tree_fungal_young", 2 ] ],
+        "&": "t_fungus_mound",
+        "X": "t_fungus_mound",
+        "Y": "t_fungus_mound",
+        "Z": "t_grass_dead"
+      },
+      "furniture": {
+        " ": [
+          [ "f_null", 18 ],
+          [ "f_boulder_small", 3 ],
+          [ "f_boulder_medium", 2 ],
+          "f_boulder_large",
+          [ "f_flower_fungal", 2 ],
+          "f_fungal_mass"
+        ],
+        ".": [ [ "f_null", 18 ], [ "f_flower_fungal", 4 ], [ "f_fungal_mass", 3 ], "f_fungal_clump" ],
+        ",": [ [ "f_null", 12 ], [ "f_fungal_mass", 2 ], "f_flower_fungal", "f_fungal_clump" ],
+        "_": [ [ "f_null", 10 ], [ "f_fungal_mass", 2 ], "f_fungal_clump" ],
+        "&": [ [ "f_fungal_tangle", 8 ], "f_fungal_clump", "f_fungal_mass" ]
+      },
+      "monster": {
+        "X": { "monster": "mon_fungaloid_tower" },
+        "Y": { "monster": "mon_fungaloid_queen" },
+        "Z": { "monster": "mon_tripod" }
+      }
+    }
+  }
+]
