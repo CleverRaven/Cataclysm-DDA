@@ -123,7 +123,7 @@
     "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "Glock 43x" },
+    "name": { "str": "Glock 43X" },
     "description": "A 9mm compact Glock.  Despite its name, it does not accept the magazines of the Glock 43.",
     "weight": "461 g",
     "volume": "279 ml",
@@ -132,7 +132,7 @@
     "price": "570 USD",
     "material": [ "plastic", "steel" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "dispersion": 480,
     "pocket_data": [
       {
@@ -155,7 +155,7 @@
     "volume": "348 ml",
     "longest_side": "165 mm",
     "barrel_length": "87 mm",
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "price": "690 USD",
     "material": [ "plastic", "steel" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
@@ -269,7 +269,7 @@
     "price": "570 USD",
     "material": [ "plastic", "steel" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "dispersion": 480,
     "pocket_data": [
       {
