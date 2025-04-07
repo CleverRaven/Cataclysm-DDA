@@ -211,7 +211,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" } ]
+    "effect": [
+      {
+        "if": "has_beta",
+        "then": { "if": { "npc_has_trait": "FAE_CREATURE" }, "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] } }
+      },
+      { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" }
+    ]
   },
   {
     "type": "effect_on_condition",

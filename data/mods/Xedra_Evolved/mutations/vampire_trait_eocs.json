@@ -7,7 +7,6 @@
         "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
         "then": [
           { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] },
           {
             "u_add_effect": "effect_drank_blood_recently",
             "intensity": 1,
@@ -18,10 +17,15 @@
             "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
           }
         ],
-        "else": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] },
-          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }
-        ]
+        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
+        "then": [ { "u_add_effect": "effect_vampire_drank_blood_power_boost", "duration": 3600 } ]
+      },
+      {
+        "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
+        "then": [ { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
       },
       {
         "if": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
@@ -47,7 +51,13 @@
         { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" } ]
+    "effect": [
+      {
+        "if": { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
+        "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] }
+      },
+      { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -146,11 +156,11 @@
           ]
         },
         "then": [
-          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
           {
             "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
-            "then": [ { "math": [ "n_vitamin('drank_fae_blood')", "+=", "5" ] } ]
+            "then": [ { "math": [ "n_vampire_just_drank_fae_blood == 1" ] } ]
           },
+          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
           { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
           { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
           { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
@@ -200,7 +210,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT",
     "condition": { "u_has_effect": "effect_vampire_blood_drinking" },
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" } ]
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" } ]
   },
   {
     "id": "EOC_VAMPIRE_DRINK_BLOOD_INTERRUPTED_CHECK",
