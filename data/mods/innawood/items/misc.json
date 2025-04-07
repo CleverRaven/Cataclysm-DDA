@@ -1,5 +1,6 @@
 [
   {
+    "id": "leather_journal_innawood",
     "copy-from": "leather_journal",
     "type": "TOOL",
     "name": { "str": "leather journal" },

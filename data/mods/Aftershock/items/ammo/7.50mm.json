@@ -17,7 +17,8 @@
     "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 15 },
     "dispersion": 30,
     "recoil": 1500,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_7.50mm_ap_caseless",
@@ -37,7 +38,8 @@
     "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 30 },
     "dispersion": 30,
     "recoil": 1500,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_7.50mm_rp",
@@ -57,7 +59,8 @@
     "damage": { "damage_type": "bullet", "amount": 12 },
     "dispersion": 60,
     "recoil": 150,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_7.50mm_smart",
