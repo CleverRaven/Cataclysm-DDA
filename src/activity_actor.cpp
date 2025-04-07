@@ -6185,7 +6185,7 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     // First, make a new outfit and shove all our existing clothes into it.
     item new_outfit( outfit_item->typeId() );
-    item_location ground = here.add_item_ret_loc( who.pos_bub(), new_outfit, true );
+    item_location ground = here.add_item_or_charges_ret_loc( who.pos_bub(), new_outfit, true );
     if( !ground ) {
         debugmsg( "Failed to swap outfits during outfit_swap_actor::finish" );
         act.set_to_null();
