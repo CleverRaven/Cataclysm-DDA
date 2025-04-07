@@ -693,7 +693,7 @@
         "description": "A very popular handgun, the SR22 is a more conventional pistol than Ruger's other famous .22 LR handguns, the Ruger Standards.  While .22 LR is still capable of killing, the very short barrel brings that into question."
       }
     ]
-  }
+  },
   {
     "id": "glock_44",
     "copy-from": "gun_base_22_semi_pistol",
