@@ -841,35 +841,53 @@
     "id": "EOC_BLOODHEAL_activated",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
     "effect": [
+      { "not": { "u_has_effect": "disabled", "bodypart": "leg_l" } },
+      { "not": { "u_has_effect": "disabled", "bodypart": "leg_r" } },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
       { "u_message": "Blood suffuses your flesh, repairing any damage it comes across.", "type": "good" },
       {
-        "math": [
-          "u_hp('arm_l')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAITS" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+        "then": { "u_message": "But your left arm is too damaged. Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('arm_l')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
-        "math": [
-          "u_hp('arm_r')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAITS" }, { "u_has_effect": "disabled", "bodypart": "arm_r" } ] },
+        "then": { "u_message": "But your right arm is too damaged. Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('arm_r')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
-        "math": [
-          "u_hp('leg_l')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAITS" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
+        "then": { "u_message": "But your left leg is too damaged. Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('leg_l')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
-        "math": [
-          "u_hp('leg_r')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAITS" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
+        "then": { "u_message": "But your right leg is too damaged. Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('leg_r')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
         "math": [
