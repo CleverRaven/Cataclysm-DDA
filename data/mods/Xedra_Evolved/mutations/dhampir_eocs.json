@@ -8,7 +8,7 @@
     "effect": [
       { "math": [ "u_dhampir_currently_blood_vitamin_level = u_vitamin('human_blood_vitamin')" ] },
       {
-        "if": { "math": [ "u_dhampir_currently_blood_vitamin_level < u_dhampir_previous_blood_vitamin_level" ] },
+        "if": { "math": [ "u_dhampir_currently_blood_vitamin_level < (u_dhampir_previous_blood_vitamin_level - 1)" ] },
         "then": [
           { "math": [ "_temp_value += (u_dhampir_previous_blood_vitamin_level - u_dhampir_currently_blood_vitamin_level)" ] },
           { "u_message": "This round's blood spent was <context_val:temp_value>", "type": "debug" },
