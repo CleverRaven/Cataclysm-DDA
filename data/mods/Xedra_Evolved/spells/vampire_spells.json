@@ -43,6 +43,24 @@
     "difficulty": 1
   },
   {
+    "id": "vampire_drink_blood_with_fangs_spell",
+    "type": "SPELL",
+    "name": "Drink Blood",
+    "description": "Your fangs allow you to drink blood from an incapacitated or sleeping target.",
+    "message": "",
+    "teachable": false,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_DRINK_BLOOD_WITH_FANGS_activated",
+    "shape": "blast",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "base_casting_time": 0,
+    "difficulty": 1,
+    "min_range": 1
+  },
+  {
     "id": "vampire_stamina_for_blood_spell",
     "type": "SPELL",
     "name": "Unholy Endurance",
