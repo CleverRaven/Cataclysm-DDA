@@ -1615,7 +1615,7 @@ conditional_t::func f_follower_present( const JsonObject &jo, std::string_view m
         !npc_to_check->is_following() ) {
             return false;
         }
-        return rl_dist( npc_to_check->pos_bub(), d_npc->pos_bub() ) < 5 &&
+        return rl_dist( npc_to_check->pos_abs(), d_npc->pos_abs() ) < 5 &&
                get_map().clear_path( npc_to_check->pos_bub(), d_npc->pos_bub(), 5, 0, 100 );
     };
 }
@@ -1739,10 +1739,12 @@ conditional_t::func f_line_of_sight( const JsonObject &jo, std::string_view memb
         with_fields = jo.get_bool( "with_fields" );
     }
     return [range, loc_var_1, loc_var_2, with_fields]( const_dialogue const & d ) {
-        tripoint_bub_ms loc_1 = get_map().get_bub( get_tripoint_ms_from_var( loc_var_1, d, false ) );
-        tripoint_bub_ms loc_2 = get_map().get_bub( get_tripoint_ms_from_var( loc_var_2, d, false ) );
+        map &here = get_map();
 
-        return get_map().sees( loc_1, loc_2, range.evaluate( d ), with_fields );
+        tripoint_bub_ms loc_1 = here.get_bub( get_tripoint_ms_from_var( loc_var_1, d, false ) );
+        tripoint_bub_ms loc_2 = here.get_bub( get_tripoint_ms_from_var( loc_var_2, d, false ) );
+
+        return here.sees( loc_1, loc_2, range.evaluate( d ), with_fields );
     };
 }
 
@@ -1791,11 +1793,13 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
+        map &here = get_map();
+
+        tripoint_bub_ms loc = here.get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
         if( terrain ) {
-            return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
+            return here.ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
-            return get_map().furn( loc )->has_flag( furn_type.evaluate( d ) );
+            return here.furn( loc )->has_flag( furn_type.evaluate( d ) );
         }
     };
 }
@@ -1806,13 +1810,15 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
     var_info loc_var = read_var_info( jo.get_object( "loc" ) );
 
     return [member, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
+        map &here = get_map();
+
+        tripoint_bub_ms loc = here.get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
         if( member == "map_terrain_id" ) {
-            return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
+            return here.ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else if( member == "map_furniture_id" ) {
-            return get_map().furn( loc ) == furn_id( furn_type.evaluate( d ) );
+            return here.furn( loc ) == furn_id( furn_type.evaluate( d ) );
         } else if( member == "map_field_id" ) {
-            const field &fields_here = get_map().field_at( loc );
+            const field &fields_here = here.field_at( loc );
             return !!fields_here.find_field( field_type_id( furn_type.evaluate( d ) ) );
         } else {
             debugmsg( "Invalid map id: %s", member );

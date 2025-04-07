@@ -139,7 +139,7 @@ item_location mdeath::splatter( map *here, monster &z )
 
         if( z.type->size >= creature_size::medium ) {
             number_of_gibs += rng( 1, 6 );
-            if( get_map().inbounds( z.pos_abs() ) ) {
+            if( reality_bubble().inbounds( z.pos_abs() ) ) {
                 sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos_bub() ) );
             }
         }

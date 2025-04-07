@@ -169,7 +169,7 @@ bool trapfunc::glass( const tripoint_bub_ms &p, Creature *c, item * )
                         damage_instance( damage_cut, dmg ) );
     }
     sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap", "glass" );
-    get_map().remove_trap( p );
+    here.remove_trap( p );
     c->check_dead_state( &here );
     return true;
 }
@@ -387,7 +387,7 @@ bool trapfunc::eocs( const tripoint_bub_ms &p, Creature *critter, item * )
     }
     map &here = get_map();
     trap tr = here.tr_at( p );
-    const tripoint_abs_ms trap_location = get_map().get_abs( p );
+    const tripoint_abs_ms trap_location = here.get_abs( p );
     for( const effect_on_condition_id &eoc : tr.eocs ) {
         dialogue d( get_talker_for( critter ), nullptr );
         write_var_value( var_type::context, "trap_location", &d, trap_location.to_string() );
@@ -833,6 +833,8 @@ bool trapfunc::landmine( const tripoint_bub_ms &p, Creature *c, item * )
 
 bool trapfunc::boobytrap( const tripoint_bub_ms &p, Creature *c, item * )
 {
+    map &here = get_map();
+
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
@@ -840,9 +842,9 @@ bool trapfunc::boobytrap( const tripoint_bub_ms &p, Creature *c, item * )
 
     item grenade( itype_grenade_act );
     grenade.active = true;
-    get_map().add_item( p, grenade );
+    here.add_item( p, grenade );
 
-    get_map().remove_trap( p );
+    here.remove_trap( p );
     return true;
 }
 
@@ -1193,7 +1195,7 @@ bool trapfunc::lava( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "The %s burns you horribly!" ), _( "The %s burns <npcname>!" ),
-                              get_map().tername( p ) );
+                              here.tername( p ) );
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {

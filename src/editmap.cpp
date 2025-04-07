@@ -480,7 +480,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_veh=true;
     */
 
-    bool game_map = m == &get_map() || w == g->w_terrain;
+    bool game_map = m == &reality_bubble() || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
@@ -2079,8 +2079,10 @@ void editmap::mapgen_retarget()
         if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
             point_rel_ms vec_ms = coords::project_to<coords::ms>( vec->xy() );
             tripoint_bub_ms ptarget = target + vec_ms;
-            if( get_map().inbounds( ptarget ) &&
-                get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
+            map &here = get_map();
+
+            if( here.inbounds( ptarget ) &&
+                here.inbounds( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

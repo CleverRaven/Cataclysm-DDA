@@ -456,11 +456,11 @@ bool npc::could_move_onto( const tripoint_bub_ms &p ) const
 
 std::vector<sphere> npc::find_dangerous_explosives() const
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     std::vector<sphere> result;
 
-    const auto active_items = get_map().get_active_items_in_radius( pos_bub(), MAX_VIEW_DISTANCE,
+    const auto active_items = here.get_active_items_in_radius( pos_bub(), MAX_VIEW_DISTANCE,
                               special_item_type::explosive );
 
     for( const item_location &elem : active_items ) {
@@ -1944,7 +1944,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_goto_to_this_pos: {
-            update_path( get_map().get_bub( *goto_to_this_pos ) );
+            update_path( here.get_bub( *goto_to_this_pos ) );
             move_to_next();
 
             if( pos_abs() == *goto_to_this_pos ) {

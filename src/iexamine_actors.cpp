@@ -294,9 +294,11 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
 
 void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
+    map &here = get_map();
+
     dialogue d( get_talker_for( you ), nullptr );
-    d.set_value( "this", get_map().furn( examp ).id().str() );
-    d.set_value( "pos", get_map().get_abs( examp ).to_string() );
+    d.set_value( "this", here.furn( examp ).id().str() );
+    d.set_value( "pos", here.get_abs( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }
@@ -325,6 +327,8 @@ std::unique_ptr<iexamine_actor> eoc_examine_actor::clone() const
 
 void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
+    map &here = get_map();
+
     dialogue d( get_talker_for( you ), nullptr );
 
     if( has_condition && !condition( d ) ) {
@@ -366,7 +370,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     }
 
     const int aim_range = range / 24;
-    const tripoint_abs_omt pos_omt = project_to<coords::omt>( get_map().get_abs( examp ) );
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( here.get_abs( examp ) );
     tripoint_abs_omt target = ui::omap::choose_point( "Pick a target.", pos_omt, false, aim_range );
 
     if( target == tripoint_abs_omt::invalid ) {
@@ -405,8 +409,8 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         loc.remove_item();
     }
 
-    d.set_value( "this", get_map().furn( examp ).id().str() );
-    d.set_value( "pos", get_map().get_abs( examp ).to_string() );
+    d.set_value( "this", here.furn( examp ).id().str() );
+    d.set_value( "pos", here.get_abs( examp ).to_string() );
     d.set_value( "target", target_abs_ms.to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
