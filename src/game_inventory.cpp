@@ -164,11 +164,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         inv_s.add_contained_items( container );
     } else {
         // Default behavior.
-        inv_s.add_character_items( u );
-        inv_s.add_nearby_items( radius );
-        if( add_ebooks ) {
-            inv_s.add_character_ebooks( u );
-        }
+        inv_s.add_character_items( u, add_ebooks );
+        inv_s.add_nearby_items( radius, add_ebooks );
     }
 
     if( u.has_activity( consuming ) ) {
