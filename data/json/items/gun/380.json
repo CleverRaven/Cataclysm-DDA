@@ -161,7 +161,7 @@
     "price": "420 USD",
     "material": [ "plastic", "steel" ],
     "dispersion": 420,
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock42_mag" ] } ]
   }
 ]
