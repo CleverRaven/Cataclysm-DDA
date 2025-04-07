@@ -204,19 +204,19 @@
     "type": "jmath_function",
     "id": "vampire_total_tier_one_traits",
     "num_args": 0,
-    "return": "u_has_trait('EYEGLEAM') + u_has_trait('BLOOD_FUN') + u_has_trait('STAMINAFORBLOOD') + u_has_trait('COMMUNE_NIGHT') + u_has_trait('VAMPIRIC_STRENGTH') + u_has_trait('VAMPIRIC_RESILIENCE') + u_has_trait('VAMPIRE_HEIGHTENED_SENSES') + u_has_trait('VAMPIRE_SILENT_MOVE')"
+    "return": "u_has_trait('EYEGLEAM') + u_has_trait('BLOOD_FUN') + u_has_trait('STAMINAFORBLOOD') + u_has_trait('COMMUNE_NIGHT') + u_has_trait('VAMPIRIC_STRENGTH') + u_has_trait('VAMPIRIC_RESILIENCE') + u_has_trait('VAMPIRE_HEIGHTENED_SENSES') + u_has_trait('VAMPIRE_SILENT_MOVE') + u_has_trait('DHAMPIR_REDUCED_COLD_TEMPS')"
   },
   {
     "type": "jmath_function",
     "id": "vampire_total_tier_two_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRE_SEE_HEAT') + u_has_trait('DHAMPIR_FANGS')"
+    "return": "u_has_trait('BLOODHEAL') + u_has_trait('COAGULANTWEAVE') + u_has_trait('VAMPIRIC_DODGE') + u_has_trait('VAMPIRE_FEAR_GAZE') + u_has_trait('VAMPIRE_WALK_ON_WALLS') + u_has_trait('VAMPIRE_BEAST_CLAWS') + u_has_trait('VAMPIRE_SEE_HEAT') + u_has_trait('DHAMPIR_FANGS') + u_has_trait('DHAMPIR_SLOWFALL')"
   },
   {
     "type": "jmath_function",
     "id": "vampire_total_tier_three_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER')"
+    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER') + u_has_trait('DHAMPIR_REDUCED_PAIN')"
   },
   {
     "type": "jmath_function",
