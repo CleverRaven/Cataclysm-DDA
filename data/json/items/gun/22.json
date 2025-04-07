@@ -710,7 +710,7 @@
     "material": [ "steel, plastic" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 580,
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock44_mag" ] } ],
   }
 ]
