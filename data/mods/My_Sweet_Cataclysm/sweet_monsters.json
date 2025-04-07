@@ -642,17 +642,16 @@
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
+    "anger_triggers": [ "HURT" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "dodge": 2,
     "mountable_weight_ratio": 0.3,
     "harvest": "gummy_bear",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ],
+    "armor": { "bash": 15 },
     "petfood": {
       "food": [ "apple_gummy" ],
       "feed": "The %s's simple eyes widen with joy as it chews on the gummy apple. It seems to really like you!"
-    },
-    "reproduction": { "baby_type": { "baby_monster": "mon_gummy_foal" }, "baby_count": 2, "baby_timer": 300 },
-    "armor": { "bash": 10 }
+    }
   }
 ]
