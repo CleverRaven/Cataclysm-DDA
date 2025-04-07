@@ -567,6 +567,16 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_BLOOD_TEMPORARY_BOOST",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Carmine Vitality" },
+    "description": "Your flesh heals visibly while blood disintegrates hidden inside your veins."
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE3",
     "name": { "str": "Mortal hungers are replaced with immortal hungers" },
     "points": 0,

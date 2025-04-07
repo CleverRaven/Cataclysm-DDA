@@ -38,6 +38,7 @@
               { "u_lose_trait": "VAMPIRE_WALK_ON_WALLS" },
               { "u_lose_trait": "VAMPIRE_BEAST_CLAWS" },
               { "u_lose_trait": "VAMPIRE_SEE_HEAT" },
+              { "u_lose_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
               { "math": [ "u_spell_level('spell_blood_heal') = -1" ] },
               { "math": [ "u_spell_level('vampire_fear_gaze_spell') = -1" ] },
               { "u_lose_trait": "VAMPIRE3" },
@@ -234,7 +235,8 @@
                         "VAMPIRE_FEAR_GAZE",
                         "VAMPIRE_WALK_ON_WALLS",
                         "VAMPIRE_BEAST_CLAWS",
-                        "VAMPIRE_SEE_HEAT"
+                        "VAMPIRE_SEE_HEAT",
+                        "VAMPIRE_BLOOD_TEMPORARY_BOOST"
                       ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],

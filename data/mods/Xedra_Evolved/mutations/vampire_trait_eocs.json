@@ -1,6 +1,36 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_GET_BLOOD_VITAMIN",
+    "effect": [
+      {
+        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
+        "then": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] },
+          {
+            "u_add_effect": "effect_drank_blood_recently",
+            "intensity": 1,
+            "duration": { "math": [ "600 + rand(600)" ] }
+          },
+          {
+            "if": { "u_has_trait": "BLOOD_FUN" },
+            "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+          }
+        ],
+        "else": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] },
+          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
+        "then": [ { "u_add_effect": "effect_vampire_drank_blood_power_boost", "duration": 3600 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLOOD_DRINKING_DIRECTLY",
     "eoc_type": "EVENT",
     "required_event": "character_eats_item",
@@ -10,26 +40,14 @@
           "or": [
             { "compare_string": [ "blood", { "context_val": "itype" } ] },
             { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] }
+            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "fae_blood", { "context_val": "itype" } ] }
           ]
         },
         { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [
-      {
-        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
-        "then": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-          {
-            "u_add_effect": "effect_drank_blood_recently",
-            "intensity": 1,
-            "duration": { "math": [ "600 + rand(600)" ] }
-          }
-        ],
-        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" } ]
   },
   {
     "type": "effect_on_condition",
@@ -43,24 +61,7 @@
         { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [
-      {
-        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
-        "then": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] },
-          {
-            "u_add_effect": "effect_drank_blood_recently",
-            "intensity": 1,
-            "duration": { "math": [ "600 + rand(600)" ] }
-          }
-        ],
-        "else": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] },
-          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }
-        ]
-      }
-    ]
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_GET_BLOOD_VITAMIN" } ]
   },
   {
     "type": "effect_on_condition",
@@ -127,26 +128,6 @@
       ]
     },
     "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "200 + rand(50)" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_BLOOD_FUN",
-    "eoc_type": "EVENT",
-    "required_event": "character_eats_item",
-    "condition": {
-      "and": [
-        {
-          "or": [
-            { "compare_string": [ "blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "fae_blood", { "context_val": "itype" } ] }
-          ]
-        },
-        { "u_has_trait": "BLOOD_FUN" }
-      ]
-    },
-    "effect": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
   },
   {
     "type": "effect_on_condition",
