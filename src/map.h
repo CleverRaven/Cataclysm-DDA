@@ -1263,7 +1263,8 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item_location add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+        item_location add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item obj,
+                bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
                                    bool overflow = true );
