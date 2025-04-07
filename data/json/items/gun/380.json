@@ -146,7 +146,7 @@
     "dispersion": 480,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ]
-  }
+  },
   {
     "id": "glock42",
     "copy-from": "gun_base_380_semi_pistol",
