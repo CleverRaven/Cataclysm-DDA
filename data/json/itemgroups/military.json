@@ -769,6 +769,7 @@
       { "item": "flaregun", "prob": 20 },
       { "item": "signal_flare", "prob": 25 },
       { "item": "glasses_bal", "prob": 10 },
+      { "item": "mask_bal", "prob": 2 },
       { "item": "55gal_drum", "prob": 1 },
       { "item": "30gal_drum", "prob": 2 },
       { "item": "grapnel", "prob": 1 },
