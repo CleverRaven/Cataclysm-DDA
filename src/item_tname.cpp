@@ -26,7 +26,6 @@
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
-#include "map.h"
 #include "mutation.h"
 #include "options.h"
 #include "recipe.h"

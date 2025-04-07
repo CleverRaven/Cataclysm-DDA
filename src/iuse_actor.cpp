@@ -2237,7 +2237,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
 }
 
 std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
-        map *here, const tripoint_bub_ms & ) const
+        map *, const tripoint_bub_ms & ) const
 {
     if( !p ) {
         debugmsg( "%s called action fireweapon_off that requires character but no character is present",
