@@ -56,7 +56,7 @@
     "longest_side": "165 mm",
     "barrel_length": "87 mm",
     "dispersion": 480,
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
