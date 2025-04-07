@@ -231,7 +231,9 @@
     "active": true,
     "activated_is_setup": true,
     "activation_msg": "Your fangs lengthen.",
-    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "DHAMPIR_FANGS_ACTIVE" ] } ]
+    "enchantments": [ { "condition": "ACTIVE", "mutations": [ "DHAMPIR_FANGS_ACTIVE" ] } ],
+    "activated_eocs": [ "EOC_DHAMPIR_FANGS_activated" ],
+    "deactivated_eocs": [ "EOC_DHAMPIR_FANGS_deactivated" ]
   },
   {
     "type": "mutation",
@@ -254,7 +256,8 @@
         "chance": 20,
         "base_damage": { "damage_type": "stab", "amount": 7 }
       }
-    ]
+    ],
+    "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -411,7 +414,8 @@
         "chance": 20,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       }
-    ]
+    ],
+    "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
     "type": "mutation",

@@ -111,6 +111,114 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_DRINK_BLOOD_WITH_FANGS_activated",
+    "condition": {
+      "or": [
+        {
+          "u_has_any_effect": [ "stunned", "dazed", "sleep", "effect_vampire_hypnotism", "effect_vampire_blood_drinking_target" ]
+        },
+        { "test_eoc": "EOC_CONDITIONS_VAMPIRE_DRINK_BLOOD_WITH_FANGS_MOM" }
+      ]
+    },
+    "effect": [
+      {
+        "if": "u_is_npc",
+        "then": [
+          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
+          { "math": [ "u_vitamin('blood')", "-=", "750  + rand(450)" ] },
+          { "math": [ "u_vitamin('redcells')", "-=", "750 + rand(450)" ] },
+          { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
+          { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
+          { "npc_add_effect": "effect_vampire_blood_drinking", "duration": 4 },
+          { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" }
+        ]
+      },
+      {
+        "if": {
+          "or": [
+            { "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+            { "u_has_species": "FERAL" },
+            { "u_has_species": "RENFIELD" },
+            { "and": [ { "u_has_species": "CHANGELING" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+            { "u_has_species": "HOMULLUS" },
+            { "u_has_trait": "FAE_CREATURE" }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
+          {
+            "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
+            "then": [ { "math": [ "n_vitamin('drank_fae_blood')", "+=", "5" ] } ]
+          },
+          { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
+          { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
+          { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
+          { "npc_add_effect": "effect_vampire_blood_drinking", "duration": 4 },
+          { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "not": "u_is_npc" },
+            { "or": [ { "not": { "u_has_species": "HUMAN" } }, { "u_has_species": "ZOMBIE" } ] },
+            { "not": { "u_has_species": "FERAL" } },
+            { "not": { "u_has_species": "CHANGELING" } },
+            { "not": { "u_has_species": "RENFIELD" } },
+            { "not": { "u_has_species": "HOMULLUS" } },
+            { "not": { "u_has_trait": "FAE_CREATURE" } }
+          ]
+        },
+        "then": [
+          { "npc_message": "You get a taste of blood but stop drinking when you realize it cannot sustain you.", "type": "bad" },
+          {
+            "if": {
+              "or": [
+                { "u_has_species": "MIGO" },
+                { "u_has_species": "ZOMBIE" },
+                { "u_has_species": "HORROR" },
+                { "u_has_species": "INSECT" },
+                { "u_has_species": "INSECT_FLYING" },
+                { "u_has_species": "CENTIPEDE" },
+                { "u_has_species": "SPIDER" },
+                { "u_has_species": "MOLLUSK" },
+                { "u_has_species": "WORM" }
+              ]
+            },
+            "then": [
+              { "npc_message": "…and it tastes absolutely disgusting!", "type": "bad" },
+              { "math": [ "n_vitamin('bad_food')", "+=", "rng(10,15)" ] }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "npc_message": "You can only drink blood from an incapacitated or sleeping target.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT",
+    "condition": { "u_has_effect": "effect_vampire_blood_drinking" },
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" } ]
+  },
+  {
+    "id": "EOC_VAMPIRE_DRINK_BLOOD_INTERRUPTED_CHECK",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VAMPIRE_DRINKING_BLOOD", { "context_val": "activity" } ] },
+        { "math": [ "_canceled == true" ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "You cancelled drinking blood and thus get no blood.", "type": "debug" },
+      { "u_lose_effect": "effect_vampire_blood_drinking" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD_HALVING",
     "eoc_type": "EVENT",
     "required_event": "character_eats_item",
@@ -1048,7 +1156,16 @@
         "run_eocs": [
           {
             "id": "EOC_HYPNOTIC_GAZE_activated_2",
-            "effect": [ { "u_add_effect": "stunned", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } } ]
+            "effect": [
+              {
+                "if": { "and": [ { "not": { "u_has_effect": "blind" } }, { "not": { "u_has_flag": "BLIND" } } ] },
+                "then": [
+                  { "u_add_effect": "effect_vampire_hypnotism", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } },
+                  { "u_add_effect": "dazed", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } }
+                ],
+                "else": [ { "npc_message": "Your target is unaffected by your gaze!", "type": "bad" } ]
+              }
+            ]
           }
         ]
       }
@@ -2080,5 +2197,15 @@
       "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
     },
     "effect": [ { "u_add_effect": "blood_craving", "intensity": 1, "duration": { "math": [ "400 + rand(600)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_FANGS_activated",
+    "effect": [ { "math": [ "u_spell_level('vampire_drink_blood_with_fangs_spell') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_FANGS_deactivated",
+    "effect": [ { "math": [ "u_spell_level('vampire_drink_blood_with_fangs_spell') = -1" ] } ]
   }
 ]

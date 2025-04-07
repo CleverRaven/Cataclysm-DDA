@@ -747,7 +747,8 @@ static item_location give_tablets( avatar &dummy, int count, bool in_inventory )
         for( int i = 0; i < count; ++i ) {
             container.put_in( item( itype_pur_tablets, calendar::turn ), pocket_type::CONTAINER );
         }
-        item_location container_loc = get_map().add_item_ret_loc( dummy.pos_bub(), container, true );
+        item_location container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container,
+                                      true );
         REQUIRE( container_loc );
         std::list<item *> all_tablets = container_loc->all_items_top();
         REQUIRE( !all_tablets.empty() );
@@ -770,7 +771,7 @@ static item_location give_water( avatar &dummy, int count, bool in_inventory )
     if( in_inventory ) {
         container_loc = dummy.i_add( container );
     } else {
-        container_loc = get_map().add_item_ret_loc( dummy.pos_bub(), container, true );
+        container_loc = get_map().add_item_or_charges_ret_loc( dummy.pos_bub(), container, true );
     }
     REQUIRE( container_loc );
     // Spawning a container of water next to the player does not update the crafting inventory, so force an update
