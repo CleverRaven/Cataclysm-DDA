@@ -741,8 +741,11 @@
     "enchantments": [
       {
         "values": [
-          { "value": "STRENGTH", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER)" ] } }
+          { "value": "STRENGTH", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
+          }
         ]
       }
     ]

@@ -264,6 +264,9 @@
     "id": "DHAMPIR_REDUCED_COLD_TEMPS",
     "name": { "str": "Cold as the Grave" },
     "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "Your half-dead flesh is inured to winter's chill.  As long as you have empowered blood in your body, you suffer much less from colder temperatures.",
     "enchantments": [
       {
@@ -277,6 +280,9 @@
     "id": "DHAMPIR_RESIST_DISEASE_POISON_INFECTION",
     "name": { "str": "One Foot in the Grave" },
     "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "The deathly energies that course through your veins are inimical to mundane poisons and diseases.  As long as you have empowered blood in your body, you are more resistant to disease, poison, and infection.",
     "enchantments": [
       {
@@ -290,6 +296,9 @@
     "id": "DHAMPIR_SLOWFALL",
     "name": { "str": "Light as the Last Breath" },
     "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You take greatly-reduced fall damage as long as you have empowered blood in your body.",
     "enchantments": [
       {
@@ -304,6 +313,9 @@
     "id": "DHAMPIR_REDUCED_PAIN",
     "name": { "str": "Half-Dead Flesh" },
     "points": 4,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "description": "Being born closer to death, you feel the sensations of the living less strongly.  You suffer much less pain from your injuries than a human would, and the pain affects your capabilities less.",
     "enchantments": [
       {
@@ -323,11 +335,14 @@
     "id": "DHAMPIR_MEND_WOUNDS_FASTER",
     "name": { "str": "A Hundred Years of Night" },
     "points": 6,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
     "//": "This should prevent permanent damage from wounds, once that's possible.",
     "description": "You are only half-alive now, sustained as much by the energy in your blood as by biological processes.  You age much slower than a mortal, and when your limbs break, they heal more quickly in proportion to how much empowered blood you have.",
     "enchantments": [
       {
-        "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] ] } } ]
+        "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } } ]
       }
     ],
     "flags": [ "MEND_ALL" ]
