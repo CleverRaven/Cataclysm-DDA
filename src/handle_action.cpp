@@ -239,7 +239,7 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     const tripoint_bub_ms pos = u.pos_bub( here );
 
@@ -271,9 +271,9 @@ input_context game::get_player_input( std::string &action )
         ctxt = get_default_mode_input_context();
     }
 
-    m.update_visibility_cache( pos.z() );
-    const visibility_variables &cache = m.get_visibility_variables_cache();
-    const level_cache &map_cache = m.get_cache_ref( pos.z() );
+    here.update_visibility_cache( pos.z() );
+    const visibility_variables &cache = here.get_visibility_variables_cache();
+    const level_cache &map_cache = here.get_cache_ref( pos.z() );
     const auto &visibility_cache = map_cache.visibility_cache;
 #if defined(TILES)
     // Mark cata_tiles draw caches as dirty
@@ -358,8 +358,8 @@ input_context game::get_player_input( std::string &action )
 
                     const tripoint_bub_ms mapp( map.x, map.y, pos.z() );
 
-                    if( m.inbounds( mapp ) && m.is_outside( mapp ) &&
-                        m.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
+                    if( here.inbounds( mapp ) && here.is_outside( mapp ) &&
+                        here.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
                         visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
                         // Suppress if a critter is there
@@ -2342,9 +2342,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
                         destination_preview =
-                            m.route( player_character.pos_bub(), auto_travel_destination,
-                                     player_character.get_pathfinding_settings(),
-                                     player_character.get_path_avoid() );
+                            here.route( player_character.pos_bub(), auto_travel_destination,
+                                        player_character.get_pathfinding_settings(),
+                                        player_character.get_path_avoid() );
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );
@@ -2359,7 +2359,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     }
                     dest_delta = dest_next;
                 }
-                if( !avatar_action::move( player_character, m, tripoint_rel_ms( dest_delta, 0 ) ) ) {
+                if( !avatar_action::move( player_character, here, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.abort_automove();
                 }
@@ -2406,19 +2406,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
-                if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
+                if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
                     // If levitating, just move straight down if possible.
                     if( player_character.has_flag( json_flag_LEVITATION ) &&
-                        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
+                        here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
                         pts.push_back( player_character.pos_bub() );
                     }
 
                     if( pts.empty() ) {
                         // Check tiles around player character for open air
-                        for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
-                            if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                        for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+                            if( here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
                                 pts.push_back( p );
                             }
                         }
@@ -2473,7 +2473,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
             } else if( mouse_target ) {
-                doors::close_door( m, player_character, *mouse_target );
+                doors::close_door( here, player_character, *mouse_target );
             } else {
                 close();
             }
@@ -2866,7 +2866,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MAP:
-            if( !m.is_outside( player_character.pos_bub() ) ) {
+            if( !here.is_outside( player_character.pos_bub() ) ) {
                 uistate.overmap_visible_weather = false;
             }
             if( !get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
@@ -2877,7 +2877,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SKY:
-            if( m.is_outside( player_character.pos_bub() ) ) {
+            if( here.is_outside( player_character.pos_bub() ) ) {
                 ui::omap::display_visible_weather();
             } else {
                 add_msg( m_info, _( "You can't see the sky from here." ) );
@@ -3096,7 +3096,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_AUTOATTACK:
-            avatar_action::autoattack( player_character, m );
+            avatar_action::autoattack( player_character, here );
             break;
 
         default:

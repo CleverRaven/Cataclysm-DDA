@@ -2891,6 +2891,7 @@ Open a menu, that allow to select one of multiple options
 | "title" | optional | string | Text, that would be shown as the name of the list; Default `Select an option.` | 
 | "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out | 
 | "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
+| "hilight_disabled" | optional | boolean | if true, the option, that fail their check, would still be navigateable, meaning you can highlight it and read it's description. If `allow_cancel` is true, picking it would be considered same as quitting | 
 | "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoCs; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 ##### Valid talkers:
 
@@ -4281,8 +4282,10 @@ Creates an explosion at talker position or at passed coordinate
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring |
+| "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring. |
 | "target_var" | optional | [variable object](#variable-object) | if used, explosion will occur where the variable point to | 
+| "emp_blast" | optional | bool | if used, the emp blast would appear at the center of the explosion (only at the center, no matter the size of explosion.  If you want the explosion to have an area, see examples below) | 
+| "scrambler_blast" | optional | bool | if used, the scrambler blast would appear at the center of the explosion (only at the center, no matter the size of explosion) |
 
 ##### Valid talkers:
 
@@ -4307,6 +4310,28 @@ You pick a tile using u_query_omt, then the explosion is caused at this position
     ]
   }
 ```
+
+`u_map_run_eocs` runs 5 tiles around alpha talker, applying EMP effect on all the tiles
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AOE_EMP",
+    "effect": [
+      {
+        "u_map_run_eocs": [ "EOC_EMP" ],
+        "range": 5,
+        "store_coordinates_in": { "context_val": "loc" },
+        "stop_at_first": false
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EMP",
+    "effect": [ { "u_explosion": { }, "emp_blast": true, "target_var": { "context_val": "loc" } } ]
+  },
+```
+
 
 #### `u_knockback`, `npc_knockback`
 Pushes the creature on the tile in specific direction

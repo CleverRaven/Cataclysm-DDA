@@ -365,7 +365,16 @@
     "type": "item_group",
     "//": "This group is for lockers storing safety gear for woodcrafts. SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "subtype": "collection",
-    "items": [ [ "glasses_safety", 95 ], [ "mask_dust", 30 ], [ "gloves_work", 30 ], [ "apron_leather", 95 ] ]
+    "items": [
+      [ "glasses_safety", 95 ],
+      [ "mask_dust", 30 ],
+      [ "gloves_work", 30 ],
+      [ "apron_leather", 95 ],
+      [ "apron_cut_resistant", 15 ],
+      [ "chaps_cut_resistant", 25 ],
+      [ "armguard_cut_resistant", 25 ],
+      [ "balaclava_cut_resistant", 5 ]
+    ]
   },
   {
     "type": "item_group",

@@ -5085,7 +5085,8 @@ units::volume map::free_volume( const tripoint_bub_ms &p )
     return i_at( p ).free_volume();
 }
 
-item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow )
+item_location map::add_item_or_charges_ret_loc( const tripoint_bub_ms &pos, item obj,
+        bool overflow )
 {
     int copies = 1;
     std::pair<item *, tripoint_bub_ms> ret = _add_item_or_charges( pos, std::move( obj ), copies,
