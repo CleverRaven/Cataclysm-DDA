@@ -353,6 +353,7 @@
       { "item": "mask_gas_half", "prob": 60, "charges": [ 0, 100 ] },
       [ "mask_hockey", 10 ],
       [ "mask_bal", 1 ],
+      [ "balaclava_cut_resistant", 1 ],
       [ "mask_rioter", 5 ]
     ]
   },
@@ -376,6 +377,7 @@
       [ "carpet_armguards", 8 ],
       [ "improvised_armguard_tire", 4 ],
       [ "elbow_pads", 20 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "chainmail_junk_arms", 1 ]
     ]
   },
@@ -401,6 +403,7 @@
       [ "vest_jean_mod", 2 ],
       [ "soft_3a_vest", 3 ],
       [ "level_3_vest", 3 ],
+      [ "apron_cut_resistant", 3 ],
       [ "lame_foil", 1 ],
       [ "sleeveless_trenchcoat_leather", 12 ],
       [ "sleeveless_trenchcoat", 12 ]

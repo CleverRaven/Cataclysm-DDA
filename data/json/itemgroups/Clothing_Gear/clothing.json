@@ -725,6 +725,19 @@
     ]
   },
   {
+    "id": "clothing_chainsaw_protection",
+    "type": "item_group",
+    "//": "Protective equipment often worn in professions that make use of chainsaws and other sawing tools.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_cut_resistant", "prob": 70 },
+      { "item": "armguard_cut_resistant", "prob": 60 },
+      { "item": "chaps_cut_resistant", "prob": 50 },
+      { "item": "apron_cut_resistant", "prob": 45 },
+      { "item": "balaclava_cut_resistant", "prob": 10 }
+    ]
+  },
+  {
     "id": "hardware_clothing",
     "type": "item_group",
     "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
@@ -752,6 +765,7 @@
       [ "gloves_cut_resistant", 10 ],
       [ "chaps_cut_resistant", 5 ],
       [ "armguard_cut_resistant", 5 ],
+      [ "balaclava_cut_resistant", 2 ],
       [ "apron_leather", 10 ],
       [ "tool_belt", 30 ],
       [ "knee_pads", 20 ],
@@ -2908,6 +2922,7 @@
       { "group": "army_helmet_nvg", "prob": 1 },
       [ "helmet_army", 40 ],
       [ "helmet_liner", 10 ],
+      [ "mask_bal", 5 ],
       [ "beret", 50 ],
       [ "beret_wool", 40 ],
       [ "elbow_pads", 50 ],
