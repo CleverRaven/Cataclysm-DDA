@@ -121,7 +121,7 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Dollkin has resistance to attacks on it's ability to act on it's choices.",
+    "description": "The Dollkin has resistance to attacks on its ability to act on it's choices.",
     "category": [ "HOMULLUS" ],
     "flags": [ "PSYSHIELD_PARTIAL" ]
   },
