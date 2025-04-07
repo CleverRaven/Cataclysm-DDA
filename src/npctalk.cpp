@@ -7337,7 +7337,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     }
                     if( !set_mon_var.empty() ) {
                         for( const auto &val : set_mon_var ) {
-                            spawned->set_value( val.first, val.second.evaluate( d ) );
+                            // FIXME: typed variables
+                            spawned->set_value( val.first, diag_value::legacy_value{ val.second.evaluate( d, true ) } );
                         }
                     }
                     spawns++;
