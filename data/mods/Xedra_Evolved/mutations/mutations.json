@@ -274,6 +274,19 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_RESIST_DISEASE_POISON_INFECTION",
+    "name": { "str": "One Foot in the Grave" },
+    "points": 3,
+    "description": "The deathly energies that course through your veins are inimical to mundane poisons and diseases.  As long as you have empowered blood in your body, you are more resistant to disease, poison, and infection.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_resist_disease_poison_infection", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "DHAMPIR_SLOWFALL",
     "name": { "str": "Light as the Last Breath" },
     "points": 2,
