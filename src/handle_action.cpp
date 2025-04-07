@@ -1709,11 +1709,13 @@ static void read()
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
             if( loc->type->can_use( "learn_spell" ) ) {
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
+            } else if( loc.is_efile() ) {
+                item_location parent_loc = loc.parent_item();
+                // TODO: obtaining the e-container would require a bunch more work
+                player_character.read( loc, parent_loc );
             } else {
                 loc = loc.obtain( player_character );
-                item_location parent_loc = loc.parent_item();
-                loc.is_efile() ?
-                player_character.read( loc, parent_loc ) : player_character.read( loc );
+                player_character.read( loc );
             }
         }
     } else {
