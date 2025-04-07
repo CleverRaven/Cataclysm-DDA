@@ -333,13 +333,13 @@
   {
     "type": "mutation",
     "id": "DHAMPIR_MEND_WOUNDS_FASTER",
-    "name": { "str": "A Hundred Years of Night" },
+    "name": { "str": "A Thousand Years of Night" },
     "points": 6,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "//": "This should prevent permanent damage from wounds, once that's possible.",
-    "description": "You are only half-alive now, sustained as much by the energy in your blood as by biological processes.  You age much slower than a mortal, and when your limbs break, they heal more quickly in proportion to how much empowered blood you have.",
+    "description": "You are only half-alive now, sustained as much by the energy in your blood as by biological processes.  You age far slower than a mortal, and when your limbs break, they heal more quickly in proportion to how much empowered blood you have.",
     "enchantments": [
       {
         "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } } ]
