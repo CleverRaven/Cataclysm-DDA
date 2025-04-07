@@ -6319,11 +6319,16 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         allow_cancel = jo.get_bool( "allow_cancel" );
     }
 
+    bool hilight_disabled = false;
+    if( jo.has_bool( "hilight_disabled" ) ) {
+        hilight_disabled = jo.get_bool( "hilight_disabled" );
+    }
+
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
 
     return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
-          hide_failing, allow_cancel]( dialogue & d ) {
+          hide_failing, allow_cancel, hilight_disabled]( dialogue & d ) {
         uilist eoc_list;
 
         std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
@@ -6334,6 +6339,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         eoc_list.text = title.translated();
         eoc_list.allow_cancel = allow_cancel;
         eoc_list.desc_enabled = !eoc_descriptions.empty();
+        eoc_list.hilight_disabled = hilight_disabled;
         parse_tags( eoc_list.text, alpha, beta, d );
 
         for( size_t i = 0; i < eocs.size(); i++ ) {
