@@ -3879,8 +3879,8 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
         add_msg_if_player_sees( bubble_map.get_bub( get_abs( p ) ), m_bad,
                                 _( "The %s damages several items." ), cause_message );
     } else if( items_damaged == 1 ) {
-        //~ %1$s: the cause of damage, %2$s: damaged item name
         add_msg_if_player_sees( bubble_map.get_bub( get_abs( p ) ), m_bad,
+                                //~ %1$s: the cause of damage, %2$s: damaged item name
                                 _( "The %1$s damages the %2$s." ),
                                 cause_message,
                                 damaged_item_name );
