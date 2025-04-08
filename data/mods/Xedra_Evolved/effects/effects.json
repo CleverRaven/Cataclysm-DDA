@@ -601,7 +601,7 @@
             "value": "NIGHT_VIS",
             "add": {
               "math": [
-                "5 + (vampire_total_tier_one_traits() * 1) + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4)"
+                "5 + (vampire_total_tier_one_traits_plus_potency() * 1) + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4) + (vampire_total_tier_five_traits_plus_cauldron() * 5)"
               ]
             }
           }
@@ -637,7 +637,7 @@
             "value": "STRENGTH",
             "add": {
               "math": [
-                "1 + (vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)"
+                "1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1)"
               ]
             }
           }
@@ -658,7 +658,7 @@
             "type": "bash",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06)), -0.66)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06) + (vampire_total_tier_five_traits_plus_cauldron() * -0.08)), -0.66)"
               ]
             }
           },
@@ -666,7 +666,7 @@
             "type": "stab",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025)), -0.25)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025) + (vampire_total_tier_five_traits_plus_cauldron() * -0.035)), -0.25)"
               ]
             }
           },
@@ -674,7 +674,7 @@
             "type": "cut",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03) + (vampire_total_tier_five_traits_plus_cauldron() * -0.04)), -0.33)"
               ]
             }
           },
@@ -682,7 +682,7 @@
             "type": "bullet",
             "multiply": {
               "math": [
-                "max(((vampire_total_tier_one_traits() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075)), -0.85)"
+                "max(((vampire_total_tier_one_traits_plus_potency() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075) + (vampire_total_tier_five_traits_plus_cauldron() * 0.1)), -0.85)"
               ]
             }
           }
@@ -725,7 +725,7 @@
             "value": "EVASION",
             "add": {
               "math": [
-                "min(0.15 + ((vampire_total_tier_one_traits() * 0.012) + (vampire_total_tier_two_traits() * 0.025) + (vampire_total_tier_three_traits() * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.075)), 0.7)"
+                "min(0.15 + ((vampire_total_tier_one_traits_plus_potency() * 0.012) + (vampire_total_tier_two_traits() * 0.025) + (vampire_total_tier_three_traits() * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.075) + (vampire_total_tier_five_traits_plus_cauldron() * 0.1)), 0.7)"
               ]
             }
           },
@@ -733,7 +733,7 @@
             "value": "DODGE_CHANCE",
             "add": {
               "math": [
-                "min(1 + ((vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.45) + (vampire_total_tier_three_traits() * 0.65) + (vampire_total_tier_four_traits_plus_potence() * 0.95)), 15)"
+                "min(1 + ((vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.45) + (vampire_total_tier_three_traits() * 0.65) + (vampire_total_tier_four_traits_plus_potence() * 0.95) + (vampire_total_tier_five_traits_plus_cauldron() * 1.25)), 15)"
               ]
             }
           },
@@ -2620,7 +2620,7 @@
     "id": "last_breath_mist_cooldown",
     "name": [ "Recovering from the last breath's mist" ],
     "desc": [
-      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way a second time yet."
+      "Triggering your abilities that way has taken their toll on you.  You cannot save yourself from death that way another time yet."
     ]
   },
   {
@@ -3317,6 +3317,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_slain_by_the_sun",
+    "name": [ "Slain by the Sun" ],
+    "desc": [ "The sun is burning you like a dry leaf in a wildfire." ],
+    "miss_messages": [ [ "The sun is burning you.", 2 ] ],
+    "rating": "bad",
+    "main_parts_only": true,
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sun_burn_grace_period",
+    "//": "Hidden effect, gives a few hours before the player burns from the sun due to that weakness.",
+    "max_duration": "24 hours",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_drank_blood_recently",
     "//": "Hidden effect, ensuring that blood cravings are canceled by drinking blood.",
     "removes_effects": [ "blood_craving" ],
@@ -3394,9 +3413,102 @@
     "id": "effect_anathema_final_form",
     "//": "From a tier 5's base speed to a total of 653 speed, and ensures it can hit players benefitting from flow like blood.",
     "name": [ "Hasted by shadows" ],
-    "desc": [ "The Anathema is much quicker now thanks to vampiric abilities" ],
+    "desc": [ "The Anathema is much quicker now thanks to vampiric abilities." ],
     "show_in_info": true,
     "base_mods": { "hit_mod": [ 50 ], "dodge_mod": [ 20 ] },
     "enchantments": [ { "values": [ { "value": "SPEED", "add": 468 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_player_anathema_potency_boost",
+    "//": "Counts as +1 tier 1 trait per intensity for the purposes of calculating powers.  Intended for the player to never manage to get to the max intensity, as this would take thousands of slain vampires.",
+    "max_intensity": 1000,
+    "name": [ "Apex Vampire's Potency" ],
+    "desc": [ "All the vampire blood you drank has empowered you." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_recent_vampire_drink",
+    "//": "This tracks if the player recently drank vampire blood.  This is used for the Apex's Thirst weakness.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "5 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_need_vampire_blood",
+    "//": "This tracks how long the player went without vampire blood.  This is used for the Apex's Thirst weakness.",
+    "max_intensity": 100,
+    "name": [ "Apex's Thirst" ],
+    "desc": [ "Your blood is consuming itself in its thirst for the blood of vampires." ],
+    "rating": "bad",
+    "apply_message": "You feel a gnawing thirst for the blood of vampires.  Better find some, before your blood devours itself.",
+    "remove_message": "Your thirst for vampire blood calms down."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_invisible_in_dark",
+    "name": [ "Shrouded by the Shadowed Path" ],
+    "//": "When the required check will exist, this power will depend on darkness to work, not on not being under the sun.",
+    "desc": [ "Until the shadows you gathered fade or the sun shines upon you, you cannot be seen." ],
+    "apply_message": "The shadows you gathered meld with you, hiding you from sight.",
+    "remove_message": "The shadows aren't hiding you anymore.",
+    "rating": "good",
+    "flags": [ "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_lose_invisible_in_dark",
+    "//": "This revoves the invisibility power when the vampire stands under the sun.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_vampire_invisible_in_dark" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_no_illness",
+    "//": "Removes all illnesses, parasites and poisons no matter if they are magical or mundane.  No effect on the vampire cure.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [
+      "venom_blind",
+      "formication",
+      "migo_atmosphere",
+      "nausea",
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "poison",
+      "venom_dmg",
+      "venom_weaken",
+      "stung",
+      "badpoison",
+      "foodpoison",
+      "paralyzepoison",
+      "tetanus",
+      "rat_bite_fever",
+      "infected",
+      "common_cold",
+      "flu",
+      "pre_flu",
+      "pre_common_cold",
+      "blood_spiders",
+      "visuals"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_anathema_mind_chaos",
+    "name": [ "Blood-Muddled Mind" ],
+    "desc": [ "Your mind reels from all the vampire blood you drank." ],
+    "rating": "bad",
+    "max_intensity": 5,
+    "base_mods": { "int_mod": [ -4 ] },
+    "scaling_mods": { "int_mod": [ -2 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.1 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

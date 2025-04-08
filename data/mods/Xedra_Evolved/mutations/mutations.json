@@ -1135,6 +1135,309 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_ANATHEMA",
+    "name": { "str": "Vampiric Anathema" },
+    "points": 0,
+    "//": "Required for vampire blood to have any consumption benefit.  Regular vampires instinctively feel threatened by you and their renfields try to protect them, so they react accordingly.",
+    "//2": "The traits unlocked by this have no category, as they aren't given by the regular mutation system.",
+    "description": "Through the consumption of self-cannibalizing vampire blood, you gained the ability to consume vampire blood to gain vampiric abilities undreamt of by other vampires.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "VAMPIRE", 200 ], [ "RENFIELD", 200 ] ],
+    "threshold": true,
+    "vitamin_rates": [ [ "human_blood_vitamin", 120 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_STORE_MORE_BLOOD",
+    "name": { "str": "Inner Vault of Blood" },
+    "points": 5,
+    "description": "Your vestigial circulatory system is now better at holding stolen blood.  You can hold five more liters inside you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "EYEGLEAM_UPGRADE",
+    "name": { "str": "Eternally-Gleaming Eyes" },
+    "points": 5,
+    "description": "Your ability to see in the dark has expanded.  You no longer need to spend blood to maintain your gleaming eyes.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_INSTANT_BLEED",
+    "name": { "str": "Claim the Crimson Wine" },
+    "points": 5,
+    "description": "You can now attract the blood within a corpse's veins, extracting it all in a second through a small cut.  In addition, you can create temporary blood containers by spending mana.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "INSTANT_BLEED" ],
+    "spells_learned": [ [ "vampire_summon_blood_container", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_DETECT_VAMPIRES",
+    "name": { "str": "Apex Vampire's Sight" },
+    "points": 5,
+    "description": "In comparison to you, regular vampires are the same as mortals.  You can now detect nearby vampires, your new prey, even through walls.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 3" ] },
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BIG_STOMACH",
+    "name": { "str": "Unlimited Drinking" },
+    "points": 5,
+    "description": "Your digestive system has warped to repurpose some vestigial parts, making you much better at drinking blood.  Drinking reasonable amounts of blood won't ever stretch your stomach, and you drink blood much faster now.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "VOMIT_MUL", "multiply": -100 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 100 },
+          { "value": "CONSUME_TIME_MOD", "multiply": -0.8 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SEE_THROUGH_NIGHT_EYES",
+    "name": { "str": "See Through Night's Eyes" },
+    "points": 5,
+    "description": "Your supernatural senses have expanded.  You can now see anything close to some nocturnal creatures, even if they lack sight.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "moncams": [ [ "mon_bat", 32 ], [ "xe_mon_bat", 32 ], [ "mon_vampire_bat", 32 ], [ "mon_bat_giant", 32 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOOD_FUN_UPGRADE",
+    "name": { "str": "Sanguine Paradise" },
+    "points": 5,
+    "//": "The main draw of BLOOD_FUN is fae blood being a net morale positive.  The main draw of this upgrade is getting stat boosts from the high morale.",
+    "description": "Becoming more vampire than vampires are has affected your new palate, making the consumption of blood feel even better than before.  You now enjoy drinking blood so much that enough of it will bolster your resolve for a while.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SILENT_MOVE_UPGRADE",
+    "name": { "str": "Dead Silent Strikes" },
+    "points": 5,
+    "description": "Your lack of movement noise is now encompassing any noise you could do in combat.  All such noises you would've made by attacking in melee are nullified.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "ATTACK_NOISE", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_VAMPIRE_ANATHEMA",
+    "name": { "str": "Ascended Anathema" },
+    "points": 0,
+    "//": "Behaves as the anathema's threshold, letting the EOC give the stronger traits.  The enabler is a threshold to limit mixing regular mutations and this path.",
+    "//2": "A few mentors knew that this was possible, but they kept the secret to not threaten the plan.",
+    "description": "You drank enough vampire blood to gain access to power the mentors never thought possible.  There is no more limit to how powerful of a vampire you can be.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mixed_effect": true,
+    "vitamin_rates": [ [ "human_blood_vitamin", 120 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE",
+    "name": { "str": "Inner Sea of Blood" },
+    "points": 10,
+    "description": "Your new power allows you to store even more stolen blood inside your body.  You can hold another ten liters inside you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_INVISIBLE_IN_DARK",
+    "name": { "str": "Shrouded by the Shadowed Path" },
+    "points": 10,
+    "//": "should only work in the dark, but such checks aren't yet.",
+    "description": "Darkness is your home, and you can call it to shroud you from others.  When away from the sun, you can become invisible with a constant expense of blood.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "vampire_invisible_in_dark", 1 ] ],
+    "//2": "This enchantment removes the effect if the vampire is outside at day.",
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun " } } ] },
+        "ench_effects": [ { "effect": "effect_vampire_lose_invisible_in_dark", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_HEAL_IN_DARK",
+    "name": { "str": "Stitched by the Shadowed Path" },
+    "points": 10,
+    "//": "should only work in the dark, but such checks aren't yet.",
+    "description": "Darkness is your new friend, and like a good friend it helps you through hard times.  Passively heal your wounds and reduce your pain while away from the sun.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BLOOD_FOR_POTENCY",
+    "name": { "str": "Boiling Crimson Cauldron" },
+    "points": 10,
+    "description": "The powers of vampires come through their sustenance of blood, and you now know how to use this at your advantage.  You can increase your need for blood to boost your vampiric potency until you decide to stop the effect.  If you do not have enough blood, it will have no effect until you drink more blood.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "Your power increases as your blood burns away.",
+    "enchantments": [
+      {
+        "condition": { "and": [ "ACTIVE", { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] } ] },
+        "mutations": [ "VAMPIRE_BLOOD_FOR_POTENCY_REAL" ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BLOOD_FOR_POTENCY_REAL",
+    "name": { "str": "Boiling Crimson Cauldron Real", "//~": "NO_I18N" },
+    "points": 10,
+    "description": "Increases blood potency and drain while the player-visible version is active and has enough blood.  You should never see this.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_NO_ILLNESS_UPGRADE",
+    "name": { "str": "Immortal's Health" },
+    "points": 10,
+    "description": "Being protected against mundane afflictions only is something your flesh has stopped tolerating.  Your condition now protects you from any illness, parasite and poison, no matter how dangerous they are.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_vampire_no_illness", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_FORM_UPGRADE",
+    "name": { "str": "Mastery of Forms" },
+    "points": 10,
+    "description": "You are much more attuned to your other forms, and they are now easier to activate than ever.  The cost to activate them is halved.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_LAST_BREATH_MIST_UPGRADE",
+    "name": { "str": "Second Final Breath" },
+    "points": 10,
+    "description": "Your instinctive mastery of your mist form has expanded.  You now recover from triggering Last Breath's Mist twice as quickly.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_DRINK_VAMPIRE_BLOOD",
+    "name": { "str": "Fueled by the Blood-Drinkers' Blood" },
+    "points": 10,
+    "description": "Vampires, mortals, they are all the same for you now.  Drinking vampire blood now gives all the benefits of drinking regular blood, in addition to growing your power.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_GAIN_BLOOD_GIFTS",
+    "name": { "str": "Knowledge of the Blood" },
+    "points": 10,
+    "description": "Your own blood now reveals its secrets to you.  Every week, you will gain a new gift of the blood.  It will only give you what researching your blood gifts could give you.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE",
+    "name": { "str": "Maximal Mastery of the Mortal Mind" },
+    "points": 10,
+    "description": "Your mind-control abilities are much simpler to use now, halving their cost.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "ANATHEMA_WEAKNESS_SUN_BURN",
+    "name": { "str": "Anathema's Weakness: Slain by the Sun" },
+    "points": -10,
+    "description": "Vampires burn under the sun, and becoming more of a vampire made you burn far more than any other vampire would.  While under the sun, you will take constant damage no matter how covered you are.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "ANATHEMA_WEAKNESS_MIND_CHAOS",
+    "name": { "str": "Anathema's Weakness: Blood-Muddled Mind" },
+    "points": -10,
+    "description": "Your constant consumption of vampire blood has permanently destabilized your mind, and it will only grow worse with each new vampire drained.  Each time you drink vampire blood, you have a growing chance to gain a new mental affliction.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD",
+    "name": { "str": "Anathema's Weakness: Apex's Thirst" },
+    "points": -10,
+    "description": "Drinking all this vampire blood has left your body yearning for more.  Going too long without drinking vampire blood will progressively increase your thirst for blood with each passing day until you starve or drink vampire blood.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "BLOOD_OF_SAINTS",
     "name": { "str": "Saint's blood" },
     "points": 0,

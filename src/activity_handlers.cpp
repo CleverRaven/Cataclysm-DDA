@@ -208,6 +208,7 @@ static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
+static const json_character_flag json_flag_INSTANT_BLEED( "INSTANT_BLEED" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
@@ -766,7 +767,11 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
 
     switch( action ) {
         case butcher_type::QUICK:
+            break;
         case butcher_type::BLEED:
+            if( you.has_flag( json_flag_INSTANT_BLEED ) ) {
+                time_to_cut = 1;
+            }
             break;
         case butcher_type::FULL:
             if( !corpse_item.has_flag( flag_FIELD_DRESS ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) {
