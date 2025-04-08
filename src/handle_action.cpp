@@ -134,9 +134,9 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_id json_flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const flag_id json_flag_MOP( "MOP" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
-static const flag_id json_flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
