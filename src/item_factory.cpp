@@ -42,6 +42,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "iuse_actor.h"
 #include "make_static.h"
 #include "mapdata.h"
@@ -141,6 +142,7 @@ static item_blacklist_t item_blacklist;
 static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
+std::set<std::string> Item_factory::repair_actions = {};
 
 /** @relates string_id */
 template<>
@@ -1978,6 +1980,53 @@ void Item_factory::init()
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups[Item_spawn_data_EMPTY_GROUP] =
         std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
+}
+
+//reads nc_color from string
+class color_reader : public generic_typed_reader<color_reader>
+{
+    public:
+        nc_color get_next( const JsonValue &val ) const {
+            if( val.test_string() ) {
+                return nc_color( color_from_string( val.get_string() ) );
+            }
+            val.throw_error( "color must be string" );
+            return nc_color();
+        }
+};
+
+//reads snippet as array or string
+class snippet_reader : public generic_typed_reader<snippet_reader>
+{
+    public:
+        const itype &def;
+        const std::string_view &src;
+        explicit snippet_reader( const itype &def, const std::string_view &src ) : def( def ),
+            src( src ) {};
+        std::string get_next( const JsonValue &val ) const {
+            if( val.test_array() ) {
+                // auto-create a category that is unlikely to already be used and put the
+                // snippets in it.
+                std::string snippet_category = "auto:" + def.get_id().str();
+                SNIPPET.add_snippets_from_json( snippet_category, val.get_array(), std::string( src.data() ) );
+                return snippet_category;
+            } else {
+                return val.get_string();
+            }
+            val.throw_error( "snippet category must be string or array of strings" );
+            return "";
+        }
+};
+
+void conditional_name::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "type", type );
+    optional( jo, was_loaded, "condition", condition );
+    optional( jo, was_loaded, "value", value );
+    name = translation( translation::plural_tag() );
+    if( !jo.read( "name", name ) ) {
+        jo.throw_error( "name unspecified for conditional name" );
+    }
 }
 
 bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
@@ -4171,6 +4220,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.thrown_damage.add_damage( damage_bash,
                                       def.melee[damage_bash] + def.weight / 1.0_kilogram );
     }
+    optional( jo, def.was_loaded, "color", def.color, color_reader{} );
 
     if( jo.has_member( "repairs_like" ) ) {
         jo.read( "repairs_like", def.repairs_like );
@@ -4195,6 +4245,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( !jo.read( "name", def.name ) ) {
         jo.throw_error( "name unspecified for item type" );
     }
+    optional( jo, def.was_loaded, "conditional_names", def.conditional_names );
 
     if( jo.has_member( "description" ) ) {
         jo.read( "description", def.description );
@@ -4204,9 +4255,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.sym = jo.get_string( "symbol" );
     }
 
-    if( jo.has_string( "color" ) ) {
-        def.color = color_from_string( jo.get_string( "color" ) );
-    }
 
     optional( jo, def.was_loaded, "material", def.materials,
               weighted_string_id_reader<material_id, int> {1} );
@@ -4364,20 +4412,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     jo.read( "looks_like", def.looks_like );
 
-    if( jo.has_member( "conditional_names" ) ) {
-        def.conditional_names.clear();
-        for( const JsonObject curr : jo.get_array( "conditional_names" ) ) {
-            conditional_name cname;
-            cname.type = curr.get_enum_value<condition_type>( "type" );
-            cname.condition = curr.get_string( "condition" );
-            cname.name = translation( translation::plural_tag() );
-            cname.value = curr.get_string( "value", "" );
-            if( !curr.read( "name", cname.name ) ) {
-                curr.throw_error( "name unspecified for conditional name" );
-            }
-            def.conditional_names.push_back( cname );
-        }
-    }
 
     assign( jo, "armor_data", def.armor, src == "dda" );
     assign( jo, "pet_armor_data", def.pet_armor, src == "dda" );
@@ -4411,6 +4445,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "id", def.id, true );
     }
 
+    // snippet_category should be loaded after def.id is determined
+    optional( jo, def.was_loaded, "snippet_category", def.snippet_category, snippet_reader{ def, src } );
+
     assign( jo, "pocket_data", def.pockets );
     check_and_create_magazine_pockets( def );
     add_special_pockets( def );
@@ -4431,15 +4468,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.magazine->capacity = largest;
     }
 
-    // snippet_category should be loaded after def.id is determined
-    if( jo.has_array( "snippet_category" ) ) {
-        // auto-create a category that is unlikely to already be used and put the
-        // snippets in it.
-        def.snippet_category = "auto:" + def.id.str();
-        SNIPPET.add_snippets_from_json( def.snippet_category, jo.get_array( "snippet_category" ), src );
-    } else {
-        def.snippet_category = jo.get_string( "snippet_category", "" );
-    }
 
     optional( jo, def.was_loaded, "expand_snippets", def.expand_snippets, false );
 
