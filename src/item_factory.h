@@ -255,13 +255,26 @@ class Item_factory
          */
         const itype *find_template( const itype_id &id ) const;
 
+        static inline std::map<item_action_id, use_function> iuse_function_list;
+        static std::set<std::string> repair_actions;
+
+        static use_function usage_from_string( const std::string &type );
+
+        static use_function read_use_function( const JsonObject &jo, std::map<std::string, int> &ammo_scale,
+                                               std::string &type );
+
+        //iuse stuff
+        static void add_iuse( const std::string &type, use_function_pointer f );
+        static void add_iuse( const std::string &type, use_function_pointer f,
+                              const translation &info );
+        static void add_actor( std::unique_ptr<iuse_actor> ptr );
+
+        std::map<itype_id, std::vector<migration>> migrations;
         /**
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */
-        bool has_iuse( const item_action_id &type ) const {
-            return iuse_function_list.find( type ) != iuse_function_list.end();
-        }
+        static bool has_iuse( const item_action_id &type );
 
         void load_item_blacklist( const JsonObject &json );
 
@@ -349,15 +362,6 @@ class Item_factory
         void emplace_usage( std::map<std::string, use_function> &container,
                             const std::string &iuse_id );
 
-        void set_use_methods_from_json( const JsonObject &jo, const std::string &src,
-                                        const std::string &member, std::map<std::string, use_function> &use_methods,
-                                        std::map<std::string, int> &ammo_scale );
-
-        use_function usage_from_string( const std::string &type ) const;
-
-        std::pair<std::string, use_function> usage_from_object( const JsonObject &obj,
-                const std::string & );
-
         /**
          * Helper function for Item_group loading
          *
@@ -403,16 +407,6 @@ class Item_factory
 
         void finalize_post_armor( itype &obj );
 
-        //iuse stuff
-        std::map<item_action_id, use_function> iuse_function_list;
-
-        void add_iuse( const std::string &type, use_function_pointer f );
-        void add_iuse( const std::string &type, use_function_pointer f,
-                       const translation &info );
-        void add_actor( std::unique_ptr<iuse_actor> );
-
-        std::map<itype_id, std::vector<migration>> migrations;
-
         /**
          * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).
          * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
@@ -424,8 +418,6 @@ class Item_factory
 
         // tools that can be used to repair complex firearms
         std::set<itype_id> gun_tools;
-
-        std::set<std::string> repair_actions;
 };
 
 #endif // CATA_SRC_ITEM_FACTORY_H
