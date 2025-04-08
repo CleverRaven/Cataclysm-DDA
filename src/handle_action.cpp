@@ -136,6 +136,7 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_MOP( "MOP" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+static const flag_id json_flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
@@ -1713,9 +1714,14 @@ static void read()
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else if( loc.is_efile() ) {
                 // TODO: obtaining the e-container would require a bunch more work
+                if( !parent_loc->has_flag( json_flag_ALLOWS_REMOTE_USE ) ) {
+
+                }
                 player_character.read( loc, parent_loc );
             } else {
-                cata_assert( !( parent_loc && parent_loc->has_flag( json_flag_NO_UNLOAD ) || loc.is_efile() ) );
+                if( !( parent_loc && parent_loc->has_flag( json_flag_NO_UNLOAD ) ) || loc.is_efile() ) {
+                    debugmsg( "tried to get an item you shouldn't obtain." );
+                }
                 loc = loc.obtain( player_character );
                 player_character.read( loc );
             }
