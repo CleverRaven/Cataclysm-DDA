@@ -135,6 +135,7 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_MOP( "MOP" );
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
@@ -1707,13 +1708,14 @@ static void read()
     if( loc ) {
         item the_book = *loc.get_item();
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
+            item_location parent_loc = loc.parent_item();
             if( loc->type->can_use( "learn_spell" ) ) {
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else if( loc.is_efile() ) {
-                item_location parent_loc = loc.parent_item();
                 // TODO: obtaining the e-container would require a bunch more work
                 player_character.read( loc, parent_loc );
             } else {
+                cata_assert( !( parent_loc && parent_loc->has_flag( json_flag_NO_UNLOAD ) || loc.is_efile() ) );
                 loc = loc.obtain( player_character );
                 player_character.read( loc );
             }
