@@ -11,10 +11,10 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "map.h
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
