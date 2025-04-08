@@ -1662,12 +1662,6 @@ void read_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // book item_location must be of type character
-    // or else there will be item_location errors while loading
-    if( book.where() != item_location::type::character ) {
-        book = item_location( who, book.get_item() );
-    }
-
     using_ereader = !!ereader;
 
     bktype = book->type->use_methods.count( "MA_MANUAL" ) ?

@@ -1713,9 +1713,13 @@ static void read()
             if( loc->type->can_use( "learn_spell" ) ) {
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else if( loc.is_efile() ) {
-                // TODO: obtaining the e-container would require a bunch more work
+                // obtain e-storage device if not allowed to use remotely
                 if( !parent_loc->has_flag( json_flag_ALLOWS_REMOTE_USE ) ) {
-
+                    parent_loc = parent_loc.obtain( player_character );
+                    item *newit = parent_loc->get_item_with( [&]( const item & it ) {
+                        return it.typeId() == the_book.typeId();
+                    } );
+                    loc = item_location( parent_loc, &*newit );
                 }
                 player_character.read( loc, parent_loc );
             } else {
