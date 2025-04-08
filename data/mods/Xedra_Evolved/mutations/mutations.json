@@ -1249,5 +1249,91 @@
       { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
       { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_WEARKNESS_SUN_SENSITIVITY",
+    "name": { "str": "Weakness: Sun Sensitivity" },
+    "points": -2,
+    "description": "While you won't burn in the sunlight like a true vampire, it's not comfortable.  You suffer a -1 penalty to all stats when outdoors during the daytime, and -2 if it's sunny.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "values": [
+          { "value": "STRENGTH", "add": -1 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "INTELLIGENCE", "add": -1 },
+          { "value": "PERCEPTION", "add": -1 }
+        ]
+      },
+      {
+        "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
+        "values": [
+          { "value": "STRENGTH", "add": -1 },
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "INTELLIGENCE", "add": -1 },
+          { "value": "PERCEPTION", "add": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_WEARKNESS_SLOW_HEALING",
+    "name": { "str": "Weakness: Slow Healing" },
+    "points": -2,
+    "description": "Being so close to death has slowed down the processes of your living cells considerably.  You heal at 50% of the normal rate.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_any_trait": [ "SLOWHEALER", "SLOWHEALER2", "SLOWHEALER3" ] } },
+        "values": [ { "value": "REGEN_HP", "multiply": -0.5 } ]
+      },
+      {
+        "condition": { "u_has_any_trait": [ "SLOWHEALER", "SLOWHEALER2" ] },
+        "values": [ { "value": "REGEN_HP", "multiply": -0.2 } ]
+      },
+      { "condition": { "u_has_trait": "SLOWHEALER3" }, "values": [ { "value": "REGEN_HP", "multiply": -0.05 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_WEARKNESS_ANIMAL_DISCORD",
+    "name": { "str": "Weakness: Animal Hatred" },
+    "points": -2,
+    "description": "Animals can sense your dead blood and they hate it.  They may run or be aggressive to you.",
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "ANIMALDISCORD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_WEARKNESS_WATER_PAIN",
+    "name": { "str": "Weakness: Burned by Water" },
+    "points": -2,
+    "description": "While running water is not deadly to you, it is uncomfortable.  Moving through running water without a boat will cause pain.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "u_has_effect": "wet", "bodypart": "leg_r" },
+            { "u_has_effect": "wet", "bodypart": "leg_l" },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "LIQUID" },
+                { "u_is_on_terrain_with_flag": "CURRENT" },
+                { "u_is_on_terrain_with_flag": "SWIMMABLE" }
+              ]
+            }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_dhampir_water_weakness_pain", "intensity": 1 } ]
+      }
+    ]
   }
 ]

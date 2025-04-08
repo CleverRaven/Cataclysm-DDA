@@ -590,6 +590,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_water_weakness_pain",
+    "name": [ "Pain in Water" ],
+    "desc": [ "The running water burns you!" ],
+    "rating": "bad",
+    "base_mods": { "pain_min": [ 1 ], "pain_max": [ 2 ], "pain_max_val": [ 25 ], "pain_chance": [ 5 ], "pain_tick": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "eyegleam",
     "name": [ "Eye Gleam" ],
     "desc": [ "You can see in the dark." ],

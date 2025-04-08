@@ -79,7 +79,7 @@
                   "else": {
                     "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE", "VAMPIRIC_DODGE", "VAMPIRE_FEAR_GAZE", "VAMPIRE_SEE_HEAT", "DHAMPIR_FANGS" ],
                     "type": "mutation",
-                    "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
+                    "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE", "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_2" ],
                     "false_eocs": [
                       {
                         "id": "EOC_DHAMPIR_GAIN_NEW_POWER_TIER_3",
@@ -88,7 +88,7 @@
                           {
                             "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "VAMPIRE_COMMAND_BEAST" ],
                             "type": "mutation",
-                            "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
+                            "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE", "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_3" ],
                             "false_eocs": [  ]
                           }
                         ]
@@ -110,7 +110,57 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE",
+    "effect": [ { "u_message": "You use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE",
     "effect": [ { "math": [ "u_dhampir_blood_spent_compare_value_for_powers = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_2",
+    "condition": { "math": [ "u_dhampir_have_tier_2_weakness != 1" ] },
+    "effect": [ { "run_eocs": "EOC_DHAMPIR_GAIN_WEAKNESSES" }, { "math": [ "u_dhampir_have_tier_2_weakness = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_3",
+    "condition": { "math": [ "u_dhampir_have_tier_3_weakness != 1" ] },
+    "effect": [ { "run_eocs": "EOC_DHAMPIR_GAIN_WEAKNESSES" }, { "math": [ "u_dhampir_have_tier_3_weakness = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_WEAKNESSES",
+    "condition": { "math": [ "u_dhampir_have_ever_drunk_blood == 1" ] },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "DHAMPIR_WEARKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEARKNESS_SLOW_HEALING",
+          "DHAMPIR_WEARKNESS_ANIMAL_DISCORD",
+          "DHAMPIR_WEARKNESS_WATER_PAIN"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
+        "false_eocs": [  ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_roll_remainder": [
+          "DHAMPIR_WEARKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEARKNESS_SLOW_HEALING",
+          "DHAMPIR_WEARKNESS_ANIMAL_DISCORD",
+          "DHAMPIR_WEARKNESS_WATER_PAIN",
+          "DHAMPIR_WEARKNESS_BLOODTHIRST",
+          "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
+        "false_eocs": [  ]
+      }
+    ]
   }
 ]
