@@ -379,7 +379,7 @@
     "items": [
       { "group": "concrete_bag", "prob": 30 },
       { "group": "concrete_bag_part", "prob": 50 },
-      { "item": "bag_durasack", "prob": 20 }
+      { "item": "bag_durasack_cement", "prob": 20 }
     ]
   },
   {
