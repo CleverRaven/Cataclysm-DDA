@@ -3128,7 +3128,7 @@ void monster::die( map *here, Creature *nkiller )
     }
     if( corpse ) {
         corpse->process( *here, nullptr, corpse.pos_bub( *here ) );
-        if( get_map().inbounds( pos_abs() ) ) {
+        if( reality_bubble().inbounds( pos_abs() ) ) {
             corpse.make_active();
         }
     }
@@ -3465,7 +3465,7 @@ void monster::process_effects()
     }
 
     if( type->regenerates_in_dark && !g->is_in_sunlight( pos_bub() ) ) {
-        const float light = get_map().ambient_light_at( pos_bub() );
+        const float light = here.ambient_light_at( pos_bub() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         const float dHP = 50.0 * std::exp( - light * light / 10000 );
         if( heal( static_cast<int>( dHP ) ) > 0 && one_in( 2 ) ) {
@@ -3497,7 +3497,6 @@ void monster::process_effects()
     }
 
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
-        map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
         for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 2 ) ) {
             const monster *const mon = creatures.creature_at<monster>( p );
@@ -3536,7 +3535,7 @@ void monster::process_effects()
         add_effect( effect_nemesis_buff, 1000_turns, true );
     }
 
-    if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos_bub() ) >= 30.0f ) {
+    if( has_flag( mon_flag_PHOTOPHOBIC ) && here.ambient_light_at( pos_bub() ) >= 30.0f ) {
         add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );
         add_effect( effect_photophobia, 5_turns, true );
     }

@@ -659,8 +659,10 @@ std::optional<int> sound_iuse::use( Character *, item &,
 std::optional<int> sound_iuse::use( Character *, item &,
                                     map *here, const tripoint_bub_ms &pos ) const
 {
-    if( get_map().inbounds( here->get_abs( pos ) ) ) {
-        sounds::sound( get_map().get_bub( here->get_abs( pos ) ), sound_volume, sounds::sound_t::alarm,
+    map &bubble_map = reality_bubble();
+
+    if( bubble_map.inbounds( here->get_abs( pos ) ) ) {
+        sounds::sound( bubble_map.get_bub( here->get_abs( pos ) ), sound_volume, sounds::sound_t::alarm,
                        sound_message.translated(), true,
                        sound_id, sound_variant );
     }
@@ -751,8 +753,11 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, map *here,
         explosion_handler::explosion( source, here, pos, explosion );
     }
 
-    if( draw_explosion_radius >= 0 && get_map().inbounds( here->get_abs( pos ) ) ) {
-        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
+    map &bubble_map = reality_bubble();
+
+    if( draw_explosion_radius >= 0 && bubble_map.inbounds( here->get_abs( pos ) ) ) {
+        explosion_handler::draw_explosion( bubble_map.get_bub( here->get_abs( pos ) ),
+                                           draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
         // TODO: Use map aware 'flashbang' operation when available.
@@ -1019,7 +1024,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it,
 std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
-    if( here != &get_map() ) { // Because of the g usage below
+    if( here != &reality_bubble() ) { // Because of the g usage below
         debugmsg( "Not supported for maps other than the reality bubble" );
         return std::nullopt;
     }
@@ -1300,7 +1305,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    get_map().furn_set( suitable.value(), furn_type, false, false, true );
+    here->furn_set( suitable.value(), furn_type, false, false, true );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
@@ -1439,7 +1444,7 @@ std::unique_ptr<iuse_actor> firestarter_actor::clone() const
 firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character &p,
         map *here, tripoint_bub_ms &pos )
 {
-    if( here != &get_map() ) { // Unless 'choose_adjacent' gets map aware.
+    if( here != &reality_bubble() ) { // Unless 'choose_adjacent' gets map aware.
         debugmsg( "Usage outside reality bubble is not supported" );
         return start_type::NONE;
     }
@@ -1587,7 +1592,7 @@ ret_val<void> firestarter_actor::can_use( const Character &p, const item &it,
 
 float firestarter_actor::light_mod( map *here, const tripoint_bub_ms &pos ) const
 {
-    if( here != &get_map() ) {
+    if( here != &reality_bubble() ) {
         debugmsg( "not supported outside the reality bubble" );
         return 0.0f;
     }
@@ -2152,7 +2157,7 @@ std::optional<int> inscribe_actor::use( Character *p, item &it, const tripoint_b
 std::optional<int> inscribe_actor::use( Character *p, item &it, map *here,
                                         const tripoint_bub_ms & ) const
 {
-    if( here != &get_map() ) { // or make 'choose_adjacent' map aware.
+    if( here != &reality_bubble() ) { // or make 'choose_adjacent' map aware.
         debugmsg( "%s called action inscribe that can only be performed in the reality bubble",
                   it.typeId().str() );
         return std::nullopt;
@@ -2232,7 +2237,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
 }
 
 std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
-        map *here, const tripoint_bub_ms & ) const
+        map *, const tripoint_bub_ms & ) const
 {
     if( !p ) {
         debugmsg( "%s called action fireweapon_off that requires character but no character is present",
@@ -2244,8 +2249,11 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
     p->mod_moves( -moves );
     if( rng( 0, 10 ) - it.damage_level() > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
-            if( here == &get_map() ) { // or make 'sound' map aware
-                sounds::sound( p->pos_bub( *here ), noise, sounds::sound_t::combat, success_message );
+            map &bubble_map = reality_bubble();
+
+            if( bubble_map.inbounds( p->pos_abs() ) ) {
+                sounds::sound( bubble_map.get_bub( p->pos_abs( ) ), noise, sounds::sound_t::combat,
+                               success_message );
             }
         } else {
             p->add_msg_if_player( "%s", success_message );
@@ -2354,19 +2362,15 @@ std::optional<int> manualnoise_actor::use( Character *p, item &it,
     return manualnoise_actor::use( p, it, &get_map(), pos );
 }
 
-std::optional<int> manualnoise_actor::use( Character *p, item &, map *here,
+std::optional<int> manualnoise_actor::use( Character *p, item &, map *,
         const tripoint_bub_ms & ) const
 {
-    if( here !=
-        &get_map() ) { // or make 'sound' work outside the reality bubble, or translate position to bubble
-        debugmsg( "manualnoise action can only be performed in the reality bubble" );
-        return std::nullopt;
-    }
+    map &bubble_map = reality_bubble();
 
     // Uses the moves specified by iuse_actor's definition
     p->mod_moves( -moves );
-    if( noise > 0 ) {
-        sounds::sound( p->pos_bub( *here ), noise, sounds::sound_t::activity,
+    if( noise > 0 && bubble_map.inbounds( p->pos_abs() ) ) {
+        sounds::sound( bubble_map.get_bub( p->pos_abs( ) ), noise, sounds::sound_t::activity,
                        noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
     }
     p->add_msg_if_player( "%s", use_message );
@@ -2482,7 +2486,9 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
 std::optional<int> musical_instrument_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms & ) const
 {
-    if( here != &get_map() ) { // Or change 'sound', 'can_hear', and 'play' below
+    map &bubble_map = reality_bubble();
+
+    if( here != &bubble_map ) { // Or change 'sound', 'can_hear', and 'play' below
         debugmsg( "musical instrument used outside of the reality bubble" );
         return std::nullopt;
     }
@@ -4295,7 +4301,9 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, const tripoint
 std::optional<int> place_trap_actor::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
-    if( here != &get_map() ) { // Or make 'choose_adjacent' and 'is_allowed' map aware.
+    map &bubble_map = reality_bubble();
+
+    if( here != &bubble_map ) { // Or make 'choose_adjacent' and 'is_allowed' map aware.
         debugmsg( "place_trap_actor::use cannot act on non reality bubble map." );
         return std::nullopt;
     }
@@ -5686,7 +5694,9 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it,
 std::optional<int> deploy_tent_actor::use( Character *p, item &it, map *here,
         const tripoint_bub_ms & ) const
 {
-    if( here != &get_map() ) { // Or make 'choose_direction' map aware.
+    map &bubble_map = reality_bubble();
+
+    if( here != &bubble_map ) { // Or make 'choose_direction' map aware.
         debugmsg( "deply_tent_actor::use can only be called from the reality bubble" );
         return std::nullopt;
     }

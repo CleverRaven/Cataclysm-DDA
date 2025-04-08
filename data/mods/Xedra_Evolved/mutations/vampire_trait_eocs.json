@@ -91,7 +91,58 @@
         { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" } ]
+    "effect": [
+      {
+        "if": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+        "then": [
+          {
+            "if": { "u_has_trait": "VAMPIRE_DRINK_VAMPIRE_BLOOD" },
+            "then": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+              { "math": [ "u_vitamin('vampire_blood_vitamin')", "+=", "30 + rand(20)" ] },
+              { "u_message": "This blood is the best you could drink.  You want more.", "type": "good" },
+              {
+                "if": { "u_has_trait": "BLOOD_FUN" },
+                "then": [
+                  {
+                    "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
+                    "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
+                    "else": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+                  }
+                ]
+              },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_MIND_CHAOS" },
+                "then": [ { "run_eocs": "EOC_ANATHEMA_MIND_CHAOS" } ]
+              },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" },
+                "then": [
+                  { "u_add_effect": "effect_recent_vampire_drink", "duration": "4 days" },
+                  { "u_lose_effect": "effect_anathema_need_vampire_blood" }
+                ]
+              }
+            ],
+            "else": [
+              { "math": [ "u_vitamin('vampire_blood_vitamin')", "+=", "30 + rand(20)" ] },
+              { "u_message": "Though it cannot sustain you, this blood can empower you.", "type": "mixed" },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_MIND_CHAOS" },
+                "then": [ { "run_eocs": "EOC_ANATHEMA_MIND_CHAOS" } ]
+              },
+              {
+                "if": { "u_has_trait": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" },
+                "then": [
+                  { "u_add_effect": "effect_recent_vampire_drink", "duration": "4 days" },
+                  { "u_lose_effect": "effect_anathema_need_vampire_blood" }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -254,7 +305,13 @@
         { "u_has_trait": "BLOOD_FUN" }
       ]
     },
-    "effect": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+    "effect": [
+      {
+        "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
+        "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
+        "else": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -265,13 +322,45 @@
     "deactivate_condition": {
       "and": [ { "not": { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] } }, { "not": { "u_has_effect": "vampire_virus" } } ]
     },
-    "effect": [ { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] } ]
+    "effect": [
+      { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] },
+      {
+        "math": [
+          "u_max_blood_amount_for_graph",
+          "=",
+          "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+        ]
+      },
+      { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_MAX_LIMIT",
+    "condition": {
+      "math": [
+        "u_vitamin('human_blood_vitamin')",
+        ">=",
+        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+      ]
+    },
+    "effect": [
+      {
+        "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 32600" ] },
+        "else": {
+          "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" },
+          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 14600" ] },
+          "else": { "math": [ "u_vitamin('human_blood_vitamin') = 5600" ] }
+        }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_WEAKNESSES",
     "//": "This EOC checks how many weaknesses the player should gain when reshuffling.  Gaining the traits run the weakness-giving EOC directly.",
-    "//2": "Tier 3 grants 1 weakness, Tier 4 grants 1 more, Tier 5 grants two more.",
+    "//2": "Tier 3 grants one weakness, Tier 4 grants one more, Tier 5 grants two more, becoming an Anathema gives two more, reaching the Anathema threshold gives three more.",
     "effect": [
       {
         "run_eocs": [
@@ -289,6 +378,20 @@
             "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_5",
             "condition": { "u_has_trait": "BLOOD_DRINKER" },
             "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }, { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_ANATHEMA",
+            "condition": { "u_has_trait": "VAMPIRE_ANATHEMA" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }, { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_ANATHEMA_THRESH",
+            "condition": { "u_has_trait": "THRESH_VAMPIRE_ANATHEMA" },
+            "effect": [
+              { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+              { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+              { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }
+            ]
           }
         ]
       }
@@ -414,17 +517,41 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AW_SUN_BURN_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "ANATHEMA_WEAKNESS_SUN_BURN", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You know with certainty that standing under the sun is now a lethal threat.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AW_MIND_CHAOS_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "ANATHEMA_WEAKNESS_MIND_CHAOS", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Your mind reels at the thought of drinking more vampire blood.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AW_NEED_VAMPIRE_BLOOD_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You feel a growing thirst for the blood of vampires.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SET_VAMPIRE_TRAIT_NUMBERS_FOR_NPC_USE",
     "//": "This is necessary for powers whose effect on NPCs is variable, since the jmath equations return the avatar's traits",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "VAMPIRE2" }, { "u_has_trait": "VAMPIRE3" } ] },
     "effect": [
-      { "math": [ "u_vampire_total_tier_one_traits = vampire_total_tier_one_traits()" ] },
+      { "math": [ "u_vampire_total_tier_one_traits = vampire_total_tier_one_traits_plus_potency()" ] },
       { "math": [ "u_vampire_total_tier_two_traits = vampire_total_tier_two_traits()" ] },
       { "math": [ "u_vampire_total_tier_three_traits = vampire_total_tier_three_traits()" ] },
       { "math": [ "u_vampire_total_tier_four_traits = vampire_total_tier_four_traits_plus_potence()" ] },
-      { "math": [ "u_vampire_total_tier_five_traits = vampire_total_tier_five_traits()" ] }
+      { "math": [ "u_vampire_total_tier_five_traits = vampire_total_tier_five_traits_plus_cauldron()" ] }
     ]
   },
   {
@@ -446,7 +573,7 @@
                 "run_eocs": [ "EOC_EYEGLEAM_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
+                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits_plus_potency() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits_plus_cauldron() * 750))"
                   ]
                 }
               },
@@ -507,7 +634,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EYEGLEAM_maintenance",
-    "condition": { "u_has_effect": "eyegleam" },
+    "condition": { "and": [ { "u_has_effect": "eyegleam" }, { "not": { "u_has_trait": "EYEGLEAM_UPGRADE" } } ] },
     "effect": [
       {
         "run_eocs": [
@@ -524,7 +651,7 @@
                 "run_eocs": [ "EOC_EYEGLEAM_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
+                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits_plus_potency() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits_plus_cauldron() * 750))"
                   ]
                 }
               }
@@ -558,7 +685,7 @@
                 "run_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits_plus_potency() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits_plus_cauldron() * 500))"
                   ]
                 }
               }
@@ -612,7 +739,7 @@
                 "run_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits_plus_potency() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits_plus_cauldron() * 500))"
                   ]
                 }
               }
@@ -646,7 +773,7 @@
                 "run_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits_plus_potency() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits_plus_cauldron() * 500))"
                   ]
                 }
               }
@@ -700,7 +827,7 @@
                 "run_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits() * 500))"
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits_plus_potency() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) + (vampire_total_tier_four_traits_plus_potence() * 400) + (vampire_total_tier_five_traits_plus_cauldron() * 500))"
                   ]
                 }
               }
@@ -743,7 +870,7 @@
         "math": [
           "u_val('stamina')",
           "+=",
-          "min((1500 + (vampire_total_tier_one_traits() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits_plus_potence() * 1500) + (vampire_total_tier_five_traits() * 2000)), 15000)"
+          "min((1500 + (vampire_total_tier_one_traits_plus_potency() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits_plus_potence() * 1500) + (vampire_total_tier_five_traits_plus_cauldron() * 2000)), 15000)"
         ]
       }
     ],
@@ -780,7 +907,7 @@
                 "run_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 275))"
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits_plus_cauldron() * 275))"
                   ]
                 }
               }
@@ -834,7 +961,7 @@
                 "run_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 275))"
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits_plus_cauldron() * 275))"
                   ]
                 }
               }
@@ -860,42 +987,42 @@
         "math": [
           "u_hp('arm_l')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('arm_r')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('leg_l')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('leg_r')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('torso')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
         ]
       },
       {
         "math": [
           "u_hp('head')",
           "+=",
-          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
         ]
       }
     ],
@@ -920,7 +1047,7 @@
                 "run_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits_plus_cauldron() * 40))"
                   ]
                 }
               }
@@ -974,7 +1101,7 @@
                 "run_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits_plus_cauldron() * 40))"
                   ]
                 }
               }
@@ -998,7 +1125,7 @@
         "math": [
           "u_vampire_fear_gaze_power_level",
           "=",
-          "(n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1) + (n_vampire_total_tier_four_traits * 2) + (n_vampire_total_tier_five_traits * 3)"
+          "(n_vampire_total_tier_one_traits_plus_potency * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1) + (n_vampire_total_tier_four_traits * 2) + (n_vampire_total_tier_five_traits_plus_cauldron * 3)"
         ]
       },
       { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
@@ -1052,7 +1179,7 @@
                 "run_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits() * 300))"
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits_plus_potency() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits_plus_cauldron() * 300))"
                   ]
                 }
               }
@@ -1103,7 +1230,7 @@
                 "run_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits() * 300))"
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits_plus_potency() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150) + (vampire_total_tier_four_traits_plus_potence() * 225) + (vampire_total_tier_five_traits_plus_cauldron() * 300))"
                   ]
                 }
               }
@@ -1133,7 +1260,7 @@
         "math": [
           "u_val('mana')",
           "+=",
-          "min((150 + (vampire_total_tier_one_traits() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits_plus_potence() * 150) + (vampire_total_tier_five_traits() * 200)), 1500)"
+          "min((150 + (vampire_total_tier_one_traits_plus_potency() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits_plus_potence() * 150) + (vampire_total_tier_five_traits_plus_cauldron() * 200)), 1500)"
         ]
       }
     ],
@@ -1148,7 +1275,7 @@
         "math": [
           "u_vampire_hypnotic_gaze_power_level",
           "=",
-          "2 + (n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) + (n_vampire_total_tier_five_traits * 3.5)"
+          "2 + (n_vampire_total_tier_one_traits_plus_potency * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) + (n_vampire_total_tier_five_traits_plus_cauldron * 3.5)"
         ]
       },
       { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
@@ -1191,7 +1318,7 @@
                 "run_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits_plus_cauldron() * 40))"
                   ]
                 }
               }
@@ -1239,7 +1366,7 @@
                 "run_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {
                   "math": [
-                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits() * 40))"
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits_plus_potency() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  + (vampire_total_tier_four_traits_plus_potence() * 30) + (vampire_total_tier_five_traits_plus_cauldron() * 40))"
                   ]
                 }
               }
@@ -1359,7 +1486,7 @@
             "value": "REGEN_HP",
             "multiply": {
               "math": [
-                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) + (u_vampire_total_tier_five_traits * 0.3)"
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.3)"
               ]
             }
           },
@@ -1367,7 +1494,7 @@
             "value": "MENDING_MODIFIER",
             "multiply": {
               "math": [
-                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) + (u_vampire_total_tier_five_traits * 0.3)"
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.3)"
               ]
             }
           },
@@ -1415,7 +1542,11 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
+              {
+                "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
+                "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
+                "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] }
+              },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
               { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
@@ -1473,7 +1604,11 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
+              {
+                "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
+                "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
+                "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] }
+              },
               { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
               {
                 "u_message": "Your nose pushes out into a muzzle as you fall forward on all fours and let out a snarl.",
@@ -1524,7 +1659,11 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
+              {
+                "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
+                "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
+                "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] }
+              },
               { "u_add_trait": "VAMPIRE_MIST_FORM_TRAITS" },
               { "u_add_effect": "effect_vampire_mist_form", "duration": "PERMANENT" },
               { "u_add_effect": "incorporeal", "duration": "PERMANENT" },
@@ -1707,7 +1846,11 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
-              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "800" ] },
+              {
+                "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
+                "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "400" ] },
+                "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "800" ] }
+              },
               { "u_add_trait": "VAMPIRE_SHADOW_FORM_TRAITS" },
               { "u_message": "Shadows surround you until only your now-glowing eyes remain visible.", "type": "good" }
             ],
@@ -1840,7 +1983,11 @@
       { "math": [ "u_val('rad') = 0" ] },
       { "u_location_variable": { "global_val": "last_breath_new_pos" }, "min_radius": 25, "max_radius": 30 },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2400" ] },
-      { "u_add_effect": "last_breath_mist_cooldown", "duration": "7 days" },
+      {
+        "if": { "u_has_trait": "VAMPIRE_LAST_BREATH_MIST_UPGRADE" },
+        "then": [ { "u_add_effect": "last_breath_mist_cooldown", "duration": "84 hours" } ],
+        "else": [ { "u_add_effect": "last_breath_mist_cooldown", "duration": "168 hours" } ]
+      },
       { "u_teleport": { "global_val": "last_breath_new_pos" }, "force": true },
       {
         "u_message": "As you are about to die, your body instinctively turns to mist before reappearing nearby with some of its wounds closed.",
@@ -1882,7 +2029,7 @@
               "math": [
                 "sunless_time",
                 "=",
-                "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits() * 270))"
+                "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125) + (vampire_total_tier_four_traits_plus_potence() * 200) + (vampire_total_tier_five_traits_plus_cauldron() * 270))"
               ]
             },
             { "run_eocs": [ "EOC_BLOT_THE_SUN" ] },
@@ -2182,6 +2329,7 @@
     "condition": {
       "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
     },
+    "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" } },
     "effect": [
       { "run_eocs": "EOC_BLOOD_CRAVING_CAUSE", "time_in_future": [ "3 minutes", "6 minutes" ] },
       {
@@ -2197,6 +2345,290 @@
       "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
     },
     "effect": [ { "u_add_effect": "blood_craving", "intensity": 1, "duration": { "math": [ "400 + rand(600)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK_2",
+            "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "300" ] },
+              {
+                "u_add_effect": "effect_vampire_invisible_in_dark",
+                "duration": {
+                  "math": [
+                    "rng(0.75,1.25) * (200 + (vampire_total_tier_one_traits_plus_potency() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 70) + (vampire_total_tier_four_traits_plus_potence() * 100) + (vampire_total_tier_five_traits_plus_cauldron() * 150))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [ { "u_message": "You cannot use this power under the sun's rays.", "type": "bad" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to shroud yourself in shadows.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_HEAL_IN_DARK",
+    "//": "Heals and reduces bleeding and pain every minute while away from the sun if the player has the trait.",
+    "recurrence": 60,
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" },
+        { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_HEAL_IN_DARK" } },
+    "effect": [
+      { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain() -= 3" ] } },
+      { "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] }, "then": { "math": [ "u_hp('arm_l') += 1" ] } },
+      { "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] }, "then": { "math": [ "u_hp('arm_r') += 1" ] } },
+      { "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] }, "then": { "math": [ "u_hp('leg_l') += 1" ] } },
+      { "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] }, "then": { "math": [ "u_hp('leg_r') += 1" ] } },
+      { "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] }, "then": { "math": [ "u_hp('torso') += 1" ] } },
+      { "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] }, "then": { "math": [ "u_hp('head') += 1" ] } },
+      {
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
+        "then": { "u_add_effect": "bleed", "target_part": "arm_l", "duration": 0, "intensity": -1 }
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
+        "then": { "u_add_effect": "bleed", "target_part": "arm_r", "duration": 0, "intensity": -1 }
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
+        "then": { "u_add_effect": "bleed", "target_part": "leg_l", "duration": 0, "intensity": -1 }
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
+        "then": { "u_add_effect": "bleed", "target_part": "leg_r", "duration": 0, "intensity": -1 }
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
+        "then": { "u_add_effect": "bleed", "target_part": "torso", "duration": 0, "intensity": -1 }
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] },
+        "then": { "u_add_effect": "bleed", "target_part": "head", "duration": 0, "intensity": -1 }
+      }
+    ]
+  },
+  {
+    "id": "EOC_VAMPIRE_GAIN_BLOOD_GIFTS",
+    "type": "effect_on_condition",
+    "//": "Every week, picks a random vampire trait that can be obtained by researching blood gifts and give it to the player if they have the mutation.",
+    "condition": { "u_has_trait": "VAMPIRE_GAIN_BLOOD_GIFTS" },
+    "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_GAIN_BLOOD_GIFTS" } },
+    "recurrence": [ "7 days", "7 days" ],
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "EYEGLEAM",
+          "BLOOD_FUN",
+          "STAMINAFORBLOOD",
+          "COMMUNE_NIGHT",
+          "VAMPIRIC_STRENGTH",
+          "VAMPIRIC_RESILIENCE",
+          "VAMPIRE_HEIGHTENED_SENSES",
+          "VAMPIRE_SILENT_MOVE",
+          "BLOODHEAL",
+          "COAGULANTWEAVE",
+          "VAMPIRIC_DODGE",
+          "VAMPIRE_FEAR_GAZE",
+          "VAMPIRE_WALK_ON_WALLS",
+          "VAMPIRE_BEAST_CLAWS",
+          "VAMPIRE_SEE_HEAT",
+          "BLOODHASTE",
+          "MAGICFORBLOOD",
+          "HYPNOTIC_GAZE",
+          "BLOODBANK",
+          "VAMPIRE_COMMAND_BEAST",
+          "VAMPIRE_EARTH_SLUMBER",
+          "TRUE_VAMPIRE_POWER",
+          "VAMPIRE_TORPOR",
+          "VAMPIRE_DOMINATE",
+          "VAMPIRE_NO_BREATHE",
+          "VAMPIRE_NO_ILLNESS",
+          "VAMPIRE_BAT_FORM",
+          "VAMPIRE_WOLF_FORM",
+          "VAMPIRE_MIST_FORM",
+          "VAMPIRE_MASTER_MORTAL_MIND",
+          "VAMPIRE_DISTILLATE_INNER_BLOOD",
+          "VAMPIRE_SHADOW_FORM",
+          "VAMPIRE_LAST_BREATH_MIST",
+          "VAMPIRE_IRON_MIND",
+          "VAMPIRE_BLIND_THE_SUN"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUN_BURN_CHECK",
+    "//": "Until the day a single effect can damage all bodyparts at once, Slain by the Sun will need this EOC to work.",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" },
+        "is_day",
+        "u_is_outside",
+        { "not": { "is_weather": "blotted_sun" } },
+        { "not": { "u_has_effect": "effect_sun_burn_grace_period" } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "ANATHEMA_WEAKNESS_SUN_BURN" } },
+    "effect": [
+      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_l" },
+      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "arm_r" },
+      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_l" },
+      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "leg_r" },
+      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "torso" },
+      { "u_add_effect": "effect_slain_by_the_sun", "duration": 100, "target_part": "head" },
+      { "u_message": "You are under the sun!  You must find shelter from its rays or you will die!", "type": "bad" }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SUN_BURN_CHECK_REMOVE",
+            "condition": {
+              "or": [
+                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_l') >= 1" ] },
+                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'arm_r') >= 1" ] },
+                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_l') >= 1" ] },
+                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'leg_r') >= 1" ] },
+                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'torso') >= 1" ] },
+                { "math": [ "u_effect_intensity('effect_slain_by_the_sun', 'bodypart': 'head') >= 1" ] }
+              ]
+            },
+            "effect": [
+              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_l" },
+              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "arm_r" },
+              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_l" },
+              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "leg_r" },
+              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "torso" },
+              { "u_lose_effect": "effect_slain_by_the_sun", "target_part": "head" },
+              {
+                "u_message": "The sun's rays cannot reach you anymore.  You no longer feel like you're burning alive.",
+                "type": "good"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_MIND_CHAOS",
+    "//": "Checks the variable every time the player drinks vampire blood with the weakness.  If the effect triggers, it gives a random mental negative.  If if cannot give one, it gives a negative effect for a while.  If the effect doesn't trigger, it increments the variable.",
+    "//2": "It doesn't give nyctophobia and pyrophobia for obvious reasons.",
+    "condition": { "x_in_y_chance": { "x": { "math": [ "u_counter_anathema_mind_chaos" ] }, "y": 100 } },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "BADTEMPER",
+          "CHEMIMBALANCE",
+          "SHOUT3",
+          "JITTERY",
+          "SEASONAL_AFFECTIVE",
+          "SCHIZOPHRENIC",
+          "MOODSWINGS",
+          "INSOMNIA",
+          "JEKYLL",
+          "NOMAD2",
+          "HATES_BOOKS",
+          "INATTENTIVE",
+          "PACIFIST",
+          "SAVANT",
+          "SLOWLEARNER",
+          "UNOBSERVANT",
+          "SQUEAMISH",
+          "SLOWREADER",
+          "TABLEMANNERS"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_ANATHEMA_MIND_CHAOS_ROLL_SUCCESS" ],
+        "false_eocs": [ "EOC_ANATHEMA_MIND_CHAOS_ROLL_FAIL" ]
+      },
+      { "math": [ "u_counter_anathema_mind_chaos", "=", "0" ] }
+    ],
+    "false_effect": [ { "math": [ "u_counter_anathema_mind_chaos++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_MIND_CHAOS_ROLL_SUCCESS",
+    "effect": [ { "u_message": "The chaos within your head coalesces and destabilizes your mind.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_MIND_CHAOS_ROLL_FAIL",
+    "effect": [
+      {
+        "u_message": "The chaos within your head coalesces but it cannot latch on your mind, so it will remain there until it decoheres.",
+        "type": "bad"
+      },
+      {
+        "u_add_effect": "effect_anathema_mind_chaos",
+        "intensity": { "math": [ "u_effect_intensity('effect_anathema_mind_chaos') + 1" ] },
+        "duration": { "math": [ "rand(259200) + 86400" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD",
+    "//": "If the player hasn't consumed vampire blood recently, increment an effect potency every day and increase the blood drain accordingly until the player drinks vampire blood.",
+    "recurrence": [ "1 day", "1 day" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" },
+        { "not": { "u_has_effect": "effect_recent_vampire_drink" } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" } },
+    "effect": [
+      {
+        "u_add_effect": "effect_anathema_need_vampire_blood",
+        "intensity": { "math": [ "u_effect_intensity('effect_anathema_need_vampire_blood') + 1" ] },
+        "duration": "PERMANENT"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD_DRAIN",
+    "//": "If the player hasn't consumed vampire blood recently, increase the blood drain based on how long it has been since the last drink until the player drinks vampire blood.",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        { "u_has_trait": "ANATHEMA_WEAKNESS_NEED_VAMPIRE_BLOOD" },
+        { "not": { "u_has_effect": "effect_recent_vampire_drink" } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_effect": "effect_anathema_need_vampire_blood" } },
+    "effect": [
+      {
+        "math": [ "u_counter_anathema_need_vampire_blood", "+=", "u_effect_intensity('effect_anathema_need_vampire_blood')" ]
+      },
+      {
+        "if": { "x_in_y_chance": { "x": { "math": [ "u_counter_anathema_need_vampire_blood" ] }, "y": 100 } },
+        "then": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "1 + rand(1)" ] },
+          { "math": [ "u_counter_anathema_need_vampire_blood", "=", "0" ] }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

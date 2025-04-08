@@ -557,5 +557,33 @@
     "description": { "str": "You are protected from extremely bright lights." },
     "qualities": [ [ "GLARE", 1 ] ],
     "extend": { "flags": [ "SEMITANGIBLE", "INTEGRATED", "FLASH_PROTECTION", "SUN_GLASSES" ] }
+  },
+  {
+    "id": "vampire_blood_ball",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "blood-storing sphere" },
+    "looks_like": "jar_glass_sealed",
+    "description": "A magical transparent sphere.  You can use it to store any type of blood, at least until the sphere vanishes.",
+    "weight": "1 g",
+    "volume": "3050 ml",
+    "longest_side": "298 mm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "material": [ "blood" ],
+    "symbol": "O",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "20 kg",
+        "material_restriction": [ "blood", "hblood", "vampire_blood" ]
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ]
   }
 ]

@@ -2347,7 +2347,7 @@ class jmapgen_npc : public jmapgen_piece
             tripoint_bub_ms const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             // TODO: Make place_npc 3D aware.
             character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
-            if( get_map().inbounds( dat.m.get_abs( dst ) ) ) {
+            if( reality_bubble().inbounds( dat.m.get_abs( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
             if( dat.mission() && target ) {
@@ -3062,7 +3062,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
             if( veh && !faction.empty() ) {
                 veh->set_owner( faction_id( faction ) );
             }
-            if( get_map().inbounds( dat.m.get_abs( dst ) ) ) {
+            if( reality_bubble().inbounds( dat.m.get_abs( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
         }
@@ -3868,7 +3868,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
             for( const tripoint_bub_ms &p : range ) {
                 optional_vpart_position vp = dat.m.veh_at( p );
                 if( vp && ( vehicles_to_remove.empty() || is_in_vehicles_to_remove( vp->vehicle().type ) ) ) {
-                    get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
+                    reality_bubble().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
                     dat.m.destroy_vehicle( &vp->vehicle() );
                 }
             }
@@ -3898,7 +3898,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     if( !unique_id.empty() ) {
                         g->unique_npc_despawn( unique_id );
                     }
-                    if( get_map().inbounds( npc->pos_abs() ) ) {
+                    if( reality_bubble().inbounds( npc->pos_abs() ) ) {
                         g->remove_npc( npc->getID() );
                         get_avatar().get_mon_visible().remove_npc( npc.get() );
                     }
@@ -3929,8 +3929,10 @@ class jmapgen_remove_all : public jmapgen_piece
                 dat.m.clear_fields( p );
                 dat.m.delete_graffiti( p );
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
-                    if( get_map().inbounds( dat.m.get_abs( start ) ) ) {
-                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
+                    map &bubble_map = reality_bubble();
+
+                    if( bubble_map.inbounds( dat.m.get_abs( start ) ) ) {
+                        bubble_map.remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
                     }
                     dat.m.destroy_vehicle( &vp->vehicle() );
                 }
@@ -7427,7 +7429,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         // on the main game map. And assume that we run from some mapgen code if called on
                         // another instance.
                         // TODO: Update logic to be able to work outside of mapgen and in the reality bubble.
-                        if( !g || &get_map() != this ) {
+                        if( !g || &reality_bubble() != this ) {
                             handler_ptr = std::make_unique<MapgenRemovePartHandler>( *this );
                         }
                     }
@@ -7533,7 +7535,7 @@ void map::rotate( int turns )
         }
 
         // Translate bubble -> global -> current map.
-        const point_bub_ms old( get_bub( get_map().get_abs( np.pos_bub() ).xy() ) );
+        const point_bub_ms old( get_bub( reality_bubble().get_abs( np.pos_bub() ).xy() ) );
 
         const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
         np.spawn_at_precise( get_abs( tripoint_bub_ms( new_pos, sq.z() ) ) );
@@ -7615,7 +7617,7 @@ void map::rotate( int turns )
                 continue;
             }
             const point_abs_sm queued_point_sm( project_to<coords::sm>( queued_point.second.xy() ) );
-            const point_bub_ms queued_point_bub( get_map().get_bub( queued_point.second.xy() ) );
+            const point_bub_ms queued_point_bub( reality_bubble().get_bub( queued_point.second.xy() ) );
             point_bub_ms old( queued_point_bub.x() % SEEX, queued_point_bub.y() % SEEY );
 
             if( queued_point_sm.x() % 2 != 0 ) {
@@ -8382,7 +8384,7 @@ ret_val<void> update_mapgen_function_json::update_map(
     update_smap.mirror( mirror_horizontal, mirror_vertical );
     update_smap.rotate( rotation );
 
-    if( get_map().inbounds( project_to<coords::ms>( omt_pos ) ) ) {
+    if( reality_bubble().inbounds( project_to<coords::ms>( omt_pos ) ) ) {
         // trigger main map cleanup
         p_update_smap.reset();
         // trigger new traps, etc

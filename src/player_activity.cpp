@@ -192,8 +192,10 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         }
 
         if( type == ACT_BUILD ) {
+            map &here = get_map();
+
             partial_con *pc =
-                get_map().partial_con_at( get_map().get_bub( u.activity.placement ) );
+                here.partial_con_at( here.get_bub( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;

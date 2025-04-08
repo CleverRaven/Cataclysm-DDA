@@ -1,0 +1,300 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_modular_habitat_center_farm",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_center_farm" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_modular_habitat_greenhouse",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_greenhouse" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_modular_habitat_greenhouse_control_room_1s",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_greenhouse_control_room_1s" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_center_farm",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "..---------!!---------..",
+        "..-1 ú= VV    = hkh/ -..",
+        "//-1 ú=    ,, =  k //---",
+        "//-1  ]    ,, ]    /t t-",
+        "///////ú      //////t t-",
+        "/-----/ú   ,,  úúú/   t-",
+        "/-ííí-6           /+----",
+        "/-í  ¡     ,,     = }..-",
+        "/-----/!/  ,,     ],}..-",
+        "...../c /         =>}..-",
+        ".....//!-%-]]-///-------",
+        ".....}##---00-..........",
+        ".....}##/-300-..........",
+        ".....}##/------.........",
+        ".....////-....-.........",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "terrain": {
+        ".": "t_open_air",
+        "3": "t_elevator_control",
+        "=": "t_wall_glass",
+        "#": "t_bridge",
+        "0": "t_elevator",
+        "6": "t_afs_industrial_card_reader",
+        " ": "t_metal_floor",
+        "}": "t_metal_railing",
+        "¡": "t_door_metal_locked"
+      },
+      "furniture": { "ú": "f_bench", "1": "f_locker", "í": "f_rack", "8": "f_ancient_processor", "t": "f_rack" },
+      "items": {
+        "1": [ { "item": "afs_civilian_hazard_outfit", "chance": 60 }, { "item": "afs_colonist_outfit", "chance": 20 } ],
+        "í": { "item": "afs_tools_agricultural_hazardous", "chance": 90 },
+        "t": { "item": "farming_tools", "chance": 60, "repeat": [ 2, 3 ] }
+      },
+      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true, "networked": true } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_greenhouse",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "...========..========...",
+        "...=______=..=______=...",
+        "...=__22  =..=  22__=...",
+        "..--__22  =..=  22__--..",
+        "..-___22  =..=  22___-..",
+        "..--__22  =..=  22__--..",
+        "...=__22  ====1 22__=...",
+        "...=____,,    ,,____=...",
+        "...=__22  2222  22__=...",
+        "..--__22  2222  22__--..",
+        "..-3__22  2222  22__3-..",
+        "..-3__22  2222  22__3-..",
+        "..--____,,    ,,____--..",
+        "...=__22  2222  22__=...",
+        "...=__22  2222  22__=...",
+        "...=__22  2222  22__=...",
+        "..--____,,    ,,____--..",
+        "..-___22  2222  22___-..",
+        "..--__22  2222  22__--..",
+        "...=     1          =...",
+        "...=                =...",
+        "...=4444|/===]/|4444=...",
+        "..//|||||      |||||//.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        ".": "t_open_air",
+        "=": "t_wall_clearcrete_alarm",
+        " ": "t_metal_floor",
+        "1": "t_metal_floor",
+        "_": "t_grass",
+        "4": "t_ramp_up_high"
+      },
+      "furniture": { "3": "f_drone_recharge_station" },
+      "sealed_item": { "2": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_unharvested_overgrown", "chance": 100 } },
+      "monsters": { "2": { "monster": "GROUP_ROBOT_FARM_HOSTILE", "chance": 15, "density": 0.1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_greenhouse_roof",
+    "method": "json",
+    "object": {
+      "rows": [
+        "........................",
+        "...________..________...",
+        "...________..________...",
+        "...________..________...",
+        "..//_______.._______//..",
+        "../________..________/..",
+        "..//_______.._______//..",
+        "...__________________...",
+        "...__________________...",
+        "...__________________...",
+        "..//________________//..",
+        "../__________________/..",
+        "../__________________/..",
+        "..//________________//..",
+        "...__________________...",
+        "...__________________...",
+        "...__________________...",
+        "..//________________//..",
+        "../__________________/..",
+        "..//________________//..",
+        "...__________________...",
+        "...======______======...",
+        "...=4444=______=4444=...",
+        "..//5555|//__//|5555//.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        ".": "t_open_air",
+        "5": "t_ramp_down_high",
+        "4": "t_ramp_down_low",
+        "=": "t_wall_clearcrete_alarm",
+        "_": "t_clearcrete_roof"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_greenhouse_roof2",
+    "method": "json",
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "...______......______...",
+        "...______......______...",
+        "..____________________.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { ".": "t_open_air", "_": "t_clearcrete_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_greenhouse_control_room_1s",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "..//    |//==//|    //..",
+        "..=                  =..",
+        "//- 22 2   ,,   2 22 -//",
+        "/7  22 2   ,,   2 22   /",
+        "/7  22 2   ,,   2 22   /",
+        "/7                     /",
+        "///      / ,, /111111/!/",
+        "../333333/4   /888888/ }",
+        "..///------¡¡------/// }",
+        ".....-8__________8-    }",
+        ".....--___-4¡-___--}}}}}",
+        ".....-____-__-____-.....",
+        ".....=____-_5-____=.....",
+        ".....=____----____=.....",
+        ".....///________///.....",
+        "......./========/.......",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        ".": "t_open_air",
+        "¡": "t_door_metal_locked",
+        "4": "t_afs_industrial_card_reader",
+        "1": "t_reinforced_glass",
+        "=": "t_wall_clearcrete_alarm",
+        "_": "t_metal_floor_no_roof",
+        " ": "t_metal_floor_no_roof",
+        "}": "t_metal_railing"
+      },
+      "furniture": {
+        "2": "f_planter",
+        "3": "f_drone_recharge_station",
+        "7": "f_habitat_storage_board",
+        "5": [ [ "f_drone_ai_core_broken", 20 ], [ "f_drone_ai_core", 1 ] ],
+        "8": "f_ancient_processor"
+      },
+      "items": { "7": [ { "item": "farming_tools", "chance": 60, "repeat": [ 2, 3 ] } ] },
+      "monsters": { "_": { "monster": "GROUP_ROBOT_FARM_HOSTILE", "chance": 15, "density": 0.1 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_greenhouse_control_room_1s_roof",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        "..____________________..",
+        "..____________________..",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "  /__________________/  ",
+        "../__________________/..",
+        "..////     __     ////..",
+        "...../____________/.....",
+        "...../   ______   /.....",
+        "....._____    _____.....",
+        "....._____    _____.....",
+        "....._____    _____.....",
+        ".....   ________   .....",
+        "....... ________ .......",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { ".": "t_open_air", "_": "t_clearcrete_roof", " ": "t_metal_floor_no_roof" }
+    }
+  }
+]

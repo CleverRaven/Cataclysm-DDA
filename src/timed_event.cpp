@@ -296,7 +296,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::EXPLOSION: {
-            explosion_handler::explosion( player_character.as_avatar(), get_map().get_bub( map_square ),
+            explosion_handler::explosion( player_character.as_avatar(), here.get_bub( map_square ),
                                           expl_data );
         }
         break;
@@ -330,13 +330,13 @@ void timed_event::actualize()
             run_mapgen_update_func(
                 update_mapgen_id( string_id ), project_to<coords::omt>( map_point ), {}, nullptr );
             set_queued_points();
-            get_map().invalidate_map_cache( map_point.z() );
+            reality_bubble().invalidate_map_cache( map_point.z() );
             break;
 
         case timed_event_type::REVERT_SUBMAP: {
             submap *sm = MAPBUFFER.lookup_submap( map_point );
             sm->revert_submap( revert );
-            get_map().invalidate_map_cache( map_point.z() );
+            reality_bubble().invalidate_map_cache( map_point.z() );
             break;
         }
 

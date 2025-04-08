@@ -674,7 +674,7 @@ static void close()
                 here, _( "Close where?" ),
                 pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                 ACTION_CLOSE, false ) ) {
-        doors::close_door( get_map(), get_player_character(), *pnt );
+        doors::close_door( here, get_player_character(), *pnt );
     }
 }
 

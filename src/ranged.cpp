@@ -2356,7 +2356,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
             }
 
             // TODO: Refine critera to handle overlapping maps.
-            if( here == &get_map() ) {
+            if( here == &reality_bubble() ) {
                 sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
                                          sfx::get_heard_angle( eject ) );
             }
@@ -3364,11 +3364,13 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 
 void target_ui::set_last_target()
 {
+    map &here = get_map();
+
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().get_abs( dst ) ) {
+        you->last_target_pos.value() != here.get_abs( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().get_abs( dst );
+    you->last_target_pos = here.get_abs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {

@@ -3561,7 +3561,7 @@ static void kill_area()
         return;
     }
 
-    const tripoint_range<tripoint_bub_ms> points = get_map().points_in_rectangle(
+    const tripoint_range<tripoint_bub_ms> points = here.points_in_rectangle(
                 tripoint_bub_ms( first.position.value() ), tripoint_bub_ms( second.position.value() ) );
 
     std::vector<Creature *> creatures = g->get_creatures_if(
