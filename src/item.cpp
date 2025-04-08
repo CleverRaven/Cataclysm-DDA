@@ -8949,11 +8949,6 @@ units::ememory item::remaining_ememory() const
     return total_ememory() - occupied_ememory();
 }
 
-bool item::is_efile( const item_location &loc )
-{
-    return loc.parent_item() && loc.parent_item()->is_estorage();
-}
-
 item *item::get_recipe_catalog()
 {
     const std::function<bool( const item &i )> filter = []( const item & i ) {

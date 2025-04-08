@@ -1712,7 +1712,7 @@ static void read()
             } else {
                 loc = loc.obtain( player_character );
                 item_location parent_loc = loc.parent_item();
-                ( parent_loc && parent_loc->is_estorage() ) ?
+                loc.is_efile() ?
                 player_character.read( loc, parent_loc ) : player_character.read( loc );
             }
         }
