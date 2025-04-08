@@ -831,7 +831,7 @@
       { "u_message": "Blood suffuses your flesh, repairing any damage it comes across.", "type": "good" },
       {
         "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
-        "then": { "u_message": "But your left arm is too damaged. Only time can heal it.", "type": "bad" },
+        "then": { "u_message": "But your left arm is too damaged.  Only time can heal it.", "type": "bad" },
         "else": {
           "math": [
             "u_hp('arm_l')",
@@ -842,7 +842,7 @@
       },
       {
         "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "arm_r" } ] },
-        "then": { "u_message": "But your right arm is too damaged. Only time can heal it.", "type": "bad" },
+        "then": { "u_message": "But your right arm is too damaged.  Only time can heal it.", "type": "bad" },
         "else": {
           "math": [
             "u_hp('arm_r')",
@@ -853,7 +853,7 @@
       },
       {
         "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
-        "then": { "u_message": "But your left leg is too damaged. Only time can heal it.", "type": "bad" },
+        "then": { "u_message": "But your left leg is too damaged.  Only time can heal it.", "type": "bad" },
         "else": {
           "math": [
             "u_hp('leg_l')",
@@ -864,7 +864,7 @@
       },
       {
         "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
-        "then": { "u_message": "But your right leg is too damaged. Only time can heal it.", "type": "bad" },
+        "then": { "u_message": "But your right leg is too damaged.  Only time can heal it.", "type": "bad" },
         "else": {
           "math": [
             "u_hp('leg_r')",
