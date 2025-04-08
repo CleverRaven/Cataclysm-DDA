@@ -68,7 +68,7 @@
           { "item": "clothing_work_set", "chance": 30 },
           { "item": "afs_wintersuit_science_advanced", "chance": 30 }
         ],
-        "t": [ { "item": "office_paper", "chance": 60 }, { "item": "tools_science", "chance": 10, "repeat": [ 1, 2 ] } ]
+        "t": [ { "item": "SUS_office_desk", "chance": 60 }, { "item": "tools_science", "chance": 10, "repeat": [ 1, 2 ] } ]
       },
       "item": { "c": { "item": "recipe_lichenlog", "chance": 6 } },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
