@@ -3341,7 +3341,7 @@ void islot_tool::deserialize( const JsonObject &jo )
     numeric_bound_reader not_negative{ 0 };
     numeric_bound_reader positive{ 1 };
 
-    optional( jo, was_loaded, "ammo", ammo_id, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "tool_ammo", ammo_id, auto_flags_reader<ammotype> {} );
     optional( jo, was_loaded, "max_charges", max_charges, not_negative, 0 );
     optional( jo, was_loaded, "initial_charges", def_charges, not_negative, 0 );
     optional( jo, was_loaded, "charges_per_use", charges_per_use, not_negative, 0 );
@@ -3448,12 +3448,12 @@ void islot_book::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "max_level", level, 0 );
     optional( jo, was_loaded, "required_level", req, 0 );
-    optional( jo, was_loaded, "fun", fun, 0 );
+    optional( jo, was_loaded, "read_fun", fun, 0 );
     optional( jo, was_loaded, "intelligence", intel, 0 );
 
     optional( jo, was_loaded, "time", time, 0_turns );
 
-    optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
+    optional( jo, was_loaded, "read_skill", skill, skill_id::NULL_ID() );
     optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
     optional( jo, was_loaded, "chapters", chapters, 0 );
     optional( jo, was_loaded, "generic", generic, false );
@@ -3558,25 +3558,25 @@ void islot_comestible::deserialize( const JsonObject &jo )
 
 void islot_brewable::deserialize( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "time", time, 1_turns );
-    if( jo.has_array( "results" ) ) {
-        for( std::string entry : jo.get_string_array( "results" ) ) {
+    optional( jo, was_loaded, "brew_time", time, 1_turns );
+    if( jo.has_array( "brew_results" ) ) {
+        for( std::string entry : jo.get_string_array( "brew_results" ) ) {
             results[itype_id( entry )] = 1;
         }
     } else {
-        mandatory( jo, was_loaded, "results", results );
+        mandatory( jo, was_loaded, "brew_results", results );
     }
 }
 
 void islot_compostable::deserialize( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "time", time, 1_turns );
-    if( jo.has_array( "results" ) ) {
-        for( std::string entry : jo.get_string_array( "results" ) ) {
+    optional( jo, was_loaded, "compost_time", time, 1_turns );
+    if( jo.has_array( "compost_results" ) ) {
+        for( std::string entry : jo.get_string_array( "compost_results" ) ) {
             results[itype_id( entry )] = 1;
         }
     } else {
-        mandatory( jo, was_loaded, "results", results );
+        mandatory( jo, was_loaded, "compost_results", results );
     }
 }
 

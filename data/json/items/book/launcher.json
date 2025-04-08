@@ -43,11 +43,11 @@
     "symbol": "?",
     "color": "pink",
     "looks_like": "mag_glam",
-    "skill": "launcher",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "launcher",
+    "read_fun": 1
   },
   {
     "id": "manual_launcher",
@@ -109,10 +109,10 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "green",
-    "skill": "launcher",
     "looks_like": "mag_guns",
     "max_level": 3,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "launcher"
   }
 ]

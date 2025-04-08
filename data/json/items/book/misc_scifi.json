@@ -266,8 +266,8 @@
     "copy-from": "book_fict_soft_scifi_tpl",
     "time": "60 m",
     "chapters": 3,
-    "fun": 8,
-    "relative": { "intelligence": -2 }
+    "relative": { "intelligence": -2 },
+    "read_fun": 8
   },
   {
     "id": "book_fict_soft_docu_AWT",
@@ -277,7 +277,7 @@
     "copy-from": "book_fict_soft_scifi_tpl",
     "time": "60 m",
     "chapters": 34,
-    "fun": 10,
-    "relative": { "intelligence": 1 }
+    "relative": { "intelligence": 1 },
+    "read_fun": 10
   }
 ]

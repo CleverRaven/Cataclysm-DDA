@@ -109,7 +109,6 @@
     "longest_side": "60 cm",
     "price": "350 USD",
     "price_postapoc": "350 USD",
-    "ammo": [ "afs_shydrogen" ],
     "charges_per_use": 2,
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
@@ -141,7 +140,8 @@
         "item_restriction": [ "afs_40g_plasma_civ" ]
       }
     ],
-    "faults": [ "fault_overheat_melting" ]
+    "faults": [ "fault_overheat_melting" ],
+    "tool_ammo": [ "afs_shydrogen" ]
   },
   {
     "id": "afs_makeshift_fusion_gun",

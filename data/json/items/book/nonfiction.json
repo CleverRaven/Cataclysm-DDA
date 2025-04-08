@@ -39,7 +39,7 @@
     "description": "Visit the homes of savvy tastemakers from the worlds of fashion, finance, and design, with this book of lavish photography.",
     "weight": "1606 g",
     "copy-from": "book_nonf_hard_homemk_tpl",
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "book_nonf_hard_homemk_outkitchn",
@@ -67,8 +67,8 @@
     "description": "A collection of essays and advice on style, beauty, and motherhood.  Part memoir, part lifestyle guide, this book reflects the author's experience growing up as a woman of color in Brooklyn.",
     "weight": "658 g",
     "copy-from": "book_nonf_hard_homemk_tpl",
-    "fun": 1,
-    "relative": { "chapters": -14 }
+    "relative": { "chapters": -14 },
+    "read_fun": 1
   },
   {
     "id": "book_nonf_soft_wedding_coolring",
@@ -111,10 +111,10 @@
     "description": "This text addresses standards in the assessment and treatment of aggression and violence as well as psychological and neuroimaging assessments.",
     "weight": "2835 g",
     "volume": "3673 ml",
-    "fun": -2,
     "time": "22 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -9, "intelligence": 2 }
+    "relative": { "chapters": -9, "intelligence": 2 },
+    "read_fun": -2
   },
   {
     "id": "book_nonf_hard_psych_grconres",

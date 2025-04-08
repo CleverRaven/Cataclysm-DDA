@@ -12,7 +12,6 @@
     "symbol": "[",
     "looks_like": "robofac_enviro_suit",
     "color": "light_gray",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -47,7 +46,8 @@
       "OUTER",
       "NO_RELOAD",
       "NO_UNLOAD"
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "afs_magellan_suit_on",
@@ -81,7 +81,6 @@
     "symbol": "[",
     "looks_like": "robofac_enviro_suit",
     "color": "cyan",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -112,7 +111,8 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OUTER" ],
+    "tool_ammo": "battery"
   },
   {
     "id": "afs_frontier_cryo_on",
@@ -146,7 +146,6 @@
     "symbol": "[",
     "looks_like": "afs_cryopod_bodyglove",
     "color": "cyan",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -176,7 +175,8 @@
     "warmth": 20,
     "material_thickness": 0.5,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT", "SOFT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT", "SOFT" ],
+    "tool_ammo": "battery"
   },
   {
     "id": "afs_combat_cryo_on",
@@ -229,7 +229,6 @@
     "weight": "1250 g",
     "volume": "4500 ml",
     "charges_per_use": 5,
-    "ammo": "battery",
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "pocket_data": [
       {
@@ -257,7 +256,8 @@
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "afs_cryopod_bodyglove_on",
