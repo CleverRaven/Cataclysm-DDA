@@ -582,6 +582,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_slow_blood_gain_with_weakness",
+    "//": "Hidden--provides blood every ~120 seconds until 1 below the blood_quenched level",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "60 s", "180 s" ] } ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_slow_blood_loss",
     "//": "Hidden--removes blood every ~60 seconds until 1 below the blood_quenched level",
     "name": [ "" ],

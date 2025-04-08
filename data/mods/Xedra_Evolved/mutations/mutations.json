@@ -173,8 +173,22 @@
     "mixed_effect": true,
     "enchantments": [
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN" } },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
+          ]
+        },
         "ench_effects": [ { "effect": "effect_dhampir_slow_blood_gain", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "u_has_trait": "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_dhampir_slow_blood_gain_with_weakness", "intensity": 1 } ]
       },
       {
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
@@ -1335,5 +1349,14 @@
         "ench_effects": [ { "effect": "effect_dhampir_water_weakness_pain", "intensity": 1 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN",
+    "name": { "str": "Weakness: Decreased Blood Empowerment" },
+    "points": -2,
+    "description": "The power of fresh blood lingers in your veins.  The natural rate that your blood empowers itself is cut in half.",
+    "purifiable": false,
+    "valid": false
   }
 ]
