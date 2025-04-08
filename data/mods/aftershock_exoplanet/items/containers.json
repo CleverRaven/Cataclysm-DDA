@@ -31,6 +31,34 @@
     "flags": [ "NO_UNLOAD", "MAG_BULKY" ]
   },
   {
+    "id": "afs_thermos",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "radio thermos", "str_pl": "radio thermoses" },
+    "looks_like": "thermos",
+    "description": "A small radioactive source is used to safely(?) heat the contents of this vacuum flask.  Its not powerful enough to melt already frozen liquids.\n\n Frontier rated only.",
+    "ascii_picture": "thermos",
+    "weight": "530 g",
+    "volume": "1250 ml",
+    "longest_side": "32 cm",
+    "price": "15 USD 95 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "steel" ],
+    "symbol": "I",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "insulation": 1600,
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "afs_mre_package",
     "copy-from": "mre_package",
     "type": "GENERIC",

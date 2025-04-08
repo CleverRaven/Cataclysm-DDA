@@ -787,7 +787,7 @@
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "tick_action": "MULTICOOKER_TICK",
-    "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
+    "use_action": [ "MULTICOOKER", "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
