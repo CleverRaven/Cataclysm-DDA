@@ -1990,5 +1990,26 @@
     "price": "160 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 22, "stab": 23 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "exodii_greathammer",
+    "name": { "str": "trounce hammer" },
+    "description": "A wellworn but imposing looking sledgehammer with an impractically large, drum-shaped piston for a head.  Likely some sort of demolition tool before the exodii got their hands on it, who find it perfect for flattening zombies big and small.  Using this without cybernetic enhancements is almost impossible due to its weight.",
+    "weight": "11.5 kg",
+    "min_strength": "12",
+    "price_postapoc": "90 USD",
+    "color": "grey",
+    "symbol": "/",
+    "material": [ "hc_steel", "rubber" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP", "WIDE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "volume": "2000 ml",
+    "longest_side": "150 cm",
+    "repairs_with": [ "hc_steel" ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "looks_like": "sledgehammer",
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 90 }
   }
 ]

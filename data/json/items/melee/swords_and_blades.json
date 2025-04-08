@@ -3298,5 +3298,25 @@
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 3 ] ] }
+  },
+  {
+    "id": "exodii_greatsword",
+    "type": "GENERIC",
+    "name": { "str": "mountain cutter" },
+    "description": "This is what the Exodii consider a sword - a massive, single-edged blade at least an inch thick in width, mounted on a long and simple handle with no crossguards.  Ugly and unrefined, but it could cleave through anything with enough cybernetic force behind a swing.  For someone without bionic enhancements, that might be tricky.",
+    "material": [ "qt_steel", "rubber" ],
+    "weight": "9 kg",
+    "volume": "3750 ml",
+    "color": "white",
+    "longest_side": "210 cm",
+    "repairs_with": [ "qt_steel" ],
+    "symbol": "/",
+    "looks_like": "nodachi",
+    "techniques": [ "WBLOCK_1", "SWEEP", "WIDE", "SPIN" ],
+    "price_postapoc": "80 USD",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -40 ] ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "SHEATH_SPEAR", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 40, "cut": 50 }
   }
 ]
