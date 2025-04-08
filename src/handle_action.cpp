@@ -1723,7 +1723,7 @@ static void read()
                 }
                 player_character.read( loc, parent_loc );
             } else {
-                if( !( parent_loc && parent_loc->has_flag( json_flag_NO_UNLOAD ) ) || loc.is_efile() ) {
+                if( ( parent_loc && parent_loc->has_flag( json_flag_NO_UNLOAD ) ) || loc.is_efile() ) {
                     debugmsg( "tried to get an item you shouldn't obtain." );
                 }
                 loc = loc.obtain( player_character );
