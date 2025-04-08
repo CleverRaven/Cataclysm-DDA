@@ -10,7 +10,7 @@
     "method": "json",
     "om_terrain": [ [ "augustmoon_main_concourse1" ], [ "augustmoon_main_concourse2" ] ],
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_metal_floor_heated",
       "rows": [
         "........|      |.|..|...",
         "........|,|__|,|.|==|...",
@@ -112,7 +112,7 @@
       ],
       "terrain": {
         ".": "t_hard_vacuum",
-        " ": "t_metal_floor",
+        " ": "t_metal_floor_heated",
         "!": "t_door_metal_locked",
         ":": "t_afs_space_ship_hatch_c",
         "_": "t_grate",
@@ -157,7 +157,7 @@
       [ "augustmoon_corpo_quarter3", "augustmoon_corpo_quarter4" ]
     ],
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_metal_floor_heated",
       "rows": [
         "................................................",
         "................................................",
@@ -211,7 +211,7 @@
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
       "terrain": {
         ".": "t_hard_vacuum",
-        " ": "t_metal_floor",
+        " ": "t_metal_floor_heated",
         "!": "t_door_metal_locked",
         ":": "t_afs_space_ship_hatch_c",
         "_": "t_grate",
@@ -292,7 +292,7 @@
     "method": "json",
     "om_terrain": [ "augustmoon_bar" ],
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_metal_floor_heated",
       "rows": [
         "........|......|........",
         ".......||=|==|=||ppp....",
@@ -321,7 +321,7 @@
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
       "terrain": {
-        " ": "t_metal_floor",
+        " ": "t_metal_floor_heated",
         "=": "t_afs_augustmoon_diamond_glass",
         "|": "t_afs_augustmoon_hull_wall",
         ":": "t_afs_space_ship_hatch_c",
@@ -339,7 +339,7 @@
     "method": "json",
     "om_terrain": [ "augustmoon_docking_arm" ],
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_metal_floor_heated",
       "rows": [
         ".........||||||.........",
         "........||5555||........",
@@ -370,7 +370,7 @@
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 6, 6 ], "y": [ 4, 4 ] } ],
       "terrain": {
         ".": "t_hard_vacuum",
-        " ": "t_metal_floor",
+        " ": "t_metal_floor_heated",
         "!": "t_door_metal_locked",
         ":": "t_afs_space_ship_hatch_c",
         "=": "t_afs_augustmoon_diamond_glass",

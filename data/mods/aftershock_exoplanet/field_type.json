@@ -40,6 +40,14 @@
     "display_field": false
   },
   {
+    "id": "fd_hot_airAC",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "air conditioner", "sym": "&", "convection_temperature_mod": 115 } ],
+    "priority": -1,
+    "display_field": false,
+    "phase": "gas"
+  },
+  {
     "id": "fd_elect_anomaly",
     "type": "field_type",
     "intensity_levels": [

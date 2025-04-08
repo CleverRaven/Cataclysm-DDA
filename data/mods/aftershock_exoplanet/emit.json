@@ -16,10 +16,16 @@
     "chance": 100
   },
   {
+    "id": "afs_emit_AC",
+    "type": "emit",
+    "field": "fd_hot_airAC",
+    "qty": 60,
+    "chance": 100
+  },
+  {
     "id": "afs_emit_survival_heater",
     "type": "emit",
-    "field": "fd_hot_air4",
-    "intensity": 2,
+    "field": "fd_hot_airAC",
     "qty": 60,
     "chance": 100
   },
