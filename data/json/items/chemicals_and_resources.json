@@ -359,7 +359,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
-    "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
+    "compostable": { "compost_time": "60 days", "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
     "charges": 1
   },
   {
