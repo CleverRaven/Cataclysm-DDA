@@ -186,7 +186,7 @@
     "qualities": [ [ "CUT", 2 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "cut": 12 }
   },
   {
