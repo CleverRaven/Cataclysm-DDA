@@ -1271,10 +1271,10 @@
       {
         "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
         "values": [
-          { "value": "STRENGTH", "add": -1 },
-          { "value": "DEXTERITY", "add": -1 },
-          { "value": "INTELLIGENCE", "add": -1 },
-          { "value": "PERCEPTION", "add": -1 }
+          { "value": "STRENGTH", "add": -2 },
+          { "value": "DEXTERITY", "add": -2 },
+          { "value": "INTELLIGENCE", "add": -2 },
+          { "value": "PERCEPTION", "add": -2 }
         ]
       }
     ]
