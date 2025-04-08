@@ -11527,7 +11527,7 @@ npc_attitude Character::get_attitude() const
 bool Character::sees( const map &here, const tripoint_bub_ms &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos_bub( here ), t );
-    bool can_see = this->is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
+    bool can_see = this->is_avatar() ? here.pl_sees( t, std::min( sight_max, wanted_range ) ) :
                    Creature::sees( here, t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
@@ -13026,14 +13026,16 @@ void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void Character::leak_items()
 {
+    map &here = get_map();
+
     std::vector<item_location> removed_items;
     if( weapon.is_container() ) {
-        if( weapon.leak( get_map(), this, pos_bub() ) ) {
+        if( weapon.leak( here, this, pos_bub() ) ) {
             weapon.spill_contents( pos_bub() );
         }
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
-        if( weapon.leak( get_map(), this, pos_bub() ) ) {
-            get_map().add_item_or_charges( pos_bub(), weapon );
+        if( weapon.leak( here, this, pos_bub() ) ) {
+            here.add_item_or_charges( pos_bub(), weapon );
             removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
         }
@@ -13043,7 +13045,7 @@ void Character::leak_items()
         if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
             continue;
         }
-        if( it->leak( get_map(), this, pos_bub() ) ) {
+        if( it->leak( here, this, pos_bub() ) ) {
             it->spill_contents( pos_bub() );
             removed_items.push_back( it );
         }
@@ -13559,7 +13561,7 @@ void Character::pause()
     map &here = get_map();
 
     // effects of being partially/fully underwater
-    if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos_bub( ) ) ) {
+    if( !in_vehicle && !here.has_flag_furn( "BRIDGE", pos_bub( ) ) ) {
         if( underwater ) {
             // TODO: gain "swimming" proficiency but not "athletics" skill
             drench( 100, get_drenching_body_parts(), false );

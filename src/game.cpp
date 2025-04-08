@@ -5432,6 +5432,8 @@ bool game::find_nearby_spawn_point( const tripoint_bub_ms &target, const mtype_i
                                     int min_radius,
                                     int max_radius, tripoint_bub_ms &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
 {
+    map &here = get_map();
+
     tripoint_bub_ms target_point;
     //find a legal outdoor place to spawn based on the specified radius,
     //we just try a bunch of random points and use the first one that works, it none do then no spawn
@@ -5439,9 +5441,9 @@ bool game::find_nearby_spawn_point( const tripoint_bub_ms &target, const mtype_i
         target_point = target + tripoint( rng( -max_radius, max_radius ),
                                           rng( -max_radius, max_radius ), 0 );
         if( can_place_monster( monster( mt->id ), target_point ) &&
-            ( open_air_allowed || get_map().has_floor_or_water( target_point ) ) &&
-            ( !outdoor_only || get_map().is_outside( target_point ) ) &&
-            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
+            ( open_air_allowed || here.has_floor_or_water( target_point ) ) &&
+            ( !outdoor_only || here.is_outside( target_point ) ) &&
+            ( !indoor_only || !here.is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
@@ -5453,6 +5455,8 @@ bool game::find_nearby_spawn_point( const tripoint_bub_ms &target, const mtype_i
 bool game::find_nearby_spawn_point( const tripoint_bub_ms &target, int min_radius,
                                     int max_radius, tripoint_bub_ms &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
 {
+    map &here = get_map();
+
     tripoint_bub_ms target_point;
     //find a legal outdoor place to spawn based on the specified radius,
     //we just try a bunch of random points and use the first one that works, it none do then no spawn
@@ -5460,9 +5464,9 @@ bool game::find_nearby_spawn_point( const tripoint_bub_ms &target, int min_radiu
         target_point = target + tripoint( rng( -max_radius, max_radius ),
                                           rng( -max_radius, max_radius ), 0 );
         if( can_place_npc( target_point ) &&
-            ( open_air_allowed || get_map().has_floor_or_water( target_point ) ) &&
-            ( !outdoor_only || get_map().is_outside( target_point ) ) &&
-            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
+            ( open_air_allowed || here.has_floor_or_water( target_point ) ) &&
+            ( !outdoor_only || here.is_outside( target_point ) ) &&
+            ( !indoor_only || !here.is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
@@ -5479,8 +5483,10 @@ bool game::find_nearby_spawn_point( const tripoint_bub_ms &target, int min_radiu
  */
 bool game::spawn_hallucination( const tripoint_bub_ms &p )
 {
+    map &here = get_map();
+
     //Don't spawn hallucinations on open air
-    if( get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
         return false;
     }
 
@@ -5488,7 +5494,7 @@ bool game::spawn_hallucination( const tripoint_bub_ms &p )
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->randomize( NC_HALLU );
-        tmp->spawn_at_precise( get_map().get_abs( p ) );
+        tmp->spawn_at_precise( here.get_abs( p ) );
         if( !get_creature_tracker().creature_at( p, true ) ) {
             overmap_buffer.insert_npc( tmp );
             load_npcs();
@@ -5812,7 +5818,7 @@ void game::save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Characte
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->load_npc_template( npc_template_cyborg_rescued );
-        tmp->spawn_at_precise( get_map().get_abs( couch_pos ) );
+        tmp->spawn_at_precise( here.get_abs( couch_pos ) );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
         tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
@@ -12925,16 +12931,16 @@ std::optional<tripoint_bub_ms> game::find_stairs( const map &mp, int z_after,
                                         z_after ) ) );
     tripoint_bub_ms omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
 
-    if( !get_map().is_open_air( u.pos_bub() ) ) {
+    if( !mp.is_open_air( u.pos_bub( mp ) ) ) {
         for( const tripoint_bub_ms &dest : mp.points_in_rectangle( omtile_align_start,
                 omtile_align_end ) ) {
-            if( rl_dist( u.pos_bub(), dest ) <= best &&
+            if( rl_dist( u.pos_bub( mp ), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
                                     mp.ter( dest ) == ter_t_manhole_cover ) ) ||
                   ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
                 stairs.emplace( dest );
-                best = rl_dist( u.pos_bub(), dest );
+                best = rl_dist( u.pos_bub( mp ), dest );
             }
         }
     }
@@ -12946,7 +12952,7 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
         bool &rope_ladder,
         bool peeking, const tripoint_bub_ms &pos )
 {
-    const bool is_avatar = u.pos_bub() == pos;
+    const bool is_avatar = u.pos_bub( mp ) == pos;
     const int movez = z_after - pos.z();
 
     // Try to find the stairs.
@@ -13005,7 +13011,7 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
         return stairs;
     }
 
-    if( u.has_effect( effect_gliding ) && get_map().is_open_air( u.pos_bub() ) ) {
+    if( u.has_effect( effect_gliding ) && mp.is_open_air( u.pos_bub( mp ) ) ) {
         return stairs;
     }
 

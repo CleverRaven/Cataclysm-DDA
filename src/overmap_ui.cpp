@@ -1912,6 +1912,8 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
 
 static tripoint_abs_omt display()
 {
+    map &here = get_map();
+
     overmap_draw_data_t &data = g->overmap_data;
     tripoint_abs_omt &orig = data.origin_pos;
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
@@ -2066,7 +2068,7 @@ static tripoint_abs_omt display()
             curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
-            tripoint_bub_ms pos_rel = get_map().get_bub( pos );
+            tripoint_bub_ms pos_rel = here.get_bub( pos );
             uistate.open_menu = [pos_rel]() {
                 tripoint_bub_ms pos_cpy = pos_rel;
                 g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );
@@ -2195,7 +2197,7 @@ static tripoint_abs_omt display()
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
-            if( get_map().is_outside( get_player_character().pos_bub() ) ) {
+            if( here.is_outside( get_player_character().pos_bub() ) ) {
                 uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
             }
         } else if( action == "TOGGLE_FAST_SCROLL" ) {

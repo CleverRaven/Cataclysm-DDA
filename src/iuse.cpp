@@ -3273,7 +3273,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms &
         }
         case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
-                                  get_map().get_radiation( p->pos_bub() ) );
+                                  here.get_radiation( p->pos_bub() ) );
             break;
         case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
@@ -3698,7 +3698,7 @@ std::optional<int> iuse::portal( Character *p, item *it, const tripoint_bub_ms &
         return std::nullopt;
     }
     tripoint_bub_ms t( pos.x() + rng( -2, 2 ), pos.y() + rng( -2, 2 ), pos.z() );
-    get_map().trap_set( t, tr_portal );
+    here.trap_set( t, tr_portal );
     return 1;
 }
 
@@ -6458,7 +6458,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint_bub_m
     }
     photo_text += "\n" + overmap_desc + ".";
 
-    if( get_map().get_abs_sub().z() >= 0 && need_store_weather ) {
+    if( here.get_abs_sub().z() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( is_dawn( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
@@ -7888,6 +7888,8 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
 
@@ -7900,8 +7902,8 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
         std::string temperature_str;
-        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos_bub() ) ||
-            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos_bub() ) ) {
+        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos_bub() ) ||
+            here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos_bub() ) ) {
             temperature_str = print_temperature( get_weather().get_cur_weather_gen().get_water_temperature() );
         } else {
             temperature_str = print_temperature( player_local_temp );
@@ -7935,7 +7937,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
 
     if( it->typeId() == itype_weather_reader ) {
         int vehwindspeed = 0;
-        if( optional_vpart_position vp = get_map().veh_at( p->pos_bub() ) ) {
+        if( optional_vpart_position vp = here.veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->pos_abs_omt() );
