@@ -209,52 +209,43 @@
     "max_duration": "100 d"
   },
   {
-    "id": "regular_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Bloodsucking" ],
-    "desc": [ "The monster is sucking up your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
+    "effect": [
+      {
+        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "BLOOD_FUN" },
+        "then": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
+      },
+      { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } },
+      { "u_lose_effect": "vampire_need_living_blood" }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
-    "condition": { "u_has_trait": "BLOOD_FUN" },
+    "id": "EOC_VAMPIRE_DRINK_FROM_NONHUMAN",
     "effect": [
-      { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
       {
-        "u_add_morale": "morale_drank_blood",
-        "bonus": 30,
-        "max_bonus": 60,
-        "duration": "20 m",
-        "decay_start": "10 m"
+        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "BLOOD_FUN" },
+        "then": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
+      },
+      {
+        "if": {
+          "or": [ { "npc_has_species": "CHANGELING" }, { "npc_has_species": "HOMULLUS" }, { "npc_has_trait": "FAE_CREATURE" } ]
+        },
+        "then": [ { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] } ]
       },
       { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } },
       { "u_lose_effect": "vampire_need_living_blood" }
-    ],
-    "false_effect": [
-      {
-        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
-        "then": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-          {
-            "u_add_effect": "effect_drank_blood_recently",
-            "intensity": 1,
-            "duration": { "math": [ "600 + rand(600)" ] }
-          },
-          { "u_lose_effect": "vampire_need_living_blood" }
-        ],
-        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
-      }
     ]
   },
   {
@@ -263,7 +254,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "5 d" },
-      { "npc_add_effect": "regular_vampire_blood_drink", "duration": "2 s" }
+      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
     ]
   },
   {
@@ -272,7 +264,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "10 d" },
-      { "npc_add_effect": "regular_vampire_blood_drink", "duration": "2 s" }
+      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
     ]
   }
 ]

@@ -385,20 +385,21 @@ computer_session::computer_action_functions = {
 
 bool computer_session::can_activate( computer_action action )
 {
+    map &here = get_map();
+
     switch( action ) {
         case COMPACT_LOCK:
-            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_door_metal_c, 8 );
+            return here.has_nearby_ter( get_player_character().pos_bub(), ter_t_door_metal_c, 8 );
 
         case COMPACT_RELEASE:
         case COMPACT_RELEASE_DISARM:
-            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass_lab,
-                                             25 );
+            return here.has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass_lab,
+                                        25 );
 
         case COMPACT_RELEASE_BIONICS:
-            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass_lab, 3 );
+            return here.has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass_lab, 3 );
 
         case COMPACT_TERMINATE: {
-            map &here = get_map();
             creature_tracker &creatures = get_creature_tracker();
             for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 monster *const mon = creatures.creature_at<monster>( p );
@@ -419,7 +420,7 @@ bool computer_session::can_activate( computer_action action )
 
         case COMPACT_UNLOCK:
         case COMPACT_UNLOCK_DISARM:
-            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_door_metal_locked, 8 );
+            return here.has_nearby_ter( get_player_character().pos_bub(), ter_t_door_metal_locked, 8 );
 
         default:
             return true;
@@ -747,6 +748,8 @@ void computer_session::action_miss_disarm()
 
 void computer_session::action_miss_launch()
 {
+    map &here = get_map();
+
     // Target Acquisition.
     const tripoint_abs_omt target( ui::omap::choose_point(
                                        _( "Choose a target for the nuclear missile." ), 0 ) );
@@ -766,9 +769,9 @@ void computer_session::action_miss_launch()
 
     //Put some smoke gas and explosions at the nuke location.
     const tripoint_bub_ms nuke_location = { get_player_character().pos_bub() - point( 12, 0 ) };
-    for( const tripoint_bub_ms &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
+    for( const tripoint_bub_ms &loc : here.points_in_radius( nuke_location, 5, 0 ) ) {
         if( one_in( 4 ) ) {
-            get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
+            here.add_field( loc, fd_smoke, rng( 1, 9 ) );
         }
     }
 
@@ -777,9 +780,9 @@ void computer_session::action_miss_launch()
 
     //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
     // For each level between here and the surface, remove the missile
-    for( int level = get_map().get_abs_sub().z(); level <= 0; level++ ) {
+    for( int level = here.get_abs_sub().z(); level <= 0; level++ ) {
         map tmpmap;
-        tmpmap.load( tripoint_abs_sm( get_map().get_abs_sub().xy(), level ),
+        tmpmap.load( tripoint_abs_sm( here.get_abs_sub().xy(), level ),
                      false );
 
         if( level < 0 ) {
@@ -905,7 +908,8 @@ void computer_session::action_amigara_log()
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     reset_terminal();
-    point_abs_sm abs_sub = get_map().get_abs_sub().xy();
+    tripoint_abs_sm abs_loc = get_map().get_abs_sub();
+    point_abs_sm abs_sub = abs_loc.xy();
     print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
     print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
 
@@ -943,7 +947,6 @@ void computer_session::action_amigara_log()
     }
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     reset_terminal();
-    tripoint_abs_sm abs_loc = get_map().get_abs_sub();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                 abs_loc.x(), abs_loc.y(), std::abs( abs_loc.z() ) );

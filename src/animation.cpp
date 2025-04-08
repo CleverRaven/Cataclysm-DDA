@@ -498,7 +498,7 @@ void game::draw_bullet( const tripoint_bub_ms &t, const int /*i*/,
         return;
     }
     if( !use_tiles ) {
-        draw_bullet_curses( m, t, bullet, nullptr );
+        draw_bullet_curses( get_map(), t, bullet, nullptr );
         return;
     }
 

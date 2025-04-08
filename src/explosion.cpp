@@ -291,7 +291,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
     }
 
     // Draw the explosion, but only if the explosion center is within the reality bubble
-    map &bubble_map = get_map();
+    map &bubble_map = reality_bubble();
     if( bubble_map.inbounds( m->get_abs( p ) ) ) {
         std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
@@ -486,7 +486,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                 }
             }
             auto it = frag.targets_hit[critter];
-            if( get_map().inbounds(
+            if( reality_bubble().inbounds(
                     abs_target ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
                 multi_projectile_hit_message( critter, it.first, it.second, n_gettext( "bomb fragment",
                                               "bomb fragments", it.first ) );
@@ -542,8 +542,10 @@ void explosion( const Creature *source, map *here, const tripoint_bub_ms &p,
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex )
 {
-    if( get_map().inbounds( m->get_abs( p ) ) ) {
-        tripoint_bub_ms bubble_pos = get_map().get_bub( m->get_abs( p ) );
+    map &bubble_map = reality_bubble();
+
+    if( bubble_map.inbounds( m->get_abs( p ) ) ) {
+        tripoint_bub_ms bubble_pos = bubble_map.get_bub( m->get_abs( p ) );
         int noise = ex.power * ( ex.fire ? 2 : 10 );
         noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
 
@@ -955,7 +957,7 @@ void process_explosions()
 
     for( const queued_explosion &ex : explosions_copy ) {
         const int safe_range = ex.data.safe_range();
-        map  *bubble_map = &get_map();
+        map  *bubble_map = &reality_bubble();
         const tripoint_bub_ms bubble_pos( bubble_map->get_bub( ex.pos ) );
 
         if( bubble_pos.x() - safe_range < 0 || bubble_pos.x() + safe_range > MAPSIZE_X ||

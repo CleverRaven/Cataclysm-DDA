@@ -5093,7 +5093,7 @@ void cata_tiles::get_terrain_orientation( const tripoint_bub_ms &p, int &rota, i
         }
     }
 
-    uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_group, {} );
+    uint8_t rotation_targets = here.get_known_rotates_to( p, rotate_group, {} );
     get_rotation_and_subtile( val, rotation_targets, rota, subtile );
 }
 
@@ -5338,8 +5338,10 @@ void cata_tiles::get_connect_values( const tripoint_bub_ms &p, int &subtile, int
                                      const std::bitset<NUM_TERCONN> &rotate_to_group,
                                      const std::map<tripoint_bub_ms, ter_id> &ter_override )
 {
-    uint8_t connections = get_map().get_known_connections( p, connect_group, ter_override );
-    uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_to_group, ter_override );
+    map &here = get_map();
+
+    uint8_t connections = here.get_known_connections( p, connect_group, ter_override );
+    uint8_t rotation_targets = here.get_known_rotates_to( p, rotate_to_group, ter_override );
     get_rotation_and_subtile( connections, rotation_targets, rotation, subtile );
 }
 
@@ -5347,8 +5349,10 @@ void cata_tiles::get_furn_connect_values( const tripoint_bub_ms &p, int &subtile
         const std::bitset<NUM_TERCONN> &connect_group, const std::bitset<NUM_TERCONN> &rotate_to_group,
         const std::map<tripoint_bub_ms, furn_id> &furn_override )
 {
-    uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
-    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {}, {} );
+    map &here = get_map();
+
+    uint8_t connections = here.get_known_connections_f( p, connect_group, furn_override );
+    uint8_t rotation_targets = here.get_known_rotates_to_f( p, rotate_to_group, {}, {} );
     get_rotation_and_subtile( connections, rotation_targets, rotation, subtile );
 }
 
@@ -5371,7 +5375,7 @@ void cata_tiles::get_tile_values_with_ter(
     const std::bitset<NUM_TERCONN> &rotate_to_group )
 {
     map &here = get_map();
-    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {} );
+    uint8_t rotation_targets = here.get_known_rotates_to_f( p, rotate_to_group, {} );
     //check if furniture should connect to itself
     if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
         here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {

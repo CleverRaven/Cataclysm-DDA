@@ -1133,7 +1133,7 @@ void monster::move()
                 rampPos += 1;
                 candidate += tripoint_rel_ms::below;
             }
-            const tripoint_abs_ms candidate_abs = get_map().get_abs( candidate );
+            const tripoint_abs_ms candidate_abs = here.get_abs( candidate );
 
             if( candidate.z() != pos.z() ) {
                 bool can_z_move = true;
@@ -1432,8 +1432,9 @@ void monster::footsteps( const tripoint_bub_ms &p )
 
 tripoint_bub_ms monster::scent_move()
 {
+    map &here = get_map();
     // TODO: Remove when scentmap is 3D
-    if( std::abs( posz() - get_map().get_abs_sub().z() ) > SCENT_MAP_Z_REACH ) {
+    if( std::abs( posz() - here.get_abs_sub().z() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
     scent_map &scents = get_scent();
@@ -1494,7 +1495,6 @@ tripoint_bub_ms monster::scent_move()
     }
 
     const bool can_bash = bash_skill() > 0;
-    map &here = get_map();
     if( !fleeing && scent_here > smell_threshold ) {
         // Smell too strong to track, wander around
         sdirection.push_back( pos_bub() );
@@ -1793,7 +1793,7 @@ bool monster::attack_at( const tripoint_bub_ms &p )
 
     // Attack last known position despite empty
     if( has_effect( effect_stumbled_into_invisible ) &&
-        get_map().has_field_at( p, field_fd_last_known ) && !sees_player &&
+        here.has_field_at( p, field_fd_last_known ) && !sees_player &&
         attitude_to( player_character ) == Attitude::HOSTILE ) {
         return attack_air( tripoint_bub_ms( p ) );
     }

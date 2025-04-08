@@ -70,7 +70,7 @@
       "f": { "item": "SUS_fridge_breakroom", "chance": 80 },
       "n": [ { "item": "snacks", "chance": 35, "repeat": [ 1, 2 ] }, { "item": "magazines", "chance": 10 } ],
       "=": { "item": "lumberyard", "chance": 20, "repeat": [ 1, 2 ] },
-      "l": { "item": "clothing_work_set", "chance": 40 },
+      "l": [ { "item": "clothing_work_set", "chance": 40 }, { "item": "clothing_chainsaw_protection", "chance": 35 } ],
       "L": [ { "item": "hardware", "chance": 35 }, { "item": "mechanics", "chance": 15 } ],
       "r": { "item": "tools_tree_cutting", "chance": 70, "repeat": [ 1, 3 ] },
       "m": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs_residential", "chance": 40 } ]
