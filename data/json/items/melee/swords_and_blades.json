@@ -3307,6 +3307,7 @@
     "material": [ "qt_steel", "rubber" ],
     "weight": "9000 g",
     "volume": "3750 ml",
+    "min_strength": 10,
     "color": "white",
     "longest_side": "210 cm",
     "repairs_with": [ "qt_steel" ],
