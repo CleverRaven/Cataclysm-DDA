@@ -1046,6 +1046,7 @@
     "volume": "3.8 L",
     "weight": "2650 g",
     "melee_damage": { "cut": 20, "stab": 31 },
+    "weapon_category": [ "POLEARMS", "HOOKING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1", "PENETRATE", "PIN" ]
   }
 ]
