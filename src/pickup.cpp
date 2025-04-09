@@ -31,6 +31,7 @@
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "options.h"
 #include "player_activity.h"
@@ -197,10 +198,10 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
 
     if( !newit.is_owned_by( player_character, true ) ) {
         // Has the player given input on if stealing is ok?
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             Pickup::query_thief();
         }
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
             return true; // Since we are honest, return no problem before picking up
         }
     }

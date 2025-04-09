@@ -16,11 +16,11 @@
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game.h"
-#include "global_vars.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -390,7 +390,7 @@ bool trapfunc::eocs( const tripoint_bub_ms &p, Creature *critter, item * )
     const tripoint_abs_ms trap_location = here.get_abs( p );
     for( const effect_on_condition_id &eoc : tr.eocs ) {
         dialogue d( get_talker_for( critter ), nullptr );
-        write_var_value( var_type::context, "trap_location", &d, trap_location.to_string() );
+        write_var_value( var_type::context, "trap_location", &d, trap_location );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {

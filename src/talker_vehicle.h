@@ -38,7 +38,7 @@ class talker_vehicle_const: public const_talker_cloner<talker_vehicle_const>
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
 
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        diag_value const *maybe_get_value( const std::string &var_name ) const override;
 
         std::vector<std::string> get_topics( bool radio_contact ) const override;
         bool will_talk_to_u( const Character &you, bool force ) const override;
@@ -81,7 +81,7 @@ class talker_vehicle: public talker_vehicle_const, public talker_cloner<talker_v
             return me_veh;
         }
 
-        void set_value( const std::string &var_name, const std::string &value ) override;
+        void set_value( const std::string &var_name, diag_value const &value ) override;
         void remove_value( const std::string & ) override;
 
     private:

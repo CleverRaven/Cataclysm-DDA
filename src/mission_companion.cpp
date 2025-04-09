@@ -46,6 +46,7 @@
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -605,7 +606,7 @@ void talk_function::companion_mission( npc &p )
         }
 
         Character &player_character = get_player_character();
-        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ) == "yes" ) {
+        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ).str() == "yes" ) {
             hospital_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {
@@ -703,7 +704,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
     const mission_id miss_id = {Hospital_Raid_Job, "", {}, std::nullopt};
-    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ) != "yes" ) {
+    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ).str() != "yes" ) {
         const std::string entry_assign =
             _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
                "Scavenging raid targeting a hospital to search for hospital equipment and as many "
@@ -1703,7 +1704,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int number_seeds = 0;
     int skillLevel = 2;
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ||
-        p.get_value( var_PURCHASED_FIELD_1_FENCE ) == "yes" ) {
+        p.get_value( var_PURCHASED_FIELD_1_FENCE ).str() == "yes" ) {
         skillLevel += 2;
     }
 

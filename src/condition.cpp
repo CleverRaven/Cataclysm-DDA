@@ -54,6 +54,7 @@
 #include "math_parser_type.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "math_parser_diag_value.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -376,34 +377,6 @@ str_translation_or_var get_str_translation_or_var(
     return ret_val;
 }
 
-template<typename T>
-T convert_tripoint_from_var( std::optional<var_info> &var, const_dialogue const &d,
-                             bool is_npc )
-{
-    if( var.has_value() ) {
-        std::string value = read_var_value( var.value(), d );
-        if( !value.empty() ) {
-            return T( tripoint::from_string( value ) );
-        }
-    }
-    if( !d.has_actor( is_npc ) ) {
-        debugmsg( "Tried to access location of invalid %s talker.  %s", is_npc ? "beta" : "alpha",
-                  d.get_callstack() );
-        return T::invalid;
-    }
-    return T::invalid;
-}
-
-tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dialogue const &d,
-        bool is_npc )
-{
-    tripoint_abs_ms pt = convert_tripoint_from_var<tripoint_abs_ms>( var, d, is_npc );
-    if( pt.is_invalid() ) {
-        return d.const_actor( is_npc )->pos_abs();
-    }
-    return pt;
-}
-
 var_info read_var_info( const JsonObject &jo )
 {
     var_type type{ var_type::last };
@@ -424,20 +397,18 @@ var_info read_var_info( const JsonObject &jo )
     } else if( jo.has_member( "context_val" ) ) {
         type = var_type::context;
         name = get_talk_varname( jo, "context_val" );
-    } else if( jo.has_member( "faction_val" ) ) {
-        type = var_type::faction;
-        name = get_talk_varname( jo, "faction_val" );
-    } else if( jo.has_member( "party_val" ) ) {
-        type = var_type::party;
-        name = get_talk_varname( jo, "party_val" );
     } else {
         jo.throw_error( "Invalid variable type." );
     }
     return { type, name };
 }
 
-void write_var_value( var_type type, const std::string &name, dialogue *d,
-                      const std::string &value, int call_depth )
+namespace
+{
+
+template<typename T>
+void _write_var_value( var_type type, const std::string &name, dialogue *d,
+                       T const &value )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -447,15 +418,9 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
             globvars.set_global_value( name, value );
             break;
         case var_type::var:
-            ret = d->get_value( name );
+            ret = d->get_value( name ).str();
             vinfo = process_variable( ret );
-            if( call_depth > 1000 ) {
-                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
-                          name, vinfo.name, d->get_callstack() );
-            } else {
-                write_var_value( vinfo.type, vinfo.name, d, value,
-                                 call_depth + 1 );
-            }
+            _write_var_value( vinfo.type, vinfo.name, d, value );
             break;
         case var_type::u:
             if( d->has_alpha ) {
@@ -471,12 +436,6 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
                 debugmsg( "Tried to use an invalid beta talker.  %s", d->get_callstack() );
             }
             break;
-        case var_type::faction:
-            debugmsg( "Not implemented yet." );
-            break;
-        case var_type::party:
-            debugmsg( "Not implemented yet." );
-            break;
         case var_type::context:
             d->set_value( name, value );
             break;
@@ -486,11 +445,30 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
     }
 }
 
+} // namespace
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      std::string const &value )
+{
+    _write_var_value( type, name, d, value );
+}
+
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value )
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    write_var_value( type, name, d, string_format( "%g", value ) );
+    _write_var_value( type, name, d, value );
+}
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      tripoint_abs_ms const &value )
+{
+    _write_var_value( type, name, d, value );
+}
+
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      diag_value const &value )
+{
+    _write_var_value( type, name, d, value );
 }
 
 static bodypart_id get_bp_from_str( const std::string &ctxt )
@@ -1707,7 +1685,12 @@ conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view me
 
     return [loc_var]( const_dialogue const & d ) {
         map &here = get_map();
-        const tripoint_abs_ms target_location = get_tripoint_ms_from_var( loc_var, d, false );
+        tripoint_abs_ms target_location;
+        if( loc_var.has_value() ) {
+            target_location = read_var_value( *loc_var, d ).tripoint();
+        } else {
+            target_location = d.const_actor( false )->pos_abs();
+        }
         return here.is_outside( here.get_bub( target_location ) );
     };
 }
@@ -1740,9 +1723,8 @@ conditional_t::func f_line_of_sight( const JsonObject &jo, std::string_view memb
     }
     return [range, loc_var_1, loc_var_2, with_fields]( const_dialogue const & d ) {
         map &here = get_map();
-
-        tripoint_bub_ms loc_1 = here.get_bub( get_tripoint_ms_from_var( loc_var_1, d, false ) );
-        tripoint_bub_ms loc_2 = here.get_bub( get_tripoint_ms_from_var( loc_var_2, d, false ) );
+        tripoint_bub_ms loc_1 = here.get_bub( read_var_value( loc_var_1, d ).tripoint() );
+        tripoint_bub_ms loc_2 = here.get_bub( read_var_value( loc_var_2, d ).tripoint() );
 
         return here.sees( loc_1, loc_2, range.evaluate( d ), with_fields );
     };
@@ -1794,8 +1776,7 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
     }
     return [terrain, furn_type, loc_var]( const_dialogue const & d ) {
         map &here = get_map();
-
-        tripoint_bub_ms loc = here.get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
+        tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
         if( terrain ) {
             return here.ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
@@ -1811,8 +1792,7 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
 
     return [member, furn_type, loc_var]( const_dialogue const & d ) {
         map &here = get_map();
-
-        tripoint_bub_ms loc = here.get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
+        tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
         if( member == "map_terrain_id" ) {
             return here.ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else if( member == "map_furniture_id" ) {
