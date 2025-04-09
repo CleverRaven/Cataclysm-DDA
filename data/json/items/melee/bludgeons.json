@@ -1975,7 +1975,7 @@
     "id": "warhammer",
     "name": { "str": "war hammer" },
     "description": "A medieval hammer with a spike on one end, made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
-    "weight": "1220 g g",
+    "weight": "1220 g",
     "price_postapoc": "60 USD",
     "color": "brown",
     "symbol": "/",
