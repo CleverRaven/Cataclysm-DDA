@@ -2013,7 +2013,7 @@
     "melee_damage": { "bash": 90 }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "exodii_sapper_off",
     "name": { "str": "sapper (off)", "str_pl": "sappers (off)" },
     "description": "The best description for this is a cross between a greataxe and a plasma cutter.  Within the giant axehead is a mechanism that feeds to its ceramic blade, heating it by thousands of degrees as the plasma feeds through the blade's ports.  Its anyone's guess as to what the original purpose of this monstrosity is, as even some Exodii consider it overkill.  Not only does it need bionic enhancements to use effectively, but it also drains from the user's bionic power to function.",
@@ -2052,7 +2052,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "exodii_sapper_on",
     "name": { "str": "sapper (on)", "str_pl": "sappers (on)" },
     "description": "This sapper is on, its air compresser roaring and its blade white hot, the air around it rippling.  May whatever god help whoever is on the receiving end of it.  Use to turn off.",
