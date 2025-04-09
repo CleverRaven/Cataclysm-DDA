@@ -242,6 +242,26 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
 
 void Item_factory::finalize_pre( itype &obj )
 {
+    check_and_create_magazine_pockets( obj );
+    add_special_pockets( obj );
+
+    //migrate magazines
+    if( obj.magazines.empty() ) {
+        migrate_mag_from_pockets( obj );
+    }
+
+    //set default magazine capacity
+    if( obj.magazine && obj.magazine->capacity == 0 ) {
+        int largest = 0;
+        for( pocket_data &pocket : obj.pockets ) {
+            for( const ammotype &atype : obj.magazine->type ) {
+                int current = pocket.ammo_restriction[atype];
+                largest = largest < current ? current : largest;
+            }
+        }
+        obj.magazine->capacity = largest;
+    }
+
     // Add relic data by ID we defered
     if( obj.relic_data ) {
         obj.relic_data->finalize();
@@ -4481,23 +4501,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     optional( jo, def.was_loaded, "snippet_category", def.snippet_category, snippet_reader{ def, src } );
 
     assign( jo, "pocket_data", def.pockets );
-    check_and_create_magazine_pockets( def );
-    add_special_pockets( def );
 
     mod_tracker::assign_src( def, src );
 
-    if( def.magazines.empty() ) {
-        migrate_mag_from_pockets( def );
-    }
-    if( def.magazine && def.magazine->capacity == 0 ) {
-        int largest = 0;
-        for( pocket_data &pocket : def.pockets ) {
-            for( const ammotype &atype : def.magazine->type ) {
-                int current = pocket.ammo_restriction[atype];
-                largest = largest < current ? current : largest;
-            }
-        }
-        def.magazine->capacity = largest;
     }
 
 
