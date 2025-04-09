@@ -14,19 +14,13 @@
           },
           {
             "if": { "u_has_trait": "BLOOD_FUN" },
-            "then": [ 
-
-      {
-
-        "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
-
-        "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
-
-        "else": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
-
-      }
-
- ]
+            "then": [
+              {
+                "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
+                "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
+                "else": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
+              }
+            ]
           }
         ],
         "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
@@ -1005,33 +999,6 @@
             "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
           ]
         }
-=======
-        "math": [
-          "u_hp('arm_l')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
-      },
-      {
-        "math": [
-          "u_hp('arm_r')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
-      },
-      {
-        "math": [
-          "u_hp('leg_l')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
-      },
-      {
-        "math": [
-          "u_hp('leg_r')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
       },
       {
         "math": [
