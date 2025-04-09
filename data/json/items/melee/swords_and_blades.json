@@ -3313,6 +3313,7 @@
     "repairs_with": [ "qt_steel" ],
     "symbol": "/",
     "looks_like": "nodachi",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "techniques": [ "WBLOCK_1", "SWEEP", "WIDE", "SPIN" ],
     "price_postapoc": "120 USD",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -40 ] ],

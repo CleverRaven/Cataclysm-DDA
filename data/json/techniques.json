@@ -150,6 +150,7 @@
     "melee_allowed": true,
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "//condition": "Humanoids of similar size and no flying",
+    "weighting": 2,
     "condition": {
       "and": [
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
