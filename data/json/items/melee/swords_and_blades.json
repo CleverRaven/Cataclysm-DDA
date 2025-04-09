@@ -3313,7 +3313,7 @@
     "symbol": "/",
     "looks_like": "nodachi",
     "techniques": [ "WBLOCK_1", "SWEEP", "WIDE", "SPIN" ],
-    "price_postapoc": "80 USD",
+    "price_postapoc": "120 USD",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -40 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "SHEATH_SPEAR", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_SWORDS" ],

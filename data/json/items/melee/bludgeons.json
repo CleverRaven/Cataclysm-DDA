@@ -1998,7 +1998,7 @@
     "description": "A wellworn but imposing looking sledgehammer with an impractically large, drum-shaped piston for a head.  Likely some sort of demolition tool before the exodii got their hands on it, who find it perfect for flattening zombies big and small.  Using this without cybernetic enhancements is almost impossible due to its weight.",
     "weight": "11.5 kg",
     "min_strength": "12",
-    "price_postapoc": "90 USD",
+    "price_postapoc": "120 USD",
     "color": "grey",
     "symbol": "/",
     "material": [ "hc_steel", "rubber" ],
