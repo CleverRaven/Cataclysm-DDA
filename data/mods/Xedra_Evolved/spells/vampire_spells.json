@@ -364,5 +364,41 @@
     "spell_class": "VAMPIRE",
     "skill": "deduction",
     "base_casting_time": 500
+  },
+  {
+    "id": "vampire_summon_blood_container",
+    "type": "SPELL",
+    "name": "Create blood-storing sphere.",
+    "description": "Create a magical sphere that will contain any blood you will put in it until the spell ends.",
+    "message": "You conjure a magical sphere to store blood.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "vampire_blood_ball",
+    "shape": "blast",
+    "base_casting_time": 75,
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "difficulty": 0,
+    "min_duration": 16640000,
+    "base_energy_cost": 350,
+    "energy_source": "MANA"
+  },
+  {
+    "id": "vampire_invisible_in_dark",
+    "type": "SPELL",
+    "name": "Shrouded by the Shadowed Path.",
+    "description": "Surround yourself in shadows, becoming invisible for a while.  This power will fail if you stand outside under the sun.",
+    "message": "You gather as many shadows as you can.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
+    "shape": "blast",
+    "difficulty": 5
   }
 ]

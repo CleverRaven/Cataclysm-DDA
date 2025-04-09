@@ -4,6 +4,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -31,6 +32,7 @@
 #include "magic.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mission.h"
 #include "npc.h"
@@ -1313,11 +1315,11 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( player_character.per_max == 9 );
 
     std::string var_name = "test_var_time_test_test";
-    player_character.set_value( var_name, std::to_string( 1 ) );
+    player_character.set_value( var_name, 1 );
     // "Sets custom var to 10."
     effects = d.responses[ 9 ].success;
     effects.apply( d );
-    CHECK( std::stoi( player_character.get_value( var_name ) ) == 10 );
+    CHECK( player_character.get_value( var_name ) == 10 );
 
     beta.op_of_u.owed = 0;
     // "Sets owed to 12."

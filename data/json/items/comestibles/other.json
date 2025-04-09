@@ -1232,7 +1232,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "24 hours", "results": [ "gelatin_extracted" ] }
+    "brewable": { "brew_time": "24 hours", "brew_results": [ "gelatin_extracted" ] }
   },
   {
     "type": "COMESTIBLE",

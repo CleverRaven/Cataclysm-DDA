@@ -11,12 +11,12 @@
     "looks_like": "mag_glam",
     "symbol": "?",
     "color": "light_gray",
-    "skill": "fabrication",
     "required_level": 2,
     "max_level": 3,
     "intelligence": 10,
     "time": "20 m",
     "price": "85 USD",
-    "price_postapoc": "12 USD 50 cent"
+    "price_postapoc": "12 USD 50 cent",
+    "read_skill": "fabrication"
   }
 ]

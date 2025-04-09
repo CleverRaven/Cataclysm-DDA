@@ -18,7 +18,8 @@
     "damage": { "damage_type": "bullet", "amount": 21, "armor_penetration": 15 },
     "dispersion": 60,
     "recoil": 650,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_10mm_caseless_JHP",
@@ -38,7 +39,8 @@
     "damage": { "damage_type": "bullet", "amount": 31 },
     "dispersion": 60,
     "recoil": 600,
-    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   },
   {
     "id": "afs_10mm_smart",
@@ -60,6 +62,7 @@
     "dispersion": 0,
     "recoil": 600,
     "critical_multiplier": 4,
-    "extend": { "effects": [ "COOKOFF", "NEVER_MISFIRES" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "flags": [ "CASELESS_ROUNDS" ]
   }
 ]

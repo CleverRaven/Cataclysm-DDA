@@ -1,0 +1,284 @@
+[
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_trait": "BKGR_EARTH",
+      "yes": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.\nOh hello, do you need something?",
+      "no": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.\nDo you need something salvor?"
+    },
+    "responses": [
+      {
+        "//": "If you have met them already, let the player go directly to trading.",
+        "text": "What do you have in stock?",
+        "topic": "TALK_DONE",
+        "effect": "start_trade",
+        "condition": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] }
+      },
+      {
+        "//": "If you are Earthborn buying the car is much easier AND cheaper.",
+        "text": "You said something about a special offer?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_EARTH",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_has_bought_car" } ] } },
+            { "u_has_trait": "BKGR_EARTH" }
+          ]
+        }
+      },
+      {
+        "//": "Not Earthborn so you have to do a little convincing to buy the car.",
+        "text": "Do you sell any vehicles here?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_has_bought_car" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_has_pursuaded" } ] } },
+            { "not": { "u_has_trait": "BKGR_EARTH" } },
+            { "not": { "npc_has_effect": "afs_tried_to_buy_car" } }
+          ]
+        }
+      },
+      {
+        "//": "Not Earthborn but already convinced them to make the offer to you.",
+        "text": "Is that Lynx still for sale?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_ALT",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_has_bought_car" } ] } },
+            { "compare_string": [ "yes", { "npc_val": "player_has_pursuaded" } ] },
+            { "not": { "u_has_trait": "BKGR_EARTH" } },
+            { "not": { "npc_has_effect": "afs_tried_to_buy_car" } }
+          ]
+        }
+      },
+      {
+        "//": "Introduction if you haven't met them and aren't Earthborn.",
+        "text": "What do you do here?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] } },
+            { "not": { "u_has_trait": "BKGR_EARTH" } }
+          ]
+        }
+      },
+      {
+        "//": "If you are Earthborn they pickup on that and will belay their introduction to nerd out about meeting a fellow Earthling",
+        "text": "What do you do here?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH",
+        "condition": {
+          "and": [ { "not": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] } }, { "u_has_trait": "BKGR_EARTH" } ]
+        }
+      },
+      {
+        "//": "If you have met them you can ask them about why they are on Salus",
+        "text": "So, why did you come to Salus IV?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_WHY_HERE",
+        "condition": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] }
+      },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Wait.  Hold on a second, please don't take this the wrong way, but you wouldn't happen to be from Earth by any chance?.",
+    "responses": [
+      { "text": "How can you tell?", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_TRUTH" },
+      { "text": "Sorry, you're mistaken.", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_LIE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_TRUTH" ],
+    "type": "talk_topic",
+    "dynamic_line": "&I knew it!  I'm from Earth too so I could just tell.  The way you carry yourself, it's not like the rest of the salvors around here.  But you get it right?",
+    "responses": [
+      { "text": "I know what you mean.", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_TRUTH_2" },
+      { "text": "What are you doing here?", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_EXPLAIN" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_TRUTH_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Right?  Right!  Of course you do.  You understand!  This place is about as far a cry from civilization as you can get.  And the people, god, the people!  This post sees a never-ending deluge of criminals and brawn for brains.  And it's like none of them have even heard of a shower!  Just the other day, a man emerged from the icy waste covered in blood and viscera.  And everyone just ignored him acting like that was a completely normal thing to do!  I am going to get off this god-forsaken rock if it's the last thing I do, I swear it.",
+    "responses": [ { "text": "What are you doing here?", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_EXPLAIN" } ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_LIE" ],
+    "type": "talk_topic",
+    "dynamic_line": "&No, don't give me that!  I can tell, just by looking at you, I know.  Don't worry, I'm from Earth too!  I get it: some people around here get all weird when they find out where you're from.  But you won't get that from me. Us Earthers got to stick together, right?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_EXPLAIN" },
+      {
+        "text": "I don't know what you're talking about.",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_LIE2"
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_LIE2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Sure, whatever you say, pal.",
+    "responses": [ { "text": "What are you doing here?", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_EXPLAIN" } ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_EXPLAIN" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Right!  Sorry, this is the vehicle bay, and I run the place.  Mostly I just fix up the patrol vehicles.  But I am also in charge of maintaining our stock of vehicle parts.  As such: I've been authorized to trade with salvors in order to get what we need, and can offer you some of our excess stock or chits in exchange.  I'll give you a nice price, just: Don't tell my boss.  And one more thing, I've got something really special for sale, if you're interested.",
+    "responses": [
+      {
+        "text": "Can you show me your stock?",
+        "topic": "TALK_DONE",
+        "effect": [ { "npc_add_var": "player_has_met", "value": "yes" }, "start_trade" ]
+      },
+      {
+        "text": "What's this special offer?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_EARTH",
+        "effect": { "npc_add_var": "player_has_met", "value": "yes" }
+      },
+      {
+        "text": "Thanks, I don't need anything right now.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_add_var": "player_has_met", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION" ],
+    "type": "talk_topic",
+    "dynamic_line": "This is the vehicle bay, and I run the place.  Please don't touch anything unless you're buying.  I fix up the patrol vehicles and maintain our stock of spare parts.  As such: I've been authorized to trade with outsiders in order to get what we need, and can offer you some of our excess stock or chits in exchange.",
+    "responses": [
+      {
+        "text": "Can you show me your stock?",
+        "topic": "TALK_DONE",
+        "effect": [ { "npc_add_var": "player_has_met", "value": "yes" }, "start_trade" ]
+      },
+      {
+        "text": "Thanks, I don't need anything right now.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_add_var": "player_has_met", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_EARTH" ],
+    "type": "talk_topic",
+    "dynamic_line": "Here's the thing: A while back one of our patrol vehicles got totalled when some junior officers took it for a joy ride.  We are in queue to get a replacement issued to us and High Command just wants the old one broken down for parts.  Well the chief and I agree that's a little wasteful.  So I patched the damn thing back together with the parts we had on hand.  And now we're looking for a way to make it, disappear.  You follow?",
+    "responses": [
+      { "text": "How much do want for it?", "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_EARTH_2" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_EARTH_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'll cut you a deal.  Let's say 30,000 USD and it's all yours.",
+    "responses": [
+      {
+        "text": "I'll take it",
+        "topic": "TALK_DONE",
+        "effect": { "u_spend_cash": 3000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
+      },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE" ],
+    "type": "talk_topic",
+    "dynamic_line": "&As I've SAID before: I'm only authorized to trade vehicle parts and scraps.  Our patrol vehicles are not up for auction.  Now if you don't mind, I have work to do.",
+    "responses": [
+      {
+        "text": "Surely you can arrange for a patrol car to be 'lost'.  I can make it worth your while.",
+        "trial": { "type": "PERSUADE", "difficulty": 60 },
+        "success": {
+          "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS",
+          "effect": { "npc_add_var": "player_has_pursuaded", "value": "yes" }
+        },
+        "failure": {
+          "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_FAIL",
+          "effect": { "npc_add_effect": "afs_tried_to_buy_car", "duration": "24 hours" }
+        }
+      },
+      { "text": "Nevermind then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_FAIL" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'd report you if this sort of behavior wasn't already so laughably perdictable.  Just go away.",
+    "responses": [ { "text": "Your loss.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS" ],
+    "type": "talk_topic",
+    "dynamic_line": "Alright, alright.  Just not so loud.  Here's the thing: A while back one of our patrol vehicles got totalled when some junior officers took it for a joy ride.  We are in queue to get a replacement issued to us and High Command just wants the old one broken down for parts.  Well the chief and I agree that's a little wasteful.  So I patched the damn thing back together with the parts we had on hand.  And now we're looking for a way to make it, disappear.",
+    "responses": [
+      { "text": "How much do want for it?", "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_2" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_ALT" ],
+    "type": "talk_topic",
+    "dynamic_line": "<npc_name> sighs.\nYes it is, are you interested?",
+    "responses": [
+      { "text": "How much do want for it again?", "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_2" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "40,000 USD and it's all yours.",
+    "responses": [
+      {
+        "text": "I'll take it",
+        "topic": "TALK_DONE",
+        "effect": { "u_spend_cash": 4000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
+      },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_WHY_HERE" ],
+    "type": "talk_topic",
+    "dynamic_line": "It wasn't my choice, obviously.  That fucking bastard back in Alpha Centauri had me transferred to this frozen hell.  Pulled strings with the staff in command.  I signed on to help put Earth back where it belongs: on top.  Not freeze my arse off fixing barely held-together scrap in the middle of fucking nowhere.  Mercurial doesn't even give a shit about this place.  I don't know why the UICA even bothers to station us here.  If you ask me this planet should have stayed abandoned.",
+    "responses": [
+      { "text": "Who's the bastard?", "topic": "TALK_UICA_VEHICLE_MERCHANT_BKGR_BASTARD" },
+      { "text": "What makes you think Mercurial doesn't care?", "topic": "TALK_UICA_VEHICLE_MERCHANT_MERCURIAL" },
+      { "text": "Sorry I asked.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BKGR_BASTARD" ],
+    "type": "talk_topic",
+    "dynamic_line": "My former superior officer, the prick.  Always hovering my shoulder like a damn drone.  I won't miss that uptight control freak.  We fought a lot and didn't see things eye to eye.  But this?  I never imagined the fucker would stoop this low.  Hell of a disciplinary action, I'll tell you that much.",
+    "responses": [ { "text": "I'm sorry to hear that.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_MERCURIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": "The last thing they did was set up their little clinic on the station, and they haven't done jack since.  No communications, no re-colonization efforts, no survey teams.  They hardly even seem to care about going down planetside.  Not like I blame them.  The colony didn't work out before so, why bother?  This place is clearly not worth the effort.",
+    "responses": [ { "text": "I guess there are some rocks even Corpos won't touch.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "EOC_UICA_VEHICLE_BUY",
+    "type": "effect_on_condition",
+    "effect": [
+      { "npc_add_var": "player_has_bought_car", "value": "yes" },
+      { "mapgen_update": "afs_shuttlepad_salvors_garage_open", "om_terrain": "afs_shuttlepad_salvors_a1_1" }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_tried_to_buy_car",
+    "name": [ { "str": "Asked to buy car", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "You tried and failed to buy the car off this npc recently.  If you see this it's a bug.", "//~": "NO_I18N" }
+    ]
+  }
+]

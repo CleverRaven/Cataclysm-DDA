@@ -51,7 +51,6 @@
     "material": [ { "type": "plastic", "portion": 12 }, { "type": "nether_crystal" } ],
     "symbol": "[",
     "color": "white",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -87,7 +86,8 @@
           ]
         }
       ]
-    }
+    },
+    "tool_ammo": "battery"
   },
   {
     "id": "psionic_mindsight_glasses_on",

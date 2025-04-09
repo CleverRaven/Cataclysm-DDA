@@ -1359,6 +1359,8 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
 const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, bool loot_only,
         const faction_id &fac ) const
 {
+    map &here = get_map();
+
     auto const check = [&fac, loot_only, &where]( zone_data const & z ) {
         return z.get_faction() == fac &&
                ( !loot_only || z.get_type().str().substr( 0, 4 ) == "LOOT" ) &&
@@ -1369,7 +1371,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, bool l
             return &*it;
         }
     }
-    auto const vzones = get_map().get_vehicle_zones( get_map().get_abs_sub().z() );
+    auto const vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( zone_data *it : vzones ) {
         if( check( *it ) ) {
             return &*it;

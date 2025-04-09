@@ -127,6 +127,11 @@ class item_location
         bool has_parent() const;
 
         /**
+        * Returns whether the item location is inside an e-device)
+        */
+        bool is_efile() const;
+
+        /**
         * Returns available volume capacity where this item is located.
         */
         units::volume volume_capacity() const;

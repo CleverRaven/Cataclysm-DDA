@@ -50,6 +50,7 @@ debug.log
 logg.txt
 json_formatter
 *.output
+.cache/
 
 # Visual Studio files
 *.code-workspace

@@ -40,3 +40,5 @@ src/mapsharing
 src/worldfactory.cpp
 src/mmap_file.cpp
 src/mmap_file.cpp
+# iwyu requests an invalid forward declaration https://github.com/include-what-you-use/include-what-you-use/issues/1707
+src/math_parser_diag_value

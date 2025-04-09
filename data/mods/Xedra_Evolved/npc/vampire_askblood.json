@@ -213,39 +213,10 @@
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
     "effect": [
       {
-        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
-        "then": { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
+        "if": "has_beta",
+        "then": { "if": { "npc_has_trait": "FAE_CREATURE" }, "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] } }
       },
-      {
-        "if": { "u_has_trait": "BLOOD_FUN" },
-        "then": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
-      },
-      { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } },
-      { "u_lose_effect": "vampire_need_living_blood" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_DRINK_FROM_NONHUMAN",
-    "effect": [
-      {
-        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
-        "then": { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
-      },
-      {
-        "if": { "u_has_trait": "BLOOD_FUN" },
-        "then": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
-      },
-      {
-        "if": {
-          "or": [ { "npc_has_species": "CHANGELING" }, { "npc_has_species": "HOMULLUS" }, { "npc_has_trait": "FAE_CREATURE" } ]
-        },
-        "then": [ { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] } ]
-      },
-      { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } },
-      { "u_lose_effect": "vampire_need_living_blood" }
+      { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" }
     ]
   },
   {

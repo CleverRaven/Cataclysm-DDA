@@ -52,11 +52,11 @@
     "looks_like": "mag_glam",
     "symbol": "?",
     "color": "pink",
-    "skill": "pistol",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "pistol",
+    "read_fun": 1
   },
   {
     "id": "manual_pistol",
@@ -139,9 +139,9 @@
     "looks_like": "book_archery",
     "symbol": "?",
     "color": "green",
-    "skill": "pistol",
     "max_level": 3,
     "intelligence": 3,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "pistol"
   }
 ]
