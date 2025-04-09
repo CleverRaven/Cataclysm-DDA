@@ -133,14 +133,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_WEAKNESSES",
-    "condition": { "math": [ "u_dhampir_have_ever_drunk_blood == 1" ] },
+    "condition": { "math": [ "u_dhampir_have_ever_drunk_blood != 1" ] },
     "effect": [
       {
         "u_roll_remainder": [
-          "DHAMPIR_WEARKNESS_SUN_SENSITIVITY",
-          "DHAMPIR_WEARKNESS_SLOW_HEALING",
-          "DHAMPIR_WEARKNESS_ANIMAL_DISCORD",
-          "DHAMPIR_WEARKNESS_WATER_PAIN"
+          "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEAKNESS_SLOW_HEALING",
+          "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
+          "DHAMPIR_WEAKNESS_WATER_PAIN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
@@ -150,12 +150,12 @@
     "false_effect": [
       {
         "u_roll_remainder": [
-          "DHAMPIR_WEARKNESS_SUN_SENSITIVITY",
-          "DHAMPIR_WEARKNESS_SLOW_HEALING",
-          "DHAMPIR_WEARKNESS_ANIMAL_DISCORD",
-          "DHAMPIR_WEARKNESS_WATER_PAIN",
-          "DHAMPIR_WEARKNESS_BLOODTHIRST",
-          "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN"
+          "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEAKNESS_SLOW_HEALING",
+          "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
+          "DHAMPIR_WEAKNESS_WATER_PAIN",
+          "DHAMPIR_WEAKNESS_BLOODTHIRST",
+          "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
