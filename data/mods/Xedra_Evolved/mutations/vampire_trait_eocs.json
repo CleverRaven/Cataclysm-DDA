@@ -1,6 +1,42 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN",
+    "effect": [
+      {
+        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
+        "then": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+          {
+            "u_add_effect": "effect_drank_blood_recently",
+            "intensity": 1,
+            "duration": { "math": [ "600 + rand(600)" ] }
+          },
+          {
+            "if": { "u_has_trait": "BLOOD_FUN" },
+            "then": [
+              {
+                "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
+                "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
+                "else": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
+              }
+            ]
+          }
+        ],
+        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
+        "then": [ { "u_add_effect": "effect_vampire_drank_blood_power_boost", "duration": 3600 } ]
+      },
+      {
+        "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
+        "then": [ { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLOOD_DRINKING_DIRECTLY",
     "eoc_type": "EVENT",
     "required_event": "character_eats_item",
@@ -10,7 +46,8 @@
           "or": [
             { "compare_string": [ "blood", { "context_val": "itype" } ] },
             { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] }
+            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "fae_blood", { "context_val": "itype" } ] }
           ]
         },
         { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
@@ -18,48 +55,10 @@
     },
     "effect": [
       {
-        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
-        "then": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-          {
-            "u_add_effect": "effect_drank_blood_recently",
-            "intensity": 1,
-            "duration": { "math": [ "600 + rand(600)" ] }
-          }
-        ],
-        "else": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_BLOOD_DRINKING_FAE_BLOOD",
-    "eoc_type": "EVENT",
-    "required_event": "character_eats_item",
-    "//": "Fae blood causes hallucinations when drank by vampires, so it need its own EoC.",
-    "condition": {
-      "and": [
-        { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
-        { "or": [ { "u_has_any_trait": [ "DHAMPIR_TRAIT", "VAMPIRE" ] }, { "u_has_effect": "vampire_virus" } ] }
-      ]
-    },
-    "effect": [
-      {
-        "if": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] },
-        "then": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] },
-          {
-            "u_add_effect": "effect_drank_blood_recently",
-            "intensity": 1,
-            "duration": { "math": [ "600 + rand(600)" ] }
-          }
-        ],
-        "else": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "250 + rand(100)" ] },
-          { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }
-        ]
-      }
+        "if": { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
+        "then": { "math": [ "u_vampire_just_drank_fae_blood = 1" ] }
+      },
+      { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" }
     ]
   },
   {
@@ -196,11 +195,11 @@
           ]
         },
         "then": [
-          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
           {
             "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
-            "then": [ { "math": [ "n_vitamin('drank_fae_blood')", "+=", "5" ] } ]
+            "then": [ { "math": [ "n_vampire_just_drank_fae_blood = 1" ] } ]
           },
+          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
           { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
           { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
           { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
@@ -250,7 +249,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT",
     "condition": { "u_has_effect": "effect_vampire_blood_drinking" },
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" } ]
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" } ]
   },
   {
     "id": "EOC_VAMPIRE_DRINK_BLOOD_INTERRUPTED_CHECK",
@@ -286,32 +285,6 @@
       ]
     },
     "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "200 + rand(50)" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPIRE_BLOOD_FUN",
-    "eoc_type": "EVENT",
-    "required_event": "character_eats_item",
-    "condition": {
-      "and": [
-        {
-          "or": [
-            { "compare_string": [ "blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] },
-            { "compare_string": [ "fae_blood", { "context_val": "itype" } ] }
-          ]
-        },
-        { "u_has_trait": "BLOOD_FUN" }
-      ]
-    },
-    "effect": [
-      {
-        "if": { "u_has_trait": "BLOOD_FUN_UPGRADE" },
-        "then": [ { "u_add_morale": "morale_drank_blood", "bonus": 90, "max_bonus": 180, "duration": "60 m", "decay_start": "30 m" } ],
-        "else": { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" }
-      }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -984,32 +957,48 @@
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
       { "u_message": "Blood suffuses your flesh, repairing any damage it comes across.", "type": "good" },
       {
-        "math": [
-          "u_hp('arm_l')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
+        "then": { "u_message": "But your left arm is too damaged.  Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('arm_l')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
-        "math": [
-          "u_hp('arm_r')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "arm_r" } ] },
+        "then": { "u_message": "But your right arm is too damaged.  Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('arm_r')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
-        "math": [
-          "u_hp('leg_l')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
+        "then": { "u_message": "But your left leg is too damaged.  Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('leg_l')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
-        "math": [
-          "u_hp('leg_r')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
-        ]
+        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
+        "then": { "u_message": "But your right leg is too damaged.  Only time can heal it.", "type": "bad" },
+        "else": {
+          "math": [
+            "u_hp('leg_r')",
+            "+=",
+            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+          ]
+        }
       },
       {
         "math": [

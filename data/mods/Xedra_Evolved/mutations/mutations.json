@@ -261,6 +261,94 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_REDUCED_COLD_TEMPS",
+    "name": { "str": "Cold as the Grave" },
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your half-dead flesh is inured to winter's chill.  As long as you have empowered blood in your body, you suffer much less from colder temperatures.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_RESIST_DISEASE_POISON_INFECTION",
+    "name": { "str": "One Foot in the Grave" },
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "The deathly energies that course through your veins are inimical to mundane poisons and diseases.  As long as you have empowered blood in your body, you are more resistant to disease, poison, and infection.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_resist_disease_poison_infection", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_SLOWFALL",
+    "name": { "str": "Light as the Last Breath" },
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You take greatly-reduced fall damage as long as you have empowered blood in your body.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "values": [ { "value": "FALL_DAMAGE", "multiply": -0.8 } ],
+        "ench_effects": [ { "effect": "effect_dhampir_fall_one_story", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_REDUCED_PAIN",
+    "name": { "str": "Half-Dead Flesh" },
+    "points": 4,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "Being born closer to death, you feel the sensations of the living less strongly.  You suffer much less pain from your injuries than a human would, and the pain affects your capabilities less.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PAIN", "multiply": -0.4 },
+          { "value": "PAIN_PENALTY_MOD_STR", "multiply": -0.25 },
+          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -0.25 },
+          { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": -0.25 },
+          { "value": "PAIN_PENALTY_MOD_INT", "multiply": -0.5 },
+          { "value": "PAIN_PENALTY_MOD_PER", "multiply": -0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "DHAMPIR_MEND_WOUNDS_FASTER",
+    "name": { "str": "A Thousand Years of Night" },
+    "points": 6,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "//": "This should prevent permanent damage from wounds, once that's possible.",
+    "description": "You are only half-alive now, sustained as much by the energy in your blood as by biological processes.  You age far slower than a mortal, and when your limbs break, they heal more quickly in proportion to how much empowered blood you have.",
+    "enchantments": [
+      {
+        "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } } ]
+      }
+    ],
+    "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease" },
     "points": 0,
@@ -521,6 +609,16 @@
     "name": { "str": "Crimson Vision" },
     "description": "Your vision has improved and now you can see flowing blood in the vein, like bright trails in the dark.",
     "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BLOOD_TEMPORARY_BOOST",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Carmine Vitality" },
+    "description": "Blood fills you with a surge of power.  You gain a bonus to your strength and dexterity for one hour after drinking blood."
   },
   {
     "type": "mutation",
