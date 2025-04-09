@@ -206,7 +206,7 @@
     "num_args": 0,
     "return": "vampire_total_tier_one_traits() + (u_effect_intensity('effect_player_anathema_potency_boost'))"
   },
- {
+  {
     "type": "jmath_function",
     "id": "vampire_total_tier_one_traits_plus_potency",
     "//": "This is the statement that should be used in power scaling calculations, to make sure that Apex Vampire's Potency is properly accounted for without blocking the gaining of additional powers",
