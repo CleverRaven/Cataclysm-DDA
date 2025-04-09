@@ -111,7 +111,7 @@ jobs:
             archive-success: basic-build
             dont_skip_data_only_changes: 1
             mods: --mods=magiclysm
-            title: Basic Build and Test (Clang 13, Ubuntu, Curses)
+            title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             ccache_limit: 4.5G
             ccache_key: linux-llvm-13
 
