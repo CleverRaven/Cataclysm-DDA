@@ -3305,7 +3305,7 @@
     "name": { "str": "mountain cutter" },
     "description": "This is what the Exodii consider a sword - a massive, single-edged blade at least an inch thick in width, mounted on a long and simple handle with no crossguards.  Ugly and unrefined, but it could cleave through anything with enough cybernetic force behind a swing.  For someone without bionic enhancements, that might be tricky.",
     "material": [ "qt_steel", "rubber" ],
-    "weight": "9 kg",
+    "weight": "9000 g",
     "volume": "3750 ml",
     "color": "white",
     "longest_side": "210 cm",
