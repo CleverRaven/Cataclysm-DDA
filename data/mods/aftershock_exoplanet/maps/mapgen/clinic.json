@@ -48,7 +48,7 @@
         "7": "f_table"
       },
       "items": {
-        "j": { "item": "office_paper", "chance": 40 },
+        "j": { "item": "SUS_office_filing_cabinet", "chance": 40 },
         "k": { "item": "SUS_office_desk", "chance": 40 },
         "7": { "item": "dinnerware", "chance": 60, "repeat": [ 1, 3 ] },
         "%": { "item": "afs_tools_space_emergency", "chance": 40 },

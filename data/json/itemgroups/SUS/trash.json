@@ -63,7 +63,8 @@
       { "item": "cig_butt", "prob": 10, "count": [ 1, 5 ] },
       { "//": "Lore items" },
       { "group": "SUS_book_nonf_zine_news", "prob": 5 },
-      { "item": "flyer", "prob": 5 }
+      { "item": "flyer", "prob": 5 },
+      { "item": "survnote", "prob": 1 }
     ]
   },
   {
@@ -345,6 +346,12 @@
     "//2": "This group is for metal trash, for use in other item groups or around metalworking areas",
     "subtype": "collection",
     "items": [
+      { "item": "lc_wire", "prob": 5 },
+      { "item": "mc_wire", "prob": 5 },
+      { "item": "hc_wire", "prob": 5 },
+      { "item": "ch_wire", "prob": 3 },
+      { "item": "qt_wire", "prob": 3 },
+      { "item": "sheet_metal_small", "prob": 2 },
       { "item": "pipe", "prob": 5 },
       { "item": "nuts_bolts", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "scrap", "prob": 5, "count": [ 1, 2 ] },
