@@ -14,7 +14,6 @@
     "price": "15 USD",
     "price_postapoc": "5 USD",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE" ],
     "use_action": {
       "type": "transform",
@@ -31,7 +30,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "pyrokinetic_flashlight_on",

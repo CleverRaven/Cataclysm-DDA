@@ -1,0 +1,80 @@
+[
+  {
+    "id": "panacea",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Panaceus", "str_pl": "Panaceii" },
+    "symbol": "!",
+    "color": "red",
+    "copy-from": "panacea",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel AMAZING!",
+      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" }, { "id": "afs_cureall" } ],
+      "damage_over_time": [
+        {
+          "damage_type": "pure",
+          "duration": "1 m",
+          "amount": -10,
+          "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ]
+        }
+      ]
+    },
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
+    "id": "cream_prot_cold",
+    "name": { "str_sp": "heat retention cream" },
+    "description": "Rub this on your skin when you are expecting exposure to extreme cold temperatures.  Cannot protect from instant frostbite.  Smells like the inside of a sheep.",
+    "use_action": { "type": "cast_spell", "spell_id": "cream_prot_cold", "no_fail": true, "level": 0 },
+    "type": "COMESTIBLE",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "fun": -1,
+    "symbol": "q",
+    "container": "bottle_plastic_small",
+    "color": "light_blue",
+    "comestible_type": "MED",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "solid",
+    "price": "25 USD"
+  },
+  {
+    "id": "cream_greater_prot_cold",
+    "name": { "str_sp": "heat retention cream xtreme" },
+    "description": "This product was advertised before the Cataclysm for extreme cold environment protection.  You remember a demonstration involving a woman coating her hand in this and plunging it in liquid nitrogen for a second.  You're pretty sure that was staged.",
+    "use_action": { "type": "cast_spell", "spell_id": "cream_greater_prot_cold", "no_fail": true, "level": 0 },
+    "type": "COMESTIBLE",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "fun": -3,
+    "symbol": "q",
+    "container": "bottle_plastic_small",
+    "color": "light_blue",
+    "comestible_type": "MED",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "solid",
+    "price": "50 USD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "atomic_butter",
+    "name": { "str_sp": "atomic butter" },
+    "weight": "14180 mg",
+    "color": "yellow",
+    "spoils_in": "14 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 101,
+    "container": "wrapper",
+    "description": "A yellow stick of milkfat and milk solids, made from cow's milk and the power of the atom.  All radiation levels are confirmed to be in line with background exposure and any cancers later in life have nothing to do with this butter or any products made with this butter.  By consuming this butter you indemnify and hold harmless the Rivtech Corporation, its parent company and subsidiaries and any agents, directors or officers of the Rivtech Corporation from any losses or damages that may occur as a result of consuming this butter in any form or fashion.",
+    "price": "9 cent",
+    "price_postapoc": "23 cent",
+    "material": [ "milk" ],
+    "volume": "15 ml",
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": -1,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
+  }
+]

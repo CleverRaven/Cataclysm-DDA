@@ -24,7 +24,6 @@
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "global_vars.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "npc.h"

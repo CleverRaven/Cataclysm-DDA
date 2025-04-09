@@ -48,21 +48,41 @@
         "text": "[Spend a little blood to make them like you a bit more]",
         "topic": "TALK_NONE",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
-        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] } ],
+        "effect": [
+          {
+            "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
+            "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "50" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] }
+          }
+        ],
         "opinion": { "trust": 1, "value": 1 }
       },
       {
         "text": "[Spend a moderate amount of blood to make them your friend]",
         "topic": "TALK_NONE",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
-        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] } ],
+        "effect": [
+          {
+            "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
+            "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] }
+          }
+        ],
         "opinion": { "trust": 3, "value": 3, "anger": -2, "fear": -1 }
       },
       {
         "text": "[Spend a massive amount of blood to make them your renfield]",
         "topic": "TALK_YOUR_NEW_RENFIELD",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -501" ] },
-        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] }, { "npc_add_trait": "RENFIELD" }, "follow" ],
+        "effect": [
+          {
+            "if": { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND_UPGRADE" },
+            "then": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "1500" ] },
+            "else": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] }
+          },
+          { "npc_add_trait": "RENFIELD" },
+          "follow"
+        ],
         "opinion": { "trust": 30, "value": 30, "anger": -30, "fear": -5 }
       },
       {

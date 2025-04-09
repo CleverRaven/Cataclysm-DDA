@@ -90,6 +90,8 @@ void Character::try_remove_downed()
 
 void Character::try_remove_bear_trap()
 {
+    map &here = get_map();
+
     /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
        allow normal players two options: removal of the limb or removal of the trap from the ground
        (at which point the player could later remove it from the leg with the right tools).
@@ -102,7 +104,7 @@ void Character::try_remove_bear_trap()
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                 mon->remove_effect( effect_beartrap );
                 remove_effect( effect_beartrap );
-                get_map().spawn_item( pos_bub(), itype_beartrap );
+                here.spawn_item( pos_bub(), itype_beartrap );
                 add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
             } else {
                 add_msg_if_player( m_bad,
@@ -112,7 +114,7 @@ void Character::try_remove_bear_trap()
     } else {
         if( can_escape_trap( 100 ) ) {
             remove_effect( effect_beartrap );
-            get_map().spawn_item( pos_bub(), itype_beartrap );
+            here.spawn_item( pos_bub(), itype_beartrap );
             add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
                                    _( "<npcname> frees themselves from the bear trap!" ) );
         } else {

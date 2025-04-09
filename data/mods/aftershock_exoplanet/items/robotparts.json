@@ -1,0 +1,147 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "spidery_legs_big",
+    "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
+    "description": "A set of big pointy legs, like the ones found under a tripod.",
+    "symbol": "W",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "20 L",
+    "price": "2 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tripod_chassis",
+    "name": { "str_sp": "tripod chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the tripod.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": "2 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "chickenbot_chassis",
+    "name": { "str_sp": "Pathfinder chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Pathfinder.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "60000 g",
+    "volume": "80000 ml",
+    "price": "3 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tankbot_chassis",
+    "name": { "str_sp": "Regulator chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Regulator tank.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "150000 g",
+    "volume": "575000 ml",
+    "price": "10 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "utilibot_chassis",
+    "name": { "str_sp": "Seneschal chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Seneschal.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": "2 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hazmatbot_chassis",
+    "name": { "str_sp": "Likvidator chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Likvidator.",
+    "copy-from": "utilibot_chassis",
+    "color": "green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "butlerbot_chassis",
+    "name": { "str_sp": "Famulus chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  Looking at it fills you with uneasiness as the Famulus stares at you with empty eyes.",
+    "copy-from": "utilibot_chassis",
+    "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "utilibot_const_chassis",
+    "name": { "str_sp": "Udarnik chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Udarnik.",
+    "copy-from": "utilibot_chassis",
+    "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "utilibot_fire_chassis",
+    "name": { "str_sp": "Brandspojt chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Brandspojt.",
+    "copy-from": "utilibot_chassis",
+    "color": "yellow"
+  },
+  {
+    "type": "GENERIC",
+    "id": "medibot_chassis",
+    "name": { "str_sp": "surgical droid chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the surgical droid.",
+    "copy-from": "utilibot_chassis",
+    "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "milbot_base_chassis",
+    "name": { "str_sp": "military robot chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the military robot.",
+    "symbol": "c",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": "2 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts",
+    "color": "red_green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "milbot_humaniform_chassis",
+    "name": { "str_sp": "military humaniform chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  You still feel deep down that its hollow eyes are studying you.",
+    "symbol": "c",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": "2 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts",
+    "color": "red_green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "reverse_jointed_legs",
+    "name": { "str": "set of reverse-jointed legs", "str_pl": "sets of reverse-jointed legs" },
+    "description": "A set of reverse-jointed legs, like the ones found under a chicken walker.",
+    "symbol": "k",
+    "color": "light_gray",
+    "weight": "60000 g",
+    "volume": "20 L",
+    "price": "5 kUSD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  }
+]

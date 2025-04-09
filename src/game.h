@@ -778,8 +778,7 @@ class game
          */
         void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         // Removes legacy npctalk_var_ prefix from older versions of the game. Should be removed after 0.J
-        static void legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
-                &map_of_vars );
+        static void legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_vars );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */

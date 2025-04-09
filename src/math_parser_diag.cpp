@@ -185,15 +185,19 @@ double coverage_eval( const_dialogue const &d, char scope, std::vector<diag_valu
 double distance_eval( const_dialogue const &d, char /* scope */,
                       std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
-    const auto get_pos = [&d]( std::string_view str ) {
-        if( str == "u" ) {
-            return d.const_actor( false )->pos_abs();
-        } else if( str == "npc" ) {
-            return d.const_actor( true )->pos_abs();
+    const auto get_pos = [&d]( diag_value const & dv ) {
+        if( dv.is_str() ) {
+            std::string const &str = dv.str( d );
+            if( str == "u" ) {
+                return d.const_actor( false )->pos_abs();
+            } else if( str == "npc" ) {
+                return d.const_actor( true )->pos_abs();
+            }
+            throw math::runtime_error( R"(Invalid distance actor "%s")", str );
         }
-        return tripoint_abs_ms( tripoint::from_string( str.data() ) );
+        return dv.tripoint( d );
     };
-    return rl_dist( get_pos( params[0].str( d ) ), get_pos( params[1].str( d ) ) );
+    return rl_dist( get_pos( params[0] ), get_pos( params[1] ) );
 }
 
 double damage_level_eval( const_dialogue const &d, char scope,
@@ -343,7 +347,7 @@ double field_strength_eval( const_dialogue const &d, char scope,
     tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
+        loc = loc_val.tripoint( d );
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("field_strength" needs either an actor scope (u/n) or a 'location' kwarg)" );
@@ -366,7 +370,7 @@ double gun_damage_eval( const_dialogue const &d, char scope, std::vector<diag_va
     if( it == nullptr ) {
         throw math::runtime_error( "subject of gun_damage() must be an item" );
     }
-    std::string const dt_str = params[0].str( d );
+    std::string const &dt_str = params[0].str( d );
     if( dt_str == "ALL" ) {
         return ( *it )->gun_damage( true ).total_damage();
     }
@@ -386,8 +390,8 @@ double sum_traits_of_category_eval( const_dialogue const &d, char scope,
 
     diag_value type = kwargs.kwarg_or( "type", "ALL" );
 
-    mutation_category_id cat = mutation_category_id( params[0].str() );
-    std::string thing = type.str( d );
+    mutation_category_id cat = mutation_category_id( params[0].str( d ) );
+    std::string const &thing = type.str( d );
     mut_count_type count_type;
 
     if( thing == "POSITIVE" ) {
@@ -397,7 +401,7 @@ double sum_traits_of_category_eval( const_dialogue const &d, char scope,
     } else if( thing == "ALL" ) {
         count_type = mut_count_type::ALL;
     } else {
-        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str( d ) );
     }
 
     return d.const_actor( is_beta( scope ) )->get_total_in_category( cat, count_type );
@@ -410,8 +414,8 @@ double sum_traits_of_category_char_has_eval( const_dialogue const &d, char scope
 
     diag_value type = kwargs.kwarg_or( "type", "ALL" );
 
-    mutation_category_id cat = mutation_category_id( params[0].str() );
-    std::string thing = type.str( d );
+    mutation_category_id cat = mutation_category_id( params[0].str( d ) );
+    std::string const &thing = type.str( d );
     mut_count_type count_type;
 
     if( thing == "POSITIVE" ) {
@@ -421,7 +425,7 @@ double sum_traits_of_category_char_has_eval( const_dialogue const &d, char scope
     } else if( thing == "ALL" ) {
         count_type = mut_count_type::ALL;
     } else {
-        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+        throw math::runtime_error( "Incorrect type '%s' in sum_traits_of_category", type.str( d ) );
     }
 
     return d.const_actor( is_beta( scope ) )->get_total_in_category_char_has( cat, count_type );
@@ -455,7 +459,7 @@ double knows_proficiency_eval( const_dialogue const &d, char scope,
 double hp_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
                 diag_kwargs const & /* kwargs */ )
 {
-    std::string const bp_str = params[0].str( d );
+    std::string const &bp_str = params[0].str( d );
     bool const major = bp_str == "ALL_MAJOR";
     bool const minor = bp_str == "ALL_MINOR";
     if( major || minor ) {
@@ -475,7 +479,7 @@ double hp_eval( const_dialogue const &d, char scope, std::vector<diag_value> con
 void hp_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &params,
              diag_kwargs const & /* kwargs */ )
 {
-    std::string const bp_str = params[0].str( d );
+    std::string const &bp_str = params[0].str( d );
     bool const major = bp_str == "ALL_MAJOR";
     bool const minor = bp_str == "ALL_MINOR";
     if( bp_str == "ALL" ) {
@@ -523,7 +527,7 @@ void spellcasting_adjustment_ass( double val, dialogue &d, char scope,
     diag_value blacklist = kwargs.kwarg_or( "flag_blacklist" );
 
     diag_value const &spellcasting_property = params[0];
-    std::string const filter_str = filter.str( d );
+    std::string const &filter_str = filter.str( d );
     switch( spellsearch_scope ) {
         case scope_spell:
             d.actor( is_beta( scope ) )
@@ -629,7 +633,7 @@ double melee_damage_eval( const_dialogue const &d, char scope,
     if( it == nullptr ) {
         throw math::runtime_error( "subject of melee_damage() must be an item" );
     }
-    std::string const dt_str = params[0].str( d );
+    std::string const &dt_str = params[0].str( d );
     if( dt_str == "ALL" ) {
         std::vector<damage_type> const &dts = damage_type::get_all();
         return std::accumulate( dts.cbegin(), dts.cend(), 0, [&it]( int a, damage_type const & dt ) {
@@ -705,7 +709,7 @@ double _characters_nearby_eval( const_dialogue const &d, char scope,
     tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
+        loc = loc_val.tripoint( d );
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
@@ -714,7 +718,7 @@ double _characters_nearby_eval( const_dialogue const &d, char scope,
     }
 
     int const radius = static_cast<int>( radius_val.dbl( d ) );
-    std::string const filter_str = filter_val.str( d );
+    std::string const &filter_str = filter_val.str( d );
     character_filter filter = character_filter::any;
     if( filter_str == "allies" ) {
         filter = character_filter::allies;
@@ -815,7 +819,7 @@ double _monsters_nearby_eval( const_dialogue const &d, char scope,
     tripoint_abs_ms loc;
 
     if( !loc_val.is_empty() ) {
-        loc = tripoint_abs_ms{ tripoint::from_string( loc_val.str( d ) ) };
+        loc = loc_val.tripoint( d );
     } else if( scope == 'g' ) {
         throw math::syntax_error(
             R"("monsters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" );
@@ -829,7 +833,7 @@ double _monsters_nearby_eval( const_dialogue const &d, char scope,
         return ID( val.str( d ) );
     } );
 
-    std::string const filter_str = filter_val.str( d );
+    std::string const &filter_str = filter_val.str( d );
     mon_filter filter = mon_filter::enemies;
     if( filter_str == "both" ) {
         filter = mon_filter::both;
@@ -879,7 +883,7 @@ double pain_eval( const_dialogue const &d, char scope, std::vector<diag_value> c
 {
     diag_value format_value = kwargs.kwarg_or( "type", "raw" );
 
-    std::string format = format_value.str( d );
+    std::string const &format = format_value.str( d );
     if( format == "perceived" ) {
         return d.const_actor( is_beta( scope ) )->perceived_pain_cur();
     } else if( format == "raw" ) {
@@ -894,7 +898,7 @@ void pain_ass( double val, dialogue &d, char scope, std::vector<diag_value> cons
 {
     diag_value format_value = kwargs.kwarg_or( "type", "raw" );
 
-    std::string format = format_value.str( d );
+    std::string const &format = format_value.str( d );
     if( format == "perceived" ) {
         d.actor( is_beta( scope ) )->mod_pain( val );
     } else if( format == "raw" ) {
@@ -956,7 +960,7 @@ double get_daily_calories( const_dialogue const &d, char scope,
     diag_value type_val = kwargs.kwarg_or( "type", "total" );
     diag_value day_val = kwargs.kwarg_or( "day" );
 
-    std::string type = type_val.str( d );
+    std::string const &type = type_val.str( d );
     int const day = day_val.dbl( d );
     if( day < 0 ) {
         throw math::runtime_error(
@@ -984,7 +988,7 @@ double skill_exp_eval( const_dialogue const &d, char scope, std::vector<diag_val
     diag_value format_value = kwargs.kwarg_or( "format", "percentage" );
 
     skill_id skill( params[0].str( d ) );
-    std::string format = format_value.str( d );
+    std::string const &format = format_value.str( d );
     if( format != "raw" && format != "percentage" ) {
         throw math::runtime_error( R"(Unknown format type "%s" for skill_exp")", format );
     }
@@ -998,7 +1002,7 @@ void skill_exp_ass( double val, dialogue &d, char scope, std::vector<diag_value>
     diag_value format_value = kwargs.kwarg_or( "format", "percentage" );
 
     skill_id skill( params[0].str( d ) );
-    std::string format = format_value.str( d );
+    std::string const &format = format_value.str( d );
     if( format != "raw" && format != "percentage" ) {
         throw math::runtime_error( R"(Unknown format type "%s" for skill_exp)", format );
     }
@@ -1011,7 +1015,7 @@ double spell_count_eval( const_dialogue const &d, char scope,
 {
     diag_value school_value = kwargs.kwarg_or( "school" );
 
-    std::string school_str = school_value.str( d );
+    std::string const &school_str = school_value.str( d );
     const trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
     return d.const_actor( is_beta( scope ) )->get_spell_count( scid );
 }
@@ -1022,7 +1026,7 @@ double spell_sum_eval( const_dialogue const &d, char scope,
     diag_value school_value = kwargs.kwarg_or( "school" );
     diag_value min_level = kwargs.kwarg_or( "level" );
 
-    std::string school_str = school_value.str( d );
+    std::string const &school_str = school_value.str( d );
     int const min_spell_level = min_level.dbl( d );
     const trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
     return d.const_actor( is_beta( scope ) )->get_spell_sum( scid, min_spell_level );
@@ -1032,7 +1036,7 @@ double spell_difficulty_eval( const_dialogue const &d, char scope,
                               std::vector<diag_value> const &params,
                               diag_kwargs const & /* kwargs */ )
 {
-    std::string sid_str = params[0].str( d );
+    std::string const &sid_str = params[0].str( d );
     spell_id spell( sid_str );
     if( spell.is_valid() ) {
         return d.const_actor( is_beta( scope ) )->get_spell_difficulty( spell );
@@ -1050,7 +1054,7 @@ double spell_exp_for_level_eval( const_dialogue const &d, char /* scope */,
                                  std::vector<diag_value> const &params,
                                  diag_kwargs const & /* kwargs */ )
 {
-    std::string sid_str = params[0].str( d );
+    std::string const &sid_str = params[0].str( d );
     spell_id spell( sid_str );
     if( spell.is_valid() ) {
         return spell->exp_for_level( params[1].dbl( d ) );
@@ -1079,7 +1083,7 @@ double spell_level_eval( const_dialogue const &d, char scope, std::vector<diag_v
 void spell_level_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &params,
                       diag_kwargs const & /* kwargs */ )
 {
-    std::string const spell_str = params[0].str( d );
+    std::string const &spell_str = params[0].str( d );
     const spell_id spell( spell_str );
     if( spell == spell_id::NULL_ID() ) {
         throw math::runtime_error( R"("%s" is not a valid spell)", spell_str );
@@ -1152,7 +1156,7 @@ double time_eval( const_dialogue const &d, char /* scope */, std::vector<diag_va
 {
     diag_value unit_val = kwargs.kwarg_or( "unit" );
 
-    std::string const val_str = params[0].str( d );
+    std::string const &val_str = params[0].str( d );
     double ret{};
     if( val_str == "now" ) {
         ret = to_turns<double>( calendar::turn - calendar::turn_zero );
@@ -1170,7 +1174,7 @@ void time_ass( double val, dialogue & /* d */, char /* scope */,
 {
     // intentionally duplicate check for str to avoid the `Expected str, got ...` error and get the
     // nicer one below
-    if( params[0].is_str() && params[0] == "now" ) {
+    if( params[0].is_str() && params[0].str() == "now" ) {
         calendar::turn = calendar::turn_zero + time_duration::from_turns<double>( val );
     } else {
         throw math::syntax_error( "Only time('now') is a valid time() assignment target" );
@@ -1187,8 +1191,9 @@ double time_since_eval( const_dialogue const &d, char /* scope */,
     if( val.is_empty() ) {
         return -1.0;
     }
-    {
-        std::string const val_str = val.str( d );
+
+    if( val.is_str() ) {
+        std::string const &val_str = val.str( d );
         if( val_str == "cataclysm" ) {
             ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
         } else if( val_str == "midnight" ) {
@@ -1196,10 +1201,11 @@ double time_since_eval( const_dialogue const &d, char /* scope */,
         } else if( val_str == "noon" ) {
             ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
         } else {
-            ret = to_turn<double>( calendar::turn ) - val.dbl( d );
+            throw math::runtime_error( R"(Unknown time point "%s")", val_str );
         }
+    } else {
+        ret = to_turn<double>( calendar::turn ) - val.dbl( d );
     }
-
     return _time_in_unit( ret, unit_val.str( d ) );
 }
 
@@ -1213,8 +1219,8 @@ double time_until_eval( const_dialogue const &d, char /* scope */,
     if( val.is_empty() ) {
         return -1.0;
     }
-    {
-        std::string const val_str = val.str( d );
+    if( val.is_str() ) {
+        std::string const &val_str = val.str( d );
         if( val_str == "night_time" ) {
             ret = to_turns<double>( night_time( calendar::turn ) - calendar::turn );
         } else if( val_str == "daylight_time" ) {
@@ -1226,12 +1232,14 @@ double time_until_eval( const_dialogue const &d, char /* scope */,
         } else if( val_str == "noon" ) {
             ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
         } else {
-            ret = val.dbl( d ) - to_turn<double>( calendar::turn );
+            throw math::runtime_error( R"(Unknown time point "%s")", val_str );
         }
 
         if( ret < 0 ) {
             ret += to_turns<double>( 1_days );
         }
+    } else {
+        ret = val.dbl( d ) - to_turn<double>( calendar::turn );
     }
 
     return _time_in_unit( ret, unit_val.str( d ) );
@@ -1257,7 +1265,7 @@ double effect_duration_eval( const_dialogue const &d, char scope,
     diag_value bp_val = kwargs.kwarg_or( "bodypart" );
     diag_value unit_val = kwargs.kwarg_or( "unit" );
 
-    std::string const bp_str = bp_val.str( d );
+    std::string const &bp_str = bp_val.str( d );
     bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
     effect target =
         d.const_actor( is_beta( scope ) )->get_effect( efftype_id( params[0].str( d ) ), bp );
@@ -1273,7 +1281,7 @@ double proficiency_eval( const_dialogue const &d, char scope, std::vector<diag_v
 
     proficiency_id prof( params[0].str( d ) );
     time_duration raw = d.const_actor( is_beta( scope ) )->proficiency_practiced_time( prof );
-    std::string const format = fmt_val.str( d );
+    std::string const &format = fmt_val.str( d );
     if( format == "percent" ) {
         return raw * 100.0 / prof->time_to_learn();
     } else if( format == "permille" ) {
@@ -1297,7 +1305,7 @@ void proficiency_ass( double val, dialogue &d, char scope, std::vector<diag_valu
     diag_value direct_val = kwargs.kwarg_or( "direct" );
 
     proficiency_id prof( params[0].str( d ) );
-    std::string const format = fmt_val.str( d );
+    std::string const &format = fmt_val.str( d );
     bool const direct = is_true( direct_val.dbl( d ) );
     int to_write = 0;
     if( format == "percent" ) {
@@ -1334,11 +1342,11 @@ double _test_add( diag_value const &v, const_dialogue const &d )
 {
     double ret{};
     if( v.is_array() ) {
-        for( diag_value const &w : v.array() ) {
+        for( diag_value const &w : v.array( d ) ) {
             ret += _test_add( w, d );
         }
     } else {
-        ret += v.dbl();
+        ret += v.dbl( d );
     }
     return ret;
 }
@@ -1481,7 +1489,7 @@ double calories_eval( const_dialogue const &d, char scope,
 {
     diag_value format_value = kwargs.kwarg_or( "format", "raw" );
 
-    std::string format = format_value.str( d );
+    std::string const &format = format_value.str( d );
     if( format != "raw" && format != "percent" ) {
         throw math::runtime_error( R"(Unknown format type "%s" for calories)", format );
     }
@@ -1541,7 +1549,7 @@ double quality_eval( const_dialogue const &d, char scope,
 {
     diag_value strict_val = kwargs.kwarg_or( "strict" );
 
-    std::string quality = params[0].str( d );
+    std::string const &quality = params[0].str( d );
     bool strict = is_true( strict_val.dbl( d ) );
 
     return d.const_actor( is_beta( scope ) )->get_quality( quality, strict );
@@ -1564,7 +1572,7 @@ double volume_eval( const_dialogue const &d, char scope,
 double vitamin_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
                      diag_kwargs const & /* kwargs */ )
 {
-    std::string const id_str = params[0].str( d );
+    std::string const &id_str = params[0].str( d );
     const_talker const *const actor = d.const_actor( is_beta( scope ) );
     if( Character const *const chr = actor->get_const_character(); chr != nullptr ) {
         return chr->vitamin_get( vitamin_id( id_str ) );
@@ -1599,7 +1607,7 @@ double warmth_eval( const_dialogue const &d, char scope, std::vector<diag_value>
 double weather_eval( const_dialogue const &d, char /* scope */,
                      std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
-    std::string const aspect = params[0].str( d );
+    std::string const &aspect = params[0].str( d );
     if( aspect == "temperature" ) {
         return units::to_kelvin( get_weather().weather_precise->temperature );
     }
@@ -1621,7 +1629,7 @@ double weather_eval( const_dialogue const &d, char /* scope */,
 void weather_ass( double val, dialogue &d, char /* scope */, std::vector<diag_value> const &params,
                   diag_kwargs const & /* kwargs */ )
 {
-    std::string const aspect = params[0].str( d );
+    std::string const &aspect = params[0].str( d );
     if( aspect == "temperature" ) {
         get_weather().weather_precise->temperature = units::from_kelvin( val );
         get_weather().temperature = units::from_kelvin( val );
@@ -1632,7 +1640,7 @@ void weather_ass( double val, dialogue &d, char /* scope */, std::vector<diag_va
     } else if( aspect == "pressure" ) {
         get_weather().weather_precise->pressure = val;
     } else {
-        throw math::syntax_error( "Unknown weather aspect %s", params[0].str() );
+        throw math::syntax_error( "Unknown weather aspect %s", params[0].str( d ) );
     }
 
     get_weather().clear_temp_cache();
