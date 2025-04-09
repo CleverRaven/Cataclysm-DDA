@@ -2106,7 +2106,6 @@
     "copy-from": "fencing_foil_sharpened",
     "name": { "str": "electrified foil" },
     "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
-    "ammo": [ "battery" ],
     "charges_per_use": 2,
     "price_postapoc": "12 USD 50 cent",
     "use_action": [ "TAZER" ],
@@ -2119,7 +2118,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "fencing_epee",
@@ -2157,7 +2157,6 @@
     "looks_like": "fencing_epee",
     "name": { "str": "electrified épée" },
     "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
-    "ammo": [ "battery" ],
     "price_postapoc": "12 USD 50 cent",
     "charges_per_use": 2,
     "use_action": [ "TAZER" ],
@@ -2170,7 +2169,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "fencing_sabre",
@@ -2208,7 +2208,6 @@
     "looks_like": "fencing_sabre",
     "name": { "str": "electrified saber" },
     "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
-    "ammo": [ "battery" ],
     "price_postapoc": "12 USD 50 cent",
     "charges_per_use": 2,
     "use_action": [ "TAZER" ],
@@ -2221,7 +2220,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "hollow_cane",
@@ -2250,7 +2250,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "extend": { "flags": [ "CRUTCHES" ] },
+    "flags": [ "CRUTCHES" ],
     "weapon_category": [ "BATONS" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "melee_damage": { "bash": 3 }
@@ -2862,7 +2862,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
     "charges_per_use": 5,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 450 } } ],
     "use_action": {
@@ -2886,7 +2885,8 @@
     },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "combatsaw_on",
@@ -2945,7 +2945,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": {
       "type": "effect_on_conditions",
@@ -2976,7 +2975,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "e_combatsaw_on",

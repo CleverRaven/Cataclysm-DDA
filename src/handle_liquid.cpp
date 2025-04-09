@@ -65,7 +65,9 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
 static void serialize_liquid_source( player_activity &act, const tripoint_bub_ms &pos,
                                      const item &liquid )
 {
-    const map_stack stack = get_map().i_at( pos );
+    map &here = get_map();
+
+    const map_stack stack = here.i_at( pos );
     // Need to store the *index* of the item on the ground, but it may be a virtual item from
     // an infinite liquid source.
     const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item & i ) {
@@ -78,7 +80,7 @@ static void serialize_liquid_source( player_activity &act, const tripoint_bub_ms
         act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
-    act.coords.push_back( get_map().get_abs( pos ) );
+    act.coords.push_back( here.get_abs( pos ) );
     act.str_values.push_back( serialize( liquid ) );
 }
 

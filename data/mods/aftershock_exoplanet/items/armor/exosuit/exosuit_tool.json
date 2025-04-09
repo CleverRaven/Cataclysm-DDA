@@ -11,7 +11,6 @@
     "material": [ "qt_steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -31,6 +30,7 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "USE_UPS" ],
-    "melee_damage": { "bash": 2, "cut": 6 }
+    "melee_damage": { "bash": 2, "cut": 6 },
+    "tool_ammo": [ "battery" ]
   }
 ]

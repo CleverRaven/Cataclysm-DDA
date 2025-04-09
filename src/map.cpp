@@ -278,8 +278,10 @@ map::~map()
 {
     if( ( _main_requires_cleanup && !_main_cleanup_override ) ||
         ( _main_cleanup_override && *_main_cleanup_override ) ) {
-        get_map().reset_vehicles_sm_pos();
-        get_map().rebuild_vehicle_level_caches();
+        map &bubble_map = reality_bubble();
+
+        bubble_map.reset_vehicles_sm_pos();
+        bubble_map.rebuild_vehicle_level_caches();
         g->load_npcs();
     }
 }
@@ -3863,20 +3865,23 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
     }
 
     // Let the player know that the item was damaged if they can see it.
+    map &bubble_map = reality_bubble();
+
     if( items_destroyed > 1 ) {
-        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+        add_msg_if_player_sees( bubble_map.get_bub( get_abs( p ) ), m_bad,
                                 _( "The %s destroys several items!" ), cause_message );
     } else if( items_destroyed == 1 && items_damaged == 1 ) {
-        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+        add_msg_if_player_sees( bubble_map.get_bub( get_abs( p ) ), m_bad,
                                 //~ %1$s: the cause of destruction, %2$s: destroyed item name
                                 _( "The %1$s destroys the %2$s!" ), cause_message,
                                 damaged_item_name );
     } else if( items_damaged > 1 ) {
-        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+        add_msg_if_player_sees( bubble_map.get_bub( get_abs( p ) ), m_bad,
                                 _( "The %s damages several items." ), cause_message );
     } else if( items_damaged == 1 ) {
-        //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad, _( "The %1$s damages the %2$s." ),
+        add_msg_if_player_sees( bubble_map.get_bub( get_abs( p ) ), m_bad,
+                                //~ %1$s: the cause of damage, %2$s: damaged item name
+                                _( "The %1$s damages the %2$s." ),
                                 cause_message,
                                 damaged_item_name );
     }
@@ -5319,8 +5324,11 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         // TODO: fix point types
         tripoint_abs_sm const loc( abs_sub.x() + p.x() / SEEX, abs_sub.y() + p.y() / SEEY, p.z() );
         submaps_with_active_items_dirty.insert( loc );
-        if( this != &get_map() && get_map().inbounds( loc ) ) {
-            get_map().make_active( loc );
+
+        map &bubble_map = reality_bubble();
+
+        if( this != &bubble_map && bubble_map.inbounds( loc ) ) {
+            bubble_map.make_active( loc );
         }
     }
 
@@ -5360,8 +5368,11 @@ void map::make_active( item_location &loc )
         tripoint_abs_sm const smloc( abs_sub.x() + loc.pos_bub( *this ).x() / SEEX,
                                      abs_sub.y() + loc.pos_bub( *this ).y() / SEEY, loc.pos_abs().z() );
         submaps_with_active_items_dirty.insert( smloc );
-        if( this != &get_map() && get_map().inbounds( smloc ) ) {
-            get_map().make_active( smloc );
+
+        map &bubble_map = reality_bubble();
+
+        if( this != &bubble_map && bubble_map.inbounds( smloc ) ) {
+            bubble_map.make_active( smloc );
         }
     }
 }
@@ -6269,7 +6280,7 @@ void map::remove_trap( const tripoint_bub_ms &p )
 
     trap_id tid = current_submap->get_trap( l );
     if( tid != tr_null ) {
-        if( g != nullptr && this == &get_map() ) {
+        if( g != nullptr && this == &reality_bubble() ) {
             memory_cache_dec_set_dirty( p, true );
             avatar &player_character = get_avatar();
             if( player_character.sees( *this,  p ) ) {
@@ -6530,7 +6541,7 @@ bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int
 
     if( hit_player ) {
         Character &player_character = get_player_character();
-        if( g != nullptr && this == &get_map() && p == player_character.pos_bub() ) {
+        if( g != nullptr && this == &reality_bubble() && p == player_character.pos_bub() ) {
             //Hit the player with the field if it spawned on top of them.
             creature_in_field( player_character );
         }
@@ -8132,8 +8143,10 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
     const tripoint_abs_sm grid_sm_base = project_to<coords::sm>( grid_abs_omt );
     bool map_incomplete = false;
 
+    map &bubble_map = reality_bubble();
+
     bool const main_inbounds =
-        this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
+        this != &bubble_map && bubble_map.inbounds( project_to<coords::ms>( grid_abs_sub ) );
 
     // It might be possible to just check the (0, 0) submap as we should never have
     // a case where only one submap is missing from an OMT level.
@@ -8873,7 +8886,7 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
             // This usage of get_map() rather than the actual map used is due to the called operation's hidden usage of
             // the reality bubble map, so the reference has to be adjusted to match that.
             monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ),
-                                    get_map().get_bub( abs_pos ) );
+                                    reality_bubble().get_bub( abs_pos ) );
             if( placed ) {
                 placed->on_load();
             }
@@ -9461,8 +9474,10 @@ void map::build_floor_caches()
 
 static void vehicle_caching_internal( level_cache &zch, const vpart_reference &vp, vehicle *v )
 {
+    // TODO: Check if this is actually reasonable. Probably need to feed the map in.
+    // The guess is that the reality bubble should be affected, but that needs to be checked as well.
     map &here =
-        get_map(); // TODO: Check is this is actually reasonable. Probably need to feed the map in.
+        reality_bubble();
     auto &outside_cache = zch.outside_cache;
     auto &transparency_cache = zch.transparency_cache;
     auto &floor_cache = zch.floor_cache;
@@ -9493,8 +9508,10 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
 static void vehicle_caching_internal_above( level_cache &zch_above, const vpart_reference &vp,
         vehicle *v )
 {
+    // TODO: Check if this is actually reasonable. Probably need to feed the map in.
+    // The guess is that the reality bubble should be affected, but that needs to be checked as well.
     map &here =
-        get_map(); // TODO: Check is this is actually reasonable. Probably need to feed the map in.
+        reality_bubble();
     if( vp.has_feature( VPFLAG_ROOF ) || vp.has_feature( VPFLAG_OPAQUE ) ) {
         const tripoint_bub_ms part_pos = v->bub_part_pos( here, vp.part() );
         zch_above.floor_cache[part_pos.x()][part_pos.y()] = true;
@@ -9990,7 +10007,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         return true;
     }
 
-    if( you->has_flag( json_flag_WALL_CLING ) &&  get_map().is_wall_adjacent( p ) ) {
+    if( you->has_flag( json_flag_WALL_CLING ) &&  this->is_wall_adjacent( p ) ) {
         you->add_msg_player_or_npc( _( "You attach yourself to the nearby wall." ),
                                     _( "<npcname> clings to the wall." ) );
         return false;
@@ -10383,7 +10400,7 @@ void map::set_pathfinding_cache_dirty( const tripoint_bub_ms &p )
 
 void map::queue_main_cleanup()
 {
-    if( this != &get_map() ) {
+    if( this != &reality_bubble() ) {
         _main_requires_cleanup = true;
     }
 }
@@ -10425,7 +10442,6 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
     const ter_t &terrain = tile.get_ter_t();
     const furn_t &furniture = tile.get_furn_t();
     const field &field = tile.get_field();
-    const map &here = get_map();
     int part;
     const vehicle *veh = veh_at_internal( p, part );
 
@@ -10452,7 +10468,7 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
     }
 
     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
-        !here.has_vehicle_floor( p ) ) {
+        !this->has_vehicle_floor( p ) ) {
         cur_value |= PathfindingFlag::DangerousTrap;
     }
 
@@ -10473,7 +10489,7 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
         cur_value |= PathfindingFlag::GoesDown | PathfindingFlag::RampDown;
     }
 
-    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
+    if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !this->has_vehicle_floor( p ) ) {
         cur_value |= PathfindingFlag::Sharp;
     }
 

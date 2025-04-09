@@ -25,7 +25,7 @@
     "description": "UICA's normally digital currency, rendered physical for use in the frontier.  The card can be programmed with any amount of United Solar Denominations and is commonly used to anonymously transfer funds.",
     "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
-    "ammo": [ "money" ]
+    "tool_ammo": [ "money" ]
   },
   {
     "type": "GENERIC",

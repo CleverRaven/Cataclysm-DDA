@@ -1780,7 +1780,7 @@ static void move_to_parent_pocket_recursive( map &here, const tripoint_bub_ms &p
                                         _( "<npcname>'s %s falls to the ground." ), it.display_name() );
     } else {
         // TODO: Make operation map aware.
-        add_msg_if_player_sees( get_map().get_bub( here.get_abs( pos ) ), m_bad,
+        add_msg_if_player_sees( reality_bubble().get_bub( here.get_abs( pos ) ), m_bad,
                                 _( "The %s falls to the ground." ),
                                 it.display_name() );
     }

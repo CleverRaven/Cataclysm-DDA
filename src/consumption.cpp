@@ -47,6 +47,7 @@
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "monster.h"
 #include "mutation.h"
@@ -1836,10 +1837,10 @@ static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             choice = Pickup::query_thief();
         }
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
+        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" || !choice ) {
             return false;
         }
         g->on_witness_theft( target );

@@ -47,7 +47,6 @@
     "volume": "18000 ml",
     "price": "120 kUSD",
     "price_postapoc": "120 kUSD",
-    "ammo": [ "battery" ],
     "material": [ "nylon", "aluminum" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -96,7 +95,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back", "torso_waist" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "afs_backpack_shieldgen_on",

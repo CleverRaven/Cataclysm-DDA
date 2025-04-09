@@ -65,6 +65,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "math_parser_diag_value.h"
 #include "mdarray.h"
 #include "messages.h"
 #include "monster.h"
@@ -134,7 +135,9 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_id json_flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const flag_id json_flag_MOP( "MOP" );
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
@@ -451,15 +454,15 @@ static void rcdrive( const point_rel_ms &d )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
-    std::stringstream car_location_string( player_character.get_value( "remote_controlling" ) );
+    diag_value const *car_location = player_character.maybe_get_value( "remote_controlling" );
 
-    if( car_location_string.str().empty() ) {
+    if( !car_location ) {
         //no turned radio car found
         add_msg( m_warning, _( "No radio car connected." ) );
         return;
     }
-    tripoint_bub_ms c;
-    car_location_string >> c.x() >> c.y() >> c.z();
+    // FIXME: migrate to abs
+    tripoint_bub_ms c{ car_location->tripoint().raw() };
 
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
@@ -487,9 +490,8 @@ static void rcdrive( const point_rel_ms &d )
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         here.i_rem( src, rc_car );
-        car_location_string.clear();
-        car_location_string << dest.x() << ' ' << dest.y() << ' ' << dest.z();
-        player_character.set_value( "remote_controlling", car_location_string.str() );
+        // FIXME: migrate to abs
+        player_character.set_value( "remote_controlling", tripoint_abs_ms{ dest.raw() } );
         return;
     }
 }
@@ -674,7 +676,7 @@ static void close()
                 here, _( "Close where?" ),
                 pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                 ACTION_CLOSE, false ) ) {
-        doors::close_door( get_map(), get_player_character(), *pnt );
+        doors::close_door( here, get_player_character(), *pnt );
     }
 }
 
@@ -1707,13 +1709,25 @@ static void read()
     if( loc ) {
         item the_book = *loc.get_item();
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
+            item_location parent_loc = loc.parent_item();
             if( loc->type->can_use( "learn_spell" ) ) {
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
+            } else if( loc.is_efile() ) {
+                // obtain e-storage device if not allowed to use remotely
+                if( !parent_loc->has_flag( json_flag_ALLOWS_REMOTE_USE ) ) {
+                    parent_loc = parent_loc.obtain( player_character );
+                    item *newit = parent_loc->get_item_with( [&]( const item & it ) {
+                        return it.typeId() == the_book.typeId();
+                    } );
+                    loc = item_location( parent_loc, &*newit );
+                }
+                player_character.read( loc, parent_loc );
             } else {
+                if( ( parent_loc && parent_loc->has_flag( json_flag_NO_UNLOAD ) ) || loc.is_efile() ) {
+                    debugmsg( "tried to get an item you shouldn't obtain." );
+                }
                 loc = loc.obtain( player_character );
-                item_location parent_loc = loc.parent_item();
-                loc.is_efile() ?
-                player_character.read( loc, parent_loc ) : player_character.read( loc );
+                player_character.read( loc );
             }
         }
     } else {
@@ -2327,7 +2341,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_MOVE_BACK_LEFT:
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT:
-            if( !player_character.get_value( "remote_controlling" ).empty() &&
+            if( player_character.maybe_get_value( "remote_controlling" ) &&
                 ( player_character.has_active_item( itype_radiocontrol ) ||
                   player_character.has_active_bionic( bio_remote ) ) ) {
                 rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
@@ -2985,17 +2999,17 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_THIEF_MODE:
-            if( player_character.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_HONEST" );
                 player_character.set_value( "THIEF_MODE_KEEP", "YES" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                 add_msg( _( "You will not pick up other peoples belongings." ) );
-            } else if( player_character.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_STEAL" );
                 player_character.set_value( "THIEF_MODE_KEEP", "YES" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                 add_msg( _( "You will pick up also those things that belong to others!" ) );
-            } else if( player_character.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
+            } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_STEAL" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
                 player_character.set_value( "THIEF_MODE_KEEP", "NO" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
@@ -3003,7 +3017,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 // ERROR
                 add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ),
-                         player_character.get_value( "THIEF_MODE" ) );
+                         player_character.get_value( "THIEF_MODE" ).to_string() );
             }
             break;
 

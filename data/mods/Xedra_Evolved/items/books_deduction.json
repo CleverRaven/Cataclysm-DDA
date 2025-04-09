@@ -13,11 +13,11 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "brown_green",
-    "skill": "deduction",
     "max_level": 1,
     "intelligence": 8,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "deduction",
+    "read_fun": 1
   },
   {
     "id": "mag_deduction_tabloid",
@@ -27,11 +27,11 @@
     "name": { "str": "The Noon", "str_pl": "issues of The Noon" },
     "description": "A tabloid paper with a rather unusually out-of-this-world articles even for tabloids' standard, ranging from something like an article about morticians selling the deceased's 'dreams' to the government to a sensational headline about a half-bat half-human boy causing 40-car pileup in the highway while driving away from police pursuit.  While most thought of The Noon as an amusing but otherwise mostly fake news paper in the past, the Cataclysm might bring the articles' presumably fake facts to light.",
     "color": "red",
-    "skill": "deduction",
     "max_level": 1,
     "intelligence": 5,
     "time": "15 m",
-    "fun": 2
+    "read_skill": "deduction",
+    "read_fun": 2
   },
   {
     "id": "manual_deduction",
@@ -47,11 +47,11 @@
     "looks_like": "manual_first_aid",
     "symbol": "?",
     "color": "green",
-    "skill": "deduction",
     "required_level": 2,
     "max_level": 3,
     "intelligence": 9,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "deduction"
   },
   {
     "id": "book_teens_deduction",
@@ -66,11 +66,11 @@
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "green",
-    "skill": "deduction",
     "required_level": 1,
     "max_level": 2,
     "intelligence": 8,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "deduction"
   },
   {
     "id": "book_deduction_black_iron_prison",
@@ -85,11 +85,11 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "black_white",
-    "skill": "deduction",
     "required_level": 3,
     "max_level": 4,
     "intelligence": 10,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "deduction"
   }
 ]
