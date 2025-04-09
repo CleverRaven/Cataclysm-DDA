@@ -2069,7 +2069,7 @@
       "MESSY",
       "TRADER_AVOID"
     ],
-    "power_draw": "3 kW",
+    "power_draw": "800 W",
     "melee_damage": { "bash": 25, "cut": 100 },
     "use_action": {
       "type": "effect_on_conditions",
