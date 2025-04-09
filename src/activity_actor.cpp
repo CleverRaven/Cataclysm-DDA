@@ -541,7 +541,8 @@ void aim_activity_actor::restore_view() const
     bool changed_z = player_character.view_offset.z() != initial_view_offset.z();
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( player_character.view_offset.z() );
+        // reality_bubble to indicate need to adjust when/if remote operation is implemented.
+        reality_bubble().invalidate_map_cache( player_character.view_offset.z() );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -1661,12 +1662,6 @@ void read_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // book item_location must be of type character
-    // or else there will be item_location errors while loading
-    if( book.where() != item_location::type::character ) {
-        book = item_location( who, book.get_item() );
-    }
-
     using_ereader = !!ereader;
 
     bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
@@ -2743,9 +2738,8 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
         return std::nullopt;
     }
 
-    const std::function<bool( const tripoint_bub_ms & )> is_pickable = [&you](
+    const std::function<bool( const tripoint_bub_ms & )> is_pickable = [&you, &here](
     const tripoint_bub_ms & p ) {
-        const map &here = get_map();
         const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos_bub() ) {
             return false;
@@ -2765,7 +2759,7 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
         return target;
     }
 
-    const ter_id &terr_type = get_map().ter( *target );
+    const ter_id &terr_type = here.ter( *target );
     if( *target == you.pos_bub() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
     } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
@@ -4944,6 +4938,8 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 
 void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
+    map &here = get_map();
+
     // Should never be null as we just checked in do_turn
     monster &critter = *get_creature_tracker().creature_at<monster>( target );
 
@@ -4962,11 +4958,11 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
             }
         }
     } else {
-        get_map().add_item_or_charges( target, critter.to_item() );
+        here.add_item_or_charges( target, critter.to_item() );
         if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
-                    get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
+                    here.spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
                 }
             }
         }

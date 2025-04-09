@@ -1224,6 +1224,9 @@ struct conditional_name {
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 class islot_milling

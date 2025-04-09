@@ -1,0 +1,78 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "atomic_coffeepot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "30 s",
+    "reversible": true,
+    "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "super_glue", 5 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "atomic_light",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "3 m 20 s",
+    "reversible": true,
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "super_glue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "atomic_lamp",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "super_glue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "plut_cell", 2 ] ]
+    ]
+  },
+  {
+    "result": "recharge_station",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "8 m 20 s",
+    "reversible": true,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 35 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
+  }
+]

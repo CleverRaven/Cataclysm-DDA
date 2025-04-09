@@ -756,7 +756,7 @@ void vehicle::drive_to_local_target( map *here, const tripoint_abs_ms &target,
 {
     Character &player_character = get_player_character();
     if( follow_protocol && player_character.in_vehicle ) {
-        if( here == &get_map() ) { // TODO: Make sound handling map aware
+        if( here == &reality_bubble() ) { // TODO: Make sound handling map aware
             sounds::sound( pos_bub( *here ), 30, sounds::sound_t::alert,
                            string_format( _( "the %s emitting a beep and saying \"Autonomous driving protocols suspended!\"" ),
                                           name ) );
@@ -771,7 +771,7 @@ void vehicle::drive_to_local_target( map *here, const tripoint_abs_ms &target,
     bool stop = precollision_check( angle, *here, follow_protocol );
     if( stop ) {
         if( autopilot_on ) {
-            if( here == &get_map() ) { // TODO: Make sound handling map aware
+            if( here == &reality_bubble() ) { // TODO: Make sound handling map aware
                 sounds::sound( pos_bub( *here ), 30, sounds::sound_t::alert,
                                string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
                                               name ) );
@@ -958,7 +958,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
                     // on the main game map. And assume that we run from some mapgen code if called on
                     // another instance.
                     // TODO: Make this capable of distinguishing between mapgen and non bubble active maps.
-                    if( g && &get_map() == &m ) {
+                    if( g && &reality_bubble() == &m ) {
                         handler_ptr = std::make_unique<DefaultRemovePartHandler>();
                     } else {
                         handler_ptr = std::make_unique<MapgenRemovePartHandler>( m );
@@ -1099,7 +1099,7 @@ void vehicle::backfire( map *here, const vehicle_part &vp ) const
     const std::string text = _( "a loud BANG! from the %s" ); // NOLINT(cata-text-style);
     const tripoint_bub_ms pos = bub_part_pos( *here, vp );
     const int volume = 40 + units::to_watt( part_vpower_w( *here, vp, true ) ) / 10000;
-    if( here == &get_map() ) { // TODO: Make sound handling map aware.
+    if( here == &reality_bubble() ) { // TODO: Make sound handling map aware.
         sounds::sound( pos, volume, sounds::sound_t::movement,
                        string_format( text, vp.name() ), true, "vehicle", "engine_backfire" );
     }
@@ -7590,7 +7590,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
         }
     };
     std::unique_ptr<RemovePartHandler> handler_ptr;
-    if( g && &get_map() ==
+    if( g && &reality_bubble() ==
         &here ) { // TODO: Refine logic to determine whether it's mapgen or game play.
         handler_ptr = std::make_unique<DefaultRemovePartHandler>();
     } else {
@@ -7800,7 +7800,8 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
             if( !magic ) {
                 here.add_item_or_charges( vppos, part_as_item );
             }
-            if( !g || &get_map() != &here ) { // TODO: Refine logic to determine if this is mapgen or gameplay.
+            if( !g || &reality_bubble() !=
+                &here ) { // TODO: Refine logic to determine if this is mapgen or gameplay.
                 MapgenRemovePartHandler handler( here );
                 remove_part( vp, handler );
             } else {

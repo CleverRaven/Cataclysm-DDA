@@ -118,7 +118,6 @@
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
     "turns_per_charge": 25,
-    "ammo": "glamour_charge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
     "volume": "50 ml",
@@ -150,7 +149,8 @@
           ]
         }
       ]
-    }
+    },
+    "tool_ammo": "glamour_charge"
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
@@ -158,7 +158,6 @@
     "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
-    "ammo": "glamour_charge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
     "volume": "50 ml",
@@ -182,7 +181,8 @@
           ]
         }
       ]
-    }
+    },
+    "tool_ammo": "glamour_charge"
   },
   {
     "id": "item_hedge_see_fae_necklace_done",

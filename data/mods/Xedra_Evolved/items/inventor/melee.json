@@ -33,7 +33,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "battery",
     "charges_per_use": 1,
     "charged_qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -50 ] ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
@@ -65,7 +64,8 @@
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "combatsaw_spear_on",
@@ -137,7 +137,6 @@
     "material": [ "aluminum" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "battery",
     "use_action": {
       "target": "inventor_plasma_axe",
       "msg": "You turn on your \"Neon Angle\".",
@@ -158,7 +157,8 @@
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "inventor_plasma_axe",
