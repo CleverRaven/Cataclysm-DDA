@@ -1989,6 +1989,6 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "price": "160 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 22, "stab": 23 }
+    "melee_damage": { "bash": 20, "stab": 21 }
   }
 ]
