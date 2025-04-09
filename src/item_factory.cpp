@@ -722,6 +722,13 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
+    if( obj.book ) {
+        if( obj.ememory_size == 0_KB ) {
+            //PDF size varies wildly depending on page:image ratio
+            obj.ememory_size = 20_KB * item::pages_in_book( obj );
+        }
+    }
+
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
         string_starts_with( obj.get_id().str(), "manual_" ) ) {
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
@@ -3459,18 +3466,6 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load_ememory_size( const JsonObject &jo, itype &def )
-{
-    if( def.book ) {
-        if( def.ememory_size == 0_KB ) {
-            //PDF size varies wildly depending on page:image ratio
-            def.ememory_size = 20_KB * item::pages_in_book( def );
-            return;
-        }
-    }
-    assign( jo, "ememory_size", def.ememory_size );
-}
-
 /**
  * Loads vitamin JSON for generic_factory
  * Format must be an array of array-pairs: [[a,b],[c,d]]
@@ -4274,7 +4269,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     optional( jo, false, "fall_damage_reduction", def.fall_damage_reduction, 0 );
     assign( jo, "ascii_picture", def.picture_id );
     assign( jo, "repairs_with", def.repairs_with );
-    load_ememory_size( jo, def );
+    assign( jo, "ememory_size", def.ememory_size );
 
     optional( jo, def.was_loaded, "color", def.color, color_reader{} );
 

@@ -344,10 +344,6 @@ class Item_factory
                         const std::string &src );
 
         /**
-        * Load ememory_size, which is automatically calculated for books
-        */
-        void load_ememory_size( const JsonObject &jo, itype &def );
-        /**
          * Load item the item slot if present in json.
          * Checks whether the json object has a member of the given name and if so, loads the item
          * slot from that object. If the member does not exists, nothing is done.
