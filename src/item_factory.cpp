@@ -144,6 +144,30 @@ static DynamicDataLoader::deferred_json deferred;
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 std::set<std::string> Item_factory::repair_actions = {};
 
+static void migrate_mag_from_pockets( itype &def )
+{
+    for( const pocket_data &pocket : def.pockets ) {
+        if( pocket.type == pocket_type::MAGAZINE_WELL ) {
+            if( def.gun ) {
+                for( const ammotype &atype : def.gun->ammo ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.magazine ) {
+                for( const ammotype &atype : def.magazine->type ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.tool ) {
+                for( const ammotype &atype : def.tool->ammo_id ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+        }
+    }
+}
+
+
 /** @relates string_id */
 template<>
 const itype &string_id<itype>::obj() const
@@ -4066,12 +4090,7 @@ std::string enum_to_string<link_state>( link_state data )
     }
     cata_fatal( "Invalid link_state" );
 }
-// *INDENT-ON*
-} // namespace io
 
-namespace io
-{
-// *INDENT-OFF*
 template<>
 std::string enum_to_string<grip_val>( grip_val val )
 {
@@ -4122,8 +4141,11 @@ std::string enum_to_string<balance_val>( balance_val val )
     }
     cata_fatal( "Invalid balance val" );
 }
+// *INDENT-ON*
+} // namespace io
 
-struct acc_data {
+//a collection of int values that are summed to determine melee to_hit
+struct melee_accuracy {
     grip_val grip = grip_val::WEAPON;
     length_val length = length_val::HAND;
     surface_val surface = surface_val::ANY;
@@ -4143,16 +4165,10 @@ struct acc_data {
         return acc_offset + static_cast<int>( grip ) + static_cast<int>( length ) +
                static_cast<int>( surface ) + static_cast<int>( balance );
     }
-    void deserialize(const JsonObject& jo);
-    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
-void acc_data::deserialize( const JsonObject& jo )
-{
-    load( jo );
-}
-
-void acc_data::load( const JsonObject &jo )
+void melee_accuracy::deserialize( const JsonObject &jo )
 {
     bool was_loaded = false;
     optional( jo, was_loaded, "grip", grip, grip_val::WEAPON );
@@ -4160,31 +4176,43 @@ void acc_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "surface", surface, surface_val::ANY );
     optional( jo, was_loaded, "balance", balance, balance_val::NEUTRAL );
 }
-// *INDENT-ON*
-} // namespace io
 
-static void migrate_mag_from_pockets( itype &def )
+
+//TO-DO: remove when legacy int-only JSON is removed
+class melee_accuracy_reader : public generic_typed_reader<melee_accuracy_reader>
 {
-    for( const pocket_data &pocket : def.pockets ) {
-        if( pocket.type == pocket_type::MAGAZINE_WELL ) {
-            if( def.gun ) {
-                for( const ammotype &atype : def.gun->ammo ) {
-                    def.magazine_default.emplace( atype, pocket.default_magazine );
-                }
+    public:
+        itype &used_itype;
+        explicit melee_accuracy_reader( itype &used_itype ) : used_itype( used_itype ) {};
+        int get_next( const JsonValue &val ) const {
+            // Reset to false so inherited legacy to_hit s aren't flagged
+            used_itype.using_legacy_to_hit = false;
+            if( val.test_int() ) {
+                used_itype.using_legacy_to_hit = true;
+                return val.get_int();
+            } else if( val.test_object() ) {
+                melee_accuracy temp;
+                temp.deserialize( val.get_object() );
+                return temp.sum_values();
             }
-            if( def.magazine ) {
-                for( const ammotype &atype : def.magazine->type ) {
-                    def.magazine_default.emplace( atype, pocket.default_magazine );
-                }
-            }
-            if( def.tool ) {
-                for( const ammotype &atype : def.tool->ammo_id ) {
-                    def.magazine_default.emplace( atype, pocket.default_magazine );
-                }
-            }
+            val.throw_error( "melee_accuracy_reader element must be object or int" );
+            return 0;
         }
-    }
-}
+        bool do_relative( const JsonObject &jo, const std::string_view name, int &member ) const {
+            if( jo.has_object( "relative" ) ) {
+                JsonObject relative = jo.get_object( "relative" );
+                relative.allow_omitted_members();
+                // This needs to happen here, otherwise we get unvisited members
+                if( !relative.has_member( name ) ) {
+                    return false;
+                }
+                used_itype.using_legacy_to_hit = false; //inherited to-hit is false
+                member += relative.get_int( name );
+                return true;
+            }
+            return false;
+        }
+};
 
 static void replace_materials( const JsonObject &jo, itype &def )
 {
@@ -4264,15 +4292,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
-    def.using_legacy_to_hit = false; // Reset to false so inherited legacy to_hit s aren't flagged
-    if( jo.has_int( "to_hit" ) ) {
-        mandatory( jo, false, "to_hit", def.m_to_hit );
-        def.using_legacy_to_hit = true;
-    } else if( jo.has_object( "to_hit" ) ) {
-        io::acc_data temp;
-        mandatory( jo, false, "to_hit", temp );
-        def.m_to_hit = temp.sum_values();
-    }
     optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );
     optional( jo, false, "variants", def.variants );
     assign( jo, "container", def.default_container );
@@ -4298,10 +4317,12 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
+
     optional( jo, def.was_loaded, "melee_damage", def.melee );
     optional( jo, def.was_loaded, "thrown_damage", def.thrown_damage );
     optional( jo, def.was_loaded, "explosion", def.explosion );
-
+    def.using_legacy_to_hit = false; //required for inherited but undefined "to_hit" field
+    optional( jo, def.was_loaded, "to_hit", def.m_to_hit, melee_accuracy_reader{ def }, -2 );
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
     // TODO: remove condition once degradation is ready to be applied to all items
@@ -4503,9 +4524,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "pocket_data", def.pockets );
 
     mod_tracker::assign_src( def, src );
-
-    }
-
 
     optional( jo, def.was_loaded, "expand_snippets", def.expand_snippets, false );
 
