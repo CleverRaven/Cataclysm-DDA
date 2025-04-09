@@ -7547,8 +7547,8 @@ int item::damage_melee( const damage_type_id &dt ) const
 
     // effectiveness is reduced by 10% per damage level
     int res = 0;
-    if( type->melee.count( dt ) > 0 ) {
-        res = type->melee.at( dt );
+    if( type->melee.damage_map.count( dt ) > 0 ) {
+        res = type->melee.damage_map.at( dt );
     }
     res = damage_adjusted_melee_weapon_damage( res );
 

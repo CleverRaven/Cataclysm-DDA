@@ -546,23 +546,10 @@ damage_unit &damage_unit::operator*=( const double rhs )
 
 bool damage_instance::handle_proportional( const JsonValue &jval )
 {
-    JsonObject jo;
-    auto read_damage = [&jo]( const std::string_view & key ) {
-        if( jo.has_float( key ) ) {
-            float scalar = jo.get_float( key );
-            if( scalar == 1 || scalar < 0 ) {
-                jo.throw_error_at( key, "Proportional multiplier must be a positive number other than 1" );
-            }
-            return scalar;
-        }
-        return 1.0f;
-    };
-
-    if( jval.test_object() ) {
-        jo = jval.get_object();
-    } else {
+    if( !jval.test_object() ) {
         return false;
     }
+    JsonObject jo = jval.get_object();
 
     damage_type_id proportional_type;
     if( jo.has_string( "damage_type" ) ) {
@@ -578,16 +565,20 @@ bool damage_instance::handle_proportional( const JsonValue &jval )
     } );
     if( iter != damage_units.end() ) {
         damage_unit &prop_damage = *iter;
-        prop_damage.amount *= read_damage( "amount" );
-        prop_damage.damage_multiplier *= read_damage( "damage_multiplier" );
-        prop_damage.res_pen *= read_damage( "armor_penetration" );
-        prop_damage.res_mult *= read_damage( "armor_multiplier" );
-        prop_damage.unconditional_res_mult *= read_damage( "constant_armor_multiplier" );
-        prop_damage.unconditional_damage_mult *= read_damage( "constant_damage_multiplier" );
-        float barrel_mult = read_damage( "barrels" );
+        prop_damage.amount *= read_proportional_entry( jo, "amount" );
+        prop_damage.damage_multiplier *= read_proportional_entry( jo, "damage_multiplier" );
+        prop_damage.res_pen *= read_proportional_entry( jo, "armor_penetration" );
+        prop_damage.res_mult *= read_proportional_entry( jo, "armor_multiplier" );
+        prop_damage.unconditional_res_mult *= read_proportional_entry( jo, "constant_armor_multiplier" );
+        prop_damage.unconditional_damage_mult *= read_proportional_entry( jo,
+                "constant_damage_multiplier" );
+        float barrel_mult = read_proportional_entry( jo, "barrels" );
         for( barrel_desc &bd : prop_damage.barrels ) {
             bd.amount *= barrel_mult;
         }
+    } else {
+        jo.throw_error( "proportional damage instance modifying nonexistent damage_type" );
+        return false;
     }
     return true;
 }

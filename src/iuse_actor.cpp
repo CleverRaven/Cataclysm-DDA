@@ -709,11 +709,7 @@ static std::vector<tripoint_bub_ms> points_for_gas_cloud( map *here, const tripo
 
 void explosion_iuse::load( const JsonObject &obj, const std::string & )
 {
-    if( obj.has_object( "explosion" ) ) {
-        JsonObject expl = obj.get_object( "explosion" );
-        explosion = load_explosion_data( expl );
-    }
-
+    optional( obj, false, "explosion", explosion );
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );

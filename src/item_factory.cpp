@@ -30,7 +30,6 @@
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "explosion.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
@@ -252,28 +251,9 @@ void Item_factory::finalize_pre( itype &obj )
         obj.item_tags.insert( flag_NO_REPAIR );
     }
 
-    finalize_damage_map( obj.melee );
-    if( !obj.melee_proportional.empty() ) {
-        finalize_damage_map( obj.melee_proportional, false, 1.f );
-        for( std::pair<const damage_type_id, float> &dt : obj.melee ) {
-            const auto iter = obj.melee_proportional.find( dt.first );
-            if( iter != obj.melee_proportional.end() ) {
-                dt.second *= iter->second;
-                // For maintaining legacy behaviour (when melee damage used ints)
-                dt.second = std::floor( dt.second );
-            }
-        }
-    }
-    if( !obj.melee_relative.empty() ) {
-        finalize_damage_map( obj.melee_relative, false, 0.f );
-        for( std::pair<const damage_type_id, float> &dt : obj.melee ) {
-            const auto iter = obj.melee_relative.find( dt.first );
-            if( iter != obj.melee_relative.end() ) {
-                dt.second += iter->second;
-                // For maintaining legacy behaviour (when melee damage used ints)
-                dt.second = std::floor( dt.second );
-            }
-        }
+    if( obj.thrown_damage.empty() ) {
+        obj.thrown_damage.add_damage( damage_bash,
+                                      obj.melee.damage_map[damage_bash] + obj.weight / 1.0_kilogram );
     }
 
     if( obj.has_flag( flag_STAB ) ) {
@@ -2320,7 +2300,7 @@ void Item_factory::check_definitions() const
             }
         }
 
-        for( const std::pair<const damage_type_id, float> &dt : type->melee ) {
+        for( const std::pair<const damage_type_id, float> &dt : type->melee.damage_map ) {
             if( !dt.first.is_valid() ) {
                 msg += string_format( "Invalid melee damage type \"%s\".\n", dt.first.c_str() );
             }
@@ -4269,28 +4249,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
-    if( jo.has_object( "melee_damage" ) ) {
-        def.melee = load_damage_map( jo.get_object( "melee_damage" ) );
-    }
-    def.melee_proportional.clear();
-    if( jo.has_object( "proportional" ) ) {
-        JsonObject jprop = jo.get_object( "proportional" );
-        jprop.allow_omitted_members();
-        if( jprop.has_object( "melee_damage" ) ) {
-            def.melee_proportional = load_damage_map( jprop.get_object( "melee_damage" ) );
-        }
-    }
-    def.melee_relative.clear();
-    if( jo.has_object( "relative" ) ) {
-        JsonObject jrel = jo.get_object( "relative" );
-        jrel.allow_omitted_members();
-        if( jrel.has_object( "melee_damage" ) ) {
-            def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
-        }
-        if( jrel.has_int( "to_hit" ) ) {
-            def.m_to_hit += jrel.get_int( "to_hit" );
-        }
-    }
     def.using_legacy_to_hit = false; // Reset to false so inherited legacy to_hit s aren't flagged
     if( jo.has_int( "to_hit" ) ) {
         mandatory( jo, false, "to_hit", def.m_to_hit );
@@ -4318,14 +4276,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "repairs_with", def.repairs_with );
     load_ememory_size( jo, def );
 
-    if( jo.has_member( "thrown_damage" ) ) {
-        optional( jo, false, "thrown_damage", def.thrown_damage );
-    } else {
-        // TODO: Move to finalization
-        def.thrown_damage.clear();
-        def.thrown_damage.add_damage( damage_bash,
-                                      def.melee[damage_bash] + def.weight / 1.0_kilogram );
-    }
     optional( jo, def.was_loaded, "color", def.color, color_reader{} );
 
     if( jo.has_member( "repairs_like" ) ) {
@@ -4333,6 +4283,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
+    optional( jo, def.was_loaded, "melee_damage", def.melee );
+    optional( jo, def.was_loaded, "thrown_damage", def.thrown_damage );
+    optional( jo, def.was_loaded, "explosion", def.explosion );
 
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
@@ -4430,10 +4383,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.min_skills[ sk ] = cur.get_int( 1 );
     }
 
-    if( jo.has_member( "explosion" ) ) {
-        JsonObject je = jo.get_object( "explosion" );
-        def.explosion = load_explosion_data( je );
-    }
 
     if( jo.has_member( "memory_card" ) ) {
         def.memory_card_data = cata::make_value<memory_card_info>();
@@ -5289,7 +5238,7 @@ item_category_id calc_category( const itype &obj )
         return item_category_bionics;
     }
 
-    bool weap = std::any_of( obj.melee.begin(), obj.melee.end(),
+    bool weap = std::any_of( obj.melee.damage_map.begin(), obj.melee.damage_map.end(),
     []( const std::pair<const damage_type_id, float> &qty ) {
         return qty.second > MELEE_STAT;
     } );

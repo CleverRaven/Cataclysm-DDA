@@ -1258,6 +1258,15 @@ struct memory_card_info {
     bool secret_recipes;
 };
 
+struct item_melee_damage {
+    std::unordered_map<damage_type_id, float> damage_map;
+    float default_value = 0.0f;  // NOLINT(cata-serialize)
+    bool handle_proportional( const JsonValue &jval );
+    item_melee_damage &operator+=( const item_melee_damage &rhs );
+    void finalize();
+    void deserialize( const JsonObject &jo );
+};
+
 struct itype {
         friend class Item_factory;
         friend struct mod_tracker;
@@ -1527,7 +1536,7 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::unordered_map<damage_type_id, float> melee;
+        item_melee_damage melee;
 
         bool default_container_sealed = true;
 
@@ -1541,21 +1550,12 @@ struct itype {
         bool expand_snippets = false;
 
     private:
-        // load-only, for applying proportional melee values at load time
-        std::unordered_map<damage_type_id, float> melee_proportional;
-
-        // load-only, for applying relative melee values at load time
-        std::unordered_map<damage_type_id, float> melee_relative;
-
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 
     public:
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
-        itype() {
-            melee.clear();
-        }
 
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
