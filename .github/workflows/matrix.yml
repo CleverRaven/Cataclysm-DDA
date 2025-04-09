@@ -113,7 +113,7 @@ jobs:
             mods: --mods=magiclysm
             title: Basic Build and Test (Clang 13, Ubuntu, Curses)
             ccache_limit: 4.5G
-            ccache_key: linux-llvm-13-break1
+            ccache_key: linux-llvm-13
 
           - compiler: clang++
             os: macos-13
