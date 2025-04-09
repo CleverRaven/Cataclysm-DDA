@@ -132,7 +132,20 @@
       { "name": "post-it", "id": "lab_postit_psi_55", "text": "She hurled a quarter 45.8 smoots" },
       { "name": "post-it", "id": "lab_postit_psi_56", "text": "Highest recorded temperature at 1247°C" },
       { "name": "post-it", "id": "lab_postit_psi_57", "text": "Eyes, always watching from outside" },
-      { "name": "post-it", "id": "lab_postit_psi_58", "text": "We're definitely sailing the black seas of infinity" }
+      { "name": "post-it", "id": "lab_postit_psi_58", "text": "We're definitely sailing the black seas of infinity" },
+      { "name": "post-it", "id": "lab_postit_psi_59", "text": "So how many jigawatts is that?" },
+      { "name": "post-it", "id": "lab_postit_psi_60", "text": "Never have to worry about a 3% phone again" },
+      { "name": "post-it", "id": "lab_postit_psi_61", "text": "Where does all the energy GO?" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_62",
+        "text": "So is here some kind \"light dimension\" out there too?"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_63",
+        "text": "Best part of all this is I don't have to memorize passwords anymore."
+      }
     ]
   },
   {
@@ -219,6 +232,25 @@
         "id": "lab_file_electrokinesis_01",
         "weight": 1000,
         "text": "The testing mathematician was provided with a standard smartphone and instructed to turn on and leave on the flashlight, share their location with multiple provided addresses, and repeatedly delete and re-download several very large testing files (each over 10gb in size).  During breaks, the phone was left streaming HD movies over the cellular network. nResults were very consistent; while the phone's battery rapidly drained while unattended, despite not being connected to power, the battery slowly refilled when the phone was being handled by T47, often reaching or being close to 100% when the time came for a break.\n\nFollowing this, the experiment was modified to have T47 sit and read a book in the same room, but never approach closer than two meters to the phone, which was again set to stream HD movies over the cellular network.  The phone discharged its battery and shut off completely within four hours.  Further testing shows the approximate range of the effect (in T47's case) to be 8 centimeters from their body and that barriers (both conductive and non-conductive) do not impede the effect in any way.  Attempts to use a multimeter to directly measure the strength of the effect were inconclusive, as it changed rapidly up to several times per second and often the multimeter simply could not register any current at all.  I have already submitted a request for further testing to determine the exact parameters of the effect, include its strength and the full variety of devices subject to it, and will submit an update with my results as soon as I have them.\n-Charlotte Manning\nResearcher"
+      },
+      {
+        "name": "re: power",
+        "id": "lab_file_electrokinesis_02",
+        "weight": 800,
+        "text": "I did some work on your proposal to power the facility using RUBY LOOP in the event of continued disruptions over a long timescale and I can say that it's just not going to work.  Sure, a RUBY LOOP guy can keep their phone running basically forever, but it can't scale up.  We final have the data on those caloric expenditures and yes, I know they don't add up and nothing makes sense, but the \"how much they need to eat\" and the \"how much power they output\" lines do not ever cross no matter what we try.  And yes, I know you're going to bring up A80, but even though she can now throw lightning bolts like an X-man her efficiency rating on power generation is not actually that high among RUBY LOOP mathematicians.  And no, before you ask, hooking up a lightning rod and having her just blast it repeatedly wouldn't generate enough power either.  I thought of it and we did try it, but no dice.\n\nWe're going to have to hope that COBALT THORN comes through if we're stuck in here for too long."
+      },
+      {
+        "name": "note on the back of a testing report",
+        "id": "lab_file_electrokinesis_03",
+        "weight": 400,
+        "text": "Double double toil and trouble\nlittle Jenny wants to play\nflash of lightning very frightening\nThunder drive our fears away\nShadows waiting not abating\nHope to all who fear the dark\n\nShines a light in dark of night\nEver glowing one bright spark\nA smear of blood and scorch marks hide any further words that may have been written."
+      },
+      {
+        "name": "AAR ID# Q85-77",
+        "id": "lab_file_electrokinesis_04",
+        "weight": 900,
+        "//": "XE338 here are hunting horrors",
+        "text": "Immediately after immersion into 471XE, the dive team confirmed probe observations that despite not being in any kind of chamber or underground, there was no visible light source anywhere.  Sgt Simmons ordered the team to turn on their flashlights, and after doing so almost immediately came under attack by multiple XE338 entities that had apparently ignored the probe.  Due to 471XE's effects on Netherum energy, Sgt Simmons ordered V78 to deter the attack using mathematics and the dive team formed a defensive formation while V78 fended off the XE338 attackers with repeated bolts of lightning.  While the attack were effective, the light itself seemed a deterrent, and the dive team was able to withdraw through the aperture in short order with only Dr. Rodriguez suffering any injuries that required more than first aid.\n\nBased on this incident, further travel to 471XE is prohibited without a CRYPTIC FORGE mathematician present."
       }
     ]
   },
