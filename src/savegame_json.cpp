@@ -1222,25 +1222,25 @@ void Character::load( const JsonObject &data )
                 if( pseudo.has_flag( flag_INTEGRATED ) ) {
                     // Migrate old fuels to new system.
                     // Needed to be compatible with 0.F
-                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).empty() ) {
+                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).is_empty() ) {
                         item gasoline( fuel_type_gasoline );
-                        gasoline.charges = std::stoi( get_value( "gasoline" ) );
+                        gasoline.charges = get_value( "gasoline" ).dbl();
                         remove_value( "gasoline" );
                         pseudo.put_in( gasoline, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
+                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).is_empty() ) {
                         item ethanol( fuel_type_chem_ethanol );
-                        ethanol.charges = std::stoi( get_value( "alcohol" ) );
+                        ethanol.charges = get_value( "alcohol" ).dbl();
                         remove_value( "alcohol" );
                         pseudo.put_in( ethanol, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
+                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).is_empty() ) {
                         item oil( fuel_type_motor_oil );
-                        oil.charges = std::stoi( get_value( "motor_oil" ) );
+                        oil.charges = get_value( "motor_oil" ).dbl();
                         remove_value( "motor_oil" );
                         pseudo.put_in( oil, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
+                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).is_empty() ) {
                         item battery( itype_medium_battery_cell );
                         item battery_charge( fuel_type_battery );
-                        battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
+                        battery_charge.charges = std::min( 500., get_value( "battery" ).dbl() );
                         battery.put_in( battery_charge, pocket_type::MAGAZINE );
                         remove_value( "battery" );
                         pseudo.put_in( battery, pocket_type::MAGAZINE_WELL );
@@ -1310,14 +1310,9 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        std::unordered_map<std::string, std::string> context;
-        // context variables
-        for( const JsonMember &jm : elem.get_object( "context" ) ) {
-            context[jm.name()] = jm.get_string();
-        }
-        game::legacy_migrate_npctalk_var_prefix( context );
+        elem.read( "context", temp.context );
+        game::legacy_migrate_npctalk_var_prefix( temp.context );
 
-        temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -2881,7 +2876,7 @@ void item::io( Archive &archive )
         const std::string prefix = "npctalk_var_";
         for( auto i = item_vars.begin(); i != item_vars.end(); ) {
             if( i->first.rfind( prefix, 0 ) == 0 ) {
-                std::map<std::string, std::string>::node_type extracted = ( *item_vars ).extract( i++ );
+                global_variables::impl_t::node_type extracted = ( *item_vars ).extract( i++ );
                 std::string new_key = extracted.key().substr( prefix.size() );
                 extracted.key() = new_key;
                 item_vars.insert( std::move( extracted ) );

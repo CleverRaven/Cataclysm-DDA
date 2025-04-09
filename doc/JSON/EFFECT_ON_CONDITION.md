@@ -1980,7 +1980,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | "condition" | optional | int or [variable object](#variable-object)) | if used, eoc would be run as long as this condition will return true. if "condition" is used, "iterations" can be used to limit amount of runs to specific amount (default is 100 runs until terminated) |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | if used, EoC would be activated this amount of time in future; default 0, meaning it would run instantly. If eoc is global, the avatar will be u and npc will be invalid. If eoc is not global, it will be queued for the current alpha if they are a character (avatar or npc) and not be queued otherwise. Doesn't work with "condition" and "iterations" | 
 | "randomize_time_in_future" | optional | bool | used with time_in_future; if false, entire eoc array would run at the exact same moment; if true, each eoc in array would pick it's own time again and again | 
-| "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
+| "alpha_loc","beta_loc" | optional | [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
 | "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored, same for beta.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or result of [u_set_talker](#u_set_talkernpc_set_talker) ), or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
 | "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
 | "variables" | optional | pair of `"variable_name": "variable"` | context variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used inside running eoc to ensure every variable exist before the EoC is run | 
@@ -3435,13 +3435,31 @@ Character remove variable `bio_blade_electric_on`
 { "u_lose_var": "bio_blade_electric_on" }
 ```
 
+#### `copy_var`
+Read curent value of a variable and copy it to another, regardless of its type.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "copy_var" | **mandatory** | [variable object](#variable-object) | source variable |
+| "target_var" | **mandatory** | [variable object](#variable-object) | target variable | 
+
+#### Valid talkers:
+
+No talker is needed.
+
+##### Examples
+
+```json
+{ "copy_var": { "context_val": "bodypart" }, "target_var": { "global_val": "IMPREGNATED_BODYPART" } }
+```
+
 #### `set_string_var`
 Store string from `set_string_var` in the variable object `target_var`
 
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "set_string_var" | **mandatory** | string, [variable object](#variable-object), or array of both | value, that would be put into `target_var` |
+| "set_string_var" | **mandatory** | string, [mutator](NPCs.md#mutators), or array of both | value, that would be put into `target_var` |
 | "target_var" | **mandatory** | [variable object](#variable-object) | variable, that accept the value; usually `context_val` | 
 | "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
 | "i18n"       | optional | boolean | Whether the string values should be localized | 

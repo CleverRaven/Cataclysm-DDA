@@ -6,7 +6,6 @@
     "description": "A remote control for an RC car, with a joystick to steer the car and colorful buttons that don't seem to do anything.  Perhaps they were for the deluxe model?",
     "symbol": "#",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "material": [ "plastic" ],
     "charges_per_use": 1,
@@ -24,7 +23,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "radio_car",
@@ -32,7 +32,6 @@
     "name": { "str": "RC car" },
     "description": "A remote-controlled car.  Fun for all ages.",
     "symbol": "#",
-    "ammo": [ "battery" ],
     "material": [ "aluminum", "plastic" ],
     "charges_per_use": 1,
     "weight": "2340 g",
@@ -55,7 +54,8 @@
         "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_minus_disposable_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "radio_car_on",
@@ -105,7 +105,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "use_action": [ "RADIO_OFF", { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
@@ -116,7 +115,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "radio_on",
@@ -146,7 +146,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
@@ -158,7 +157,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "remotevehcontrol",
@@ -172,7 +172,6 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "turns_per_charge": 10,
@@ -185,6 +184,7 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   }
 ]

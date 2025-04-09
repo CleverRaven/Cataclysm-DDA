@@ -142,7 +142,7 @@ TEST_CASE( "AIM_basic_move_items", "[items][advanced_inv]" )
         advanced_inventory_pane &spane = advinv.get_pane( src );
 
         GIVEN( "a single item on the ground" ) {
-            item &knife_combat_map = get_map().add_item_or_charges( pos, knife_combat );
+            item &knife_combat_map = here.add_item_or_charges( pos, knife_combat );
 
             recalc_panes( advinv );
             REQUIRE_FALSE( here.i_at( pos ).empty() );

@@ -13,7 +13,6 @@
     "symbol": "[",
     "looks_like": "PR24-extended",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "charges_per_use": 1,
     "to_hit": 3,
@@ -36,7 +35,8 @@
         "item_restriction": [ "light_battery_cell", "light_minus_battery_cell", "light_minus_disposable_cell" ]
       }
     ],
-    "melee_damage": { "bash": 22 }
+    "melee_damage": { "bash": 22 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "afs_energy_saber_on",
@@ -427,7 +427,7 @@
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
     "melee_damage": { "bash": 11 },
-    "extend": { "flags": [ "USE_UPS" ] }
+    "flags": [ "USE_UPS" ]
   },
   {
     "id": "afs_bio_whip_weapon",

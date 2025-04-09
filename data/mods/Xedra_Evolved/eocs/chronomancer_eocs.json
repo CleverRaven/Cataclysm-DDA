@@ -357,10 +357,7 @@
     "effect": [
       { "math": [ "u_xedra_last_damage_taken=_damage" ] },
       { "math": [ "u_xedra_last_pain_taken=_pain" ] },
-      {
-        "set_string_var": { "context_val": "bodypart" },
-        "target_var": { "u_val": "xedra_last_damage_taken_bodypart" }
-      }
+      { "copy_var": { "context_val": "bodypart" }, "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } }
     ]
   },
   {
