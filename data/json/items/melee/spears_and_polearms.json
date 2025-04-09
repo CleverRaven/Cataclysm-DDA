@@ -1043,7 +1043,7 @@
     "description": "When the Cataclysm struck, some worlds fought back as best they could, no matter their level of technological progress.  This strangely shaped pike resembles a trident with pronounced outer prongs, wide enough to pin a zombie to the ground from afar as well as skewer them with the center spike.  They didn't stop armageddon, but were effective enough for the Exodii to consider bringing along, if not to use then to sell.",
     "copy-from": "pike_bronze",
     "price_postapoc": "60 USD",
-    "volume": "3.8 L",
+    "volume": "3850 ml",
     "weight": "2650 g",
     "melee_damage": { "cut": 20, "stab": 31 },
     "weapon_category": [ "POLEARMS", "HOOKING_WEAPONRY" ],
