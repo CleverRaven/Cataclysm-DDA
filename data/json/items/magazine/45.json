@@ -379,7 +379,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock 36 magazine" },
     "description": "A 6-round magazine for the Glock 36. Incompatible with other .45 Glocks",
-    "weight": "35 g",
+    "weight": "70 g",
     "volume": "72 ml",
     "copy-from": "glock_21mag",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 6 } } ]
