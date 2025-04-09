@@ -1355,7 +1355,7 @@
     "id": "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN",
     "name": { "str": "Weakness: Decreased Blood Empowerment" },
     "points": -2,
-    "description": "The power of fresh blood lingers in your veins.  The natural rate that your blood empowers itself is cut in half.",
+    "description": "The power of fresh stolen blood lingers in your veins.  The natural rate that your blood empowers itself is cut in half.",
     "purifiable": false,
     "valid": false
   }
