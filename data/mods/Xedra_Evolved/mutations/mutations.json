@@ -618,7 +618,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Carmine Vitality" },
-    "description": "Your flesh heals visibly while blood disintegrates hidden inside your veins."
+    "description": "Blood fills you with a surge of power.  You gain a bonus to your strength and dexterity for one hour after drinking blood."
   },
   {
     "type": "mutation",
