@@ -54,7 +54,7 @@
     "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
     "effect": [
       {
-        "if": { "math": [ "(vampire_total_tier_one_traits() + rand(8) > 12 ) " ] },
+        "if": { "math": [ "vampire_total_tier_one_traits() + rand(8) > 13" ] },
         "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER_TIER_2" },
         "else": {
           "u_roll_remainder": [
@@ -64,7 +64,8 @@
             "VAMPIRIC_STRENGTH",
             "VAMPIRIC_RESILIENCE",
             "VAMPIRE_HEIGHTENED_SENSES",
-            "VAMPIRE_SILENT_MOVE"
+            "VAMPIRE_SILENT_MOVE",
+            "DHAMPIR_REDUCED_COLD_TEMPS"
           ],
           "type": "mutation",
           "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
@@ -74,10 +75,20 @@
               "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
               "effect": [
                 {
-                  "if": { "math": [ "(vampire_total_tier_two_traits() + rand(8) > 11 ) " ] },
+                  "if": { "math": [ "vampire_total_tier_two_traits() + rand(8) > 14" ] },
                   "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER_TIER_3" },
                   "else": {
-                    "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE", "VAMPIRIC_DODGE", "VAMPIRE_FEAR_GAZE", "VAMPIRE_SEE_HEAT", "DHAMPIR_FANGS" ],
+                    "u_roll_remainder": [
+                      "BLOODHEAL",
+                      "COAGULANTWEAVE",
+                      "VAMPIRIC_DODGE",
+                      "VAMPIRE_FEAR_GAZE",
+                      "VAMPIRE_SEE_HEAT",
+                      "VAMPIRE_BLOOD_TEMPORARY_BOOST",
+                      "DHAMPIR_FANGS",
+                      "DHAMPIR_SLOWFALL",
+                      "DHAMPIR_RESIST_DISEASE_POISON_INFECTION"
+                    ],
                     "type": "mutation",
                     "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
                     "false_eocs": [
@@ -86,7 +97,14 @@
                         "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
                         "effect": [
                           {
-                            "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "VAMPIRE_COMMAND_BEAST" ],
+                            "u_roll_remainder": [
+                              "BLOODHASTE",
+                              "MAGICFORBLOOD",
+                              "HYPNOTIC_GAZE",
+                              "VAMPIRE_COMMAND_BEAST",
+                              "DHAMPIR_REDUCED_PAIN",
+                              "DHAMPIR_MEND_WOUNDS_FASTER"
+                            ],
                             "type": "mutation",
                             "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
                             "false_eocs": [  ]

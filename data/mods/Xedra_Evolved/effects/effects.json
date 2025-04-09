@@ -590,6 +590,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_fall_one_story",
+    "//": "Hidden--tied to a conditional enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "WINGS_1" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_resist_disease_poison_infection",
+    "//": "Hidden--tied to a conditional enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      { "mutations": [ "POISRESIST" ] },
+      { "condition": { "not": { "u_has_trait": "DISIMMUNE" } }, "mutations": [ "DISRESISTANT" ] },
+      { "condition": { "not": { "u_has_trait": "INFIMMUNE" } }, "mutations": [ "INFRESIST" ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "eyegleam",
     "name": [ "Eye Gleam" ],
     "desc": [ "You can see in the dark." ],
@@ -710,6 +730,25 @@
       "stamina_chance": [ 2 ]
     },
     "flags": [ "BLEED_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_drank_blood_power_boost",
+    "name": [ "Carmine Vitality" ],
+    "desc": [ "You can still taste the warm blood on your lips.  You feel amazing." ],
+    "rating": "good",
+    "max_duration": "1 h",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

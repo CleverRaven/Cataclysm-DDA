@@ -3760,10 +3760,7 @@ void monster::init_from_item( item &itm )
             hp = type->hp;
             set_speed_base( type->speed );
         }
-        const std::string up_time = itm.get_var( "upgrade_time" );
-        if( !up_time.empty() ) {
-            upgrade_time = std::stoi( up_time );
-        }
+        upgrade_time = itm.get_var( "upgrade_time", 0 );
         for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
                 it->set_flag( STATIC( flag_id( "FILTHY" ) ) );

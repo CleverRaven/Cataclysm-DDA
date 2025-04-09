@@ -1029,7 +1029,7 @@
         "failure_topic": "TALK_CHRONOMANCER_SPELL_MENU_FAIL",
         "effect": [
           {
-            "set_string_var": { "context_val": "chronomancer_menu_choice_id" },
+            "copy_var": { "context_val": "chronomancer_menu_choice_id" },
             "target_var": { "u_val": "chronomancer_menu_learn_id" }
           },
           { "math": [ "u_spell_level(u_chronomancer_menu_learn_id) = 1" ] },
@@ -1063,7 +1063,7 @@
         "failure_topic": "TALK_CHRONOMANCER_SPELL_MENU_FAIL",
         "effect": [
           {
-            "set_string_var": { "context_val": "chronomancer_menu_choice_id" },
+            "copy_var": { "context_val": "chronomancer_menu_choice_id" },
             "target_var": { "u_val": "chronomancer_menu_learn_id" }
           },
           { "math": [ "u_spell_level(u_chronomancer_menu_learn_id) += 1" ] },
@@ -1098,7 +1098,7 @@
         "failure_topic": "TALK_CHRONOMANCER_TRAIT_MENU_FAIL",
         "effect": [
           {
-            "set_string_var": { "context_val": "chronomancer_menu_choice_id" },
+            "copy_var": { "context_val": "chronomancer_menu_choice_id" },
             "target_var": { "u_val": "chronomancer_menu_learn_id" }
           },
           { "u_lose_trait": { "u_val": "chronomancer_menu_learn_id" } },

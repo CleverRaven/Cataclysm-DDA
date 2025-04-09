@@ -68,6 +68,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -1662,12 +1663,6 @@ void read_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // book item_location must be of type character
-    // or else there will be item_location errors while loading
-    if( book.where() != item_location::type::character ) {
-        book = item_location( who, book.get_item() );
-    }
-
     using_ereader = !!ereader;
 
     bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
@@ -2345,7 +2340,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
 
         cancel_pickup( who );
 
-        if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
@@ -3711,7 +3706,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
-        if( player_character.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( player_character.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
             player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
     }
@@ -6678,11 +6673,11 @@ static bool check_stealing( Character &who, item &it )
 {
     if( !it.is_owned_by( who, true ) ) {
         // Has the player given input on if stealing is ok?
-        if( who.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             Pickup::query_thief();
         }
-        if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
-            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
                 who.set_value( "THIEF_MODE", "THIEF_ASK" );
             }
             return false;

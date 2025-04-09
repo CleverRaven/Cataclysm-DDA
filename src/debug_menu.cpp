@@ -81,6 +81,7 @@
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "martialarts.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
@@ -583,37 +584,38 @@ static void monster_ammo_edit( monster &mon )
     }
 }
 
-static std::string query_npctalkvar_new_value()
-{
-    std::string value;
-    string_input_popup popup_val;
-    popup_val
-    .title( _( "Value" ) )
-    .width( 85 )
-    .edit( value );
-    return value;
-}
+// static std::string query_npctalkvar_new_value()
+// {
+//     std::string value;
+//     string_input_popup popup_val;
+//     popup_val
+//     .title( _( "Value" ) )
+//     .width( 85 )
+//     .edit( value );
+//     return value;
+// }
 
-static void edit_global_npctalk_vars()
+static void edit_vars( std::string const &title, global_variables::impl_t &vars )
 {
     uilist global_var_list;
     global_var_list.desc_enabled = true;
-    global_var_list.title = _( "Edit npctalkvar variables (global)" );
-    global_variables &globvars = get_globals();
+    global_var_list.title = title;
     // some ordering shennanigans so that i == 0 is the option to add a new var
     int i = 1;
-    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (global)" )};
+    std::vector<std::string> keymap_index = {_( "Add new variable" )};
     global_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
-    for( std::pair<const std::string, std::string> &some_global : globvars.get_global_values() ) {
+    for( global_variables::impl_t::value_type &some_global : vars ) {
         keymap_index.emplace_back( some_global.first );
-        std::string description = string_format( _( "raw var value: %s" ), some_global.second );
-        if( std::optional<double> globvar_as_dbl = svtod( some_global.second ); globvar_as_dbl ) {
+        std::string description = string_format( _( "raw var value: %s" ),
+                                  some_global.second.to_string( true ) );
+        if( some_global.second.is_dbl() ) {
+            double globvar_as_dbl = some_global.second.dbl();
             description += "\n";
             description += string_format( _( "as time_duration: %s" ),
-                                          to_string( time_duration::from_turns( *globvar_as_dbl ) ) );
+                                          to_string( time_duration::from_turns( globvar_as_dbl ) ) );
             description += "\n";
             description += string_format( _( "as time_point: %s" ),
-                                          to_string( calendar::turn_zero + time_duration::from_turns( *globvar_as_dbl ) ) );
+                                          to_string( calendar::turn_zero + time_duration::from_turns( globvar_as_dbl ) ) );
         }
         global_var_list.addentry_desc( i, true, input_event(), some_global.first, description );
         i++;
@@ -627,49 +629,9 @@ static void edit_global_npctalk_vars()
         .title( _( "Key\n" ) )
         .width( 85 )
         .edit( key );
-        globvars.set_global_value( key, query_npctalkvar_new_value() );
+        // globvars.set_global_value( key, query_npctalkvar_new_value() );
     } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
-        globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
-    }
-}
-
-static void edit_character_npctalk_vars( Character &you )
-{
-
-    uilist char_var_list;
-    char_var_list.desc_enabled = true;
-    char_var_list.title = string_format( _( "Edit npctalkvar variables (%s)" ), you.disp_name() );
-    std::unordered_map<std::string, std::string> &char_vars = you.get_values();
-    // some ordering shennanigans so that i == 0 is the option to add a new var
-    int i = 1;
-    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (local)" )};
-    char_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
-    for( std::pair<const std::string, std::string> &some_local : char_vars ) {
-        keymap_index.emplace_back( some_local.first );
-        std::string description = string_format( _( "raw var value: %s" ), some_local.second );
-        if( std::optional<double> localvar_as_dbl = svtod( some_local.second ); localvar_as_dbl ) {
-            description += "\n";
-            description += string_format( _( "as time_duration: %s" ),
-                                          to_string( time_duration::from_turns( *localvar_as_dbl ) ) );
-            description += "\n";
-            description += string_format( _( "as time_point: %s" ),
-                                          to_string( calendar::turn_zero + time_duration::from_turns( *localvar_as_dbl ) ) );
-        }
-        char_var_list.addentry_desc( i, true, input_event(), some_local.first, description );
-        i++;
-    }
-    char_var_list.query();
-    int selected_globvar = char_var_list.ret;
-    if( selected_globvar == 0 ) {
-        std::string key;
-        string_input_popup popup_key;
-        popup_key
-        .title( _( "Key\n" ) )
-        .width( 85 )
-        .edit( key );
-        you.set_value( key, query_npctalkvar_new_value() );
-    } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
-        you.set_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+        // globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
     }
 }
 
@@ -2725,7 +2687,7 @@ static void character_edit_menu()
                 testfile << "|;key;value;" << std::endl;
 
                 for( const auto &value : you.get_values() ) {
-                    testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+                    testfile << "|;" << value.first << ";" << value.second.to_string() << ";" << std::endl;
                 }
 
             }, "var_list" );
@@ -2739,7 +2701,8 @@ static void character_edit_menu()
             break;
         }
         case D_EDIT_VARS: {
-            edit_character_npctalk_vars( you );
+            global_variables::impl_t &vals = you.get_values();
+            edit_vars( string_format( _( "Edit %s's variables" ), you.disp_name() ), vals );
             break;
         }
         case D_FACTION: {
@@ -3871,10 +3834,9 @@ static void write_global_vars()
     write_to_file( "var_list.output", [&]( std::ostream & testfile ) {
         testfile << "Global" << std::endl;
         testfile << "|;key;value;" << std::endl;
-        global_variables &globvars = get_globals();
-        auto globals = globvars.get_global_values();
+        global_variables::impl_t &globals = get_globals().get_global_values();
         for( const auto &value : globals ) {
-            testfile << "|;" << value.first << ";" << value.second << ";" << std::endl;
+            testfile << "|;" << value.first << ";" << value.second.to_string() << ";" << std::endl;
         }
 
     }, "var_list" );
@@ -4301,7 +4263,7 @@ void debug()
         }
         break;
         case debug_menu_index::EDIT_GLOBAL_VARS:
-            edit_global_npctalk_vars();
+            edit_vars( _( "Edit global variables" ), get_globals().get_global_values() );
             break;
 
         case debug_menu_index::SAVE_SCREENSHOT:

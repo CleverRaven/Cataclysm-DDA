@@ -298,7 +298,7 @@ void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) con
 
     dialogue d( get_talker_for( you ), nullptr );
     d.set_value( "this", here.furn( examp ).id().str() );
-    d.set_value( "pos", here.get_abs( examp ).to_string() );
+    d.set_value( "pos", here.get_abs( examp ) );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }
@@ -410,8 +410,8 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     }
 
     d.set_value( "this", here.furn( examp ).id().str() );
-    d.set_value( "pos", here.get_abs( examp ).to_string() );
-    d.set_value( "target", target_abs_ms.to_string() );
+    d.set_value( "pos", here.get_abs( examp ) );
+    d.set_value( "target", target_abs_ms );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }
