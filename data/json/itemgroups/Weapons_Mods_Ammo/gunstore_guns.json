@@ -88,6 +88,41 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "boxed_glock_26",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_26" }, { "group": "firearm_box_extras" }, { "item": "glockmag_10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_34",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_34" }, { "group": "firearm_box_extras" }, { "item": "glockmag_10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_43",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_43" }, { "group": "firearm_box_extras" }, { "item": "glock43_6", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_43x",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_43x" }, { "group": "firearm_box_extras" }, { "item": "glock43/48x_10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_glock_48x",
+    "container-item": "box_pistol",
+    "items": [ { "item": "glock_48" }, { "group": "firearm_box_extras" }, { "item": "glock43/48x_10", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "boxed_p365",
     "container-item": "box_pistol",
     "items": [ { "item": "p365" }, { "group": "firearm_box_extras" }, { "item": "p365_mag", "count": [ 1, 2 ] } ]
