@@ -151,14 +151,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_WEAKNESSES",
-    "condition": { "math": [ "u_dhampir_have_ever_drunk_blood != 1" ] },
+    "condition": { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] },
     "effect": [
       {
         "u_roll_remainder": [
           "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
           "DHAMPIR_WEAKNESS_SLOW_HEALING",
           "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
-          "DHAMPIR_WEAKNESS_WATER_PAIN"
+          "DHAMPIR_WEAKNESS_WATER_PAIN",
+          "DHAMPIR_WEAKNESS_CORPSELIKE_PALLOR"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
@@ -172,13 +173,32 @@
           "DHAMPIR_WEAKNESS_SLOW_HEALING",
           "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
           "DHAMPIR_WEAKNESS_WATER_PAIN",
+          "DHAMPIR_WEAKNESS_CORPSELIKE_PALLOR",
           "DHAMPIR_WEAKNESS_BLOODTHIRST",
+          "DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE",
           "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
         "false_eocs": [  ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_WEAKNESS_BLOODLUST_CHECKS",
+    "recurrence": [ "900, 259200" ],
+    "condition": { "u_has_trait": "DHAMPIR_WEAKNESS_BLOODTHIRST" },
+    "deactivate_condition": { "not": { "u_has_trait": "DHAMPIR_WEAKNESS_BLOODTHIRST" } },
+    "effect": [
+      {
+        "u_add_morale": "morale_craving_human_blood",
+        "bonus": -30,
+        "max_bonus": -90,
+        "duration": "360 m",
+        "decay_start": "180 m"
+      },
+      { "u_add_effect": "effect_dhampir_bloodlust_cravings", "duration": { "math": [ "rng(10800,21600)" ] } }
     ]
   }
 ]
