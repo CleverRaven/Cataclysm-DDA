@@ -4134,8 +4134,7 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
                 rot_facing = -1;
             }
             if( rot_facing >= -1 ) {
-                const mtype_id ent_name = m->type->id;
-                std::string chosen_id = ent_name.str();
+                std::string chosen_id = m->type->id.str();
                 if( m->has_effect( effect_ridden ) ) {
                     int pl_under_height = 6;
                     if( m->mounted_player ) {
@@ -4149,8 +4148,27 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
                         chosen_id = ridden_id;
                     }
                 }
-                result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p,
-                                              subtile, rot_facing, ll, false, height_3d );
+
+                if( m->has_flag( mon_flag_COPY_SUMMONER_LOOK ) && m->get_summoner() != nullptr ) {
+                    const Character *caster_char = m->get_summoner()->as_character();
+                    if( caster_char != nullptr ) {
+                        // caster is character
+                        draw_entity_with_overlays( *caster_char, p, ll, height_3d, m->facing );
+                        result = true;
+                    }
+                    const monster *caster_mon = m->get_summoner()->as_monster();
+                    if( caster_mon != nullptr ) {
+                        // caster is another monster
+                        result = draw_from_id_string( caster_mon->type->id.str(), ent_category, ent_subcategory, p,
+                                                      subtile, rot_facing, ll, false, height_3d );
+                    }
+                } else if( m->has_flag( mon_flag_COPY_AVATAR_LOOK ) ) {
+                    draw_entity_with_overlays( *get_avatar().as_character(), p, ll, height_3d, m->facing );
+                } else {
+                    result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p,
+                                                  subtile, rot_facing, ll, false, height_3d );
+                }
+
                 draw_entity_with_overlays( *m, p, ll, height_3d );
                 sees_player = m->sees( here, you );
                 attitude = m->attitude_to( you );
@@ -4373,13 +4391,17 @@ void cata_tiles::draw_zlevel_overlay( const tripoint_bub_ms &p, const lit_level 
 }
 
 void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p,
-        lit_level ll,
-        int &height_3d )
+        lit_level ll, int &height_3d, const FacingDirection facing_override )
 {
     std::vector<trait_id> override_look_muts = ch.get_functioning_mutations( true,
     false, []( const mutation_branch & mut ) {
         return mut.override_look.has_value();
     } );
+
+    // TODO: make monster show proper effects instead of inheriting the one of a character
+    const FacingDirection facing = facing_override == FacingDirection::NONE ? ch.facing :
+                                   facing_override;
+
     // first draw the character itself(i guess this means a tileset that
     // takes this seriously needs a naked sprite)
     int prev_height_3d = height_3d;
@@ -4392,10 +4414,10 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint_
             ent_name = ch.male ? "player_male" : "player_female";
         }
         // depending on the toggle flip sprite left or right
-        if( ch.facing == FacingDirection::RIGHT ) {
+        if( facing == FacingDirection::RIGHT ) {
             draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, 0, ll, false,
                                  height_3d );
-        } else if( ch.facing == FacingDirection::LEFT ) {
+        } else if( facing == FacingDirection::LEFT ) {
             draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, -1, ll, false,
                                  height_3d );
         }
@@ -4409,10 +4431,10 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint_
             debugmsg( "invalid tile category %s", override_look.tile_category );
             category = TILE_CATEGORY::NONE;
         }
-        if( ch.facing == FacingDirection::RIGHT ) {
+        if( facing == FacingDirection::RIGHT ) {
             draw_from_id_string( override_look.id, category, "", p, corner, 0, ll, false,
                                  height_3d );
-        } else if( ch.facing == FacingDirection::LEFT ) {
+        } else if( facing == FacingDirection::LEFT ) {
             draw_from_id_string( override_look.id, category, "", p, corner, -1, ll, false,
                                  height_3d );
         }
@@ -4425,10 +4447,10 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint_
         std::string draw_id = overlay.first;
         if( find_overlay_looks_like( ch.male, overlay.first, overlay.second, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
-            if( ch.facing == FacingDirection::RIGHT ) {
+            if( facing == FacingDirection::RIGHT ) {
                 draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ 0, ll,
                                      false, overlay_height_3d );
-            } else if( ch.facing == FacingDirection::LEFT ) {
+            } else if( facing == FacingDirection::LEFT ) {
                 draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ -1, ll,
                                      false, overlay_height_3d );
             }
@@ -5071,7 +5093,7 @@ void cata_tiles::get_terrain_orientation( const tripoint_bub_ms &p, int &rota, i
         }
     }
 
-    uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_group, {} );
+    uint8_t rotation_targets = here.get_known_rotates_to( p, rotate_group, {} );
     get_rotation_and_subtile( val, rotation_targets, rota, subtile );
 }
 
@@ -5316,8 +5338,10 @@ void cata_tiles::get_connect_values( const tripoint_bub_ms &p, int &subtile, int
                                      const std::bitset<NUM_TERCONN> &rotate_to_group,
                                      const std::map<tripoint_bub_ms, ter_id> &ter_override )
 {
-    uint8_t connections = get_map().get_known_connections( p, connect_group, ter_override );
-    uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_to_group, ter_override );
+    map &here = get_map();
+
+    uint8_t connections = here.get_known_connections( p, connect_group, ter_override );
+    uint8_t rotation_targets = here.get_known_rotates_to( p, rotate_to_group, ter_override );
     get_rotation_and_subtile( connections, rotation_targets, rotation, subtile );
 }
 
@@ -5325,8 +5349,10 @@ void cata_tiles::get_furn_connect_values( const tripoint_bub_ms &p, int &subtile
         const std::bitset<NUM_TERCONN> &connect_group, const std::bitset<NUM_TERCONN> &rotate_to_group,
         const std::map<tripoint_bub_ms, furn_id> &furn_override )
 {
-    uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
-    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {}, {} );
+    map &here = get_map();
+
+    uint8_t connections = here.get_known_connections_f( p, connect_group, furn_override );
+    uint8_t rotation_targets = here.get_known_rotates_to_f( p, rotate_to_group, {}, {} );
     get_rotation_and_subtile( connections, rotation_targets, rotation, subtile );
 }
 
@@ -5349,7 +5375,7 @@ void cata_tiles::get_tile_values_with_ter(
     const std::bitset<NUM_TERCONN> &rotate_to_group )
 {
     map &here = get_map();
-    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {} );
+    uint8_t rotation_targets = here.get_known_rotates_to_f( p, rotate_to_group, {} );
     //check if furniture should connect to itself
     if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
         here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {

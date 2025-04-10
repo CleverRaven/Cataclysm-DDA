@@ -314,15 +314,15 @@
       ],
       "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },
       "fields": { "U": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 } },
-      "monster": { "!": { "monster": "mon_hazmatbot", "chance": 5 } },
+      "monster": { "!": { "monster": "mon_hazmatbot", "chance": 1 } },
       "monsters": {
-        "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
-        "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },
-        "#": { "monster": "GROUP_ZOMBIE", "chance": 50 },
-        "_": { "monster": "GROUP_ZOMBIE", "chance": 99 },
-        " ": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 },
-        "%": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 },
-        "g": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 }
+        "h": { "monster": "GROUP_ZOMBIE", "chance": 20, "density": 0.0003 },
+        "o": { "monster": "GROUP_ZOMBIE", "chance": 10, "density": 0.0003 },
+        "#": { "monster": "GROUP_ZOMBIE", "chance": 10, "density": 0.0003 },
+        "_": { "monster": "GROUP_ZOMBIE", "chance": 2, "density": 0.0003 },
+        " ": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 1, "density": 0.0003 },
+        "%": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 25, "density": 0.0003 },
+        "g": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 15, "density": 0.0003 }
       },
       "place_item": [ { "item": "cobalt_60", "x": [ 57, 61 ], "y": [ 6, 7 ], "amount": [ 1, 5 ], "chance": 50, "repeat": [ 1, 15 ] } ],
       "place_graffiti": [

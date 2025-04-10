@@ -143,7 +143,7 @@
     "id": "wire_stock_folded",
     "type": "GUNMOD",
     "name": { "str": "collapsing wire stock (collapsed)", "str_pl": "collapsing wire stocks (collapsed)" },
-    "description": "A collapsing wire stock which folds closely against the body of the weapon, reducing length and volume.  Currently collapsed, making shooting difficult",
+    "description": "A collapsing wire stock which folds closely against the body of the weapon, reducing length and volume.  Currently collapsed, making shooting difficult.",
     "copy-from": "wire_stock",
     "use_action": {
       "type": "transform",

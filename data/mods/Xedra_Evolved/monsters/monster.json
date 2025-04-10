@@ -565,6 +565,7 @@
     "name": { "str": "gracken" },
     "anger_triggers": [ "HURT" ],
     "aggro_character": false,
-    "melee_training_cap": 5
+    "melee_training_cap": 5,
+    "extend": { "species": "GRACKEN" }
   }
 ]

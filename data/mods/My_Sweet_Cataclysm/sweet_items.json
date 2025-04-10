@@ -87,5 +87,21 @@
     "spoils_in": "120 days",
     "use_action": [ "PETFOOD" ],
     "petfood": [ "apple_gummy" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "bone_sugar",
+    "name": { "str_sp": "sugar bone" },
+    "description": "A large bone, made entirely of super-compressed sugar.  Way too hard to be eaten directly, but it can be broken down into sugar.",
+    "weight": "508 g",
+    "volume": "320 ml",
+    "//": "values based off of sucrose's density and our 'bone' item",
+    "symbol": "I",
+    "price": "0 cent",
+    "price_postapoc": "20 cent",
+    "color": "white",
+    "material": [ "rock_candy" ],
+    "flags": [ "INEDIBLE" ]
   }
 ]

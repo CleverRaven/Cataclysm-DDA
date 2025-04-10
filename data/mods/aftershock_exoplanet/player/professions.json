@@ -1,0 +1,774 @@
+[
+  {
+    "type": "profession",
+    "id": "afs_radio_technician",
+    "name": "Deck Engineer",
+    "description": "A skilled ship technician, turned to independent salvage work.",
+    "points": 4,
+    "starting_cash": 1120000,
+    "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
+    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "socks" },
+          { "item": "rope_30" },
+          { "item": "boots" },
+          { "item": "afs_herc_rig" },
+          { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
+          { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_rating",
+    "name": "Rating",
+    "description": "You were a junior crewmember on a freight spaceship.  Without any exceptionally valuable abilities, you spent your workshifts performing miscellaneous maintenance tasks within the ship.  As such, you are moderately skilled at performing all sorts of minor electrical and mechanical repairs, a skillset you hope remains useful planetside…",
+    "points": 0,
+    "starting_cash": 1120000,
+    "copy-from": "mechanic",
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 3, "name": "electronics" }, { "level": 3, "name": "mechanics" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "group": "duct_tape_roll_part" },
+          { "item": "screwdriver" },
+          { "item": "wristwatch" },
+          { "item": "hat_hard", "variant": "orange_hat_hard" },
+          { "item": "wrench", "container-item": "tool_belt" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_espatier",
+    "name": "Espatier",
+    "description": "You are a well experienced mercenary espatier, a soldier rated for both orbital and planetary combat.  Until the crash, you were part of a minor mercenary outfit that provided on-board and landing-site security for freight corporations, although it seems that your last contractor required more protection than what you could provide.  Unfortunately, most of your more specialized gear was left behind in your hasty evacuation…",
+    "points": 6,
+    "starting_cash": 1120000,
+    "flags": [ "SCEN_ONLY" ],
+    "copy-from": "specops",
+    "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII" ],
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "smg" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "cutting" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "traps" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "swimming" },
+      { "level": 3, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "glasses_bal" },
+          { "item": "spacer_jumpsuit" },
+          { "item": "socks" },
+          { "item": "webbing_belt" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "spacer_cap" },
+          { "item": "wristwatch" },
+          { "group": "charged_two_way_radio" },
+          { "group": "charged_smart_phone" },
+          { "item": "afs_rm99_pistol", "container-item": "holster" },
+          { "item": "afs_8x40_speedloader5" },
+          { "item": "knife_rm42", "container-item": "sheath" },
+          { "item": "8mm_hvp" },
+          { "item": "8mm_hvp" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_captain_bearman",
+    "name": "Captain Schwarz Walder, Cannibal",
+    "description": "Several years ago, you were newly stationed at a remote corporate facility when it came under a personality rewrite attack that affected all of your human coworkers.  It had seemed likely that the few Uplifted staff would perish and most did.  But you disappeared into the wilderness surrounding the facilities and began hunting the things that had been your friends, eating them to stay alive and to power your bionics.  Recapturing the facility earned you a buyout of the remainder of your contract, but most people are uncomfortable around you once they realize how very different you are.  Now you are here on a mostly abandoned planet hunting a bounty.",
+    "points": 10,
+    "starting_cash": 1120000,
+    "CBMs": [
+      "bio_targeting",
+      "bio_purifier",
+      "bio_carbon",
+      "bio_geiger",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_metabolics",
+      "bio_power_storage_mkII",
+      "afs_bio_missiles"
+    ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_traps",
+      "prof_disarming",
+      "prof_knives_familiar",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar",
+      "prof_butchering_basic",
+      "prof_gross_anatomy"
+    ],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "smg" },
+      { "level": 3, "name": "rifle" },
+      { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "traps" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "swimming" },
+      { "level": 4, "name": "survival" }
+    ],
+    "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "xlboots_combat" },
+          { "item": "xlgloves_tactical" },
+          { "item": "afs_combat_cryo_xl" },
+          { "item": "wristwatch" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sheath", "contents-item": "kukri" },
+          {
+            "item": "afs_gibrifle",
+            "ammo-item": "afs_7.50mm_caseless",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "acog_scope" ]
+          },
+          { "item": "afs_military_vestxl" },
+          { "item": "xlpolice_belt" },
+          { "item": "legpouch_large", "contents-group": "afs_UICASTA30" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_cryosleep_survivor",
+    "name": "Cryosleep Survivor",
+    "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
+    "points": 2,
+    "starting_cash": 1120000,
+    "traits": [ "AFS_CRYOADAPTATION" ],
+    "items": { "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_battery_cell", "charges": 5000 } ] } }
+  },
+  {
+    "type": "profession",
+    "id": "afs_atomic_pitchman",
+    "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
+    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You now enter the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
+    "points": 3,
+    "starting_cash": 1120000,
+    "skills": [ { "level": 1, "name": "speech" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants" },
+          { "item": "dress_shoes" },
+          { "item": "socks" },
+          { "item": "mbag" },
+          { "item": "afs_atomic_smartphone" },
+          { "item": "atomic_light_off" },
+          { "item": "atomic_coffeepot" },
+          { "item": "atomic_lamp_off" },
+          { "item": "afs_atompot" },
+          { "item": "energy_drink_atomic" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_planar_frontiersman",
+    "name": { "male": "Planar Frontiersman", "female": "Planar Frontierswoman" },
+    "description": "When the Cataclysm came, you were getting into your gear, prepared for the first manned entrance through a stabilized portal in the lab - just a quick five-minute scouting trip.  You were the last one left in the room when the portal snapped shut and all hell broke loose.  Now that you know what was on the other end, maybe that was a mercy.",
+    "points": 4,
+    "starting_cash": 1120000,
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "afs_calorie_pill" },
+          { "item": "afs_atomic_smartphone" },
+          { "item": "undershirt" },
+          { "item": "dump_pouch" },
+          { "item": "water_clean", "container-item": "camelbak" },
+          { "item": "crowbar", "custom-flags": [ "auto_wield" ] },
+          { "item": "phase_immersion_suit" },
+          { "item": "dimensional_anchor", "ammo-item": "medium_battery_cell", "charges": 5000 }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_vatgrown_bodyguard",
+    "name": "Vatgrown Bodyguard",
+    "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
+    "points": 3,
+    "starting_cash": 1120000,
+    "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_knives_familiar" ],
+    "skills": [ { "level": 2, "name": "unarmed" }, { "level": 2, "name": "stabbing" } ],
+    "items": {
+      "both": { "entries": [ { "item": "suit" }, { "item": "dress_shoes" }, { "item": "bootsheath" }, { "item": "ceramic_knife" } ] },
+      "male": { "entries": [ { "item": "briefs" }, { "item": "undershirt" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "bra" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_cbm_engineer",
+    "name": "CBM Engineer",
+    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  The final evacuation order caught you in the middle of your 16 hour extended shift, and you barely managed to escape the building, tools in hand.",
+    "points": 2,
+    "starting_cash": 1120000,
+    "skills": [ { "level": 4, "name": "electronics" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "coat_lab" },
+          { "item": "gloves_medical" },
+          { "item": "longshirt" },
+          { "item": "afs_complete_bionic_toolkit" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "backpack" },
+          { "item": "jeans" },
+          { "item": "mask_dust", "variant": "white_mask_dust" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_wraitheon_executive",
+    "name": "Wraitheon Executive",
+    "description": "The exiled scion of an unfavorable seat within the Wraitheon board of directors, wealthy beyond measure even in their estrangement.  Sent to the frontier in a last-ditch effort to salvage their reputation, or more likely, to find a silent and politically convenient death.",
+    "points": 8,
+    "starting_cash": 200000000,
+    "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
+    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD" ],
+    "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
+    "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "afs_bolero", "variant": "designer" },
+          { "item": "gold_watch" },
+          { "item": "afs_10mm_smart_template" },
+          { "item": "cash_card", "charges": 100000000 },
+          { "item": "cash_card", "charges": 100000000 },
+          {
+            "item": "afs_silvergram_pistol",
+            "ammo-item": "afs_10mm_smart",
+            "charges": 22,
+            "container-item": "shoulder_holster"
+          },
+          { "item": "afs_silvergram_22mag", "ammo-item": "afs_10mm_smart", "charges": 22 },
+          { "item": "afs_wraitheon_smartphone" }
+        ]
+      },
+      "male": {
+        "entries": [
+          { "item": "briefs" },
+          { "item": "afs_lx_shirt" },
+          { "item": "pants", "variant": "pants_white" },
+          { "item": "socks" },
+          { "item": "undershirt" },
+          { "item": "collarpin" },
+          { "item": "diamond_ring" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "panties" },
+          { "item": "bra" },
+          { "item": "dance_shoes" },
+          { "item": "diamond_ring" },
+          { "item": "hairpin" },
+          { "item": "afs_lx_dress" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_holo_fighter",
+    "name": "Corporate Infiltrator",
+    "description": "A spy and mercenary at the direct service of the Solar Corporations.  Touring the frontier in search of intelligence gathering and sabotage contracts.  Equipped with a set of irreplaceable holographic technology that borders on the miraculous.",
+    "points": 8,
+    "starting_cash": 2600000,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "cutting" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_spotting",
+      "prof_wp_syn_armored",
+      "prof_auto_pistols_familiar",
+      "prof_knives_familiar"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "afs_combat_cryo" },
+          { "item": "boots_combat" },
+          { "item": "webbing_belt" },
+          { "item": "sweater" },
+          { "item": "powered_earmuffs" },
+          { "item": "afs_holo_transposition_caster" },
+          { "item": "afs_holo_decoy_caster" },
+          { "item": "afs_holo_field_caster" },
+          { "item": "afs_holo_flare_caster" },
+          { "item": "afs_holo_cloak_mk2" },
+          { "item": "kukri", "container-item": "sheath" },
+          { "item": "afs_cam_spy", "ammo-item": "light_minus_disposable_cell", "charges": 500 },
+          { "item": "radiocontrol", "ammo-item": "light_battery_cell", "charges": 1000 },
+          { "item": "afs_eidolon_derringer", "ammo-item": "afs_5x50heavy", "charges": 4, "container-item": "holster" },
+          { "item": "afs_5x50heavy" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_affluent_executive",
+    "name": "Assistant Sub-Executive",
+    "description": "Through a lifetime of hard work, dedication, boot-licking and immense luck, you achieved the almost impossible, and were promoted from an indentured clerk to a minor managerial position.  Although you were still an expendable peon among the ranks of the corporation, you earned numbers most people could only dream of, and you savored it.",
+    "points": 2,
+    "starting_cash": 200000000,
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "tux" },
+          { "item": "dress_shoes" },
+          { "item": "socks" },
+          { "item": "gold_watch" },
+          { "item": "undershirt" },
+          { "item": "gasdiscount_platinum" },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" }, { "item": "collarpin" }, { "item": "diamond_ring" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" }, { "item": "hairpin" }, { "item": "pearl_collar" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_mastadon_swat",
+    "name": "Uplifted Enforcer",
+    "description": "You are an uplifted elephant hybrid, a precisely engineered enforcer creature created by combining human, elephant and mastodon DNA.  Unlike most of your war-minded kin, you sought a peaceful retirement after completing your compulsive service period, and even earned the right to be considered a full citizen.  Now, with the end of the world in the horizon, it seems that your combat skills might come useful once again.",
+    "points": 7,
+    "starting_cash": 1120000,
+    "skills": [
+      { "level": 6, "name": "gun" },
+      { "level": 4, "name": "shotgun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" }
+    ],
+    "proficiencies": [ "prof_batons_familiar", "prof_auto_pistols_familiar" ],
+    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "TUSKS", "HUGE_OK" ],
+    "//": "Need to add XL gear for MASTODON's in more items.",
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "xlswat_armor" },
+          { "item": "xlboots_combat" },
+          { "item": "xlgloves_tactical" },
+          { "item": "wristwatch" },
+          { "item": "afs_ilbe" },
+          { "group": "army_mags_usp9" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
+          { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
+          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": [ "shoulder_strap" ] },
+          { "item": "baton", "container-item": "xlpolice_belt" }
+        ]
+      },
+      "male": { "entries": [ { "item": "xlboxer_shorts" } ] },
+      "female": { "entries": [ { "item": "xlsports_bra" }, { "item": "xlboy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_bio_operator",
+    "name": "Rogue Operator",
+    "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
+    "points": 2,
+    "starting_cash": 1120000,
+    "CBMs": [
+      "bio_carbon",
+      "bio_targeting",
+      "bio_climate",
+      "bio_ups",
+      "bio_eye_optic",
+      "bio_power_storage_mkII",
+      "bio_torsionratchet",
+      "bio_uncanny_dodge",
+      "bio_night_vision",
+      "afs_bio_cranialbomb"
+    ],
+    "skills": [
+      { "level": 5, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "survival" },
+      { "level": 1, "name": "melee" },
+      { "level": 2, "name": "dodge" }
+    ],
+    "proficiencies": [ "prof_auto_rifles_familiar", "prof_auto_pistols_familiar", "prof_gross_anatomy" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "gloves_tactical" },
+          { "item": "afs_jumpsuit_military" },
+          { "item": "cloak" },
+          { "item": "mask_ski" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "canteen" },
+          { "item": "wristwatch" },
+          { "item": "rollmat" },
+          { "item": "e_tool" },
+          { "item": "knife_hunting" },
+          {
+            "item": "m2010",
+            "ammo-item": "300_winmag",
+            "charges": 5,
+            "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
+          },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "tacvest", "contents-group": [ "army_mags_m2010" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_cecaelia_scientist",
+    "name": "Engineered Deep Sea Explorer",
+    "description": "Created with the exploration of the deep sea in mind, Cecaelia are hybridized from cephalopod and fish DNA.  While you were mostly spared from the corporate wars by your scientific proclivities, the polite niceties of the surface are mostly forgotten underwater.  You were on dry land when the Cataclysm occurred and you have no idea if it's safer here or beneath the seas.",
+    "points": 7,
+    "starting_cash": 1120000,
+    "skills": [
+      { "level": 4, "name": "chemistry" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" }
+    ],
+    "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
+    "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
+    "items": { "both": { "entries": [ { "item": "wetsuit_cecalia" }, { "item": "trident" }, { "item": "dive_bag" } ] } }
+  },
+  {
+    "type": "profession",
+    "id": "robot_scavenger",
+    "name": "Roboticist",
+    "description": "Scavenging and reselling abandoned robotics is what you call your \"job.\" It certainly isn't official in any means of the word, but it rakes in the dough and that is all that matters to you, even if it involves dangerous activities, be it cracking old Wraitheon security cyphers or crossing well-worn wires on ancient mining drones.",
+    "points": 4,
+    "starting_cash": 1120000,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jumpsuit" },
+          { "item": "hazmat_suit" },
+          { "item": "mask_gas" },
+          { "item": "socks" },
+          { "item": "molle_pack" },
+          { "item": "wristwatch" },
+          { "item": "bot_manhack", "count": 2 },
+          { "group": "charged_smart_phone" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
+          {
+            "item": "afs_cartridge",
+            "ammo-item": "battery",
+            "charges": 1500,
+            "container-item": "makeshift_scrambler"
+          }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_academic",
+    "name": "Academy Technologist",
+    "description": "A senior technologist from the Planetary Academy of Khorat, sent to Salus IV to oversee the procurement of valuable technological artifacts.  Although generously equipped, you are neither a fighter nor a good fit for life in the frontier.  You'd feel far more comfortable and capable commanding this salvage operation from the faraway safety of your office.",
+    "points": 4,
+    "starting_cash": 1120000,
+    "traits": [ "PACIFIST", "AFS_LEADERSHIP" ],
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 5, "name": "fabrication" },
+      { "level": 5, "name": "chemistry" },
+      { "level": 8, "name": "mechanics" },
+      { "level": 8, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "afs_academy_cloak" },
+          { "item": "socks" },
+          { "item": "pants" },
+          { "item": "dress_shoes" },
+          { "item": "dress_shirt" },
+          { "item": "wristwatch" },
+          {
+            "item": "afs_voltaic_cartridge",
+            "ammo-item": "battery",
+            "charges": 1500,
+            "container-item": "afs_voltaic_pistol"
+          },
+          { "item": "holster" },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_salvor",
+    "name": "Salvor",
+    "description": "A scavenger by necessity, born and raised in between ruins and slums.  Some might be lured to your profession by romantic notions of wealth, adventure or scientific discovery.  You know better.",
+    "points": 4,
+    "starting_cash": 1120000,
+    "skills": [
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "rocket_jumper",
+    "name": "Rocket Jumper",
+    "description": "A skilled airborne scout and salvager equipped with a rocket pack, eking out a living on the edge of legality.",
+    "points": 4,
+    "starting_cash": 1120000,
+    "skills": [
+      { "level": 3, "name": "dodge" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "afs_herc_rig" },
+          { "item": "XL_holster" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "item": "electrohack", "charges": 100 },
+          { "item": "afs_imager", "charges": 500 },
+          { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": 40 },
+          { "item": "ammonia_liquid" },
+          { "item": "ammonia_liquid" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_v29" },
+          {
+            "item": "afs_40g_plasma_civ",
+            "ammo-item": "afs_shydrogen",
+            "charges": 50,
+            "container-item": "afs_plasma_torch_gun"
+          },
+          { "item": "afs_jetpack", "charges": 10 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_ship_escape",
+    "copy-from": "afs_rating",
+    "name": "Escaping Crew",
+    "description": "You awake in your cabin to the sound of emergency sirens and the ship's computer calmly announcing in a posh English voice 'Abandon the vessel immediately.', and then counting down from five minutes.  You've got just enough time to hit a supply locker before you need to activate the escape pod down the hall."
+  },
+  {
+    "type": "profession",
+    "id": "afs_esper_telepath",
+    "name": "Whisper",
+    "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "starting_cash": 1120000,
+    "traits": [ "AFS_TELEPATH" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_telepathic_shield", "level": 8 },
+      { "id": "afs_telepathic_mind_sense", "level": 6 },
+      { "id": "afs_telepathic_suggestion", "level": 6 },
+      { "id": "afs_telepathic_confusion", "level": 5 },
+      { "id": "afs_telepathic_blast", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_esper_electrokinetic",
+    "name": "Spark",
+    "description": "You are an electrokinetic, able to control electricity with your mind.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "starting_cash": 1120000,
+    "traits": [ "AFS_ELECTROKINETIC" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_electrokinetic_see_electric", "level": 8 },
+      { "id": "afs_electrokinetic_zap_enemies", "level": 6 },
+      { "id": "afs_electrokinetic_hacking_interface", "level": 6 },
+      { "id": "afs_electrokinetic_personal_battery", "level": 5 },
+      { "id": "afs_electrokinetic_recharge_vehicle", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_esper_telekinetic",
+    "name": "Geist",
+    "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "starting_cash": 1120000,
+    "traits": [ "AFS_TELEKINETIC" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_telekinetic_move_item", "level": 8 },
+      { "id": "afs_telekinetic_move_creature", "level": 6 },
+      { "id": "afs_telekinetic_momentum", "level": 6 },
+      { "id": "afs_telekinetic_wave", "level": 5 },
+      { "id": "afs_telekinetic_hammer", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  }
+]

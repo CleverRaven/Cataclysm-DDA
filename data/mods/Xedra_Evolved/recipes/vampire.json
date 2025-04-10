@@ -341,5 +341,43 @@
       ]
     },
     "effect": [ { "u_lose_effect": "effect_vampire_reshuffling_weaknesses" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "anathema_blood_catalyst_unready",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "time": "10 m",
+    "components": [
+      [ [ "vampire_blood", 10 ] ],
+      [
+        [ "blood_acid", 10 ],
+        [ "blood_mi-go", 10 ],
+        [ "blood_tainted", 10 ],
+        [ "blood_acid_plant", 10 ],
+        [ "blood_acid_insect", 10 ],
+        [ "blood_acid_underground", 10 ]
+      ],
+      [
+        [ "formic_acid", 3 ],
+        [ "chem_acetic_acid", 3 ],
+        [ "chem_nitric_acid", 3 ],
+        [ "chem_sulphuric_acid", 3 ],
+        [ "chem_muriatic_acid", 3 ]
+      ],
+      [
+        [ "venom_bee", 6 ],
+        [ "venom_wasp", 6 ],
+        [ "venom_paralytic", 6 ],
+        [ "conc_venom", 3 ],
+        [ "conc_paralytic", 3 ]
+      ],
+      [ [ "nicotine_liquid", 100 ], [ "datura_seed", 10 ], [ "chem_toluene", 50 ], [ "leech_flower", 5 ] ]
+    ]
   }
 ]

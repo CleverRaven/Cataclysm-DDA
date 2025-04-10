@@ -449,6 +449,13 @@ class generic_factory
             return list;
         }
         /**
+         * Returns all the loaded objects. It can be used to iterate over them.
+         * Getting modifiable objects should be done sparingly!
+         */
+        std::vector<T> &get_all_mod() {
+            return list;
+        }
+        /**
          * @name `string_id/int_id` interface functions
          *
          * The functions here are supposed to be used by the id classes, they have the
@@ -929,6 +936,9 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
  */
 bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
+
+//Reads a standard single-float "proportional" entry
+float read_proportional_entry( const JsonObject &jo, const std::string_view &key );
 
 namespace reader_detail
 {

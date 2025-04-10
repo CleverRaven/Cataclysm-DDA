@@ -459,6 +459,8 @@ static int get_signal_for_hordes( const centroid &centr )
 
 void sounds::process_sounds()
 {
+    map &here = get_map();
+
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = get_weather().weather_id->sound_attn;
     for( const centroid &this_centroid : sound_clusters ) {
@@ -472,7 +474,7 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point_abs_ms abs_ms = get_map().get_abs( source ).xy();
+            const point_abs_ms abs_ms = here.get_abs( source ).xy();
             const point_abs_sm abs_sm( coords::project_to<coords::sm>( abs_ms ) );
             const tripoint_abs_sm target( abs_sm, source.z() );
             overmap_buffer.signal_hordes( target, sig_power );
@@ -488,9 +490,9 @@ void sounds::process_sounds()
         }
         // Trigger sound-triggered traps and ensure they are still valid
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
-            for( const tripoint_bub_ms &tp : get_map().trap_locations( trapType->id ) ) {
+            for( const tripoint_bub_ms &tp : here.trap_locations( trapType->id ) ) {
                 const int dist = sound_distance( source, tp );
-                const trap &tr = get_map().tr_at( tp );
+                const trap &tr = here.tr_at( tp );
                 // Exclude traps that certainly won't hear the sound
                 if( vol * 2 > dist ) {
                     if( tr.triggered_by_sound( vol, dist ) ) {
@@ -1728,6 +1730,8 @@ void sfx::remove_hearing_loss()
 
 void sfx::do_footstep()
 {
+    map &here = get_map();
+
     if( test_mode ) {
         return;
     }
@@ -1737,7 +1741,7 @@ void sfx::do_footstep()
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         const Character &player_character = get_player_character();
         int heard_volume = sfx::get_heard_volume( player_character.pos_bub() );
-        const auto terrain = get_map().ter( player_character.pos_bub() ).id();
+        const auto terrain = here.ter( player_character.pos_bub() ).id();
         static const std::set<ter_str_id> grass = {
             ter_t_grass,
             ter_t_shrub,
@@ -1829,7 +1833,7 @@ void sfx::do_footstep()
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
-        auto veh_displayed_part = get_map().veh_at( player_character.pos_bub() ).part_displayed();
+        auto veh_displayed_part = here.veh_at( player_character.pos_bub() ).part_displayed();
 
         const season_type seas = season_of_year( calendar::turn );
         const std::string seas_str = season_str( seas );

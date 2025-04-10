@@ -327,17 +327,14 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
     } else {
         update_cached_mutations();
     }
+    reset();
+    enchantment_cache->activate_passive( *this );
 }
 
 void Character::do_mutation_updates()
 {
     recalc_sight_limits();
     calc_encumbrance();
-
-    // If the stamina is higher than the max (Languorous), set it back to max
-    if( get_stamina() > get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
 }
 
 void Character::set_mutations( const std::vector<trait_id> &traits )
@@ -385,8 +382,12 @@ void Character::unset_mutation( const trait_id &trait_ )
         cached_mutations.erase( trait_ );
         if( !mut.enchantments.empty() ) {
             recalculate_enchantment_cache();
+        } else {
+            update_cached_mutations();
         }
         mutation_loss_effect( trait );
+        reset();
+        enchantment_cache->activate_passive( *this );
     }
 }
 
@@ -566,13 +567,14 @@ void Character::recalculate_size()
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
+    map &here = get_map();
+
     if( mut.obj().vanity ) {
         return;
     }
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
-    reset();
     trait_flag_cache.clear();
     recalculate_size();
 
@@ -597,7 +599,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos_bub(), armor );
+            here.add_item_or_charges( pos_bub(), armor );
             return true;
         }
         if( !branch.conflicts_with_item( armor ) ) {
@@ -631,7 +633,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos_bub(), armor );
+            here.add_item_or_charges( pos_bub(), armor );
         }
         return true;
     } );
@@ -658,7 +660,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
-    reset();
     trait_flag_cache.clear();
     recalculate_size();
 
@@ -818,6 +819,8 @@ void Character::activate_mutation( const trait_id &mut )
 
 void Character::activate_cached_mutation( const trait_id &mut )
 {
+    map &here = get_map();
+
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = cached_mutations[mut];
     int cost = mdata.cost;
@@ -886,7 +889,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos_bub(), fd_web, 1 );
+        here.add_field( pos_bub(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_LONG_TONGUE2 ||
                mut == trait_GASTROPOD_EXTREMITY2 ||
@@ -895,7 +898,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
         assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
-        get_map().add_field( pos_bub(), fd_sludge, 1 );
+        here.add_field( pos_bub(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;
@@ -944,7 +947,6 @@ void Character::activate_cached_mutation( const trait_id &mut )
             return;
         }        // Check for adjacent trees.
         bool adjacent_tree = false;
-        map &here = get_map();
         for( const tripoint_bub_ms &p2 : here.points_in_radius( pos_bub(), 1 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_TREE, p2 ) ) {
                 adjacent_tree = true;

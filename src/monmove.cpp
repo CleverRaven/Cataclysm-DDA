@@ -143,8 +143,9 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
 {
     const std::vector<field_type_id> impassable_field_ids = here->get_impassable_field_type_ids_at( p );
-    if( !here->passable_skip_fields( p ) || ( !impassable_field_ids.empty() &&
-            !is_immune_fields( impassable_field_ids ) ) ) {
+    if( !here->passable_skip_fields( p ) || here->has_flag( ter_furn_flag::TFLAG_CLIMBABLE, p ) ||
+        ( !impassable_field_ids.empty() &&
+          !is_immune_fields( impassable_field_ids ) ) ) {
         if( digging() ) {
             if( !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
                 return false;
@@ -1133,7 +1134,7 @@ void monster::move()
                 rampPos += 1;
                 candidate += tripoint_rel_ms::below;
             }
-            const tripoint_abs_ms candidate_abs = get_map().get_abs( candidate );
+            const tripoint_abs_ms candidate_abs = here.get_abs( candidate );
 
             if( candidate.z() != pos.z() ) {
                 bool can_z_move = true;
@@ -1432,8 +1433,9 @@ void monster::footsteps( const tripoint_bub_ms &p )
 
 tripoint_bub_ms monster::scent_move()
 {
+    map &here = get_map();
     // TODO: Remove when scentmap is 3D
-    if( std::abs( posz() - get_map().get_abs_sub().z() ) > SCENT_MAP_Z_REACH ) {
+    if( std::abs( posz() - here.get_abs_sub().z() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
     scent_map &scents = get_scent();
@@ -1494,7 +1496,6 @@ tripoint_bub_ms monster::scent_move()
     }
 
     const bool can_bash = bash_skill() > 0;
-    map &here = get_map();
     if( !fleeing && scent_here > smell_threshold ) {
         // Smell too strong to track, wander around
         sdirection.push_back( pos_bub() );
@@ -1793,7 +1794,7 @@ bool monster::attack_at( const tripoint_bub_ms &p )
 
     // Attack last known position despite empty
     if( has_effect( effect_stumbled_into_invisible ) &&
-        get_map().has_field_at( p, field_fd_last_known ) && !sees_player &&
+        here.has_field_at( p, field_fd_last_known ) && !sees_player &&
         attitude_to( player_character ) == Attitude::HOSTILE ) {
         return attack_air( tripoint_bub_ms( p ) );
     }

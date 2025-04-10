@@ -64,5 +64,22 @@
       [ [ "sugar", 50 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "sugar",
+    "id_suffix": "bone_smash",
+    "activity_level": "MODERATE_EXERCISE",
+    "charges": 100,
+    "//": "quite a lot of sugar is scattered when you bash the bones apart",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": true,
+    "batch_time_factors": [ 95, 2 ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone_sugar", 1 ] ] ]
   }
 ]

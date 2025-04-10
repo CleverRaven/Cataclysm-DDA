@@ -851,17 +851,59 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
     }
 }
 
-void iexamine::translocator( Character &, const tripoint_bub_ms &examp )
+void iexamine::translocator( Character &you, const tripoint_bub_ms &examp )
 {
-    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().get_abs( examp ) ) );
+    map &here = get_map();
+
+    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( here.get_abs( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
-    if( !activated ) {
-        player_character.translocators.activate_teleporter( omt_loc, examp );
-        add_msg( m_info, _( "Translocator gate active." ) );
+
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER, examp ) ) {
+
+        enum options {
+            ADJUST_ACTIVATION,
+            TELEPORT,
+        };
+
+        uilist menu;
+        menu.addentry( TELEPORT, true, 't', _( "Translocate" ) );
+        menu.addentry( ADJUST_ACTIVATION, true, 'a', _( "Adjust activation status" ) );
+        menu.query();
+
+        switch( menu.ret ) {
+            case TELEPORT: {
+                avatar *av = you.as_avatar();
+                if( av == nullptr ) {
+                    return;
+                }
+                av->translocators.translocate( { you.pos_bub() } );
+                break;
+            }
+            case ADJUST_ACTIVATION: {
+                if( !activated ) {
+                    player_character.translocators.activate_teleporter( omt_loc, examp );
+                    add_msg( m_info, _( "Translocator gate active." ) );
+                } else {
+                    if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+                        player_character.translocators.deactivate_teleporter( omt_loc, examp );
+                    }
+                }
+                break;
+            }
+            default: {
+                return;
+            }
+        }
+
     } else {
-        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            player_character.translocators.deactivate_teleporter( omt_loc, examp );
+        if( !activated ) {
+            player_character.translocators.activate_teleporter( omt_loc, examp );
+            add_msg( m_info, _( "Translocator gate active." ) );
+        } else {
+            if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
+                player_character.translocators.deactivate_teleporter( omt_loc, examp );
+            }
         }
     }
 }
@@ -1221,11 +1263,13 @@ void iexamine::atm( Character &you, const tripoint_bub_ms & )
  */
 void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
+
     constexpr int moves_cost = to_moves<int>( 5_seconds );
     int money = you.charges_of( itype_cash_card );
-    map_stack vend_items = get_map().i_at( examp );
+    map_stack vend_items = here.i_at( examp );
 
-    bool use_bank = get_map().has_flag_furn( "BANK_NETWORKED", examp );
+    bool use_bank = here.has_flag_furn( "BANK_NETWORKED", examp );
 
     if( use_bank ) {
         money = you.cash + you.charges_of( itype_cash_card );
@@ -1580,7 +1624,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     if( you.is_avatar() ) {
         g->vertical_shift( movez );
         g->update_map( you, true );
-        cata_event_dispatch::avatar_moves( old_abs_pos, *you.as_avatar(), get_map() );
+        cata_event_dispatch::avatar_moves( old_abs_pos, *you.as_avatar(), here );
     }
 }
 
@@ -1620,7 +1664,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
         hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub( here ), &you );
         you.assign_activity( hacking_activity_actor( hacking_tool ) );
-        you.activity.placement = get_map().get_abs( examp );
+        you.activity.placement = here.get_abs( examp );
         return true;
     }
 }
@@ -1997,6 +2041,8 @@ void iexamine::pit_covered( Character &you, const tripoint_bub_ms &examp )
  */
 void iexamine::safe( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
+
     bool has_cracking_tool = you.has_flag( json_flag_SAFECRACK_NO_TOOL );
     // short-circuit to avoid the more expensive iteration over items
     has_cracking_tool = has_cracking_tool || you.cache_has_item_with( flag_SAFECRACK );
@@ -2016,7 +2062,7 @@ void iexamine::safe( Character &you, const tripoint_bub_ms &examp )
         if( you.has_proficiency( proficiency_prof_safecracking ) ) {
             if( one_in( 8000 ) ) {
                 you.add_msg_if_player( m_good, _( "You carefully dial a combination… and it opens!" ) );
-                get_map().furn_set( examp, furn_f_safe_o );
+                here.furn_set( examp, furn_f_safe_o );
                 return;
             } else {
                 you.add_msg_if_player( m_info, _( "You carefully dial a combination." ) );
@@ -2025,7 +2071,7 @@ void iexamine::safe( Character &you, const tripoint_bub_ms &examp )
         } else {
             if( one_in( 80000 ) ) {
                 you.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-                get_map().furn_set( examp, furn_f_safe_o );
+                here.furn_set( examp, furn_f_safe_o );
                 return;
             } else {
                 you.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
@@ -3208,7 +3254,7 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
     } else {
         you.mod_power_level( -bio_lighter->power_activate );
         you.mod_moves( -to_moves<int>( 1_seconds ) );
-        firestarter_actor::resolve_firestarter_use( &you, &get_map(), examp,
+        firestarter_actor::resolve_firestarter_use( &you, &here, examp,
                 st );
     }
 }
@@ -3223,41 +3269,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
     pick_firestarter_and_fire( you, examp, firestarter_actor::start_type::KILN );
 }
 
-static int kiln_prep_internal( Character &you, const tripoint_bub_ms &examp )
-{
-    map &here = get_map();
-
-    // https://energypedia.info/wiki/Charcoal_Production
-    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
-    // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
-    // 100% efficient conversion would be 1kg wood = 0.25kg charcoal, 1:1 volume conversion
-    // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
-    // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
-    // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
-    ///\EFFECT_FABRICATION decreases loss when firing a kiln
-    const furn_id &cur_kiln_type = here.furn( examp );
-    const float skill = you.get_skill_level( skill_fabrication );
-    int loss = 0;
-    // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
-    if( cur_kiln_type == furn_f_kiln_metal_empty ) {
-        loss = 20 - 2 * skill;
-    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
-        loss = 25 - 2 * skill;
-    } else {
-        loss = 60 - 2 * skill;
-    }
-
-    map_stack items = here.i_at( examp );
-    units::volume total_volume = 0_ml;
-    for( const item &i : items ) {
-        total_volume += i.volume();
-    }
-
-    const itype *char_type = item::find_type( itype_unfinished_charcoal );
-    return char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
-}
-
-bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
+bool iexamine::kiln_prep( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     const furn_id &cur_kiln_type = here.furn( examp );
@@ -3290,13 +3302,6 @@ bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
         return false;
     }
 
-    int char_charges = kiln_prep_internal( you, examp );
-
-    if( char_charges < 1 ) {
-        add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
-        return false;
-    }
-
     return true;
 }
 
@@ -3318,8 +3323,39 @@ bool iexamine::kiln_fire( Character &you, const tripoint_bub_ms &examp )
         next_kiln_type = furn_f_kiln_portable_full;
     }
 
+    // https://energypedia.info/wiki/Charcoal_Production
+    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
+    // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
+    // 100% efficient conversion would be 1kg wood = 0.25kg charcoal, 1:1 volume conversion
+    // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
+    // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
+    // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
+    ///\EFFECT_FABRICATION decreases loss when firing a kiln
+    const float skill = you.get_skill_level( skill_fabrication );
+    int loss = 0;
+    // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
+    if( cur_kiln_type == furn_f_kiln_metal_empty ) {
+        loss = 20 - 2 * skill;
+    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
+        loss = 25 - 2 * skill;
+    } else {
+        loss = 60 - 2 * skill;
+    }
+
     // Burn stuff that should get charred, leave out the rest
-    int char_charges = kiln_prep_internal( you, examp );
+    map_stack items = here.i_at( examp );
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
+
+    const itype *char_type = item::find_type( itype_unfinished_charcoal );
+    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    if( char_charges < 1 ) {
+        add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
+        return false;
+    }
+
     here.i_clear( examp );
     here.furn_set( examp, next_kiln_type );
     item result( itype_unfinished_charcoal, calendar::turn );
@@ -3332,7 +3368,7 @@ bool iexamine::kiln_fire( Character &you, const tripoint_bub_ms &examp )
 void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    const furn_id &cur_kiln_type = here.furn( examp );
+    furn_id cur_kiln_type = here.furn( examp );
     furn_id next_kiln_type = furn_str_id::NULL_ID();
     if( cur_kiln_type == furn_f_kiln_metal_full ) {
         next_kiln_type = furn_f_kiln_metal_empty;
@@ -3342,7 +3378,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
         next_kiln_type = furn_f_kiln_empty;
     } else {
         debugmsg( "Examined furniture has action kiln_full, but is of type %s",
-                  cur_kiln_type.id().c_str() );
+                  here.furn( examp ).id().c_str() );
         return;
     }
     map_stack items = here.i_at( examp );
@@ -3389,6 +3425,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
     here.add_item( examp, result );
     here.furn_set( examp, next_kiln_type );
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
+
 }
 //arc furnance start
 void iexamine::arcfurnace_empty( Character &you, const tripoint_bub_ms &examp )
@@ -6580,7 +6617,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, examp, get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, here, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -6715,7 +6752,7 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
 
     for( item &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, examp, get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, here, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -7525,13 +7562,15 @@ void iexamine::open_safe( Character &, const tripoint_bub_ms &examp )
 
 void iexamine::workbench( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
+
     if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
         workbench_internal( you, examp, std::nullopt );
     } else {
-        if( !get_map().i_at( examp ).empty() ) {
+        if( !here.i_at( examp ).empty() ) {
             g->pickup( examp );
         }
-        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
+        if( item::type_is_defined( here.furn( examp ).obj().deployed_item ) ) {
             deployed_furniture( you, examp );
         }
     }

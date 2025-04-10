@@ -102,7 +102,7 @@ void game::serialize( std::ostream &fout )
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
-    tripoint_abs_sm pos_abs_sm = m.get_abs_sub();
+    tripoint_abs_sm pos_abs_sm = get_map().get_abs_sub();
     point_abs_om pos_om;
     tripoint_om_sm pos_sm;
     std::tie( pos_om, pos_sm ) = project_remain<coords::om>( pos_abs_sm );
@@ -274,11 +274,7 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             queued_eoc temp;
             temp.time = time_point( elem.get_int( "time" ) );
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            std::unordered_map<std::string, std::string> context;
-            for( const JsonMember &jm : elem.get_object( "context" ) ) {
-                context[jm.name()] = jm.get_string();
-            }
-            temp.context = context;
+            elem.read( "context", temp.context );
             queued_global_effect_on_conditions.push( temp );
         }
         global_variables_instance.unserialize( data );

@@ -546,5 +546,25 @@
       "s_gas_east": "s_gas_1_east",
       "s_gas_west": "s_gas_1_west"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "outpost_cross_north": "outpost_north",
+      "outpost_cross_south": "outpost_south",
+      "outpost_cross_east": "outpost_east",
+      "outpost_cross_west": "outpost_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "outpost_cross_roof_north": "outpost_roof_north",
+      "outpost_cross_roof_south": "outpost_roof_south",
+      "outpost_cross_roof_east": "outpost_roof_east",
+      "outpost_cross_roof_west": "outpost_roof_west"
+    }
   }
 ]

@@ -12,14 +12,14 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "firstaid",
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "55 m",
-    "fun": -1,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "firstaid",
+    "read_fun": -1
   },
   {
     "id": "mag_firstaid",
@@ -35,12 +35,12 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "firstaid",
     "max_level": 1,
     "intelligence": 6,
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "8 m",
-    "fun": 1
+    "read_skill": "firstaid",
+    "read_fun": 1
   },
   {
     "id": "manual_first_aid",
@@ -56,14 +56,14 @@
     "ascii_picture": "manual_first_aid",
     "symbol": "?",
     "color": "green",
-    "skill": "firstaid",
     "max_level": 3,
     "intelligence": 8,
     "proficiencies": [
       { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 },
       { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 }
     ],
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "firstaid"
   },
   {
     "id": "pocket_firstaid",
@@ -78,11 +78,11 @@
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "green",
-    "skill": "firstaid",
     "max_level": 2,
     "intelligence": 6,
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 } ],
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "firstaid"
   },
   {
     "id": "textbook_firstaid",
@@ -98,13 +98,13 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "firstaid",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "firstaid"
   },
   {
     "id": "booklet_firstaid",
@@ -120,10 +120,10 @@
     "symbol": "?",
     "looks_like": "pocket_firstaid",
     "color": "pink",
-    "skill": "firstaid",
     "max_level": 1,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "firstaid",
+    "read_fun": 1
   },
   {
     "id": "reference_firstaid1",
@@ -141,8 +141,8 @@
     "color": "blue",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -2,
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": -2
   },
   {
     "id": "reference_firstaid2",
@@ -176,11 +176,11 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "green",
-    "skill": "firstaid",
     "required_level": 5,
     "max_level": 6,
     "intelligence": 11,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "firstaid",
+    "read_fun": -2
   }
 ]

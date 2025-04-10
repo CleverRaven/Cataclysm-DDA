@@ -239,7 +239,7 @@
       "toilets": { "&": {  } },
       "items": {
         "I": { "item": "office", "chance": 30 },
-        "F": { "item": "office_paper", "chance": 30 },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "consumer_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "-": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
