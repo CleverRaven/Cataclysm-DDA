@@ -142,21 +142,21 @@
     "valid_targets": [ "self" ],
     "teachable": false,
     "skill": "deduction",
-    "max_level": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "shape": "blast",
-    "difficulty": 2,
+    "difficulty": 1,
     "effect": "attack",
-    "effect_str": "effect_changeling_autumn_detect_magic_user",
+    "effect_str": "effect_sense_vampire",
     "min_duration": {
       "math": [ "( 6000 + (u_spell_level('homullus_sense_vampires_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
     },
     "max_duration": {
       "math": [ "( 6000 + (u_spell_level('homullus_sense_vampires_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
     },
-    "base_energy_cost": {
-      "math": [ "max( ( 250 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3) - (u_skill('deduction') * 8)), 125)" ]
-    },
-    "base_casting_time": 500
+    "base_energy_cost": 300,
+    "final_energy_cost": 150,
+    "energy_increment": -8,
+    "base_casting_time": 100
   },
   {
     "id": "homullus_invisible_to_humans_spell_self",
