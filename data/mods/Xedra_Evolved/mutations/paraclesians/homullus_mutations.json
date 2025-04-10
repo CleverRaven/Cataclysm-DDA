@@ -126,7 +126,7 @@
     "category": [ "HOMULLUS" ],
     "spells_learned": [ [ "homullus_summon_feral_spell", 1 ] ]
   },
-    {
+  {
     "type": "mutation",
     "id": "FREE_WILL",
     "name": { "str": "Free Will" },
@@ -149,9 +149,7 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "SIGHT_RANGE_HUMAN", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } }
-        ]
+        "values": [ { "value": "SIGHT_RANGE_HUMAN", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } } ]
       }
     ]
   },
@@ -167,9 +165,7 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "SIGHT_RANGE_VAMPIRE", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } }
-        ]
+        "values": [ { "value": "SIGHT_RANGE_VAMPIRE", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } } ]
       }
     ]
   },
