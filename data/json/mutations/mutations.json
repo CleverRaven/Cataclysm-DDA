@@ -1248,7 +1248,7 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "Your body eats up lesser mutagens faster than normal.  Exotic and esoteric mutagens will still affect you normally.",
-    "vitamin_rates": [ 
+    "vitamin_rates": [
       [ "mutagen_batrachian", 600 ],
       [ "mutagen_beast", 600 ],
       [ "mutagen_bird", 600 ],
@@ -1270,7 +1270,7 @@
       [ "mutagen_spider", 600 ],
       [ "mutagen_troglobite", 600 ],
       [ "mutagen_ursine", 600 ]
-     ],
+    ],
     "changes_to": [ "RESTRICTED" ],
     "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
     "category": [ "ALPHA" ]
