@@ -526,5 +526,21 @@
         ]
       }
     ]
+  },
+  {
+    "id": "dental_tools",
+    "type": "TOOL",
+    "name": { "str": "dental tool set" },
+    "description": "A set of picks, hooks, and scrapers designed for cleaning teeth.",
+    "weight": "160 g",
+    "volume": "370 ml",
+    "longest_side": "20 cm",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "qualities": [ [ "LOCKPICK", 1 ], [ "LEATHER_AWL", 1 ], [ "PUNCH", 1 ] ],
+    "melee_damage": { "stab": 1 }
   }
 ]
