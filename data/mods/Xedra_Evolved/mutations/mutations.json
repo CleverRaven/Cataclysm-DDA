@@ -175,7 +175,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN" } },
+            { "not": { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" } },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
@@ -184,7 +184,7 @@
       {
         "condition": {
           "and": [
-            { "u_has_trait": "DHAMPIR_WEARKNESS_SLOWER_BLOOD_GAIN" },
+            { "u_has_trait": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN" },
             { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] }
           ]
         },
