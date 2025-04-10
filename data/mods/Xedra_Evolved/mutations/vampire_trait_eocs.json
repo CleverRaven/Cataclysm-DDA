@@ -27,7 +27,17 @@
       },
       {
         "if": { "u_has_trait": "DHAMPIR_WEAKNESS_BLOODTHIRST" },
-        "then": [ { "u_lose_morale": "morale_craving_human_blood" }, { "u_lose_effect": "effect_dhampir_bloodlust_cravings" } ]
+        "then": [
+          { "u_lose_morale": "morale_craving_human_blood" },
+          { "u_lose_effect": "effect_dhampir_bloodlust_cravings" },
+          {
+            "u_add_morale": "morale_drank_blood",
+            "bonus": 30,
+            "max_bonus": 60,
+            "duration": "20 m",
+            "decay_start": "10 m"
+          }
+        ]
       },
       {
         "if": { "u_has_trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST" },
@@ -62,7 +72,7 @@
             "if": { "math": [ "dhampir_total_weaknesses() < 4" ] },
             "then": [
               {
-                "if": { "x_in_y_chance": { "x": { "math": [ "u_dhampir_have_ever_drunk_blood" ] }, "y": { "math": [ "rng(100,1000)" ] } } },
+                "if": { "x_in_y_chance": { "x": { "math": [ "u_dhampir_have_ever_drunk_blood" ] }, "y": { "math": [ "rng(500,10000)" ] } } },
                 "then": [
                   { "run_eocs": "EOC_DHAMPIR_GAIN_WEAKNESSES" },
                   { "u_message": "As the blood hits your tongue, something inside you shifts.", "type": "bad" },
