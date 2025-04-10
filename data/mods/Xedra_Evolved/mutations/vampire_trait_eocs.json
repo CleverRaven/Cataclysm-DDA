@@ -236,7 +236,9 @@
       {
         "if": {
           "or": [
-            { "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+            {
+              "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } }, { "not": { "u_has_species": "VAMPIRE" } } ]
+            },
             { "u_has_species": "FERAL" },
             { "u_has_species": "RENFIELD" },
             { "and": [ { "u_has_species": "CHANGELING" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
@@ -261,7 +263,9 @@
         "if": {
           "and": [
             { "not": "u_is_npc" },
-            { "or": [ { "not": { "u_has_species": "HUMAN" } }, { "u_has_species": "ZOMBIE" } ] },
+            {
+              "or": [ { "not": { "u_has_species": "HUMAN" } }, { "u_has_species": "ZOMBIE" }, { "u_has_species": "VAMPIRE" } ]
+            },
             { "not": { "u_has_species": "FERAL" } },
             { "not": { "u_has_species": "CHANGELING" } },
             { "not": { "u_has_species": "RENFIELD" } },
@@ -270,7 +274,14 @@
           ]
         },
         "then": [
-          { "npc_message": "You get a taste of blood but stop drinking when you realize it cannot sustain you.", "type": "bad" },
+          {
+            "if": { "u_has_species": "VAMPIRE" },
+            "then": {
+              "npc_message": "The vampire's blood refuses to leave its veins, no matter how hard you try to drain it.",
+              "type": "bad"
+            },
+            "else": { "npc_message": "You get a taste of blood but stop drinking when you realize it cannot sustain you.", "type": "bad" }
+          },
           {
             "if": {
               "or": [
@@ -2102,7 +2113,7 @@
     "type": "effect_on_condition",
     "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
     "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" } },
-    "recurrence": [ "5 days", "5 days" ],
+    "recurrence": [ "2 days", "3 days" ],
     "effect": [
       {
         "u_add_effect": "vampire_need_living_blood",
