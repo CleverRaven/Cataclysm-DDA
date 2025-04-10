@@ -90,7 +90,7 @@
                       "DHAMPIR_RESIST_DISEASE_POISON_INFECTION"
                     ],
                     "type": "mutation",
-                    "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
+                    "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE", "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_2" ],
                     "false_eocs": [
                       {
                         "id": "EOC_DHAMPIR_GAIN_NEW_POWER_TIER_3",
@@ -106,7 +106,7 @@
                               "DHAMPIR_MEND_WOUNDS_FASTER"
                             ],
                             "type": "mutation",
-                            "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE" ],
+                            "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_POWER_MESSAGE", "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE", "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_3" ],
                             "false_eocs": [  ]
                           }
                         ]
@@ -128,7 +128,78 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE",
+    "effect": [ { "u_message": "You use of your vampiric powers has caused you to gain a new frailty.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_DHAMPIR_GAIN_NEW_POWER_RESET_VALUE",
     "effect": [ { "math": [ "u_dhampir_blood_spent_compare_value_for_powers = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_2",
+    "condition": { "math": [ "u_dhampir_have_tier_2_weakness != 1" ] },
+    "effect": [ { "run_eocs": "EOC_DHAMPIR_GAIN_WEAKNESSES" }, { "math": [ "u_dhampir_have_tier_2_weakness = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_WEAKNESSES_TIER_3",
+    "condition": { "math": [ "u_dhampir_have_tier_3_weakness != 1" ] },
+    "effect": [ { "run_eocs": "EOC_DHAMPIR_GAIN_WEAKNESSES" }, { "math": [ "u_dhampir_have_tier_3_weakness = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_WEAKNESSES",
+    "condition": { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEAKNESS_SLOW_HEALING",
+          "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
+          "DHAMPIR_WEAKNESS_WATER_PAIN",
+          "DHAMPIR_WEAKNESS_CORPSELIKE_PALLOR"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
+        "false_eocs": [  ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_roll_remainder": [
+          "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEAKNESS_SLOW_HEALING",
+          "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
+          "DHAMPIR_WEAKNESS_WATER_PAIN",
+          "DHAMPIR_WEAKNESS_CORPSELIKE_PALLOR",
+          "DHAMPIR_WEAKNESS_BLOODTHIRST",
+          "DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE",
+          "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],
+        "false_eocs": [  ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_WEAKNESS_BLOODLUST_CHECKS",
+    "recurrence": [ 900, 129600 ],
+    "condition": { "u_has_trait": "DHAMPIR_WEAKNESS_BLOODTHIRST" },
+    "deactivate_condition": { "not": { "u_has_trait": "DHAMPIR_WEAKNESS_BLOODTHIRST" } },
+    "effect": [
+      {
+        "u_add_morale": "morale_craving_human_blood",
+        "bonus": -30,
+        "max_bonus": -90,
+        "duration": "360 m",
+        "decay_start": "180 m"
+      },
+      { "u_add_effect": "effect_dhampir_bloodlust_cravings", "duration": { "math": [ "rng(10800,21600)" ] } },
+      { "u_message": "Crimson clouds your vision as you are overcome with an urge to drink blood.", "type": "bad" }
+    ]
   }
 ]

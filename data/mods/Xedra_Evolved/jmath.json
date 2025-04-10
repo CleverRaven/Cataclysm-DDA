@@ -255,6 +255,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "dhampir_total_weaknesses",
+    "num_args": 0,
+    "return": "u_has_trait('DHAMPIR_WEAKNESS_SUN_SENSITIVITY') + u_has_trait('DHAMPIR_WEAKNESS_SLOW_HEALING') + u_has_trait('DHAMPIR_WEAKNESS_ANIMAL_DISCORD') + u_has_trait('DHAMPIR_WEAKNESS_WATER_PAIN') + u_has_trait('DHAMPIR_WEAKNESS_CORPSELIKE_PALLOR') + u_has_trait('DHAMPIR_WEAKNESS_BLOODTHIRST') + u_has_trait('DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN') + u_has_trait('DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE')"
+  },
+  {
+    "type": "jmath_function",
     "id": "changeling_common_traits",
     "//": "This is to make sure no individual changeling has a mutation count twice",
     "num_args": 0,
