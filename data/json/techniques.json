@@ -148,6 +148,7 @@
     "id": "PIN",
     "name": "Pin Target",
     "melee_allowed": true,
+    "reach_ok": true,
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "//condition": "Humanoids of similar size and no flying",
     "weighting": 2,
