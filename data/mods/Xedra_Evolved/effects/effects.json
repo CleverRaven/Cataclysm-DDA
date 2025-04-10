@@ -590,6 +590,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_empowered_blood_indicator",
+    "name": [ "Empowered Blood" ],
+    "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_fall_one_story",
     "//": "Hidden--tied to a conditional enchantment",
     "name": [ "" ],

@@ -180,6 +180,10 @@
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
         "ench_effects": [ { "effect": "effect_dhampir_slow_blood_loss", "intensity": 1 } ]
       },
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_empowered_blood_indicator", "intensity": 1 } ]
+      },
       { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
     ],
     "//": "Dhampirs not getting Cannibal is deliberate.  The struggle over their own humanity is a core part of the dhampir theme.",
