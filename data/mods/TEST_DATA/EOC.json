@@ -492,7 +492,7 @@
     "id": "EOC_mark_mutation_test",
     "effect": [
       { "math": [ "test_val = 1" ] },
-      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
+      { "copy_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
     ]
   },
   {
@@ -597,8 +597,8 @@
     "eoc_type": "EVENT",
     "required_event": "character_casts_spell",
     "effect": [
-      { "set_string_var": { "context_val": "spell" }, "target_var": { "global_val": "key1" } },
-      { "set_string_var": { "context_val": "school" }, "target_var": { "global_val": "key2" } },
+      { "copy_var": { "context_val": "spell" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "context_val": "school" }, "target_var": { "global_val": "key2" } },
       { "math": [ "key3 = _difficulty" ] },
       { "math": [ "key4 = _cost" ] },
       { "math": [ "key5 = _cast_time" ] },
@@ -637,7 +637,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_finished_activity",
     "effect": [
-      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
       { "math": [ "key2 = _canceled" ] },
       { "set_string_var": "activity finished", "target_var": { "global_val": "key3" } }
     ]
@@ -648,7 +648,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_starts_activity",
     "effect": [
-      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
       { "math": [ "key2 = _resume" ] },
       { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
     ]
@@ -661,8 +661,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
       { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]
   },
   {
@@ -673,8 +673,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
       { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
     ]
   },
   {
@@ -685,8 +685,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
       { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]
   },
   {
@@ -697,8 +697,8 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
       { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
-      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
-      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
+      { "copy_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "copy_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
     ]
   },
   {
@@ -708,7 +708,7 @@
     "required_event": "character_kills_monster",
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_kills_monster" },
-      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
+      { "copy_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
       { "math": [ "test_exp = _exp" ] }
     ]
   },
@@ -764,11 +764,7 @@
       { "math": [ "global_u = u_key1 + v_testing" ] },
       { "set_string_var": "_key1", "target_var": { "context_val": "testing" } },
       { "math": [ "v_testing = 2" ] },
-      { "math": [ "global_context = _key1 + v_testing" ] },
-      { "set_string_var": "v_key1", "target_var": { "context_val": "testing" } },
-      { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
-      { "math": [ "v_testing = 1" ] },
-      { "math": [ "global_nested = _key2 + v_testing" ] }
+      { "math": [ "global_context = _key1 + v_testing" ] }
     ]
   },
   {
@@ -786,13 +782,13 @@
       { "set_string_var": "Works_u", "target_var": { "u_val": "testing_u" } },
       { "set_string_var": "Works_npc", "target_var": { "npc_val": "testing_npc" } },
       { "set_string_var": "testing_global", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key1" } },
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key1" } },
       { "set_string_var": "_testing_context", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } },
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } },
       { "set_string_var": "u_testing_u", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key3" } },
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key3" } },
       { "set_string_var": "n_testing_npc", "target_var": { "context_val": "testing" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key4" } }
+      { "copy_var": { "var_val": "testing" }, "target_var": { "global_val": "key4" } }
     ]
   },
   {

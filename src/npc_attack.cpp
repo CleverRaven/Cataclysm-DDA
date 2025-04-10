@@ -16,7 +16,6 @@
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "flag.h"
-#include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -504,14 +503,7 @@ int npc_attack_gun::base_time_penalty( const npc &source ) const
     if( !weapon.ammo_sufficient( &source ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
-    int recoil_penalty = 0;
-    if( source.is_wielding( weapon ) ) {
-        recoil_penalty = source.recoil;
-    } else {
-        recoil_penalty = MAX_RECOIL;
-    }
-    recoil_penalty /= 100;
-    return time_penalty + recoil_penalty;
+    return time_penalty;
 }
 
 tripoint_range<tripoint_bub_ms> npc_attack_gun::targetable_points( const npc &source ) const

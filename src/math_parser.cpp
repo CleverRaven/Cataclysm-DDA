@@ -22,7 +22,6 @@
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "global_vars.h"
 #include "math_parser_diag.h"
 #include "math_parser_diag_value.h"
 #include "math_parser_func.h"
@@ -178,7 +177,8 @@ bool is_function( op_t const &op )
 bool is_assign_target( thingie const &thing )
 {
     return std::holds_alternative<var>( thing.data ) ||
-           std::holds_alternative<func_diag>( thing.data );
+           ( std::holds_alternative<func_diag>( thing.data ) &&
+             std::get<func_diag>( thing.data ).fa != nullptr );
 }
 
 std::vector<double> _eval_params( std::vector<thingie> const &params, const_dialogue const &d )
@@ -225,11 +225,7 @@ diag_value _get_diag_value( const_dialogue const &d, thingie const &param )
         },
         [&val, &d]( var const & v )
         {
-            if( std::optional<std::string> ret = maybe_read_var_value( v.varinfo, d ); ret ) {
-                val = diag_value{ *ret };
-            } else {
-                val = diag_value{};
-            }
+            val = read_var_value( v.varinfo, d );
         },
         [&val, &d]( auto const & v )
         {
@@ -270,15 +266,15 @@ double func_jmath::eval( const_dialogue const &d ) const
 
 double var::eval( const_dialogue const &d ) const
 {
-    std::string const str = read_var_value( varinfo, d );
-    if( str.empty() ) {
-        return 0;
+    if( diag_value const *ret = maybe_read_var_value( varinfo, d ); ret ) {
+        try {
+            return ret->dbl( d );
+        } catch( math::exception &ex ) {
+            throw math::runtime_error(
+                R"(Type mismatch in variable "%s" with value "%s": %s)", varinfo.name,
+                ret->to_string(), ex.what() );
+        }
     }
-    if( std::optional<double> ret = svtod( str ); ret ) {
-        return *ret;
-    }
-    throw math::runtime_error( R"(failed to convert variable "%s" with value "%s" to a number)",
-                               varinfo.name, str );
     return 0;
 }
 

@@ -34,7 +34,6 @@
     "price_postapoc": "1 USD",
     "symbol": ";",
     "color": "blue",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "psionic_transporter_remote_on",
@@ -52,7 +51,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "psionic_transporter_remote_on",
@@ -67,7 +67,6 @@
     "price_postapoc": "1 USD",
     "symbol": ";",
     "color": "blue",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -96,7 +95,8 @@
     ],
     "copy-from": "psionic_transporter_remote",
     "power_draw": "25000 mW",
-    "revert_to": "psionic_transporter_remote"
+    "revert_to": "psionic_transporter_remote",
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "psionic_transporter_remote_broken",

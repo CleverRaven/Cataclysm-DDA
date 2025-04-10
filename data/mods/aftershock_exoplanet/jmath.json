@@ -1,0 +1,26 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "int_to_level",
+    "num_args": 1,
+    "return": "(u_val('intelligence') * 1.5) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "scaling_factor",
+    "num_args": 1,
+    "return": "( ( _0 + 10) / 20 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "maintenance_exp_factor",
+    "num_args": 1,
+    "return": "(_0 / 100) * 75 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "contemplation_factor",
+    "num_args": 1,
+    "return": "(u_val('focus') * 18) * (_0)"
+  }
+]

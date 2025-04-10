@@ -108,7 +108,7 @@ class talker_character_const: virtual public const_talker
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        diag_value const *maybe_get_value( const std::string &var_name ) const override;
 
         // stats, skills, traits, bionics, magic, and proficiencies
         std::vector<skill_id> skills_teacheable() const override;
@@ -269,7 +269,7 @@ class talker_character: virtual public talker
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;
         void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
-        void set_value( const std::string &var_name, const std::string &value ) override;
+        void set_value( const std::string &var_name, diag_value const &value ) override;
         void remove_value( const std::string &var_name ) override;
 
         // inventory, buying, and selling

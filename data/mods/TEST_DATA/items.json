@@ -336,7 +336,6 @@
     "name": { "str": "electric shears (off)" },
     "description": "This is a set of electric shears designed to obtain wool from sheep.",
     "qualities": [  ],
-    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "Your %s activates.",
@@ -354,7 +353,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
@@ -378,7 +378,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 5,
     "qualities": [ [ "SCREW", 1 ] ],
@@ -390,7 +389,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "test_tool_belt",
@@ -713,7 +713,6 @@
     "price": "5 USD",
     "price_postapoc": "1 USD",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE" ],
     "use_action": {
       "type": "transform",
@@ -730,7 +729,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",
@@ -926,7 +926,6 @@
     "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -948,7 +947,8 @@
         "item_restriction": [ "test_battery_disposable", "test_battery_rechargable" ]
       }
     ],
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "melee_damage": { "bash": 2, "stab": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
@@ -1040,7 +1040,6 @@
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } } ],
     "charges_per_use": 1,
     "use_action": [
@@ -1056,7 +1055,8 @@
       "CAMERA",
       "MP3"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
@@ -1067,7 +1067,6 @@
     "volume": "75 ml",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
-    "ammo": [ "battery" ],
     "use_action": [ "MP3" ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE" ],
@@ -1080,7 +1079,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "test_socks",
@@ -2675,7 +2675,6 @@
     "volume": "1 L",
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "ammo": [ "weldgas" ],
     "qualities": [ [ "WELD", 10 ] ],
     "charges_per_use": 4,
     "use_action": [ "OXYTORCH" ],
@@ -2687,7 +2686,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_weldtank" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "weldgas" ]
   },
   {
     "id": "test_rod_14cm",
@@ -2732,7 +2732,6 @@
     "name": { "str": "test electric pair of bolt cutters" },
     "description": "Test bolt cutters which uses batteries.",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2742,7 +2741,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "test_crafted_suppressor",
@@ -2788,7 +2788,6 @@
     "name": { "str": "test electric hacksaw" },
     "description": "Test hacksaw which uses batteries.",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "use_action": [ [ "HACKSAW", 1 ] ],
     "pocket_data": [
       {
@@ -2799,7 +2798,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "COMESTIBLE",
@@ -2844,7 +2844,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "test_wine", "yeast" ] }
+    "brewable": { "brew_time": "12 hours", "brew_results": [ "test_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -2981,7 +2981,7 @@
     "symbol": "?",
     "color": "blue",
     "time": "5 m",
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "test_dragon_book",
@@ -2995,13 +2995,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "skill": "computer",
     "required_level": 4,
     "max_level": 7,
     "intelligence": 12,
     "time": "50 m",
-    "fun": -1,
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "read_skill": "computer",
+    "read_fun": -1
   },
   {
     "id": "test_power_armor",
@@ -3900,9 +3900,9 @@
         "encumbrance": 20
       }
     ],
-    "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "tool_ammo": "battery"
   },
   {
     "id": "test_knife_combat",
@@ -4011,8 +4011,8 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
-      "weight": 200,
-      "volume": 1000,
+      "weight": "200 g",
+      "volume": "1000 ml",
       "price": "1 USD",
       "material_thickness": 2,
       "environmental_protection": 2,
@@ -4026,8 +4026,8 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
-      "weight": 200,
-      "volume": 1000,
+      "weight": "200 g",
+      "volume": "1000 ml",
       "price": "1 USD",
       "material_thickness": 2,
       "environmental_protection": 2,
@@ -4545,7 +4545,6 @@
     "weight": "9500 g",
     "volume": "4500 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
@@ -4648,7 +4647,8 @@
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "test_ghost_vest",
@@ -4921,10 +4921,10 @@
     "volume": "1500 ml",
     "symbol": "?",
     "color": "blue",
-    "skill": "computer",
     "required_level": 0,
     "max_level": 5,
-    "fun": -1
+    "read_skill": "computer",
+    "read_fun": -1
   },
   {
     "id": "test_mag",
@@ -4936,10 +4936,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "computer",
     "max_level": 1,
     "intelligence": 2,
-    "time": "7 m"
+    "time": "7 m",
+    "read_skill": "computer"
   },
   {
     "id": "test_ups",
@@ -4953,7 +4953,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "IS_UPS" ],
     "pocket_data": [
       {
@@ -4962,7 +4961,8 @@
         "default_magazine": "heavy_plus_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",

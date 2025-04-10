@@ -13,7 +13,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -39,7 +38,8 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "masonrysaw_on",
@@ -98,7 +98,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 2970 }, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -113,7 +112,8 @@
       }
     ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "electric_masonrysaw_on",
