@@ -27,7 +27,7 @@
     "warmth": 20,
     "material_thickness": 6,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armor_chitin",
@@ -246,7 +246,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "xl_armor_larmor",

@@ -306,7 +306,7 @@
     ],
     "warmth": 25,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "NORMAL", "BLOCK_WHILE_WORN" ],
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "NORMAL" ],
     "melee_damage": { "bash": 2 }
   },
   {
