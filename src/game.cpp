@@ -12755,12 +12755,16 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    const tripoint_bub_ms old_pos = pos;
+    tripoint_bub_ms old_pos = pos;
     const tripoint_abs_ms old_abs_pos = here.get_abs( old_pos );
-    point_rel_sm submap_shift;
     const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
-        submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
+        const point_rel_sm submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
+        // Adjust all bubble coordinates used according to the submap shift.
+        const point_rel_ms ms_shift = coords::project_to<coords::ms>( submap_shift );
+        pos = pos - ms_shift;
+        old_pos = old_pos - ms_shift;
+        stairs = stairs - ms_shift;
     }
 
     // if an NPC or monster is on the stairs when player ascends/descends
@@ -12839,9 +12843,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( u.is_hauling() ) {
-        const tripoint_bub_ms adjusted_pos = old_pos - coords::project_to<coords::ms>( point_rel_sm(
-                submap_shift ) ).raw();
-        start_hauling( adjusted_pos );
+        start_hauling( old_pos );
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
