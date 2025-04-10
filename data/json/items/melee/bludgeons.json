@@ -2092,7 +2092,7 @@
             "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "30",
-              "sound_message": { "i18n": true, "str": "VRRRRRRRRRRRR......Your <npc_name> throbs with energy." },
+              "sound_message": { "i18n": true, "str": "VRRRRRRRRRRRR……Your <npc_name> throbs with energy." },
               "volume": "20",
               "revert_to": "exodii_sapper_off"
             }
