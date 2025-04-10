@@ -131,7 +131,6 @@
     "name": { "str": "Sense the Toolmakers" },
     "points": 1,
     "description": "Your powers enhance your mundane senses and allow you to detect human beings.",
-    "hearing_modifier": 1.2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
