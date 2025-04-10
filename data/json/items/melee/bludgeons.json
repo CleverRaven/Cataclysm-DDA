@@ -1975,20 +1975,20 @@
     "id": "warhammer",
     "name": { "str": "war hammer" },
     "description": "A medieval hammer with a spike on one end, made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
-    "weight": "1337 g",
+    "weight": "1220 g",
     "price_postapoc": "60 USD",
     "color": "brown",
     "symbol": "/",
     "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentially one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
     "material": [ "steel", "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "volume": "1250 ml",
-    "longest_side": "120 cm",
+    "longest_side": "66 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "price": "160 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 22, "stab": 23 }
+    "melee_damage": { "bash": 21, "stab": 23 }
   }
 ]
