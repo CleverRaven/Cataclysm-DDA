@@ -166,6 +166,8 @@
     "id": "EXODII_Shop_Guns_Tier1",
     "subtype": "collection",
     "items": [
+      { "distribution": [ { "item": "exodii_greathammer", "prob": 80, "count": [ 1, 2 ] } ] },
+      { "distribution": [ { "item": "exodii_greatsword", "prob": 80, "count": [ 1, 2 ] } ] },
       { "distribution": [ { "item": "sapra", "prob": 10, "count": [ 1, 2 ] } ] },
       { "distribution": [ { "item": "exodiisapramag5", "prob": 10, "charges": 0, "count": [ 1, 2 ] } ] },
       { "item": "273x110canister", "container-item": "box_small", "prob": 25, "count": [ 2, 4 ], "sealed": true },
@@ -235,7 +237,8 @@
       { "item": "armor_thessalonian", "prob": 80, "count": [ 1, 2 ] },
       { "item": "leggings_thessalonian", "prob": 80, "count": [ 1, 2 ] },
       { "item": "sword_xiphos", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "spear_dory", "prob": 30, "count": [ 1, 2 ] }
+      { "item": "spear_dory", "prob": 30, "count": [ 1, 2 ] },
+      { "item": "trianja", "prob": 20, "count": [ 1, 2 ] }
     ]
   },
   {
