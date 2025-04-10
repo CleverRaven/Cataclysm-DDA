@@ -238,7 +238,6 @@
       "RESISTCHILL_RESISTWARM",
       "RESISTWARM",
       "ROBUST",
-      "RESTRICTED",
       "STOCKY_TROGLO",
       "STRONGBACK",
       "TUNNEL_FIGHTER",
@@ -1238,7 +1237,7 @@
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
     "starting_trait": true,
     "flags": [ "ROBUST_GENETIC" ],
-    "cancels": [ "CHAOTIC_BAD", "RESTRICTED" ],
+    "cancels": [ "CHAOTIC_BAD", "RESTRICTED", "RESISTANT_GENETICS" ],
     "category": [ "FISH", "SLIME", "MEDICAL", "PLANT" ]
   },
   {
@@ -2207,7 +2206,7 @@
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
     "starting_trait": true,
-    "cancels": [ "ROBUST", "RESTRICTED" ],
+    "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
