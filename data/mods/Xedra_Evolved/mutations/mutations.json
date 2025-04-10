@@ -171,6 +171,7 @@
     "purifiable": false,
     "valid": false,
     "mixed_effect": true,
+    "vitamin_rates": [ [ "mutagen", 600 ], [ "mutagenic_slurry", 1 ] ],
     "enchantments": [
       {
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1799" ] },
