@@ -33,6 +33,22 @@ concurrency:
 # To see what toolchains are available, the following may be useful:
 # https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
 # https://apt.llvm.org/
+# For github provided runners: https://github.com/actions/runner-images
+# See also our publicized docs about compiler support: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/COMPILER_SUPPORT.md
+#
+# At the time of writing (Jan 2025), the feature matrix for the above criteria looks like this:
+# | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
+# | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
+# | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
+# | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
+# | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
+# | GCC 12, Ubuntu, Curses, ASan         | ubuntu   | gcc-12   | newest*  (gcc) |       |       | yes      |       |           |     | address  |      |
+# | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
+# | macOS 13, Apple Clang 15             | macOS 13 | apple clang-15  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
+# | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
+#
+# gcc-12 is not actually newest. gcc-14 exists, but it's failing the asan tests on newer (24.04) ubuntu runners for whatever reason.
+# See https://github.com/CleverRaven/Cataclysm-DDA/pull/79517#issuecomment-2635790180 for a tiny bit more context
 
 jobs:
   skip-duplicates-code:
@@ -79,8 +95,8 @@ jobs:
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-10
-            os: ubuntu-20.04
+          - compiler: clang++-13
+            os: ubuntu-22.04
             tiles: 0
             sound: 0
             release: 1
@@ -91,12 +107,12 @@ jobs:
             pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
-            title: Basic Build and Test (Clang 10, Ubuntu, Curses)
+            title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             # ~190MB in a clean build
             # ~30MB compressed
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
-            ccache_key: linux-llvm-10-break1
+            ccache_key: linux-llvm-13
 
           - compiler: clang++
             os: macos-12
@@ -239,8 +255,13 @@ jobs:
         CCACHE_FILECLONE: true
         CCACHE_HARDLINK: true
         CCACHE_NOCOMPRESS: true
-        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
-        SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
+        SKIP: >-
+          ${{
+          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 13, Ubuntu, Curses)' ) ||
+          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
+          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
+          }}
+        SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) || (matrix.android != '') }}
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
