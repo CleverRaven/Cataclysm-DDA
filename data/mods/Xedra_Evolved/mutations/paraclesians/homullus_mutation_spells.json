@@ -132,6 +132,33 @@
     "casting_time_increment": -5
   },
   {
+    "id": "homullus_sense_vampires",
+    "type": "SPELL",
+    "name": "Sense the Night Hunters",
+    "description": "Weaving this glamour will allow you to sense the presence of nearby sorcerers.  The glamour has <color_yellow>reduced duration</color> in spring.",
+    "message": "You mutter a charm under your breath and open your senses up to nearby enchanters.",
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ],
+    "spell_class": "HOMULLUS",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "shape": "blast",
+    "difficulty": 1,
+    "effect": "attack",
+    "effect_str": "effect_sense_vampire",
+    "min_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_sense_vampires_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_sense_vampires_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "base_energy_cost": 300,
+    "final_energy_cost": 150,
+    "energy_increment": -8,
+    "base_casting_time": 100
+  },
+  {
     "id": "homullus_invisible_to_humans_spell_self",
     "type": "SPELL",
     "name": { "str": "A Face in the Crowd Self", "//~": "NO_I18N" },

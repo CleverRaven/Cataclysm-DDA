@@ -2121,6 +2121,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sense_vampire",
+    "name": [ "Sense the Night Hunters" ],
+    "desc": [ "You can sense nearby vampires." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_deciphering_hedge_tome",
     "//": "Hidden effect, used to check that you're still researching.",
     "name": [ "" ],
