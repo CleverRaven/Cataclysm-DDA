@@ -102,7 +102,7 @@
     "subtype": "collection",
     "id": "boxed_glock_34",
     "container-item": "box_pistol",
-    "items": [ { "item": "glock_34" }, { "group": "firearm_box_extras" }, { "item": "glockmag_10", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "glock_34" }, { "group": "firearm_box_extras" }, { "item": "glock17_10", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
