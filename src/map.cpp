@@ -2434,7 +2434,7 @@ bool map::passable( const tripoint_bub_ms &p ) const
 
 bool map::passable_through( const tripoint_bub_ms &p ) const
 {
-    return passable( p ) && has_floor_or_support( p );
+    return passable( p ) && ( has_floor( p ) || has_floor_or_support( p ) );
 }
 
 bool map::passable_skip_fields( const tripoint_bub_ms &p ) const
