@@ -621,5 +621,38 @@
     "copy-from": "mon_licorice_snake",
     "harvest": "licorice_snake",
     "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }
+  },
+  {
+    "id": "mon_gummy_horse",
+    "type": "MONSTER",
+    "name": { "str": "gummy horse" },
+    "description": "A strangely large, transluscent, brightly colored equine, made entirely out of gummy. Compared to a normal horse, its neck is exceedingly long, its torso is cartoonishly round and its limbs are almost comically stubby. Despite this, it scuttles around with surprising speed.",
+    "species": [ "GUMMY" ],
+    "default_faction": "herbivore_domestic",
+    "bodytype": "horse",
+    "categories": [ "WILDLIFE" ],
+    "volume": "750000 ml",
+    "weight": "750000 g",
+    "hp": 150,
+    "speed": 280,
+    "attack_cost": 215,
+    "symbol": "H",
+    "color": "magenta",
+    "morale": 20,
+    "aggro_character": false,
+    "melee_skill": 5,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "anger_triggers": [ "HURT" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
+    "dodge": 2,
+    "mountable_weight_ratio": 0.3,
+    "harvest": "gummy_bear",
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ],
+    "armor": { "bash": 15 },
+    "petfood": {
+      "food": [ "apple_gummy" ],
+      "feed": "The %s's simple eyes widen with joy as it chews on the gummy apple. It seems to really like you!"
+    }
   }
 ]
