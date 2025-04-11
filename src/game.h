@@ -134,6 +134,8 @@ struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
     // how much damage you deal to corpse every second, average of multiple values
+    float nominal_pulp_power;
+    // The actual power produced, adjusted based on time adjustments.
     float pulp_power;
     // how much stamina is consumed after each punch
     float pulp_effort;
