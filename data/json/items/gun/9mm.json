@@ -108,16 +108,8 @@
     "material": [ "plastic", "steel" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "glock43_6"
-        ]
-      }
-    ]
-  },  
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43_6" ] } ]
+  },
   {
     "id": "glock_43x",
     "//": "This one uses 10 round doublestack mags, which are incompatible with the standard variant",
@@ -135,15 +127,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "dispersion": 480,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "glock43/48x_10"
-        ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43/48x_10" ] } ]
   },
   {
     "id": "glock_26",
@@ -202,7 +186,7 @@
     ]
   },
   {
-    "id": "glock_48"
+    "id": "glock_48",
     "copy-from": "gun_base_9mm_semi_pistol",
     "looks_like": "glock_19",
     "type": "GUN",
@@ -217,15 +201,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "dispersion": 480,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "glock43x/48_10"
-        ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43x/48_10" ] } ]
   },
   {
     "id": "hk_mp5",
