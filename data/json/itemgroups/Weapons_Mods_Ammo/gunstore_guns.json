@@ -392,7 +392,7 @@
       { "group": "boxed_hptjhp", "prob": 2 },
       { "group": "boxed_usp_45", "prob": 4 },
       { "group": "boxed_glock_30", "prob": 10 },
-      { "group": "boxed_glock_36", "prob": 3 },
+      { "group": "boxed_glock_36", "prob": 3 }
     ]
   },
   {
