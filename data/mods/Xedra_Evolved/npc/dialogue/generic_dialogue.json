@@ -91,7 +91,11 @@
     "dynamic_line": "*stares blankly as you meet their gaze and overwhelm their mind.  Their hands fall listlessly to their sides as their gaze becomes unfocused and their mouth drops half-open.",
     "responses": [
       { "text": "Ha.  Mortals are nothing but cattle.", "topic": "TALK_DONE", "condition": { "u_has_trait": "PSYCHOPATH" } },
-      { "text": "Well, that's one problem solved.", "topic": "TALK_DONE" }
+      {
+        "text": "Well, that's one problem solved.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } }
+      }
     ]
   },
   {
