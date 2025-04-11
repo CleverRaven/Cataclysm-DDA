@@ -87,6 +87,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD",
+    "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
+    "effect": [
+      { "math": [ "_temp_val = 300 + rand(150)" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "_temp_val" ] },
+      { "u_message": "You are gaining <context_val:temp_val> calories from the blood you drank.", "type": "debug" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLOOD_DRINKING_DIRECTLY",
     "eoc_type": "EVENT",
     "required_event": "character_eats_item",
@@ -222,7 +232,7 @@
     },
     "effect": [
       {
-        "if": "u_is_npc",
+        "if": { "and": [ "u_is_npc", { "not": { "u_has_trait": "FAE_CREATURE" } } ] },
         "then": [
           { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
           { "math": [ "u_vitamin('blood')", "-=", "750  + rand(450)" ] },
@@ -230,75 +240,80 @@
           { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
           { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
           { "npc_add_effect": "effect_vampire_blood_drinking", "duration": 4 },
-          { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" }
-        ]
-      },
-      {
-        "if": {
-          "or": [
-            {
-              "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } }, { "not": { "u_has_species": "VAMPIRE" } } ]
-            },
-            { "u_has_species": "FERAL" },
-            { "u_has_species": "RENFIELD" },
-            { "and": [ { "u_has_species": "CHANGELING" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
-            { "u_has_species": "HOMULLUS" },
-            { "u_has_trait": "FAE_CREATURE" }
-          ]
-        },
-        "then": [
-          {
-            "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
-            "then": [ { "math": [ "n_vampire_just_drank_fae_blood = 1" ] } ]
-          },
-          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
-          { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
-          { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
-          { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
-          { "npc_add_effect": "effect_vampire_blood_drinking", "duration": 4 },
-          { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" }
-        ]
-      },
-      {
-        "if": {
-          "and": [
-            { "not": "u_is_npc" },
-            {
-              "or": [ { "not": { "u_has_species": "HUMAN" } }, { "u_has_species": "ZOMBIE" }, { "u_has_species": "VAMPIRE" } ]
-            },
-            { "not": { "u_has_species": "FERAL" } },
-            { "not": { "u_has_species": "CHANGELING" } },
-            { "not": { "u_has_species": "RENFIELD" } },
-            { "not": { "u_has_species": "HOMULLUS" } },
-            { "not": { "u_has_trait": "FAE_CREATURE" } }
-          ]
-        },
-        "then": [
-          {
-            "if": { "u_has_species": "VAMPIRE" },
-            "then": {
-              "npc_message": "The vampire's blood refuses to leave its veins, no matter how hard you try to drain it.",
-              "type": "bad"
-            },
-            "else": { "npc_message": "You get a taste of blood but stop drinking when you realize it cannot sustain you.", "type": "bad" }
-          },
+          { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" },
+          { "message": "You are drinking from an NPC.", "type": "debug" }
+        ],
+        "else": [
           {
             "if": {
               "or": [
-                { "u_has_species": "MIGO" },
-                { "u_has_species": "ZOMBIE" },
-                { "u_has_species": "HORROR" },
-                { "u_has_species": "INSECT" },
-                { "u_has_species": "INSECT_FLYING" },
-                { "u_has_species": "CENTIPEDE" },
-                { "u_has_species": "SPIDER" },
-                { "u_has_species": "MOLLUSK" },
-                { "u_has_species": "WORM" }
+                { "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "u_has_species": "FERAL" },
+                { "u_has_species": "RENFIELD" },
+                { "and": [ { "u_has_species": "CHANGELING" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "u_has_species": "HOMULLUS" },
+                { "u_has_trait": "FAE_CREATURE" }
               ]
             },
             "then": [
-              { "npc_message": "…and it tastes absolutely disgusting!", "type": "bad" },
-              { "math": [ "n_vitamin('bad_food')", "+=", "rng(10,15)" ] }
+              {
+                "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
+                "then": [ { "math": [ "n_vampire_just_drank_fae_blood = 1" ] } ]
+              },
+              { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
+              { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
+              { "u_add_effect": "effect_vampire_blood_drinking_target", "duration": { "math": [ "rng(3,4)" ] } },
+              { "u_add_effect": "dazed", "duration": { "math": [ "rng(3,4)" ] } },
+              { "npc_add_effect": "effect_vampire_blood_drinking", "duration": 4 },
+              { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" },
+              { "message": "You are drinking from a human-type monster.", "type": "debug" }
+            ],
+            "else": [
+              {
+                "if": {
+                  "and": [
+                    { "not": "u_is_npc" },
+                    {
+                      "or": [ { "not": { "u_has_species": "HUMAN" } }, { "u_has_species": "ZOMBIE" }, { "u_has_species": "VAMPIRE" } ]
+                    },
+                    { "not": { "u_has_species": "FERAL" } },
+                    { "not": { "u_has_species": "CHANGELING" } },
+                    { "not": { "u_has_species": "RENFIELD" } },
+                    { "not": { "u_has_species": "HOMULLUS" } },
+                    { "not": { "u_has_trait": "FAE_CREATURE" } }
+                  ]
+                },
+                "then": [
+                  {
+                    "if": { "u_has_species": "VAMPIRE" },
+                    "then": {
+                      "npc_message": "The vampire's blood refuses to leave its veins, no matter how hard you try to drain it.",
+                      "type": "bad"
+                    },
+                    "else": { "npc_message": "You get a taste of blood but stop drinking when you realize it cannot sustain you.", "type": "bad" }
+                  },
+                  { "message": "You are drinking from an inhuman monster.", "type": "debug" },
+                  {
+                    "if": {
+                      "or": [
+                        { "u_has_species": "MIGO" },
+                        { "u_has_species": "ZOMBIE" },
+                        { "u_has_species": "HORROR" },
+                        { "u_has_species": "INSECT" },
+                        { "u_has_species": "INSECT_FLYING" },
+                        { "u_has_species": "CENTIPEDE" },
+                        { "u_has_species": "SPIDER" },
+                        { "u_has_species": "MOLLUSK" },
+                        { "u_has_species": "WORM" }
+                      ]
+                    },
+                    "then": [
+                      { "npc_message": "…and it tastes absolutely disgusting!", "type": "bad" },
+                      { "math": [ "n_vitamin('bad_food')", "+=", "rng(10,15)" ] }
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ]
@@ -310,7 +325,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT",
     "condition": { "u_has_effect": "effect_vampire_blood_drinking" },
-    "effect": [ { "run_eocs": "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN" } ]
+    "effect": [ { "run_eocs": [ "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN", "EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD" ] } ]
   },
   {
     "id": "EOC_VAMPIRE_DRINK_BLOOD_INTERRUPTED_CHECK",
