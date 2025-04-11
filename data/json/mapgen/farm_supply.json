@@ -256,7 +256,7 @@
           "item": {
             "subtype": "collection",
             "entries": [
-              { "group": "office_supplies", "prob": 70 },
+              { "group": "SUS_office_supplies", "prob": 70 },
               { "group": "office_breakroom", "prob": 20 },
               { "group": "office", "prob": 10 }
             ]
@@ -319,7 +319,7 @@
           "item": {
             "subtype": "collection",
             "entries": [
-              { "group": "office_supplies", "prob": 80 },
+              { "group": "SUS_office_supplies", "prob": 80 },
               { "group": "book_survival", "prob": 10 },
               { "group": "supplies_hardware", "prob": 10 }
             ]
@@ -699,7 +699,7 @@
           "item": {
             "subtype": "collection",
             "entries": [
-              { "group": "office_supplies", "prob": 70 },
+              { "group": "SUS_office_supplies", "prob": 70 },
               { "group": "office_breakroom", "prob": 20 },
               { "group": "office", "prob": 10 }
             ]
@@ -764,7 +764,7 @@
           "item": {
             "subtype": "collection",
             "entries": [
-              { "group": "office_supplies", "prob": 80 },
+              { "group": "SUS_office_supplies", "prob": 80 },
               { "group": "book_survival", "prob": 10 },
               { "group": "supplies_hardware", "prob": 10 }
             ]

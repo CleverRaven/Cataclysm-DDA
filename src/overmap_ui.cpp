@@ -1182,8 +1182,8 @@ static void draw_om_sidebar( ui_adaptor &ui,
 
     wattron( wbar, c_magenta );
     mvwprintw( wbar, point( 1, ++lines ), _( "Use movement keys to pan." ) );
-    mvwprintw( wbar, point( 1, ++lines ), _( string_format( "Press %s to preview route.",
-               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
+    mvwprintw( wbar, point( 1, ++lines ), string_format( _( "Press %s to preview route." ),
+               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) );
     mvwprintw( wbar, point( 1, ++lines ), _( "Press again to confirm." ) );
     lines += 2;
     wattroff( wbar, c_magenta );
@@ -1847,6 +1847,25 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
                                        const tripoint_abs_omt dest, const bool driving )
 {
     std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
+
+    if( path.empty() ) {
+        std::string popupmsg;
+        if( dest.z() == player_character.posz() ) {
+            popupmsg = _( "Unable to find a path from the current location:" );
+        } else {
+            popupmsg = _( "Auto travel requires source and destination on same Z level:" );
+        }
+        string_input_popup pop;
+        const std::string ok = _( "OK" );
+        pop
+        .title( popupmsg )
+        .width( ok.length() )
+        .text( ok )
+        .only_digits( false )
+        .query();
+        return false;
+    }
+
     bool dest_is_curs = curs == dest;
     bool path_changed = false;
     if( path.front() == player_character.omt_path.front() && path != player_character.omt_path ) {
@@ -1893,6 +1912,8 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
 
 static tripoint_abs_omt display()
 {
+    map &here = get_map();
+
     overmap_draw_data_t &data = g->overmap_data;
     tripoint_abs_omt &orig = data.origin_pos;
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
@@ -2047,7 +2068,7 @@ static tripoint_abs_omt display()
             curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
-            tripoint_bub_ms pos_rel = get_map().get_bub( pos );
+            tripoint_bub_ms pos_rel = here.get_bub( pos );
             uistate.open_menu = [pos_rel]() {
                 tripoint_bub_ms pos_cpy = pos_rel;
                 g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );
@@ -2176,7 +2197,7 @@ static tripoint_abs_omt display()
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
-            if( get_map().is_outside( get_player_character().pos_bub() ) ) {
+            if( here.is_outside( get_player_character().pos_bub() ) ) {
                 uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
             }
         } else if( action == "TOGGLE_FAST_SCROLL" ) {

@@ -229,6 +229,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";
         case ter_furn_flag::TFLAG_WORKOUT_LEGS: return "WORKOUT_LEGS";
         case ter_furn_flag::TFLAG_TRANSLOCATOR: return "TRANSLOCATOR";
+        case ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER: return "TRANSLOCATOR_GREATER";
         case ter_furn_flag::TFLAG_AUTODOC: return "AUTODOC";
         case ter_furn_flag::TFLAG_AUTODOC_COUCH: return "AUTODOC_COUCH";
         case ter_furn_flag::TFLAG_OPENCLOSE_INSIDE: return "OPENCLOSE_INSIDE";
@@ -990,6 +991,7 @@ void init_mapdata()
     add_actor( std::make_unique<appliance_convert_examine_actor>() );
     add_actor( std::make_unique<cardreader_examine_actor>() );
     add_actor( std::make_unique<eoc_examine_actor>() );
+    add_actor( std::make_unique<mortar_examine_actor>() );
 }
 
 void map_data_common_t::load( const JsonObject &jo, const std::string &src )

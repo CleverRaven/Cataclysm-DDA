@@ -39,6 +39,15 @@
     }
   },
   {
+    "id": "57mm_lf",
+    "copy-from": "57mm",
+    "type": "AMMO",
+    "name": { "str_sp": "5.7x28mm SS195LF" },
+    "description": "A commercially available cartridge derived from the 5.7x28mm round.  It features a copper-jacketed bullet with an aluminum core, which significantly reduces its armor-piercing capabilities compared to its lead-core counterpart.  However, the hollow-point design enhances terminal performance against unarmored targets.  In all other respects, it remains largely identical to the military version.",
+    "material": [ "steel", "brass", "aluminum", "powder" ],
+    "proportional": { "damage": { "damage_type": "bullet", "amount": 1.1, "armor_penetration": 0.4 } }
+  },
+  {
     "id": "bp_57mm",
     "copy-from": "57mm",
     "type": "AMMO",

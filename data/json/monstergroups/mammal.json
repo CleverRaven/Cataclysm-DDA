@@ -5,10 +5,10 @@
     "is_safe": true,
     "monsters": [
       { "monster": "mon_null", "weight": 850 },
-      { "monster": "mon_cow", "weight": 100, "cost_multiplier": 10, "ends": "7 days" },
-      { "monster": "mon_cow", "weight": 50, "cost_multiplier": 5, "starts": "7 days" },
-      { "monster": "mon_cow_calf", "weight": 50, "ends": "7 days" },
-      { "monster": "mon_cow_calf", "weight": 25, "starts": "7 days" }
+      { "monster": "mon_cow", "weight": 100, "cost_multiplier": 10, "ends": "28 days" },
+      { "monster": "mon_cow", "weight": 50, "cost_multiplier": 5, "starts": "28 days" },
+      { "monster": "mon_cow_calf", "weight": 50, "ends": "28 days" },
+      { "monster": "mon_cow_calf", "weight": 25, "starts": "28 days" }
     ]
   },
   {
@@ -16,8 +16,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_cow", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_cow_calf", "weight": 50, "ends": "7 days" },
-      { "monster": "mon_cow_calf", "weight": 25, "starts": "7 days" }
+      { "monster": "mon_cow_calf", "weight": 50, "ends": "28 days" },
+      { "monster": "mon_cow_calf", "weight": 25, "starts": "28 days" }
     ]
   },
   {
@@ -25,8 +25,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_bear", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_bear_cub", "weight": 50, "ends": "31 days", "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_bear_cub", "weight": 25, "starts": "31 days", "conditions": [ "SPRING", "SUMMER" ] }
+      { "monster": "mon_bear_cub", "weight": 50, "ends": "124 days", "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_bear_cub", "weight": 25, "starts": "124 days", "conditions": [ "SPRING", "SUMMER" ] }
     ]
   },
   {
@@ -34,8 +34,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_boar_wild", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_boar_wild_piglet", "weight": 50, "pack_size": [ 1, 6 ], "ends": "14 days" },
-      { "monster": "mon_boar_wild_piglet", "weight": 25, "pack_size": [ 1, 6 ], "starts": "14 days" }
+      { "monster": "mon_boar_wild_piglet", "weight": 50, "pack_size": [ 1, 6 ], "ends": "56 days" },
+      { "monster": "mon_boar_wild_piglet", "weight": 25, "pack_size": [ 1, 6 ], "starts": "56 days" }
     ]
   },
   {
@@ -43,8 +43,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_pig", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_pig_piglet", "weight": 25, "pack_size": [ 1, 2 ], "ends": "7 days" },
-      { "monster": "mon_pig_piglet", "weight": 12, "pack_size": [ 1, 2 ], "starts": "7 days" }
+      { "monster": "mon_pig_piglet", "weight": 25, "pack_size": [ 1, 2 ], "ends": "28 days" },
+      { "monster": "mon_pig_piglet", "weight": 12, "pack_size": [ 1, 2 ], "starts": "28 days" }
     ]
   },
   {
@@ -52,8 +52,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_sheep", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_sheep_lamb", "weight": 25, "ends": "7 days", "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_sheep_lamb", "weight": 12, "starts": "7 days", "conditions": [ "SPRING", "SUMMER" ] }
+      { "monster": "mon_sheep_lamb", "weight": 25, "ends": "28 days", "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_sheep_lamb", "weight": 12, "starts": "28 days", "conditions": [ "SPRING", "SUMMER" ] }
     ]
   },
   {
@@ -61,8 +61,13 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_deer", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_deer_fawn", "weight": 25, "ends": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_deer_fawn", "weight": 12, "starts": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
+      { "monster": "mon_deer_fawn", "weight": 25, "ends": "28 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_deer_fawn",
+        "weight": 12,
+        "starts": "28 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
     ]
   },
   {
@@ -74,14 +79,14 @@
         "monster": "mon_reindeer_fawn",
         "weight": 25,
         "pack_size": [ 1, 3 ],
-        "ends": "7 days",
+        "ends": "28 days",
         "conditions": [ "AUTUMN", "WINTER", "SPRING" ]
       },
       {
         "monster": "mon_reindeer_fawn",
         "weight": 12,
         "pack_size": [ 1, 3 ],
-        "starts": "7 days",
+        "starts": "28 days",
         "conditions": [ "AUTUMN", "WINTER", "SPRING" ]
       }
     ]
@@ -95,13 +100,13 @@
       {
         "monster": "mon_deer_mutant_spider_fawn",
         "weight": 12,
-        "ends": "31 days",
+        "ends": "124 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_deer_mutant_spider_fawn",
         "weight": 25,
-        "starts": "31 days",
+        "starts": "124 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -115,14 +120,14 @@
         "monster": "mon_wolf_pup",
         "weight": 25,
         "pack_size": [ 1, 2 ],
-        "ends": "31 days",
+        "ends": "124 days",
         "conditions": [ "SPRING", "SUMMER" ]
       },
       {
         "monster": "mon_wolf_pup",
         "weight": 12,
         "pack_size": [ 1, 2 ],
-        "starts": "31 days",
+        "starts": "124 days",
         "conditions": [ "SPRING", "SUMMER" ]
       }
     ]
@@ -136,14 +141,14 @@
         "monster": "mon_cougar_kitten",
         "weight": 25,
         "pack_size": [ 1, 2 ],
-        "ends": "31 days",
+        "ends": "124 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_cougar_kitten",
         "weight": 12,
         "pack_size": [ 1, 2 ],
-        "starts": "31 days",
+        "starts": "124 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -153,21 +158,21 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_horse", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_horse_foal", "weight": 50, "ends": "31 days" },
-      { "monster": "mon_horse_foal", "weight": 25, "starts": "31 days" }
+      { "monster": "mon_horse_foal", "weight": 50, "ends": "124 days" },
+      { "monster": "mon_horse_foal", "weight": 25, "starts": "124 days" }
     ]
   },
   {
     "id": "GROUP_HORSES_STABLES",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 50 }, { "group": "GROUP_HORSES", "weight": 50, "ends": "14 days" } ]
+    "monsters": [ { "monster": "mon_null", "weight": 50 }, { "group": "GROUP_HORSES", "weight": 50, "ends": "56 days" } ]
   },
   {
     "id": "GROUP_MOOSE",
     "type": "monstergroup",
     "monsters": [
       { "group": "GROUP_MOOSE_NORMAL", "weight": 19 },
-      { "group": "GROUP_TUSKED_MOOSE", "weight": 1, "starts": "958 days" }
+      { "group": "GROUP_TUSKED_MOOSE", "weight": 1, "starts": "3832 days" }
     ]
   },
   {
@@ -175,8 +180,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_moose", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_moose_calf", "weight": 50, "ends": "31 days", "conditions": [ "AUTUMN", "WINTER" ] },
-      { "monster": "mon_moose_calf", "weight": 25, "starts": "31 days", "conditions": [ "AUTUMN", "WINTER" ] }
+      { "monster": "mon_moose_calf", "weight": 50, "ends": "124 days", "conditions": [ "AUTUMN", "WINTER" ] },
+      { "monster": "mon_moose_calf", "weight": 25, "starts": "124 days", "conditions": [ "AUTUMN", "WINTER" ] }
     ]
   },
   {
@@ -185,8 +190,8 @@
     "//": "Same as mutant deer.",
     "monsters": [
       { "monster": "mon_tusked_moose", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_tusked_moose_calf", "weight": 25, "ends": "70 days", "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_tusked_moose_calf", "weight": 50, "starts": "70 days", "conditions": [ "SPRING", "SUMMER" ] }
+      { "monster": "mon_tusked_moose_calf", "weight": 25, "ends": "280 days", "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_tusked_moose_calf", "weight": 50, "starts": "280 days", "conditions": [ "SPRING", "SUMMER" ] }
     ]
   },
   {
@@ -195,8 +200,8 @@
     "//": "Not doing the whole weird thing with timers and weight halving for babies as the groups above me did. I have no idea what's that hoping to accomplish and nobody else seems to either.",
     "monsters": [
       { "monster": "mon_coyote", "weight": 38 },
-      { "monster": "mon_coyote_mutant_shark", "weight": 1, "starts": "270 days" },
-      { "monster": "mon_coyote_mutant_venom", "weight": 1, "starts": "270 days" }
+      { "monster": "mon_coyote_mutant_shark", "weight": 1, "starts": "1080 days" },
+      { "monster": "mon_coyote_mutant_venom", "weight": 1, "starts": "1080 days" }
     ]
   },
   {
@@ -204,8 +209,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_beaver", "weight": 38 },
-      { "monster": "mon_beaver_mutant_avian", "weight": 1, "starts": "730 days" },
-      { "monster": "mon_beaver_mutant_huge", "weight": 1, "starts": "730 days" }
+      { "monster": "mon_beaver_mutant_avian", "weight": 1, "starts": "2920 days" },
+      { "monster": "mon_beaver_mutant_huge", "weight": 1, "starts": "2920 days" }
     ]
   },
   {
@@ -261,7 +266,9 @@
       { "monster": "mon_dog_auscattle", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_dog_auscattle_pup", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_dog_samoyed", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_samoyed_pup", "weight": 5, "cost_multiplier": 0 }
+      { "monster": "mon_dog_samoyed_pup", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_wad", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_wad_pup", "weight": 5, "cost_multiplier": 0 }
     ]
   },
   {
@@ -279,7 +286,7 @@
     "id": "GROUP_PET_CATS",
     "type": "monstergroup",
     "default": "mon_cat",
-    "//": "Both persian and sphynx cats are not really fit to survive without human assistance and will die off eventually. persians will overheat in the summer and have trouble breathing because of their flat faces and sphynx cats will freeze in the cold season.",
+    "//": "Persian, Devon Rex, and sphynx cats are not really fit to survive without human assistance and will die off eventually. persians will overheat in the summer and have trouble breathing because of their flat faces and sphynx cats and Devons will freeze in the cold season.",
     "monsters": [
       { "monster": "mon_cat", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_cat_kitten", "weight": 5, "cost_multiplier": 0 },
@@ -289,18 +296,18 @@
       { "monster": "mon_cat_longhair_kitten", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_siamese", "weight": 30, "cost_multiplier": 0 },
       { "monster": "mon_cat_siamese_kitten", "weight": 3, "cost_multiplier": 0 },
-      { "monster": "mon_cat_persian", "weight": 20, "cost_multiplier": 0, "ends": "90 days" },
-      { "monster": "mon_cat_persian_kitten", "weight": 2, "cost_multiplier": 0, "ends": "90 days" },
+      { "monster": "mon_cat_persian", "weight": 20, "cost_multiplier": 0, "ends": "360 days" },
+      { "monster": "mon_cat_persian_kitten", "weight": 2, "cost_multiplier": 0, "ends": "360 days" },
       { "monster": "mon_cat_calico", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_calico_kitten", "weight": 4, "cost_multiplier": 0 },
       { "monster": "mon_cat_maine_coon", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_maine_coon_kitten", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_bengal", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_bengal_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_devon_rex", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_devon_rex_kitten", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_cat_sphynx", "weight": 10, "cost_multiplier": 0, "ends": "153 days" },
-      { "monster": "mon_cat_sphynx_kitten", "weight": 1, "cost_multiplier": 0, "ends": "153 days" },
+      { "monster": "mon_cat_devon_rex", "weight": 10, "cost_multiplier": 0, "ends": "612 days" },
+      { "monster": "mon_cat_devon_rex_kitten", "weight": 1, "cost_multiplier": 0, "ends": "612 days" },
+      { "monster": "mon_cat_sphynx", "weight": 10, "cost_multiplier": 0, "ends": "612 days" },
+      { "monster": "mon_cat_sphynx_kitten", "weight": 1, "cost_multiplier": 0, "ends": "612 days" },
       { "monster": "mon_cat_chonker", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker_kitten", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_cat_black", "weight": 80, "cost_multiplier": 0 },

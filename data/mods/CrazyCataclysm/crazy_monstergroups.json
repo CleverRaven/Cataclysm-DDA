@@ -40,7 +40,7 @@
         "monster": "mon_bear_smoky",
         "weight": 1,
         "cost_multiplier": 0,
-        "starts": 672,
+        "starts": "112 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -53,7 +53,7 @@
         "monster": "mon_bear_smoky",
         "weight": 1,
         "cost_multiplier": 0,
-        "starts": 672,
+        "starts": "112 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -66,7 +66,7 @@
         "monster": "mon_bear_smoky",
         "weight": 1,
         "cost_multiplier": 0,
-        "starts": 672,
+        "starts": "112 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -75,7 +75,7 @@
     "type": "monstergroup",
     "id": "GROUP_CAVE",
     "monsters": [
-      { "monster": "mon_bear_smoky", "weight": 10, "cost_multiplier": 0, "starts": 672 },
+      { "monster": "mon_bear_smoky", "weight": 10, "cost_multiplier": 0, "starts": "112 days" },
       { "monster": "mon_bear_smoky", "weight": 100, "cost_multiplier": 0, "conditions": [ "WINTER" ] }
     ],
     "//": "Additional bears during winter, when they hibernate."

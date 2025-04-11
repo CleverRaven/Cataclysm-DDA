@@ -247,7 +247,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -259,7 +259,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -872,7 +872,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -1822,7 +1822,6 @@
     "id": "mbag",
     "type": "ARMOR",
     "name": { "str": "messenger bag" },
-    "//": "KA101's ran about $90 but is ballistic nylon.  Bit tougher than the DDA model.",
     "description": "Light and easy to wear, but doesn't offer much storage.",
     "weight": "690 g",
     "volume": "2625 ml",
@@ -1874,7 +1873,7 @@
         "volume_encumber_modifier": 0.25,
         "coverage": 40,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ],
     "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Adjust", "target": "mbag", "moves": 120 }
@@ -2670,7 +2669,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -3249,7 +3248,7 @@
         "max_contains_volume": "50 L",
         "max_contains_weight": "80 kg",
         "min_item_length": "60 cm",
-        "max_item_length": "250 cm",
+        "max_item_length": "260 cm",
         "moves": 1000,
         "ripoff": 5,
         "activity_noise": { "volume": 9, "chance": 15 },
@@ -3370,7 +3369,7 @@
         "max_contains_weight": "150 kg",
         "moves": 300,
         "min_item_volume": "1 L",
-        "max_item_length": "180 cm"
+        "max_item_length": "260 cm"
       }
     ],
     "warmth": 5,

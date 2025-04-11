@@ -1060,6 +1060,8 @@ construction_id construction_menu( const bool blueprint )
                     if( constructs[select] != construction_group_deconstruct_simple_furniture &&
                         !player_can_see_to_build( player_character, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
+                    } else if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+                        continue; // player declined to mess with faction's stuff
                     } else {
                         draw_preview.reset();
                         restore_view.reset();

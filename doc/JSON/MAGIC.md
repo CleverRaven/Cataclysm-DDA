@@ -49,7 +49,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "id": "example_template",                                 // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Template Spell",                                 // name of the spell that shows in game
-    "description": "This is a template to show off all the available values",
+    "description": "This is a template to show off all the available values", // Description of the spell. Supports color tags and dialogue variables (both alpha and beta are evaluated as avatar)
     "valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
     "effect_str": "template",                                 // special. see below
@@ -731,6 +731,13 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
     "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "encumbrance_modifier": [ // a characters encumbrance will be modified by this value
+      { "part": "head", "add": 10 }, // adding would increase the parts encumbrance
+      { "part": "torso", "add": -8 }, // negative adding would decrease the parts encumbrance
+      { "part": "mouth", "multiply": -0.5 }, // multiplication would multiply the entire encumbrance value; -0.5 would result in 50% encumbrance
+      { "part": "arm_l", "add": 1 }, // `"multiply": 1` would double the encumbrancce
+      { "part": "leg_r", "add": { "math": [ "rand(3) * -1" ] } }, // supports math and stuff, works for both character/npcs and monsters. multiple `encumbrance_modifier`es of the same part do stack
+    ],
     "melee_damage_bonus": [ // adds this amount of damage to attack; adding damage adds flat number to attacks, multiplier multiplies existing damage after adding
     { "type": "bash", "add": 10 }, // add 10 would straight add 10 damage of this type to each attack
     { "type": "cut", "add": -3 }, // add -3 would decrease any cut damage up to zero
@@ -988,6 +995,7 @@ Character status value  | Description
 `METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never weary.
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
+`MOTION_ALARM`          | Add alarm, when something moving around player it will activated
 `MOVE_COST`             | 
 `MUT_INSTABILITY_MOD`   | Modifies your instability score, which affects the chance to get bad mutation (scales with amount of good mutations you have, capping at 67%, check `Character::roll_bad_mutation` for more information). `add: 1` would be equal to having 1 good mutation more, increasing the chance to get bad mutation, `add: -1` would be like you have one good mutation less, decreasing the chance to get bad mutation.
 `MUT_ADDITIONAL_OPTIONS`| Whenever the character mutates, they may pick from the initially rolled mutation and x additional options given by the mutation value.  These options will be clustered around the initially picked mutation based on their relative point values.  IE, if a character initially rolls a negative mutation, the additional options will likely also be negative mutations.  High enough enchantment values will allow picking from every possible mutation.

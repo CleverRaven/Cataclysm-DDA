@@ -74,24 +74,28 @@
     "id": "dog_with_skull_fur",
     "type": "harvest",
     "copy-from": "dog_with_skull_fur",
+    "delete": { "entries": [ { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] },
     "extend": { "entries": [ { "drop": "carnivore_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
   },
   {
     "id": "dog_with_skull_fur_mutant",
     "type": "harvest",
     "copy-from": "dog_with_skull_fur_mutant",
+    "delete": { "entries": [ { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] },
     "extend": { "entries": [ { "drop": "carnivore_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
   },
   {
     "id": "dog_with_skull_leather",
     "type": "harvest",
     "copy-from": "dog_with_skull_leather",
+    "delete": { "entries": [ { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] },
     "extend": { "entries": [ { "drop": "carnivore_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
   },
   {
     "id": "cougar_with_skull",
     "type": "harvest",
     "copy-from": "cougar_with_skull",
+    "delete": { "entries": [ { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] },
     "extend": { "entries": [ { "drop": "carnivore_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
   },
   {
@@ -135,6 +139,7 @@
     "id": "dog_triclopean_with_skull",
     "type": "harvest",
     "copy-from": "dog_triclopean_with_skull",
+    "delete": { "entries": [ { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] },
     "extend": { "entries": [ { "drop": "small_carnivore_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
   },
   {

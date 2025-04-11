@@ -1631,8 +1631,7 @@
     "material": [ "veggy" ],
     "primary_material": "veggy",
     "volume": "250 ml",
-    "delete": { "flags": [ "RAW" ] },
-    "extend": { "flags": [ "FREEZERBURN" ] },
+    "flags": [ "FREEZERBURN" ],
     "fun": 3,
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },

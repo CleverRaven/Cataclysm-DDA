@@ -1597,7 +1597,7 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
     }
 
     if( copies_remaining > 1 ) {
-        int how_many_copies_fit = std::min( { copies_remaining, copy_weight_capacity, copy_volume_capacity } );
+        int how_many_copies_fit = std::min( { data->holster ? 1 : copies_remaining, copy_weight_capacity, copy_volume_capacity } );
         copies_remaining -= how_many_copies_fit;
     } else {
         copies_remaining = 0;
@@ -1780,7 +1780,7 @@ static void move_to_parent_pocket_recursive( map &here, const tripoint_bub_ms &p
                                         _( "<npcname>'s %s falls to the ground." ), it.display_name() );
     } else {
         // TODO: Make operation map aware.
-        add_msg_if_player_sees( get_map().get_bub( here.get_abs( pos ) ), m_bad,
+        add_msg_if_player_sees( reality_bubble().get_bub( here.get_abs( pos ) ), m_bad,
                                 _( "The %s falls to the ground." ),
                                 it.display_name() );
     }

@@ -82,7 +82,7 @@
       "{": { "item": "SUS_trash_dumpster", "chance": 100, "repeat": [ 0, 5 ] },
       "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] },
       "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
-      "c": { "item": "office_supplies", "chance": 20, "repeat": [ 1, 4 ] },
+      "c": { "item": "SUS_office_desk", "chance": 20, "repeat": [ 1, 4 ] },
       "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } },

@@ -534,7 +534,7 @@ The upgrades object may have the following members:
 
 Field               | Description
 ---                 | ---
-`half_life`         | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor (at the time of this writing, 4).
+`half_life`         | (int) Days in which half of the monsters upgrade according to an approximated exponential progression. It is multiplied with the evolution scaling factor which defaults to 1.
 `into_group`        | (string, optional) The upgraded monster's type is taken from the specified group.
 `into`              | (string, optional) The upgraded monster's type.
 `age_grow`          | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.

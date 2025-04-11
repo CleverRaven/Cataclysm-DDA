@@ -594,7 +594,11 @@
     "//": "For this and following, make sure to add each spell into the proper tier.",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_summon_grass_field_spell", "changeling_spring_minor_restore_stamina_and_pain_spell" ],
+        "u_roll_remainder": [
+          "changeling_spring_summon_grass_field_spell",
+          "changeling_spring_minor_restore_stamina_and_pain_spell",
+          "changeling_spring_reduce_scent_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -607,7 +611,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_growing_plants_spell", "changeling_spring_prevent_bad_conditions_spell" ],
+        "u_roll_remainder": [
+          "changeling_spring_growing_plants_spell",
+          "changeling_spring_prevent_bad_conditions_spell",
+          "changeling_spring_summon_flower_warriors_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -620,7 +628,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_protective_plant_armor_spell", "changeling_spring_remove_fatigue_and_sleep_deprivation_spell" ],
+        "u_roll_remainder": [
+          "changeling_spring_protective_plant_armor_spell",
+          "changeling_spring_remove_fatigue_and_sleep_deprivation_spell",
+          "changeling_spring_summon_rain_shower_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -704,7 +716,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell", "changeling_summer_jump_distance_spell" ],
+        "u_roll_remainder": [
+          "changeling_summer_fire_melee_damage_spell",
+          "changeling_summer_jump_distance_spell",
+          "changeling_summer_protect_from_hot_weather_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -717,7 +733,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_summer_run_for_long_periods_spell", "changeling_summer_bonus_stamina_near_enemies_spell" ],
+        "u_roll_remainder": [
+          "changeling_summer_run_for_long_periods_spell",
+          "changeling_summer_bonus_stamina_near_enemies_spell",
+          "changeling_summer_slow_and_sweat_debuff_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -788,7 +808,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_1",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_autumn_scare_animals_spell", "changeling_autumn_touch_of_frailty_spell" ],
+        "u_roll_remainder": [
+          "changeling_autumn_scare_animals_spell",
+          "changeling_autumn_touch_of_frailty_spell",
+          "changeling_autumn_detect_magic_user_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

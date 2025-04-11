@@ -10,6 +10,21 @@
         "topic": "TALK_GODCO_Olwen_Family",
         "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
+      {
+        "text": "How is your love life going in here?",
+        "topic": "TALK_GODCO_Olwen_Love0",
+        "condition": { "math": [ "godco_julian_wedding == 0" ] }
+      },
+      {
+        "text": "How is your love life going in here?",
+        "topic": "TALK_GODCO_Olwen_Love1",
+        "condition": { "math": [ "godco_julian_wedding == 1" ] }
+      },
+      {
+        "text": "How is your love life going in here?",
+        "topic": "TALK_GODCO_Olwen_Love2",
+        "condition": { "math": [ "godco_julian_wedding == 2" ] }
+      },
       { "text": "I heard you were handy with computers.", "topic": "TALK_GODCO_Olwen_Skills" }
     ]
   },
@@ -172,6 +187,33 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_Family",
     "dynamic_line": "My dad's having a hard time letting go of the past.  Got any more interview questions?",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Love0",
+    "dynamic_line": "Well…  Things were going pretty well between Julian and I before <the_cataclysm>, but after everything that happened…  Ugh, I'm getting depressed just thinking about it.  Let's just talk about something else.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Love1",
+    "dynamic_line": "Pretty well actually!  Julian just asked me to marry him!  With wedding rings and everything!  I must be the happiest woman still alive!",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Love2",
+    "dynamic_line": "I'm on cloud nine!  I just came back from trying on my wedding dress!  Julian is so charming thinking of everything, I don't know how to repay him, I'm really over the moon with the wedding.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

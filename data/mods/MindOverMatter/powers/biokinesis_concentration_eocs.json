@@ -360,12 +360,6 @@
     "id": "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
     "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
     "effect": [
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_01" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_02" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_03" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_04" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_05" },
-      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_06" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_1" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_2" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_3" },

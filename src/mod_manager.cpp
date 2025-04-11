@@ -284,6 +284,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     assign( jo, "description", modfile.description );
     assign( jo, "version", modfile.version );
     assign( jo, "dependencies", modfile.dependencies );
+    assign( jo, "conflicts", modfile.conflicts );
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
     assign( jo, "loading_images", modfile.loading_images );
@@ -305,6 +306,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         json.member( "type", "MOD_INFO" );
         json.member( "id", "user:default" );
         json.member( "dependencies" );
+        json.member( "conflicts" );
         json.write( mods );
         json.end_object();
     }, _( "list of default mods" ) );

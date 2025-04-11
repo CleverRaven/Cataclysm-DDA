@@ -1,0 +1,152 @@
+[
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_cam_spy",
+    "replace": "afs_motion_sensor"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_cam_spy_on",
+    "replace": "afs_motion_sensor"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_sungel",
+    "replace": "anesthetic_kit"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_solderers_item",
+    "replace": "bio_tools"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_fridge",
+    "replace": "apartment_fridge"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "remove after 0.I",
+    "from": "afs_fridge",
+    "to": "minifridge"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "remove after 0.I",
+    "from": "afs_freezer",
+    "to": "minifridge"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_freezer",
+    "replace": "minifridge"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_bio_precision_solderers",
+    "replace": "soldering_iron"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_blatant_half_life_reference",
+    "replace": "afs_military_vest"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_hev_helmet",
+    "replace": "spacer_cap"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_hev_helmet_on",
+    "replace": "spacer_cap"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_sunesthesia",
+    "replace": "anesthetic_kit"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_textbook_shotguns",
+    "replace": "manual_shotgun"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_textbook_handguns",
+    "replace": "manual_pistol"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_textbook_rifles",
+    "replace": "manual_rifle"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_textbook_launchers",
+    "replace": "manual_launcher"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "afs_bio_wind_turbine",
+    "replace": "bio_torsionratchet"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "broken_milbot_flame",
+    "replace": "broken_tankbot"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "broken_milbot_308",
+    "replace": "broken_tankbot"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "broken_milbot_8x40mm",
+    "replace": "broken_tankbot"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "broken_advbot_rail",
+    "replace": "broken_tankbot"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "broken_advbot_rail",
+    "replace": "broken_tankbot"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "40mm_emp",
+    "replace": "40x46mm_m433"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "40mmEMP_act",
+    "replace": "40x46mm_m433"
+  }
+]

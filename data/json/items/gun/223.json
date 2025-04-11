@@ -21,7 +21,15 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "NO_TURRET" ],
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "melee_damage": { "bash": 12 }
@@ -29,12 +37,12 @@
   {
     "id": "modular_ar_pistol",
     "copy-from": "pistol_base",
-    "//": "Roughly based on https://www.cheaperthandirt.com/del-ton-lima-ar-15-semi-auto-pistol-5.56-nato-7.5-barrel-30-rounds-m-lok-handguard-black/FC-848456002687.html, with the upper subtracted.",
+    "//": "Based on https://www.aeroprecisionusa.com/m4e1-carbine-complete-lower-a2-grip-no-stock-anodized",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR pistol" },
     "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a sleeve.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
-    "weight": "1043 g",
+    "weight": "735 g",
     "volume": "748 ml",
     "longest_side": "373 mm",
     "price": "245 USD",
@@ -47,7 +55,15 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "NO_TURRET" ],
     "melee_damage": { "bash": 9 }
   },
@@ -95,12 +111,12 @@
     "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
       [ "bore", 1 ],
-      [ "bayonet lug", 1 ],
-      [ "grip", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
       [ "sling", 1 ],
-      [ "stock accessory", 2 ],
+      [ "stock accessory", 1 ],
       [ "stock", 1 ]
     ],
     "melee_damage": { "bash": 12 },
@@ -109,7 +125,7 @@
   },
   {
     "id": "scar_l",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "type": "GUN",
     "name": { "str": "FN SCAR-L" },
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
@@ -119,30 +135,21 @@
     "longest_side": "798 mm",
     "barrel_length": "355 mm",
     "price": "5 kUSD 400 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 180,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "high_end_folding_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail", 2 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
@@ -168,12 +175,32 @@
           "survivor223mag"
         ]
       }
+    ]
+  },
+  {
+    "id": "scar_16s",
+    "copy-from": "scar_l",
+    "type": "GUN",
+    "name": { "str": "civilian FN SCAR-L rifle" },
+    "description": "A highly accurate and modular rifle specially designed for the United States Special Operations Command, in semi-auto only to be sold on the civilian market.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "scar_16s",
+        "name": { "str": "FN SCAR 16S" },
+        "description": "The SCAR 16S is the civilian-legal version of the SCAR-L rifle.  It is still very expensive, not like that matters now anymore."
+      }
     ],
-    "melee_damage": { "bash": 12 }
+    "ascii_picture": "scar-L",
+    "weight": "3289 g",
+    "barrel_length": "413 mm",
+    "price": "3 kUSD 839 USD",
+    "price_postapoc": "20 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
     "id": "sl8",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "SL8 civilian rifle" },
@@ -192,29 +219,23 @@
         "description": "The SL8 is an importation-legal gun similar to the German G36, made to be semi-auto only, and to only feed from 10 round single stack magazines.  It also features a distinctive thumbhole stock, a polymer handguard, and a top rail for mounting optics."
       }
     ],
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 150,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sl8mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sl8mag" ] } ]
   },
   {
     "id": "m249",
-    "copy-from": "rifle_auto",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "M249 machine gun" },
@@ -225,30 +246,22 @@
     "longest_side": "1035 mm",
     "barrel_length": "533 mm",
     "price": "7 kUSD 500 USD",
-    "price_postapoc": "80 USD",
-    "to_hit": -1,
+    "price_postapoc": "20 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 200,
-    "durability": 7,
-    "min_cycle_recoil": 1350,
     "reload": 400,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       {
@@ -275,8 +288,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "m249_semi",
@@ -325,7 +337,15 @@
     "min_cycle_recoil": 1350,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "melee_damage": { "bash": 12 }
@@ -359,7 +379,15 @@
     "durability": 7,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "melee_damage": { "bash": 12 }
@@ -385,7 +413,7 @@
   },
   {
     "id": "ruger_mini",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Ruger Mini-14 carbine" },
@@ -396,41 +424,29 @@
     "longest_side": "977 mm",
     "barrel_length": "406 mm",
     "price": "921 USD",
-    "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "223" ],
     "dispersion": 100,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
-      [ "brass catcher", 1 ],
+      [ "loading port", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock", 1 ]
     ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "//": "Changed from SG 553, which itself was originally the Sig 550, to the civilian legal copy",
     "id": "sig_assault_rifle",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "SIG civilian rifle" },
@@ -440,7 +456,6 @@
     "longest_side": "1020 mm",
     "barrel_length": "406 mm",
     "price": "3 kUSD 200 USD",
-    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -449,13 +464,18 @@
         "description": "The SG 556 is a civilian model of the Swiss SIG SG 550 series, manufactured in New Hampshire.  It lacks any automatic fire capability and has a 16 inch barrel, but still retains a folding stock, with the feature of feeding from STANAG magazines instead of the SG 550 series magazines."
       }
     ],
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "ammo": [ "223" ],
     "dispersion": 180,
-    "durability": 9,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "built_in_mods": [ "folding_stock" ],
     "pocket_data": [
       {
@@ -481,12 +501,11 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "steyr_aug",
-    "copy-from": "rifle_auto",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AUG assault rifle" },
@@ -496,7 +515,6 @@
     "longest_side": "715 mm",
     "barrel_length": "508 mm",
     "price": "4 kUSD 900 USD",
-    "price_postapoc": "40 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -505,36 +523,28 @@
         "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy."
       }
     ],
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "223" ],
     "dispersion": 140,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "ak556",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "ZPAP AK-style rifle" },
@@ -552,30 +562,20 @@
     "longest_side": "99 cm",
     "barrel_length": "465 mm",
     "price": "795 USD",
-    "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
-    "ammo": [ "223" ],
     "dispersion": 180,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 2 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
   },
   {
     "id": "mdrx",
@@ -652,7 +652,7 @@
   },
   {
     "id": "bren2_556",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Bren 5.56x45mm carbine" },
@@ -670,27 +670,20 @@
     "longest_side": "91 cm",
     "barrel_length": "419 mm",
     "price": "2 kUSD 259 USD",
-    "price_postapoc": "35 USD",
-    "to_hit": -1,
     "material": [ "steel", "aluminum", "plastic" ],
-    "color": "black",
-    "ammo": [ "223" ],
     "dispersion": 140,
-    "durability": 8,
     "default_mods": [ "folding_stock", "muzzle_brake" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
@@ -716,8 +709,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "cz600",
@@ -750,7 +742,6 @@
     "built_in_mods": [ "adjustable_stock" ],
     "valid_mod_locations": [
       [ "bore", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "rail", 2 ],
       [ "sights", 1 ],
@@ -793,16 +784,14 @@
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock accessory", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [
       {
@@ -834,7 +823,7 @@
   {
     "id": "iwi_tavor_x95_300blk",
     "//": "Yes the ID says 300blk.  The old .300 version didn't meet the inclusion criteria, but the 556 one did so it was changed to 556.  Since it feeds from the same magazines, a migration wasn't need and the old ID was kept.",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "IWI Tavor X95" },
@@ -844,26 +833,17 @@
     "longest_side": "665 mm",
     "barrel_length": "419 mm",
     "price": "4 kUSD 900 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "223" ],
     "dispersion": 140,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [

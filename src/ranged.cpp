@@ -1092,6 +1092,9 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
+        // get ammo_id in gun for event character_ranged_attacks_monster. If no ammo, use itype_id::NULL_ID()
+        itype_id projectile_use_ammo_id = gun.has_ammo_data() ? gun.ammo_data()->get_id() :
+                                          itype_id::NULL_ID();
         projectile proj = make_gun_projectile( gun );
 
         for( damage_unit &elem : proj.impact.damage_units ) {
@@ -1107,16 +1110,21 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         if( !shot.targets_hit.empty() ) {
             hits++;
         }
+
         for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : shot.targets_hit ) {
             if( hit_entry.second.first == 0 ) {
                 continue;
             }
             if( monster *const m = hit_entry.first->as_monster() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
+                                projectile_use_ammo_id,
+                                false,
                                 m->type->id );
                 get_event_bus().send_with_talker( this, m, e );
             } else if( Character *const c = hit_entry.first->as_character() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
+                                projectile_use_ammo_id,
+                                false,
                                 c->getID(), c->get_name() );
                 get_event_bus().send_with_talker( this, c, e );
             }
@@ -1580,13 +1588,33 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
+    itype_id to_throw_id = to_throw.type->get_id();
     weakpoint_attack wp_attack;
     wp_attack.weapon = &to_throw;
     wp_attack.is_thrown = true;
     dealt_projectile_attack dealt_attack;
     projectile_attack( dealt_attack, proj, throw_from, target, dispersion,
                        this, nullptr, wp_attack );
-
+    for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : dealt_attack.targets_hit ) {
+        if( hit_entry.second.first == 0 ) {
+            continue;
+        }
+        if( monster *const m = hit_entry.first->as_monster() ) {
+            cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(),
+                            itype_id::NULL_ID(),
+                            to_throw_id,
+                            true,
+                            m->type->id );
+            get_event_bus().send_with_talker( this, m, e );
+        } else if( Character *const c = hit_entry.first->as_character() ) {
+            cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(),
+                            itype_id::NULL_ID(),
+                            to_throw_id,
+                            true,
+                            c->getID(), c->get_name() );
+            get_event_bus().send_with_talker( this, c, e );
+        }
+    }
     const double missed_by = dealt_attack.missed_by;
 
     if( critter && dealt_attack.last_hit_critter != nullptr && dealt_attack.headshot &&
@@ -2328,7 +2356,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
             }
 
             // TODO: Refine critera to handle overlapping maps.
-            if( here == &get_map() ) {
+            if( here == &reality_bubble() ) {
                 sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
                                          sfx::get_heard_angle( eject ) );
             }
@@ -3336,11 +3364,13 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 
 void target_ui::set_last_target()
 {
+    map &here = get_map();
+
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().get_abs( dst ) ) {
+        you->last_target_pos.value() != here.get_abs( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().get_abs( dst );
+    you->last_target_pos = here.get_abs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3714,10 +3744,13 @@ bool target_ui::action_aim()
     set_last_target();
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
+    double hold_recoil = you->recoil;
     for( int i = 0; i < 10; ++i ) {
         do_aim( *you, *relevant, min_recoil );
     }
-
+    add_msg_debug( debugmode::debug_filter::DF_BALLISTIC,
+                   "you reduced recoil from %f to %f in 10 moves",
+                   hold_recoil, you->recoil );
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 

@@ -12,5 +12,11 @@
     "name": { "str": "feral pigeon egg" },
     "copy-from": "egg_pigeon",
     "rot_spawn": { "group": "GROUP_EGG_PIGEON" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "panacea",
+    "name": { "str": "compound XV471 \"Panaceus\"", "str_pl": "doses of compound XV471 \"Panaceus\"" },
+    "copy-from": "panacea"
   }
 ]

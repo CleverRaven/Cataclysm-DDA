@@ -220,7 +220,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -243,7 +242,8 @@
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "military_nvg_on",
@@ -278,7 +278,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -306,7 +305,8 @@
         "coverage": 80,
         "specifically_covers": [ "head_forehead", "head_crown" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "advanced_gpnvg_on",
@@ -344,7 +344,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -372,7 +371,8 @@
         "coverage": 70,
         "specifically_covers": [ "head_forehead", "head_crown" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "enhanced_nvg_on",

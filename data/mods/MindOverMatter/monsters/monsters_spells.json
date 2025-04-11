@@ -320,6 +320,26 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "photokinetic_light_explosion_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Blinding Explosion Monster", "//~": "NO_I18N" },
+    "description": { "str": "When you die, you burst apart in an explosion of light.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "blind",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 20,
+    "min_aoe": 1,
+    "max_aoe": 10,
+    "aoe_increment": 1,
+    "min_duration": 500,
+    "max_duration": 5000,
+    "duration_increment": 10,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
     "id": "photokinetic_illumination_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Illumination Monster", "//~": "NO_I18N" },
