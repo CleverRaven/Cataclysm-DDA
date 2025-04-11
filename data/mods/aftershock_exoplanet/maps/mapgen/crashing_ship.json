@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "aftershock_crashing_ship",
-    "terrain": { "0": "t_metal_floor" }
+    "terrain": { "0": "t_metal_floor_heated" }
   },
   {
     "//": "Aftershock crashing ship, divided into six sections. This is intended to be the port side of a larger ship, with the corridors leading to the rest of the ship sealed off due to hull breaches.",
@@ -21,7 +21,7 @@
       [ "crashing_ship_9", "crashing_ship_8", "crashing_ship_7" ]
     ],
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_metal_floor_heated",
       "rows": [
         "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
         "MLLLLLLLM......MeeeeeeeMM......................MMPPPPPPPPPPPPPPPPPPPPPPM",
@@ -142,9 +142,9 @@
         "D": "t_door_metal_c",
         "g": "t_door_glass_frosted_c",
         "d": "t_door_metal_locked",
-        "c": "t_metal_floor",
-        "x": "t_metal_floor",
-        "F": "t_metal_floor",
+        "c": "t_metal_floor_heated",
+        "x": "t_metal_floor_heated",
+        "F": "t_metal_floor_heated",
         "J": "t_chainfence",
         "j": "t_chaingate_l",
         "W": "t_reinforced_glass_shutter",
