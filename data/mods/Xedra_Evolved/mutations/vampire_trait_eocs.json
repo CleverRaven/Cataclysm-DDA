@@ -273,7 +273,9 @@
                 "if": {
                   "and": [
                     { "not": "u_is_npc" },
-                    { "or": [ { "not": { "u_has_species": "HUMAN" } }, { "u_has_species": "ZOMBIE" } ] },
+                    {
+                      "or": [ { "not": { "u_has_species": "HUMAN" } }, { "u_has_species": "ZOMBIE" }, { "u_has_species": "VAMPIRE" } ]
+                    },
                     { "not": { "u_has_species": "FERAL" } },
                     { "not": { "u_has_species": "CHANGELING" } },
                     { "not": { "u_has_species": "RENFIELD" } },
