@@ -69,7 +69,7 @@
       { "group": "nested_rugerlcp", "prob": 231 },
       { "group": "nested_hptcf380", "prob": 100 },
       { "group": "nested_swbodyguard", "prob": 1673 },
-      { "group": "nested_glock_42", "prob": 439 },
+      { "group": "nested_glock_42", "prob": 439 }
     ]
   },
   {
@@ -405,7 +405,12 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_380",
-    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 }, { "item": "swbodyguard", "prob": 1673 },{ "item": "glock_42", "prob": 439 } ]
+    "items": [
+      { "item": "rugerlcp", "prob": 231 },
+      { "item": "hptcf380", "prob": 100 },
+      { "item": "swbodyguard", "prob": 1673 },
+      { "item": "glock_42", "prob": 439 }
+    ]
   },
   {
     "type": "item_group",
