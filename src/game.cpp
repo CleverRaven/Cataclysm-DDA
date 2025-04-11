@@ -14444,9 +14444,9 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
             you.get_skill_level( skill_survival ),
             you.get_skill_level( skill_firstaid ) ) );
 
-    pd.pulp_power = bash_factor * skill_factor * ( pd.can_cut_precisely ? 1 : 0.85 );
+    pd.nominal_pulp_power = bash_factor * skill_factor * ( pd.can_cut_precisely ? 1 : 0.85 );
 
-    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.pulp_power );
+    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.nominal_pulp_power );
 
     // since we are trying to depict pulping as more involved than you Isaac Clarke the corpse 100% of time,
     // we would assume there is some time between attacks, where you try to reach some sweet spot,
@@ -14480,11 +14480,22 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 
     float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
-    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.pulp_power;
-
+    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.nominal_pulp_power;
     // in seconds also
     // 30 seconds for human body volume of 62.5L, scale from this
     int min_time_to_pulp = 30 * corpse_volume / 62.5;
+
+    // you have a hard time pulling armor to reach important parts of this monster
+    if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
+        if( pd.can_pry_armor ) {
+            time_to_pulp *= 1.25;
+        } else {
+            time_to_pulp *= 1.7;
+        }
+    }
+
+    // Adjust pulp_power to match the time taken.
+    pd.pulp_power = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / time_to_pulp;
 
     // +25% to pulp time if char knows no weakpoints of monster
     // -25% if knows all of them
@@ -14497,19 +14508,19 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
                 pd.unknown_prof = wf.proficiency;
             }
         }
+        // We're not adjusting pulp_power here, so no proficiency will result in more
+        // splatter and full proficiency will result in less, as no needless bashes
+        // resulting in splatter are made.
         time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype.families.families.size();
     }
 
-    // you have a hard time pulling armor to reach important parts of this monster
-    if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
-        if( pd.can_pry_armor ) {
-            time_to_pulp *= 1.25;
-        } else {
-            time_to_pulp *= 1.7;
-        }
+    if( time_to_pulp < min_time_to_pulp ) {
+        pd.time_to_pulp = min_time_to_pulp;
+        // Reducing the power to match the time in order to get the same amount of splatter.
+        pd.pulp_power = pd.time_to_pulp / ( std::pow( corpse_volume, pow_factor ) * 1000 );
+    } else {
+        pd.time_to_pulp = time_to_pulp;
     }
-
-    pd.time_to_pulp = std::max( min_time_to_pulp, time_to_pulp );
 
     return pd;
 }
