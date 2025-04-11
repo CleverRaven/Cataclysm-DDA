@@ -1396,7 +1396,7 @@
     "id": "60mm_propellant",
     "type": "GENERIC",
     "name": { "str": "60 mm mortar propellant charge" },
-    "description": "Small explosive in a form of donut without a piece, this thing is designed to be attached on the mortar shell tail, to increase the projectile velocity and, therefore, it's range.  Since the projectile it was connected to was already shot, you can only cut it for it's content.",
+    "description": "Small explosive in a form of donut without a piece, this thing is designed to be attached on the mortar shell tail, to increase the projectile velocity and, therefore, its range.  Since the projectile it was connected to was already shot, you can only cut it for its content.",
     "weight": "50 g",
     "//": "8 g of some unknown to me explosive material, let's assume comp b for simplicity",
     "volume": "70 ml",

@@ -641,15 +641,15 @@ class inventory_selector
         bool add_contained_items( item_location &container );
         bool add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr, item_location const &topmost_parent = {},
-                                  int indent = 0 );
+                                  int indent = 0, bool add_efiles = false );
         void add_contained_gunmods( Character &you, item &gun );
-        void add_contained_ebooks( item_location &container );
-        void add_contained_efiles( item_location &container );
-        void add_character_items( Character &character );
+        bool add_contained_ebooks( item_location &container );
+        bool add_contained_efiles( item_location &container );
+        void add_character_items( Character &character, bool add_efiles = false );
         void add_character_ebooks( Character &character );
-        void add_map_items( const tripoint_bub_ms &target );
-        void add_vehicle_items( const tripoint_bub_ms &target );
-        void add_nearby_items( int radius = 1 );
+        void add_map_items( const tripoint_bub_ms &target, bool add_efiles = false );
+        void add_vehicle_items( const tripoint_bub_ms &target, bool add_efiles = false );
+        void add_nearby_items( int radius = 1, bool add_efiles = false );
         void add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target );
         void add_basecamp_items( const basecamp &camp );
         /** Remove all items */
@@ -731,7 +731,7 @@ class inventory_selector
         bool add_entry_rec( inventory_column &entry_column, inventory_column &children_column,
                             item_location &loc, item_category const *entry_category = nullptr,
                             item_category const *children_category = nullptr,
-                            item_location const &topmost_parent = {}, int indent = 0 );
+                            item_location const &topmost_parent = {}, int indent = 0, bool add_efiles = false );
 
         bool drag_drop_item( item *sourceItem, item *destItem );
 
@@ -834,7 +834,7 @@ class inventory_selector
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
         void _add_map_items( tripoint_bub_ms const &target, item_category const &cat, item_stack &items,
-                             std::function<item_location( item & )> const &floc );
+                             std::function<item_location( item & )> const &floc, bool add_efiles = false );
 
     public:
         /**

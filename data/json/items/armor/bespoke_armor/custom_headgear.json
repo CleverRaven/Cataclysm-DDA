@@ -54,10 +54,10 @@
         "default_magazine": "gasfilter_sm"
       }
     ],
-    "ammo": "gasfilter_s",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ],
+    "tool_ammo": "gasfilter_s"
   },
   {
     "id": "xl_helmet_nomad",
@@ -498,10 +498,10 @@
         "default_magazine": "gasfilter_sm"
       }
     ],
-    "ammo": "gasfilter_s",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ],
+    "tool_ammo": "gasfilter_s"
   },
   {
     "id": "xl_helmet_scavenger",

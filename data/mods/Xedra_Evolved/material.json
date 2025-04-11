@@ -304,5 +304,23 @@
     "copy-from": "fruit",
     "//": "Identical to regular fruit matter but 10 times as light.",
     "density": 0.11
+  },
+  {
+    "type": "material",
+    "id": "paper_fireproof",
+    "name": "Fireproof Paper",
+    "//": "Identical to regular paper but cannot be burned.  Using delete hasn't worked, so I wrote the entire paper material here.",
+    "density": 1.2,
+    "specific_heat_liquid": 1.34,
+    "specific_heat_solid": 1.34,
+    "latent_heat": 1,
+    "soft": true,
+    "chip_resist": 0,
+    "repaired_with": "paper",
+    "salvaged_into": "paper",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 999, "bullet": 1 }
   }
 ]

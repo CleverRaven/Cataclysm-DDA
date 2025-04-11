@@ -89,7 +89,7 @@
     "id": "improve_sights",
     "type": "GUNMOD",
     "name": { "str_sp": "iron sights" },
-    "description": "A basic set of iron sights",
+    "description": "A basic set of iron sights.",
     "weight": "60 g",
     "volume": "10 ml",
     "integral_volume": "0 ml",

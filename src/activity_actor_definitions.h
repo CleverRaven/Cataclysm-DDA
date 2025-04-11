@@ -715,8 +715,8 @@ class ebooksave_activity_actor : public activity_actor
         int turns_left_on_current_book = 0;
 
         static constexpr time_duration time_per_page = 5_seconds;
-        // Every 25 pages requires one charge of the ereader
-        static constexpr int pages_per_charge = 25;
+        // Every 120 pages requires one charge of the ereader (equivalent of 1500 mWh, so roughly 6 charges per hour )
+        static constexpr int pages_per_charge = 120;
 
         void start_scanning_next_book( player_activity &act );
         void completed_scanning_current_book( player_activity &act, Character &who );
@@ -2455,6 +2455,8 @@ class pulp_activity_actor : public activity_actor
         bool too_long_to_pulp_interrupted = false;
         // if corpse cost more than hour to pulp, drop it
         bool way_too_long_to_pulp = false;
+
+        bool acid_corpse = false;
 
         // how many corpses we pulped
         int num_corpses = 0;

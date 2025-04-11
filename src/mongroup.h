@@ -250,7 +250,6 @@ class MonsterGroupManager
         static const mongroup_id &Monster2Group( const mtype_id &monster );
         static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group, bool from_subgroups );
         static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
-        static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
         /**
          * Gets a random monster, weighted by frequency.
          * Ignores cost multiplier.

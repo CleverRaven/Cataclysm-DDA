@@ -109,6 +109,8 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_COMBAT_MOUNT,
        mon_flag_CONSOLE_DESPAWN,
        mon_flag_CONVERSATION,
+       mon_flag_COPY_SUMMONER_LOOK,
+       mon_flag_COPY_AVATAR_LOOK,
        mon_flag_CORNERED_FIGHTER,
        mon_flag_DEADLY_VIRUS,
        mon_flag_DESTROYS,
@@ -458,6 +460,7 @@ struct mtype {
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
+        int melee_dice_ap = 0;  /** ap value of the melee dice*/
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
         int sk_dodge = 0;       /** dodge skill */

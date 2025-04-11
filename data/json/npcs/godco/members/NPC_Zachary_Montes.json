@@ -158,7 +158,7 @@
       {
         "text": "I'll see what I can do.",
         "topic": "TALK_NONE",
-        "effect": { "assign_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" }
+        "effect": { "add_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" }
       },
       { "text": "I'm sorry to hear that <name_g>, but I don't feel like facing it either.", "topic": "TALK_DONE" }
     ]

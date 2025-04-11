@@ -451,7 +451,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
                 continue;
             }
 
-            float injury_score = bp->get_limb_score( sc.getId(), 0, 0, 1 );
+            float injury_score = bp->get_limb_score( you, sc.getId(), 0, 0, 1 );
             float max_score = part->get_limb_score( sc.getId() );
 
             if( injury_score < max_score ) {
@@ -486,7 +486,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
                     continue;
                 }
                 std::string desc = mod.description().translated();
-                float injury_score = bp->get_limb_score( sc.first, 0, 0, 1 );
+                float injury_score = bp->get_limb_score( you, sc.first, 0, 0, 1 );
                 float max_score = part->get_limb_score( sc.first );
                 nc_color score_c;
 

@@ -79,6 +79,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "nether_huntsman_javelin_ammo",
+    "name": "alien outgrowth",
+    "default": "nether_huntsman_javelin"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
@@ -881,6 +887,12 @@
     "id": "graphite",
     "name": "graphite",
     "default": "graphite"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "quill_ink",
+    "name": "quill ink",
+    "default": "quill_ink"
   },
   {
     "type": "ammunition_type",

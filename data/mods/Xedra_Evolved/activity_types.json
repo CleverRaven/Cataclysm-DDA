@@ -37,5 +37,13 @@
     "verb": "daydreaming",
     "based_on": "time",
     "completion_eoc": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_FINALIZE"
+  },
+  {
+    "type": "activity_type",
+    "id": "ACT_VAMPIRE_DRINKING_BLOOD",
+    "activity_level": "NO_EXERCISE",
+    "verb": "drinking blood",
+    "based_on": "time",
+    "can_resume": false
   }
 ]

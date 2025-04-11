@@ -3,14 +3,11 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
-#include <cerrno>
 #include <cmath>
 #include <cstdlib>
-#include <cstring>
 #include <iomanip>
 #include <iterator>
 #include <limits>
-#include <locale>
 #include <memory>
 #include <optional>
 #include <set>
@@ -117,7 +114,6 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "try_parse_integer.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -647,7 +643,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         if( one_in( 20 ) ) {
             result.set_flag( flag_REVIVE_SPECIAL );
         }
-        result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
+        result.set_var( "upgrade_time", upgrade_time );
     }
 
     if( !mt->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
@@ -1610,7 +1606,7 @@ bool _stacks_ethereal( item const &lhs, item const &rhs )
 {
     static const std::string varname( "ethereal" );
     return ( !lhs.ethereal && !rhs.ethereal ) ||
-           ( lhs. ethereal && rhs.ethereal && lhs.get_var( varname ) == rhs.get_var( varname ) );
+           ( lhs. ethereal && rhs.ethereal && lhs.get_var( varname, 0 ) == rhs.get_var( varname, 0 ) );
 }
 
 bool _stacks_ups( item const &lhs, item const &rhs )
@@ -1843,131 +1839,51 @@ void item::force_insert_item( const item &it, pocket_type pk_type )
     on_contents_changed();
 }
 
-void item::set_var( const std::string &name, const int value )
+void item::set_var( const std::string &key, diag_value value )
 {
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
+    item_vars[ key ] = std::move( value );
 }
 
-void item::set_var( const std::string &name, const long long value )
+double item::get_var( const std::string &key, double default_value ) const
 {
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
-}
-
-// NOLINTNEXTLINE(cata-no-long)
-void item::set_var( const std::string &name, const long value )
-{
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
-}
-
-void item::set_var( const std::string &name, const double value )
-{
-    item_vars[name] = string_format( "%f", value );
-}
-
-double item::get_var( const std::string &name, const double default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    const std::string &val = it->second;
-    char *end;
-    errno = 0;
-    double result = strtod( val.data(), &end );
-    if( errno != 0 ) {
-        debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
-                  val, strerror( errno ) );
-        return default_value;
-    }
-    if( end != val.data() + val.size() ) {
-        if( *end == ',' ) {
-            // likely legacy format with localized ',' for fraction separator instead of '.'
-            std::string converted_val = val;
-            converted_val[end - val.data()] = '.';
-            errno = 0;
-            double result = strtod( converted_val.data(), &end );
-            if( errno != 0 ) {
-                debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
-                          val, strerror( errno ) );
-                return default_value;
-            }
-            if( end != converted_val.data() + converted_val.size() ) {
-                debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
-            }
-            return result;
-        }
-        debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
-    }
-    return result;
-}
-
-void item::set_var( const std::string &name, const tripoint_abs_ms &value )
-{
-    item_vars[name] = value.to_string();
-}
-
-tripoint_abs_ms item::get_var( const std::string &name,
-                               const tripoint_abs_ms &default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->dbl();
     }
 
-    // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
-    // first is produced by tripoint::to_string, second was old custom format
-    if( it->second[0] == '(' ) {
-        return tripoint_abs_ms{tripoint::from_string( it->second )};
+    return default_value;
+}
+
+std::string item::get_var( const std::string &key, std::string default_value ) const
+{
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->str();
     }
 
-    std::vector<std::string> values = string_split( it->second, ',' );
-    cata_assert( values.size() == 3 );
-    auto convert_or_error = []( const std::string_view s ) {
-        ret_val<int> result = try_parse_integer<int>( s, false );
-        if( result.success() ) {
-            return result.value();
-        } else {
-            debugmsg( "Error parsing tripoint coordinate in item::get_var: %s", result.str() );
-            return 0;
-        }
-    };
-    return tripoint_abs_ms( convert_or_error( values[0] ),
-                            convert_or_error( values[1] ),
-                            convert_or_error( values[2] ) );
+    return default_value;
 }
 
-void item::set_var( const std::string &name, const std::string &value )
+tripoint_abs_ms item::get_var( const std::string &key, tripoint_abs_ms default_value ) const
 {
-    item_vars[name] = value;
-}
-
-std::string item::get_var( const std::string &name, const std::string &default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->tripoint();
     }
-    return it->second;
+
+    return default_value;
 }
 
-std::string item::get_var( const std::string &name ) const
+void item::remove_var( const std::string &key )
 {
-    return get_var( name, "" );
+    item_vars.erase( key );
 }
 
-std::optional<std::string> item::maybe_get_var( const std::string &name ) const
+diag_value const &item::get_value( const std::string &name ) const
 {
-    const auto it = item_vars.find( name );
-    return it == item_vars.end() ? std::nullopt : std::optional<std::string> { it->second };
+    return global_variables::_common_get_value( name, item_vars );
+}
+
+diag_value const *item::maybe_get_value( const std::string &name ) const
+{
+    return global_variables::_common_maybe_get_value( name, item_vars );
 }
 
 bool item::has_var( const std::string &name ) const
@@ -2473,7 +2389,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
+        global_variables::impl_t::const_iterator const idescription =
             item_vars.find( "description" );
         const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
@@ -2494,7 +2410,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 get_avatar().add_snippet( snip_id );
             }
         } else if( idescription != item_vars.end() ) {
-            info.emplace_back( "DESCRIPTION", idescription->second );
+            info.emplace_back( "DESCRIPTION", idescription->second.str() );
         } else if( has_itype_variant() ) {
             info.emplace_back( "DESCRIPTION", variant_description() );
         } else {
@@ -2611,7 +2527,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( auto const &imap : item_vars ) {
                 info.emplace_back( "BASE",
                                    string_format( _( "item var: %s, %s" ), imap.first,
-                                                  imap.second ) );
+                                                  imap.second.to_string() ) );
             }
 
             info.emplace_back( "BASE", _( "wetness: " ),
@@ -2711,7 +2627,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     nutrients max_nutr;
 
     Character &player_character = get_player_character();
-    std::string recipe_exemplar = get_var( "recipe_exemplar", "" );
+    std::string recipe_exemplar = get_var( "recipe_exemplar", std::string{} );
     if( recipe_exemplar.empty() ) {
         min_nutr = max_nutr = player_character.compute_effective_nutrients( *food_item );
     } else {
@@ -4994,7 +4910,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet ebook recipes
-    if( is_estorage() && !is_broken_on_active() ) {
+    if( is_estorage() && !is_broken_on_active() && is_browsed() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
@@ -6044,28 +5960,41 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    // does the item fit in any holsters?
-    std::vector<const itype *> holsters = Item_factory::find( [this]( const itype & e ) {
-        if( !e.can_use( "holster" ) ) {
-            return false;
+    // Does the item fit into any armor?
+    std::vector<std::reference_wrapper<const item>> armor_containers;
+    auto /*std::vector<item>::const_iterator*/ [begin, end] =
+        item_controller->get_armor_containers( volume() );
+    for( std::vector<item>::const_iterator iter = begin; iter != end; ++iter ) {
+        if( iter->can_contain_directly( *this ).success() ) {
+            armor_containers.emplace_back( *iter );
         }
-        const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                   ( e.get_use( "holster" )->get_actor_ptr() );
-        const item holster_item( &e );
-        return ptr->can_holster( holster_item, *this ) && !item_is_blacklisted( holster_item.typeId() );
-    } );
+    }
 
-    if( !holsters.empty() && parts->test( iteminfo_parts::DESCRIPTION_HOLSTERS ) ) {
+    if( !armor_containers.empty() && parts->test( iteminfo_parts::DESCRIPTION_ARMOR_CONTAINERS ) ) {
         insert_separation_line( info );
-        std::vector<std::string> holsters_str;
-        holsters_str.reserve( holsters.size() );
-        for( const itype *e : holsters ) {
-            holsters_str.emplace_back( player_character.is_wearing( e->get_id() )
-                                       ? string_format( "<good>%s</good>", e->nname( 1 ) )
-                                       : e->nname( 1 ) );
+        const bool too_many_items = armor_containers.size() > 100;
+        std::vector<std::string> armor_containers_str;
+        for( const item &it : armor_containers ) {
+            // This sorts the green worn items in front of others, as '<' sorts before 'a', 'B' etc.
+            if( player_character.is_wearing( it.type->get_id() ) ) {
+                armor_containers_str.emplace_back( string_format( "<good>%s</good>", it.type->nname( 1 ) ) );
+            } else if( !too_many_items ) {
+                armor_containers_str.emplace_back( it.type->nname( 1 ) );
+            }
         }
-        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can be stored in</bold>: %s." ),
-                           enumerate_lcsorted_with_limit( holsters_str, 30 ) ) );
+        const int unworn_items = armor_containers.size() - armor_containers_str.size();
+        if( too_many_items && armor_containers_str.empty() ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in %d unworn wearables.</bold>" ), unworn_items ) );
+        } else if( too_many_items && unworn_items > 0 ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (worn)</bold>: %s.  And %d unworn wearables." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ), unworn_items ) );
+        } else {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (wearables)</bold>: %s." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ) ) );
+        }
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
@@ -6089,27 +6018,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
+    auto const item_note = item_vars.find( "item_note" );
 
     if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
         insert_separation_line( info );
         std::string ntext;
-        std::map<std::string, std::string>::const_iterator item_note_tool =
-            item_vars.find( "item_note_tool" );
+        auto const item_note_tool = item_vars.find( "item_note_tool" );
         const use_function *use_func =
             item_note_tool != item_vars.end() ?
             item_controller->find_template(
-                itype_id( item_note_tool->second ) )->get_use( "inscribe" ) :
+                itype_id( item_note_tool->second.str() ) )->get_use( "inscribe" ) :
             nullptr;
         const inscribe_actor *use_actor =
             use_func ? dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
         if( use_actor ) {
             //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
             ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
-                                   use_actor->gerund, tname(), item_note->second );
+                                   use_actor->gerund, tname(), item_note->second.str() );
         } else {
             //~ %1$s: inscription text
-            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
+            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second.str() );
         }
         info.emplace_back( "DESCRIPTION", ntext );
     }
@@ -6645,12 +6573,12 @@ void item::on_wear( Character &p )
             int rhs = 0;
             set_side( side::LEFT );
             for( const bodypart_id &bp : p.get_all_body_parts() ) {
-                lhs += p.get_part_encumbrance_data( bp ).encumbrance;
+                lhs += p.get_part_encumbrance( bp );
             }
 
             set_side( side::RIGHT );
             for( const bodypart_id &bp : p.get_all_body_parts() ) {
-                rhs += p.get_part_encumbrance_data( bp ).encumbrance;
+                rhs += p.get_part_encumbrance( bp );
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -7263,11 +7191,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     units::mass ret;
     double ret_mul = 1.0;
-    std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
-    if( local_str_mass.empty() ) {
+    diag_value const &local_mass = get_value( integral ? "integral_weight" : "weight" );
+    if( local_mass.is_empty() ) {
         ret = integral ? type->integral_weight : type->weight;
     } else {
-        ret = units::from_milligram( std::stoll( local_str_mass ) );
+        ret = units::from_milligram( local_mass.dbl() );
     }
 
     if( has_flag( flag_REDUCED_WEIGHT ) ) {
@@ -7619,8 +7547,8 @@ int item::damage_melee( const damage_type_id &dt ) const
 
     // effectiveness is reduced by 10% per damage level
     int res = 0;
-    if( type->melee.count( dt ) > 0 ) {
-        res = type->melee.at( dt );
+    if( type->melee.damage_map.count( dt ) > 0 ) {
+        res = type->melee.damage_map.at( dt );
     }
     res = damage_adjusted_melee_weapon_damage( res );
 
@@ -8936,11 +8864,6 @@ units::ememory item::remaining_ememory() const
     return total_ememory() - occupied_ememory();
 }
 
-bool item::is_efile( const item_location &loc )
-{
-    return loc.parent_item() && loc.parent_item()->is_estorage();
-}
-
 item *item::get_recipe_catalog()
 {
     const std::function<bool( const item &i )> filter = []( const item & i ) {
@@ -9413,51 +9336,38 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     }
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const float armors_own_resist = resist( du.type, true, bp );
-    if( armors_own_resist > 1000.0f ) {
+    double armors_own_resist = resist( du.type, true, bp );
+    if( armors_own_resist > 1000.0 ) {
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
-    // Fragile items take damage if they block more than 15% of their armor value, this uses the pre-mitigated damage.
-    if( has_flag( flag_FRAGILE ) &&
-        premitigated.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
-        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
-               armor_status::DAMAGED;
-    }
+    /*
+    * Armor damage chance is calculated using the logistics function.
+    *  No matter the damage dealt, an armor piece has at at most 80% chance of being damaged.
+    *  Chance of damage is 40% when the premitigation damage is equal to armor*1.333
+    *  Sturdy items will not take damage if premitigation damage isn't higher than armor*1.333.
+    *
+    *  Non fragile items are considered to always have at least 10 points of armor, this is to prevent
+    *  regular clothes from exploding into ribbons whenever you get punched.
+    */
+    armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0,
+                        armors_own_resist * 1.3333 );
+    double damage_chance = 0.8 / ( 1.0 + std::exp( -( premitigated.amount - armors_own_resist ) ) ) *
+                           enchant_multiplier;
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
-    // before becoming ineffective or being destroyed.
-    const int num_parts_covered = get_covered_body_parts().count();
-    if( !one_in( num_parts_covered ) ) {
+    // before becoming ineffective or being destroyed
+    damage_chance = damage_chance / get_covered_body_parts().count();
+    if( has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist ) {
         return armor_status::UNDAMAGED;
+    } else if( x_in_y( damage_chance, 1.0 ) ) {
+        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+               armor_status::DAMAGED;
     }
-
-    // Don't damage armor as much when bypassed by armor piercing
-    // Most armor piercing damage comes from bypassing armor, not forcing through
-    const float post_mitigated_dmg = du.amount;
-    // more gradual damage chance calc
-    const float damaged_chance = ( 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1 ) *
-                                 enchant_multiplier;
-    if( post_mitigated_dmg > armors_own_resist ) {
-        // handle overflow, if you take a lot of damage your armor should be damaged
-        if( damaged_chance >= 1 ) {
-            return armor_status::DAMAGED;
-        }
-        if( one_in( 1 / ( 1 - damaged_chance ) ) ) {
-            return armor_status::UNDAMAGED;
-        }
-    } else {
-        // Sturdy items and power armors never take chip damage.
-        // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if( has_flag( flag_STURDY ) || is_power_armor() || !one_in( 200 ) ) {
-            return armor_status::UNDAMAGED;
-        }
-    }
-
-    return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
-           armor_status::DAMAGED;
+    return armor_status::UNDAMAGED;
 }
+
 
 item::armor_status item::damage_armor_transforms( damage_unit &du, double enchant_multiplier ) const
 {
@@ -10014,7 +9924,7 @@ bool item::is_food_container() const
 
 bool item::has_temperature() const
 {
-    return is_comestible() || is_corpse();
+    return ( is_comestible() && !has_flag( flag_NO_TEMP ) )  || is_corpse();
 }
 
 bool item::is_corpse() const
@@ -12723,6 +12633,11 @@ units::mass item::get_used_holster_weight() const
     return contents.get_used_holster_weight();
 }
 
+units::volume item::get_biggest_pocket_capacity() const
+{
+    return contents.biggest_pocket_capacity();
+}
+
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
@@ -13297,18 +13212,19 @@ bool item::already_used_by_player( const Character &p ) const
     // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
     // id has been added.
     const std::string needle = string_format( ";%d;", p.getID().get_value() );
-    return it->second.find( needle ) != std::string::npos;
+    return it->second.str().find( needle ) != std::string::npos;
 }
 
 void item::mark_as_used_by_player( const Character &p )
 {
-    std::string &used_by_ids = item_vars[ USED_BY_IDS ];
+    std::string used_by_ids = get_value( USED_BY_IDS ).str();
     if( used_by_ids.empty() ) {
         // *always* start with a ';'
         used_by_ids = ";";
     }
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID().get_value() );
+    set_var( USED_BY_IDS, used_by_ids );
 }
 
 bool item::can_holster( const item &obj ) const
@@ -13430,7 +13346,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             temp = std::max( temp, temperatures::normal );
             break;
         case temperature_flag::ROOT_CELLAR:
-            temp = AVERAGE_ANNUAL_TEMPERATURE;
+            temp = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             break;
         default:
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
@@ -13483,7 +13399,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             if( pos.z() >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
                 env_temperature = wgen.get_weather_temperature( get_map().get_abs( pos ), time, seed );
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                env_temperature = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             }
             env_temperature += temp_mod;
 
@@ -13501,7 +13417,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
                     env_temperature = std::max( env_temperature, temperatures::normal );
                     break;
                 case temperature_flag::ROOT_CELLAR:
-                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                    env_temperature =  units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
                     break;
                 default:
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
@@ -14835,11 +14751,13 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                              float insulation, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     if( ethereal ) {
-        if( !has_var( "ethereal" ) ) {
+        diag_value const &eth = get_value( "ethereal" );
+        if( eth.is_empty() ) {
             return true;
         }
-        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
-        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        double const set = eth.dbl() - 1;
+        set_var( "ethereal", set );
+        const bool processed = set <= 0;
         if( processed && carrier != nullptr ) {
             carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
         }
@@ -15272,7 +15190,7 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
                                   corpse->nname() );
         }
     } else if( iter != item_vars.end() ) {
-        return iter->second;
+        return iter->second.str();
     } else if( use_variant && has_itype_variant() ) {
         ret_name = itype_variant().alt_name.translated( quantity );
     } else {

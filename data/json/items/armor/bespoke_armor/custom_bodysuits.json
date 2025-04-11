@@ -43,7 +43,6 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
-    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -89,7 +88,8 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ],
+    "tool_ammo": "battery"
   },
   {
     "id": "armor_nomad_advanced_on",

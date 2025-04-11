@@ -439,7 +439,7 @@ void suffer::from_addictions( Character &you )
 
 void suffer::while_awake( Character &you, const int current_stim )
 {
-    if( you.weight_carried() > 4 * you.weight_capacity() ) {
+    if( you.weight_carried() > you.max_pickup_capacity() ) {
         if( you.has_effect( effect_downed ) ) {
             you.add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
@@ -1956,7 +1956,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
     if( torso_wetness >= get_part_drench_capacity( bodypart_id( "torso" ) ) / 2.0 &&
         has_effect( effect_masked_scent ) &&
-        get_value( "waterproof_scent" ).empty() ) {
+        !maybe_get_value( "waterproof_scent" ) ) {
         add_msg_if_player( m_info, _( "The water washes away the scent." ) );
         restore_scent();
     }

@@ -12,6 +12,15 @@
     "barrel_length": "129 mm",
     "price": "1 kUSD 600 USD",
     "price_postapoc": "25 USD",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ]
+    ],
     "ammo": [ "380" ],
     "min_cycle_recoil": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
@@ -20,7 +29,7 @@
   },
   {
     "id": "rugerlcp",
-    "copy-from": "pistol_backup",
+    "copy-from": "gun_base_380_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Ruger LCP pistol" },
@@ -31,20 +40,14 @@
     "longest_side": "145 mm",
     "barrel_length": "70 mm",
     "price": "210 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
-    "color": "dark_gray",
-    "ammo": [ "380" ],
     "dispersion": 480,
-    "durability": 8,
-    "min_cycle_recoil": 270,
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugerlcpmag" ] } ],
-    "melee_damage": { "bash": 1 }
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugerlcpmag" ] } ]
   },
   {
     "id": "hptcf380",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_380_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Hi-Point CF-380 pistol" },
@@ -54,21 +57,17 @@
     "longest_side": "200 mm",
     "barrel_length": "89 mm",
     "price": "75 USD",
-    "price_postapoc": "17 USD 50 cent",
     "material": [ "plastic", "steel", "zinc" ],
-    "color": "dark_gray",
-    "ammo": [ "380" ],
     "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "durability": 7,
-    "min_cycle_recoil": 270,
     "pocket_data": [
       {
         "magazine_well": "236 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "hptcf380mag_8rd", "hptcf380mag_10rd" ]
       }
-    ],
-    "melee_damage": { "bash": 8 }
+    ]
   },
   {
     "id": "hpt3895",
@@ -104,14 +103,12 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
       [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [
@@ -124,5 +121,30 @@
     ],
     "pocket_data": [ { "magazine_well": "236 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hpt3895mag_10rd" ] } ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "swbodyguard",
+    "copy-from": "gun_base_380_semi_pistol",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": ".380 conceal carry handgun" },
+    "description": "A very small and lightweight handgun, firing the .380 ACP cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "swbodyguard",
+        "name": { "str": "S&W M&P Bodyguard" },
+        "description": "A now-discontinued conceal carry gun, the S&W Bodyguard is a small and lightweight conceal carry gun, firing the .380 ACP cartridge.  Despite the short barrel and weak cartridge, it is still enough for self defense.  Even though it's discontinued, it still remains as a very popular firearm."
+      }
+    ],
+    "weight": "337 g",
+    "volume": "156 ml",
+    "longest_side": "160 mm",
+    "barrel_length": "70 mm",
+    "price": "399 USD",
+    "material": [ "plastic", "steel" ],
+    "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ]
   }
 ]

@@ -25,13 +25,7 @@
       {
         "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
         "weight": 75,
-        "ends": "3 days",
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
-        "weight": 75,
-        "ends": "7 days",
+        "ends": "12 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -43,12 +37,22 @@
       {
         "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
         "weight": 75,
-        "ends": "90 days",
+        "ends": "112 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "ends": "360 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER", "weight": 75, "conditions": [ "WINTER" ] },
-      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER", "weight": 75, "ends": "3 days", "conditions": [ "WINTER" ] },
-      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER", "weight": 75, "ends": "7 days", "conditions": [ "WINTER" ] },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "ends": "12 days",
+        "conditions": [ "WINTER" ]
+      },
       {
         "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
         "weight": 75,
@@ -58,7 +62,13 @@
       {
         "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
         "weight": 75,
-        "ends": "90 days",
+        "ends": "112 days",
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "ends": "360 days",
         "conditions": [ "WINTER" ]
       },
       { "group": "GROUP_WILDERNESS_FOREST_BIRD", "weight": 300 },
@@ -71,13 +81,7 @@
         "group": "GROUP_WILDERNESS_FOREST_INSECT",
         "weight": 75,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "3 days"
-      },
-      {
-        "group": "GROUP_WILDERNESS_FOREST_INSECT",
-        "weight": 75,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "7 days"
+        "starts": "12 days"
       },
       {
         "group": "GROUP_WILDERNESS_FOREST_INSECT",
@@ -89,19 +93,19 @@
         "group": "GROUP_WILDERNESS_FOREST_INSECT",
         "weight": 75,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "90 days"
+        "starts": "112 days"
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_INSECT",
+        "weight": 75,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
+        "starts": "360 days"
       },
       {
         "group": "GROUP_WILDERNESS_FOREST_ZOMBIE",
         "weight": 50,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "3 days"
-      },
-      {
-        "group": "GROUP_WILDERNESS_FOREST_ZOMBIE",
-        "weight": 50,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "7 days"
+        "starts": "12 days"
       },
       {
         "group": "GROUP_WILDERNESS_FOREST_ZOMBIE",
@@ -113,7 +117,13 @@
         "group": "GROUP_WILDERNESS_FOREST_ZOMBIE",
         "weight": 50,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "90 days"
+        "starts": "112 days"
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_ZOMBIE",
+        "weight": 50,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
+        "starts": "360 days"
       },
       {
         "group": "GROUP_WILDERNESS_FOREST_REPTILE",
@@ -122,7 +132,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "group": "GROUP_FROGS_FOREST", "weight": 10 },
-      { "group": "GROUP_MUTAFROGS_FOREST", "weight": 8, "starts": "7 days" }
+      { "group": "GROUP_MUTAFROGS_FOREST", "weight": 8, "starts": "28 days" }
     ]
   },
   {
@@ -151,9 +161,9 @@
       { "monster": "mon_skunk", "weight": 6, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_black_rat", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER", "weight": 22 },
-      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT", "weight": 1, "starts": "14 days" },
-      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT", "weight": 2, "starts": "28 days" },
-      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT", "weight": 4, "starts": "90 days" }
+      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT", "weight": 1, "starts": "56 days" },
+      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT", "weight": 2, "starts": "112 days" },
+      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT", "weight": 4, "starts": "360 days" }
     ]
   },
   {
@@ -191,7 +201,7 @@
     "monsters": [
       { "monster": "mon_bluejay", "weight": 2, "cost_multiplier": 0, "pack_size": [ 1, 10 ] },
       { "monster": "mon_crow", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
-      { "monster": "mon_crow_mutant_small", "weight": 2, "cost_multiplier": 2, "starts": "14 days" },
+      { "monster": "mon_crow_mutant_small", "weight": 2, "cost_multiplier": 2, "starts": "56 days" },
       { "monster": "mon_raven", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
       { "monster": "mon_robin", "weight": 4, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
       { "monster": "mon_sparrow", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 15 ] },
@@ -320,8 +330,8 @@
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_zhark", "weight": 1, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_zhark", "weight": 2, "cost_multiplier": 25, "starts": "28 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zhark", "weight": 1, "cost_multiplier": 25, "starts": "12 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zhark", "weight": 2, "cost_multiplier": 25, "starts": "112 days", "pack_size": [ 1, 3 ] },
       { "monster": "mon_fish_eel", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
       { "monster": "mon_fish_bowfin", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
       { "monster": "mon_fish_bullhead", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
@@ -361,12 +371,12 @@
       { "monster": "mon_fish_bluegill", "weight": 10, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
       { "monster": "mon_fish_whitefish", "weight": 10, "cost_multiplier": 2, "pack_size": [ 4, 6 ] },
       { "monster": "mon_fish_pickerel", "weight": 6, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_dragonfly_naiad", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
+      { "monster": "mon_dragonfly_naiad", "weight": 10, "cost_multiplier": 2, "ends": "28 days" },
       {
         "monster": "mon_dragonfly_naiad",
         "weight": 30,
         "cost_multiplier": 3,
-        "starts": "7 days",
+        "starts": "28 days",
         "pack_size": [ 1, 3 ]
       },
       { "group": "GROUP_WATER_STRIDER", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
@@ -375,21 +385,27 @@
       { "monster": "mon_moorhen", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
       { "monster": "mon_cormorant", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_grebe", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_diving_larva", "weight": 10, "cost_multiplier": 2, "starts": "3 days" },
-      { "monster": "mon_diving_larva", "weight": 20, "cost_multiplier": 3, "starts": "7 days", "pack_size": [ 1, 3 ] },
-      { "monster": "mon_water_scorpion_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
+      { "monster": "mon_diving_larva", "weight": 10, "cost_multiplier": 2, "starts": "12 days" },
+      {
+        "monster": "mon_diving_larva",
+        "weight": 20,
+        "cost_multiplier": 3,
+        "starts": "28 days",
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_water_scorpion_larva", "weight": 10, "cost_multiplier": 2, "ends": "28 days" },
       {
         "monster": "mon_water_scorpion_larva",
         "weight": 30,
         "cost_multiplier": 3,
-        "starts": "7 days",
+        "starts": "28 days",
         "pack_size": [ 1, 3 ]
       },
       { "monster": "mon_diving_beetle_small", "weight": 4, "cost_multiplier": 10 },
       { "monster": "mon_water_scorpion", "weight": 4, "cost_multiplier": 10 },
       { "group": "GROUP_TADPOLES_RIVER", "weight": 25, "conditions": [ "SUMMER", "AUTUMN" ] },
       { "group": "GROUP_FROGS_RIVER", "weight": 15, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "group": "GROUP_MUTAFROGS_RIVER", "weight": 8, "starts": "7 days" }
+      { "group": "GROUP_MUTAFROGS_RIVER", "weight": 8, "starts": "28 days" }
     ]
   },
   {
@@ -442,13 +458,7 @@
         "group": "GROUP_WILDERNESS_SWAMP_INSECT",
         "weight": 100,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "3 days"
-      },
-      {
-        "group": "GROUP_WILDERNESS_SWAMP_INSECT",
-        "weight": 100,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "7 days"
+        "starts": "12 days"
       },
       {
         "group": "GROUP_WILDERNESS_SWAMP_INSECT",
@@ -460,13 +470,19 @@
         "group": "GROUP_WILDERNESS_SWAMP_INSECT",
         "weight": 100,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "starts": "90 days"
+        "starts": "112 days"
+      },
+      {
+        "group": "GROUP_WILDERNESS_SWAMP_INSECT",
+        "weight": 100,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
+        "starts": "360 days"
       },
       {
         "monster": "mon_lemming",
         "weight": 50,
         "pack_size": [ 2, 7 ],
-        "ends": "90 days",
+        "ends": "360 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "group": "GROUP_SLUG", "weight": 15, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
@@ -474,7 +490,7 @@
       { "group": "GROUP_TADPOLES_SWAMP", "weight": 100, "pack_size": [ 3, 6 ] },
       { "group": "GROUP_FROGS_SWAMP", "weight": 100, "pack_size": [ 1, 3 ] },
       { "group": "GROUP_WILDERNESS_FRESHWATER_REPTILE", "weight": 85, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "group": "GROUP_MUTAFROGS_SWAMP", "weight": 75, "starts": "7 days" }
+      { "group": "GROUP_MUTAFROGS_SWAMP", "weight": 75, "starts": "28 days" }
     ]
   },
   {
@@ -508,7 +524,7 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_crow_mutant_small", "weight": 20, "cost_multiplier": 2, "starts": "14 days" },
+      { "monster": "mon_crow_mutant_small", "weight": 20, "cost_multiplier": 2, "starts": "56 days" },
       { "monster": "mon_raven", "weight": 45, "cost_multiplier": 0 },
       { "monster": "mon_pigeon", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_bluejay", "weight": 25, "cost_multiplier": 0 },
@@ -540,7 +556,7 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "weight": 45, "cost_multiplier": 0 },
-      { "monster": "mon_crow_mutant_small", "weight": 20, "cost_multiplier": 2, "starts": "14 days" },
+      { "monster": "mon_crow_mutant_small", "weight": 20, "cost_multiplier": 2, "starts": "56 days" },
       { "monster": "mon_raven", "weight": 45, "cost_multiplier": 0 },
       { "monster": "mon_robin", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_sparrow", "weight": 25, "cost_multiplier": 0 },

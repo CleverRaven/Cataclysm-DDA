@@ -55,8 +55,7 @@
       { "group": "plumbing_clothing", "prob": 100 },
       { "group": "tools_plumbing", "prob": 100 },
       { "group": "supplies_plumbing", "prob": 50 },
-      [ "survnote", 1 ],
-      [ "pipe_fittings", 70 ]
+      [ "survnote", 1 ]
     ]
   },
   {
@@ -82,8 +81,26 @@
       { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "30gal_drum_aluminum", "prob": 2 },
       [ "cu_pipe", 5 ],
-      [ "steroid_eyedrops", 10 ],
       [ "survnote", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "dentist_supplies",
+    "subtype": "collection",
+    "entries": [
+      { "item": "dental_tools", "count": [ 1, 2 ], "prob": 80 },
+      { "item": "string_floss", "count": [ 1, 3 ], "prob": 75 },
+      { "item": "toothbrush_plain", "count": [ 1, 4 ], "prob": 75 },
+      { "item": "toothbrush_electric", "prob": 20 },
+      { "item": "dentures", "count": [ 1, 2 ], "prob": 40 },
+      { "item": "medical_gauze", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "syringe", "prob": 30 },
+      { "item": "mask_dust", "prob": 60 },
+      { "item": "gloves_medical", "prob": 70 },
+      { "item": "disinfectant", "prob": 30, "charges": [ 1, 10 ] },
+      { "item": "anesthetic_kit", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "gold_dental_grill", "prob": 1 }
     ]
   }
 ]
