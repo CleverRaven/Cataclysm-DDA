@@ -13,7 +13,7 @@
     "allow_all_weapons": true,
     "ondodge_buffs": [
       {
-        "id": "mma_buff_gun_kata_ondodge",
+        "id": "mom_buff_gun_kata_ondodge",
         "name": "Combat Equilibrium",
         "description": "Your preternatural senses allow you to dodge with ease.\n\n+1.0 Dodging skill, +1 dodge attempt.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "dodge", "level": 3 } ],
@@ -25,7 +25,7 @@
     ],
     "onmove_eocs": [
       {
-        "id": "mma_eoc_gun_kata_onmove",
+        "id": "mom_eoc_gun_kata_onmove",
         "name": "Gun Kata Movement",
         "condition": {
         	"and": [ 
@@ -43,12 +43,12 @@
       }
     ],
     "techniques": [
-      "mma_tec_1",
-      "mma_tec_2",
-      "mma_tec_3",
-      "mma_tec_4",
-      "mma_tec_5"
+      "mom_tec_bladed_wind",
+      "mom_tec_2",
+      "mom_tec_3",
+      "mom_tec_4",
+      "mom_tec_5"
     ],
-    "weapon_category": [ "PISTOL", "SMG", "LONG_SWORDS" ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   }
 ]
