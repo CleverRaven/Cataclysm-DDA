@@ -394,7 +394,9 @@
           "common_cold",
           "flu",
           "pre_flu",
-          "pre_common_cold"
+          "pre_common_cold",
+          "incorporeal",
+          "VITRIFYING"
         ]
       },
       {
