@@ -4508,8 +4508,8 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-
-                if( !get_map().route( u.pos_bub(), critter->pos_bub(), pf_settings ).empty() ) {
+                const pathfinding_target pf_t = pathfinding_target::point( critter->pos_bub() );
+                if( !get_map().route( u.pos_bub(), pf_t, pf_settings ).empty() ) {
                     return critter;
                 }
                 continue;
@@ -7906,7 +7906,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         if( is_dangerous_tile( p ) ) {
             continue;
         }
-        const route_t route = here.route( who.pos_bub(), p,
+        const route_t route = here.route( who.pos_bub(), pathfinding_target::point( p ),
         who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
             return is_dangerous_tile( p );
         } );

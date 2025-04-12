@@ -5203,7 +5203,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
                 continue;
             }
             //must be a path to the target tile
-            if( route( pos, e, setting ).empty() ) {
+            if( route( pos, pathfinding_target::point( e ), setting ).empty() ) {
                 continue;
             }
             if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
