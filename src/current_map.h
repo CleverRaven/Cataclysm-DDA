@@ -29,7 +29,7 @@ class current_map
 class swap_map
 {
     public:
-        swap_map( map &new_map );
+        explicit swap_map( map &new_map );
         ~swap_map();
 
     private:
