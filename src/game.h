@@ -136,6 +136,8 @@ struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
     // how much damage you deal to corpse every second, average of multiple values
+    float nominal_pulp_power;
+    // The actual power produced, adjusted based on time adjustments.
     float pulp_power;
     // how much stamina is consumed after each punch
     float pulp_effort;
@@ -175,6 +177,7 @@ class game
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
+        friend map &reality_bubble();
         friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
@@ -780,8 +783,7 @@ class game
          */
         void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         // Removes legacy npctalk_var_ prefix from older versions of the game. Should be removed after 0.J
-        static void legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
-                &map_of_vars );
+        static void legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_vars );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -1126,7 +1128,7 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-        map &m;
+        map &m; // NOLINT(cata-serialize)
         current_map& current_map;
         avatar &u;
         scent_map &scent;

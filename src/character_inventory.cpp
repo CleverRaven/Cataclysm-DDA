@@ -15,6 +15,7 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -588,12 +589,14 @@ void Character::drop( item_location loc, const tripoint_bub_ms &where )
 void Character::drop( const drop_locations &what, const tripoint_bub_ms &target,
                       bool stash )
 {
+    map &here = get_map();
+
     if( what.empty() ) {
         return;
     }
     invalidate_leak_level_cache();
-    const std::optional<vpart_reference> vp = get_map().veh_at( target ).cargo();
-    if( rl_dist( pos_bub(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
+    const std::optional<vpart_reference> vp = here.veh_at( target ).cargo();
+    if( rl_dist( pos_bub(), target ) > 1 || !( stash || here.can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );
@@ -746,6 +749,10 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
 
 bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 {
+    if( test_mode ) {
+        return false;
+    }
+
     uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
     std::vector<dispose_option> opts;

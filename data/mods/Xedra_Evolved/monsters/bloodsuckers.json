@@ -124,7 +124,7 @@
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "renfield_death_drops",
-    "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE" },
+    "upgrades": { "half_life": 200, "into_group": "GROUP_RENFIELD_UPGRADE" },
     "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
@@ -193,7 +193,7 @@
     ],
     "death_drops": "renfield_9mm_death_drops",
     "zombify_into": "mon_zombie",
-    "upgrades": { "half_life": 50, "into_group": "GROUP_RENFIELD_UPGRADE" },
+    "upgrades": { "half_life": 200, "into_group": "GROUP_RENFIELD_UPGRADE" },
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_WEAK" ],
     "flags": [
       "SEES",

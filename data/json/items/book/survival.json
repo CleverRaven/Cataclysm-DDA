@@ -13,13 +13,13 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "blue",
-    "skill": "survival",
     "required_level": 1,
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": -3,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "survival",
+    "read_fun": -3
   },
   {
     "id": "fun_survival",
@@ -35,7 +35,6 @@
     "symbol": "?",
     "looks_like": "textbook_fireman",
     "color": "pink",
-    "skill": "survival",
     "required_level": 1,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.15 },
@@ -44,7 +43,8 @@
     "max_level": 3,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 3
+    "read_skill": "survival",
+    "read_fun": 3
   },
   {
     "id": "mag_dude",
@@ -60,11 +60,11 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "survival",
     "max_level": 1,
     "intelligence": 5,
     "time": "24 m",
-    "fun": 1
+    "read_skill": "survival",
+    "read_fun": 1
   },
   {
     "id": "mag_survival",
@@ -80,11 +80,11 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "survival",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 2
+    "read_skill": "survival",
+    "read_fun": 2
   },
   {
     "id": "manual_survival",
@@ -100,14 +100,14 @@
     "symbol": "?",
     "looks_like": "manual_archery",
     "color": "green",
-    "skill": "survival",
     "max_level": 3,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.2 },
       { "proficiency": "prof_knapping_speed", "time_factor": 0.15, "fail_factor": 0.2 }
     ],
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "survival"
   },
   {
     "id": "pocket_survival",
@@ -123,14 +123,14 @@
     "symbol": "?",
     "looks_like": "mag_gaming",
     "color": "green",
-    "skill": "survival",
     "max_level": 2,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.25, "fail_factor": 0.3 },
       { "proficiency": "prof_knapping_speed", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
     "intelligence": 6,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "survival"
   },
   {
     "id": "survival_book",
@@ -147,7 +147,6 @@
     "symbol": "?",
     "looks_like": "manual_dodge",
     "color": "light_blue",
-    "skill": "survival",
     "required_level": 5,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.1, "fail_factor": 0.15 },
@@ -156,8 +155,9 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": 1,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "survival",
+    "read_fun": 1
   },
   {
     "id": "textbook_survival",
@@ -173,12 +173,12 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "survival",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "survival"
   },
   {
     "id": "textbook_botany",
@@ -194,11 +194,11 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "green",
-    "skill": "survival",
     "required_level": 3,
     "max_level": 5,
     "intelligence": 9,
-    "time": "45 m"
+    "time": "45 m",
+    "read_skill": "survival"
   },
   {
     "id": "textbook_arthropod",
@@ -214,12 +214,12 @@
     "color": "red",
     "symbol": "?",
     "looks_like": "textbook_firstaid",
-    "skill": "survival",
     "required_level": 3,
     "proficiencies": [ { "proficiency": "prof_chitinworking", "time_factor": 0.1, "fail_factor": 0.15 } ],
     "max_level": 4,
     "intelligence": 9,
-    "time": "45 m"
+    "time": "45 m",
+    "read_skill": "survival"
   },
   {
     "id": "isherwood_herbal_remedies",
@@ -235,12 +235,12 @@
     "symbol": "?",
     "looks_like": "scots_cookbook",
     "color": "light_gray",
-    "skill": "survival",
     "required_level": 1,
     "max_level": 5,
     "intelligence": 8,
     "time": "20 m",
-    "fun": 4,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "survival",
+    "read_fun": 4
   }
 ]

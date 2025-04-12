@@ -122,12 +122,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_M",
-    "effect": [ { "set_string_var": { "context_val": "test_context_key_M" }, "target_var": { "global_val": "test_global_key_M" } } ]
+    "effect": [ { "copy_var": { "context_val": "test_context_key_M" }, "target_var": { "global_val": "test_global_key_M" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_N",
-    "effect": [ { "set_string_var": { "context_val": "test_context_key_N" }, "target_var": { "global_val": "test_global_key_N" } } ]
+    "effect": [ { "copy_var": { "context_val": "test_context_key_N" }, "target_var": { "global_val": "test_global_key_N" } } ]
   },
   {
     "type": "effect_on_condition",

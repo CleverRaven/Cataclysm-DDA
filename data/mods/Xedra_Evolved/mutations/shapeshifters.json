@@ -112,6 +112,7 @@
         "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "multiply": 0.05 } ]
       }
     ],
+    "integrated_armor": [ "integrated_claws_werewolf", "integrated_werewolf_teeth" ],
     "flags": [ "NO_SPELLCASTING", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
     "override_look": { "id": "mon_loup_garou", "tile_category": "monster" }
   },

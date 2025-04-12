@@ -142,7 +142,6 @@
     "symbol": ";",
     "color": "green",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "use_action": [
       {
         "type": "transform",
@@ -156,7 +155,8 @@
     ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "electric_lantern_on",
@@ -192,7 +192,6 @@
     "price": "9 USD",
     "price_postapoc": "15 cent",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
     "use_action": {
       "type": "transform",
@@ -209,7 +208,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "flashlight_on",
@@ -243,7 +243,6 @@
     "price": "5 USD",
     "price_postapoc": "1 USD",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
     "use_action": {
       "type": "transform",
@@ -260,7 +259,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "diving_flashlight_small_on",
@@ -295,7 +295,6 @@
     "price": "5 USD",
     "price_postapoc": "1 USD",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ],
     "use_action": {
       "type": "transform",
@@ -312,7 +311,8 @@
         "flag_restriction": [ "BATTERY_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "diving_flashlight_small_hipower_on",
@@ -347,7 +347,6 @@
     "price": "5 USD",
     "price_postapoc": "1 USD",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "WRIST_MOUNT_ATTACHMENT" ],
     "use_action": [
       {
@@ -366,7 +365,8 @@
         "charge_rate": "20 W"
       }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 35 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 35 } } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "diving_flashlight_variable_on_hi",
@@ -491,7 +491,6 @@
     "material": [ "glass", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": {
@@ -504,7 +503,8 @@
       "type": "transform"
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "gasoline_lantern_on",
@@ -539,7 +539,6 @@
     "symbol": ";",
     "color": "light_blue",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 }, "rigid": true } ],
-    "ammo": "glowstick_juice",
     "use_action": {
       "target": "glowstick_lit",
       "msg": "You activate the glowstick.",
@@ -547,7 +546,8 @@
       "menu_text": "Activate",
       "type": "transform"
     },
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "tool_ammo": "glowstick_juice"
   },
   {
     "id": "glowstick_dead",
@@ -594,7 +594,6 @@
     "price": "4 USD",
     "price_postapoc": "1 USD",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 }, "rigid": true } ],
-    "ammo": "flare_nitrate",
     "use_action": {
       "menu_text": "Strike the striker",
       "type": "transform",
@@ -602,7 +601,8 @@
       "active": true,
       "msg": "You strike your flare and light it."
     },
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "tool_ammo": "flare_nitrate"
   },
   {
     "id": "handflare_lit",
@@ -646,7 +646,6 @@
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "armor_data": {
       "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
     },
@@ -670,7 +669,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "heavy_flashlight_on",
@@ -725,12 +725,12 @@
     "symbol": ";",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "aluminum", "portion": 9 } ],
     "color": "white",
-    "ammo": [ "battery" ],
     "//": "25 feet (7.5 m) + 1.5 meters for plug",
     "use_action": [
       { "target": "lightstrip", "msg": "You turn on the LED strip.", "active": true, "need_charges": 1, "type": "transform" },
       { "type": "link_up", "cable_length": 9, "charge_rate": "5 W" }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "oil_lamp",
@@ -744,7 +744,6 @@
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "lamp_oil": 750 } } ],
     "charges_per_use": 1,
     "use_action": {
@@ -757,7 +756,8 @@
       "type": "transform"
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "lamp_oil" ]
   },
   {
     "id": "oil_lamp_on",
@@ -791,7 +791,6 @@
     "material": [ "clay" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "crude_lamp_oil", "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "crude_lamp_oil": 250, "lamp_oil": 250 } } ],
     "charges_per_use": 1,
     "use_action": {
@@ -804,7 +803,8 @@
       "type": "transform"
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "crude_lamp_oil", "lamp_oil" ]
   },
   {
     "id": "oil_lamp_clay_on",
@@ -841,7 +841,6 @@
     "color": "red",
     "material": [ "copper", "glass" ],
     "charges_per_use": 1,
-    "ammo": [ "weldgas" ],
     "use_action": {
       "type": "transform",
       "msg": "You light the %s.",
@@ -850,7 +849,8 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tinyweldtank", "weldtank", "smallweldtank" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tinyweldtank", "weldtank", "smallweldtank" ] } ],
+    "tool_ammo": [ "weldgas" ]
   },
   {
     "id": "oxylamp_on",
@@ -879,7 +879,6 @@
     "symbol": ";",
     "color": "white",
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
@@ -889,7 +888,8 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 13 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 13 } } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "reading_light_on",
@@ -922,7 +922,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "&",
     "color": "blue",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -946,7 +945,8 @@
       "WATER_BREAK",
       "ELECTRONIC"
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "smart_lamp_on",
@@ -1052,7 +1052,6 @@
     "material": [ "glass", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "watertight": true, "item_restriction": [ "small_propane_tank" ] } ],
     "charges_per_use": 1,
     "use_action": {
@@ -1064,7 +1063,8 @@
       "type": "transform"
     },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "propane" ]
   },
   {
     "id": "propane_lantern_on",

@@ -6787,5 +6787,18 @@
     "locations": [ "land" ],
     "occurrences": [ 1, 3 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "billboard",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "billboard_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "billboard_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "billboard_2_north" }
+    ],
+    "connections": [ { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "existing": true } ],
+    "locations": [ "land" ],
+    "occurrences": [ 2, 8 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ]
   }
 ]

@@ -5,6 +5,7 @@
 #include "coords_fwd.h"
 #include "effect.h"
 #include "item.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "type_id.h"
 #include "units.h"
@@ -335,11 +336,14 @@ class const_talker
         virtual bool is_mute() const {
             return false;
         }
-        virtual std::string get_value( const std::string &key ) const {
-            return maybe_get_value( key ).value_or( std::string{} );
+        diag_value const &get_value( const std::string &key ) const {
+            static diag_value const null_val;
+            diag_value const *ret = maybe_get_value( key );
+            return ret ? *ret : null_val;
         }
-        virtual std::optional<std::string> maybe_get_value( const std::string & ) const {
-            return std::nullopt;
+
+        virtual diag_value const *maybe_get_value( const std::string & ) const {
+            return nullptr;
         }
 
         // inventory, buying, and selling
@@ -781,7 +785,11 @@ class talker: virtual public const_talker
         virtual void remove_effect( const efftype_id &, const std::string & ) {}
         virtual void add_bionic( const bionic_id & ) {}
         virtual void remove_bionic( const bionic_id & ) {}
-        virtual void set_value( const std::string &, const std::string & ) {}
+        virtual void set_value( const std::string &, diag_value const & ) {}
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         virtual void remove_value( const std::string & ) {}
         virtual std::list<item> use_charges( const itype_id &, int ) {
             return {};

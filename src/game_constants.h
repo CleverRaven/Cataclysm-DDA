@@ -111,12 +111,6 @@ constexpr int HORDE_VISIBILITY_SIZE = 3;
 constexpr time_duration time_between_npc_OM_moves = 5_minutes;
 
 /**
- * Average annual temperature in Kelvin used for climate, weather and temperature calculation.
- * Average New England temperature = 43F/6C rounded to int.
-*/
-constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
-
-/**
  * Base starting spring temperature in Kelvin used for climate, weather and temperature calculation.
  * New England base spring temperature = 65F/18C rounded to int.
 */

@@ -79,6 +79,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_defines.h"
+#include "math_parser_diag_value.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -332,7 +333,9 @@ static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
@@ -518,9 +521,9 @@ std::string enum_to_string<blood_type>( blood_type data )
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
 {
-    std::unordered_map<std::string, std::string> ctx = {
-        { "effect", name },
-        { "duration", std::to_string( to_turns<int>( effect_duration ) ) }
+    global_variables::impl_t ctx = {
+        { "effect", diag_value{ name } },
+        { "duration", diag_value{ to_turns<int>( effect_duration ) } }
     };
 
     effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,
@@ -532,7 +535,7 @@ int Character::count_queued_effects( const std::string &effect ) const
     return std::count_if( queued_effect_on_conditions.list.begin(),
     queued_effect_on_conditions.list.end(), [&effect]( const queued_eoc & eoc ) {
         return eoc.eoc == effect_on_condition_add_effect &&
-               eoc.context.at( "effect" ) == effect;
+               eoc.context.at( "effect" ).str() == effect;
     } );
 }
 
@@ -6956,9 +6959,7 @@ void Character::mod_stamina( int mod )
     float quarter_thresh = 0.25 * get_stamina_max();
     float half_thresh = 0.5 * get_stamina_max();
 
-    std::string quarter_stam_counter_str = get_value( "quarter_stam_counter" );
-    int quarter_stam_counter = quarter_stam_counter_str.empty() ? 0 : std::stoi(
-                                   quarter_stam_counter_str );
+    int quarter_stam_counter = get_value( "quarter_stam_counter" ).dbl();
 
     if( stamina > half_thresh && stamina + mod < half_thresh ) {
         set_value( "got_to_half_stam", "true" );
@@ -6966,7 +6967,7 @@ void Character::mod_stamina( int mod )
 
     if( stamina > quarter_thresh && stamina + mod < quarter_thresh && quarter_stam_counter < 5 ) {
         quarter_stam_counter++;
-        set_value( "quarter_stam_counter", std::to_string( quarter_stam_counter ) );
+        set_value( "quarter_stam_counter", quarter_stam_counter );
         mod_daily_health( 1, 5 );
     }
 
@@ -8672,7 +8673,7 @@ scenttype_id Character::get_type_of_scent() const
 
 void Character::restore_scent()
 {
-    const std::string prev_scent = get_value( "prev_scent" );
+    const std::string prev_scent = get_value( "prev_scent" ).str();
     if( !prev_scent.empty() ) {
         remove_effect( effect_masked_scent );
         set_type_of_scent( scenttype_id( prev_scent ) );
@@ -11525,7 +11526,7 @@ npc_attitude Character::get_attitude() const
 bool Character::sees( const map &here, const tripoint_bub_ms &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos_bub( here ), t );
-    bool can_see = this->is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
+    bool can_see = this->is_avatar() ? here.pl_sees( t, std::min( sight_max, wanted_range ) ) :
                    Creature::sees( here, t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
@@ -12109,6 +12110,57 @@ int Character::count_flag( const json_character_flag &flag ) const
            has_effect_with_flag( flag ) +
            count_bodypart_with_flag( flag ) +
            count_mabuff_flag( flag );
+}
+
+bool Character::empathizes_with_species( const species_id &species ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    // Negative empathy list.  Takes precedence over positive traits or human
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.no_empathize_with.begin(), mut_data.no_empathize_with.end(),
+                       species ) != mut_data.no_empathize_with.end() ) {
+            return false;
+        }
+    }
+
+    // Human empathy by default.
+    if( species == species_HUMAN ) {
+        return true;
+    }
+
+    // positive empathy list
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( std::find( mut_data.empathize_with.begin(), mut_data.empathize_with.end(),
+                       species ) != mut_data.empathize_with.end() ) {
+            return true;
+        }
+    }
+
+    // Don't empathize with any species other than HUMAN by default.
+    return false;
+}
+
+bool Character::empathizes_with_monster( const mtype_id &monster ) const
+{
+    if( has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_SAPIOVORE ) ) {
+        return false;
+    }
+    for( species_id species : monster->species ) {
+        if( empathizes_with_species( species ) ) {
+            return true;
+        }
+    }
+    // used since this method is called on corpse ids, which are null for npc corpses.
+    if( monster == mtype_id::NULL_ID() && empathizes_with_species( species_HUMAN ) ) {
+        return true;
+    }
+    return false;
 }
 
 bool Character::is_driving() const
@@ -12973,14 +13025,16 @@ void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void Character::leak_items()
 {
+    map &here = get_map();
+
     std::vector<item_location> removed_items;
     if( weapon.is_container() ) {
-        if( weapon.leak( get_map(), this, pos_bub() ) ) {
+        if( weapon.leak( here, this, pos_bub() ) ) {
             weapon.spill_contents( pos_bub() );
         }
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
-        if( weapon.leak( get_map(), this, pos_bub() ) ) {
-            get_map().add_item_or_charges( pos_bub(), weapon );
+        if( weapon.leak( here, this, pos_bub() ) ) {
+            here.add_item_or_charges( pos_bub(), weapon );
             removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
         }
@@ -12990,7 +13044,7 @@ void Character::leak_items()
         if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
             continue;
         }
-        if( it->leak( get_map(), this, pos_bub() ) ) {
+        if( it->leak( here, this, pos_bub() ) ) {
             it->spill_contents( pos_bub() );
             removed_items.push_back( it );
         }
@@ -13377,7 +13431,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            if( item::is_efile( loc ) ) {
+            if( loc.is_efile() ) {
                 u->read( loc, loc.parent_item() );
             } else {
                 u->read( loc );
@@ -13506,7 +13560,7 @@ void Character::pause()
     map &here = get_map();
 
     // effects of being partially/fully underwater
-    if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos_bub( ) ) ) {
+    if( !in_vehicle && !here.has_flag_furn( "BRIDGE", pos_bub( ) ) ) {
         if( underwater ) {
             // TODO: gain "swimming" proficiency but not "athletics" skill
             drench( 100, get_drenching_body_parts(), false );

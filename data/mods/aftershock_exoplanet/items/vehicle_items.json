@@ -1,0 +1,45 @@
+[
+  {
+    "id": "robot_carrier",
+    "type": "GENERIC",
+    "name": "robot carrier",
+    "description": "A heavy frame outfitted with tie-downs and attachment points for carrying cargo, with additional railings to keep a large machine in place.  It is meant to hold large drones and robots for transport.  Use it on a suitable robot to capture, use it on an empty tile to release.",
+    "weight": "96 kg",
+    "volume": "62500 ml",
+    "price": "480 USD",
+    "category": "veh_parts",
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "light_gray",
+    "looks_like": "cargo_rack",
+    "properties": { "creature_size_capacity": "LARGE" },
+    "use_action": "CAPTURE_MONSTER_VEH",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_mil_ship_plate",
+    "name": { "str": "military ablative plating" },
+    "description": "A segment of thick armor plating that would normally be found mounted on a spaceship.  Incredibly heavy.",
+    "weight": "28500 g",
+    "to_hit": -1,
+    "color": "green",
+    "symbol": "]",
+    "material": [ "qt_steel", "vacuum_carbide" ],
+    "volume": "10 L",
+    "category": "veh_parts",
+    "price": "160 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "flags": [ "NO_REPAIR" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "exo_gantry",
+    "copy-from": "veh_tools_workshop",
+    "name": { "str": "exosuit maintenance gantry", "str_pl": "exosuit maintenance gantries" },
+    "description": "A vehicle-mounted gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when activated from the vehicle's controls."
+  }
+]

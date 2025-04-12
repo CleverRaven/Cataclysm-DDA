@@ -3,7 +3,7 @@
     "id": "yrax_delta_laser_gun",
     "type": "GUN",
     "name": { "str": "deterrent laser weapon" },
-    "description": "a very small laser weapon",
+    "description": "a very small laser weapon.",
     "volume": "3 L",
     "price": "0 cent",
     "material": [ "steel", "plastic" ],

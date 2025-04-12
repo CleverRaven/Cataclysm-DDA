@@ -86,7 +86,6 @@
     "symbol": "(",
     "color": "magenta",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -94,7 +93,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "toolset",
@@ -212,9 +212,9 @@
         "tool_quality": 10
       }
     ],
-    "ammo": [ "battery" ],
     "charges_per_use": 20,
-    "charged_qualities": [ [ "WELD", 2 ] ]
+    "charged_qualities": [ [ "WELD", 2 ] ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "integrated_multimeter",
@@ -282,8 +282,8 @@
         "move_cost": 1500
       }
     ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ]
+    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
+    "tool_ammo": [ "battery" ]
   }
 ]

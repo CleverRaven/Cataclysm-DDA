@@ -80,6 +80,9 @@ jobs:
 
     - name: Install stable CMake
       uses: lukka/get-cmake@latest
+      with:
+        # 4.0.0 has issues compiling old packages
+        cmakeVersion: 3.31.6
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@v11

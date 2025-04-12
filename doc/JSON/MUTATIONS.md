@@ -205,6 +205,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ],              // List of glowing bodypart and the intensity of the glow as a float (default: empty).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
+  "empathize_with": [ "ZOMBIE" ], // Characters with this mutation will not empathize with the given species.  Largely applies to butchering / dissection.
+  "no_empathize_with": [ "HUMAN" ], // Characters with this mutation will not empathize with the given species.  Largely applies to butchering / dissection.  Takes precedence over "empathizes_with".
   "transform": {
     "target": "BIOLUM1",                      // Trait_id of the mutation this one will transform into.
     "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.

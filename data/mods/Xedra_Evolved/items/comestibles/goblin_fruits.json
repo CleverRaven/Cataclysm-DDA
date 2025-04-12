@@ -760,7 +760,8 @@
     "comestible_type": "FOOD",
     "color": "yellow_cyan",
     "weight": "222 g",
-    "volume": "202 ml"
+    "volume": "202 ml",
+    "spoils_in": 0
   },
   {
     "type": "COMESTIBLE",

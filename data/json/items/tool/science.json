@@ -48,12 +48,12 @@
     "material": [ "glass", "cotton" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ], [ "HOTPLATE", 2 ] ],
-    "use_action": [ { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ]
+    "use_action": [ { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "chemistry_set_basic",
@@ -82,7 +82,6 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
@@ -91,7 +90,8 @@
         "//": "this tool is small and has no actual battery compartment, but can connect to large batteries.",
         "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "ketene_lamp",
@@ -105,7 +105,6 @@
     "material": [ "glass", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [
@@ -115,7 +114,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "engineering_makerspace_kit",
@@ -130,7 +130,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "pocket_data": [
@@ -141,7 +140,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "toy_makerspace_kit",
@@ -169,7 +169,6 @@
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "pocket_data": [
@@ -180,7 +179,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "toy_robot_kit",
@@ -208,10 +208,10 @@
     "material": [ "steel", "glass" ],
     "symbol": "^",
     "color": "light_green",
-    "ammo": [ "conc_alcohol" ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "conc_alcohol": 750 } } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "conc_alcohol" ]
   },
   {
     "id": "toy_engine_kit",
@@ -233,7 +233,6 @@
     "description": "A small 0.9 cubic foot vacuum oven used to purge residual solvents out of liquids and solids.  Looks kind of like a microwave.",
     "looks_like": "microwave",
     "weight": "40860 g",
-    "ammo": [ "battery" ],
     "volume": "27 L",
     "price": "1 kUSD",
     "price_postapoc": "30 USD",
@@ -243,7 +242,8 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "color": "dark_gray",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "closed_loop_extractor_small",
@@ -260,10 +260,10 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" } ],
-    "melee_damage": { "bash": 25 }
+    "melee_damage": { "bash": 25 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "closed_loop_extractor_large",
@@ -279,9 +279,9 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
-    "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 1 ] ],
-    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ]
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "oil_extractor_crude",
@@ -369,7 +369,6 @@
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "250 W" } ],
     "pocket_data": [
       {
@@ -387,7 +386,8 @@
         ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "recovery_pump",
@@ -420,10 +420,10 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "ammonia_machine_reactor",
@@ -440,10 +440,10 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "ammonia_machine_pipework",
@@ -460,10 +460,10 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "350 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "nitrogen_generator",
@@ -481,7 +481,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
@@ -497,7 +496,8 @@
         ]
       }
     ],
-    "melee_damage": { "bash": 20 }
+    "melee_damage": { "bash": 20 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "butane_tank",
@@ -747,7 +747,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
@@ -759,7 +758,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "analytical_set_basic",
@@ -771,7 +771,6 @@
     "volume": "5 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
@@ -779,7 +778,8 @@
     "color": "light_gray",
     "qualities": [ [ "ANALYSIS", 1 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "balance_small",
@@ -807,7 +807,6 @@
     "volume": "2 L",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
@@ -821,7 +820,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "cuvettes",
@@ -847,7 +847,6 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "glass" ],
@@ -861,7 +860,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "voltmeter",
@@ -890,7 +890,6 @@
     "volume": "650 ml",
     "price": "90 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
@@ -904,7 +903,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "melting_point",
@@ -916,13 +916,13 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "vortex",
@@ -1127,7 +1127,6 @@
     "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
@@ -1140,7 +1139,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "stopcock",
@@ -1253,7 +1253,6 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ "LUX_METER" ],
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 10,
     "pocket_data": [
@@ -1263,7 +1262,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "migo_bio_tech",

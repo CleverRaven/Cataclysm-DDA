@@ -243,6 +243,8 @@
       { "item": "curry_meat", "prob": 15 },
       { "prob": 30, "group": "flour_various" },
       { "prob": 20, "group": "milk_powder_various" },
+      { "prob": 20, "group": "cocoa_powder_various" },
+      { "prob": 20, "group": "milk_cocoa_powder_various" },
       { "prob": 30, "group": "cornmeal_box_small_10" },
       { "prob": 20, "group": "tortilla_corn_bag_plastic_12" },
       { "prob": 20, "group": "tortilla_flour_bag_plastic_12" },

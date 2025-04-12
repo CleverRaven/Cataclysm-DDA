@@ -251,12 +251,12 @@
     "color": "black",
     "charges_per_use": 1,
     "use_action": { "type": "cast_spell", "spell_id": "bio_explosion", "no_fail": true, "level": 0, "need_wielding": true },
-    "ammo": [ "bio_warhead" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bio_warhead": 1 } } ],
     "armor": [
       { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "tool_ammo": [ "bio_warhead" ]
   },
   {
     "id": "bio_warhead",
@@ -293,7 +293,6 @@
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 30,
-    "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
@@ -303,7 +302,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "inventor_sniper",
@@ -722,7 +722,6 @@
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 50,
-    "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "heat_expl_gun", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
@@ -732,7 +731,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "inventor_pistol",

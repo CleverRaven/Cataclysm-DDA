@@ -41,15 +41,15 @@
   {
     "type": "monstergroup",
     "id": "GROUP_SCORPION",
-    "monsters": [ { "monster": "mon_large_scorpion", "ends": "45 days" }, { "monster": "mon_scorpion_giant", "starts": "30 days" } ]
+    "monsters": [ { "monster": "mon_large_scorpion", "ends": "180 days" }, { "monster": "mon_scorpion_giant", "starts": "120 days" } ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_ONICOPHORE",
     "monsters": [
-      { "monster": "mon_onicophore_small", "weight": 5, "ends": "45 days" },
-      { "monster": "mon_onicophore", "weight": 5, "starts": "30 days" },
-      { "monster": "mon_onicophore_giant", "weight": 2, "starts": "72 days" }
+      { "monster": "mon_onicophore_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_onicophore", "weight": 5, "starts": "120 days" },
+      { "monster": "mon_onicophore_giant", "weight": 2, "starts": "288 days" }
     ]
   }
 ]
