@@ -612,7 +612,7 @@
         "run_eocs": [
           {
             "id": "EOC_EYEGLEAM_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -4500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
@@ -689,7 +689,7 @@
         "run_eocs": [
           {
             "id": "EOC_EYEGLEAM_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -5000" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "50" ] },
               {
@@ -724,7 +724,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_STRENGTH_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -4500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
@@ -777,7 +777,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_STRENGTH_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -5000" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "75" ] },
               {
@@ -812,7 +812,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_RESILIENCE_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -4500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
@@ -865,7 +865,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_RESILIENCE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -5000" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "75" ] },
               {
@@ -907,7 +907,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STAMINAFORBLOOD_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -2500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
@@ -945,7 +945,7 @@
         "run_eocs": [
           {
             "id": "EOC_COAGULANTWEAVE_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -2500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] },
@@ -999,7 +999,7 @@
         "run_eocs": [
           {
             "id": "EOC_COAGULANTWEAVE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -5000" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
               {
@@ -1028,7 +1028,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHEAL_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -4500" ] },
     "effect": [
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
       { "u_message": "Blood suffuses your flesh, repairing any damage it comes across.", "type": "good" },
@@ -1102,7 +1102,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_DODGE_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -4500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
@@ -1155,7 +1155,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRIC_DODGE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -5000" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "125" ] },
               {
@@ -1184,7 +1184,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_FEAR_GAZE_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -7500" ] },
     "effect": [
       {
         "math": [
@@ -1234,7 +1234,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_BEAST_CLAWS_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -5500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "125" ] },
@@ -1287,7 +1287,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_BEAST_CLAWS_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -8500" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "62" ] },
               { "u_message": "You feel a momentary warmth as you maintain your sharp claws.", "type": "mixed" },
@@ -1313,7 +1313,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MAGICFORBLOOD_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -7500" ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "200" ] },
@@ -1334,7 +1334,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -9500" ] },
     "effect": [
       {
         "math": [
@@ -1373,7 +1373,7 @@
         "run_eocs": [
           {
             "id": "EOC_BLOODHASTE_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -7500" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
@@ -1423,7 +1423,7 @@
         "run_eocs": [
           {
             "id": "EOC_BLOODHASTE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -9500" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "375" ] },
               { "u_message": "You feel a momentary warmth as you maintain your superhuman speed.", "type": "mixed" },
@@ -1450,7 +1450,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_COMMAND_BEAST_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -8500" ] },
     "effect": [
       { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "500" ] },
       { "u_location_variable": { "context_val": "loc" } },
@@ -1571,7 +1571,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DOMINATE_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin') >= -7500" ] },
     "effect": [
       { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "700" ] },
       { "u_location_variable": { "context_val": "loc" } },
@@ -1601,7 +1601,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_BAT_FORM_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -7500" ] },
             "effect": [
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
@@ -1663,7 +1663,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_WOLF_FORM_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -7500" ] },
             "effect": [
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
@@ -1718,7 +1718,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_MIST_FORM_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -7500" ] },
             "effect": [
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
@@ -1777,7 +1777,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_MIST_FORM_BLOOD_COST_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -10500" ] },
             "effect": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2" ] },
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain your mist form.", "type": "bad" },
@@ -1905,7 +1905,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_SHADOW_FORM_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -4500" ] },
             "effect": [
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
@@ -1959,7 +1959,7 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_SHADOW_FORM_BLOOD_COST_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -9500" ] },
             "effect": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "5" ] },
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain the shadows surrounding you.", "type": "bad" },
@@ -2414,7 +2414,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -3500" ] },
     "effect": [
       {
         "run_eocs": [
