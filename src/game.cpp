@@ -458,11 +458,11 @@ static void achievement_failed( const achievement *a, bool achievements_enabled 
 
 // This is the main game set-up process.
 game::game() :
-    liveview(*liveview_ptr),
-    scent_ptr(*this),
-    achievements_tracker_ptr(*stats_tracker_ptr, achievement_attained, achievement_failed, true),
-    m(*map_ptr),
-    current_map(*current_map_ptr),
+    liveview( *liveview_ptr ),
+    scent_ptr( *this ),
+    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained, achievement_failed, true ),
+    m( *map_ptr ),
+    current_map( *current_map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
@@ -475,7 +475,7 @@ game::game() :
     tileset_zoom( DEFAULT_TILESET_ZOOM ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
-    current_map.set(&m, "Official reality bubble");
+    current_map.set( &m );
     first_redraw_since_waiting_started = true;
     reset_light_level();
     events().subscribe( &*stats_tracker_ptr );
@@ -14623,10 +14623,6 @@ avatar &get_avatar()
 
 map &get_map()
 {
-    if (g->current_map.context() != "Official reality bubble") {
-        DebugLog(D_INFO, D_MAIN) << "get_map returns '" << g->current_map.context() << "'";
-    }
-
     return g->current_map.get_map();
 }
 

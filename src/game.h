@@ -170,7 +170,7 @@ bool cleanup_at_end();
 // NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
-    friend class editmap;
+        friend class editmap;
         friend class main_menu;
         friend class exosuit_interact;
         friend class swap_map;
@@ -1129,7 +1129,7 @@ class game
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
         map &m; // NOLINT(cata-serialize)
-        current_map& current_map;
+        current_map &current_map;
         avatar &u;
         scent_map &scent;
         // scenario is saved in avatar::store
