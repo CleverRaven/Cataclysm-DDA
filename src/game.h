@@ -90,7 +90,6 @@ class scent_map;
 class spell_events;
 class static_popup;
 class stats_tracker;
-class swap_map;
 class timed_event_manager;
 class ui_adaptor;
 class uilist;

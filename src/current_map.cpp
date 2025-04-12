@@ -1,6 +1,7 @@
+#include <memory>
+
 #include "current_map.h"
 #include "game.h"
-#include "map.h"
 
 map &current_map::get_map()
 {

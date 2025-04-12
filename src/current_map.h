@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_CURRENT_MAP_H
 #define CATA_SRC_CURRENT_MAP_H
 
-class game;
 class map;
-class swap_map;
 
 // The purpose of this class is to contain a reference to the current map.
 // This map is typically the reality bubble map, but will differ e.g. when
