@@ -1128,7 +1128,8 @@ class game
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
         map &m; // NOLINT(cata-serialize)
-        current_map &current_map;
+        // 'current_map' will be identical to 'm' as you can save only at the top of the main loop.
+        current_map &current_map; // NOLINT(cata-serialize)
         avatar &u;
         scent_map &scent;
         // scenario is saved in avatar::store
