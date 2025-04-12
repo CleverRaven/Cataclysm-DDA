@@ -13,5 +13,18 @@
         	]
         },
         "effect": [ { "run_eocs": "eoc_gun_kata_melee_onmove" } ]
+     },
+     {
+     	"id": "eoc_gun_kata_melee_onmove",
+        "name": "Bladed Wind",
+        "condition": { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
+        "effect": [ { "u_attack": "mom_tec_bladed_wind" } ],
+        "false_effect": "eoc_gun_kata_melee_onmove2"
+     },
+     {
+     	"id": "eoc_gun_kata_melee_onmove2",
+        "name": "En Passant",
+        "condition": { "compare_string": [ "walk", { "context_val": "movement_mode" } ] },
+        "effect": [ { "u_attack": "mom_tec_en_passant" } ]
      }
 ]
