@@ -7307,6 +7307,18 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
             return placed_vehicle;
         }
         place_on_submap->ensure_nonuniform();
+        bounding_box box = placed_vehicle->get_bounding_box( false );
+        if( !inbounds( p + box.p1 ) ) {
+            const tripoint_abs_omt omt = project_to<coords::omt>( get_abs_sub() );
+            const oter_id &oid = overmap_buffer.ter( omt );
+            debugmsg( "Placed %s vehicle at %s causing its edge to be out of bounds at %s on terrain %s",
+                      placed_vehicle->disp_name().c_str(), p.to_string(), ( p + box.p1 ).to_string(), oid.id().c_str() );
+        } else if( !inbounds( p + box.p2 ) ) {
+            const tripoint_abs_omt omt = project_to<coords::omt>( get_abs_sub() );
+            const oter_id &oid = overmap_buffer.ter( omt );
+            debugmsg( "Placed %s vehicle at %s causing its edge to be out of bounds at %s on terrain %s",
+                      placed_vehicle->disp_name().c_str(), p.to_string(), ( p + box.p2 ).to_string(), oid.id().c_str() );
+        }
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         invalidate_max_populated_zlev( p.z() );
 

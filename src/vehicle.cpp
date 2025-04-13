@@ -8405,6 +8405,14 @@ bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
             max_y = pt.y();
         }
     }
+
+    if( relative_parts.size() == 0 ) {
+        min_x = 0;
+        min_y = 0;
+        max_x = 0;
+        max_y = 0;
+    }
+
     bounding_box b;
     b.p1 = point_rel_ms( min_x, min_y );
     b.p2 = point_rel_ms( max_x, max_y );
