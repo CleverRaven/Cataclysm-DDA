@@ -8406,7 +8406,7 @@ bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
         }
     }
 
-    if( relative_parts.size() == 0 ) {
+    if( relative_parts.empty() ) {
         min_x = 0;
         min_y = 0;
         max_x = 0;
