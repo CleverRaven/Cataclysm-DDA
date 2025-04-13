@@ -868,7 +868,7 @@
     "id": "drink_grog",
     "looks_like": "cola",
     "name": { "str_sp": "grog" },
-    "weight": "251 g",
+    "weight": "249 g",
     "color": "brown",
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL" ],
