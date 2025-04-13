@@ -399,6 +399,7 @@
           "VITRIFYING"
         ]
       },
+      { "alter_timed_events": "vitrified_farm_escape_key" },
       {
         "run_eocs": [ "EOC_FIX_MAGICLYSM_PROBLEMS", "EOC_FIX_MIND_OVER_MATTER_PROBLEMS", "EOC_FIX_XEDRA_EVOLVED_PROBLEMS" ]
       }
