@@ -289,7 +289,7 @@
     "description": "Your half-dead flesh is inured to winter's chill.  As long as you have empowered blood in your body, you suffer much less from colder temperatures.",
     "enchantments": [
       {
-        "condition": { "u_has_effecf": "effect_dhampir_empowered_blood_indicator" },
+        "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
         "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ]
       }
     ]
@@ -305,7 +305,7 @@
     "description": "The deathly energies that course through your veins are inimical to mundane poisons and diseases.  As long as you have empowered blood in your body, you are more resistant to disease, poison, and infection.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
         "ench_effects": [ { "effect": "effect_dhampir_resist_disease_poison_infection", "intensity": 1 } ]
       }
     ]
@@ -321,7 +321,7 @@
     "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You take greatly-reduced fall damage as long as you have empowered blood in your body.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
         "values": [ { "value": "FALL_DAMAGE", "multiply": -0.8 } ],
         "ench_effects": [ { "effect": "effect_dhampir_fall_one_story", "intensity": 1 } ]
       }
@@ -361,7 +361,7 @@
     "description": "You are only half-alive now, sustained as much by the energy in your blood as by biological processes.  You age far slower than a mortal, and when your limbs break, they heal more quickly in proportion to how much empowered blood you have.",
     "enchantments": [
       {
-        "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } } ]
+        "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 750), 0)" ] } } ]
       }
     ],
     "flags": [ "MEND_ALL" ]
