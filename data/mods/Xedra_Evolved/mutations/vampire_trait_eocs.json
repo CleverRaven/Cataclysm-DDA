@@ -610,7 +610,7 @@
     "required_event": "character_gains_effect",
     "condition": { "compare_string": [ "vampire_virus", { "context_val": "effect" } ] },
     "//": "Adds blood on becoming a vampire so you don't instantly start withering",
-    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin') += 2500" ] } ]
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin') += 1200" ] } ]
   },
   {
     "type": "effect_on_condition",
