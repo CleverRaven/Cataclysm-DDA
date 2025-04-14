@@ -398,7 +398,7 @@
   {
     "type": "mutation",
     "id": "DHAMPIR_WEAKNESS_SUN_SLEEPINESS",
-    "name": { "str": "Weakness: Night Folk" },
+    "name": { "str": "Weakness: Nocturnal" },
     "points": -2,
     "description": "You aren't forced to slumber the day away, but you sure want to.  You sleepiness accumulates much faster while the sun is in the sky, but you have an easier time sleeping during the day.",
     "purifiable": false,
