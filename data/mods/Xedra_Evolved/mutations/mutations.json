@@ -196,7 +196,7 @@
         "ench_effects": [ { "effect": "effect_dhampir_slow_blood_loss", "intensity": 1 } ]
       },
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "3200" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "3600" ] },
         "ench_effects": [ { "effect": "effect_dhampir_empowered_blood_indicator", "intensity": 1 } ]
       },
       {
