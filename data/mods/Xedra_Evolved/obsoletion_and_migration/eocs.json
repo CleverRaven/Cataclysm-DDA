@@ -64,5 +64,19 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_UPDATE_GAME_BEGIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "u_vampire_blood_scale_updated != 1" ] },
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] } ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') += 4800" ] }
+      },
+      { "math": [ "u_vampire_blood_scale_updated = 1" ] }
+    ]
   }
 ]
