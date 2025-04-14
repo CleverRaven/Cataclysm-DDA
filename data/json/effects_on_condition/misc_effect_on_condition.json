@@ -317,7 +317,7 @@
     "recurrence": { "math": [ "time_until('sunrise')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" } ] },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -376,11 +376,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "sunset_morale_buff",
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ] },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -436,5 +442,11 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
   }
 ]

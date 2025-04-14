@@ -1353,8 +1353,7 @@
     "description": "You now need to drink some fresh, warm blood from a living being once in a while or suffer growing penalties.  You better find someone willing to share their blood, as blood from fresh corpses won't satisfy this need.",
     "starting_trait": false,
     "valid": false,
-    "purifiable": false,
-    "//": "When the player will be able to drink from living unwilling, this trait should bring its penalties at least twice as quickly."
+    "purifiable": false
   },
   {
     "type": "mutation",

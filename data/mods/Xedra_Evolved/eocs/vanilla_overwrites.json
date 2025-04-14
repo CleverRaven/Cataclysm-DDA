@@ -112,5 +112,19 @@
       "success_lie": "",
       "failure": ""
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES",
+    "condition": {
+      "not": { "u_has_any_trait": [ "VAMPIRE", "LILIN_TRAITS", "DHAMPIR_WEAKNESS_SUN_SENSITIVITY", "CHANGELING_COURT_WINTER" ] }
+    },
+    "effect": [ { "u_message": "You are ineligible for sunrises.", "type": "debug" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES",
+    "condition": { "not": { "u_has_any_trait": [ "VAMPIRE", "LILIN_TRAITS" ] } },
+    "effect": [ { "u_message": "You are ineligible for sunrises.", "type": "debug" } ]
   }
 ]

@@ -392,7 +392,7 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point( here ) );
 
     Character &player_character = get_player_character();
-    const tripoint_bub_ms src = veh.pos_bub( here );
+    tripoint_bub_ms src = veh.pos_bub( here );
 
     map tm;
     point_sm_ms src_offset;
@@ -457,6 +457,9 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     }
     if( need_update ) {
         g->update_map( player_character );
+        // update_map invalidates bubble coordinates if it shifts the map.
+        // We don't need to refetch dp because the z coordinate isn't affected by a shift.
+        src = veh.pos_bub( here );
     }
     dest->add_vehicle_to_cache( &veh );
 
