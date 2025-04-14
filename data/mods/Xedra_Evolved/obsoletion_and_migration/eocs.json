@@ -73,8 +73,10 @@
     "condition": { "math": [ "u_vampire_blood_scale_updated != 1" ] },
     "effect": [
       {
-        "if": { "and": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] } ] },
-        "then": { "math": [ "u_vitamin('human_blood_vitamin') += 4800" ] }
+        "if": {
+          "and": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] } ]
+        },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 500" ] }
       },
       { "math": [ "u_vampire_blood_scale_updated = 1" ] }
     ]

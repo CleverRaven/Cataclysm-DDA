@@ -599,14 +599,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_dhampir_immune_to_withering",
-    "//": "Hidden--prevents dhampirs from suffering from the withering",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "removes_effects": [ "withering" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_dhampir_empowered_blood_indicator",
     "name": [ "Empowered Blood" ],
     "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
