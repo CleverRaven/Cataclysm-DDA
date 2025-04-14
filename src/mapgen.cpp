@@ -7311,13 +7311,17 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
         if( !inbounds( p + box.p1 ) ) {
             const tripoint_abs_omt omt = project_to<coords::omt>( get_abs_sub() );
             const oter_id &oid = overmap_buffer.ter( omt );
-            debugmsg( "Placed %s vehicle at %s causing its edge to be out of bounds at %s on terrain %s",
-                      placed_vehicle->disp_name().c_str(), p.to_string(), ( p + box.p1 ).to_string(), oid.id().c_str() );
+            const tripoint_rel_ms vel_pos = get_player_character().pos_abs() - get_abs( p );
+            debugmsg( "Placed %s vehicle at %s causing its edge to be out of bounds at %s on terrain %s.  Vehicle at %s relative to PC.",
+                      placed_vehicle->disp_name().c_str(), p.to_string(), ( p + box.p1 ).to_string(), oid.id().c_str(),
+                      vel_pos.to_string() );
         } else if( !inbounds( p + box.p2 ) ) {
             const tripoint_abs_omt omt = project_to<coords::omt>( get_abs_sub() );
             const oter_id &oid = overmap_buffer.ter( omt );
-            debugmsg( "Placed %s vehicle at %s causing its edge to be out of bounds at %s on terrain %s",
-                      placed_vehicle->disp_name().c_str(), p.to_string(), ( p + box.p2 ).to_string(), oid.id().c_str() );
+            const tripoint_rel_ms vel_pos = get_player_character().pos_abs() - get_abs( p );
+            debugmsg( "Placed %s vehicle at %s causing its edge to be out of bounds at %s on terrain %s.  Vehicle at %s relative to PC.",
+                      placed_vehicle->disp_name().c_str(), p.to_string(), ( p + box.p2 ).to_string(), oid.id().c_str(),
+                      vel_pos.to_string() );
         }
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         invalidate_max_populated_zlev( p.z() );
