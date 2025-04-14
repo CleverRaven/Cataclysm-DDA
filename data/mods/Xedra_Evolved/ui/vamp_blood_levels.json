@@ -13,7 +13,7 @@
         "condition": {
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= -11999" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -7199" ] }
           ]
         }
       },
@@ -24,8 +24,8 @@
         "condition": {
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= -6401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > -11999" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -1601" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -7199" ] }
           ]
         }
       },
@@ -36,8 +36,8 @@
         "condition": {
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= -5601" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > -6401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -801" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -2601" ] }
           ]
         }
       },
@@ -48,8 +48,8 @@
         "condition": {
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= -4800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > -5601" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -1" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -801" ] }
           ]
         }
       },
@@ -60,8 +60,8 @@
         "condition": {
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= 1800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > -4800" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 6599" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -1" ] }
           ]
         }
       },
@@ -73,8 +73,8 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= 2401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 1800" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 7200" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 6599" ] }
           ]
         }
       },
@@ -86,8 +86,8 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= 4401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 2401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 9200" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 7200" ] }
           ]
         }
       },
@@ -99,7 +99,7 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') > 9200" ] }
           ]
         }
       },
@@ -111,8 +111,8 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= 2401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 1800" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 7200" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 6599" ] }
           ]
         }
       },
@@ -124,8 +124,8 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
-            { "math": [ "u_vitamin('human_blood_vitamin') <= 4401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 2401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 9200" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 7199" ] }
           ]
         }
       },
@@ -137,8 +137,8 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') < 8401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 13200" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 9200" ] }
           ]
         }
       },
@@ -150,8 +150,8 @@
           "and": [
             { "u_has_effect": "vampire_virus" },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
-            { "math": [ "u_vitamin('human_blood_vitamin') >= 8401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') < 14401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 13201" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 19200" ] }
           ]
         }
       },
@@ -163,8 +163,8 @@
           "and": [
             { "u_has_effect": "vampire_virus" },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
-            { "math": [ "u_vitamin('human_blood_vitamin') >= 14401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') < 24401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 19201" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 29200" ] }
           ]
         }
       },
@@ -176,7 +176,7 @@
           "and": [
             { "u_has_effect": "vampire_virus" },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
-            { "math": [ "u_vitamin('human_blood_vitamin') >= 24401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 29200" ] }
           ]
         }
       }
@@ -209,7 +209,7 @@
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
             { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') < 6600" ] }
           ]
         }
       },
@@ -221,7 +221,7 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 1799" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') > 6599" ] }
           ]
         }
       },
@@ -249,17 +249,17 @@
         0,
         {
           "math": [
-            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.3333333"
+            "(10400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.3333333"
           ]
         },
         {
           "math": [
-            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.6666666"
+            "(10400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.6666666"
           ]
         },
         {
           "math": [
-            "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)"
+            "10400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)"
           ]
         }
       ]
