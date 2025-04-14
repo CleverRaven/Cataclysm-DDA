@@ -4232,12 +4232,12 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         }
         const tripoint_abs_ms abs_ms( target_pos );
         map *here_ptr = &get_map();
-        map &here = *here_ptr;
         std::unique_ptr<map> distant_map = std::make_unique<map>();
-        if( !here.inbounds( abs_ms ) ) {
+        if( !here_ptr->inbounds( abs_ms ) ) {
             distant_map->load( project_to<coords::sm>( abs_ms ), false );
             here_ptr = distant_map.get();
         }
+        map &here = *here_ptr;
         if( search_target.has_value() ) {
             if( search_type.value() == "monster" && !here.inbounds( abs_ms ) ) {
                 here.spawn_monsters( true, true );
