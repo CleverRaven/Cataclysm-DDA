@@ -4009,7 +4009,7 @@ Variable `amount` is also supported. In this case amount would be also treated a
   },
 ```
 Because of how variable amount is calculated, it is recommended to put the values with the smallest `amount` on the top;  It would prevent code overshooting, as:
-```c++
+```jsonc
  // example: we have 99 blankets and 1 blanket_fur
  // json below would result in 99 blankets and 1 blanket_fur consumed
 { "item": "blanket", "amount": 100 }, { "item": "blanket_fur", "amount": 2 }
@@ -5219,7 +5219,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 
 Examples:
 
-```c++
+```jsonc
   {
     "type": "effect_on_condition",
     "id": "INV_EOCS_SHOWCASE",
