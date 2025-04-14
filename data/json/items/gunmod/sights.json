@@ -162,7 +162,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_targets": [ "rifle", "crossbow", "launcher", "shotgun" ],
     "install_time": "5 m",
     "sight_dispersion": 0,
     "aim_speed_modifier": -1,
@@ -184,7 +184,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_targets": [ "rifle", "crossbow", "launcher", "shotgun" ],
     "install_time": "5 m",
     "sight_dispersion": 0,
     "aim_speed_modifier": -1,
@@ -192,14 +192,6 @@
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ],
     "add_mod": [ [ "sights", 1 ] ]
-  },
-  {
-    "id": "rifle_scope_mod",
-    "copy-from": "rifle_scope",
-    "type": "GUNMOD",
-    "name": { "str": "modified rifle scope" },
-    "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "mod_targets": [ "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "acog_scope",
@@ -214,7 +206,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_targets": [ "rifle", "crossbow", "launcher", "shotgun", "smg" ],
     "install_time": "5 m",
     "sight_dispersion": 8,
     "field_of_view": 270,
@@ -251,14 +243,6 @@
     "description": "A high end 4x32 military grade ACOG scope.  This one has additional mounting brackets on top for another sight.",
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ],
     "add_mod": [ [ "sights", 1 ] ]
-  },
-  {
-    "id": "acog_scope_mod",
-    "copy-from": "acog_scope",
-    "type": "GUNMOD",
-    "name": { "str": "modified ACOG scope" },
-    "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "riv_scope",
