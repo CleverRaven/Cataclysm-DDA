@@ -60,7 +60,7 @@
       {
         "text": "<color_light_green>[Hypnotic Gaze] *Look directly into their eyes*</color>.",
         "topic": "TALK_HYPNOTIC_GAZE_USED",
-        "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-5000" ] } ] },
+        "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] } ] },
         "effect": [
           { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
           {
@@ -105,7 +105,7 @@
       {
         "text": "<color_light_green>[Hypnotic Gaze] *Look directly into their eyes*</color>.",
         "topic": "TALK_HYPNOTIC_GAZE_USED",
-        "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-5000" ] } ] },
+        "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] } ] },
         "effect": [
           { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
           {
