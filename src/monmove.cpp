@@ -103,7 +103,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( fid == fd_fungicidal_gas ) {
         return !type->in_species( species_FUNGUS );
     }
-    if( fid == fd_insecticidal_gas || fid == fd_insecticidal_spray_gas ) {
+    if( fid == fd_insecticidal_gas ) {
         return !made_of( material_iflesh ) || has_flag( mon_flag_INSECTICIDEPROOF );
     }
     if( fid == fd_web ) {

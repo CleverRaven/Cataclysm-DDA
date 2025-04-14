@@ -159,7 +159,6 @@ extern const field_type_str_id fd_hot_air3;
 extern const field_type_str_id fd_hot_air4;
 extern const field_type_str_id fd_incendiary;
 extern const field_type_str_id fd_insecticidal_gas;
-extern const field_type_str_id fd_insecticidal_spray_gas;
 extern const field_type_str_id fd_laser;
 extern const field_type_str_id fd_last_known;
 extern const field_type_str_id fd_nuke_gas;
