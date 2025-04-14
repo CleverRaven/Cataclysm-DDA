@@ -361,7 +361,7 @@
     "description": "You are only half-alive now, sustained as much by the energy in your blood as by biological processes.  You age far slower than a mortal, and when your limbs break, they heal more quickly in proportion to how much empowered blood you have.",
     "enchantments": [
       {
-        "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 750), 0)" ] } } ]
+        "values": [ { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } } ]
       }
     ],
     "flags": [ "MEND_ALL" ]

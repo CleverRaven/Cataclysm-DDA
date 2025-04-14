@@ -74,7 +74,10 @@
     "effect": [
       {
         "if": {
-          "and": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] } ]
+          "and": [
+            { "or": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "u_has_effect": "vampire_virus" } ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] }
+          ]
         },
         "then": { "math": [ "u_vitamin('human_blood_vitamin') = 500" ] }
       },
