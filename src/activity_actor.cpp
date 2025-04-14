@@ -68,6 +68,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -541,7 +542,8 @@ void aim_activity_actor::restore_view() const
     bool changed_z = player_character.view_offset.z() != initial_view_offset.z();
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( player_character.view_offset.z() );
+        // reality_bubble to indicate need to adjust when/if remote operation is implemented.
+        reality_bubble().invalidate_map_cache( player_character.view_offset.z() );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -1661,12 +1663,6 @@ void read_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // book item_location must be of type character
-    // or else there will be item_location errors while loading
-    if( book.where() != item_location::type::character ) {
-        book = item_location( who, book.get_item() );
-    }
-
     using_ereader = !!ereader;
 
     bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
@@ -2344,7 +2340,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
 
         cancel_pickup( who );
 
-        if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
@@ -2743,9 +2739,8 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
         return std::nullopt;
     }
 
-    const std::function<bool( const tripoint_bub_ms & )> is_pickable = [&you](
+    const std::function<bool( const tripoint_bub_ms & )> is_pickable = [&you, &here](
     const tripoint_bub_ms & p ) {
-        const map &here = get_map();
         const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos_bub() ) {
             return false;
@@ -2765,7 +2760,7 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
         return target;
     }
 
-    const ter_id &terr_type = get_map().ter( *target );
+    const ter_id &terr_type = here.ter( *target );
     if( *target == you.pos_bub() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
     } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
@@ -3711,7 +3706,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
-        if( player_character.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( player_character.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
             player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
     }
@@ -4944,6 +4939,8 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 
 void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
+    map &here = get_map();
+
     // Should never be null as we just checked in do_turn
     monster &critter = *get_creature_tracker().creature_at<monster>( target );
 
@@ -4962,11 +4959,11 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
             }
         }
     } else {
-        get_map().add_item_or_charges( target, critter.to_item() );
+        here.add_item_or_charges( target, critter.to_item() );
         if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
-                    get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
+                    here.spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
                 }
             }
         }
@@ -6676,11 +6673,11 @@ static bool check_stealing( Character &who, item &it )
 {
     if( !it.is_owned_by( who, true ) ) {
         // Has the player given input on if stealing is ok?
-        if( who.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             Pickup::query_thief();
         }
-        if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
-            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
                 who.set_value( "THIEF_MODE", "THIEF_ASK" );
             }
             return false;
@@ -8564,9 +8561,8 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         corpse.set_flag( flag_PULPED );
     }
 
-    const float corpse_volume = units::to_liter( corpse_mtype->volume );
-
-    if( one_in( corpse_volume / pd.pulp_power ) ) {
+    // Magic number to adjust splatter density to subjective balance.
+    if( one_in( 15000 / pd.pulp_power ) ) {
         // Splatter some blood around
         // Splatter a bit more randomly, so that it looks cooler
         const int radius = pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
@@ -8704,6 +8700,7 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "num_corpses", num_corpses );
     jsout.member( "placement", placement );
+    jsout.member( "nominal_pulp_power", pd.nominal_pulp_power );
     jsout.member( "pulp_power", pd.pulp_power );
     jsout.member( "pulp_effort", pd.pulp_effort );
     jsout.member( "mess_radius", pd.mess_radius );
@@ -8734,6 +8731,10 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "num_corpses", actor.num_corpses );
     data.read( "placement", actor.placement );
     data.read( "pulp_power", actor.pd.pulp_power );
+    // Backward compatibility introduced 2025-04-09
+    if( !data.read( "nominal_pulp_power", actor.pd.nominal_pulp_power ) ) {
+        actor.pd.nominal_pulp_power = actor.pd.pulp_power;
+    }
     data.read( "pulp_effort", actor.pd.pulp_effort );
     data.read( "mess_radius", actor.pd.mess_radius );
     data.read( "unpulped_corpses_qty", actor.unpulped_corpses_qty );

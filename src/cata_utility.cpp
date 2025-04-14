@@ -884,6 +884,15 @@ std::optional<double> svtod( std::string_view token )
     if( pEnd == token.data() + token.size() ) {
         return { val };
     }
+    char block = *pEnd;
+    if( block == ',' || block == '.' ) {
+        // likely localized with a different locale
+        std::string unlocalized( token );
+        unlocalized[pEnd - token.data()] = block == ',' ? '.' : ',';
+        return svtod( unlocalized );
+    }
+    debugmsg( R"(Failed to convert string value "%s" to double: %s)", token, std::strerror( errno ) );
+
     errno = 0;
 
     return std::nullopt;

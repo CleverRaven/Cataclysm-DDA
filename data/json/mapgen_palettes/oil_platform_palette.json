@@ -187,7 +187,7 @@
         { "item": "SUS_trash_hardware", "chance": 15 },
         { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "file_room", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "office_paper", "chance": 20, "repeat": [ 3, 4 ] },
+        { "item": "SUS_office_desk", "chance": 20, "repeat": [ 3, 4 ] },
         { "item": "office", "chance": 25 }
       ],
       "ψ": [ { "item": "fireman_cabinet", "chance": 80 } ],
@@ -204,12 +204,9 @@
       "&": [
         { "item": "magazines", "chance": 5 },
         { "item": "file_room", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "office_paper", "chance": 50, "repeat": [ 3, 4 ] },
-        { "item": "office", "chance": 25 },
+        { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 3, 4 ] },
         { "item": "maps", "chance": 3 },
-        { "item": "office_mess", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "SUS_trash_trashcan", "chance": 5, "repeat": [ 0, 2 ] },
-        { "item": "office_supplies", "chance": 25 }
+        { "item": "office_mess", "chance": 15, "repeat": [ 1, 2 ] }
       ],
       "z": { "item": "SUS_trash_floor", "chance": 90, "repeat": [ 0, 8 ] },
       "µ": [
@@ -247,11 +244,7 @@
         { "item": "restaur_fridge", "chance": 100, "repeat": [ 2, 25 ] },
         { "item": "groce_softdrink", "chance": 100, "repeat": [ 2, 10 ] }
       ],
-      "3": [
-        { "item": "softdrinks_canned", "chance": 15 },
-        { "item": "office_supplies", "chance": 15 },
-        { "item": "office_paper", "chance": 15 }
-      ],
+      "3": [ { "item": "softdrinks_canned", "chance": 15 }, { "item": "SUS_office_desk", "chance": 15 } ],
       "±": [
         { "item": "groce_frozen", "chance": 80, "repeat": [ 1, 5 ] },
         { "item": "groce_meat", "chance": 80, "repeat": [ 0, 8 ] },

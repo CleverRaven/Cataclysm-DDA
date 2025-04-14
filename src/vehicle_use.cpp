@@ -954,7 +954,7 @@ void vehicle::play_chimes( map &here ) const
     }
 
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
-        if( &here == &get_map() ) { // TODO: Make sound handling map aware
+        if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware
             sounds::sound( vp.pos_bub( here ), 40, sounds::sound_t::music,
                            _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
         }
@@ -989,7 +989,7 @@ void vehicle::crash_terrain_around( map &here )
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
-            if( &here == &get_map() ) { // TODO: Make sound handling map aware
+            if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware
                 sounds::sound( crush_target, 500, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                                "smash_success", "hit_vehicle" );
             }
@@ -1023,7 +1023,7 @@ void vehicle::transform_terrain( map &here )
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( here, vp.part_index(), v_damage, damage_bash, false );
-            if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+            if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
                 sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                                "smash_success", "hit_vehicle" );
             }
@@ -1059,7 +1059,7 @@ void vehicle::operate_reaper( map &here )
                  seed_type, plant_produced, seed_produced, false ) ) {
             here.add_item_or_charges( reaper_pos, i );
         }
-        if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+        if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
             sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                            "reaper" );
         }
@@ -1094,7 +1094,7 @@ void vehicle::operate_planter( map &here )
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( here, planter_id, rng( 1, 10 ), damage_bash, false );
-                    if( &here == &get_map() ) { // TODO: Make sound handling map aware
+                    if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware
                         sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                        "hit_vehicle" );
                     }
@@ -1126,7 +1126,7 @@ void vehicle::operate_scoop( map &here )
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+        if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
             sounds::sound( bub_part_pos( here, scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                            random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         }
@@ -1160,7 +1160,7 @@ void vehicle::operate_scoop( map &here )
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
-                if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+                if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
                     sounds::sound( position, rng( 10,
                                                   that_item_there->volume() * 2 / 250_ml + 10 ),
                                    sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
@@ -1184,7 +1184,7 @@ void vehicle::alarm( map &here )
 
         //if alarm found, make noise, else set alarm disabled
         if( found_alarm ) {
-            if( &here == &get_map() ) { // TODO: Make sound handling map aware.
+            if( &here == &reality_bubble() ) { // TODO: Make sound handling map aware.
                 const std::array<std::string, 4> sound_msgs = { {
                         _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                     }
@@ -1591,7 +1591,7 @@ void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_m
 void vehicle::use_harness( int part, map *here, const tripoint_bub_ms &pos )
 {
     if( here !=
-        &get_map() ) { // TODO: Work needed on used operations for this to be possible to remove.
+        &reality_bubble() ) { // TODO: Work needed on used operations for this to be possible to remove.
         debugmsg( "vehicle::use_harness can only be used with the reality bubble." );
         return;
     }

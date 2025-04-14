@@ -1,0 +1,162 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_ECU",
+    "name": "ECU",
+    "looks_like": "f_air_filter",
+    "description": "The central node of a life support system, tasked with regulating atmospherics and water flow to the rest of an habitat or ship.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "examine_action": "fireplace",
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
+        { "item": "afs_circuitry_2", "count": 1 },
+        { "item": "afs_material_1", "count": [ 2, 5 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "thermostat", "count": 1 },
+        { "item": "pipe_fittings", "count": [ 2, 6 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "afs_material_1", "count": [ 2, 5 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cryofluid_pump",
+    "name": "Cryo-fluid pump",
+    "looks_like": "f_standing_tank",
+    "description": "An insulated metal tank prepared for the storage of exotic cryo-coolants.  Relatively advanced in construction, it can be salvaged for valuable scrap.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "examine_action": "keg",
+    "keg_capacity": "5 L",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "afs_material_2", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 1, 4 ] },
+        { "item": "frame", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "polycarbonate_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_atmospheric_control",
+    "name": "atmospherics controller",
+    "looks_like": "f_console",
+    "description": "An imposing brick of circuitry inlaid tubing adorned with a single console.  It might still half-work, even after all this time.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 1, 4 ] },
+        { "item": "frame", "count": 1 },
+        { "item": "oxygen_tank", "prob": 15, "charges": [ 4, -1 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 10 ] },
+        { "item": "cu_pipe", "count": [ 5, 15 ] },
+        { "item": "polycarbonate_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ev_charger",
+    "name": "automated charging station",
+    "looks_like": "f_console",
+    "description": "An automated charging console for electric vehicles.",
+    "symbol": "9",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 25,
+    "flags": [ "SEALED", "ALARMED", "BLOCKSDOOR" ],
+    "bash": { "str_min": 7, "str_max": 30, "sound": "glass breaking!", "sound_fail": "whack!", "furn_set": "f_ev_charger_o" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ev_charger_o",
+    "name": "broken automated charging station",
+    "looks_like": "f_console_broken",
+    "description": "An automated charging console for electric vehicles.  It's broken.  This is not a good thing.",
+    "symbol": "9",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 20,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 45,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 20, 40 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 70, 140 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "power_supply", "count": [ 2, 5 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  }
+]

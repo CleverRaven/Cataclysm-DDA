@@ -239,8 +239,8 @@
     "type": "TOOL",
     "copy-from": "fake_item",
     "name": { "str": "fake power tool", "//~": "NO_I18N" },
-    "ammo": [ "battery" ],
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] }
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "fake_arc_furnace",
@@ -261,9 +261,9 @@
     "name": { "str": "fake appliance tool", "//~": "NO_I18N" },
     "type": "TOOL",
     "copy-from": "fake_item",
-    "ammo": [ "battery" ],
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "drill_press_tool",
@@ -459,18 +459,18 @@
     "type": "TOOL",
     "name": { "str": "oxygen concentrator" },
     "copy-from": "fake_crafting_tool",
-    "ammo": [ "battery" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "pseudo_app_hd_compressor_unit",
     "type": "TOOL",
     "name": { "str": "high pressure compressor unit" },
     "copy-from": "fake_crafting_tool",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "charges_per_use": 100,
-    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "concrete_mix_tool",

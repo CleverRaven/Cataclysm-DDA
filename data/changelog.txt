@@ -128,6 +128,9 @@ Refactor the pulping
 Makes sound effects play in slow motion while the player has slowed down time
 Add ``character_takeoff_item`` event
 Rebalance the chance for armor to be damaged by attacks.
+Allow event character_ranged_attacks_* catch throw attack, add context val is_throw to determine whether the event was triggered by a thrown attack.
+Underground Temperature now depends on Region Settings
+Modinfo Blacklist
 
 
 ## Content:
@@ -300,6 +303,7 @@ Added a new fast food restaurant with drive-through
 Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
+Adds a new nether monster
 
 
 ## Interface:
@@ -786,6 +790,8 @@ Isolation Protocol: Office Levels
 [Isolation Protocol] Add the Last Scion class
 [MoM] Add volume limits to Blink and Farstep
 [XE] Adds a special boss encounter for tier 5 vampires.
+Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
+[Xedra Evolved] Add playable dhampirs
 
 
 ## Balance:
@@ -1229,6 +1235,7 @@ Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
+[Sky Island] Fix possible painkiller death loop
 
 
 ## Performance:
@@ -1384,6 +1391,8 @@ Uncanny Dodge Logic Update
 Make AIM actions testable
 generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
+Allow setting 0 spoil time to enable copy-from for 0 spoiling
+add some AIM tests
 
 
 ## Build:

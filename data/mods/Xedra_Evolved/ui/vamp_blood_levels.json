@@ -137,7 +137,46 @@
           "and": [
             { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
             { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
-            { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 8401" ] }
+          ]
+        }
+      },
+      {
+        "id": "sated",
+        "text": "Sated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 8401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 14401" ] }
+          ]
+        }
+      },
+      {
+        "id": "brimmed",
+        "text": "Brimmed",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 14401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 24401" ] }
+          ]
+        }
+      },
+      {
+        "id": "overflowing",
+        "text": "Overflowing",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 24401" ] }
           ]
         }
       }
@@ -152,7 +191,7 @@
     "clauses": [
       {
         "id": "vampire_blood_levels_numbers_bad",
-        "text": "<color_red><u_val:blood_amount_for_graph></color>     Max: <color_red>5600</color>",
+        "text": "<color_red><u_val:blood_amount_for_graph></color>     Max: <color_red><u_val:max_blood_amount_for_graph></color>",
         "parse_tags": true,
         "condition": {
           "and": [
@@ -163,7 +202,7 @@
       },
       {
         "id": "vampire_blood_levels_numbers_good",
-        "text": "<color_green><u_val:blood_amount_for_graph></color>     Max: <color_green>5600</color>",
+        "text": "<color_green><u_val:blood_amount_for_graph></color>     Max: <color_green><u_val:max_blood_amount_for_graph></color>",
         "parse_tags": true,
         "condition": {
           "and": [
@@ -176,7 +215,7 @@
       },
       {
         "id": "vampire_blood_levels_numbers_excess",
-        "text": "<color_red><u_val:blood_amount_for_graph></color>     Max: <color_red>5600</color>",
+        "text": "<color_red><u_val:blood_amount_for_graph></color>     Max: <color_red><u_val:max_blood_amount_for_graph></color>",
         "parse_tags": true,
         "condition": {
           "and": [
@@ -188,7 +227,7 @@
       },
       {
         "id": "vampire_blood_levels_numbers_stockpile",
-        "text": "<color_green><u_val:blood_amount_for_graph></color>     Max: <color_green>5600</color>",
+        "text": "<color_green><u_val:blood_amount_for_graph></color>     Max: <color_green><u_val:max_blood_amount_for_graph></color>",
         "parse_tags": true,
         "condition": {
           "and": [ { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" }, { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] } ]
@@ -203,13 +242,26 @@
     "label": "Blood graph",
     "var": "custom",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "//": "Distillate the Inner Blood ensures that the UI won't show the negatively high levels.",
     "custom_var": {
       "value": { "math": [ "u_vitamin('human_blood_vitamin')" ] },
       "range": [
         0,
-        { "math": [ "(5600 +  (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.333333" ] },
-        { "math": [ "(5600 + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.6666666" ] },
-        { "math": [ "5600 + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)" ] }
+        {
+          "math": [
+            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.3333333"
+          ]
+        },
+        {
+          "math": [
+            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.6666666"
+          ]
+        },
+        {
+          "math": [
+            "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)"
+          ]
+        }
       ]
     },
     "style": "graph",

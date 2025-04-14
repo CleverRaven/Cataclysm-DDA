@@ -57,7 +57,7 @@ Describes tilesheet directories for `compose.py`
 ## JSON Schema
 
 ### Tile entry
-```C++
+```jsonc
 {                                           // The simplest version
     "id": "mon_cat",                        // a game entity ID
     "fg": "mon_cat_black",                  // a sprite root name that will be put on foreground
@@ -138,7 +138,7 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 #### Random variations
 
 `fg` and `bg` can also be an array of objects of weighted, randomly chosen options, any of which can also be an array of rotations:
-```C++
+```jsonc
     "fg": [
         { "weight": 50, "sprite": "t_dirt_brown"},       // appears approximately 50 times in 53 tiles
         { "weight": 1, "sprite": "t_dirt_black_specks"}, // appears 1 time in 53 tiles
@@ -370,7 +370,7 @@ As for normal autotiles, the script also generates the requires JSON file. See t
 #### Multiple tile entries in the same file
 
 Each JSON file can have either a single object or an array of one or more objects:
-```C++
+```jsonc
 [
     { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg" },
     { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg" },
@@ -420,7 +420,7 @@ So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no fu
 "Escape Pods & Vehicle Bay" becomes `graffiti_ESCAPE_PODS__VEHICLE_BAY`
 
 ### `tile_info.json`
-```c++
+```jsonc
 [
   {                         // default sprite size
     "width": 32,
@@ -470,7 +470,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 An optional file called `layering.json` can be provided. This file defines "layer contexts" (referred to in JSON as "layer variants"), or entries for drawing items/fields differently based on furniture/terrain they're placed on. A default `layering.json` is provided with the repository.
 
-```c++
+```jsonc
 {
 "variants": [
   {
@@ -630,7 +630,7 @@ Each tilesheet contains 1 or more sprites with the same width and height.  Each 
 ### `tile_config`
 Each legacy tileset has a `tile_config.json` describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:
 
-```C++
+```jsonc
   {                                             // whole file is a single object
     "tile_info": [                              // tile_info is mandatory
       {

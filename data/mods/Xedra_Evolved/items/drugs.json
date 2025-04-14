@@ -194,5 +194,48 @@
     "phase": "liquid",
     "price": "25 USD",
     "freezing_point": 4
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "drug",
+    "id": "anathema_blood_catalyst_unready",
+    "looks_like": "vampire_blood",
+    "name": { "str_sp": "churning vampire blood mixture" },
+    "description": "Vampire blood mixed with blood none would consume and different toxic substances.  The hostile environment is already driving the vampire blood to devour itself.  It will be ready to consume in a few days.",
+    "material": [ "vampire_blood" ],
+    "phase": "liquid",
+    "charges": 1,
+    "weight": "6360 g",
+    "color": "red",
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ],
+    "symbol": "~",
+    "price": "0 cent",
+    "volume": "6000 ml",
+    "use_action": {
+      "target": "anathema_blood_catalyst",
+      "msg": "The vampire blood has completely devoured itself, leaving a small dose of very potent vampire blood behind.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The vampire blood is still devouring itself."
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "drug",
+    "id": "anathema_blood_catalyst",
+    "looks_like": "vampire_blood",
+    "name": { "str_sp": "blood of the Anathema" },
+    "description": "Vampire blood that been forced to gain the ability to devour vampire blood to survive.  Consuming it will allow you to devour vampire blood to gain power, like that vampire did before you caused their end.",
+    "material": [ "vampire_blood" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "265 g",
+    "color": "red",
+    "symbol": "~",
+    "price_postapoc": "0 cent",
+    "volume": "250 ml",
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_BLOOD_ANATHEMA" ]
   }
 ]

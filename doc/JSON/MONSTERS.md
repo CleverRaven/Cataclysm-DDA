@@ -563,7 +563,7 @@ No cocoon below 10 kg; 10 - 35 kg monsters zombify into the tiny cocoon; 36 - 10
 
 Advanced form of `zombify_into`, allows to specify reviving into different monsters depending on condition;
 
-```c++
+```jsonc
     "revive_forms": [
       {
         // condition as dialogue condition, but with neither alpha nor beta talkers
@@ -571,7 +571,7 @@ Advanced form of `zombify_into`, allows to specify reviving into different monst
         // can be omitted, in this case condition would be assumed to always be TRUE
         "condition": { "map_terrain_with_flag": "SWIMMABLE", "loc": { "context_val": "loc" } },
         // either `monster` or `monster_group` should be used
-        "monster": "pseudo_debug_mon"
+        "monster": "pseudo_debug_mon",
         "monster_group": "GROUP_ANIMALPOUND_CATS"
       }
     ],

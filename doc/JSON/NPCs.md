@@ -427,7 +427,7 @@ The topic id can be one of the built-in topics or a new id. However, if several 
 The topic id can also be an array of strings. This is loaded as if several topics with the exact same content have been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows adding responses to several topics at once.
 
 This example adds the "I'm going now!" response to all the listed topics.
-```C++
+```jsonc
 {
     "type": "talk_topic",
     "id": [ "TALK_ARSONIST", "TALK_STRANGER_FRIENDLY", "TALK_STRANGER_NEUTRAL" ],

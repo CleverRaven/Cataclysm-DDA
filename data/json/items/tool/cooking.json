@@ -13,13 +13,13 @@
     "price_postapoc": "30 USD",
     "material": [ "plastic", "aluminum", "lead", "steel" ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "ammo": [ "battery" ],
     "symbol": ",",
     "color": "light_green",
     "use_action": [ "HOTPLATE_ATOMIC", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
     "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "butchering_kit",
@@ -81,7 +81,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -106,7 +105,8 @@
       { "type": "link_up", "cable_length": 2, "charge_rate": "120 W" }
     ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
-    "melee_damage": { "bash": 2, "cut": 8 }
+    "melee_damage": { "bash": 2, "cut": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "carver_on",
@@ -212,14 +212,14 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "charcoal" ],
     "//": "contains up to 10 liters of charcoal. Or the same amount of coal by weight, 1u coal weighs about as much as 1u of charcoal and has the same energy although it is 5x smaller.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 5,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "tool_ammo": [ "charcoal" ]
   },
   {
     "id": "charcoal_cooker",
@@ -235,14 +235,14 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "charcoal", "coal" ],
     "//": "contains up to 2 liters of charcoal. Or the same amount of coal by weight, 1u coal weighs about as much as 1u of charcoal and has the same energy although it is 5x smaller.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 400, "coal": 2000 } } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 5,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "charcoal", "coal" ]
   },
   {
     "id": "clay_pot",
@@ -318,13 +318,13 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
     "qualities": [ [ "BOIL", 1 ], [ "HOTPLATE", 1 ] ],
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2400 g", "watertight": true, "rigid": true } ],
     "use_action": [ "HEAT_LIQUID_ITEMS", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "dehydrator",
@@ -338,10 +338,10 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "eggs_ferment",
@@ -381,12 +381,12 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "esbit" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 100 } } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 2,
     "qualities": [ [ "HOTPLATE", 2 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ]
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "tool_ammo": [ "esbit" ]
   },
   {
     "id": "flask_yeast",
@@ -431,10 +431,10 @@
     "material": [ "plastic", "steel" ],
     "symbol": "%",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "450 W" },
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "gasoline_cooker",
@@ -449,13 +449,13 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 2,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "heatpack",
@@ -500,11 +500,11 @@
     "symbol": ";",
     "color": "green",
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 35,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "hotplate_induction",
@@ -522,11 +522,11 @@
     "symbol": ";",
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "NO_SALVAGE" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 25,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "link_up", "cable_length": 3, "charge_rate": "1500 W" } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "makeshift_sealer",
@@ -542,10 +542,10 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 4, "charge_rate": "55 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "mess_kit",
@@ -640,7 +640,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
@@ -656,7 +655,8 @@
         "max_item_length": "35 cm",
         "moves": 50
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "multi_cooker_filled",
@@ -679,12 +679,12 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 2,
     "use_action": [ "HOTPLATE" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "lamp_oil" ]
   },
   {
     "id": "oil_press_manual",
@@ -699,9 +699,9 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "battery" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "oil_press_primitive",
@@ -716,9 +716,9 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": [ "lamp_oil" ]
   },
   {
     "id": "pastaextruder",
@@ -775,12 +775,12 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "conc_alcohol" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 3,
     "use_action": [ "HOTPLATE" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "conc_alcohol" ]
   },
   {
     "id": "pressure_cooker",
@@ -861,12 +861,12 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "battery" ],
     "charged_qualities": [ [ "SNOW_MAKING", 1 ] ],
     "charges_per_use": 8,
     "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "55 W" } ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "sieve_primitive",
@@ -946,7 +946,6 @@
     "material": [ "steel", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "lamp_oil" ],
     "sub": "oil_cooker",
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true },
@@ -956,7 +955,8 @@
     "charges_per_use": 2,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ], [ "HOTPLATE", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "lamp_oil" ]
   },
   {
     "id": "teapot",
@@ -991,10 +991,10 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "110 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "waffleiron",
@@ -1030,11 +1030,11 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_blue",
-    "ammo": [ "battery" ],
     "charges_per_use": 14,
     "use_action": [ "WATER_PURIFIER", { "type": "link_up", "cable_length": 2, "charge_rate": "30 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "water_filter_sand",
@@ -1064,13 +1064,13 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
     "charges_per_use": 2,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
     "flags": [ "FIRESTARTER" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "propane" ]
   },
   {
     "id": "biogas_cooker",
@@ -1078,7 +1078,6 @@
     "name": { "str": "biogas cooker" },
     "description": "A simple heater powered by biogas.  It is designed for cooking food.",
     "copy-from": "propane_cooker",
-    "ammo": [ "biogas" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -1089,7 +1088,8 @@
       }
     ],
     "charges_per_use": 8,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
+    "tool_ammo": [ "biogas" ]
   },
   {
     "id": "acetylene_cooker",
@@ -1104,7 +1104,6 @@
     "material": [ "brass", "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "weldgas" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1116,7 +1115,8 @@
     "charges_per_use": 1,
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
     "flags": [ "FIRESTARTER" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "weldgas" ]
   },
   {
     "type": "TOOL",
@@ -1134,7 +1134,7 @@
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ], [ "HOTPLATE", 1 ] ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
-    "ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "makeshift_pressure_cooker",
@@ -1171,7 +1171,7 @@
     "volume": "750 ml",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" } ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
-    "ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "crystallizing_sugar",
