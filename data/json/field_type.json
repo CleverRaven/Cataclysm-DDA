@@ -1867,9 +1867,32 @@
     "id": "fd_insecticidal_spray_gas",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "insecticidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
-      { "name": "insecticidal haze", "color": "light_gray", "concentration": 2 },
-      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
+      {
+        "name": "insecticide spray cloud",
+        "sym": "8",
+        "dangerous": true,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "insecticide_eyes",
+            "body_part": "eyes",
+            "intensity": 3,
+            "min_duration": "5 minutes",
+            "max_duration": "5 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 5 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "insecticide_mouth",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "5 minutes",
+            "max_duration": "5 minutes",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 5 ] ] },
+            "immune_inside_vehicle": true
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": "80m",
@@ -1878,7 +1901,7 @@
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
-    "half_life": "3 seconds",
+    "half_life": "1 seconds",
     "phase": "gas",
     "display_items": false,
     "display_field": true,
