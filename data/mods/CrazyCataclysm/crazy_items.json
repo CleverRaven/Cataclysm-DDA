@@ -706,5 +706,127 @@
     "category": "currency",
     "name": { "str": "50 Cent coin" },
     "description": "A fifty-cent coin, featuring a portrait of famed rapper 50 Cent.  On the back is the date of minting, and the G-Unit symbol."
+  },
+  {
+    "id": "pride_flag",
+    "copy-from": "pride_flag",
+    "type": "ARMOR",
+    "name": { "str": "pride flag" },
+    "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "rainbow_pride_flag",
+        "name": { "str": "pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+        "weight": 10
+      },
+      {
+        "id": "progress_pride_flag",
+        "name": { "str": "progress pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.  On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "weight": 10
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.",
+        "weight": 2
+      },
+      {
+        "id": "bisexual_pride_flag",
+        "name": { "str": "bisexual flag" },
+        "description": "A large pink and blue bisexual flag.  The pink stripe represents homosexuality, while the blue stripe represents heterosexuality.  The purple stripe, the \"overlap\" of the blue and pink stripes, purple represents attraction regardless of sex or gender a.k.a bisexuality.",
+        "weight": 5
+      },
+      {
+        "id": "pansexual_pride_flag",
+        "name": { "str": "pansexual flag" },
+        "description": "A large pink, blue and yellow pansexual flag.  The pan-pride flag uses pink for people on the female-spectrum, blue for people on the male-spectrum, and yellow for non-binary or genderqueer people.",
+        "weight": 5
+      },
+      {
+        "id": "labrys_lesbian_pride_flag",
+        "name": { "str": "labrys lesbian flag" },
+        "description": "A large black and purple labrys lesbian flag.  On the flag you can see a labrys, a type of double-headed axe, superimposed on a downward-pointing black triangle, set against a violet background.",
+        "weight": 2
+      },
+      {
+        "id": "lesbian_pride_flag",
+        "name": { "str": "lesbian flag" },
+        "description": "A large pink, white and orange lesbian flag.  The dark orange representing \"gender non-conformity\", orange for \"independence\", light orange for \"community\", white for \"unique relationships to womanhood\", pink for \"serenity and peace\", dusty pink for \"love and sex\", and dark rose for \"femininity\".",
+        "weight": 5
+      },
+      {
+        "id": "asexual_pride_flag",
+        "name": { "str": "asexual flag" },
+        "description": "A large purple, white, gray and black asexual flag.  Black for asexuality (feeling no sexual attraction), gray for gray-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
+        "weight": 2
+      },
+      {
+        "id": "aromantic_pride_flag",
+        "name": { "str": "aromantic flag" },
+        "description": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        "weight": 2
+      },
+      {
+        "id": "transgender_pride_flag",
+        "name": { "str": "transgender flag" },
+        "description": "A large white, pink, and blue transgender flag.  The stripes at the top and bottom are light blue, the traditional color for baby boys.  The stripes next to them are pink, the traditional color for baby girls.  The white stripe is for people that are nonbinary, feel that they don't have a gender.  The pattern is such that no matter which way you fly it, it is always correct, signifying finding correctness in one's life.",
+        "weight": 5
+      },
+      {
+        "id": "genderqueer_pride_flag",
+        "name": { "str": "genderqueer flag" },
+        "description": "A large green, white, and purple genderqueer flag.  Lavender, a mixture of blue and pink to represent androgynes and androgyny, white to represent agender identity, and green, the inverse of lavender, to represent all those who fall outside of the gender binary.",
+        "weight": 2
+      },
+      {
+        "id": "intersex_pride_flag",
+        "name": { "str": "intersex flag" },
+        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colors as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
+        "weight": 2
+      },
+      {
+        "id": "genderfluid_pride_flag",
+        "name": { "str": "genderfluid flag" },
+        "description": "A large blue, black, purple, white and pink genderfluid flag.  The genderfluid flag has a pink stripe for femininity, a blue stripe for masculinity, a purple stripe for both masculinity and femininity, a black stripe for lack of gender, and a white stripe for all genders.",
+        "weight": 2
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green, white, gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
+        "weight": 2
+      },
+      {
+        "id": "nonbinary_pride_flag",
+        "name": { "str": "non-binary flag" },
+        "description": "A large black, purple, white, and yellow non-binary flag.  Yellow for those whose gender exists outside of and without reference to the binary, white for those who have many or all genders, purple for those who feel their gender is between or a mix of female and male, and black for those who feel they are without gender.",
+        "weight": 5
+      },
+      {
+        "id": "newbrunswick_pride_flag",
+        "name": { "str": "NB flag" },
+        "description": "A yellow flag with a ship and lion, representing New Brunswick.  You have a feeling this might be the wrong NB flag.",
+        "weight": 5
+      },
+      {
+        "id": "polysexual_pride_flag",
+        "name": { "str": "polysexual flag" },
+        "description": "A large blue, green, and pink polysexual flag.  Pink for people on the female-spectrum, blue for people on the male-spectrum, and green for non-binary or genderqueer people.",
+        "weight": 2
+      },
+      {
+        "id": "leather_pride_flag",
+        "name": { "str": "leather flag" },
+        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community."
+      },
+      {
+        "id": "bear_pride_flag",
+        "name": { "str": "bear flag" },
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colors of different bear species, you can see a black bear paw in the upper right corner."
+      }
+    ]
   }
 ]
