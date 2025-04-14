@@ -406,11 +406,11 @@
     "enchantments": [
       {
         "condition": { "and": [ "is_day", "u_is_outside", { "not": { "u_has_effect": "sleep" } } ] },
-        "values": [ { "value": "SLEEPINESS", "multiply": 10 } ]
+        "values": [ { "value": "SLEEPINESS", "multiply": 2 } ]
       },
       {
         "condition": { "and": [ "is_day", { "not": { "u_has_effect": "sleep" } } ] },
-        "values": [ { "value": "SLEEPINESS", "multiply": 2 } ]
+        "values": [ { "value": "SLEEPINESS", "multiply": 0.25 } ]
       },
       { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] }
     ]
