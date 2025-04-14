@@ -30,6 +30,7 @@
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "explosion.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
@@ -69,7 +70,6 @@
 #include "veh_type.h"
 #include "vitamin.h"
 
-class Trait_group;
 template <typename T> struct enum_traits;
 
 static const ammo_effect_str_id ammo_effect_COOKOFF( "COOKOFF" );
@@ -2815,17 +2815,6 @@ void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObje
     load( *slotptr, jo, src );
 }
 
-template<typename SlotType>
-void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                       const std::string_view member, const std::string &src )
-{
-    if( !jo.has_member( member ) ) {
-        return;
-    }
-    JsonObject slotjo = jo.get_object( member );
-    load_slot( slotptr, slotjo, src );
-}
-
 bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )
 {
     cata_assert( !frozen );
@@ -2867,32 +2856,16 @@ void islot_milling::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "recipe", recipe_ );
 }
 
-static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
+void memory_card_info::deserialize( const JsonObject &jo )
 {
-    mcd.data_chance = jo.get_float( "data_chance", 1.0f );
-    //mcd.on_read_convert_to = itype_id( jo.get_string( "on_read_convert_to" ) );
-
-    //mcd.photos_chance = jo.get_float( "photos_chance", 0.0f );
-    //mcd.photos_amount = jo.get_int( "photos_amount", 0 );
-
-    //mcd.songs_chance = jo.get_float( "songs_chance", 0.0f );
-    //mcd.songs_amount = jo.get_int( "songs_amount", 0 );
-
-    mcd.recipes_chance = jo.get_float( "recipes_chance", 0.0f );
-    mcd.recipes_amount = jo.get_int( "recipes_amount", 0 );
-    mcd.recipes_level_min = jo.get_int( "recipes_level_min", 0 );
-    mcd.recipes_level_max = jo.get_int( "recipes_level_max", 10 );
-    mcd.recipes_categories.clear();
-    if( jo.has_array( "recipes_categories" ) ) {
-        for( const std::string &cat : jo.get_string_array( "recipes_categories" ) ) {
-            mcd.recipes_categories.emplace( cat );
-        }
-    } else {
-        mcd.recipes_categories = { crafting_category_CC_FOOD };
-    }
-    if( jo.has_member( "secret_recipes" ) ) {
-        mcd.secret_recipes = jo.get_bool( "secret_recipes" );
-    }
+    optional( jo, was_loaded, "data_chance", data_chance, 1.0f );
+    optional( jo, was_loaded, "recipes_chance", recipes_chance );
+    optional( jo, was_loaded, "recipes_amount", recipes_amount );
+    optional( jo, was_loaded, "recipes_level_min", recipes_level_min );
+    optional( jo, was_loaded, "recipes_level_max", recipes_level_max, 10 );
+    optional( jo, was_loaded, "recipes_categories", recipes_categories,
+              auto_flags_reader<crafting_category_id> {}, { crafting_category_CC_FOOD } );
+    optional( jo, was_loaded, "secret_recipes", secret_recipes );
 }
 
 void islot_ammo::deserialize( const JsonObject &jo )
@@ -2939,7 +2912,7 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
         }
         def.ammo->deserialize( jo );
         def.ammo->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -2961,7 +2934,7 @@ void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
         }
         def.engine->deserialize( jo );
         def.engine->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -2984,7 +2957,7 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
         }
         def.wheel->deserialize( jo );
         def.wheel->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3001,7 +2974,7 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
         }
         def.comestible->deserialize( jo );
         def.comestible->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3118,7 +3091,7 @@ void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
         }
         def.gun->deserialize( jo );
         def.gun->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3138,7 +3111,7 @@ void Item_factory::load_armor( const JsonObject &jo, const std::string &src )
             def.armor = cata::make_value<islot_armor>();
         }
         def.armor->deserialize( jo );
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3155,7 +3128,7 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
         }
         def.pet_armor->deserialize( jo );
         def.pet_armor->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3401,7 +3374,7 @@ void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
         }
         def.tool->deserialize( jo );
         def.tool->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3448,7 +3421,7 @@ void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
         }
         def.mod->deserialize( jo );
         def.mod->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3472,7 +3445,7 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
             def.armor = cata::make_value<islot_armor>();
         }
         def.armor->deserialize( jo );
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3506,7 +3479,7 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
         }
         def.book->deserialize( jo );
         def.book->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3673,7 +3646,7 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
         def.gunmod->was_loaded = true;
         def.mod->deserialize( jo );
         def.mod->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3703,7 +3676,7 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
         }
         def.magazine->deserialize( jo );
         def.magazine->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3725,7 +3698,7 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
         }
         def.battery->deserialize( jo );
         def.battery->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3749,7 +3722,7 @@ void Item_factory::load_bionic( const JsonObject &jo, const std::string &src )
         }
         def.bionic->deserialize( jo );
         def.bionic->was_loaded = true;
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -3757,7 +3730,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_basic_info( jo, def, src );
+        def.load( jo, src );
     }
 }
 
@@ -4273,272 +4246,223 @@ static void replace_materials( const JsonObject &jo, itype &def )
     }
 }
 
-void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
+void itype::load( const JsonObject &jo, const std::string_view src )
 {
-    bool strict = src == "dda";
+    units_bound_reader<units::mass> not_negative_mass{ 0_milligram };
+    units_bound_reader<units::money> not_negative_money{ 0_cent };
+    units_bound_reader<units::volume> not_negative_volume{ 0_ml };
+    units_bound_reader<units::length> not_negative_length{ 0_mm };
 
     restore_on_out_of_scope restore_check_plural( check_plural );
     if( jo.has_string( "abstract" ) ) {
         check_plural = check_plural_t::none;
     }
 
-    assign( jo, "category", def.category_force, strict );
-    assign( jo, "weight", def.weight, strict, 0_gram );
-    assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
-    assign( jo, "volume", def.volume );
-    assign( jo, "longest_side", def.longest_side );
-    assign( jo, "price", def.price, false, 0_cent );
-    assign( jo, "price_postapoc", def.price_post, false, 0_cent );
-    assign( jo, "stackable", def.stackable_, strict );
-    assign( jo, "integral_volume", def.integral_volume );
-    assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
-    optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );
-    optional( jo, false, "variants", def.variants );
-    assign( jo, "container", def.default_container );
-    optional( jo, false, "container_variant", def.default_container_variant );
-    assign( jo, "sealed", def.default_container_sealed );
-    assign( jo, "min_strength", def.min_str );
-    assign( jo, "min_dexterity", def.min_dex );
-    assign( jo, "min_intelligence", def.min_int );
-    assign( jo, "min_perception", def.min_per );
-    assign( jo, "emits", def.emits );
-    assign( jo, "explode_in_fire", def.explode_in_fire );
-    assign( jo, "insulation", def.insulation_factor );
-    assign( jo, "solar_efficiency", def.solar_efficiency );
-    optional( jo, false, "fall_damage_reduction", def.fall_damage_reduction, 0 );
-    assign( jo, "ascii_picture", def.picture_id );
-    assign( jo, "repairs_with", def.repairs_with );
-    assign( jo, "ememory_size", def.ememory_size );
+    optional( jo, was_loaded, "category", category_force );
+    optional( jo, was_loaded, "weight", weight, not_negative_mass );
+    optional( jo, was_loaded, "integral_weight", integral_weight, not_negative_mass, -1_gram );
+    optional( jo, was_loaded, "volume", volume );
+    optional( jo, was_loaded, "longest_side", longest_side, -1_mm );
+    optional( jo, was_loaded, "price", price, not_negative_money, 0_cent );
+    optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
+    optional( jo, was_loaded, "stackable", stackable_ );
+    optional( jo, was_loaded, "integral_volume", integral_volume, not_negative_volume, -1_ml );
+    optional( jo, was_loaded, "integral_longest_side", integral_longest_side, not_negative_length,
+              -1_mm );
+    optional( jo, false, "variant_type", variant_kind, itype_variant_kind::generic );
+    optional( jo, false, "variants", variants );
+    optional( jo, was_loaded, "container", default_container );
+    optional( jo, false, "container_variant", default_container_variant );
+    optional( jo, was_loaded, "sealed", default_container_sealed, true );
 
-    optional( jo, def.was_loaded, "color", def.color, color_reader{} );
+    optional( jo, was_loaded, "min_strength", min_str );
+    optional( jo, was_loaded, "min_dexterity", min_dex );
+    optional( jo, was_loaded, "min_intelligence", min_int );
+    optional( jo, was_loaded, "min_perception", min_per );
+    optional( jo, was_loaded, "emits", emits, auto_flags_reader<emit_id> {} );
+    optional( jo, was_loaded, "explode_in_fire", explode_in_fire );
+    optional( jo, was_loaded, "insulation", insulation_factor, 1.0f );
+    optional( jo, was_loaded, "solar_efficiency", solar_efficiency );
 
-    if( jo.has_member( "repairs_like" ) ) {
-        jo.read( "repairs_like", def.repairs_like );
-    }
+    optional( jo, false, "fall_damage_reduction", fall_damage_reduction );
+    optional( jo, was_loaded, "ascii_picture", picture_id );
+    optional( jo, was_loaded, "repairs_with", repairs_with, auto_flags_reader<material_id> {} );
+    optional( jo, was_loaded, "ememory_size", ememory_size );
 
-    optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
+    optional( jo, was_loaded, "color", color, color_reader{} );
 
-    optional( jo, def.was_loaded, "melee_damage", def.melee );
-    optional( jo, def.was_loaded, "thrown_damage", def.thrown_damage );
-    optional( jo, def.was_loaded, "explosion", def.explosion );
-    def.using_legacy_to_hit = false; //required for inherited but undefined "to_hit" field
-    optional( jo, def.was_loaded, "to_hit", def.m_to_hit, melee_accuracy_reader{ def }, -2 );
+    optional( jo, was_loaded, "repairs_like", repairs_like );
+
+    optional( jo, true, "weapon_category", weapon_category, auto_flags_reader<weapon_category_id> {} );
+
+    optional( jo, was_loaded, "melee_damage", melee );
+    optional( jo, was_loaded, "thrown_damage", thrown_damage );
+    optional( jo, was_loaded, "explosion", explosion );
+    using_legacy_to_hit = false; //required for inherited but undefined "to_hit" field
+    optional( jo, was_loaded, "to_hit", m_to_hit, melee_accuracy_reader{ *this }, -2 );
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
     // TODO: remove condition once degradation is ready to be applied to all items
-    if( def.count_by_charges() || def.category_force != item_category_veh_parts ) {
+    if( count_by_charges() || category_force != item_category_veh_parts ) {
         degrade_mult = 0.0f;
     }
     if( ( degrade_mult * itype::damage_max_ ) <= 0.5f ) {
-        def.degrade_increments_ = 0;
+        degrade_increments_ = 0;
     } else {
-        float adjusted_inc = std::max( def.degrade_increments_ / degrade_mult, 1.0f );
-        def.degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
+        float adjusted_inc = std::max( degrade_increments_ / degrade_mult, 1.0f );
+        degrade_increments_ = std::isnan( adjusted_inc ) ? 0 : std::round( adjusted_inc );
     }
 
-    def.name = translation( translation::plural_tag() );
-    if( !jo.read( "name", def.name ) ) {
-        jo.throw_error( "name unspecified for item type" );
-    }
-    optional( jo, def.was_loaded, "conditional_names", def.conditional_names );
-
-    if( jo.has_member( "description" ) ) {
-        jo.read( "description", def.description );
-    }
+    name = translation( translation::plural_tag() );
+    mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "conditional_names", conditional_names );
+    optional( jo, was_loaded, "description", description );
     //ACTION (use_function)
-    optional( jo, def.was_loaded, "use_action", def.use_methods, use_function_reader_map{ def.ammo_scale, src } );
-    optional( jo, def.was_loaded, "tick_action", def.tick_action, use_function_reader_map{ def.ammo_scale, src } );
-    optional( jo, def.was_loaded, "countdown_action", def.countdown_action, use_function_reader_single{ def.ammo_scale, src } );
-    optional( jo, def.was_loaded, "drop_action", def.drop_action, use_function_reader_single{ def.ammo_scale, src } );
+    optional( jo, was_loaded, "use_action", use_methods, use_function_reader_map{ ammo_scale, src } );
+    optional( jo, was_loaded, "tick_action", tick_action, use_function_reader_map{ ammo_scale, src } );
+    optional( jo, was_loaded, "countdown_action", countdown_action, use_function_reader_single{ ammo_scale, src } );
+    optional( jo, was_loaded, "drop_action", drop_action, use_function_reader_single{ ammo_scale, src } );
 
-    if( jo.has_string( "symbol" ) ) {
-        def.sym = jo.get_string( "symbol" );
-    }
+    optional( jo, was_loaded, "symbol", sym );
 
-
-    optional( jo, def.was_loaded, "material", def.materials,
+    optional( jo, was_loaded, "material", materials,
               weighted_string_id_reader<material_id, int> {1} );
     bool first_pair = true;
-    def.mat_portion_total = 0;
-    for( const std::pair<const string_id<material_type>, int> &pair : def.materials ) {
+    mat_portion_total = 0;
+    for( const std::pair<const string_id<material_type>, int> &pair : materials ) {
         if( first_pair ) {
-            def.default_mat = pair.first;
+            default_mat = pair.first;
             first_pair = false;
         }
-        def.mat_portion_total += pair.second;
+        mat_portion_total += pair.second;
     }
 
-    if( jo.has_member( "chat_topics" ) ) {
-        def.chat_topics.clear();
-        for( const std::string &m : jo.get_string_array( "chat_topics" ) ) {
-            def.chat_topics.emplace_back( m );
-        }
-    }
-    if( jo.has_string( "phase" ) ) {
-        def.phase = jo.get_enum_value<phase_id>( "phase" );
-    }
+    optional( jo, was_loaded, "chat_topics", chat_topics );
+    optional( jo, was_loaded, "phase", phase, phase_id::SOLID );
 
-    if( jo.has_array( "magazines" ) ) {
-        def.magazine_default.clear();
-        def.magazines.clear();
+    optional( jo, was_loaded, "nanofab_template_group", nanofab_template_group );
 
-        for( JsonArray arr : jo.get_array( "magazines" ) ) {
-            ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
-            JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+    optional( jo, was_loaded, "trait_group", trait_group );
 
-            // the first magazine for this ammo type is the default
-            def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
+    optional( jo, was_loaded, "template_requirements", template_requirements );
 
-            while( compat.has_more() ) {
-                def.magazines[ ammo ].insert( itype_id( compat.next_string() ) );
-            }
-        }
-    }
+    optional( jo, was_loaded, "min_skills", min_skills, weighted_string_id_reader<skill_id, int> {1} );
 
-    if( jo.has_string( "nanofab_template_group" ) ) {
-        def.nanofab_template_group = item_group_id( jo.get_string( "nanofab_template_group" ) );
-    }
+    optional( jo, was_loaded, "memory_card", memory_card_data );
 
-    if( jo.has_string( "trait_group" ) ) {
-        def.trait_group = string_id<Trait_group>( jo.get_string( "trait_group" ) );
-    }
+    optional( jo, was_loaded, "variables", item_variables );
+    optional( jo, was_loaded, "flags", item_tags, auto_flags_reader<flag_id> {} );
+    optional( jo, was_loaded, "source_monster", source_monster, mtype_id::NULL_ID() );
+    optional( jo, was_loaded, "faults", faults, auto_flags_reader<fault_id> {} );
 
-    if( jo.has_string( "template_requirements" ) ) {
-        def.template_requirements = requirement_id( jo.get_string( "template_requirements" ) );
-    }
-
-    JsonArray jarr = jo.get_array( "min_skills" );
-    if( !jarr.empty() ) {
-        def.min_skills.clear();
-    }
-    for( JsonArray cur : jarr ) {
-        const skill_id sk = skill_id( cur.get_string( 0 ) );
-        if( !sk.is_valid() ) {
-            jo.throw_error_at( "min_skills", string_format( "invalid skill: %s", sk.c_str() ) );
-        }
-        def.min_skills[ sk ] = cur.get_int( 1 );
-    }
-
-
-    if( jo.has_member( "memory_card" ) ) {
-        def.memory_card_data = cata::make_value<memory_card_info>();
-        load_memory_card_data( *def.memory_card_data, jo.get_object( "memory_card" ) );
-    }
-
-    assign( jo, "variables", def.item_variables );
-    assign( jo, "flags", def.item_tags );
-    if( jo.has_member( "source_monster" ) ) {
-        assign( jo, "source_monster", def.source_monster );
-    }
-    assign( jo, "faults", def.faults );
-
+    //TO-DO: replace qualities/techniques loading once generic factory is used
     if( jo.has_member( "qualities" ) ) {
-        def.qualities.clear();
-        set_qualities_from_json( jo, "qualities", def );
+        qualities.clear();
+        set_qualities_from_json( jo, "qualities", *this );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
-            extend_qualities_from_json( tmp, "qualities", def );
+            extend_qualities_from_json( tmp, "qualities", *this );
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
-            delete_qualities_from_json( tmp, "qualities", def );
+            delete_qualities_from_json( tmp, "qualities", *this );
         }
         if( jo.has_object( "relative" ) ) {
             JsonObject tmp = jo.get_object( "relative" );
             tmp.allow_omitted_members();
-            relative_qualities_from_json( tmp, "qualities", def );
+            relative_qualities_from_json( tmp, "qualities", *this );
         }
     }
 
     if( jo.has_member( "charged_qualities" ) ) {
-        def.charged_qualities.clear();
-        set_qualities_from_json( jo, "charged_qualities", def );
+        charged_qualities.clear();
+        set_qualities_from_json( jo, "charged_qualities", *this );
     }
 
-    optional( jo, def.was_loaded, "properties", def.properties );
+    optional( jo, was_loaded, "properties", properties );
 
-    optional( jo, def.was_loaded, "max_worn", def.max_worn, MAX_WORN_PER_TYPE );
+    optional( jo, was_loaded, "max_worn", max_worn, MAX_WORN_PER_TYPE );
 
     if( jo.has_member( "techniques" ) ) {
-        def.techniques.clear();
-        set_techniques_from_json( jo, "techniques", def );
+        techniques.clear();
+        set_techniques_from_json( jo, "techniques", *this );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
-            extend_techniques_from_json( tmp, "techniques", def );
+            extend_techniques_from_json( tmp, "techniques", *this );
         }
         if( jo.has_object( "delete" ) ) {
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
-            delete_techniques_from_json( tmp, "techniques", def );
+            delete_techniques_from_json( tmp, "techniques", *this );
         }
     }
 
+    optional( jo, was_loaded, "countdown_interval", countdown_interval );
+    optional( jo, was_loaded, "revert_to", revert_to );
 
-    assign( jo, "countdown_interval", def.countdown_interval );
-    assign( jo, "revert_to", def.revert_to, strict );
+    jo.read( "looks_like", looks_like );
 
-
-    jo.read( "looks_like", def.looks_like );
-
-
-    assign( jo, "armor_data", def.armor, src == "dda" );
-    assign( jo, "pet_armor_data", def.pet_armor, src == "dda" );
-    assign( jo, "book_data", def.book, src == "dda" );
+    //TO-DO: remove assign() slot loading
+    assign( jo, "armor_data", armor, src == "dda" );
+    assign( jo, "pet_armor_data", pet_armor, src == "dda" );
+    assign( jo, "book_data", book, src == "dda" );
     //this is temporary; gunmods/tools are presently the only types that use gun_data
-    if( def.gunmod || def.tool ) {
-        bool gun_loaded = def.gun ? def.gun->was_loaded : false;
-        optional( jo, gun_loaded, "gun_data", def.gun );
+    if( gunmod || tool ) {
+        bool gun_loaded = gun ? gun->was_loaded : false;
+        optional( jo, gun_loaded, "gun_data", gun );
     }
-    assign( jo, "ammo_data", def.ammo, src == "dda" );
-    assign( jo, "seed_data", def.seed, src == "dda" );
-    assign( jo, "brewable", def.brewable, src == "dda" );
-    assign( jo, "compostable", def.compostable, src == "dda" );
-    load_slot_optional( def.relic_data, jo, "relic_data", src );
-    assign( jo, "milling", def.milling_data, src == "dda" );
+    assign( jo, "ammo_data", ammo, src == "dda" );
+    assign( jo, "seed_data", seed, src == "dda" );
+    assign( jo, "brewable", brewable, src == "dda" );
+    assign( jo, "compostable", compostable, src == "dda" );
+    if( jo.has_member( "relic_data" ) ) {
+        assign( jo, "relic_data", relic_data, src == "dda" );
+    }
+    assign( jo, "milling", milling_data, src == "dda" );
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {
         //TO-DO: this is temporary, remove it when "type": "ITEM" is figured out
         JsonObject jo_gunmod = jo.get_object( "gunmod_data" );
-        def.gunmod = cata::make_value<islot_gunmod>();
-        def.mod = cata::make_value<islot_mod>();
-        def.gunmod->deserialize( jo_gunmod );
-        def.gunmod->was_loaded = true;
-        def.mod->deserialize( jo_gunmod );
-        def.mod->was_loaded = true;
+        gunmod = cata::make_value<islot_gunmod>();
+        mod = cata::make_value<islot_mod>();
+        gunmod->deserialize( jo_gunmod );
+        gunmod->was_loaded = true;
+        mod->deserialize( jo_gunmod );
+        mod->was_loaded = true;
     }
 
     if( jo.has_string( "abstract" ) ) {
-        jo.read( "abstract", def.id, true );
+        mandatory( jo, was_loaded, "abstract", id );
     } else {
-        jo.read( "id", def.id, true );
+        mandatory( jo, was_loaded, "id", id );
     }
 
     // snippet_category should be loaded after def.id is determined
-    optional( jo, def.was_loaded, "snippet_category", def.snippet_category, snippet_reader{ def, src } );
+    optional( jo, was_loaded, "snippet_category", snippet_category, snippet_reader{ *this, src } );
 
-    assign( jo, "pocket_data", def.pockets );
+    optional( jo, was_loaded, "pocket_data", pockets );
 
-    mod_tracker::assign_src( def, src );
+    mod_tracker::assign_src( *this, src );
 
-    optional( jo, def.was_loaded, "expand_snippets", def.expand_snippets, false );
+    optional( jo, was_loaded, "expand_snippets", expand_snippets );
 
     // potentially replace materials and update their values
     JsonObject replace_val = jo.get_object( "replace_materials" );
     replace_val.allow_omitted_members();
-    replace_materials( replace_val, def );
+    replace_materials( replace_val, *this );
 
     if( jo.has_string( "abstract" ) ) {
-        m_abstracts[ def.id ] = def;
+        item_controller->m_abstracts[ id ] = *this;
     } else {
-        if( m_templates.count( def.id ) != 0 ) {
-            mod_tracker::check_duplicate_entries( m_templates[def.id], def );
+        if( item_controller->m_templates.count( id ) != 0 ) {
+            mod_tracker::check_duplicate_entries( item_controller->m_templates[id], *this );
         }
-        m_templates[ def.id ] = def;
+        item_controller->m_templates[ id ] = *this;
     }
 }
 
@@ -4714,8 +4638,8 @@ void Item_factory::migrate_item_from_variant( item &obj, const std::string &from
     }
 }
 
-void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::string &member,
-        itype &def )
+void itype::set_qualities_from_json( const JsonObject &jo, const std::string &member,
+                                     itype &def )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray curr : jo.get_array( member ) ) {
@@ -4739,16 +4663,16 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
     }
 }
 
-void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string_view member,
-        itype &def )
+void itype::extend_qualities_from_json( const JsonObject &jo, const std::string_view member,
+                                        itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
         def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
     }
 }
 
-void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
-        itype &def )
+void itype::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
+                                        itype &def )
 {
     for( std::string curr : jo.get_array( member ) ) {
         const auto iter = def.qualities.find( quality_id( curr ) );
@@ -4758,7 +4682,7 @@ void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::
     }
 }
 
-void Item_factory::relative_qualities_from_json( const JsonObject &jo,
+void itype::relative_qualities_from_json( const JsonObject &jo,
         const std::string_view member, itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
@@ -4771,8 +4695,8 @@ void Item_factory::relative_qualities_from_json( const JsonObject &jo,
     }
 }
 
-void Item_factory::set_techniques_from_json( const JsonObject &jo, const std::string_view &member,
-        itype &def )
+void itype::set_techniques_from_json( const JsonObject &jo, const std::string_view &member,
+                                      itype &def )
 {
     if( jo.has_array( member ) ) {
         for( std::string curr : jo.get_array( member ) ) {
@@ -4788,7 +4712,7 @@ void Item_factory::set_techniques_from_json( const JsonObject &jo, const std::st
     }
 }
 
-void Item_factory::extend_techniques_from_json( const JsonObject &jo,
+void itype::extend_techniques_from_json( const JsonObject &jo,
         const std::string_view member,
         itype &def )
 {
@@ -4797,7 +4721,7 @@ void Item_factory::extend_techniques_from_json( const JsonObject &jo,
     }
 }
 
-void Item_factory::delete_techniques_from_json( const JsonObject &jo,
+void itype::delete_techniques_from_json( const JsonObject &jo,
         const std::string_view member,
         itype &def )
 {
