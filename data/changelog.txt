@@ -131,6 +131,7 @@ Rebalance the chance for armor to be damaged by attacks.
 Allow event character_ranged_attacks_* catch throw attack, add context val is_throw to determine whether the event was triggered by a thrown attack.
 Underground Temperature now depends on Region Settings
 Modinfo Blacklist
+Add a dentist office to mapgen
 
 
 ## Content:
@@ -792,6 +793,20 @@ Isolation Protocol: Office Levels
 [XE] Adds a special boss encounter for tier 5 vampires.
 Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
 [Xedra Evolved] Add playable dhampirs
+[Xedra Evolved] Remove obsolete homullus-specific jmath statement
+[Xedra Evolved] Vampires can drink blood
+Aftershock: Merge aftershock and aftershock exoplanet.
+[Xedra Evolved] Vampire traits are now positive
+[XE] Add a new vampire-exclusive mutation path
+[Xedra Evolved] Add Dhampir-specific traits
+Aftershock: Add thermos & cookers for sale at port Augustmoon
+[Xedra Evolved] Empowered Blood effect
+[Xedra Evolved] Dhampirs need more mutagen
+[Xedra Evolved] Dhampir weaknesses
+Aftershock: Heat floors in port augustmoon.
+[XE] Direct vampire drinking adjustements
+[Xedra Evolved] Creatures of the Night are ambivalent about the sun
+Aftershock: Heat Crashed Ship.
 
 
 ## Balance:
@@ -887,6 +902,8 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
+Increase/diversify spawns of cut-resistant clothing
+Up the max_item_lengths of loop of rope and big frame pack
 
 
 ## Bugfixes:
@@ -1236,6 +1253,18 @@ Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
+Allow bipod on charger pistol to be removed
+7.62x39 uppers can be installed on AR pistols
+[MoM] Wary Sleeper. Change bio_alarm enchantments from `"ALWAYS"` to `"ACTIVE"` 
+fix not able to read with full inventory
+remove unconditional aim on wait for NPCs
+Fix - Allow healing items that only do instant healing
+Adds the BLOCK_WHILE_WORN to the leather armors, remove it from some others
+War hammer change based on characteristics of real one
+[Xedra Evolved] Fix drinking blood with fangs EoC triggering twice on NPCs (+ add dhampir calories)
+NPCs can go down stairs
+Glass-Turning Death Loop in the Sky Islands Mod
+Mod manager: fix invalid JSON when saving mod list
 
 
 ## Performance:
@@ -1393,6 +1422,11 @@ generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
+item use_function, color, snippet readers
+rename duplicate item JSON fields
+explosion/shrapnel/melee item structs
+Cleaned up some itemgroups
+to-hit reader, other remaining changes for item subtypes split
 
 
 ## Build:
