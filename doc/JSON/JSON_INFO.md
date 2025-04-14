@@ -601,7 +601,7 @@ This section describes each json file and their contents. Each json has their ow
 | `id`       | Unique ID. Must be one continuous word, use underscores if necessary.
 | `picture`  | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
-```C++
+```jsonc
   {
     "type": "ascii_art",
     "id": "cashcard",
@@ -635,7 +635,7 @@ Snippets are the way for the game to store multiple instances of text, and use i
 
 First is when snippet contain multiple fields, mainly `text` and `id` - in this case the game would be able to save it, and call only specific one - for example, if used in item description or in lab report file
 
-```c++
+```jsonc
 {
   "type": "snippet",
   "category": "test_breads",  // Category is the id of a snippet
@@ -656,7 +656,7 @@ First is when snippet contain multiple fields, mainly `text` and `id` - in this 
 
 Second is when snippet contain plain text with no ids - it is used, when the snippet can be generated on the fly, and the game don't need to memorize which one it should be - like in dialogue, for example (we don't need the game to remember what <swear> character used when talked to you)
 
-```c++
+```jsonc
 {
   "type": "snippet",
   "category": "test_breads", 
@@ -675,13 +675,13 @@ Second is when snippet contain plain text with no ids - it is used, when the sni
 
 Items can utilize it using `snippet_category`, in this case the whole description of an item would be replaced with randomly picked snipped out of category:
 
-```json
+```jsonc
 "snippet_category": "test_breads",
 ```
 
 Alternatively, the `snippet_category` may itself contain a range of descriptions, avoiding making a new category:
 
-```c++
+```jsonc
 "snippet_category": [
   { "id": "bread1", "text": "flatbread" },
   { "id": "bread2", "text": "yeast bread" },
@@ -695,11 +695,11 @@ note, that using `id` is mandatory in every way, if you don't want to make the g
 
 Both dialogues and snippets may reference the snippets right inside themselves - to differentiate the snippets, that are used in this way, their id contain `<>` in the name, like `<test_breads>`
 
-```json
+```jsonc
 "dynamic_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you."
 ```
 
-```json
+```jsonc
 {
   "type": "snippet",
   "category": "<music_description>",
@@ -711,21 +711,21 @@ Both dialogues and snippets may reference the snippets right inside themselves -
 
 Item descriptions also capable to use snippet system, but to use them, `expand_snippets` should be `true`, otherwise snippet won't be used
 
-```json
+```jsonc
 {
   "id": "nice_mug",
   "type": "GENERIC",
   "name": { "str": "complimentary mug" },
   "description": "A ceramic mug.  It says \"Nice job, <name_g>!\"",
   "expand_snippets": true,
-...
+  // ...
 }
 ```
 
 Same works with variants 
 
 
-```json
+```jsonc
 {
   "id": "mean_mug",
   "type": "GENERIC",
@@ -758,7 +758,7 @@ Same works with variants
 Using `expand_snippets` required only where snippets are used - if item do not uses snippet, but variant does, then only variant require to have `"expand_snippets":true`
 Using `expand_snippets` on item itself will work as all variants have `"expand_snippets":true`, but variants without any snippet would be effectively removed
 
-```json
+```jsonc
 {
   "id": "mean_mug",
   "type": "GENERIC",
@@ -792,11 +792,11 @@ Using `expand_snippets` on item itself will work as all variants have `"expand_s
 
 Item groups can specify the description of the item that is spawned:
 
-```json
+```jsonc
 {
   "type": "item_group",
   "id": "test_itemgroup",
-  "//": "it spawns `child's drawing` item with `mutant_kid_boss_5` description"
+  "//": "it spawns `child's drawing` item with `mutant_kid_boss_5` description",
   "entries": [
     { "item": "note_mutant_alpha_boss", "snippets": "mutant_kid_boss_5" },
   ]
@@ -815,7 +815,7 @@ Items, that uses effect on condition action to reveal a snippet, may utilize `co
 
 `log_psych` is the category of snippet, `dream_1` is the id of a snippet, and `name` is the name of new item
 
-```json
+```jsonc
 {
   "type": "GENERIC",
   "id": "psych_file",
@@ -858,7 +858,7 @@ snippet in the `<swear>` category.
 
 Addictions are defined in JSON using `"addiction_type"`:
 
-```JSON
+```jsonc
 {
   "type": "addiction_type",
   "id": "caffeine",
@@ -881,7 +881,7 @@ Addictions are defined in JSON using `"addiction_type"`:
 
 Each turn, the player's addictions are processed using either the given `effect_on_condition` or `builtin`. These effects usually have a rng condition so that the effect isn't applied constantly every turn. Ex:
 
-```JSON
+```jsonc
   {
     "type": "effect_on_condition", 
     "id": "EOC_MARLOSS_R_ADDICTION",
@@ -909,7 +909,7 @@ Current hardcoded builtins:
 Body graphs are displayed in the body status menu, accessible by pressing `s` on the player's @-screen.
 These are interactive graphs that highlight different body parts or sub body parts.
 
-```JSON
+```jsonc
 {
   "type": "body_graph",
   "id": "head",
@@ -1035,7 +1035,7 @@ reference at least one body part or sub body part.
   Any coverage of a similar sbp will imply coverage of the substitute subpart's parent for the sub-part in question:  Armor covering the elbows will cover similar elbows on other limbs, but not any of the other locations.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
-```json
+```jsonc
 {
   "id": "arm_l",
   "type": "body_part",
@@ -1093,7 +1093,7 @@ An array of effects to add whenever the limb in question takes damage. Variables
 | `max_duration`         | (_optional_) Integer, max seconds duration the limb can gain as part of the onhit effect - see `max_intensity`. Default INT_MAX.
 
 
-```json
+```jsonc
 {
 "effects_on_hit": [
     {
@@ -1124,7 +1124,7 @@ An array of effects to add whenever the limb in question takes damage. Variables
 ### Limb scores
 Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters.  Most limb scores affect the character via `character_modifiers`, for further information see there. They are defined using the `"limb_score"` type:
 
-```json
+```jsonc
 {
   "type": "limb_score",
   "id": "lift",
@@ -1164,7 +1164,7 @@ These limb scores are referenced in `"body_part"` within the `"limb_scores"` arr
 
 Character modifiers define how effective different behaviours are for actions the character takes. These are usually derived from a limb score.
 
-```json
+```jsonc
 {
   "type": "character_mod",
   "id": "ranged_dispersion_manip_mod",
@@ -1291,7 +1291,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `spell_on_activation`        | (_optional_) Activation of this bionic allow you to cast a spell
 | `activated_close_ui`         | (_optional_) Activation of this bionic closes the bionic menu
 
-```JSON
+```jsonc
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
@@ -1375,7 +1375,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
 | `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION#context-variables-for-other-eocs)
 
-```JSON
+```jsonc
   {
     "//": "stabbing/piercing damage",
     "id": "stab",
@@ -1415,7 +1415,7 @@ Using `damage_info_order` we can reorder how these are shown, and even determine
 | `verb`         | _(optional)_ A verb describing how this damage type is applied (ex: "bashing"). Used in the melee section of an item's info.
 | `*_info`       | _(optional)_ An object that determines the order and visibility of this damage type for the specified section of an item's info. `"order"` determines where in the list of damage types it will be displayed in this section, and `"show_type"` determines whether to show this damage type in this section. Possible sections include: `bionic_info`, `protection_info`, `pet_prot_info`, `melee_combat_info`, and `ablative_info`.
 
-```JSON
+```jsonc
 {
   "id": "acid",
   "type": "damage_info_order",
@@ -1438,7 +1438,7 @@ Using `damage_info_order` we can reorder how these are shown, and even determine
 | `category` | Mutation category needed to dream.
 | `strength` | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+).
 
-```C++
+```jsonc
 {
     "messages" : [
         "You have a strange dream about birds.",
@@ -1463,7 +1463,7 @@ Using `damage_info_order` we can reorder how these are shown, and even determine
 | `affected_bodyparts` | The list of bodyparts on which the effect is applied. (optional, default to bp_null)
 
 
-```json
+```jsonc
   {
     "type": "disease_type",
     "id": "bad_food",
@@ -1488,7 +1488,7 @@ Using `damage_info_order` we can reorder how these are shown, and even determine
 | `added_info`         | (_optional_) Vector of pairs of a pair of int character offset and Line number and a string to be written on the end screen. The string can use talk tags, see the "Special Custom Entries" section of [NPCs](NPCs.md) for the full syntax.
 | `last_words_label`   | (_optional_) String used to label the last word input prompt. If left empty no prompt will be displayed.
 
-```json
+```jsonc
   {
     "type": "end_screen",
     "id": "death_cross",
@@ -1524,7 +1524,7 @@ Emitters randomly place [fields](#field-types) around their positions - every tu
 | `chance`    | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.  This can be a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info. 
 | `qty`       | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.  This can be a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info. 
 
-```JSON
+```jsonc
   {
     "id": "emit_shock_burst",
     "type": "emit",
@@ -1545,7 +1545,7 @@ The syntax listed here is still valid.
 | `items`    | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group.
 | `groups`   | ??
 
-```C++
+```jsonc
 {
     "id":"forest",
     "items":[
@@ -1574,7 +1574,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `priority_zones` | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
 | `spawn_rate`      | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is 0.0, the item will not spawn. If `spawn_chance` is greater than 0.0 and less than 1.0, it will make a random roll (0.0-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
 
-```C++
+```jsonc
 {
     "id": "armor",
     "name": "ARMOR",
@@ -1589,7 +1589,7 @@ When you sort your inventory by category, these are the categories that are disp
 
 Faults can be defined for more specialized damage of an item.
 
-```C++
+```jsonc
 {
   "type": "fault",
   "id": "fault_gun_chamber_spent", // unique id for the fault
@@ -1607,7 +1607,7 @@ Faults can be defined for more specialized damage of an item.
 
 Fault fixes are methods to fix faults, the fixes can optionally add other faults, modify damage, degradation and item variables.
 
-```C++
+```jsonc
 {
   "type": "fault_fix",
   "id": "mend_gun_fouling_clean", // unique id for the fix
@@ -1665,7 +1665,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
 
-```JSON
+```jsonc
 {
     "type": "material",
     "id": "hflesh",
@@ -1699,7 +1699,7 @@ Every material can have fuel data that determines how much horse power it produc
 
 If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
 
-```C++
+```jsonc
 "fuel_data" : {
     "energy": "34200_kJ",        // Energy per litre of fuel.
                                  // https://en.wikipedia.org/wiki/Energy_density
@@ -1721,7 +1721,7 @@ Every material can have burn data that determines how it interacts with fire. Fu
 
 Note that burn_data is defined per material, but items may be made of multiple materials. For such cases, each material of the item will be calculated separately, as if it was multiple items each corresponding to a single material.
 
-```C++
+```jsonc
 "burn_data": [
     { "immune": true,                    // Defaults to false, optional boolean. If true, makes the resulting material immune to fire. As such it can neither provide fuel nor be burned or damaged.
 	"fuel": 300,                     // Float value that determines how much time and intensity this material adds to a fire. Negative values will subtract fuel from the fire, smothering it. 
@@ -1766,7 +1766,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
 | `event`           | (_optional_) If present, this entry can only spawn during the specified event. See the `holiday` enum for possible values. Defaults to `none`. (Ex: `"event": "halloween"`)
 
-```C++
+```jsonc
 // Example of a monstergroup containing only "monster" entries:
 {
   "name" : "GROUP_ANT",
@@ -1805,7 +1805,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
 | `hate`          | Always be hostile towards this faction. Will change target to monsters of this faction if available.
 
-```C++
+```jsonc
 {
     "name"         : "cult",
     "base_faction" : "zombie",
@@ -1826,7 +1826,7 @@ See [MUTATIONS.md](MUTATIONS.md)
 
 ### Names
 
-```C++
+```jsonc
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 ```
 
@@ -1836,7 +1836,7 @@ Defines item replacements that are applied to the starting items based upon the 
 
 If the JSON objects contains a "item" member, it defines a replacement for the given item, like this:
 
-```C++
+```jsonc
 {
   "type": "profession_item_substitutions",
   "item": "sunglasses",
@@ -1851,7 +1851,7 @@ This defines each item of type "sunglasses" shall be replaced with:
 - two items "fitover_sunglasses" if the character has the "MYOPIC" trait.
 
 If the JSON objects contains a "trait" member, it defines a replacement for multiple items that applies when the character has the given trait:
-```C++
+```jsonc
 {
   "type": "profession_item_substitutions",
   "trait": "WOOLALLERGY",
@@ -1866,7 +1866,7 @@ This defines characters with the WOOLALLERGY trait get some items replaced:
 - each "hat_hunting" is converted into *two* "hat_cotton" items.
 
 If the JSON objects contains a "bonus" member, it defines which items will be received, like this:
-```C++
+```jsonc
 {
   "type": "profession_item_substitutions",
   "group": {
@@ -1895,7 +1895,7 @@ If the JSON objects contains a "bonus" member, it defines which items will be re
 Professions are specified as JSON objects with the "type" member set to "profession".
 The following properties (mandatory, except if noted otherwise) are supported:
 
-```json
+```jsonc
   {
     "type": "profession",
     "id": "profession_example",                                // Unique ID for the profession
@@ -1924,7 +1924,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
     "age_lower": 18,                                           // (optional) Int. The lowest age that a character with this profession can generate with. This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 21
     "age_upper": 25,                                           // (optional) Int. Similar as above
     "pets": [ { "name": "mon_black_rat", "amount": 13 } ],     // (optional) Array of starting monster IDs, tamed as pets
@@ -1949,7 +1949,7 @@ The following fields are further described
 
 Items the player starts with when selecting this profession.  One can specify different items based on the gender of the character.  Each lists of items should be an array of items IDs, or pairs of item IDs and snippet IDs.  Item IDs may appear multiple times, in which case multiple times are spawned.  The syntax for each of the three lists is identical.  The old and new formats can be combined, with the old format shown here for legacy purposes:
 
-```json
+```jsonc
   "items": {
     "both": [
       { "item": "jeans" },
@@ -1978,7 +1978,7 @@ Hobbies consist of backgrounds for the character upon creation, designed in the 
 These can be combined with the "primary" profession, adding minor bonuses and/or demerits on top of the starting parameters, allowing more flexibility and character identity.
 Note: hobby fields derive from those used in professions.  The following is a non-exhaustive list:
 
-```json
+```jsonc
   {
     "type": "profession",
     "subtype": "hobby",
@@ -2003,7 +2003,7 @@ Profession groups are a list of hobbies added to the character upon creation.
 While the list is automatically added by hardcode to each character upon creation (adding a minimum set of skills to all characters, regardless of their professions), the list can be modified via JSON.
 Thus, it is listed here for reference and modding purposes only.
 
-```json
+```jsonc
   {
     "type": "profession_group",
     "id": "adult_basic_background",
@@ -2020,18 +2020,18 @@ Thus, it is listed here for reference and modding purposes only.
 
 The array of hobbies (listed as professions) is whitelisted to all characters.  Thus, if one wants to start with no hobbies, the list has to be set as:
 
-```json
+```jsonc
     "professions": [  ]
 ```
 
 ### Constructions
-```C++
+```jsonc
 "group": "spike_pit",                                               // Construction group, used to group related constructions in UI
 "category": "DIG",                                                  // Construction category
 "skill": "fabrication",                                             // Primary skill, that would be used in the recipe
 "difficulty": 1,                                                    // Difficulty of primary skill
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
-"qualities": [ [ [ { "id": "SCREW", "level": 1 } ] ],               // Tool qualities, required to construct
+"qualities": [ [ { "id": "SCREW", "level": 1 } ] ],                 // Tool qualities, required to construct
 "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ] ] ],             // Tools and amount of charges, that would be used in construction
 "using": [ [ "welding_standard", 64 ] ],                            // Requirements that would be used in construction
 "activity_level": "EXTRA_EXERCISE",                                 // Activity level of the activity, harder activities consume more calories over time. Valid values are, from easiest to most demanding of the body: `NO_EXERCISE`, `LIGHT_EXERCISE`, `MODERATE_EXERCISE`, `BRISK_EXERCISE`, `ACTIVE_EXERCISE`, `EXTRA_EXERCISE`.
@@ -2046,7 +2046,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 "post_special": "done_mine_upstairs",                               // Required to do something beyond setting the post terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_note": "Build a spikes on a diggable terrain",                 // Create an annotation to this recipe
 "dark_craftable": true,                                             // If true, you can construct it with lack of light
-"byproducts": [ { "item": "material_soil", "count": [ 2, 5 ] } } ], // Items, that would be left after construction
+"byproducts": [ { "item": "material_soil", "count": [ 2, 5 ] } ],   // Items, that would be left after construction
 "strict": false,                                                    // If true, the build activity for this construction will only look for prerequisites in the same group
 "on_display": false                                                 // This is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 ```
@@ -2104,7 +2104,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 | `id`                     | Unique ID. Must be one continuous word, use underscores if necessary.
 | `receptive_species`      | Species able to track this scent. Must use valid ids defined in `species.json`
 
-```json
+```jsonc
   {
     "type": "scent_type",
     "id": "sc_flower",
@@ -2174,7 +2174,7 @@ Any or all of the following alterations can be made to the event stream:
 
 Here are examples of each modification:
 
-```C++
+```jsonc
 "id": "avatar_kills_with_species",
 "type": "event_transformation",
 "event_type": "character_kills_monster", // Transformation acts upon events of this type
@@ -2190,7 +2190,7 @@ Here are examples of each modification:
 }
 ```
 
-```C++
+```jsonc
 "id": "moves_on_horse",
 "type": "event_transformation",
 "event_type" : "avatar_moves", // An event type.  The transformation will act on events of this type
@@ -2231,7 +2231,7 @@ As with `event_transformation`, an `event_statistic` requires an input event
 stream.  That input stream can be specified in the same was as for
 `event_transformation`, via one of the following two entries:
 
-```C++
+```jsonc
 "event_type" : "avatar_moves" // Events of this built-in type
 "event_transformation" : "moves_on_horse" // Events resulting from this json-defined transformation
 ```
@@ -2240,49 +2240,49 @@ Then it specifies a particular `stat_type` and potentially additional details
 as follows:
 
 The number of events:
-```C++
+```jsonc
 "stat_type" : "count"
 ```
 
 The sum of the numeric value in the specified field across all events:
-```C++
+```jsonc
 "stat_type" : "total"
 "field" : "damage"
 ```
 
 The maximum of the numeric value in the specified field across all events:
-```C++
+```jsonc
 "stat_type" : "maximum"
 "field" : "damage"
 ```
 
 The minimum of the numeric value in the specified field across all events:
-```C++
+```jsonc
 "stat_type" : "minimum"
 "field" : "damage"
 ```
 
 Assume there is only a single event to consider, and take the value of the
 given field for that unique event:
-```C++
+```jsonc
 "stat_type": "unique_value",
 "field": "avatar_id"
 ```
 
 The value of the given field for the first event in the input stream:
-```C++
+```jsonc
 "stat_type": "first_value",
 "field": "avatar_id"
 ```
 
 The value of the given field for the last event in the input stream:
-```C++
+```jsonc
 "stat_type": "last_value",
 "field": "avatar_id"
 ```
 
 Regardless of `stat_type`, each `event_statistic` can also have:
-```C++
+```jsonc
 // Intended for use in describing scores and achievement requirements.
 "description": "Number of things"
 ```
@@ -2299,7 +2299,7 @@ Note that even though most statistics yield an integer, you should still use
 If the underlying statistic has a description, then the score description is
 optional.  It defaults to "<statistic description>: <value>".
 
-```C++
+```jsonc
 "id": "score_headshots",
 "type": "score",
 "description": "Headshots: %s",
@@ -2314,7 +2314,7 @@ term as popularized in other games.
 An achievement is specified via requirements, each of which is a constraint on
 an `event_statistic`.  For example:
 
-```C++
+```jsonc
 {
   "id": "achievement_kill_zombie",
   "type": "achievement",
@@ -2350,7 +2350,7 @@ Additional optional fields for each entry in `requirements` are:
 
 There are further optional fields for the `achievement`:
 
-```C++
+```jsonc
 "hidden_by": [ "other_achievement_id" ]
 ```
 
@@ -2363,7 +2363,7 @@ Use this to prevent spoilers or to reduce clutter in the list of achievements.
 If you want an achievement to be hidden until completed, then mark it as
 `hidden_by` its own id.
 
-```C++
+```jsonc
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
 ```
 
@@ -2379,7 +2379,7 @@ of time") then you must place some requirement alongside it to trigger it after
 that time has passed.  Pick some statistic which is likely to change often, and
 add an `"anything"` constraint on it.  For example:
 
-```C++
+```jsonc
 {
   "id": "achievement_survive_one_day",
   "type": "achievement",
@@ -2414,7 +2414,7 @@ it is present to help catch errors.
 
 ### Skills
 
-```json
+```jsonc
 {
   "type": "skill",
   "id": "smg",
@@ -2461,7 +2461,7 @@ it is present to help catch errors.
 
 ### Speed Description
 
-```C++
+```jsonc
 {
     "type": "speed_description",
     "id": "mon_speed_centipede",
@@ -2503,7 +2503,7 @@ Values are checked from highest first, the order they're defined in doesn't matt
 **Having a value of `0.00`** is important but not necessary, as it's used in case the ratio turns zero for whatever reason ( like monster has the flag `MF_IMMOBILE` ). If the ratio is zero and this value doesn't exist, the returned string will be empty.
 
 ### Mood Face
-```C++
+```jsonc
 {
     "type": "mood_face",
     "id": "DEFAULT_HORIZONTAL",
@@ -2542,7 +2542,7 @@ The `id` must be exact as it is hardcoded to look for that.
 Defined in tool_qualities.json.
 
 Format and syntax:
-```C++
+```jsonc
 {
   "type": "tool_quality",
   "id": "SAW_W",                      // Unique ID
@@ -2552,7 +2552,7 @@ Format and syntax:
 ```
 
 Examples of various usages syntax:
-```C++
+```jsonc
 "usages": [ [ 1, [ "PICK_LOCK" ] ] ]
 "usages": [ [ 2, [ "LUMBER" ] ] ]
 "usages": [ [ 1, [ "salvage", "inscribe"] ] ]
@@ -2593,7 +2593,7 @@ See [MUTATIONS.md](MUTATIONS.md)
 
 ### Traps
 
-```C++
+```jsonc
     "type": "trap",
     "id": "tr_beartrap", // Unique ID
     "name": "bear trap", // In-game name displayed
@@ -2604,7 +2604,7 @@ See [MUTATIONS.md](MUTATIONS.md)
     "difficulty": 3, // 0 to 99, 0 means disarming is always successful (e.g funnels or other benign traps), 99 means disarming is impossible.
     "trap_radius": 1, // 0 to infinity, radius of space the trap needs when being deployed.
     "action": "blade", // C++ function that gets run when trap is triggered, usually in trapfunc.cpp
-    "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
+    "map_regen": "microlab_shifting_hall", // a valid overmap id, for map_regen action traps
     "benign": true, // For things such as rollmats, funnels etc. They can not be triggered.
     "always_invisible": true, // Super well hidden traps the player can never detect
     "funnel_radius": 200, // millimeters. The higher the more rain it will capture.
@@ -2632,11 +2632,11 @@ See [MUTATIONS.md](MUTATIONS.md)
 ### Vehicle Groups
 
 
-```C++
-"id":"city_parked",            // Unique ID. Must be one continuous word, use underscores if necessary
-"vehicles":[                 // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
-  ["suv", 600],           //    X is the value linked to the specific vehicle and T is the total of all
-  ["pickup", 400],          //    vehicle values in a group
+```jsonc
+"id":"city_parked", // Unique ID. Must be one continuous word, use underscores if necessary
+"vehicles":[        // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
+  ["suv", 600],     //    X is the value linked to the specific vehicle and T is the total of all
+  ["pickup", 400],  //    vehicle values in a group
   ["car", 4700],
   ["road_roller", 300]
 ]
@@ -2646,7 +2646,7 @@ See [MUTATIONS.md](MUTATIONS.md)
 
 Vehicle components when installed on a vehicle.
 
-```C++
+```jsonc
 "id": "wheel",                // Unique identifier, must not contain a # symbol
 "name": "wheel",              // Displayed name
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
@@ -2763,13 +2763,13 @@ For more details on how tilesets interact with variants and ids look into [VEHIC
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
 #### The following optional fields are specific to CARGO parts.
-```c++
+```jsonc
 "size": "400 L",              // for parts with "CARGO" flag the capacity in liters
 "cargo_weight_modifier": 33,  // (Optional, default = 100) Multiplies cargo weight by this percentage.
 ```
 
 #### The following optional fields are specific to ENGINEs.
-```c++
+```jsonc
 "power": "15000 W"            // Engine motive power in watts.
 "energy_consumption": "55 W"  // Engine power consumption at maximum power in watts.  Defaults to
                               // electrical power and the E_COMBUSTION flag turns it to thermal
@@ -2799,7 +2799,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 ```
 
 #### The following optional fields are specific to WHEELs.
-```c++
+```jsonc
 "wheel_offroad_rating": 0.5,  // multiplier of wheel performance offroad
 "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] }, // see below
 "contact_area": 153,          // The surface area of the wheel in contact with the ground under
@@ -2824,21 +2824,21 @@ Examples:
 
 
 #### The following optional fields are specific to ROTORs.
-```c++
+```jsonc
 "rotor_diameter": 15,         // Rotor diameter in meters.  Larger rotors provide more lift. This also determines the size of the rotor during collisions.
 "bonus": 5,                   // Adds additional rotor diameter during lift calculations. This does not affect rotor collision. This is useful for things like ducted fans or vtol engines that have good lift but smaller danger zones.
 ```
 
 #### The following optional fields are specific to WORKBENCHes.
 These values apply to crafting tasks performed at the WORKBENCH.
-```c++
+```jsonc
 "multiplier": 1.1,            // Crafting speed multiplier.
 "mass": 1000000,              // Maximum mass in grams of a completed craft that can be crafted.
 "volume": "20L",              // Maximum volume (as a string) of a completed craft that can be craft.
 ```
 
 #### The following optional fields are specific to SEATs.
-```c++
+```jsonc
 "comfort": 3,                 // (Optional, default=0). Sleeping comfort as for terrain/furniture.
 "floor_bedding_warmth": 300,  // (Optional, default=0). Bonus warmth as for terrain/furniture. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
 "bonus_fire_warmth_feet": 200,// (Optional, default=0). Bonus fire warmth as for terrain/furniture.
@@ -2850,7 +2850,7 @@ of forming the inventory for crafting as well as providing menu items when `e`xa
 the vehicle tile.
 Following example array gives the vpart a pot as passive tool for crafting because it has no hotkey defined.
 It also has a hotplate that can be activated by examining it with `e` then `h` on the part's vehicle tile.
-```c++
+```jsonc
 "pseudo_tools" : [
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
@@ -2862,7 +2862,7 @@ Damage resistance values, used by:
 - `armor` of [`"type": "body_part"`](#body_parts)
 - `damage_reduction` of [`"type": "vehicle_part"`](#vehicle-parts)
 
-```C++
+```jsonc
 "all" : 0.0f,        // Initial value of all resistances, overridden by more specific types
 "physical" : 10,     // Initial value for bash, cut and stab
 "non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
@@ -2877,7 +2877,7 @@ Damage resistance values, used by:
 ```
 
 ### Vehicle Placement
-```C++
+```jsonc
 "id":"road_straight_wrecks",  // Unique ID. Must be one continuous word, use underscores if necessary
 "locations":[ {               // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
   "x" : [0,19],               // The x placement. Can be a single value or a range of possibilities.
@@ -2888,7 +2888,7 @@ Damage resistance values, used by:
 
 ### Vehicle Spawn
 
-```C++
+```jsonc
 "id":"default_city",            // Unique ID. Must be one continuous word, use underscores if necessary
 "spawn_types":[ {       // List of spawntypes. When this vehicle_spawn is applied, it will choose from one of the spawntypes randomly, based on the weight.
   "description" : "Clear section of road",           //    A description of this spawntype
@@ -2910,25 +2910,25 @@ Damage resistance values, used by:
 
 See also [VEHICLES_JSON.md](VEHICLES_JSON.md)
 
-```C++
-"id": "shopping_cart",                     // Internally-used name.
-"name": "Shopping Cart",                   // Display name, subject to i18n.
-"blueprint": "#",                          // Preview of vehicle - ignored by the code, so use only as documentation
-"parts": [                                 // Parts list
-    {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the left, positive y is to the right
-    {"x": 0, "y": 0, "part": "casters"}    // See vehicle_parts.json for part ids
+```jsonc
+"id": "shopping_cart",                  // Internally-used name.
+"name": "Shopping Cart",                // Display name, subject to i18n.
+"blueprint": "#",                       // Preview of vehicle - ignored by the code, so use only as documentation
+"parts": [                              // Parts list
+    {"x": 0, "y": 0, "part": "box"},    // Part definition, positive x direction is to the left, positive y is to the right
+    {"x": 0, "y": 0, "part": "casters"} // See vehicle_parts.json for part ids
 ]
-                                           /* Important! Vehicle parts must be defined in the
-                                            * same order you would install
-                                            * them in the game (ie, frames and mount points first).
-                                            * You also cannot break the normal rules of installation
-                                            * (you can't stack non-stackable part flags). */
+                                        /* Important! Vehicle parts must be defined in the
+                                         * same order you would install
+                                         * them in the game (ie, frames and mount points first).
+                                         * You also cannot break the normal rules of installation
+                                         * (you can't stack non-stackable part flags). */
 ```
 
 ### Weakpoint Sets
 A thin container for weakpoint definitions. The only unique fields for this object are `"id"` and `"type"`. The `"weakpoints"` array contains weakpoints that are defined the same way as in monster definitions. See [Weakpoints](MONSTERS.md#weakpoints) for details.
 
-```json
+```jsonc
 {
   "type": "weakpoint_set",
   "id": "wps_zombie_headshot",
@@ -2962,7 +2962,7 @@ A thin container for weakpoint definitions. The only unique fields for this obje
 ```
 
 Weakpoint sets are applied to a monster using the monster's `"weakpoint_sets"` field. Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
-```json
+```jsonc
 "//": "(in MONSTER type)",
 "weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
 ```
@@ -2974,7 +2974,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 
 ### Harvest
 
-```json
+```jsonc
 {
     "id": "jabberwock",
     "type": "harvest",
@@ -3068,7 +3068,7 @@ For `type`s with "dissect_only" (see below), the following entries can scale the
 itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
 
 ### Harvest Drop Type
-```json
+```jsonc
 {
   "type": "harvest_drop_type",
   "id": "mutagen",
@@ -3098,10 +3098,10 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 
 ### Weapon Category
 
-```c++
+```jsonc
 {
     "type": "weapon_category",
-    "id": "WEAP_CAT"
+    "id": "WEAP_CAT",
     "name": "Weapon Category",
     "proficiencies": [ "prof_baz" ]
 }
@@ -3121,7 +3121,7 @@ Examples from the actual definitions:
 
 **`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
 
-```json
+```jsonc
 [
   {
     "type": "connect_group",
@@ -3144,7 +3144,7 @@ Examples from the actual definitions:
 
 ### Furniture
 
-```C++
+```jsonc
 {
     "type": "furniture",
     "id": "f_toilet",
@@ -3236,7 +3236,7 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `boltcut`
 (Optional) Data for using with an bolt cutter.
-```cpp
+```jsonc
 "boltcut": {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
     "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
@@ -3257,7 +3257,7 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `hacksaw`
 (Optional) Data for using with an hacksaw.
-```cpp
+```jsonc
 "hacksaw": {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
     "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
@@ -3277,7 +3277,7 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `oxytorch`
 (Optional) Data for using with an oxytorch.
-```cpp
+```jsonc
 oxytorch: {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
     "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
@@ -3297,7 +3297,7 @@ oxytorch: {
 
 #### `prying`
 (Optional) Data for using with prying tools
-```cpp
+```jsonc
 "prying": {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
     "duration": "1 seconds", // (optional) time required for prying, default is 1 second
@@ -3347,7 +3347,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 ### Terrain
 
-```C++
+```jsonc
 {
     "type": "terrain",
     "id": "t_spiked_pit",
@@ -3446,7 +3446,7 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
 
 #### `boltcut`
 (Optional) Data for using with an bolt cutter.
-```cpp
+```jsonc
 "boltcut": {
     "result": "ter_id", // terrain it will become when done
     "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
@@ -3467,7 +3467,7 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
 
 #### `hacksaw`
 (Optional) Data for using with an hacksaw.
-```cpp
+```jsonc
 "hacksaw": {
     "result": "terrain_id", // terrain it will become when done
     "duration": "1 seconds", // ( optional ) time required for hacksawing, default is 1 second
@@ -3487,7 +3487,7 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
 
 #### `oxytorch`
 (Optional) Data for using with an oxytorch.
-```cpp
+```jsonc
 oxytorch: {
     "result": "terrain_id", // terrain it will become when done
     "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
@@ -3507,7 +3507,7 @@ oxytorch: {
 
 #### `prying`
 (Optional) Data for using with prying tools
-```cpp
+```jsonc
 "prying": {
     "result": "terrain_id", // terrain it will become when done
     "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
@@ -3581,7 +3581,7 @@ Defines how this terrain will interact with ranged projectiles. Has the followin
 (Optional) Array of objects containing the seasons in which to harvest and the id of the harvest entry used.
 
 Example:
-```json
+```jsonc
 "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ],
 ```
 
@@ -3590,7 +3590,7 @@ Example:
 (Optional) Object, that contain liquids this terrain or furniture can give
 
 Example:
-```c++
+```jsonc
 "liquid_source": {
   "id": "water",      // id of a liquid given by ter/furn
   "min_temp": 7.8,    // the lowest possible temperature of liquid taken from here, in centigrade; Used only by "water_source" examine action. Liquid is either the ambient temperature or the `min_temp`, whichever is higher.
@@ -3747,7 +3747,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 Defines the various things that happen when the player or something else bashes terrain or furniture.
 
-```C++
+```jsonc
 {
     "str_min": 80,
     "str_max": 180,
@@ -3812,7 +3812,7 @@ This terrain is the roof of the tile below it, try to destroy that too. Further 
 
 #### `map_deconstruct_info`
 
-```C++
+```jsonc
 {
     "furn_set": "f_safe",
     "ter_set": "t_dirt",
@@ -3837,7 +3837,7 @@ If skill is specified, multiplier defaults to 1.0, min to 0 and max to 10.
 
 #### `plant_data`
 
-```JSON
+```jsonc
 {
   "transform": "f_planter_harvest",
   "base": "f_planter",
@@ -3868,21 +3868,21 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 
 ### clothing_mod
 
-```C++
+```jsonc
 "type": "clothing_mod",
-"id": "leather_padded",   // Unique ID.
-"flag": "leather_padded", // flag to add to clothing.
-"item": "leather",        // item to consume.
+"id": "leather_padded",    // Unique ID.
+"flag": "leather_padded",  // flag to add to clothing.
+"item": "leather",         // item to consume.
 "implement_prompt": "Pad with leather",      // prompt to show when implement mod.
 "destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
-"restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
-"mod_value": [            // List of mod effect.
+"restricted": true,        // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
+"mod_value": [             // List of mod effect.
     {
-        "type": "bash",   // "bash", "cut", "bullet", "fire", "acid", "warmth", and "encumbrance" is available.
-        "value": 1,       // value of effect.
-        "round_up": false // (optional) round up value of effect. defaults to false.
-        "proportion": [   // (optional) value of effect proportions to clothing's parameter.
-            "thickness",  //            "thickness" and "coverage" is available.
+        "type": "bash",    // "bash", "cut", "bullet", "fire", "acid", "warmth", and "encumbrance" is available.
+        "value": 1,        // value of effect.
+        "round_up": false, // (optional) round up value of effect. defaults to false.
+        "proportion": [    // (optional) value of effect proportions to clothing's parameter.
+            "thickness",   //            "thickness" and "coverage" is available.
             "coverage"
         ]
     }
@@ -3893,7 +3893,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 
 Flags, that can be used in different entries, can also be made in json, allowing it to be used in pocket restrictions and EoC checks, or having a json flag and information in json, while being backed in code
 
-```c++
+```jsonc
 
 {
   "type": "json_flag", // define it as json flag
@@ -3904,7 +3904,7 @@ Flags, that can be used in different entries, can also be made in json, allowing
   "conflicts": "STURDY", // if something with this flag will met something with conflict flag, only one will be applied
   "taste_mod": -5, // for consumables, it will add -5 to taste, that can't be removed with cooking
   "inherit": true, // is this flag inherited to another thing if it's attached/equipped, like if you put ESAPI plate into plate carrier, their `CANT_WEAR` flag won't be applied to plate carrier, and you could wear it as usually
-  "craft_inherit": true // if true, if you craft something with this flag, this flag would be applied to result also
+  "craft_inherit": true, // if true, if you craft something with this flag, this flag would be applied to result also
   "item_prefix": "[...",
   "item_suffix": "...]" // `item_prefix` and `item_suffix` will be added to the prefix and suffix of the item name
 },
@@ -3915,11 +3915,11 @@ Flags, that can be used in different entries, can also be made in json, allowing
 
 Scenarios are specified as JSON object with `type` member set to `scenario`.
 
-```C++
+```jsonc
 {
     "type": "scenario",
     "id": "schools_out",
-    ...
+    // ...
 }
 ```
 
@@ -3937,7 +3937,7 @@ The in-game description.
 (string or object with members "male" and "female")
 
 The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
-```C++
+```jsonc
 "name": {
     "male": "Runaway groom",
     "female": "Runaway bride"
@@ -3955,7 +3955,7 @@ Point cost of scenario. Positive values cost points and negative values grant po
 Items the player starts with when selecting this scenario. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids. Ids may appear multiple times, in which case the item is created multiple times.
 
 Example:
-```C++
+```jsonc
 "items": {
     "both": [
         "pants",
@@ -4042,7 +4042,7 @@ A list of mission ids that will be started and assigned to the player at the sta
 
 Allows customization of Cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 61, 00:00:00`. Can be changed in new character creation screen.
 
-```C++
+```jsonc
 "start_of_cataclysm": { "hour": 7, "day": 10, "season": "winter", "year": 1 }
 ```
 
@@ -4060,7 +4060,7 @@ Allows customization of game start date. If `start_of_game` is not set the corre
 
 **Attention**: Game start date is automatically adjusted, so it is not before the Cataclysm start date.
 
-```C++
+```jsonc
 "start_of_game": { "hour": 8, "day": 16, "season": "winter", "year": 2 }
 ```
 
@@ -4074,7 +4074,7 @@ Allows customization of game start date. If `start_of_game` is not set the corre
 # Starting locations
 
 Starting locations are specified as JSON object with "type" member set to "start_location":
-```C++
+```jsonc
 {
     "type": "start_location",
     "id": "field",
@@ -4176,7 +4176,7 @@ Restricts possible start location based on z-level (e.g. there is no need to sea
 (optional, array of strings)
 
 Arbitrary flags.  Two flags are supported in the code: `ALLOW_OUTSIDE` and `BOARDED` (see [JSON_FLAGS.md](JSON_FLAGS.md)). Mods can modify this via "extend" / "delete".
-```C++
+```jsonc
 {
     "type": "start_location",
     "id": "sloc_house_boarded",
@@ -4191,7 +4191,7 @@ Arbitrary flags.  Two flags are supported in the code: `ALLOW_OUTSIDE` and `BOAR
 The file `mutation_ordering.json` defines the order that visual mutation and bionic overlays are rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
 
 Example:
-```C++
+```jsonc
 [
     {
         "type" : "overlay_order",
@@ -4233,7 +4233,7 @@ The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 bei
 MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`.
 
 Example:
-```C++
+```jsonc
 [
     {
     "type": "mod_tileset",
@@ -4277,7 +4277,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 Fields can exist on top of terrain/furniture, and support different intensity levels. Each intensity level inherits its properties from the lower one, so any field not explicitly overwritten will carry over. They affect both characters and monsters, but a lot of fields have hardcoded effects that are potentially different for both (found in `map_field.cpp:creature_in_field`). Gaseous fields that have a chance to do so are spread depending on the local wind force when outside, preferring spreading down to on the same Z-level, which is preferred to spreading upwards. Indoors and by weak winds fields spread randomly.
 
-```C++
+```jsonc
   {
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
@@ -4380,7 +4380,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
 ## Emits
 Defines field emissions 
 
-```c++
+```jsonc
 {
   "id": "emit_rad_cloud", // id of emission
   "type": "emit",         
