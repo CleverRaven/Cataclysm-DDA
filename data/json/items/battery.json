@@ -181,7 +181,7 @@
     "material": [ "plastic", "lead" ],
     "symbol": "=",
     "color": "black",
-    "ammo_type":["battery"],
+    "ammo_type": [ "battery" ],
     "count": 1800,
     "capacity": 1800,
     "looks_like":"battery",
