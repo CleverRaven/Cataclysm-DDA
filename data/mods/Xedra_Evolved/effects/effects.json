@@ -834,7 +834,7 @@
     "remove_message": "You snap out of your fugue.",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "MUTE" ]
   },
   {
     "type": "effect_type",
