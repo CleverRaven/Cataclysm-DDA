@@ -1990,5 +1990,26 @@
     "price": "160 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 22, "stab": 23 }
+  },
+  {
+    "type": "TOOL",
+    "id": "exodii_prybar",
+    "name": { "str": "breacher" },
+    "description": "Some sort of large prybar of a make and manufacturer you've never seen before.  On the heavier end is a set of thick, crabclaw like shears connected to a hydraulic piston, capable of cutting or prying through metal with great force.  The Exodii use these to scrap large machines and vehicles, and it's been retrofitted to run on their bionic power.",
+    "price_postapoc": "45 USD",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "hc_steel", "fiberglass" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "USES_BIONIC_POWER" ],
+    "weight": "5000 g",
+    "longest_side": "91 cm",
+    "volume": "610 ml",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ], [ "PRY", 1 ] ],
+    "charged_qualities": [ [ "PRY", 6 ], [ "SAW_M", 8 ] ],
+    "melee_damage": { "bash": 48, "stab": 6 },
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "charges_per_use": 1,
+    "power_draw": "600 W"
   }
 ]

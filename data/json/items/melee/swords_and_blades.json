@@ -3303,7 +3303,7 @@
     "id": "exodii_bayonet",
     "type": "GENERIC",
     "name": { "str": "H-backswerda" },
-    "description": "A straight, featureless saber with a faded chrome shine and a thick handle, the sharp tip suggesting its meant for puncturing rather than slicing.  The Exodii have installed a mechanism into the guard to mount it as a bayonet on their preferred firearms, serving more as a standoff device for them than a primary weapon.  Despite that, its long enough to serve as a decent sized sword.",
+    "description": "A straight, featureless saber with a faded chrome shine and a thick handle, the sharp tip suggesting its meant for puncturing rather than slicing.  The Exodii have installed a mechanism into the guard to mount it as a bayonet on their preferred firearms, serving more as a standoff device for them than a primary weapon.  Despite that, its long enough to serve as a decent sized sword by itself.",
     "material": [ "ch_steel", "fiberglass" ],
     "weight": "100 g",
     "volume": "1310 ml",
