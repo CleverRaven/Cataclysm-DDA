@@ -43,7 +43,7 @@
     "material": [ "silver" ],
     "symbol": ";",
     "techniques": [ "PRECISE" ],
-    "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "SHIVS" ],
     "to_hit": 1,
     "color": "light_gray",
