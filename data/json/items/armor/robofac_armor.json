@@ -271,19 +271,15 @@
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  The logo of Hub 01 emblazoned on the chest is glowing white.",
     "turns_per_charge": 100,
     "revert_to": "robofac_armor_anchor",
-    "use_action": [ 
-    {
-      "type": "transform",
-      "menu_text": "Turn off anchor",
-      "msg": "The Hub logo on your front stops glowing.",
-      "target": "robofac_armor_anchor"
-    },
-    {
-      "type": "link_up",
-      "cable_length": 10,
-      "charge_rate": "140 W"
-    }
-  ],
+    "use_action": [
+      {
+        "type": "transform",
+        "menu_text": "Turn off anchor",
+        "msg": "The Hub logo on your front stops glowing.",
+        "target": "robofac_armor_anchor"
+      },
+      { "type": "link_up", "cable_length": 10, "charge_rate": "140 W" }
+    ],
     "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ]
   },
   {
