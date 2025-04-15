@@ -1442,11 +1442,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "item_restriction": [
-          "anchor_cell_atomic",
-          "anchor_cell_lithium",
-          "anchor_cell_robofac"
-        ]
+        "item_restriction": [ "anchor_cell_atomic", "anchor_cell_lithium", "anchor_cell_robofac" ]
       }
     ],
     "ammo": "battery",
