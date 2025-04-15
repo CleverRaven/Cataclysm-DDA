@@ -209,8 +209,8 @@
   },
   {
     "id": "anchor_cell_robofac",
-    "category":"tool_magazine",
-    "name":{ "str": "Hub 01 anchor battery", "str_pl": "Hub 01 anchor batteries"},
+    "category": "tool_magazine",
+    "name": { "str": "Hub 01 anchor battery", "str_pl": "Hub 01 anchor batteries" },
     "description": "A blue, tablet shaped battery manufactured by the scientists at Hub-01 for use in the Modular Defense Anchor.  The rechargable battery lasts 8 hours, and can also fit into the stock 5-point anchor.",
     "copy-from": "anchor_cell_lith",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 300 } } ]
