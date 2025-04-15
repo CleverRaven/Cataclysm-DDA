@@ -2,7 +2,7 @@
 
 This guide demonstrates how to translate a mod through an example. Suppose you have made a mod adding a book item to the game, and you have put your mod in "./mods/demo" folder:
 
-```json
+```jsonc
 [
   {
     "type": "MOD_INFO",

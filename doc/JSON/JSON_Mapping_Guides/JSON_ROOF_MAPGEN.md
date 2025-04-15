@@ -21,7 +21,7 @@ Add a new entry for the roof.  You can copy the building entry since you want th
 
 Give the roof a unique om_terrain ID.  Below is an example of the main floor and roof om_terrain IDs
 
-```json
+```jsonc
 "om_terrain": "abstorefront",
 "om_terrain": "abstorefront_roof",
 ```
@@ -38,7 +38,7 @@ Browse json/terrain-roofs.json and furniture-roof.json for ideas.  Consider roof
 There is a set of optional nested map chunks at `data/json/mapgen/nested_chunks_roof.json` if you'd like to incorporate them.  Add any new nested chunks for roofs here as well.
 
 Sample roof entry:
-```json
+```jsonc
   {
     "type": "mapgen",
     "method": "json",
@@ -89,7 +89,7 @@ Navigate to `json/overmap/multitile_city_buildings.json` for buildings taking up
 Add an entry for the main floor.  The `point` coordinates define to the x, y, z positions of the building.  The 1 places the roof one z level above the ground floor.
 Append north for rotating buildings to orient the z levels.
 
-```json
+```jsonc
   {
     "type": "city_building",
     "id": "abstorefront",
@@ -105,7 +105,7 @@ Append north for rotating buildings to orient the z levels.
 Overmap specials are handled a little differently.  They use `json/overmap/overmap_special/specials.json` for both linking z levels and overmap spawning.  A special won't need an entry in `data/json/regional_map_settings.json`
 
 Overmap special example:
-```json
+```jsonc
   {
     "type": "overmap_special",
     "id": "Evac Shelter",
@@ -129,7 +129,7 @@ Every z level gets an entry that defines how it appears on the overmap.
 The name field will determine what is displayed in the in-game overmap.
 The entries should share the same color and symbol.
 
-```json
+```jsonc
   {
     "type": "overmap_terrain",
     "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
@@ -159,7 +159,7 @@ Navigate to `data/json/regional_map_settings.json`
 This determines the spawn frequency and location of non-special buildings.
 Find the appropriate category for your building and add either the overmap_special ID or the city_building ID and include a spawn weight.
 
-```json
+```jsonc
 "abandonedwarehouse": 200,
 ```
 When testing you can increase the spawn rate if you want to survey your work using natural spawns.

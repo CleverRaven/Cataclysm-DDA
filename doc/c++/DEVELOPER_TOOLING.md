@@ -271,7 +271,7 @@ build clang-tidy as an executable, with the custom checks from the CDDA source.
 
 We will need to run a cmake with lots of arguments, and it gets unwieldy on the command line. So create `CMakeUserPresets.json` file at the root of cataclysm project with the following contents, replacing the paths in `<>` as appropriate:
 
-```json
+```jsonc
 {
   "version": 2,
   "cmakeMinimumRequired": {

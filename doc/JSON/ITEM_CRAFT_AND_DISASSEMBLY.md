@@ -120,7 +120,7 @@ See [PRACTICE_RECIPES.md](PRACTICE_RECIPES.md) for how to define them.
 ## Nested recipes
 
 Similar recipes may instead be nested allowing you to save space in the UI.  This is done as such:
-```json
+```jsonc
 {
   "id": "nested_steel_legs",
   "type": "nested_category",
@@ -171,7 +171,7 @@ So it is identical to a normal recipe with the addition of the "nested_category_
 
 If you want to hide recipes that are nested you can set their category and subcategory as:
 
-```json
+```jsonc
 "category": "CC_*",
 "subcategory": "CSC_*_NESTED",
 ```
@@ -197,7 +197,7 @@ requirement id, or as a list of several alternative item/requirement quantities.
 The syntax of a component in its simplest form is an item id and quantity.  Continuing the "javelin"
 recipe, let's require a single "spear_wood" item:
 
-```json
+```jsonc
 "components": [
   [ [ "spear_wood", 1 ] ]
 ]
@@ -206,7 +206,7 @@ recipe, let's require a single "spear_wood" item:
 A single component may also have substitutions; for instance, to allow crafting from one
 "spear_wood" *or* one "pointy_stick":
 
-```json
+```jsonc
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ]
 ]
@@ -218,7 +218,7 @@ alternatives with only 1 alternative - which is why it was doubly nested in `[ [
 The javelin would be better with some kind of leather or cloth grip.  To require 2 rags, 1 leather,
 or 1 fur *in addition to* the wood spear or pointy stick:
 
-```json
+```jsonc
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
   [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ]
@@ -228,7 +228,7 @@ or 1 fur *in addition to* the wood spear or pointy stick:
 And to bind the grip onto the javelin, some sinew or thread should be required, which can have the
 "NO_RECOVER" keyword to indicate they cannot be recovered if the item is deconstructed:
 
-```json
+```jsonc
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
   [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
@@ -249,7 +249,7 @@ keyword.  Typically these are defined within
 
 For example if these `grip_patch` and `grip_wrap` requirements were defined:
 
-```json
+```jsonc
 [
   {
     "id": "grip_patch",
@@ -266,7 +266,7 @@ For example if these `grip_patch` and `grip_wrap` requirements were defined:
 
 Then javelin recipe components could use 1 grip and 1 wrap, for example:
 
-```json
+```jsonc
 "result": "javelin",
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
@@ -277,7 +277,7 @@ Then javelin recipe components could use 1 grip and 1 wrap, for example:
 
 And other recipes needing two such grips could simply require 2 of each:
 
-```json
+```jsonc
 "result": "big_staff",
 "components": [
   [ [ "stick_long", 1 ] ],
@@ -295,7 +295,7 @@ as a collection of alternatives, even if there is only one alternative.
 For instance, this `"uncraft"` recipe for a motorbike alternator uses either 20 units of the
 `"soldering_standard"` requirement, or 5 units of the `"welding_standard"` requirement:
 
-```json
+```jsonc
 {
   "type": "uncraft",
   "result": "alternator_motorbike",
@@ -310,7 +310,7 @@ Requirements may include `"tools"` or `"qualities"` in addition to
 `"soldering_iron"` or `"toolset"`, plus 1 unit of the `"solder_wire"` component:
 
 
-```json
+```jsonc
 {
   "id": "soldering_standard",
   "type": "requirement",
@@ -324,7 +324,7 @@ This simplifies recipes needing soldering, via the `"using"` field.  For
 instance, a simple `"tazer"` recipe could require 10 units of the soldering
 requirement, along with some other components:
 
-```json
+```jsonc
 {
   "type": "recipe",
   "result": "tazer",
@@ -343,7 +343,7 @@ requirement list with a matching id. This means that two mods modifying the same
 requirement id will overwrite each other. This can be avoided by using `"extend"`
 to extend from the previously loaded list. Ex.:
 
-```json
+```jsonc
 {
   "id": "bone_sturdy",
   "type": "requirement",
@@ -412,7 +412,7 @@ The first two are able to be altered through JSON, while the other can only be e
 ## Uncraft recipes
 They are the most common and well known way of defining an item disassembly. With a syntax not unlike that of regular crafting recipes, they're fairly self-explanatory and easy to grasp.
 
-```json
+```jsonc
   {
     "result": "bio_blood_filter",
     "type": "uncraft",
@@ -448,7 +448,7 @@ Things to note:
 - ``copy-from`` support for uncraft recipes is extremely limited and it is best to avoid it where possible
 - for the purposes of keeping things easy to find, future uncraft recipes should be included inside the ``uncraft`` folder inside of ``data\json``
 - uncraft recipes do not support component lists, the syntax shown below does **NOT** work - only the first item read by the game has any effect
-```json
+```jsonc
 "components": [ [ [ "burnt_out_bionic", 1 ], [ "scrap", 1 ] ] ],
 ```
 

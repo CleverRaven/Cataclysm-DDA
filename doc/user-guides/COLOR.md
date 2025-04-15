@@ -79,18 +79,18 @@ There are two types of special color transformation which can affect both foregr
 
 Color tags can be used in most places where strings can be displayed to the player:
 
-```json
+```jsonc
     "name": "[Ψ]Stop Concentrating",
     "description": "End your concentration on all of your maintained powers.\n\nChanneling this power <color_green>always succeeds</color>.",
 ```
 
-```json
+```jsonc
     "text": [
       "<color_light_blue>You see a Russian sheepdog off at the edge of your vision.  It walks past some scenery and vanishes.</color>"
     ]
 ```
 and
-```json
+```jsonc
     { "u_message": "The <color_light_green>zombie</color> bursts in <color_red>flames!</color>", "type": "mixed" }
 ```
 
@@ -109,7 +109,7 @@ Do note how the color tags override the default color for a `"mixed"` dialogue m
 
 Additionally, color tags can be combined to generate color gradients, and be nested into each other:
 
-```json
+```jsonc
     { "u_message": "<color_red>H</color><color_magenta>ell</color><color_red>fire</color> and brimstone." },
     { "u_message": "<color_light_gray><color_white>This text is white</color> while this text is light_gray, <color_light_red>this is light_red</color>. This is light_gray again</color>", "type": "mixed" }
 ```
@@ -126,7 +126,7 @@ which are displayed as:
 # User color customization
 ## Base colors
 Users can customize the color appearance by setting the color triplets in `config/base_colors.json`. The default config looks like this:
-```json
+```jsonc
 [
   {
     "type": "colordef",
@@ -158,7 +158,7 @@ The game provides a nice built-in color manager with several pre-defined color t
 
 ## GUI colors
 The UI *menus* do not (always) adhere to the base color customization, and can be customized separately, in the `config/imgui_style.json`. The default config is:
-```json
+```jsonc
 {
   "inherit_base_colors": false,
   "colors": {
@@ -168,7 +168,7 @@ The UI *menus* do not (always) adhere to the base color customization, and can b
 Changing  `inherit_base_colors` to `true` would make the imgui menus follow the base colors theme with some reasonable defaults.
 
 It is, however, also possible to tweak the specific element colors with higher fidelity and not be restricted to the 8-color pallete by specifying the respective elements and colors in the `colors` object. Like so:
-```json
+```jsonc
 {
   "inherit_base_colors": false,
   "colors": {

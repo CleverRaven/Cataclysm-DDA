@@ -79,7 +79,7 @@ and their multipliers may be given separately in the proficiency JSON and any re
 In order to better organize proficiencies in the in-game UI, each proficiency belongs to a specific
 category pointing to a JSON defined `"proficiency_category"` object:
 
-```JSON
+```jsonc
 {
   "type": "proficiency_category",
   "id": "prof_archery",
@@ -97,7 +97,7 @@ skills, but don't have to.  For example some are named "metalwork", "wilderness"
 
 Within these are the standard list of JSON objects having "type": "proficiency".  For example:
 
-```JSON
+```jsonc
 [
   {
     "type": "proficiency",
@@ -151,7 +151,7 @@ for lacking the proficiency when crafting a recipe that involves it.
 The keys of the `bonuses` object correspond to what bonuses are - e.g. the `archery` key marks
 bonuses used for `archery`.  The general format is:
 
-```json
+```jsonc
   "bonuses": {
     "key": [ { "type": "string", "value": float } ]
   }
@@ -159,7 +159,7 @@ bonuses used for `archery`.  The general format is:
 
 Using the example from above:
 
-```JSON
+```jsonc
   "bonuses": {
     "archery": [ { "type": "strength", "value": 1 } ]
   }
