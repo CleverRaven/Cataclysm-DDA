@@ -397,6 +397,26 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_WEAKNESS_SUN_SLEEPINESS",
+    "name": { "str": "Weakness: Nocturnal" },
+    "points": -2,
+    "description": "You aren't forced to slumber the day away, but you sure want to.  Your sleepiness accumulates much faster while the sun is in the sky, but you have an easier time sleeping during the day.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside", { "not": { "u_has_effect": "sleep" } } ] },
+        "values": [ { "value": "SLEEPINESS", "multiply": 2 } ]
+      },
+      {
+        "condition": { "and": [ "is_day", { "not": { "u_has_effect": "sleep" } } ] },
+        "values": [ { "value": "SLEEPINESS", "multiply": 0.25 } ]
+      },
+      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "DHAMPIR_WEAKNESS_SLOW_HEALING",
     "name": { "str": "Weakness: Slow Healing" },
     "points": -2,
