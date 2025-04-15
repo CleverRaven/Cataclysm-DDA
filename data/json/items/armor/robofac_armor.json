@@ -207,20 +207,16 @@
     "ammo": "battery",
     "use_action": [
       {
-      "type": "transform",
-      "menu_text": "Turn on anchor",
-      "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
-      "target": "robofac_armor_anchor_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "It seems like this device needs power."
-    },
-    {
-      "type": "link_up",
-      "cable_length": 10,
-      "charge_rate": "140 W"
-    }
-  ],
+        "type": "transform",
+        "menu_text": "Turn on anchor",
+        "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
+        "target": "robofac_armor_anchor_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "It seems like this device needs power."
+      },
+      { "type": "link_up", "cable_length": 10, "charge_rate": "140 W" }
+    ],
     "armor": [
       {
         "material": [
