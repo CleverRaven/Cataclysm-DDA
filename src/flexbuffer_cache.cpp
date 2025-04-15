@@ -328,9 +328,7 @@ class flexbuffer_disk_cache
             if( source_mtime != disk_entry->second.mtime ) {
                 std::string filepath_and_name = disk_entry->first;
                 // we use this as an exclusion condition. Configuration options can be changed all the time, we don't want to warn over those.
-                // FIXME: Arcane bullshit handling to make sure both windows and unix filepaths are recognized. On windows the filepath comes back as e.g. config\\options.json
-                bool stale_game_data = filepath_and_name.find( "config/" ) == std::string::npos &&
-                                       filepath_and_name.find( "config\\" ) == std::string::npos;
+                bool stale_game_data = *root_relative_source_path.begin() != std::filesystem::u8path( "config" );
                 if( stale_game_data ) {
                     if( get_option<bool>( "WARN_ON_MODIFIED" ) ) {
                         debugmsg( "Stale game data detected at %s, did you overwrite old files?  When updating the game you must install to a fresh folder, overwriting old files will cause errors.",
