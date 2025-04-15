@@ -2010,6 +2010,8 @@
     "melee_damage": { "bash": 48, "stab": 6 },
     "weapon_category": [ "GREAT_HAMMERS" ],
     "charges_per_use": 1,
-    "power_draw": "600 W"
+    "power_draw": "600 W",
+    "use_action": [ "CROWBAR" ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" }
   }
 ]
