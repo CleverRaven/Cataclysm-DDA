@@ -453,11 +453,11 @@ An item group that is used to spawn items when the monster dies. This can be an 
 (object, optional)
 
 How the monster behaves on death.
-```cpp
+```jsonc
 {
     "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
     "message": "The %s dies!", // substitute %s for the monster's name.
-    "effect": { "id": "death_boomer", "hit_self": true }  // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
+    "effect": { "id": "death_boomer", "hit_self": true }, // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
     "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is monster, beta talker is player (always).
 }
 ```
@@ -585,7 +585,7 @@ Designate seasons during which this monster is capable of reproduction. ie: `[ "
 (array of objects, optional)
 
 A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
-```cpp
+```jsonc
 "shearing": [
     {
         "result": "wool",
@@ -620,7 +620,7 @@ By default monsters will use the `"DEFAULT"` speed description.
 (object, optional)
 
 Decides whether this monster can be tamed. `%s` is the monster name.
-```cpp
+```jsonc
 "petfood": {
     "food": [ "CATFOOD", "YULECATFOOD" ], // food categories this monster accepts
     "feed": "The gigantic %s decides not to maul you today.", // (optional) message when feeding the monster the food
