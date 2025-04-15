@@ -193,7 +193,7 @@
     "category": "tool_magazine",
     "name": { "str": "lithium anchor battery", "str_pl": "lithium anchor batteries" },
     "description": "An odd tablet shaped battery with a sleek white case.  On the front is emblazoned an <color_yellow>arrow leading into many concentric rings</color>.  The back reads: \nSHORT RANGE BATTERY\n8 HOUR DURATION\nFOR USE IN <color_yellow> 5-POINT ANCHOR</color>\n<color_green>RECHARGE WHEN NOT IN USE </color>",
-    "weight":"1600 g",
+    "weight": "1600 g",
     "volume": "2.3 L",
     "price":500000000,
     "price_postapoc":"25 USD",
