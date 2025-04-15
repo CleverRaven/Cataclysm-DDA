@@ -289,7 +289,7 @@
     "description": "Your half-dead flesh is inured to winter's chill.  As long as you have empowered blood in your body, you suffer much less from colder temperatures.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
         "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ]
       }
     ]
@@ -305,7 +305,7 @@
     "description": "The deathly energies that course through your veins are inimical to mundane poisons and diseases.  As long as you have empowered blood in your body, you are more resistant to disease, poison, and infection.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
         "ench_effects": [ { "effect": "effect_dhampir_resist_disease_poison_infection", "intensity": 1 } ]
       }
     ]
@@ -321,7 +321,7 @@
     "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You take greatly-reduced fall damage as long as you have empowered blood in your body.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+        "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },
         "values": [ { "value": "FALL_DAMAGE", "multiply": -0.8 } ],
         "ench_effects": [ { "effect": "effect_dhampir_fall_one_story", "intensity": 1 } ]
       }
@@ -501,7 +501,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
@@ -636,7 +636,7 @@
     "purifiable": false,
     "types": [ "TEETH" ],
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "HEMOVORE" ],
     "attacks": [
       {
@@ -775,7 +775,7 @@
     "purifiable": false,
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
-    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },

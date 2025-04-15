@@ -377,7 +377,7 @@
         "math": [
           "u_max_blood_amount_for_graph",
           "=",
-          "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
         ]
       },
       { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
@@ -602,6 +602,15 @@
       { "math": [ "u_vampire_total_tier_four_traits = vampire_total_tier_four_traits_plus_potence()" ] },
       { "math": [ "u_vampire_total_tier_five_traits = vampire_total_tier_five_traits_plus_cauldron()" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAIN_BLOOD_BECOME_A_VAMPIRE",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "vampire_virus", { "context_val": "effect" } ] },
+    "//": "Adds blood on becoming a vampire so you don't instantly start withering",
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin') += 1200" ] } ]
   },
   {
     "type": "effect_on_condition",
