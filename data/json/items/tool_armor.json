@@ -1480,19 +1480,15 @@
     "turns_per_charge": 100,
     "revert_to": "dimensional_anchor",
     "use_action": [
-    {
-      "type": "transform",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "msg": "The %s LED light flickers off.",
-      "target": "dimensional_anchor"
-    },
-    {
-      "type":"link_up",
-      "cable_length": 10,
-      "charge_rate": "140W"
-    }
-  ],
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "msg": "The %s LED light flickers off.",
+        "target": "dimensional_anchor"
+      },
+      { "type": "link_up", "cable_length": 10, "charge_rate": "140W" }
+    ],
     "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF", "SOFT" ]
   },
   {
