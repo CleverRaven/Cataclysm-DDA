@@ -59,7 +59,7 @@
     "blackpowder_tolerance": 60,
     "ammo": [ "afs_7.50mm" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 1 } } ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ]
   },
   {
     "id": "afs_Accipitermg",
@@ -205,7 +205,12 @@
       [ "underbarrel", 1 ],
       [ "stock accessory", 2 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_fail_to_feed", "fault_double_feed" ],
+    "faults": [
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_double_feed" }
+    ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_sr77_45mag" ] } ],
     "melee_damage": { "bash": 10 }
   },

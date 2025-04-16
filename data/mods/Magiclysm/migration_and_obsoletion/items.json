@@ -140,7 +140,6 @@
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "min_strength": 7,
     "flags": [ "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "OBSOLETE" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ],
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ],
     "melee_damage": { "bash": 12 }
