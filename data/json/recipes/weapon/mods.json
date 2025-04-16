@@ -1092,7 +1092,7 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },

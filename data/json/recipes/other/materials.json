@@ -1219,7 +1219,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "steel_chunk_any", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -1570,7 +1570,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "forging_standard", 8 ], [ "steel_chunk_any", 8 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
