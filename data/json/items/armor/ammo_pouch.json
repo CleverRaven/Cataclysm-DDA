@@ -1484,7 +1484,7 @@
         "max_contains_volume": "7000 ml",
         "max_contains_weight": "10000 g",
         "max_item_length": "30 cm",
-        "moves": 40,
+        "moves": 80,
         "volume_encumber_modifier": 0.3
       }
     ],
