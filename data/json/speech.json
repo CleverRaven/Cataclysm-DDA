@@ -7,7 +7,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mi-go_prisoner", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mi-go_prisoner" ],
     "sound": "\"Papaya!\"",
     "volume": 32
   },
@@ -67,13 +67,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "a little girl's wailing!",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"So, what is this thing supposed to be, exactly?\"",
     "volume": 20
   },
@@ -1495,19 +1495,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"G… geddoff me you… you bastard…\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"GET WELL SOON!\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
     "sound": "\"Did-a-chuk?\"",
     "volume": 15
   },
@@ -1537,7 +1537,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
     "sound": "\"Dad-a-chuk?\"",
     "volume": 15
   },
@@ -1555,7 +1555,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
     "sound": "\"Yeah.  I can't believe he stayed alive that long.\"",
     "volume": 10
   },
