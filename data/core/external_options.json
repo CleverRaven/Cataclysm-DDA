@@ -593,5 +593,12 @@
     "//": "If true, keep the initial season for ever.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "RAD_MUTATION",
+    "//": "If true, radiation causes the player to mutate.",
+    "stype": "bool",
+    "value": true
   }
 ]
