@@ -2991,7 +2991,7 @@ bool game::is_game_over()
     }
     if( uquit != QUIT_NO ) {
         return true;
-    } 
+    }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
         effect_on_conditions::prevent_death();
