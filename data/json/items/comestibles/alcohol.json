@@ -876,8 +876,7 @@
     "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 40,
-    "healthy": -1,
+    "quench": 50,
     "addiction_potential": 1,
     "calories": 22,
     "description": "An early 17th century drink eventually popularized by sailors as a easy ration that contained alcohol and often a dash of sugar.  Though it barely contains any alcohol, it's probably better tasting than water, probably.",
@@ -890,7 +889,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 2,
+    "fun": 4,
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
