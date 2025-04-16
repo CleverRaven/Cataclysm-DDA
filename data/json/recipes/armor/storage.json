@@ -227,7 +227,7 @@
     "reversible": true,
     "using": [
       [ "tailoring_nylon_patchwork", 4 ],
-      [ "fastener_small", 1 ],
+      [ "fastener_small", 2 ],
       [ "strap_small", 1 ],
       [ "clasps", 4 ]
     ],
