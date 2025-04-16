@@ -2750,12 +2750,8 @@ void options_manager::add_options_world_default()
     add( "ITEM_SPAWNRATE", "world_default", translation(), translation(), 0.01, 10.0, 1.0, 0.01,
          COPT_ALWAYS_HIDE
        );
-  
-    add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
-         COPT_ALWAYS_HIDE
-       );
 
-    add( "MONSTER_UPGRADE_FACTOR", "world_default", translation(), translation(), 0.0, 100, 4.0, 0.01,
+    add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
          COPT_ALWAYS_HIDE
        );
 
