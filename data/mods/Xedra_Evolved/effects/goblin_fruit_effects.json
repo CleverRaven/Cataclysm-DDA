@@ -242,5 +242,300 @@
     "rating": "good",
     "show_intensity": false,
     "flags": [ "WALK_UNDERWATER", "GILLS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_stealth",
+    "name": [ "Unnoticed" ],
+    "desc": [ "You're beneath notice, unless they get too close of you." ],
+    "apply_message": "You find it hard to notice your own presence.",
+    "remove_message": "You become noticeable again.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_combat_skill_boost",
+    "name": [ "Violent reflection" ],
+    "desc": [ "You are mirroring a version of yourself that is more skilled at violence." ],
+    "apply_message": "Your mind fills with violence and the knowledge to use it.",
+    "remove_message": "Your level of violence returns to normal.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "skills": [
+          { "value": "bashing", "add": 2 },
+          { "value": "cutting", "add": 2 },
+          { "value": "melee", "add": 2 },
+          { "value": "throw", "add": 2 },
+          { "value": "dodge", "add": 2 },
+          { "value": "stabbing", "add": 2 },
+          { "value": "unarmed", "add": 2 },
+          { "value": "archery", "add": 2 },
+          { "value": "gun", "add": 2 },
+          { "value": "launcher", "add": 2 },
+          { "value": "rifle", "add": 2 },
+          { "value": "shotgun", "add": 2 },
+          { "value": "smg", "add": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_craft_skill_boost",
+    "name": [ "Imitated skill" ],
+    "desc": [ "You're imitating yourself, if you were better at making things." ],
+    "apply_message": "You start imitating a more skilled artisan.",
+    "remove_message": "Your talent to imitate fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "skills": [
+          { "value": "mechanics", "add": 2 },
+          { "value": "tailor", "add": 2 },
+          { "value": "computer", "add": 2 },
+          { "value": "cooking", "add": 2 },
+          { "value": "electronics", "add": 2 },
+          { "value": "fabrication", "add": 2 },
+          { "value": "chemistry", "add": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_immovable",
+    "name": [ "Immovable" ],
+    "desc": [ "You cannot be moved against your will by mundane means." ],
+    "apply_message": "You feel fixed in place!",
+    "remove_message": "You stumble a little as your immovability ceases.",
+    "rating": "good",
+    "removes_effects": [ "stunned", "dazed", "downed" ],
+    "enchantments": [ { "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_dodge_instant",
+    "name": [ "Untouchable" ],
+    "desc": [ "For an instant, nothing can touch you." ],
+    "apply_message": "You start dodging everything that could touch you!",
+    "remove_message": "Your dodging abilities return to normal.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 100 ] },
+    "flags": [ "UNCANNY_DODGE" ],
+    "removes_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "DODGE_CHANCE", "add": 100 },
+          { "value": "RANGE_DODGE", "add": 100 },
+          { "value": "BONUS_DODGE", "add": 15 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_focus_boost",
+    "name": [ "Understanding" ],
+    "desc": [ "As long as it lasts, you will have an easier time learning new things." ],
+    "apply_message": "Everything feels a little easier to understand now.",
+    "remove_message": "Your mind returns to its regular level of understanding.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": 20 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_heal_after_sleep",
+    "name": [ "Eventual restful sleep" ],
+    "desc": [ "" ],
+    "max_intensity": 9999,
+    "rating": "good"
+  },
+  {
+    "id": "effect_goblin_fruit_teleport",
+    "type": "effect_type",
+    "name": [ "Fractal teleportation" ],
+    "desc": [ "Your position constantly changes." ],
+    "apply_message": "You feel your position grow uncertain.",
+    "remove_message": "You stop teleporting all over the place.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "goblin_fruit_teleport_spell" } ] } ] }
+      }
+    ]
+  },
+  {
+    "id": "goblin_fruit_teleport_spell",
+    "type": "SPELL",
+    "name": { "str": "fractal fruit teleport", "//~": "NO_I18N" },
+    "description": { "str": "Makes the fractal goblin fruit.", "//~": "NO_I18N" },
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "valid_targets": [ "none" ],
+    "flags": [ "NO_FAIL", "SILENT", "NO_LEGS" ],
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "min_range": 2,
+    "max_range": 15,
+    "difficulty": 0,
+    "spell_class": "NONE"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_climb",
+    "name": [ "Sticky climb" ],
+    "desc": [ "You can climb walls without trouble." ],
+    "apply_message": "Your extremities become sticky.",
+    "remove_message": "Your extremities stop being this sticky.",
+    "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_amplification_instant",
+    "name": [ "Pressurized amplification" ],
+    "desc": [ "Your muscles are filled with pressurized power!" ],
+    "apply_message": "Your muscles are filled with pressurized power!",
+    "decay_messages": [ [ "The pressure inside your muscles grows!", "good" ] ],
+    "remove_message": "The power leaves your muscles in an instant.",
+    "max_intensity": 10,
+    "int_add_val": 10,
+    "int_decay_step": -1,
+    "int_decay_tick": 6,
+    "base_mods": { "str_mod": [ 10 ] },
+    "scaling_mods": { "str_mod": [ -1 ] },
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "goblin_fruit_carry_boost",
+    "name": [ "Lightened load" ],
+    "desc": [ "You find it easier to carry heavy charges." ],
+    "apply_message": "You feel lighter, as does everything you're carrying.",
+    "remove_message": "The weight of your belongings return to normal.",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_wild_travel_boost",
+    "name": [ "A path through the forest" ],
+    "desc": [ "You move a bit quicker through the wilds." ],
+    "apply_message": "Nearby vegetation becomes a little less daunting.",
+    "remove_message": "Traversing vegetation stops being easier.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_mega_fern" },
+            { "u_is_on_terrain": "t_fungus_colony" },
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_bamboo_long" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_bamboo" },
+            { "u_is_on_terrain": "t_bamboo_harvested" },
+            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_forestfloor" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_slowing_armor",
+    "name": [ "The stone's endurance" ],
+    "desc": [ "You are more resistant to damage but move more slowly." ],
+    "apply_message": "You stiffen, becoming slower but more resistant to anything.",
+    "remove_message": "The stiffness quits your body.",
+    "rating": "mixed",
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ -10 ] },
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": -10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_social_boost",
+    "name": [ "Silver tongue" ],
+    "desc": [ "You are better at convincing others to do what you want." ],
+    "apply_message": "You feel more persuasive.",
+    "remove_message": "Your charisma returns to normal.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_LIE", "add": 15 },
+          { "value": "SOCIAL_PERSUADE", "add": 15 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 15 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_altitude_speed",
+    "name": [ "Gust of wind" ],
+    "desc": [ "The winds are assisting your movements." ],
+    "apply_message": "You long for the skies as winds start blowing at you.",
+    "remove_message": "The skies lose their heightened luster.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "max( (u_val('pos_z') + 1) * 3, 0 )" ] } } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_cold_resist",
+    "name": [ "Shelter from the cold" ],
+    "desc": [ "You withstand the cold much better than most." ],
+    "apply_message": "You feel much more warm.",
+    "remove_message": "The warm feeling fades.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [
+      { "incoming_damage_mod": [ { "type": "cold", "multiply": -0.33 } ] },
+      { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_craft_speed_boost",
+    "name": [ "Accelerated artistry" ],
+    "desc": [ "You make things quicker, unless someone else is looking." ],
+    "apply_message": "You feel better at making things, but only if nobody is watching you.",
+    "remove_message": "Your increased crafting quickness returns to normal.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_cure_dreamless_cooldown",
+    "name": [ "Cloudy fruit aftertaste" ],
+    "desc": [
+      "You can still faintly taste that cloudy fruit.  Any cloudy fruit you might eat before the aftertaste ends won't have any effect."
+    ],
+    "show_in_info": true
   }
 ]

@@ -2,28 +2,32 @@
 #ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
-#include <iosfwd>
+#include <functional>
 #include <map>
-#include <new>
 #include <optional>
-#include <set>
+#include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "calendar.h"
+#include "color.h"
 #include "dialogue_helpers.h"
 #include "magic.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units_fwd.h"
-#include <monster.h>
 
 class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class item;
-struct dialogue;
-struct dbl_or_var;
+class monster;
+struct const_dialogue;
+
 namespace enchant_vals
 {
 // the different types of values that can be modified by enchantments
@@ -49,6 +53,7 @@ enum class mod : int {
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
     MUT_INSTABILITY_MOD,
+    MUT_ADDITIONAL_OPTIONS,
     RANGE_DODGE,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
@@ -68,6 +73,7 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
+    MELEE_RANGE_MODIFIER,
     MELEE_TO_HIT,
     RANGED_DAMAGE,
     RANGED_ARMOR_PENETRATION,
@@ -139,6 +145,7 @@ enum class mod : int {
     STAMINA_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
     WEAKPOINT_ACCURACY,
+    MOTION_ALARM,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -233,6 +240,9 @@ class enchantment
         std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_values_add; // NOLINT(cata-serialize)
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_values_multiply; // NOLINT(cata-serialize)
+
         std::map<damage_type_id, dbl_or_var> damage_values_add; // NOLINT(cata-serialize)
         std::map<damage_type_id, dbl_or_var> damage_values_multiply; // NOLINT(cata-serialize)
 
@@ -293,6 +303,7 @@ class enchant_cache : public enchantment
                                                units::temperature_delta value ) const;
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
 
+        double modify_encumbrance( const bodypart_str_id &mod_val, double value ) const;
         double modify_melee_damage( const damage_type_id &mod_val, double value ) const;
         double modify_damage_units_by_armor_protection( const damage_type_id &mod_val, double value ) const;
         double modify_damage_units_by_extra_damage( const damage_type_id &mod_val, double value ) const;
@@ -315,10 +326,12 @@ class enchant_cache : public enchantment
         double get_skill_value_add( const skill_id &value ) const;
         int get_damage_add( const damage_type_id &value ) const;
         int get_armor_add( const damage_type_id &value ) const;
+        int get_encumbrance_add( const bodypart_str_id &value ) const;
         int get_extra_damage_add( const damage_type_id &value ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
         double get_damage_multiply( const damage_type_id &value ) const;
         double get_armor_multiply( const damage_type_id &value ) const;
+        double get_encumbrance_multiply( const bodypart_str_id &value ) const;
         double get_extra_damage_multiply( const damage_type_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
         // attempts to add two like enchantments together.
@@ -382,6 +395,9 @@ class enchant_cache : public enchantment
         // the exact same as above, though specifically for skills
         std::map<skill_id, double> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, double> skill_values_multiply; // NOLINT(cata-serialize)
+
+        std::map<bodypart_str_id, double> encumbrance_values_add; // NOLINT(cata-serialize)
+        std::map<bodypart_str_id, double> encumbrance_values_multiply; // NOLINT(cata-serialize)
 
         std::map<damage_type_id, double> damage_values_add; // NOLINT(cata-serialize)
         std::map<damage_type_id, double> damage_values_multiply; // NOLINT(cata-serialize)

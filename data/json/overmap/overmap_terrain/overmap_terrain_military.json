@@ -1,58 +1,69 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "fema_entrance", "fema_entrance_roof" ],
-    "vision_levels": "isolated_building",
-    "name": "FEMA camp",
-    "sym": "+",
-    "color": "blue",
-    "see_cost": "high",
-    "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "id": "fema_road",
+    "vision_levels": "large_pavement",
+    "name": "FEMA camp road",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "travel_cost_type": "road",
+    "flags": [ "LINEAR", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "fema",
-      "fema_1_3",
-      "fema_2_1",
-      "fema_2_2",
-      "fema_2_3",
-      "fema_3_1",
-      "fema_3_2",
-      "fema_3_3",
-      "fema_roof",
-      "fema_1_3_roof"
-    ],
+    "id": "fema_housing",
     "vision_levels": "isolated_camp",
-    "name": "FEMA camp",
-    "sym": "F",
-    "color": "i_blue",
-    "see_cost": "spaced_high",
-    "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
-    "name": "FEMA refugee camp",
-    "vision_levels": "isolated_camp",
-    "sym": "F",
-    "color": "i_blue",
-    "extras": "build",
-    "see_cost": "spaced_high",
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "FEMA_entrance",
-    "vision_levels": "isolated_building",
-    "name": "FEMA refugee camp",
-    "sym": "+",
+    "name": "FEMA camp housing",
+    "sym": "H",
     "color": "blue",
-    "extras": "build",
-    "see_cost": "spaced_high",
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
+    "flags": [ "SOURCE_FOOD", "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_military_building",
+    "vision_levels": "isolated_building",
+    "name": "FEMA camp outpost",
+    "sym": "M",
+    "color": "red",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_MIL_BASE", "population": [ 8, 14 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_storage",
+    "vision_levels": "isolated_building",
+    "name": "FEMA camp storage",
+    "sym": "S",
+    "color": "light_blue",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 3, 8 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_entrance",
+    "vision_levels": "isolated_building",
+    "name": "FEMA camp entrance checkpoint",
+    "sym": "S",
+    "color": "light_blue",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_MIL_BASE", "population": [ 6, 16 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fema_bus",
+    "vision_levels": "large_pavement",
+    "name": "FEMA camp bus stop",
+    "sym": "B",
+    "color": "dark_gray",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 6, 16 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -295,22 +306,11 @@
     "vision_levels": "isolated_building",
     "see_cost": "high",
     "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "outpost_cross",
-    "name": "military outpost",
-    "sym": "M",
-    "color": "red",
-    "vision_levels": "isolated_building",
-    "see_cost": "high",
-    "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "outpost_roof", "outpost_cross_roof" ],
+    "id": [ "outpost_roof" ],
     "name": "military outpost roof",
     "sym": "M",
     "color": "red",
@@ -326,7 +326,7 @@
     "color": "red",
     "vision_levels": "open_land",
     "see_cost": "medium",
-    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",

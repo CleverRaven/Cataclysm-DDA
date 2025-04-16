@@ -17,14 +17,10 @@
 #include "construction.h"
 #include "construction_group.h"
 #include "debug.h"
-#include "faction.h"
 #include "field_type.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "init.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_group.h"
@@ -32,7 +28,6 @@
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
-#include "json_error.h"
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "map.h"
@@ -43,7 +38,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "visitable.h"
@@ -1364,6 +1359,8 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
 const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, bool loot_only,
         const faction_id &fac ) const
 {
+    map &here = get_map();
+
     auto const check = [&fac, loot_only, &where]( zone_data const & z ) {
         return z.get_faction() == fac &&
                ( !loot_only || z.get_type().str().substr( 0, 4 ) == "LOOT" ) &&
@@ -1374,7 +1371,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, bool l
             return &*it;
         }
     }
-    auto const vzones = get_map().get_vehicle_zones( get_map().get_abs_sub().z() );
+    auto const vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( zone_data *it : vzones ) {
         if( check( *it ) ) {
             return &*it;

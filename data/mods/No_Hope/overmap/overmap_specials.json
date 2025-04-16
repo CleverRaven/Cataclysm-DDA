@@ -29,13 +29,6 @@
     "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
-    "//": "Military base is grossly unbalanced gameplay-wise, so until it gets some work done on this matter, I'm removing it from the game",
-    "type": "overmap_special",
-    "id": "mil_base",
-    "overmaps": [  ],
-    "occurrences": [ 0, 0 ]
-  },
-  {
     "type": "overmap_special",
     "id": "o_lightindustry",
     "//": "Lowers occurrences from [ 0 , 8 ] to [ 0 , 2 ]",

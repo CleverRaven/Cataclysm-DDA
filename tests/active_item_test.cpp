@@ -1,15 +1,23 @@
 #include <list>
-#include <new>
+#include <memory>
 #include <optional>
+#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
@@ -42,7 +50,7 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 
     // Call item processing entry points.
     here.process_items();
-    player_character.process_items();
+    player_character.process_items( &here );
 
     // Each chainsaw was processed and turned off from lack of fuel
     CHECK( inventory_item->typeId().str() == "chainsaw_off" );
@@ -66,13 +74,13 @@ TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )
     map &here = get_map();
     // Must be captured before it's inactive and transforms
     int turns_per_charge = test_lantern.type->tool->turns_per_charge;
-    REQUIRE( test_lantern.ammo_remaining() == ammo_capacity );
+    REQUIRE( test_lantern.ammo_remaining( ) == ammo_capacity );
     do {
         calendar::turn += 1_seconds;
         test_lantern.process( here, nullptr, tripoint_bub_ms::zero );
         seconds_active++;
     } while( test_lantern.active );
-    REQUIRE( test_lantern.ammo_remaining() == 0 );
+    REQUIRE( test_lantern.ammo_remaining( ) == 0 );
     // Runtime vaguely in the bounds we expect.
     CHECK( seconds_active > ( turns_per_charge - 1 ) * ammo_capacity );
     CHECK( seconds_active < ( turns_per_charge + 1 ) * ammo_capacity );

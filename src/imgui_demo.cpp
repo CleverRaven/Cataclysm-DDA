@@ -1,11 +1,14 @@
 #include "imgui_demo.h"
 
 #include <imgui/imgui.h>
+#include <string>
 
 #include "cata_imgui.h"
-#include "ui_manager.h"
+#include "color.h"
 #include "input_context.h"
+#include "text.h"
 #include "translations.h"
+#include "ui_manager.h"
 
 
 imgui_demo_ui::imgui_demo_ui(): cataimgui::window( _( "ImGui Demo Screen" ) )

@@ -125,7 +125,7 @@
         { "not": { "u_is_on_terrain": "t_woodchips" } }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_ierde", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be on living earth or stone to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
@@ -307,6 +307,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ROOTED_IN_PLACE_deactivated",
+    "condition": { "u_has_effect": "effect_ierde_rooted_in_place" },
+    "effect": { "u_lose_effect": "effect_ierde_rooted_in_place" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SMASHING_PUNCH_activated",
     "effect": [
       {
@@ -359,14 +365,7 @@
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE_TURN",
     "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] },
     "effect": [ { "run_eocs": [ "EOC_IERDE_SLEEP_SLEEPINESS", "EOC_IERDE_SLEEP_DEPRIVATION" ] } ],
-    "false_effect": [
-      {
-        "u_message": "You are fully refreshed, and can end your vigil now.",
-        "popup": true,
-        "popup_w_interrupt_query": true,
-        "interrupt_type": "eoc"
-      }
-    ]
+    "false_effect": [ { "u_message": "You are fully refreshed and end your vigil." }, "u_cancel_activity" ]
   },
   {
     "type": "effect_on_condition",
@@ -671,25 +670,6 @@
       { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')++" ] } },
       { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
       { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_IERDE_STONE_MEDITATIONS",
-    "effect": [
-      {
-        "switch": { "math": [ "u_val('morale')" ] },
-        "cases": [
-          { "case": -100, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 90, "max_bonus": 90 } },
-          { "case": -75, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 65, "max_bonus": 65 } },
-          { "case": -50, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 45, "max_bonus": 45 } },
-          { "case": -25, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 22, "max_bonus": 22 } },
-          { "case": 25, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -22, "max_bonus": -22 } },
-          { "case": 50, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -45, "max_bonus": 45 } },
-          { "case": 75, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -65, "max_bonus": -65 } },
-          { "case": 100, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -90, "max_bonus": -90 } }
-        ]
-      }
     ]
   }
 ]

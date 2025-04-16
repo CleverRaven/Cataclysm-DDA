@@ -1,5 +1,7 @@
+#include <cstdint>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
@@ -8,7 +10,6 @@
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
-#include "npc.h"
 #include "player_helpers.h"
 #include "type_id.h"
 #include "units.h"

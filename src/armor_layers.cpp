@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <climits>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
@@ -10,13 +11,13 @@
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -30,17 +31,15 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "line.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "subbodypart.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -432,8 +431,6 @@ std::vector<std::string> clothing_flags_description( const item &worn_item, cons
         { flag_SUN_GLASSES, translate_marker( "It keeps the sun out of your eyes." ) },
         { flag_WATERPROOF, translate_marker( "It is waterproof." ) },
         { flag_WATER_FRIENDLY, translate_marker( "It is water friendly." ) },
-        { flag_FANCY, translate_marker( "It looks fancy." ) },
-        { flag_SUPER_FANCY, translate_marker( "It looks really fancy." ) },
         { flag_FLOTATION, translate_marker( "You will not drown today." ) },
         { flag_OVERSIZE, translate_marker( "It is very bulky." ) },
         { flag_SWIM_GOGGLES, translate_marker( "It helps you to see clearly underwater." ) },

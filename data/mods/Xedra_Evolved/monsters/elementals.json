@@ -552,6 +552,7 @@
       "FAE_CREATURE",
       "STUN_IMMUNE",
       "HAS_MIND",
+      "MAGIC_USER",
       "BASHES",
       "DESTROYS",
       "PUSH_MON",
@@ -645,7 +646,7 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 20,
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "PATH_AVOID_DANGER", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "NO_BREATHE", "PATH_AVOID_DANGER", "HARDTOSHOOT" ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]

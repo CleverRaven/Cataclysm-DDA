@@ -39,13 +39,20 @@
     "extras": "build",
     "mondensity": 2,
     "see_cost": "high",
-    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ]
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_city_building",
     "copy-from": "generic_city_building_no_sidewalk",
     "extend": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_city_building_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "extend": { "flags": [ "SIDEWALK" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -74,7 +81,8 @@
     "copy-from": "generic_city_building",
     "name": "garage roof",
     "sym": "O",
-    "color": "white"
+    "color": "white",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -786,7 +794,8 @@
     "name": "desolate barn",
     "sym": "B",
     "color": "brown",
-    "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY" ] }
+    "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",

@@ -27,7 +27,6 @@
     "flags": [
       "AURA",
       "OVERSIZE",
-      "ONLY_ONE",
       "PADDED",
       "INTEGRATED",
       "ALLOWS_NATURAL_ATTACKS",
@@ -38,6 +37,7 @@
       "NONCONDUCTIVE",
       "RAINPROOF"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
       {
@@ -62,7 +62,6 @@
       "SEMITANGIBLE",
       "AURA",
       "OVERSIZE",
-      "ONLY_ONE",
       "PADDED",
       "ALLOWS_NATURAL_ATTACKS",
       "TRADER_AVOID",
@@ -71,6 +70,7 @@
       "ZERO_WEIGHT",
       "NONCONDUCTIVE"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "use_action": {
       "type": "effect_on_conditions",
@@ -118,7 +118,6 @@
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
     "turns_per_charge": 25,
-    "ammo": "glamour_charge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
     "volume": "50 ml",
@@ -150,7 +149,8 @@
           ]
         }
       ]
-    }
+    },
+    "tool_ammo": "glamour_charge"
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
@@ -158,7 +158,6 @@
     "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
-    "ammo": "glamour_charge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
     "weight": "100 g",
     "volume": "50 ml",
@@ -182,7 +181,8 @@
           ]
         }
       ]
-    }
+    },
+    "tool_ammo": "glamour_charge"
   },
   {
     "id": "item_hedge_see_fae_necklace_done",
@@ -291,12 +291,7 @@
     "name": { "str": "bearskin talisman" },
     "copy-from": "item_hedge_turn_into_bear_off",
     "description": "A heavy fur mantle attached to the skull of a bear.  When you put it on, the charm will take effect and grant you the bear's power.",
-    "extend": { "flags": [ "NO_TAKEOFF", "SKINCHANGED", "HEDGE_ENCHANTED" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Activate to remove the mantle and end the magic.",
-      "effect_on_conditions": [ "EOC_HEDGE_TURN_INTO_BEAR_REMOVE_ITEM" ]
-    }
+    "extend": { "flags": [ "SKINCHANGED", "HEDGE_ENCHANTED" ] }
   },
   {
     "type": "BOOK",

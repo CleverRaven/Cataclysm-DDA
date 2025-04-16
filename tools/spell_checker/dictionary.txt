@@ -1494,6 +1494,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
@@ -2064,6 +2066,7 @@ flockshot
 floorplan
 Florida
 Florunner
+fluffernutter
 fluffies
 fluidic
 fluorescents
@@ -4851,6 +4854,7 @@ precombined
 predatorially
 premade
 premeasured
+premotion
 preoptic
 prepended
 PrepNet
@@ -6635,6 +6639,7 @@ valhallists
 valknut
 valkyries
 Valzain
+vampiric
 VanBuren
 Vancian
 Vaneigem
@@ -6815,6 +6820,7 @@ weaponized
 weaponizing
 weaponsmith
 weaponsmiths
+wearables
 Weatherby
 Webber
 WebbStar

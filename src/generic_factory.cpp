@@ -1,5 +1,9 @@
 #include "generic_factory.h"
 
+#include "catacharset.h"
+#include "output.h"
+#include "wcwidth.h"
+
 bool one_char_symbol_reader( const JsonObject &jo, const std::string_view member_name, int &sym,
                              bool )
 {
@@ -44,4 +48,16 @@ bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
     }
     member = sym_as_codepoint;
     return true;
+}
+
+float read_proportional_entry( const JsonObject &jo, const std::string_view &key )
+{
+    if( jo.has_float( key ) ) {
+        float scalar = jo.get_float( key );
+        if( scalar == 1 || scalar < 0 ) {
+            jo.throw_error_at( key, "Proportional multiplier must be a positive number other than 1.0" );
+        }
+        return scalar;
+    }
+    return 1.0f;
 }

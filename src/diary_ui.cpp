@@ -1,7 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <initializer_list>
 #include <map>
 #include <string>
 #include <utility>
@@ -13,11 +12,12 @@
 #include "diary.h"
 #include "input_context.h"
 #include "output.h"
+#include "point.h"
 #include "scores_ui.h"
 #include "string_editor_window.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 namespace

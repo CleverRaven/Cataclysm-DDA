@@ -317,11 +317,11 @@ static void debug_error_prompt(
 
     std::string formatted_report =
         string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
-            " DEBUG    : %s\n\n"
-            " FUNCTION : %s\n"
-            " FILE     : %s\n"
-            " LINE     : %s\n"
-            " VERSION  : %s\n",
+            " DEBUG : %s\n\n"
+            " REPORTING FUNCTION : %s\n"
+            " C++ SOURCE FILE    : %s\n"
+            " LINE               : %s\n"
+            " VERSION            : %s\n",
             text, funcname, filename, line, getVersionString()
         );
 
@@ -633,39 +633,95 @@ static time_info get_time() noexcept
 }
 #endif
 
-struct DebugFile {
-    DebugFile();
-    ~DebugFile();
-    void init( DebugOutput, const std::string &filename );
-    void deinit();
-    std::ostream &get_file();
+#if defined(_WIN32)
+// Send the DebugLog stream to Windows' debug facility
+struct OutputDebugStreamA : public std::ostream {
 
+        // Use the file buffer from DebugFile
+        OutputDebugStreamA( const std::shared_ptr<std::ostream> &stream )
+            : std::ostream( &buf ), buf( stream->rdbuf() ) {}
+
+        // Intercept stream operations
+        struct _Buf : public std::streambuf {
+            _Buf( std::streambuf *buf ) : buf( buf ) {
+                output_string.reserve( max );
+            }
+            virtual int overflow( int c ) override {
+                if( EOF != c ) {
+                    buf->sputc( c );
+                    if( std::iscntrl( c ) ) {
+                        send();
+                    } else {
+                        output_string.push_back( c );
+                        if( output_string.size() >= max ) {
+                            send();
+                        }
+                    }
+                } else {
+                    send();
+                }
+                return c;
+            }
+            virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
+                std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
+                for( ; i < n; ++i ) {
+                    if( std::iscntrl( static_cast<unsigned char>( s[i] ) ) ) {
+                        if( i == last + 1 ) { // Skip multiple empty lines
+                            last = i;
+                            continue;
+                        }
+                        const std::string sv( s + last, i - last );
+                        last = i;
+                        send( sv.c_str() );
+                    }
+                }
+                std::string append( s + last, n - last );
+                // Skip if only made of multiple newlines
+                if( none_of( append.begin(), append.end(), []( unsigned char c ) {
+                return std::iscntrl( c );
+                } ) ) {
+                    output_string.append( s + last, n - last );
+                }
+                if( output_string.size() >= max ) {
+                    send();
+                }
+                return rc;
+            }
+            void send( const char *s = nullptr ) {
+                if( s == nullptr ) {
+                    ::OutputDebugStringA( output_string.c_str() );
+                    output_string.clear();
+                } else {
+                    ::OutputDebugStringA( s );
+                }
+                buf->pubsync();
+            }
+            static constexpr std::streamsize max = 4096;
+            std::string output_string{};
+            std::streambuf *buf = nullptr;
+        } buf;
+};
+#endif
+
+struct DebugFile {
+    void init( DebugOutput, const cata_path &filename );
+    void deinit();
+    ~DebugFile() {
+        deinit();
+    }
+    std::ostream &get_file();
+    static DebugFile &instance() {
+        static DebugFile instance;
+        return instance;
+    };
     // Using shared_ptr for the type-erased deleter support, not because
     // it needs to be shared.
-    std::shared_ptr<std::ostream> file;
-    std::string filename;
+    std::shared_ptr<std::ostream> file = std::make_shared<std::ostringstream>();
+    cata_path filename;
 };
 
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
-
-// needs to be inside the method to ensure it's initialized (and only once)
-// NOTE: using non-local static variables (defined at top level in cpp file) here is wrong,
-// because DebugLog (that uses them) might be called from the constructor of some non-local static entity
-// during dynamic initialization phase, when non-local static variables here are
-// only zero-initialized
-static DebugFile &debugFile()
-{
-    static DebugFile debugFile;
-    return debugFile;
-}
-
-DebugFile::DebugFile() = default;
-
-DebugFile::~DebugFile()
-{
-    deinit();
-}
 
 void DebugFile::deinit()
 {
@@ -680,44 +736,32 @@ void DebugFile::deinit()
 
 std::ostream &DebugFile::get_file()
 {
-    if( !file ) {
-        file = std::make_shared<std::ostringstream>();
-    }
     return *file;
 }
 
-void DebugFile::init( DebugOutput output_mode, const std::string &filename )
+void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
 {
     std::shared_ptr<std::ostringstream> str_buffer = std::dynamic_pointer_cast<std::ostringstream>
             ( file );
 
+    bool rename_failed = false;
+    const cata_path oldfile = filename + ".prev";
     switch( output_mode ) {
         case DebugOutput::std_err:
             file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
             break;
         case DebugOutput::file: {
             this->filename = filename;
-            const std::string oldfile = filename + ".prev";
-            bool rename_failed = false;
-            struct stat buffer;
-            if( stat( filename.c_str(), &buffer ) == 0 ) {
-                // Continue with the old log file if it's smaller than 1 MiB
-                if( buffer.st_size >= 1024 * 1024 ) {
-                    rename_failed = !rename_file( filename, oldfile );
-                }
+            // Continue with the old log file if it's smaller than 1 MiB
+            namespace fs = std::filesystem;
+            if( fs::exists( fs::path( filename ) )
+                && fs::file_size( fs::path( filename ) ) >= 1024 * 1024 ) {
+                std::error_code ec;
+                fs::rename( fs::path( filename ), fs::path( oldfile ), ec );
+                rename_failed = bool( ec );
             }
             file = std::make_shared<std::ofstream>(
-                       std::filesystem::u8path( filename ), std::ios::out | std::ios::app );
-            *file << "\n\n-----------------------------------------\n";
-            *file << get_time() << " : Starting log.";
-            DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
-            if( rename_failed ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
-                                            << oldfile << " failed.\n"
-                                            << "Check the file permissions.  This "
-                                            "program will continue to use the "
-                                            "previous log file.";
-            }
+                       filename.generic_u8string(), std::ios::out | std::ios::app );
         }
         break;
         default:
@@ -725,7 +769,20 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                       << std::endl;
             return;
     }
-
+#ifdef _WIN32
+    static auto keep_shared_ptr = file;
+    file = std::make_shared<OutputDebugStreamA>( file );
+#endif
+    *file << "\n\n-----------------------------------------\n";
+    *file << get_time() << " : Starting log.";
+    DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
+    if( rename_failed ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
+                                    << oldfile << " failed.\n"
+                                    << "Check the file permissions.  This "
+                                    "program will continue to use the "
+                                    "previous log file.";
+    }
     if( str_buffer && file ) {
         *file << str_buffer->str();
     }
@@ -777,12 +834,12 @@ void setupDebug( DebugOutput output_mode )
         limitDebugClass( cl );
     }
 
-    debugFile().init( output_mode, PATH_INFO::debug() );
+    DebugFile::instance().init( output_mode, PATH_INFO::debug() );
 }
 
 void deinitDebug()
 {
-    debugFile().deinit();
+    DebugFile::instance().deinit();
 }
 
 // OStream Operators                                                {{{2
@@ -1369,7 +1426,7 @@ void debug_write_backtrace( std::ostream &out )
     if( !addresses.empty() ) {
         call_addr2line( last_binary_name, addresses );
     }
-    free( funcNames );
+    free( funcNames );  // NOLINT( bugprone-multi-level-implicit-pointer-conversion )
 #   endif
 #endif
 }
@@ -1448,7 +1505,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
-        std::ostream &out = debugFile().get_file();
+        std::ostream &out = DebugFile::instance().get_file();
 
         output_repetitions( out );
 

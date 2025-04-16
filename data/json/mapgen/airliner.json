@@ -267,9 +267,9 @@
       },
       "place_loot": [
         { "group": "airliner_cockpit", "x": 35, "y": 8 },
-        { "group": "office_supplies", "repeat": [ 3, 5 ], "x": 39, "y": 8 },
+        { "group": "SUS_office_supplies", "x": 39, "y": 8 },
         { "group": "airliner_galley", "x": 38, "y": 56 },
-        { "group": "office_supplies", "repeat": [ 3, 5 ], "x": 38, "y": 57 },
+        { "group": "SUS_office_supplies", "x": 38, "y": 57 },
         { "group": "snacks", "repeat": [ 10, 15 ], "x": 38, "y": 58 }
       ],
       "place_monsters": [
@@ -466,8 +466,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "scrap", "prob": 30 },
-      { "item": "steel_chunk", "prob": 20 },
-      { "item": "steel_lump", "prob": 10 },
+      { "item": "ch_steel_chunk", "prob": 20 },
+      { "item": "ch_steel_lump", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
       { "item": "sheet_metal", "prob": 5 }
     ]

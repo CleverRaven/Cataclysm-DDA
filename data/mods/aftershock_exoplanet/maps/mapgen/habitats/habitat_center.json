@@ -1,0 +1,127 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_center_maintenance_tiny",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      }}}-----   -------",
+        "     }}##-cOT-}}}}-<}  -",
+        "     }##--.,.!####!,}  -",
+        "     }##!..,.-}}}}->}  -",
+        "     }##-%-]]-   -------",
+        "     }##---00-          ",
+        "     }}##-e00-          ",
+        "      }}}------         ",
+        "         -    -         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ],
+      "terrain": {
+        ".": "t_metal_floor_no_roof",
+        " ": "t_open_air",
+        "e": "t_elevator_control",
+        "0": "t_elevator",
+        "#": "t_bridge",
+        "}": "t_metal_railing"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_center_small_ground_level_above",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        " 1111                   ",
+        " 1111                   ",
+        " 1111                   ",
+        " 1111                   ",
+        " 1111                   ",
+        " 1111                   ",
+        "11111............-------",
+        "111111....--.....-->}  -",
+        "111111....--.....--,}  -",
+        "111111...........--<}  -",
+        "111111..------...-------",
+        "111111..---  -...       ",
+        " 1111    --  -...       ",
+        "         ------         ",
+        "         -    -         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { "1": "t_glass_roof", ".": "t_metal_floor_no_roof", "}": "t_metal_railing", " ": "t_open_air" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_center_small_ground_level",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        " 1__1                   ",
+        " 1__1                   ",
+        " 1__1                   ",
+        "-1..1-                  ",
+        " 1__1                   ",
+        " 1__1      3          3 ",
+        " 1__1////////////-------",
+        " ]____=.=,.k./llll/<1  -",
+        " ]____],],.kh/.,..].1  -",
+        " 1____/c/..,,..,..1.1  -",
+        " 1..1///-%-]]-/!/-------",
+        " 1]]1   ---00-/~/     3 ",
+        "         -e00-///       ",
+        "         ------         ",
+        "         -    -         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ],
+      "terrain": {
+        "_": "t_metal_floor_no_roof",
+        "e": "t_elevator_control",
+        "0": "t_elevator",
+        "1": "t_wall_glass",
+        "}": "t_metal_railing"
+      },
+      "furniture": { "3": "f_habitat_floodlight" }
+    }
+  }
+]

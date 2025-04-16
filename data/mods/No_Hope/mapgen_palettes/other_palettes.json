@@ -1,181 +1,24 @@
 [
   {
     "type": "palette",
-    "id": "house_w_foundation_palette",
-    "//1": "TODO: These would ideally copy-from the vanilla palettes and only override what it changes if #73299 is resolved",
-    "palettes": [ "parametrized_walls_palette" ],
-    "furniture": {
-      "A": "f_stool",
-      "B": "f_rotary_clothesline",
-      "D": "f_camp_chair",
-      "E": "f_rack_coat",
-      "F": "f_bench",
-      "G": "f_mailbox",
-      "H": "f_armchair",
-      "I": "f_desk",
-      "J": "f_counter",
-      "K": "f_cupboard",
-      "L": "f_table",
-      "N": "f_workbench",
-      "O": "f_wardrobe",
-      "P": "f_locker",
-      "Q": "f_rack",
-      "R": "f_bookcase",
-      "T": "f_bathtub",
-      "U": "f_utility_shelf",
-      "W": "f_washer",
-      "X": "f_birdbath",
-      "Y": "f_trashcan",
-      "Z": "f_dryer",
-      "a": [ "f_floor_lamp", "f_rack_coat" ],
-      "d": "f_shower",
-      "g": [ "f_water_heater", "f_water_heater_family" ],
-      "h": "f_fireplace",
-      "i": [ "f_oven", "f_gas_oven_microwave_combo" ],
-      "j": "f_sink",
-      "n": "f_sink",
-      "k": "f_woodstove",
-      "l": "f_fridge",
-      "m": "f_glass_fridge",
-      "p": "f_region_weed",
-      "r": "f_wood_keg",
-      "v": [ [ "f_safe_l", 25 ], [ "f_cardboard_box", 75 ] ],
-      "w": "f_rack_wood",
-      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "z": "f_metal_butcher_rack"
-    },
-    "terrain": {
-      ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
-      "-": "t_open_air",
-      "G": "t_region_groundcover_urban",
-      "p": "t_region_groundcover_urban",
-      "X": "t_region_groundcover_urban",
-      " ": "t_floor",
-      "<": "t_wood_stairs_up",
-      ">": "t_wood_stairs_down",
-      "o": [
-        [ "t_window_frame", 5 ],
-        [ "t_window_domestic", 5 ],
-        "t_window_no_curtains",
-        "t_window_open",
-        "t_window_no_curtains_open",
-        [ "t_curtains", 5 ]
-      ],
-      "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_c", 5 ], [ "t_door_o", 70 ], [ "t_door_locked_interior", 3 ] ],
-      "*": [
-        [ "t_door_b_peep", 20 ],
-        [ "t_door_o_peep", 70 ],
-        [ "t_door_frame", 10 ],
-        [ "t_door_locked_peep", 2 ],
-        "t_door_locked_alarm",
-        [ "t_door_locked", 5 ],
-        "t_door_c"
-      ],
-      "s": "t_concrete",
-      "~": "t_thconc_floor",
-      "u": "t_gates_mech_control",
-      "x": "t_door_metal_locked",
-      "C": "t_column",
-      "^": "t_gutter_downspout",
-      ",": "t_linoleum_white",
-      ";": "t_linoleum_gray",
-      "M": "t_region_shrub_decorative",
-      "$": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
-    },
-    "toilets": { "t": {  } },
-    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-    "items": {
-      "O": [ { "item": "SUS_wardrobe_mens", "chance": 20 }, { "item": "SUS_wardrobe_womens", "chance": 20, "repeat": [ 1, 2 ] } ],
-      "Q": [
-        { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "dry_goods", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "pet_food", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "condiments", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "pantry_liquids", "chance": 10 }
-      ],
-      "K": [
-        { "item": "dishes_utility", "chance": 30 },
-        { "item": "condiments", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "SUS_knife_drawer", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "SUS_junk_drawer", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "SUS_cookware", "chance": 20 }
-      ],
-      "J": [
-        { "item": "kitchen_counters", "chance": 20 },
-        { "item": "fresh_produce", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "dry_goods", "chance": 20, "repeat": [ 1, 2 ] }
-      ],
-      "w": [
-        { "item": "shower", "chance": 20 },
-        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
-      ],
-      "v": [
-        { "item": "art", "chance": 5 },
-        { "item": "drugdealer", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "maps", "chance": 2 },
-        { "item": "college_sports", "chance": 30, "repeat": [ 1, 2 ] }
-      ],
-      "U": [
-        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] }
-      ],
-      "j": [
-        { "item": "softdrugs", "chance": 25, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "harddrugs", "chance": 5 }
-      ],
-      "T": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
-      "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
-      "i": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
-      "l": { "item": "SUS_fridge_healthy_vegan", "chance": 5, "repeat": [ 1, 2 ] },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
-      "R": { "item": "homebooks", "chance": 20, "repeat": [ 3, 8 ] }
-    },
-    "nested": { "o": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] } }
-  },
-  {
-    "type": "palette",
     "id": "bike_shop",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
-      "*": [ [ "t_region_groundcover_urban", 4 ], "t_region_tree_shade" ],
-      "_": "t_sidewalk",
-      ".": "t_floor",
-      "#": "t_wall_w",
-      "-": "t_wall_glass",
-      "|": "t_wall_glass",
-      "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+      "*": "t_region_tree_shade",
+      "_": "t_concrete",
+      "@": "t_concrete",
+      ".": "t_thconc_floor",
       ":": "t_door_glass_c",
+      "+": "t_door_c",
       ";": "t_door_locked",
-      "&": "t_floor",
-      "^": "t_floor",
-      "@": "t_sidewalk",
-      "C": "t_floor",
-      "D": "t_floor",
-      "F": "t_floor",
-      "S": "t_floor",
-      "T": "t_floor",
-      "c": "t_floor",
-      "d": "t_floor",
-      "f": "t_floor",
-      "h": "t_floor",
-      "i": "t_floor",
-      "l": "t_floor",
-      "r": "t_floor",
-      "s": "t_floor",
-      "t": "t_floor",
-      "q": "t_floor",
-      "B": "t_floor",
+      "-": "t_wall_glass",
       "<": "t_ladder_up",
       "4": "t_gutter_downspout"
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "furniture": {
       "c": "f_counter",
       "S": "f_sink",
-      "T": "f_toilet",
       "h": "f_chair",
       "d": "f_desk",
       "f": "f_fridge",
@@ -184,109 +27,20 @@
       "t": "f_table",
       "q": "f_stool",
       "B": "f_bench",
-      "%": "f_console_broken",
+      "%": "f_counter",
       "&": "f_trashcan",
       "@": "f_dumpster",
       "^": "f_indoor_plant"
     },
-    "toilets": { "T": {  } }
-  },
-  {
-    "type": "palette",
-    "id": "hotel_tower_palette.json",
-    "furniture": {
-      "B": "f_bed",
-      "c": "f_counter",
-      "C": "f_counter",
-      "o": "f_counter",
-      "O": "f_counter",
-      "m": "f_bench",
-      "d": "f_dresser",
-      "Y": "f_rack_coat",
-      "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
-      "h": "f_chair",
-      "r": "f_rack",
-      "t": "f_table",
-      "j": "f_sofa",
-      "S": "f_sink",
-      "&": "f_toilet",
-      "b": "f_bathtub",
-      "E": [ "f_exercise", "f_ergometer", "f_ergometer_mechanical", "f_treadmill", "f_treadmill_mechanical" ],
-      "e": "f_fridge",
-      "l": "f_locker",
-      "W": "f_washer",
-      "D": "f_desk",
-      "x": "f_console_broken"
-    },
-    "terrain": {
-      ",": "t_pavement_y",
-      "1": "t_flat_roof",
-      "0": "t_glass_roof",
-      "*": "t_open_air",
-      "6": "t_wall_glass",
-      "_": "t_pavement",
-      "2": "t_carpet_green",
-      "s": "t_sidewalk",
-      "'": "t_linoleum_gray",
-      "&": "t_linoleum_gray",
-      "S": "t_linoleum_gray",
-      "C": "t_linoleum_gray",
-      "M": "t_region_shrub_decorative",
-      " ": "t_region_groundcover_urban",
-      "|": "t_wall_w",
-      "%": "t_adobe_brick_wall",
-      "T": "t_region_tree_shade",
-      "v": "t_pavement",
-      "V": "t_pavement",
-      "w": [ [ "t_window_domestic", 11 ], [ "t_window_open", 2 ], [ "t_curtains", 5 ] ],
-      "9": "t_water_pool",
-      "+": "t_door_c",
-      "G": "t_door_glass_c",
-      "=": "t_door_locked",
-      "7": "t_door_locked_interior",
-      "I": "t_column",
-      "H": "t_wall_glass",
-      "X": "t_elevator_control_off",
-      "8": "t_elevator",
-      "~": "t_thconc_floor",
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
-      "#": "t_soil",
-      "$": "t_sewage_pipe",
-      "4": "t_gutter_downspout",
-      "P": "t_sewage_pump"
-    },
-    "vendingmachines": { "U": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
-    "toilets": { "&": {  } },
-    "items": {
-      "B": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
-      "L": { "item": "hotel_luggage", "chance": 66 },
-      "c": { "item": "magazines", "chance": 15 },
-      "d": [ { "item": "traveler", "chance": 40, "repeat": [ 3, 5 ] }, { "item": "book_hotel_tower_bible", "chance": 50 } ],
-      "o": { "item": "hotel_coffee_bar", "chance": 50 },
-      "Y": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
-      "b": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] },
-      "&": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] }
-    },
-    "item": { "O": { "item": "television" } },
-    "vehicles": {
-      "V": { "vehicle": "parking_garage", "chance": 45, "rotation": 270 },
-      "v": { "vehicle": "parking_garage", "chance": 45, "rotation": 90 }
-    }
+    "toilets": { "T": {  } },
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } }
   },
   {
     "type": "palette",
     "id": "office_doctor",
-    "palettes": [ "parametrized_walls_palette" ],
+    "extending": true,
     "terrain": {
-      " ": "t_region_groundcover_urban",
-      "!": "t_door_locked_interior",
-      "$": "t_floor",
-      "&": "t_floor",
       "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
-      ".": "t_floor",
-      "0": "t_window_alarm",
-      "D": "t_floor",
       "9": [
         [ "t_window_frame", 70 ],
         [ "t_window_empty", 20 ],
@@ -296,77 +50,15 @@
         "t_window_no_curtains_open",
         [ "t_curtains", 5 ]
       ],
-      ":": "t_door_glass_c",
-      ";": "t_door_locked",
-      "=": "t_door_locked_alarm",
-      "B": "t_floor",
-      "C": "t_floor",
-      "H": "t_floor",
-      "I": "t_floor",
-      "O": "t_floor",
-      "S": "t_floor",
-      "T": "t_floor",
-      "X": "t_door_metal_locked",
-      "b": "t_floor",
-      "c": "t_floor",
-      "d": "t_floor",
-      "e": "t_floor",
-      "h": "t_floor",
-      "l": "t_floor",
-      "o": "t_floor",
-      "r": "t_floor",
-      "R": "t_sidewalk",
-      "s": "t_floor",
-      "t": "t_floor",
-      "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
-      "y": "t_floor",
-      "f": "t_floor",
-      "}": "t_floor",
-      "4": "t_gutter_downspout",
-      "<": "t_ladder_up",
-      "u": "t_stairs_up",
-      "~": "t_sidewalk"
-    },
-    "furniture": {
-      "$": "f_safe_l",
-      "&": "f_toilet",
-      "%": "f_console_broken",
-      "5": "f_console",
-      "6": "f_console",
-      "B": "f_bed",
-      "C": "f_locker",
-      "H": "f_locker",
-      "I": "f_locker",
-      "O": "f_locker",
-      "S": "f_sink",
-      "b": "f_bench",
-      "c": "f_counter",
-      "d": "f_desk",
-      "e": "f_fridge",
-      "h": "f_chair",
-      "l": "f_locker",
-      "o": "f_bookcase",
-      "r": "f_trashcan",
-      "R": "f_trashcan",
-      "s": "f_sink",
-      "t": "f_table",
-      "f": "f_filing_cabinet",
-      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
-    },
-    "toilets": { "&": {  } }
+      "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ]
+    }
   },
   {
     "type": "palette",
     "id": "shelter",
-    "palettes": [ "parametrized_walls_palette" ],
+    "extending": true,
     "terrain": {
-      " ": "t_region_groundcover_urban",
-      "!": "t_pavement",
-      "`": "t_pavement_y",
-      "&": "t_sidewalk",
-      "-": "t_soil",
       "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
-      "_": "t_linoleum_white",
       ":": [
         [ "t_window_frame", 70 ],
         [ "t_window_empty", 20 ],
@@ -375,27 +67,7 @@
         "t_window_open",
         "t_window_no_curtains_open",
         [ "t_curtains", 5 ]
-      ],
-      ">": "t_stairs_down",
-      "<": "t_stairs_up",
-      ";": "t_concrete_wall",
-      "/": "t_concrete_wall",
-      "*": "t_ladder_up",
-      "=": "t_door_locked_interior",
-      "4": "t_gutter_downspout"
-    },
-    "furniture": {
-      "6": "f_console",
-      "x": "f_console_broken",
-      "b": "f_bench",
-      "c": "f_cupboard",
-      "l": "f_locker",
-      "S": "f_sink",
-      "%": "f_trashcan",
-      "U": "f_utility_shelf",
-      "B": "f_utility_shelf",
-      "t": "f_table",
-      "C": "f_counter"
+      ]
     },
     "toilets": { "T": {  } },
     "items": {
@@ -404,9 +76,10 @@
       "S": { "item": "SUS_evac_shelter_sink", "chance": 5 },
       "%": [
         { "item": "shelter_supplies", "chance": 2, "repeat": [ 1, 2 ] },
-        { "item": "trash_no_hope", "chance": 5, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_trashcan", "chance": 5, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet", "chance": 4 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies", "chance": 4 },
       "t": { "item": "SUS_evac_shelter_table", "chance": 4 },
       "C": { "item": "SUS_evac_shelter_bathroom_counter", "chance": 2 },
@@ -417,58 +90,28 @@
   {
     "type": "palette",
     "id": "shelter_used",
-    "palettes": [ "parametrized_walls_palette" ],
-    "terrain": {
-      " ": "t_region_groundcover_urban",
-      "!": "t_pavement",
-      "`": "t_pavement_y",
-      "&": "t_sidewalk",
-      "-": "t_soil",
-      "+": [ "t_door_c", "t_door_b" ],
-      ".": "t_floor",
-      "_": "t_linoleum_white",
-      ":": [ "t_window_frame", "t_window_no_curtains" ],
-      ">": "t_stairs_down",
-      "<": "t_stairs_up",
-      ";": "t_concrete_wall",
-      "/": "t_concrete_wall",
-      "*": "t_ladder_up",
-      "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
-      "4": "t_gutter_downspout"
-    },
-    "furniture": {
-      "6": "f_console",
-      "x": "f_console",
-      "b": "f_bench",
-      "c": "f_cupboard",
-      "l": "f_locker",
-      "S": "f_sink",
-      "%": "f_trashcan",
-      "U": "f_utility_shelf",
-      "B": "f_utility_shelf",
-      "t": "f_table",
-      "C": "f_counter"
-    },
+    "extending": true,
     "toilets": { "T": {  } },
     "items": {
       "l": { "item": "SUS_evac_shelter_locker_used", "chance": 5 },
       "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 5 },
       "S": { "item": "SUS_evac_shelter_sink_used", "chance": 5 },
-      "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
+      "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ],
       ".": [
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash", "chance": 1 },
-        { "item": "trash_forest", "chance": 1 }
+        { "item": "SUS_trash_floor", "chance": 1 },
+        { "item": "SUS_trash_forest_no_manmade", "chance": 1 }
       ],
       "%": [
         { "item": "shelter_supplies", "chance": 1, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 2, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_trashcan", "chance": 2, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet_used", "chance": 5 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies_used", "chance": 5 },
       "t": { "item": "SUS_evac_shelter_table_used", "chance": 5 },
       "C": { "item": "SUS_evac_shelter_bathroom_counter_used", "chance": 2 },
-      "_": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ]
+      "T": { "item": "SUS_toilet", "chance": 50 },
+      "_": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ]
     },
     "nested": {
       "|": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
@@ -482,13 +125,8 @@
   {
     "type": "palette",
     "id": "shelter_vandal",
-    "palettes": [ "parametrized_walls_palette" ],
+    "extending": true,
     "terrain": {
-      " ": "t_region_groundcover_urban",
-      "!": "t_pavement",
-      "`": "t_pavement_y",
-      "&": "t_sidewalk",
-      "-": "t_soil",
       "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
       "_": "t_linoleum_white",
       ":": [
@@ -499,68 +137,55 @@
         "t_window_no_curtains_open",
         [ "t_curtains", 5 ]
       ],
-      ">": "t_stairs_down",
-      "<": "t_stairs_up",
-      ";": "t_concrete_wall",
-      "/": "t_concrete_wall",
-      "*": "t_ladder_up",
-      "=": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
-      "4": "t_gutter_downspout"
+      "=": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ]
     },
     "furniture": {
-      "6": "f_console",
-      "x": "f_console",
-      "b": "f_bench",
-      "c": "f_cupboard",
       "l": [ [ "f_locker", 2 ], "f_wreckage" ],
-      "S": "f_sink",
-      "%": "f_trashcan",
       "U": [ [ "f_utility_shelf", 2 ], "f_wreckage" ],
-      "B": [ [ "f_utility_shelf", 2 ], "f_wreckage" ],
-      "t": "f_table",
-      "C": "f_counter"
+      "B": [ [ "f_utility_shelf", 2 ], "f_wreckage" ]
     },
     "toilets": { "T": {  } },
     "items": {
       "l": { "item": "shelter_supplies", "chance": 1 },
       "c": [
-        { "item": "trash_no_hope", "chance": 20 },
+        { "item": "SUS_trash_floor", "chance": 20 },
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 }
       ],
       "b": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
-      ".": [ { "item": "trash_no_hope", "chance": 2 }, { "item": "trash_forest", "chance": 1 } ],
-      "%": [ { "item": "trash", "chance": 2, "repeat": [ 1, 3 ] } ],
+      ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "SUS_trash_forest_no_manmade", "chance": 1 } ],
+      "%": [ { "item": "SUS_trash_trashcan", "chance": 2, "repeat": [ 1, 3 ] } ],
       "S": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "U": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "B": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "t": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "C": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
-      "_": [ { "item": "trash", "chance": 1 } ]
+      "_": [ { "item": "SUS_trash_floor", "chance": 1 } ]
     },
     "nested": {
       "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
@@ -572,113 +197,6 @@
       "6": { "chunks": [ [ "shelter_computer", 50 ], [ "shelter_computer_broken", 50 ] ] },
       "x": { "chunks": [ [ "shelter_computer", 20 ], [ "shelter_computer_broken", 80 ] ] }
     }
-  },
-  {
-    "type": "palette",
-    "id": "standard_building_palette",
-    "furniture": { "S": "f_sink" },
-    "terrain": {
-      ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
-      " ": "t_floor",
-      "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
-      "*": "t_door_glass_c",
-      "4": "t_gutter_downspout",
-      "|": "t_wall",
-      "#": "t_brick_wall",
-      ":": "t_wall_glass",
-      "-": "t_sidewalk",
-      "o": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
-      "<": "t_stairs_up",
-      ">": "t_stairs_down"
-    },
-    "toilets": { "t": {  } }
-  },
-  {
-    "type": "palette",
-    "id": "bunker_ext",
-    "terrain": {
-      " ": [ [ "t_region_groundcover", 60 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
-      "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
-      "#": "t_rock",
-      "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
-      "S": [
-        [ "t_region_groundcover", 5 ],
-        "t_region_tree_fruit",
-        "t_region_tree_nut",
-        "t_region_tree",
-        "t_region_shrub_fruit",
-        "t_region_shrub"
-      ],
-      "v": "t_open_air",
-      "+": "t_door_metal_pickable",
-      ".": "t_rock_floor",
-      ">": "t_stairs_down",
-      ")": "t_slope_up",
-      "(": "t_slope_down",
-      "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
-    },
-    "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] }
-  },
-  {
-    "type": "palette",
-    "id": "bunker",
-    "terrain": {
-      "#": "t_soil",
-      "*": "t_chaingate_c",
-      "+": "t_door_metal_c",
-      "-": "t_scrap_wall",
-      "_": "t_thconc_floor",
-      ",": "t_carpet_red",
-      "1": "t_column",
-      "<": "t_stairs_up",
-      "=": "t_chainfence",
-      "|": "t_wall_metal",
-      ":": "t_secretdoor_metal_c",
-      ";": "t_secretdoor_metal_o",
-      "~": "t_water_pump",
-      "t": "t_thconc_floor",
-      "é": "t_metal_floor"
-    },
-    "furniture": {
-      "A": "f_air_filter",
-      "a": "f_standing_tank",
-      "b": "f_bookcase",
-      "B": "f_bed",
-      "c": "f_counter",
-      "C": "f_cupboard",
-      "d": "f_dresser",
-      "D": "f_desk",
-      "e": "f_ergometer_mechanical",
-      "E": "f_exercise",
-      "F": "f_fridge",
-      "é": "f_freezer",
-      "f": "f_sofa",
-      "G": "f_generator_broken",
-      "h": "f_chair",
-      "H": [ "f_water_heater", "f_water_heater_family" ],
-      "K": "f_sink",
-      "l": "f_utility_shelf",
-      "L": "f_table",
-      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
-      "P": "f_punching_bag",
-      "r": "f_rack",
-      "R": "f_rack",
-      "s": "f_shower",
-      "S": "f_woodstove",
-      "T": "f_table",
-      "U": "f_utility_shelf",
-      "u": "f_utility_shelf",
-      "v": "f_utility_shelf",
-      "V": "f_utility_shelf",
-      "w": "f_wardrobe",
-      "W": "f_water_purifier",
-      "Y": "f_rack_coat",
-      "^": "f_rubble",
-      "&": "f_trashcan",
-      "{": "f_rack",
-      "}": "f_bookcase"
-    },
-    "toilets": { "t": {  } }
   },
   {
     "type": "palette",
@@ -703,7 +221,7 @@
       "w": { "item": "allclothes", "chance": 20, "repeat": [ 2, 4 ] },
       "Y": [ { "item": "jackets", "chance": 15 }, { "item": "hatstore_hats", "chance": 15 }, { "item": "winter", "chance": 10 } ],
       "^": { "item": "shelter", "chance": 10 },
-      "{": [ { "item": "lmoe_guns", "chance": 5 }, { "item": "ammo", "chance": 5, "repeat": [ 3, 7 ] } ],
+      "{": [ { "item": "lmoe_guns", "chance": 5 }, { "item": "ammo_common_boxed", "chance": 5, "repeat": [ 3, 7 ] } ],
       "}": { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }
     }
   },
@@ -730,361 +248,8 @@
       "w": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
       "Y": [ { "item": "jackets", "chance": 15 }, { "item": "hatstore_hats", "chance": 15 }, { "item": "winter", "chance": 10 } ],
       "^": { "item": "shelter", "chance": 30 },
-      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo", "chance": 5, "repeat": [ 3, 7 ] } ],
+      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo_common_boxed", "chance": 5, "repeat": [ 3, 7 ] } ],
       "}": { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }
-    }
-  },
-  {
-    "type": "palette",
-    "id": "derelict_palette",
-    "parameters": {
-      "broken_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_wall_wood_broken", 3 ], [ "t_wall_log_broken", 3 ], [ "t_wall_half", 2 ], [ "t_brick_wall_halfway", 1 ] ]
-        }
-      },
-      "fence_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_fence_wire", 3 ],
-            [ "t_fence_barbed", 1 ],
-            [ "t_chainfence", 1 ],
-            [ "t_fence", 2 ],
-            [ "t_privacy_fence", 2 ],
-            [ "t_null", 10 ]
-          ]
-        }
-      },
-      "trash_type": {
-        "type": "furn_str_id",
-        "default": { "distribution": [ [ "f_wreckage", 2 ], [ "f_null", 5 ], [ "f_rubble_landfill", 3 ], [ "f_rubble", 1 ] ] }
-      }
-    },
-    "terrain": {
-      "F": {
-        "switch": { "param": "fence_type", "fallback": "fence_type" },
-        "cases": {
-          "t_fence_wire": "t_fence_post",
-          "t_fence_barbed": "t_fence_post",
-          "t_chainfence": "t_chainfence_posts",
-          "t_fence": "t_fence",
-          "t_privacy_fence": "t_privacy_fence",
-          "t_null": "t_null"
-        }
-      },
-      "$": { "param": "fence_type", "fallback": "t_null" },
-      ".": "t_floor",
-      "d": "t_floor",
-      "n": "t_floor",
-      "h": "t_floor",
-      "H": "t_floor",
-      "m": "t_floor",
-      "r": "t_floor_noroof",
-      ",": "t_floor_noroof",
-      "{": "t_floor",
-      "B": "t_floor",
-      "c": "t_floor",
-      "O": "t_floor",
-      "@": "t_floor",
-      "t": "t_floor",
-      ":": "t_linoleum_gray",
-      "b": "t_linoleum_gray",
-      "T": "t_linoleum_gray",
-      "&": "t_linoleum_gray",
-      "v": "t_linoleum_gray_no_roof",
-      "=": "t_thconc_floor",
-      "R": "t_thconc_floor",
-      "0": [ [ "t_window_boarded_noglass", 2 ], [ "t_window_boarded", 2 ], "t_window_empty" ],
-      "^": "t_region_soil",
-      "o": "t_dirtmound",
-      "s": "t_concrete",
-      "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
-      "D": [ "t_door_locked_interior", "t_door_b", [ "t_door_boarded", 4 ] ],
-      "w": { "param": "broken_wall_type", "fallback": "t_wall_wood_broken" },
-      "|": {
-        "switch": { "param": "broken_wall_type", "fallback": "t_wall_wood_broken" },
-        "cases": {
-          "t_wall_wood_broken": "t_wall_wood",
-          "t_wall_log_broken": "t_wall_log",
-          "t_wall_half": "t_wall",
-          "t_brick_wall_halfway": "t_brick_wall"
-        }
-      },
-      "4": "t_gutter_downspout"
-    },
-    "furniture": {
-      "r": "f_rubble",
-      "^": "f_rubble",
-      "v": "f_rubble",
-      "d": "f_desk",
-      "@": "f_floor_mattress",
-      "h": "f_chair",
-      "n": "f_table",
-      "c": "f_cupboard",
-      "H": "f_armchair",
-      "{": "f_bookcase",
-      "b": "f_shower",
-      "&": "f_sink",
-      "B": "f_bigmirror_b",
-      "R": "f_utility_shelf",
-      "O": "f_cardboard_box",
-      "t": "f_woodstove",
-      "W": { "param": "trash_type", "fallback": "f_null" }
-    },
-    "nested": {
-      "|": { "chunks": [ [ "1x1_bash", 7 ], [ "general_graffiti", 20 ], [ "null", 90 ] ] },
-      "w": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 6 ] ] },
-      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] },
-      "4": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] }
-    },
-    "items": {
-      "{": { "item": "homebooks", "chance": 20, "repeat": [ 1, 2 ] },
-      "p": { "item": "fireplace_fill", "chance": 60, "repeat": [ 1, 2 ] },
-      "R": [ { "item": "tools_earthworking", "chance": 10 }, { "item": "farming_seeds", "chance": 30, "repeat": [ 1, 4 ] } ],
-      "O": [
-        { "item": "tools_carpentry", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "tools_construction", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 40, "repeat": [ 1, 3 ] }
-      ],
-      " ": { "item": "clutter_yard", "chance": 1, "repeat": [ 1, 2 ] },
-      ".": { "item": "bar_trash", "chance": 5, "repeat": [ 1, 2 ] },
-      "C": { "item": "alcohol", "chance": 25 },
-      "c": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] },
-      "@": { "item": "gear_homeless", "chance": 25 }
-    },
-    "toilets": { "T": {  } }
-  },
-  {
-    "type": "palette",
-    "id": "gun_store_palette",
-    "//": " P, U, S, h, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
-    "palettes": [ "parametrized_walls_palette" ],
-    "toilets": { "&": {  } },
-    "terrain": {
-      "-": "t_wall_w",
-      "q": "t_thconc_floor",
-      "&": "t_thconc_floor",
-      ":": "t_window_bars_alarm",
-      "+": [ [ "t_door_metal_pickable", 90 ], [ "t_door_metal_o", 5 ], [ "t_door_metal_c", 15 ] ],
-      "D": [ [ "t_door_o", 40 ], [ "t_door_c", 40 ], [ "t_door_locked_interior", 20 ] ],
-      ",": [ [ "t_region_groundcover_urban", 100 ], [ "t_region_shrub", 10 ] ],
-      "@": "t_region_shrub_decorative",
-      "u": "t_region_shrub",
-      "B": "t_region_groundcover_barren",
-      "'": "t_sidewalk",
-      "/": "t_sidewalk",
-      "C": "t_thconc_floor",
-      "`": "t_thconc_floor",
-      ".": "t_thconc_floor",
-      "a": "t_thconc_floor",
-      "?": "t_thconc_floor",
-      "l": "t_thconc_floor",
-      "E": "t_thconc_floor",
-      "d": "t_thconc_floor",
-      "^": "t_thconc_floor",
-      "Q": "t_thconc_floor",
-      "x": "t_thconc_floor",
-      "X": "t_thconc_floor",
-      "A": "t_thconc_floor",
-      "r": "t_thconc_floor",
-      "R": "t_thconc_floor",
-      "m": "t_thconc_floor",
-      "M": "t_thconc_floor",
-      "T": "t_thconc_floor",
-      "N": "t_thconc_floor",
-      "n": "t_thconc_floor",
-      "K": "t_thconc_floor",
-      "G": "t_thconc_floor",
-      "g": "t_thconc_floor",
-      "f": "t_thconc_floor",
-      "L": "t_thconc_floor",
-      "y": "t_thconc_floor",
-      "Y": "t_thconc_floor",
-      "v": "t_thconc_floor",
-      "=": "t_thconc_floor",
-      "_": "t_pavement",
-      "*": "t_pavement_y",
-      "<": "t_stairs_up",
-      ";": "t_gutter_downspout",
-      "W": "t_strconc_wall",
-      "Z": "t_bars"
-    },
-    "furniture": {
-      "$": "f_atm_off",
-      "C": "f_counter",
-      "3": "f_counter",
-      "R": "f_counter",
-      "a": "f_stool",
-      "?": "f_console_broken",
-      "d": [ [ "f_displaycase", 65 ], [ "f_displaycase_o", 35 ] ],
-      "p": "f_displaycase_b",
-      "n": "f_table",
-      "E": "f_desk",
-      "^": "f_indoor_plant",
-      "l": "f_locker",
-      "N": "f_locker",
-      "M": "f_locker",
-      "m": "f_rack",
-      "Y": "f_rack",
-      "y": "f_rack",
-      "F": "f_locker",
-      "Q": "f_rack",
-      "K": "f_rack",
-      "L": [ [ "f_rack_l", 65 ], [ "f_rack", 35 ] ],
-      "G": "f_rack",
-      "v": "f_rack",
-      "q": "f_sink",
-      "r": "f_trashcan",
-      "s": [ [ "f_crate_c", 55 ], [ "f_crate_o", 45 ] ],
-      "S": "f_crate_o",
-      "A": "f_chair",
-      "T": "f_target",
-      "w": "f_dumpster",
-      "X": [ [ "f_gunsafe_ml", 90 ], [ "f_gunsafe_o", 10 ] ],
-      "e": "f_gunsafe_o",
-      "O": [ [ "f_gunsafe_ml", 90 ], [ "f_gunsafe_o", 10 ] ],
-      "x": "f_sandbag_wall",
-      "g": "f_sofa",
-      "f": "f_fridge",
-      "/": "f_flagpole"
-    },
-    "item": { "/": { "item": "american_flag" } },
-    "items": {
-      "X": { "item": "SUS_gunstore_safe", "chance": 20 },
-      "O": { "item": "guns_common_display", "chance": 25 },
-      "s": { "item": "SUS_gunstore_crate", "chance": 25 },
-      "S": { "item": "SUS_gunstore_crate", "chance": 5 },
-      "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
-      "m": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
-      "M": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
-      "d": { "item": "SUS_gunstore_displaycase", "chance": 25 },
-      "p": { "item": "SUS_gunstore_displaycase", "chance": 25 },
-      "K": {
-        "item": {
-          "//": "gun books kept on racks in the FoH",
-          "subtype": "collection",
-          "entries": [ { "group": "book_gunref", "prob": 5 }, { "group": "book_gunmags", "prob": 20 } ]
-        },
-        "chance": 75
-      },
-      "|": {
-        "item": {
-          "//": "civilian magazines kept on racks behind the counter in the FoH",
-          "subtype": "collection",
-          "entries": [ { "group": "mags_common", "prob": 20 }, { "group": "mags_common", "prob": 30 } ]
-        },
-        "chance": 65
-      },
-      "Y": { "item": "SUS_gunstore_gear", "chance": 20 },
-      "v": {
-        "item": {
-          "//": "gun mods kept on racks in the FoH",
-          "subtype": "collection",
-          "entries": [ { "group": "gunmod_common", "prob": 20 }, { "group": "gunmod_rare", "prob": 30 } ]
-        },
-        "chance": 20
-      },
-      "l": {
-        "item": {
-          "//": "workers items that were placed in lockers before the CATA, kept in the BoH",
-          "subtype": "collection",
-          "entries": [ { "group": "unisex_coat_rack" } ]
-        },
-        "chance": 25
-      },
-      "N": {
-        "item": {
-          "//": "ear protection kept in the proximity of store gun ranges",
-          "subtype": "collection",
-          "entries": [ { "group": "ear_protection", "prob": 30 } ]
-        },
-        "chance": 25
-      },
-      "y": {
-        "item": {
-          "//": "gunsmithing tools kept on racks",
-          "subtype": "collection",
-          "entries": [ { "group": "ammo_parts", "prob": 80 }, { "group": "tools_gunsmith", "prob": 5 } ]
-        },
-        "chance": 20
-      },
-      "L": {
-        "item": {
-          "//": "locked racks for all common gun type of civilian firearms",
-          "subtype": "collection",
-          "entries": [ { "group": "guns_common_display" } ]
-        },
-        "chance": 20
-      },
-      "f": {
-        "item": { "//": "rec room fridge", "subtype": "collection", "entries": [ { "group": "fridgesnacks" } ] },
-        "repeat": 10,
-        "chance": 35
-      },
-      "R": {
-        "item": {
-          "//": "counters used for shooting at the gun range, chance of spawning any loaded common firearm as well as spent brass",
-          "subtype": "collection",
-          "entries": [ { "group": "guns_common_display", "prob": 25 }, { "group": "casings", "prob": 50 } ]
-        },
-        "chance": 20
-      },
-      "r": {
-        "item": { "//": "contents of trashcans in store", "subtype": "collection", "entries": [ { "group": "trash" } ] },
-        "repeat": 5,
-        "chance": 45
-      },
-      "w": {
-        "item": { "//": "contents of dumpsters", "subtype": "collection", "entries": [ { "group": "trash" } ] },
-        "repeat": 30,
-        "chance": 45
-      },
-      "Q": {
-        "item": {
-          "subtype": "collection",
-          "//": "bulk casing on racks in the FoH",
-          "entries": [ { "group": "ammo_casings_gunsmith_bulk" } ]
-        },
-        "chance": 25
-      },
-      "=": {
-        "item": {
-          "subtype": "collection",
-          "//": "spent casings scattered around shooting ranges",
-          "entries": [ { "group": "casings" } ]
-        },
-        "chance": 50
-      },
-      "C": {
-        "item": {
-          "subtype": "distribution",
-          "//": "low chance of snacks and gun mags on counters",
-          "entries": [
-            { "group": "vending_food_items", "prob": 33 },
-            { "group": "vending_drink_items", "prob": 33 },
-            { "group": "book_gunmags", "prob": 33 }
-          ]
-        },
-        "chance": 15
-      },
-      "n": {
-        "item": {
-          "subtype": "distribution",
-          "//": "moderate chance of snacks and mags on tables",
-          "entries": [
-            { "group": "vending_food_items", "prob": 33 },
-            { "group": "vending_drink_items", "prob": 33 },
-            { "group": "book_gunmags", "prob": 33 }
-          ]
-        },
-        "chance": 30
-      },
-      "E": {
-        "item": { "subtype": "collection", "//": "items on store desks", "entries": [ { "group": "office_mess" } ] },
-        "chance": 20
-      }
     }
   },
   {
@@ -1134,7 +299,7 @@
       "O": [ { "item": "clothing_outdoor_torso", "chance": 20 }, { "item": "clothing_outdoor_pants", "chance": 20 } ],
       "B": { "item": "bags", "chance": 20 },
       "$": { "item": "SUS_office_filing_cabinet", "chance": 20 },
-      "D": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "D": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] },
       "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
       "&": { "item": "SUS_mannequin_general", "chance": 20 },
       "d": { "item": "SUS_office_desk", "chance": 20 },
@@ -1180,7 +345,7 @@
     "type": "palette",
     "id": "furs_palette",
     "terrain": {
-      ";": "t_door_locked",
+      ";": [ "t_door_locked", "t_door_elocked_alarm" ],
       "i": "t_door_locked_interior",
       "0": "t_window_alarm",
       "z": "t_region_shrub_decorative",
@@ -1213,81 +378,6 @@
       "L": [ { "item": "SUS_fur_tailoring_materials", "chance": 20 }, { "item": "SUS_tailoring_fasteners", "chance": 20 } ],
       "J": { "item": "SUS_janitors_closet", "chance": 20 }
     }
-  },
-  {
-    "type": "palette",
-    "id": "lumberyard",
-    "terrain": {
-      " ": [ "t_region_groundcover" ],
-      "_": [ [ "t_railroad_rubble", 2 ], [ "t_region_groundcover_barren", 6 ], [ "t_region_groundcover", 2 ] ],
-      "*": [ "t_region_shrub", "t_region_groundcover" ],
-      "7": [ "t_region_tree_evergreen", "t_region_tree" ],
-      "1": "t_trunk",
-      "2": "t_stump",
-      "o": "t_concrete",
-      "v": "t_chainfence",
-      "V": "t_chaingate_l",
-      "w": "t_window",
-      ";": "t_door_metal_locked",
-      "6": "t_gates_mech_control_lab",
-      "+": "t_door_c",
-      "!": "t_door_locked_interior",
-      "#": "t_brick_wall",
-      ".": "t_thconc_floor",
-      "x": "t_thconc_floor",
-      ",": "t_thconc_floor",
-      "=": "t_conveyor"
-    },
-    "furniture": {
-      "@": "f_machinery_heavy",
-      "B": "f_bandsaw",
-      "G": [
-        [ "f_generator_broken", 25 ],
-        [ "f_portable_generator", 5 ],
-        [ "f_diesel_generator", 5 ],
-        [ "f_military_generator", 5 ],
-        [ "f_12000_gasoline_generator", 5 ]
-      ],
-      "J": "f_jointer",
-      "M": "f_mitresaw",
-      "P": "f_planer",
-      "R": "f_router",
-      "T": "f_tablesaw",
-      "p": "f_drill_press",
-      "U": "f_utility_shelf",
-      "r": "f_utility_shelf",
-      "L": "f_rack",
-      "X": "f_console_broken",
-      "i": "f_filing_cabinet",
-      "&": "f_trashcan",
-      "C": "f_counter",
-      "S": "f_sink",
-      "b": "f_bench",
-      "$": "f_shower",
-      "l": "f_locker",
-      "m": "f_locker",
-      "c": "f_chair",
-      "n": "f_table",
-      "d": "f_desk",
-      "f": "f_fridge",
-      "x": [ [ "f_crate_c", 2 ], "f_crate_o" ],
-      "O": "f_crate_o"
-    },
-    "toilets": { "t": {  } },
-    "items": {
-      "x": { "item": "lumberyard", "chance": 90, "repeat": [ 3, 5 ] },
-      "&": { "item": "trash", "chance": 75, "repeat": [ 2, 3 ] },
-      "d": { "item": "SUS_office_desk", "chance": 33 },
-      "f": { "item": "SUS_fridge_breakroom", "chance": 20 },
-      "n": [ { "item": "snacks", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "magazines", "chance": 10 } ],
-      "=": { "item": "lumberyard", "chance": 20, "repeat": [ 1, 2 ] },
-      "l": { "item": "clothing_work_set", "chance": 20 },
-      "L": [ { "item": "hardware", "chance": 25 }, { "item": "mechanics", "chance": 15 } ],
-      "r": { "item": "tools_tree_cutting", "chance": 20, "repeat": [ 1, 3 ] },
-      "m": [ { "item": "softdrugs", "chance": 20 }, { "item": "harddrugs", "chance": 20 } ]
-    },
-    "item": { "O": { "item": "2x4", "repeat": [ 2, 20 ] }, ",": { "item": "splinter", "chance": 10, "repeat": [ 1, 5 ] } },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } }
   },
   {
     "type": "palette",
@@ -1328,12 +418,11 @@
       "L": [ { "item": "tools_earthworking", "chance": 30 }, { "item": "tools_home", "chance": 30 } ],
       "O": { "item": "livingroom", "chance": 20 },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 20 },
         { "item": "gear_survival", "chance": 20 },
-        { "item": "cannedfood", "chance": 20 },
-        { "item": "stash_food", "chance": 20 }
+        { "item": "cannedfood", "chance": 20 }
       ],
       "s": [
         { "item": "SUS_bathroom_sink", "chance": 20 },
@@ -1351,7 +440,8 @@
       "2": { "item": "SUS_cookware", "chance": 20 },
       "3": [ { "item": "SUS_utensils", "chance": 20 }, { "item": "SUS_knife_drawer", "chance": 20 } ],
       "4": [ { "item": "SUS_junk_drawer", "chance": 20 }, { "item": "SUS_spice_collection", "chance": 20 } ],
-      "5": { "item": "SUS_kitchen_sink", "chance": 20 }
+      "5": { "item": "SUS_kitchen_sink", "chance": 20 },
+      "T": { "item": "SUS_toilet", "chance": 5 }
     },
     "toilets": { "T": {  } }
   }

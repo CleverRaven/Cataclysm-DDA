@@ -40,7 +40,7 @@
       "o": { "item": "fireplace_fill", "chance": 66, "repeat": [ 1, 3 ] },
       " ": [
         { "item": "clutter_yard", "chance": 4, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 2, "repeat": [ 1, 2 ] },
+        { "item": "SUS_trash_floor", "chance": 2, "repeat": [ 1, 2 ] },
         { "item": "creepy", "chance": 1 },
         { "item": "allclothes_damaged", "chance": 1 },
         { "item": "oa_ig_rd_metal_trash", "chance": 1 }
@@ -48,11 +48,11 @@
       "?": [
         { "item": "gear_homeless", "chance": 3 },
         { "item": "camping", "chance": 3 },
-        { "item": "bar_trash", "chance": 2 },
+        { "item": "SUS_trash_floor", "chance": 2 },
         { "item": "misc_smoking", "chance": 2 },
         { "item": "alcohol", "chance": 4 },
         { "item": "foodintincan", "chance": 3, "repeat": [ 1, 3 ] },
-        { "item": "stash_food", "chance": 2, "repeat": [ 1, 2 ] },
+        { "item": "stash_food", "chance": 2 },
         { "item": "allclothes_damaged", "chance": 10, "repeat": [ 1, 5 ] }
       ]
     }

@@ -1,11 +1,17 @@
 #include <functional>
+#include <list>
+#include <string>
 
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
@@ -24,6 +30,8 @@ static const itype_id itype_wrench_pocket_test( "wrench_pocket_test" );
 
 TEST_CASE( "item_contents" )
 {
+    map &here = get_map();
+
     clear_map();
     item tool_belt( itype_test_tool_belt );
 
@@ -77,9 +85,9 @@ TEST_CASE( "item_contents" )
     tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );
     tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
-    tool_belt.overflow( tripoint_bub_ms::zero );
+    tool_belt.overflow( here, tripoint_bub_ms::zero );
     CHECK( tool_belt.num_item_stacks() == 4 );
-    tool_belt.overflow( tripoint_bub_ms::zero );
+    tool_belt.overflow( here, tripoint_bub_ms::zero );
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
 
@@ -105,7 +113,7 @@ TEST_CASE( "overflow_on_combine", "[item]" )
     } );
     map &here = get_map();
     here.i_clear( origin );
-    purse.overflow( origin );
+    purse.overflow( here, origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
@@ -117,12 +125,14 @@ TEST_CASE( "overflow_test", "[item]" )
     item log( itype_log );
     purse.force_insert_item( log, pocket_type::MIGRATION );
     map &here = get_map();
-    purse.overflow( origin );
+    purse.overflow( here, origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
 TEST_CASE( "overflow_test_into_parent_item", "[item]" )
 {
+    map &here = get_map();
+
     clear_map();
     tripoint_bub_ms origin{ 60, 60, 0 };
     item jar( itype_jar_glass_sealed );
@@ -136,8 +146,7 @@ TEST_CASE( "overflow_test_into_parent_item", "[item]" )
     REQUIRE( contents_pre == 1 );
 
     item_location jar_loc( map_cursor( origin ), &jar );
-    jar_loc.overflow();
-    map &here = get_map();
+    jar_loc.overflow( here );
     CHECK( here.i_at( origin ).empty() );
 
     int contents_count = 0;

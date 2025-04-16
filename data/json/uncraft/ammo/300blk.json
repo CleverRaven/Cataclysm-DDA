@@ -27,7 +27,7 @@
       [ [ "lead", 3 ] ],
       [ [ "300blk_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ],
+      [ [ "gunpowder_rifle", 6 ] ],
       [ [ "copper", 1 ] ]
     ]
   }

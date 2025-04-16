@@ -1,14 +1,23 @@
+#include <functional>
+#include <string>
+#include <vector>
+
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
-#include "npc.h"
-#include "type_id.h"
-#include "map.h"
 #include "map_helpers.h"
+#include "npc.h"
+#include "player_activity.h"
 #include "player_helpers.h"
-#include "activity_scheduling_helper.h"
+#include "point.h"
+#include "type_id.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 

@@ -592,7 +592,7 @@
         "motel_city": 5
       },
       "parks": {
-        "s_gas": 200,
+        "Gas Station": 200,
         "s_gas_1": 200,
         "church": 100,
         "church_1": 100,
@@ -609,7 +609,7 @@
         "cs_city_dump_small": 100
       },
       "shops": {
-        "s_gas": 700,
+        "Gas Station": 700,
         "s_gas_1": 700,
         "garage_gas_city": 700,
         "s_grocery": 200,

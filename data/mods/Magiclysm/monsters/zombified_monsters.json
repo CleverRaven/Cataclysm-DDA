@@ -27,7 +27,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOLF_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 36, "cut": 24, "bullet": 30 }
   },
@@ -104,7 +104,7 @@
       "NO_BREATHE",
       "REVIVES"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_owlbear_zombie_brute" },
+    "upgrades": { "half_life": 240, "into": "mon_owlbear_zombie_brute" },
     "armor": { "bash": 5, "cut": 2, "bullet": 2 }
   },
   {
@@ -144,7 +144,7 @@
       "melee_skill": -2,
       "melee_dice": 2,
       "melee_dice_sides": -1,
-      "melee_damage": -2,
+      "melee_damage": { "damage_type": "cut", "amount": -2 },
       "vision_day": -13,
       "vision_night": 3,
       "armor": { "bash": 2, "cut": 2, "bullet": 1, "fire": -15, "acid": -15 }
@@ -186,7 +186,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 8 }, [ "scratch", 6 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "GRABS", "STUMBLES", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ],
-    "upgrades": { "half_life": 5, "into": "mon_yulecat_zombie_brute" },
+    "upgrades": { "half_life": 20, "into": "mon_yulecat_zombie_brute" },
     "armor": { "bash": 4, "cut": 1, "bullet": 4 }
   },
   {
@@ -202,7 +202,7 @@
       "melee_skill": 5,
       "melee_dice": 1,
       "melee_dice_sides": 1,
-      "melee_damage": -2,
+      "melee_damage": [ { "damage_type": "cut", "amount": -2 } ],
       "vision_day": -22,
       "vision_night": 20,
       "regenerates": 3,
@@ -217,7 +217,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_magician",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 56, "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }

@@ -13,7 +13,6 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
     "proficiencies": [
@@ -23,8 +22,9 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1,
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "cookbook",
@@ -39,7 +39,6 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "skill": "cooking",
     "max_level": 3,
     "proficiencies": [
       { "proficiency": "prof_baking", "time_factor": 0.25, "fail_factor": 0.2 },
@@ -49,7 +48,8 @@
       { "proficiency": "prof_lactofermenting", "time_factor": 0.05, "fail_factor": 0.1 }
     ],
     "intelligence": 4,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_human",
@@ -66,12 +66,12 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
     "intelligence": 4,
     "time": "10 m",
-    "fun": -5
+    "read_skill": "cooking",
+    "read_fun": -5
   },
   {
     "id": "cookbook_italian",
@@ -87,11 +87,11 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 4,
     "intelligence": 6,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_mexican",
@@ -110,11 +110,11 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "red",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 4,
     "intelligence": 5,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_sushi",
@@ -130,12 +130,12 @@
     "symbol": "?",
     "color": "light_green",
     "looks_like": "cookbook",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 4,
     "intelligence": 7,
     "time": "20 m",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "cooking"
   },
   {
     "id": "family_cookbook",
@@ -151,7 +151,6 @@
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 5,
     "proficiencies": [
@@ -162,8 +161,9 @@
     ],
     "intelligence": 7,
     "time": "30 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "mag_cooking",
@@ -178,11 +178,11 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "cooking",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "mag_glam",
@@ -197,11 +197,11 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "cooking",
     "max_level": 1,
     "intelligence": 5,
     "time": "24 m",
-    "fun": 1
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "scots_cookbook",
@@ -221,13 +221,13 @@
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
     "intelligence": 10,
     "time": "45 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "vinegar_maker",
@@ -243,7 +243,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "green",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
     "proficiencies": [
@@ -253,7 +252,8 @@
       { "proficiency": "prof_winemaking", "time_factor": 0.05, "fail_factor": 0.2 }
     ],
     "intelligence": 4,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "preserving_juice",
@@ -281,12 +281,12 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "green",
-    "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
     "proficiencies": [ { "proficiency": "prof_frying", "time_factor": 0.1, "fail_factor": 0.2 } ],
     "intelligence": 4,
-    "time": "10 m"
+    "time": "10 m",
+    "read_skill": "cooking"
   },
   {
     "id": "dairy_book",
@@ -302,7 +302,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "white",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
     "proficiencies": [
@@ -310,7 +309,8 @@
       { "proficiency": "prof_cheesemaking_2", "time_factor": 0.1, "fail_factor": 0.1 }
     ],
     "intelligence": 4,
-    "time": "14 m"
+    "time": "14 m",
+    "read_skill": "cooking"
   },
   {
     "id": "cookbook_liverforkids",
@@ -355,8 +355,8 @@
     "price_postapoc": "7 USD 50 cent",
     "max_level": 3,
     "time": "12 m",
-    "fun": 1,
-    "copy-from": "cookbook_liverforkids"
+    "copy-from": "cookbook_liverforkids",
+    "read_fun": 1
   },
   {
     "id": "cookbook_eatyrway",
@@ -369,9 +369,9 @@
     "price_postapoc": "7 USD 50 cent",
     "max_level": 1,
     "time": "14 m",
-    "fun": -1,
     "chapters": 14,
-    "copy-from": "book_nonf_soft_cook_tpl"
+    "copy-from": "book_nonf_soft_cook_tpl",
+    "read_fun": -1
   },
   {
     "id": "cookbook_foodfashions",
@@ -399,7 +399,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "red",
-    "skill": "cooking",
     "intelligence": 7,
     "required_level": 1,
     "max_level": 2,
@@ -409,7 +408,8 @@
       { "proficiency": "prof_winemaking", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
     "time": "12 m",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_skill": "cooking"
   },
   {
     "id": "manual_canning",
@@ -458,7 +458,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
     "proficiencies": [
@@ -469,8 +468,9 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1,
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "fermenting_book",
@@ -486,7 +486,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "green",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
@@ -495,8 +494,9 @@
       { "proficiency": "prof_fermenting", "time_factor": 0.25, "fail_factor": 0.3 },
       { "proficiency": "prof_lactofermenting", "time_factor": 0.2, "fail_factor": 0.4 }
     ],
-    "fun": 1,
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "distilling_cookbook",
@@ -512,7 +512,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "blue",
-    "skill": "cooking",
     "required_level": 3,
     "max_level": 5,
     "proficiencies": [
@@ -524,8 +523,9 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "sweets_book",
@@ -541,7 +541,6 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "light_gray",
-    "skill": "cooking",
     "max_level": 2,
     "proficiencies": [
       { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.25 },
@@ -549,7 +548,8 @@
     ],
     "intelligence": 4,
     "time": "9 m",
-    "fun": 1
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "cookbook_indian",
@@ -566,10 +566,10 @@
     "required_level": 1,
     "max_level": 3,
     "intelligence": 7,
-    "fun": 1,
     "copy-from": "book_nonf_hard_cook_tpl",
     "looks_like": "cookbook",
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": 1
   },
   {
     "id": "cookbook_native",
@@ -584,7 +584,6 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "paper" ],
     "color": "blue",
-    "skill": "cooking",
     "required_level": 2,
     "max_level": 3,
     "intelligence": 7,
@@ -592,11 +591,12 @@
       { "proficiency": "prof_forage_cooking", "time_factor": 0.1, "fail_factor": 0.25 },
       { "proficiency": "prof_frying_bread", "time_factor": 0.1, "fail_factor": 0.4 }
     ],
-    "fun": 1,
     "time": "9 m",
     "symbol": "?",
     "looks_like": "cookbook",
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "cookbook_turkish",
@@ -612,11 +612,11 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "color": "red",
-    "skill": "cooking",
     "max_level": 2,
     "intelligence": 4,
     "time": "9 m",
-    "fun": 1,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "cooking",
+    "read_fun": 1
   }
 ]

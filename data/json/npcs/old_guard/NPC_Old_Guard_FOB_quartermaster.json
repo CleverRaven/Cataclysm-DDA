@@ -107,7 +107,7 @@
       [ "tarp", 25 ],
       [ "rope_30", 25 ],
       [ "rope_6", 25 ],
-      { "group": "ammo_common", "prob": 275 },
+      { "group": "ammo_common_boxed", "prob": 275 },
       { "group": "guns_common", "prob": 225 },
       [ "laser_sight", 15 ],
       [ "rail_laser_sight", 10 ],

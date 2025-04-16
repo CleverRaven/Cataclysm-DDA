@@ -664,5 +664,50 @@
         "popup": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_ARMY",
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('photokinetic_light_image') >= 10" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('photokinetic_create_light') >= 14" ] },
+                    { "math": [ "u_spell_level('photokinetic_light_arms') >= 10" ] },
+                    { "math": [ "u_spell_level('photokinetic_blinding_glare') >= 6" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('photokinetic_light_army') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_photokinetic_light_army" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "PHOTOKINETIC" } }, { "math": [ "u_spell_level('photokinetic_light_army') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_photokinetic_light_army" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could summon multiple duplicates, dozens, even more, a veritable legion of holographic clones to allow you confuse and dazzle your enemies, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
   }
 ]

@@ -84,6 +84,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_exodii_castle",
+    "name": "Exodii castle",
+    "terrain": [ "exodii_base_x0y3z0" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_house_boarded",
     "copy-from": "sloc_house",
     "name": "House (boarded up)",
@@ -203,7 +210,7 @@
     "type": "start_location",
     "id": "sloc_gun_store",
     "name": "Gun Store",
-    "terrain": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4" ]
+    "terrain": [ "s_gun_a", "s_gun_b_store" ]
   },
   {
     "type": "start_location",

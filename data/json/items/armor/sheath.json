@@ -106,8 +106,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "leg_sheath6",
@@ -382,8 +381,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scabbard",
@@ -420,8 +418,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "nylon_scabbard",
@@ -495,8 +492,7 @@
         "encumbrance": [ 0, 1 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "sheath_birchbark",

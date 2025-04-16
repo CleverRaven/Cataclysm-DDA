@@ -1,19 +1,22 @@
-#include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstdio>
 #include <functional>
+#include <memory>
+#include <optional>
+#include <random>
 #include <sstream>
-#include <type_traits>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
-#include "game_constants.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h" // For rl_dist.
 #include "map.h"
+#include "map_scale_constants.h"
 #include "mdarray.h"
 #include "point.h"
 #include "rng.h"

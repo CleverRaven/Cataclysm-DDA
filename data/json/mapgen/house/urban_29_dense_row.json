@@ -18,7 +18,7 @@
         "|U..U..|.|.|.|.|.....U|  |......|.|.|.|.|.....W|",
         "|......|<|R|R|<|.....U|  |.....U|<|R|R|<|......|",
         "|zz....|||.|.|||....zz|  |zz...U|||.|.|||....zz|",
-        "|z........F|F........z|  |Z..J.....F|F........z|",
+        "|z........â|â........z|  |Z..J.....â|â........z|",
         "|.........g|g.........|  |W..JA....g|g.........|",
         "|.&.......|||.......&.||||.&.......|||.......&.|",
         "|||====|1|||||1|====|||<.|||====|1|||||1|====|||",
@@ -31,7 +31,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "=": "t_door_metal_locked", "&": "t_gates_mech_control_lab", "1": "t_door_metal_pickable", "y": "t_sai_box" },
       "furniture": { "R": "f_air_conditioner" },
       "nested": {
@@ -253,7 +253,7 @@
         "{": "t_ladder_down"
       },
       "furniture": { "ƃ": "f_pillow_fort", "Ŋ": "f_cardboard_fort", "˽": "f_tatami", "Я": "f_tatami" },
-      "place_vehicles": [ { "vehicle": "tricycle", "x": 30, "y": 13, "chance": 100, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "tricycle", "x": 30, "y": 13, "status": 0 } ],
       "nested": {
         "Ƨ": {
           "chunks": [

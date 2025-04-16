@@ -1,14 +1,15 @@
-#include <iosfwd>
-#include <list>
 #include <map>
-#include <string>
+#include <ostream>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "flag.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -130,7 +131,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
     avatar dummy;
     dummy.set_body();
     const tripoint_bub_ms avatar_pos( 60, 60, 0 );
-    dummy.setpos( avatar_pos );
+    dummy.setpos( here, avatar_pos );
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
     // Morale bonus only applies to unspoiled food that is not junk

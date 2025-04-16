@@ -4,7 +4,7 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "0 s",
-    "components": [ [ [ "steel_lump", 1 ] ] ]
+    "components": [ [ [ "ch_steel_lump", 1 ] ] ]
   },
   {
     "result": "young_koji_done",
@@ -256,7 +256,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "steel_lump", 39 ] ] ]
+    "components": [ [ [ "lc_steel_lump", 39 ] ] ]
   },
   {
     "result": "exodii_ingot_copper",
@@ -450,7 +450,7 @@
     "skill_used": "fabrication",
     "time": "30 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 38 ] ] ]
+    "components": [ [ [ "mc_steel_chunk", 38 ] ] ]
   },
   {
     "result": "mattress",
@@ -600,6 +600,16 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "skull_human_tainted",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone_tainted", 4 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "skull_canis",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -679,7 +689,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "lc_steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "teddy_bear",

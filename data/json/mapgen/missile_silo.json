@@ -6,30 +6,30 @@
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
-        "                 ...  s ",
-        " |||||||||||||||||+|||| ",
-        " |             S|...|S| ",
-        " |  v           ||+|| | ",
-        " |               ...  | ",
-        " |               ...  | ",
-        " |               ...  | ",
-        " |               ...  | ",
-        " |               ...  | ",
-        " |               ...  | ",
-        " |               ...  | ",
-        " |   *****       ...  | ",
-        " |  *******      ...  | ",
-        " | *********     ...  | ",
-        " | *********     ...  | ",
-        " | *********     ...  | ",
-        " | *********    T...T | ",
-        " | *********    │x#│││││",
-        " |  *******     │,,,,,,│",
-        " |   *****      ││││,│││",
-        " |              │,,│,│^│",
-        " |              │,,-,,$│",
-        " |||||||||||||||│p,│>│$│",
-        "                ││││││││"
+        "                ...     ",
+        "|||||||||||||||||||+||||",
+        "|                |...| |",
+        "|   v            ||+|| |",
+        "|                 ...  |",
+        "|                 ...  |",
+        "|                 ...  |",
+        "|                 ...  |",
+        "|                 ...  |",
+        "|                 ...  |",
+        "|                 ...  |",
+        "|   *****         ...  |",
+        "|  *******        ...  |",
+        "| *********       ...  |",
+        "| *********       ...  |",
+        "| *********       ...  |",
+        "| *********       ...  |",
+        "| *********     #x-#####",
+        "|  *******      #,,,,,,#",
+        "|   *****       ####,###",
+        "|               #,,#,#^#",
+        "|               #,,-,,$#",
+        "|               #p,#>#$#",
+        "||||||||||||||||########"
       ],
       "terrain": {
         ".": "t_concrete",
@@ -40,18 +40,14 @@
         "|": "t_chainfence",
         "+": "t_chaingate_c",
         "*": "t_metal_floor_no_roof",
-        "│": "t_strconc_wall",
+        "#": "t_strconc_wall",
         ">": "t_stairs_down",
         "x": "t_card_military",
-        "#": "t_door_metal_locked",
         "-": "t_door_metal_c"
       },
-      "furniture": { "v": "f_vent_pipe", "p": [ [ "f_generator_broken", 25 ], [ "f_military_generator", 5 ] ] },
-      "signs": { "s": { "signage": "Restricted area!  Violators will be shot!", "furniture": "f_sign_warning" } },
-      "monster": {
-        "S": { "monster": "mon_turret_searchlight" },
-        "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 200, 800 ] } ] } }
-      }
+      "furniture": { "v": "f_vent_pipe", "p": "f_generator_broken" },
+      "place_rubble": [ { "x": [ 16, 23 ], "y": [ 17, 23 ], "repeat": [ 10, 20 ] } ],
+      "signs": { "s": { "signage": "Restricted area!  Violators will be shot!", "furniture": "f_sign_warning" } }
     }
   },
   {
@@ -124,8 +120,8 @@
       ],
       "terrain": {
         " ": "t_soil",
-        "│": "t_wall_metal",
-        "*": "t_missile",
+        "│": [ [ "t_wall_metal", 9 ], "t_thconc_floor" ],
+        "*": "t_open_air_rooved",
         "`": "t_open_air_rooved",
         "-": "t_metal_railing",
         "~": "t_metal_floor",
@@ -157,19 +153,18 @@
         "1": "f_speaker_cabinet",
         "x": "f_console_broken"
       },
+      "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
       "items": {
-        "r": { "item": "trash_cart", "chance": 50, "repeat": 2 },
-        "l": { "item": "lab_dorm", "chance": 70, "repeat": 2 },
-        "B": { "item": "bed", "chance": 60 },
-        "f": { "item": "SUS_fridge_breakroom", "chance": 70 },
-        "C": { "item": "office_supplies", "chance": 60 },
-        "t": { "item": "dining", "chance": 45 },
-        "b": { "item": "bunker_basement_books", "chance": 70, "repeat": 2 }
+        "r": { "item": "SUS_trash_floor_light", "chance": 10, "repeat": 2 },
+        "l": { "item": "lab_dorm", "chance": 10, "repeat": 2 },
+        "B": { "item": "bed", "chance": 5 },
+        "C": { "item": "SUS_trash_floor", "chance": 10 },
+        "t": { "item": "SUS_trash_floor", "chance": 5 },
+        "b": { "item": "bunker_basement_books", "chance": 10, "repeat": 2 }
       },
-      "item": { "e": { "item": "microwave", "chance": 70 }, "T": { "item": "militarymap", "chance": 30 } },
+      "item": { "e": { "item": "microwave", "chance": 20 } },
       "toilets": { "&": {  } },
-      "monster": { ".": { "monster": "mon_zombie_soldier", "chance": 10 } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 80 ] } }
     }
   },
   {
@@ -206,10 +201,10 @@
       ],
       "terrain": {
         " ": "t_rock",
-        "│": "t_wall_metal",
+        "│": [ [ "t_wall_metal", 8 ], "t_thconc_floor" ],
         ".": "t_thconc_floor",
         ",": "t_thconc_floor",
-        "*": "t_missile",
+        "*": "t_open_air_rooved",
         "`": "t_open_air_rooved",
         "|": "t_metal_railing",
         "-": "t_metal_railing",
@@ -248,26 +243,26 @@
         "8": "f_utility_shelf",
         "9": "f_armchair"
       },
+      "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
       "items": {
-        "r": { "item": "trash_cart", "chance": 50 },
-        "C": { "item": "office_supplies", "chance": 60 },
-        "d": { "item": "office", "chance": 50 },
-        "b": { "item": "lab_bookshelves", "chance": 60, "repeat": 2 },
-        "5": { "item": "supplies_electronics", "chance": 60, "repeat": 2 },
-        "6": { "item": "plumbing_bulk", "chance": 60, "repeat": 2 },
-        "7": { "item": "bunker_basement_food", "chance": 60, "repeat": 2 }
+        "r": { "item": "SUS_trash_floor_light", "chance": 50 },
+        "C": { "item": "SUS_trash_floor", "chance": 60 },
+        "d": { "item": "SUS_trash_floor", "chance": 50 },
+        "b": { "item": "SUS_trash_floor", "chance": 40, "repeat": 2 },
+        "5": { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
+        "6": { "item": "plumbing_bulk", "chance": 10, "repeat": 2 },
+        "7": { "item": "bunker_basement_food", "chance": 20, "repeat": 2 }
       },
       "item": {
-        "3": { "item": "coat_lab", "chance": 50, "repeat": 2 },
-        "8": { "item": "water_clean", "chance": 70, "repeat": [ 1, 2 ] },
-        "c": { "item": "coat_lab", "chance": 50 },
+        "3": { "item": "coat_lab", "chance": 10, "repeat": 2 },
+        "8": { "item": "water", "chance": 20, "repeat": [ 1, 2 ] },
+        "c": { "item": "coat_lab", "chance": 5 },
         "T": [ { "item": "glass" }, { "item": "whiskey" }, { "item": "death_note" } ]
       },
       "place_loot": [ { "group": "bunker_basement_suicide", "x": 18, "y": 1 } ],
       "place_fields": [ { "field": "fd_blood", "x": 17, "y": 1 }, { "field": "fd_blood", "x": 18, "y": 1 } ],
       "toilets": { "&": {  } },
-      "monster": { ",": { "monster": "mon_zombie_scientist", "chance": 10 } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 10 ] } }
     }
   },
   {
@@ -304,10 +299,10 @@
       ],
       "terrain": {
         " ": "t_rock",
-        "│": "t_wall_metal",
+        "│": [ [ "t_wall_metal", 7 ], "t_thconc_floor" ],
         ".": "t_thconc_floor",
         ",": "t_thconc_floor",
-        "*": "t_missile",
+        "*": "t_open_air_rooved",
         "`": "t_open_air_rooved",
         "-": "t_metal_railing",
         "~": "t_metal_floor",
@@ -334,7 +329,8 @@
         "6": "f_locker",
         "4": "f_speaker_cabinet"
       },
-      "items": { "5": { "item": "radiation_meds", "chance": 60, "repeat": 2 }, "6": { "item": "radiation_equipment", "chance": 60 } },
+      "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
+      "items": { "5": { "item": "radiation_meds", "chance": 10, "repeat": 2 }, "6": { "item": "radiation_equipment", "chance": 5 } },
       "place_graffiti": [
         {
           "text": "Entrance is restricted to authorized environmental-protected personnel with clearance level 4 or above only!",
@@ -379,10 +375,10 @@
       ],
       "terrain": {
         " ": "t_rock",
-        "│": "t_wall_metal",
+        "│": [ [ "t_wall_metal", 7 ], "t_thconc_floor" ],
         ".": "t_thconc_floor",
         ",": "t_thconc_floor",
-        "*": "t_missile",
+        "*": "t_open_air_rooved",
         "`": "t_open_air_rooved",
         "-": "t_metal_railing",
         "~": "t_metal_floor",
@@ -410,22 +406,17 @@
         "S": "f_sink",
         "t": "f_trashcan"
       },
+      "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
       "toilets": { "@": {  } },
       "items": {
-        "b": { "item": "army_bed", "chance": 60 },
-        "t": { "item": "trash_cart", "chance": 60 },
-        "l": { "item": "bunker_basement_clothing", "chance": 50 },
-        "L": [ { "item": "milspec_arsenal_group_only_guns", "chance": 100 } ],
-        "r": [
-          { "item": "milspec_arsenal_group_only_ammo", "chance": 100 },
-          { "item": "grenade_can_pa120_grenades_full", "chance": 30 },
-          { "item": "c4_box_part", "chance": 100 },
-          { "item": "arsenal_mics_group", "chance": 100 }
-        ]
+        "b": { "item": "army_bed", "chance": 5 },
+        "t": { "item": "SUS_trash_floor_light", "chance": 40 },
+        "l": { "item": "bunker_basement_clothing", "chance": 10 },
+        "L": [ { "item": "SUS_trash_floor", "chance": 30 } ],
+        "r": [ { "item": "SUS_trash_floor", "chance": 45 } ]
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
-      "monster": { ",": { "monster": "mon_turret_rifle" } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 20 ] } }
     }
   },
   {
@@ -463,7 +454,7 @@
       ],
       "terrain": {
         " ": "t_rock",
-        "│": "t_wall_metal",
+        "│": [ [ "t_wall_metal", 7 ], "t_thconc_floor" ],
         ".": "t_thconc_floor",
         "~": "t_metal_floor_no_roof",
         "|": "t_reinforced_glass_shutter_open",
@@ -479,20 +470,12 @@
         "%": "f_machinery_electronic",
         "1": "f_speaker_cabinet",
         "4": "f_speaker_cabinet",
+        "6": "f_console_broken",
         "a": "f_air_conditioner",
         "c": "f_chair"
       },
-      "computers": {
-        "6": {
-          "name": "Missile Controls",
-          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
-          "security": 10,
-          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ],
-          "options": [ { "name": "Disarm Missile", "action": "miss_disarm" } ]
-        }
-      },
-      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
-      "place_monster": [ { "monster": "mon_zombie_hazmat", "x": 8, "y": 15 } ]
+      "place_rubble": [ { "x": [ 0, 23 ], "y": [ 7, 23 ], "repeat": [ 150, 200 ] } ],
+      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ]
     }
   }
 ]

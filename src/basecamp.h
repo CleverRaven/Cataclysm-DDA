@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_BASECAMP_H
 #define CATA_SRC_BASECAMP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -13,15 +12,18 @@
 #include <string>
 #include <string_view>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
-#include "coords_fwd.h"
+#include "calendar.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "game_constants.h"
-#include "game_inventory.h"
 #include "inventory.h"
+#include "item_location.h"
 #include "map.h"
 #include "mapgendata.h"
+#include "memory_fast.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
@@ -36,15 +38,12 @@ class JsonOut;
 class basecamp;
 class character_id;
 class faction;
+class inventory_filter_preset;
 class item;
 class npc;
 class recipe;
-class time_duration;
-class zone_data;
-struct MonsterGroupResult;
 enum class farm_ops;
-
-using faction_id = string_id<faction>;
+struct MonsterGroupResult;
 
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;

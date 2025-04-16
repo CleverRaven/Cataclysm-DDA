@@ -1,7 +1,7 @@
 #include "mapdata.h"
 
 #include <algorithm>
-#include <cstdlib>
+#include <exception>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -9,19 +9,20 @@
 #include <utility>
 
 #include "assign.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "game.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
 #include "iexamine_actors.h"
+#include "item.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
-#include "json.h"
 #include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
@@ -228,6 +229,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";
         case ter_furn_flag::TFLAG_WORKOUT_LEGS: return "WORKOUT_LEGS";
         case ter_furn_flag::TFLAG_TRANSLOCATOR: return "TRANSLOCATOR";
+        case ter_furn_flag::TFLAG_TRANSLOCATOR_GREATER: return "TRANSLOCATOR_GREATER";
         case ter_furn_flag::TFLAG_AUTODOC: return "AUTODOC";
         case ter_furn_flag::TFLAG_AUTODOC_COUCH: return "AUTODOC_COUCH";
         case ter_furn_flag::TFLAG_OPENCLOSE_INSIDE: return "OPENCLOSE_INSIDE";
@@ -277,6 +279,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CLIMB_ADJACENT: return "CLIMB_ADJACENT";
         case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
+        case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -440,7 +443,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
+    optional( j, false, "chance_to_hit", chance_to_hit, 100 );
 
     std::pair<int, int> reduce_damage;
     std::pair<int, int> reduce_damage_laser;
@@ -457,13 +460,13 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
     destroy_dmg_min = destroy_damage.first;
     destroy_dmg_max = destroy_damage.second;
 
-    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
+    optional( j, false, "no_laser_destroy", no_laser_destroy, false );
 
     return true;
 }
 
-furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
-    allowed_volume( units::volume_max ) {}
+furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass::max() ),
+    allowed_volume( units::volume::max() ) {}
 
 bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
 {
@@ -857,10 +860,14 @@ void map_data_common_t::unset_flags()
     transparent = false; //?
 }
 
-void map_data_common_t::set_connect_groups( const std::vector<std::string>
-        &connect_groups_vec )
+void map_data_common_t::set_connect_groups( const std::vector<std::string> &connect_groups_vec )
 {
     set_groups( connect_groups, connect_groups_vec );
+}
+
+void map_data_common_t::unset_connect_groups( const std::vector<std::string> &connect_groups_vec )
+{
+    set_groups( connect_groups, connect_groups_vec, true );
 }
 
 void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_groups_vec )
@@ -868,13 +875,23 @@ void map_data_common_t::set_connects_to( const std::vector<std::string> &connect
     set_groups( connect_to_groups, connect_groups_vec );
 }
 
+void map_data_common_t::unset_connects_to( const std::vector<std::string> &connect_groups_vec )
+{
+    set_groups( connect_to_groups, connect_groups_vec, true );
+}
+
 void map_data_common_t::set_rotates_to( const std::vector<std::string> &connect_groups_vec )
 {
     set_groups( rotate_to_groups, connect_groups_vec );
 }
 
+void map_data_common_t::unset_rotates_to( const std::vector<std::string> &connect_groups_vec )
+{
+    set_groups( rotate_to_groups, connect_groups_vec, true );
+}
+
 void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
-                                    const std::vector<std::string> &connect_groups_vec )
+                                    const std::vector<std::string> &connect_groups_vec, bool unset )
 {
     for( const std::string &group : connect_groups_vec ) {
         if( group.empty() ) {
@@ -882,10 +899,10 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
             continue;
         }
         std::string grp = group;
-        bool remove = false;
+        bool remove = unset;
         if( grp.at( 0 ) == '~' ) {
             grp = grp.substr( 1 );
-            remove = true;
+            remove = !remove;
         }
         const auto it = ter_connects_map.find( grp );
         if( it != ter_connects_map.end() ) {
@@ -974,6 +991,7 @@ void init_mapdata()
     add_actor( std::make_unique<appliance_convert_examine_actor>() );
     add_actor( std::make_unique<cardreader_examine_actor>() );
     add_actor( std::make_unique<eoc_examine_actor>() );
+    add_actor( std::make_unique<mortar_examine_actor>() );
 }
 
 void map_data_common_t::load( const JsonObject &jo, const std::string &src )
@@ -1027,11 +1045,29 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
         for( auto &flag : joe.get_string_array( "flags" ) ) {
             set_flag( flag );
         }
+        if( joe.has_member( "connect_groups" ) ) {
+            set_connect_groups( joe.get_as_string_array( "connect_groups" ) );
+        }
+        if( joe.has_member( "connects_to" ) ) {
+            set_connect_groups( joe.get_as_string_array( "connects_to" ) );
+        }
+        if( joe.has_member( "rotates_to" ) ) {
+            set_connect_groups( joe.get_as_string_array( "rotates_to" ) );
+        }
     }
     if( was_loaded && jo.has_member( "delete" ) ) {
         JsonObject jod = jo.get_object( "delete" );
         for( auto &flag : jod.get_string_array( "flags" ) ) {
             unset_flag( flag );
+        }
+        if( jod.has_member( "connect_groups" ) ) {
+            unset_connect_groups( jod.get_as_string_array( "connect_groups" ) );
+        }
+        if( jod.has_member( "connects_to" ) ) {
+            unset_connect_groups( jod.get_as_string_array( "connects_to" ) );
+        }
+        if( jod.has_member( "rotates_to" ) ) {
+            unset_connect_groups( jod.get_as_string_array( "rotates_to" ) );
         }
     }
 

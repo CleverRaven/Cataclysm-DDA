@@ -241,9 +241,9 @@
     "category": "veh_parts",
     "color": "green",
     "symbol": "Y",
-    "ammo": "battery",
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5500 W" } ],
     "price": "1 kUSD",
-    "price_postapoc": "10 USD"
+    "price_postapoc": "10 USD",
+    "tool_ammo": "battery"
   }
 ]

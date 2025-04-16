@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -31,10 +30,9 @@
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -43,6 +41,8 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "math_defines.h"
 #include "mdarray.h"
@@ -58,7 +58,6 @@
 #include "shadowcasting.h"
 #include "sounds.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -99,6 +98,7 @@ static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
 static const ter_str_id ter_t_card_science( "t_card_science" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -117,37 +117,42 @@ static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/100 chance of a fragment passing through the given square.
 static constexpr float MIN_FRAGMENT_DENSITY = 0.001f;
 
-explosion_data load_explosion_data( const JsonObject &jo )
-{
-    explosion_data ret;
-    // Power is mandatory
-    jo.read( "power", ret.power );
-    // Rest isn't
-    ret.distance_factor = jo.get_float( "distance_factor", 0.75f );
-    ret.max_noise = jo.get_int( "max_noise", 90000000 );
-    ret.fire = jo.get_bool( "fire", false );
-    if( jo.has_int( "shrapnel" ) ) {
-        ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
-        ret.shrapnel.recovery = 0;
-        ret.shrapnel.drop = fuel_type_none;
-    } else if( jo.has_object( "shrapnel" ) ) {
-        JsonObject shr = jo.get_object( "shrapnel" );
-        ret.shrapnel = load_shrapnel_data( shr );
-    }
 
-    return ret;
+//reads shrapnel data as object or int
+class shrapnel_reader : public generic_typed_reader<shrapnel_reader>
+{
+    public:
+        shrapnel_data get_next( const JsonValue &val ) const {
+            shrapnel_data ret;
+            if( val.test_int() ) {
+                ret.casing_mass = val.get_int();
+                ret.recovery = 0;
+                ret.drop = fuel_type_none;
+                return ret;
+            } else if( val.test_object() ) {
+                ret.deserialize( val.get_object() );
+                return ret;
+            }
+            val.throw_error( "shrapnel_reader element must be int or object" );
+            return ret;
+        }
+};
+
+void explosion_data::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "power", power );
+    optional( jo, was_loaded, "distance_factor", distance_factor, 0.75f );
+    optional( jo, was_loaded, "max_noise", max_noise, 90000000 );
+    optional( jo, was_loaded, "fire", fire );
+    optional( jo, was_loaded, "shrapnel", shrapnel, shrapnel_reader{} );
 }
 
-shrapnel_data load_shrapnel_data( const JsonObject &jo )
+void shrapnel_data::deserialize( const JsonObject &jo )
 {
-    shrapnel_data ret;
-    // Casing mass is mandatory
-    jo.read( "casing_mass", ret.casing_mass );
-    // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.08 );
-    ret.recovery = jo.get_int( "recovery", 0 );
-    ret.drop = itype_id( jo.get_string( "drop", "null" ) );
-    return ret;
+    mandatory( jo, was_loaded, "casing_mass", casing_mass );
+    optional( jo, was_loaded, "fragment_mass", fragment_mass, 0.08 ); //differs from header?
+    optional( jo, was_loaded, "recovery", recovery );
+    optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
 }
 namespace explosion_handler
 {
@@ -252,14 +257,14 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                                          force / 2;
                 if( z_offset[i] == 0 ) {
                     // Horizontal - no floor bashing
-                    m->bash( dest, bash_force, true, false, false );
+                    m->bash( dest, bash_force, true, false, false, nullptr, false );
                 } else if( z_offset[i] > 0 ) {
                     // Should actually bash through the floor first, but that's not really possible yet
-                    m->bash( dest, bash_force, true, false, true );
+                    m->bash( dest, bash_force, true, false, true, nullptr, false );
                 } else if( !m->valid_move( pt, dest, false, true ) ) {
                     // Only bash through floor if it doesn't exist
                     // Bash the current tile's floor, not the one's below
-                    m->bash( pt, bash_force, true, false, true );
+                    m->bash( pt, bash_force, true, false, true, nullptr, false );
                 }
             }
 
@@ -280,8 +285,19 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
         }
     }
 
+    for( const tripoint_bub_ms &pos : bashed ) {
+        const tripoint_bub_ms below = pos + tripoint::below;
+        const ter_t ter_below = m->ter( below ).obj();
+
+        if( m->ter( pos ).id() == ter_t_open_air ) {
+            if( ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+                m->ter_set( pos, ter_below.roof );
+            }
+        }
+    }
+
     // Draw the explosion, but only if the explosion center is within the reality bubble
-    map &bubble_map = get_map();
+    map &bubble_map = reality_bubble();
     if( bubble_map.inbounds( m->get_abs( p ) ) ) {
         std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
@@ -350,7 +366,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                                          bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( mutable_source, bodypart_id( "torso" ), actual_dmg );
-            critter->check_dead_state();
+            critter->check_dead_state( m );
             add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s for %d damage", critter->disp_name(),
                            actual_dmg );
             continue;
@@ -466,7 +482,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
             frag.proj.impact = damage_instance( damage_bullet, damage );
             for( int i = 0; i < hits; ++i ) {
                 frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
-                critter->deal_projectile_attack( mutable_source, frag, frag.missed_by, false );
+                critter->deal_projectile_attack( m, mutable_source, frag, frag.missed_by, false );
                 add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel hit %s at %d m/s at a distance of %d",
                                critter->disp_name(),
                                frag.proj.speed, rl_dist( src, target ) );
@@ -476,7 +492,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                 }
             }
             auto it = frag.targets_hit[critter];
-            if( get_map().inbounds(
+            if( reality_bubble().inbounds(
                     abs_target ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
                 multi_projectile_hit_message( critter, it.first, it.second, n_gettext( "bomb fragment",
                                               "bomb fragments", it.first ) );
@@ -523,11 +539,19 @@ void explosion( const Creature *source, const tripoint_bub_ms &p, const explosio
     _explosions.emplace_back( source, get_map().get_abs( p ), ex );
 }
 
+void explosion( const Creature *source, map *here, const tripoint_bub_ms &p,
+                const explosion_data &ex )
+{
+    _explosions.emplace_back( source, here->get_abs( p ), ex );
+}
+
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex )
 {
-    if( get_map().inbounds( m->get_abs( p ) ) ) {
-        tripoint_bub_ms bubble_pos = get_map().get_bub( m->get_abs( p ) );
+    map &bubble_map = reality_bubble();
+
+    if( bubble_map.inbounds( m->get_abs( p ) ) ) {
+        tripoint_bub_ms bubble_pos = bubble_map.get_bub( m->get_abs( p ) );
         int noise = ex.power * ( ex.fire ? 2 : 10 );
         noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
 
@@ -683,9 +707,10 @@ void scrambler_blast( const tripoint_bub_ms &p )
 
 void emp_blast( const tripoint_bub_ms &p )
 {
-    Character &player_character = get_player_character();
-    const bool sight = player_character.sees( p );
     map &here = get_map();
+
+    Character &player_character = get_player_character();
+    const bool sight = player_character.sees( here, p );
     if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
@@ -754,7 +779,7 @@ void emp_blast( const tripoint_bub_ms &p )
                 }
                 int dam = dice( 10, 10 );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
-                critter.check_dead_state();
+                critter.check_dead_state( &here );
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
@@ -774,7 +799,7 @@ void emp_blast( const tripoint_bub_ms &p )
                 }
                 critter.add_effect( effect_emp, 1_minutes );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
-                critter.check_dead_state();
+                critter.check_dead_state( &here );
             }
         } else if( sight ) {
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
@@ -938,7 +963,7 @@ void process_explosions()
 
     for( const queued_explosion &ex : explosions_copy ) {
         const int safe_range = ex.data.safe_range();
-        map  *bubble_map = &get_map();
+        map  *bubble_map = &reality_bubble();
         const tripoint_bub_ms bubble_pos( bubble_map->get_bub( ex.pos ) );
 
         if( bubble_pos.x() - safe_range < 0 || bubble_pos.x() + safe_range > MAPSIZE_X ||
@@ -950,10 +975,12 @@ void process_explosions()
             // to actually overlap the reality bubble, so a large explosion can be detonated without blowing up the PC
             // or have a vehicle run into a crater suddenly appearing just in front of it.
             process_explosions_in_progress = true;
-            m.load( origo, false, false );
+            m.load( origo, true, false );
             m.spawn_monsters( true, true );
+            g->load_npcs( &m );
             process_explosions_in_progress = false;
             _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
+            m.process_falling();
         } else {
             _make_explosion( bubble_map, ex.source, bubble_map->get_bub( ex.pos ), ex.data );
         }

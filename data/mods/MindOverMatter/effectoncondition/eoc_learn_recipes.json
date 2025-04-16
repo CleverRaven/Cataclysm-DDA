@@ -143,6 +143,7 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_BETTER_SENSES",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_NIGHT_VISION",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPEED_READING",
           "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DANGER_SENSE",
@@ -160,6 +161,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_BETTER_SENSES",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_better_senses') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_better_senses" } ]
   },
   {
     "type": "effect_on_condition",
@@ -426,7 +433,8 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
-          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE"
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMY"
         ]
       }
     ]
@@ -536,6 +544,12 @@
       "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_disintegrate') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_light_disintegrate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMY",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_army') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_army" } ]
   },
   {
     "type": "effect_on_condition",
@@ -902,13 +916,18 @@
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BLINK",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_SLOW",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_ITEM_TELEPORT",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_STRIDE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_TRANSPOSE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_DISPLACEMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_REACTIVE_DISPLACEMENT",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_COLLAPSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_LOCI_ESTABLISHMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_LOCI_TECHNIQUE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_RELOCATION",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_EPHEMERAL_WALK",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH"
         ]
@@ -932,6 +951,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_phase') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_phase" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_ITEM_TELEPORT",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_item_apport') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_item_apport" } ]
   },
   {
     "type": "effect_on_condition",
@@ -992,6 +1017,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_gateway') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_gateway" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_RELOCATION",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_relocation') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_relocation" } ]
   },
   {
     "type": "effect_on_condition",

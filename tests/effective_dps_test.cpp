@@ -1,17 +1,25 @@
 #include <algorithm>
 #include <cstdlib>
-#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
+#include "itype.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
-#include "sounds.h"
 #include "ret_val.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "test_data.h"
 #include "type_id.h"
 
@@ -29,8 +37,6 @@ static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
-
-struct itype;
 
 // Run a large number of trials of a player attacking a monster with a given weapon,
 // and return the average damage done per second.

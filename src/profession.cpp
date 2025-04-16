@@ -6,32 +6,35 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <ostream>
 
-#include "game.h"
 #include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "debug.h"
 #include "effect_on_condition.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
-#include "json.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "pimpl.h"
+#include "trait_group.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "visitable.h"
-#include <trait_group.h>
-#include <npc_class.h>
+
+struct bionic_data;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 static const trait_group::Trait_group_tag
@@ -258,6 +261,7 @@ void profession::load( const JsonObject &jo, const std::string_view )
               Trait_group_BG_survival_story_UNIVERSAL );
     optional( jo, was_loaded, "age_lower", age_lower, 16 );
     optional( jo, was_loaded, "age_upper", age_upper, 55 );
+    optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
@@ -518,6 +522,11 @@ static time_point advanced_spawn_time()
 signed int profession::point_cost() const
 {
     return _point_cost;
+}
+
+std::optional<int> profession::starting_cash() const
+{
+    return _starting_cash;
 }
 
 static void clear_faults( item &it )

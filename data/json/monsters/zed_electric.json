@@ -39,7 +39,7 @@
     "harvest": "zombie_humanoid_electric",
     "special_attacks": [ [ "PARROT", 8 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC" ] }
   },
   {
@@ -82,7 +82,7 @@
     "luminance": 4,
     "harvest": "zombie_humanoid_electric",
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": { "half_life": 28, "into": "mon_zombie_electric" },
+    "upgrades": { "half_life": 112, "into": "mon_zombie_electric" },
     "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC" ] }
   }
 ]

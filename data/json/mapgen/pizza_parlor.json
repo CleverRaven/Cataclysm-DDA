@@ -80,6 +80,7 @@
         "s": "f_sink",
         "{": "f_rack"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "pizza_display", "x": 6, "y": [ 5, 8 ], "chance": 65, "repeat": [ 3, 4 ] },
@@ -101,7 +102,7 @@
         { "item": "pizza_soda", "x": 20, "y": 20, "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "pizza_locker", "x": 5, "y": 1, "chance": 55, "repeat": [ 5, 6 ] },
         { "item": "pizza_bathroom", "x": [ 2, 3 ], "y": [ 20, 22 ], "chance": 37, "repeat": [ 1, 3 ] },
-        { "item": "pizza_trash", "x": 1, "y": [ 15, 16 ], "chance": 50, "repeat": [ 7, 9 ] },
+        { "item": "SUS_trash_trashcan", "x": 1, "y": [ 15, 16 ], "chance": 50, "repeat": [ 7, 9 ] },
         { "item": "cash_register_random", "x": 6, "y": [ 2, 4 ], "chance": 100 }
       ]
     }
@@ -139,7 +140,7 @@
         "----------------        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 13 ], "y": [ 3, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 13 ], "y": [ 3, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -249,13 +250,14 @@
         "{": "f_rack"
       },
       "items": {
-        "C": { "item": "pizza_trash", "chance": 50, "repeat": [ 7, 9 ] },
+        "C": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 7, 9 ] },
         "F": { "item": "pizza_fridge", "chance": 80, "repeat": [ 9, 10 ] },
         "{": { "item": "pizza_kitchen", "chance": 82, "repeat": [ 7, 9 ] },
         "L": { "item": "pizza_locker", "chance": 55, "repeat": [ 5, 6 ] },
         "$": { "item": "pizza_display", "chance": 45, "repeat": [ 3, 4 ] },
         "T": { "item": "pizza_table", "chance": 25 },
-        "c": { "item": "pizza_soda", "chance": 25 }
+        "c": { "item": "pizza_soda", "chance": 25 },
+        "Á": { "item": "SUS_toilet", "chance": 50 }
       },
       "toilets": { "Á": {  } },
       "place_vehicles": [ { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 22 ], "chance": 35, "rotation": 270 } ],
@@ -296,7 +298,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 7, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 7, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [

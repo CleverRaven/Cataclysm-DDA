@@ -257,6 +257,26 @@
     "base_casting_time": 1500
   },
   {
+    "id": "hedge_luck_spell",
+    "type": "SPELL",
+    "name": "The Coin of Gad",
+    "description": "With a candle, a penny, and paper, this will create a short lived luck charm upon oneself.",
+    "message": "You write the words upon the paper, place the penny on the ground, place the paper upon the penny, light the candle then the paper and firmly place the candle in the ashes on top of the penny, let the candle burn down melting all over the penny.  You will find your steps slightly lucky for the several hours to potentially a full day.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "attack",
+    "effect_str": "effect_hedge_magic_luck_spell",
+    "shape": "blast",
+    "components": "spell_components_hedge_luck_spell",
+    "max_level": 1,
+    "base_casting_time": 250000,
+    "min_duration": 1000000,
+    "max_duration": 8600000
+  },
+  {
     "id": "hedge_clairvoyance_cone",
     "type": "SPELL",
     "name": "To See Beyond the Barriers",

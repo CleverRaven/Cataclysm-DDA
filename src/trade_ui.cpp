@@ -1,9 +1,12 @@
 
 #include "trade_ui.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
+#include <unordered_set>
 
 #include "character.h"
 #include "clzones.h"
@@ -12,12 +15,15 @@
 #include "game_constants.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_category.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctrade.h"
 #include "npctrade_utils.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
 #include "string_formatter.h"
 #include "type_id.h"
 

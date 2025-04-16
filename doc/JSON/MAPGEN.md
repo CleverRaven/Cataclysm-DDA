@@ -128,7 +128,7 @@ Mapgen definitions can be added in 2 places:
 
 As `"mapgen": { ... }` only used in combination with the 'builtin' method:
 
-```json
+```jsonc
 "mapgen": [ { "method": "builtin", "name": "parking_lot" } ]
 ```
 
@@ -139,7 +139,7 @@ Do not use this, use standalone instead.
 
 As standalone `{ "type": "mapgen", ... }` objects in a .json inside data/json. Below is the fast food restaurant.
 
-```json
+```jsonc
 [
     {
         "type": "mapgen",
@@ -222,7 +222,7 @@ is due to technical limitations (it's costly and messy to determine a level gene
 
 Example:
 
-```json
+```jsonc
 "om_terrain": [
   [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
   [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ]
@@ -257,7 +257,7 @@ Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 Default: 1000
 
 Examples:
-```json
+```jsonc
     "//": "disable this variant"
     "weight": 0,
     "//2": "constant weight"
@@ -308,7 +308,7 @@ Every tile lacking a terrain character definition will be `t_region_groundcover`
 `"fill_ter": "t_region_groundcover"`
 
 Every tile lacking a terrain character definition will the same one of `t_floor`, `t_pavement` and `t_concrete` across the omt, with `t_floor`being twice as likely to be picked
-```json
+```jsonc
 "parameters": {
   "floor_type": {
     "type": "ter_str_id",
@@ -342,7 +342,7 @@ Otherwise any character used must have some definition to indicate its purpose, 
 
 Example:
 
-```json
+```jsonc
 "rows": [
   ",_____####ssss####_____,",
   ",__,__#ssssssssss#__,__,",
@@ -382,7 +382,7 @@ Value: `{object}: { "a", "t_identifier", ... }`
 
 Example:
 
-```json
+```jsonc
 "terrain": {
   " ": "t_region_groundcover_urban",
   "d": "t_region_groundcover_barren",
@@ -412,7 +412,7 @@ If you want to remove a furniture definition from a palette you can use `f_null`
 
 Example:
 
-```json
+```jsonc
 "furniture": {
   "H": "f_chair",
   "T": "f_table",
@@ -441,7 +441,7 @@ the raw bytes (code unit) level.  Therefore, there are literally an infinite num
 `"flags"` may provide a list of flags to be applied to the mapgen.
 
 Example:
-```json
+```jsonc
 "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
 ```
 
@@ -496,7 +496,7 @@ Value: `[ array of {objects} ]: [ { "point": .. }, { "line": .. }, { "square": .
 
 Example:
 
-```json
+```jsonc
 "set": [
   { "point": "furniture", "id": "f_chair", "x": 5, "y": 10, "z": 1 },
   { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
@@ -542,7 +542,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 - creature_remove has no "id" or "amount"
 
 Example:
-```json
+```jsonc
 { "line": "terrain", "id": "t_lava", "x": 5, "y": 5, "x2": 20, "y2": 20 },
 { "line": "terrain", "id": "t_wood_treated_roof", "x": 5, "y": 5, "z": 1 "x2": 20, "y2": 20 }
 ```
@@ -569,7 +569,7 @@ Example:
 The "square" arguments are the same as for "line", but "x", "y" and "x2", "y2" define opposite corners.
 
 Example:
-```json
+```jsonc
 { "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] },
 { "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "z": -1, "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 ```
@@ -613,7 +613,7 @@ location within the rectangle. Example: `"x": 12, "y": [ 5, 15 ]` - these values
 `map::place_spawns` from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true }
 ]
@@ -623,7 +623,7 @@ This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets
 the monster at coordinate (10, 10) and also sets the monster as the target of this mission.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 11, "y": 17, "z": 1, "target": false }
 ]
@@ -632,7 +632,7 @@ This spawns the same monster as before, but one Z level higher up (hopefully on 
 mission target.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3], "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ] } }
 ]
@@ -651,7 +651,7 @@ This optional object can have two fields:
 Monsters with a patrol point list will move to each patrol point, in order, whenever they have no more pressing action to take on their turn. Upon reaching the last point in the patrol point list, the monster will continue on to the first point in the list.
 
 Example:
-```json
+```jsonc
 "place_monster": [
     { "monster": "mon_zombie", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } }
 ]
@@ -660,7 +660,7 @@ Example:
 This places a "mon_zombie" at (12, 12). The zombie can move freely to chase after enemies, but will always return to the (12, 12) position if it has nothing else to do.
 
 Example 2:
-```json
+```jsonc
 "place_monster": [
     { "monster": "mon_secubot", "x": 12, "y": 12, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ], "patrol": [ { "x": -23, "y": -23 }, { "x": 47, "y": -23 }, { "x": 47, "y": 47 },  { "x": 47, "y": -23 } ] } }
 ]
@@ -705,7 +705,7 @@ Using `place_variables` to set a group of variables.
 Value: `[ array of {objects} ]: [ { "item", ... }, ... ]`
 
 Example:
-```json
+```jsonc
 "place_item": [
     { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 20 }
 ]
@@ -727,7 +727,7 @@ The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as i
 **optional** Define an area where mapgen-spawned items will have faction ownership applied
 
 Example:
-```json
+```jsonc
 "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
 ```
 
@@ -766,7 +766,7 @@ chances) and applied.
 
 Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 
-```json
+```jsonc
 "terrain" : {
     ".": [ "t_region_grass", "t_region_grass", "t_region_soil" ]
 }
@@ -775,7 +775,7 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 It is also possible to specify the number of instances (and consequently their chance) directly, which is particularly
 useful for rare occurrences (rather than repeating the common value many times):
 
-```json
+```jsonc
 "terrain" : {
     ".": [ [ "t_region_grass", 2 ], "t_region_soil" ]
 }
@@ -784,14 +784,14 @@ useful for rare occurrences (rather than repeating the common value many times):
 
 Example (places a blood and a bile field on each '.' square):
 
-```json
+```jsonc
 "fields" : {
     ".": [ { "field": "fd_blood" }, { "field": "fd_bile" } ]
 }
 ```
 
 Or define the mappings for one character at once:
-```json
+```jsonc
 "mapping" : {
     ".": {
         "traps": "tr_beartrap",
@@ -816,7 +816,7 @@ min-max values are also supported: `"x": [ 0, 23 ], "y": [ 0, 23 ]` places the s
 
 Example with mapping (the characters `"O"` and `";"` should appear in the rows array where the specials should appear):
 
-```json
+```jsonc
 "gaspumps": {
     "O": { "amount": 1000 }
 },
@@ -829,7 +829,7 @@ The amount of water to be placed in toilets is optional, an empty entry is there
 
 Example with coordinates:
 
-```json
+```jsonc
 "place_gaspumps": [
     { "x": 14, "y": 15, "amount": [ 1000, 2000 ] }
 ],
@@ -839,13 +839,13 @@ Example with coordinates:
 ```
 
 Terrain, furniture and traps can specified as a single string, not a json object:
-```json
+```jsonc
 "traps" : {
     ".": "tr_beartrap"
 }
 ```
 Same as
-```json
+```jsonc
 "traps" : {
     ".": { "trap": "tr_beartrap" }
 }
@@ -855,7 +855,7 @@ Same as
 
 Example:
 
-```json
+```jsonc
 "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "repeat": [ 0, 3 ] } ]
 
 "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": 1, "repeat": [ 0, 3 ] } ]
@@ -875,7 +875,7 @@ Example:
 
 Example:
 
-```json
+```jsonc
 "npcs": { "A": { "class": "NC_REFUGEE", "target": true, "add_trait": "ASTHMA" } }
 ```
 
@@ -895,7 +895,7 @@ name, or `<city>` that will insert the nearest city name.
 
 Example:
 
-```json
+```jsonc
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
@@ -962,16 +962,16 @@ The actual monsters are spawned when the map is loaded. Fields:
 
 | Field    | Description
 | ---      | ---
-| vehicle  | (required, string) type of the vehicle or id of a vehicle group.
-| chance   | (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
+| vehicle  | (required, string) id of the vehicle or vehicle group to place.
+| chance   | (optional, integer) x in 100 chance of the vehicle spawning at all. Defaults to 100% if unspecified.
 | rotation | (optional, integer) the direction the vehicle faces.
 | fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
-| status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
+| status   | (optional, integer) Defaults to -1, light damage. A value of 0 equates to undamaged, 1 heavily damaged and 2 perfect condition with no faults and disabled security.
 | faction  | (optional, string) faction this vehicle belongs to.
 
 Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
 
-```json
+```jsonc
 "place_vehicles": [
     { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 }
 ]
@@ -983,7 +983,7 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 | ---      | ---
 | vehicles  | (optional, string array) types of vehicle to be removed. If left empty all vehicles will be removed.
 
-```json
+```jsonc
 "remove_vehicles": [
     { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
@@ -1000,7 +1000,7 @@ Note that vehicles cannot be placed over overmap boundaries. So it needs to be 2
 
 To use this type with explicit coordinates use the name "place_item" (this if for backwards compatibility) like this:
 
-```json
+```jsonc
 "item": {
     "x": { "item": "rock" }
 },
@@ -1056,7 +1056,7 @@ been set). Creating rubble invokes the bashing function that can destroy terrain
 
 To use this type with explicit coordinates use the name "place_rubble" (no plural) like this:
 
-```json
+```jsonc
 "place_rubble": [
     { "x": 10, "y": 1 }
 ]
@@ -1076,7 +1076,7 @@ pumps, or unless terrain the liquid spilled on has `LIQUIDCONT` flag), but can b
 Example for dropping a default amount of gasoline (200 units) on the ground (either by using a character in the rows
 array or explicit coordinates):
 
-```json
+```jsonc
 "liquids": {
     "g": { "liquid": "gasoline" }
 },
@@ -1123,7 +1123,7 @@ On such furniture, there is supposed to be a single (hidden) seed item which dic
 
 Example:
 
-```json
+```jsonc
 "sealed_item": {
   "p": {
     "items": { "item": "farming_seeds", "chance": 100 },
@@ -1217,7 +1217,7 @@ Joins can be checked only for the cardinal directions, `"above"`, and `"below"`
 
 Example:
 
-```json
+```jsonc
   "place_nested": [
     { "chunks": [ "nest1" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
     { "chunks": [ "nest1_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "north": [ "empty_rock", "field" ] } },
@@ -1253,7 +1253,7 @@ Creates a corpse of a random monster from a monster group.
 
 Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
 
-```json
+```jsonc
 "corpses": {
     "g": { "group": "GROUP_PETS", "age": 3 }
 },
@@ -1280,7 +1280,7 @@ Creates a `f_console` furniture. Despite the only required field is `name`, you 
 
 Example for placing computer console (either by using a character in the rows array or explicit coordinates):
 
-```json
+```jsonc
 "computers": {
   "a": {
     "name": "Test computer 1",
@@ -1311,7 +1311,7 @@ For example, the default value of a parameter, or a terrain id in the
 * A JSON object containing the key `"distribution"`, whose corresponding value
   is a list of lists, each a pair of a string id and an integer weight.  For
   example:
-```json
+```jsonc
 { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
 ```
 * A JSON object containing the key `"param"`, whose corresponding value is the
@@ -1329,7 +1329,7 @@ For example, the default value of a parameter, or a terrain id in the
   a mapgen parameter, so as to allow two parts of the mapgen to be consistent.
   For example, the following switch would match a fence gate type to a fence
   type chosen by a mapgen parameter `fence_type`:
-```json
+```jsonc
 {
     "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
     "cases": {
@@ -1450,7 +1450,7 @@ pieces of mapgen.  For example, most of the houses defined in CDDA us the
 needing to repeat this definition everywhere.  It simply requires a reference
 to the palette, achieved by adding
 
-```json
+```jsonc
 "palettes": [ "standard_domestic_palette" ]
 ```
 
@@ -1473,6 +1473,8 @@ two or more palettes would have many of the same symbols with the same meanings
 that common part can be pulled out into a new palette which each of them
 includes, so that the definitions need not be repeated.
 
+To extend a vanilla palette in a mod you can add `"extending": true` in a
+palette of the same name, the default behaviour is to override.
 
 ## Palette ids as mapgen values
 
@@ -1488,7 +1490,7 @@ overmap special arguments displayed in the overmap editor (accessible via the
 debug menu).
 
 For example, the following JSON used in a cabin mapgen definition
-```json
+```jsonc
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
 ```
 causes half the cabins generated to use the regular `cabin_palette` and the
@@ -1571,7 +1573,7 @@ Map extras can be used to place environmental objects and structures that can he
 
 ### "map_extra"
 
-```JSON
+```jsonc
 {
   "id": "mx_minefield",
   "type": "map_extra",
@@ -1607,7 +1609,7 @@ The `generator` can use one of 3 methods:
 
 The `mx_science` map extra spawns bodies of scientists as well as a few enemy mobs. The map extra definition is as follows:
 
-```JSON
+```jsonc
 {
   "id": "mx_science",
   "type": "map_extra",
@@ -1623,7 +1625,7 @@ The `mx_science` map extra spawns bodies of scientists as well as a few enemy mo
 
 In this case the `generator_id` points to a `mapgen` definition that establishes what objects or structures will spawn at that location:
 
-```JSON
+```jsonc
 {
   "type": "mapgen",
   "method": "json",
@@ -1669,7 +1671,7 @@ In this case the `generator_id` points to a `mapgen` definition that establishes
 
 The nested chunks define the items and fields that may spawn:
 
-```JSON
+```jsonc
 {
   "type": "mapgen",
   "method": "json",
@@ -1684,7 +1686,7 @@ The nested chunks define the items and fields that may spawn:
 
 In order for the map extra to be available for spawning, one or more `region_settings` entries need to be created for it:
 
-```JSON
+```jsonc
 {
   "type": "region_settings",
   "id": "default",

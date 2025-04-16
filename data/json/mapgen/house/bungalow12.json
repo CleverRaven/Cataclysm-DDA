@@ -67,7 +67,7 @@
         { "item": "television", "x": 11, "y": 15, "chance": 100 }
       ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 0 } ],
-      "vehicles": { ")": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
+      "vehicles": { ")": { "vehicle": "swivel_chair", "status": 1 } }
     }
   },
   {

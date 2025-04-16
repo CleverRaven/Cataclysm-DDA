@@ -1,0 +1,14 @@
+[
+  {
+    "type": "bionic_migration",
+    "from": "afs_bio_precision_solderers",
+    "//": "remove after 0.I",
+    "to": "bio_tools"
+  },
+  {
+    "type": "bionic_migration",
+    "from": "afs_bio_wind_turbine",
+    "//": "remove after 0.I",
+    "to": "bio_torsionratchet"
+  }
+]

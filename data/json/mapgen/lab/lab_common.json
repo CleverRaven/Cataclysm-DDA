@@ -35,6 +35,7 @@
       "L": "t_door_metal_locked",
       "#": "t_rock"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {

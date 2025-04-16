@@ -38,9 +38,6 @@ class player_morale;
 struct bodygraph_info;
 struct damage_unit;
 
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
-
 struct item_penalties {
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
@@ -102,7 +99,7 @@ class outfit
         // will someone get shocked by zapback
         bool hands_conductive() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true,
-                             bool is_pick_up_inv = false ) const;
+                             bool ignore_non_container_pocket = false ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;

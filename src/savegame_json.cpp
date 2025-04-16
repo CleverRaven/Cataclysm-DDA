@@ -1076,7 +1076,7 @@ void Character::load( const JsonObject &data )
     calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy_min );
+    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy::min() );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1112,6 +1112,7 @@ void Character::load( const JsonObject &data )
     data.read( "male", male );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
+    data.read( "book_chapters", book_chapters );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
@@ -1221,25 +1222,25 @@ void Character::load( const JsonObject &data )
                 if( pseudo.has_flag( flag_INTEGRATED ) ) {
                     // Migrate old fuels to new system.
                     // Needed to be compatible with 0.F
-                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).empty() ) {
+                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).is_empty() ) {
                         item gasoline( fuel_type_gasoline );
-                        gasoline.charges = std::stoi( get_value( "gasoline" ) );
+                        gasoline.charges = get_value( "gasoline" ).dbl();
                         remove_value( "gasoline" );
                         pseudo.put_in( gasoline, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
+                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).is_empty() ) {
                         item ethanol( fuel_type_chem_ethanol );
-                        ethanol.charges = std::stoi( get_value( "alcohol" ) );
+                        ethanol.charges = get_value( "alcohol" ).dbl();
                         remove_value( "alcohol" );
                         pseudo.put_in( ethanol, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
+                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).is_empty() ) {
                         item oil( fuel_type_motor_oil );
-                        oil.charges = std::stoi( get_value( "motor_oil" ) );
+                        oil.charges = get_value( "motor_oil" ).dbl();
                         remove_value( "motor_oil" );
                         pseudo.put_in( oil, pocket_type::CONTAINER );
-                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
+                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).is_empty() ) {
                         item battery( itype_medium_battery_cell );
                         item battery_charge( fuel_type_battery );
-                        battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
+                        battery_charge.charges = std::min( 500., get_value( "battery" ).dbl() );
                         battery.put_in( battery_charge, pocket_type::MAGAZINE );
                         remove_value( "battery" );
                         pseudo.put_in( battery, pocket_type::MAGAZINE_WELL );
@@ -1309,14 +1310,9 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-        std::unordered_map<std::string, std::string> context;
-        // context variables
-        for( const JsonMember &jm : elem.get_object( "context" ) ) {
-            context[jm.name()] = jm.get_string();
-        }
-        game::legacy_migrate_npctalk_var_prefix( context );
+        elem.read( "context", temp.context );
+        game::legacy_migrate_npctalk_var_prefix( temp.context );
 
-        temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -1489,6 +1485,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
+    json.member( "book_chapters", book_chapters );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
@@ -2066,10 +2063,10 @@ void npc::load( const JsonObject &data )
 
     // TEMPORARY Remove if branch after 0.G (keep else branch)
     if( !data.has_member( "location" ) ) {
-        point submap_coords;
+        point_abs_sm submap_coords;
         data.read( "submap_coords", submap_coords );
         const tripoint_bub_ms pos = read_legacy_creature_pos( data );
-        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( submap_coords ),
                                            0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
         std::optional<tripoint_bub_ms> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
@@ -2078,16 +2075,17 @@ void npc::load( const JsonObject &data )
         if( data.read( "pulp_location", opt ) && opt ) {
             pulp_location = pos_abs() + ( *opt - pos );
         }
-        tripoint tmp;
-        if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
-            tmp != tripoint::min ) {
-            guard_pos = tripoint_abs_ms( tmp );
+        tripoint_abs_ms tmp;
+        if( data.read( "guardx", tmp.x() ) && data.read( "guardy", tmp.y() ) &&
+            data.read( "guardz", tmp.z() ) &&
+            tmp != tripoint_abs_ms::min ) {
+            guard_pos = tmp;
         }
-        if( data.read( "chair_pos", tmp ) && tmp != tripoint::min ) {
-            chair_pos = tripoint_abs_ms( tmp );
+        if( data.read( "chair_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
+            chair_pos = tmp;
         }
-        if( data.read( "wander_pos", tmp ) && tmp != tripoint::min ) {
-            wander_pos = tripoint_abs_ms( tmp );
+        if( data.read( "wander_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
+            wander_pos = tmp;
         }
     } else {
         data.read( "last_player_seen_pos", last_player_seen_pos );
@@ -2448,9 +2446,9 @@ void monster::load( const JsonObject &data )
         data.read( "wandy", wand.y() );
         data.read( "wandz", wand.z() );
         wander_pos = get_map().get_abs( wand );
-        tripoint destination;
+        tripoint_rel_ms destination;
         data.read( "destination", destination );
-        if( destination != tripoint::zero ) {
+        if( destination != tripoint_rel_ms::zero ) {
             goal = pos_abs() + destination;
         }
     }
@@ -2878,7 +2876,7 @@ void item::io( Archive &archive )
         const std::string prefix = "npctalk_var_";
         for( auto i = item_vars.begin(); i != item_vars.end(); ) {
             if( i->first.rfind( prefix, 0 ) == 0 ) {
-                std::map<std::string, std::string>::node_type extracted = ( *item_vars ).extract( i++ );
+                global_variables::impl_t::node_type extracted = ( *item_vars ).extract( i++ );
                 std::string new_key = extracted.key().substr( prefix.size() );
                 extracted.key() = new_key;
                 item_vars.insert( std::move( extracted ) );
@@ -3110,7 +3108,7 @@ void item::migrate_content_item( const item &contained )
         put_in( contained, pocket_type::MOD );
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
-        put_in( contained, pocket_type::SOFTWARE );
+        put_in( contained, pocket_type::E_FILE_STORAGE );
     } else if( contents.insert_item( contained, pocket_type::MAGAZINE ).success() ||
                contents.insert_item( contained, pocket_type::MAGAZINE_WELL ).success() ) {
         // left intentionally blank
@@ -3138,6 +3136,8 @@ void item::deserialize( const JsonObject &data )
     if( data.has_object( "contents" ) ) {
         item_contents read_contents;
         data.read( "contents", read_contents );
+        contents.read_mods( read_contents );
+        update_modified_pockets();
         contents.combine( read_contents, false, true, false, true );
 
         //migrate SOFTWARE pocket
@@ -3424,6 +3424,8 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
+    data.read( "values", values );
+    data.read( "chat_topics", chat_topics );
     int turn_dir_int;
     data.read( "turn_dir", turn_dir_int );
     turn_dir = units::from_degrees( turn_dir_int );
@@ -3491,7 +3493,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
 
-    refresh();
+    refresh( );
 
     point p;
     zone_data zd;
@@ -3535,11 +3537,14 @@ void vehicle::deserialize_parts( const JsonArray &data )
 
 void vehicle::serialize( JsonOut &json ) const
 {
+    map &here = get_map();
     json.start_object();
     json.member( "type", type );
     json.member( "posx", pos.x() );
     json.member( "posy", pos.y() );
     json.member( "om_id", om_id );
+    json.member( "values", values );
+    json.member( "chat_topics", chat_topics );
     json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
     json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
     json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );
@@ -3578,7 +3583,7 @@ void vehicle::serialize( JsonOut &json ) const
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->bub_part_pos( tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( here, tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );
@@ -5141,7 +5146,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                active_items.add( it, point_sm_ms( p ) );
+                active_items.add( it, p );
             }
         }
     } else if( member_name == "traps" ) {
@@ -5149,15 +5154,16 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray trap_entry : traps_json ) {
             int i = trap_entry.next_int();
             int j = trap_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
-            m->trp[p.x][p.y] = trid.id();
+            m->trp[p.x()][p.y()] = trid.id();
             if( trap_entry.has_more() ) {
                 std::optional<std::string> trap_item_type = std::nullopt;
                 trap_entry.read_next( trap_item_type );
                 if( trap_item_type.has_value() ) {
-                    const_cast<trap &>( m->trp[p.x][p.y].obj() ).set_trap_data( itype_id( trap_item_type.value() ) );
+                    const_cast<trap &>( m->trp[p.x()][p.y()].obj() ).set_trap_data( itype_id(
+                                trap_item_type.value() ) );
                 }
             }
             if( trap_entry.size() > 4 ) {
@@ -5239,7 +5245,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int count = spawn_entry.next_int();
             int i = spawn_entry.next_int();
             int j = spawn_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             int faction_id = spawn_entry.next_int();
             int mission_id = spawn_entry.next_int();
             bool friendly = spawn_entry.next_bool();
@@ -5248,7 +5254,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }
-            spawn_point tmp( type, count, point_sm_ms( p ), faction_id, mission_id, friendly, name );
+            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {
@@ -5290,10 +5296,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         if( jv.test_array() ) {
             JsonArray computers_json = jv;
             while( computers_json.has_more() ) {
-                point loc;
+                point_sm_ms loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint_bub_ms::zero ) ).first;
+                                                      tripoint_abs_ms::invalid ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

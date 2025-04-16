@@ -229,7 +229,7 @@
     "shopkeeper_item_group": [
       { "group": "homeguns", "rigid": true },
       { "group": "lmoe_guns", "rigid": true },
-      { "group": "ammo_reloaded", "rigid": true },
+      { "group": "ammo_common_boxed", "rigid": true },
       { "group": "magazines", "rigid": true },
       { "group": "gear_survival", "rigid": true }
     ],

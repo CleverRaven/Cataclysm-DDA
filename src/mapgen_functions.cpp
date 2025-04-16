@@ -2,8 +2,9 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
+#include <cstdint>
 #include <cstdlib>
-#include <initializer_list>
 #include <iterator>
 #include <map>
 #include <string>
@@ -12,20 +13,19 @@
 #include <vector>
 
 #include "calendar.h"
-#include "character_id.h"
+#include "cata_utility.h"
+#include "coordinates.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
-#include "enums.h"
-#include "field_type.h"
 #include "flood_fill.h"
-#include "game_constants.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
+#include "math_defines.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "point.h"
@@ -35,7 +35,8 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
-#include "creature_tracker.h"
+
+class Creature;
 
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
@@ -71,8 +72,6 @@ static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
-
-class npc_template;
 
 tripoint_bub_ms rotate_point( const tripoint_bub_ms &p, int rotations )
 {

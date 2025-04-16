@@ -21,10 +21,10 @@ Add a new entry for the roof.  You can copy the building entry since you want th
 
 Give the roof a unique om_terrain ID.  Below is an example of the main floor and roof om_terrain IDs
 
-````json
+```jsonc
 "om_terrain": "abstorefront",
 "om_terrain": "abstorefront_roof",
-````
+```
 
 Note: If you are adding a roof to an existing building that shares a common om_terrain ID with other maps, you will need to change the om_terrain ID for the existing floor to be unique.
 
@@ -38,7 +38,7 @@ Browse json/terrain-roofs.json and furniture-roof.json for ideas.  Consider roof
 There is a set of optional nested map chunks at `data/json/mapgen/nested_chunks_roof.json` if you'd like to incorporate them.  Add any new nested chunks for roofs here as well.
 
 Sample roof entry:
-````json
+```jsonc
   {
     "type": "mapgen",
     "method": "json",
@@ -72,7 +72,7 @@ Sample roof entry:
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 3, 14 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 2, 21 ], "y": [ 3, 14 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "null", 20 ], [ "roof_4x4_party", 15 ], [ "roof_4x4_holdout", 5 ], [ "roof_4x4_utility", 40 ] ],
@@ -82,14 +82,14 @@ Sample roof entry:
       ]
     }
   }
-````
+```
 
 ## Linking the main floor and the roof
 Navigate to `json/overmap/multitile_city_buildings.json` for buildings taking up more then one overmap tile per z level (schools, mansions).
 Add an entry for the main floor.  The `point` coordinates define to the x, y, z positions of the building.  The 1 places the roof one z level above the ground floor.
 Append north for rotating buildings to orient the z levels.
 
-````json
+```jsonc
   {
     "type": "city_building",
     "id": "abstorefront",
@@ -99,13 +99,13 @@ Append north for rotating buildings to orient the z levels.
       { "point": [ 0, 0, 1 ], "overmap": "abstorefront_roof_north" }
     ]
   }
-````
+```
 ## Overmap Specials
 
 Overmap specials are handled a little differently.  They use `json/overmap/overmap_special/specials.json` for both linking z levels and overmap spawning.  A special won't need an entry in `data/json/regional_map_settings.json`
 
 Overmap special example:
-````json
+```jsonc
   {
     "type": "overmap_special",
     "id": "Evac Shelter",
@@ -121,7 +121,7 @@ Overmap special example:
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN" ]
   }
-````
+```
 ## Adding the overmap_terrain entry
 
 Navigate to `data/json/overmap_terrain/`
@@ -129,7 +129,7 @@ Every z level gets an entry that defines how it appears on the overmap.
 The name field will determine what is displayed in the in-game overmap.
 The entries should share the same color and symbol.
 
-````json
+```jsonc
   {
     "type": "overmap_terrain",
     "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
@@ -152,16 +152,16 @@ The entries should share the same color and symbol.
     "sym": "w",
     "color": "brown"
   }
-````
+```
 ## Adding to regional_map_settings
 Navigate to `data/json/regional_map_settings.json`
 
 This determines the spawn frequency and location of non-special buildings.
 Find the appropriate category for your building and add either the overmap_special ID or the city_building ID and include a spawn weight.
 
-````json
+```jsonc
 "abandonedwarehouse": 200,
-````
+```
 When testing you can increase the spawn rate if you want to survey your work using natural spawns.
 
 Finally, always [lint](http://dev.narc.ro/cataclysm/format.html) your additions before submitting.

@@ -410,8 +410,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 2, 12 ] },
-        { "item": "steel_chunk", "count": [ 4, 15 ] },
+        { "item": "mc_steel_lump", "count": [ 2, 12 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 15 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
@@ -436,8 +436,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 2, 12 ] },
-        { "item": "steel_chunk", "count": [ 4, 15 ] },
+        { "item": "mc_steel_lump", "count": [ 2, 12 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 15 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
@@ -465,7 +465,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     }
@@ -491,7 +491,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     }
@@ -500,7 +500,7 @@
     "type": "furniture",
     "id": "f_arcfurnace_empty",
     "name": "arc furnace",
-    "looks_like": "f_arc_furnace",
+    "looks_like": "f_machinery_heavy",
     "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
     "symbol": "U",
     "color": "blue",
@@ -508,9 +508,9 @@
     "coverage": 40,
     "required_str": -1,
     "max_volume": "200 L",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arc_furnace" },
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "deconstruct": { "items": [ { "item": "arc_furnace", "count": 1 } ] },
     "bash": {
       "str_min": 18,
       "str_max": 40,
@@ -518,7 +518,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "ch_steel_chunk", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     },
@@ -545,7 +545,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     }
@@ -836,41 +836,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_arc_furnace",
-    "name": "industrial arc furnace",
-    "looks_like": "f_machinery_heavy",
-    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.  Can be used in recipes instead of a forge, when supplied with power from a UPS.",
-    "symbol": "0",
-    "color": "white_red",
-    "move_cost_mod": -1,
-    "coverage": 40,
-    "required_str": -1,
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_plate", "count": [ 1, 2 ] }
-      ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "sheet_metal", "count": [ 4, 6 ] },
-        { "item": "element", "count": [ 10, 25 ] },
-        { "item": "scrap", "count": [ 12, 16 ] }
-      ]
-    },
-    "crafting_pseudo_item": "fake_arc_furnace"
-  },
-  {
-    "type": "furniture",
     "id": "f_beverly_shear",
     "name": "Beverly shear",
     "looks_like": "f_machinery_light",
@@ -888,8 +853,8 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "pipe", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ch_steel_lump", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 2, 4 ] }
       ]
     },
@@ -917,7 +882,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
@@ -971,7 +936,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
@@ -998,7 +963,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
@@ -1025,7 +990,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
@@ -1052,7 +1017,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
@@ -1079,7 +1044,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
@@ -1106,7 +1071,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
@@ -1162,8 +1127,8 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ch_steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_plate", "count": [ 1, 2 ] }
       ]
     },
@@ -1188,15 +1153,15 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 12, 20 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] }
+        { "item": "ch_steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ch_steel_lump", "count": [ 1, 2 ] }
       ]
     },
     "deconstruct": {
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 2, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 4, 6 ] },
+        { "item": "ch_steel_lump", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "motor_small", "count": 1 }
@@ -1224,7 +1189,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -1255,7 +1220,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ]
     },
@@ -1654,7 +1619,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "pipe_fittings", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
@@ -1684,7 +1649,7 @@
       "items": [
         { "item": "glass_shard", "count": [ 8, 25 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "hc_steel_chunk", "count": [ 1, 5 ] },
         { "item": "money_one", "count": [ 0, 100 ] },
         { "item": "money_two", "count": [ 0, 20 ] },
         { "item": "money_five", "count": [ 0, 100 ] },
@@ -1693,6 +1658,13 @@
         { "item": "money_fifty", "count": [ 0, 50 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vending_reinforced_networked",
+    "name": "reinforced vending machine",
+    "copy-from": "f_vending_reinforced",
+    "extend": { "flags": [ "BANK_NETWORKED" ] }
   },
   {
     "type": "furniture",
@@ -1715,7 +1687,7 @@
       "items": [
         { "item": "glass_shard", "count": [ 8, 25 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "hc_steel_chunk", "count": [ 1, 5 ] },
         { "item": "money_one", "count": [ 0, 100 ] },
         { "item": "money_two", "count": [ 0, 20 ] },
         { "item": "money_five", "count": [ 0, 100 ] },
@@ -1748,6 +1720,13 @@
       "furn_set": "f_vending_o",
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vending_c_networked",
+    "name": "vending machine",
+    "copy-from": "f_vending_c",
+    "extend": { "flags": [ "BANK_NETWORKED" ] }
   },
   {
     "type": "furniture",
@@ -1791,7 +1770,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "lc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },

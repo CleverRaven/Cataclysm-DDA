@@ -25,6 +25,7 @@
     },
     "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
     "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
         "run_eocs": [
           {
@@ -32,8 +33,9 @@
             "condition": {
               "or": [
                 { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+                { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" },
                 { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
-                { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
+                { "map_in_city": { "context_val": "check_loc" } }
               ]
             },
             "effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]

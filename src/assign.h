@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_ASSIGN_H
 #define CATA_SRC_ASSIGN_H
 
-#include <iterator>
+#include <exception>
 #include <limits>
 #include <optional>
 #include <set>
@@ -12,11 +12,8 @@
 #include <utility>
 
 #include "calendar.h"
-#include "damage.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
-#include "type_id.h"
 #include "units.h"
 
 class nc_color;
@@ -203,35 +200,36 @@ std::enable_if_t<std::is_constructible_v<T, std::string>, bool>assign(
     return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }
 
+//TO-DO: remove specifically-typed bounded assigns
 bool assign( const JsonObject &jo, std::string_view name, units::volume &val,
              bool strict = false,
-             units::volume lo = units::volume_min,
-             units::volume hi = units::volume_max );
+             units::volume lo = units::volume::min(),
+             units::volume hi = units::volume::max() );
 
 bool assign( const JsonObject &jo, std::string_view name, units::mass &val,
              bool strict = false,
-             units::mass lo = units::mass_min,
-             units::mass hi = units::mass_max );
+             units::mass lo = units::mass::min(),
+             units::mass hi = units::mass::max() );
 
 bool assign( const JsonObject &jo, std::string_view name, units::length &val,
              bool strict = false,
-             units::length lo = units::length_min,
-             units::length hi = units::length_max );
+             units::length lo = units::length::min(),
+             units::length hi = units::length::max() );
 
 bool assign( const JsonObject &jo, std::string_view name, units::money &val,
              bool strict = false,
-             units::money lo = units::money_min,
-             units::money hi = units::money_max );
+             units::money lo = units::money::min(),
+             units::money hi = units::money::max() );
 
 bool assign( const JsonObject &jo, std::string_view name, units::energy &val,
              bool strict = false,
-             units::energy lo = units::energy_min,
-             units::energy hi = units::energy_max );
+             units::energy lo = units::energy::min(),
+             units::energy hi = units::energy::max() );
 
 bool assign( const JsonObject &jo, std::string_view name, units::power &val,
              bool strict = false,
-             units::power lo = units::power_min,
-             units::power hi = units::power_max );
+             units::power lo = units::power::min(),
+             units::power hi = units::power::max() );
 
 bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
              bool strict = false );
@@ -322,11 +320,5 @@ inline bool assign( const JsonObject &jo, const std::string_view name, std::opti
 }
 
 constexpr float float_max = std::numeric_limits<float>::max();
-
-bool assign(
-    const JsonObject &jo, std::string_view name, damage_instance &val, bool strict = false,
-    const damage_instance &lo = damage_instance( damage_type_id::NULL_ID(), 0.0f, 0.0f, 0.0f, 0.0f ),
-    const damage_instance &hi = damage_instance(
-                                    damage_type_id::NULL_ID(), float_max, float_max, float_max, float_max ) );
 
 #endif // CATA_SRC_ASSIGN_H

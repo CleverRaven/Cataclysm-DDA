@@ -1,34 +1,5 @@
 [
   {
-    "id": "floor_trash",
-    "type": "item_group",
-    "items": [
-      [ "flyer", 10 ],
-      [ "bag_plastic", 10 ],
-      [ "bag_zipper_gallon", 4 ],
-      [ "bottle_plastic", 10 ],
-      [ "cup_plastic", 10 ],
-      [ "bottle_glass", 10 ],
-      [ "can_drink", 10 ],
-      [ "can_food", 10 ],
-      [ "box_small", 10 ],
-      [ "jug_plastic", 10 ],
-      [ "jar_glass_sealed", 5 ],
-      [ "wrapper", 10 ],
-      [ "wrapper_foil", 1 ],
-      [ "string_6", 5 ],
-      [ "cig_butt", 10 ],
-      [ "string_36", 5 ],
-      [ "scrap", 10 ],
-      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      [ "lc_wire", 5 ],
-      [ "splinter", 10 ],
-      [ "cotton_patchwork", 15 ],
-      { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] },
-      [ "plastic_shopping_bag", 10 ]
-    ]
-  },
-  {
     "id": "candy_shop",
     "type": "item_group",
     "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "prob": 50, "group": "licorice_bag_plastic_4" } ]
@@ -123,9 +94,9 @@
       [ "scythe_toy", 5 ],
       [ "RPG_die", 5 ],
       [ "metal_RPG_die", 1 ],
-      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 56 ] }
     ]
   },
   {
@@ -137,24 +108,11 @@
       [ "sunglasses", 30 ],
       [ "glasses_bifocal", 30 ],
       [ "glasses_safety", 30 ],
-      [ "fancy_sunglasses", 5 ],
       [ "glasses_reading", 50 ],
       [ "glasses_eye", 85 ],
-      [ "fancy_glasses_bifocal", 15 ],
-      [ "fancy_glasses_reading", 25 ],
-      [ "fancy_glasses_eye", 40 ],
       [ "sunglasses_bifocal", 25 ],
       [ "sunglasses_reading", 35 ],
-      [ "sunglasses_eye", 50 ],
-      [ "fancy_sunglasses_bifocal", 10 ],
-      [ "fancy_sunglasses_reading", 15 ],
-      [ "fancy_sunglasses_eye", 30 ],
-      [ "transition_glasses_bifocal", 5 ],
-      [ "transition_glasses_reading", 10 ],
-      [ "transition_glasses_eye", 20 ],
-      [ "fancy_transition_glasses_bifocal", 2 ],
-      [ "fancy_transition_glasses_reading", 5 ],
-      [ "fancy_transition_glasses_eye", 10 ]
+      [ "sunglasses_eye", 50 ]
     ]
   },
   {
@@ -185,7 +143,6 @@
       [ "hot_pants_leather", 20 ],
       [ "cloak_leather", 20 ],
       [ "duster_leather", 20 ],
-      [ "jacket_leather_red", 20 ],
       [ "skirt_leather", 20 ],
       [ "touring_suit", 20 ],
       [ "chestwrap_leather", 20 ],
@@ -263,13 +220,12 @@
       [ "antenna", 25 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
       { "item": "mp3", "prob": 30, "charges": 100 },
-      [ "usb_drive", 10 ],
+      { "group": "new_phones", "prob": 90 },
+      { "group": "new_usb_drives", "prob": 10 },
+      { "group": "new_memory_cards", "prob": 10 },
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
-      { "item": "cell_phone", "prob": 30, "charges": 150 },
-      { "item": "smart_phone", "prob": 90, "charges": 120 },
       [ "wristwatch", 60 ],
-      [ "memory_card", 10 ],
       [ "fitness_band", 5 ]
     ]
   },
@@ -292,7 +248,7 @@
       { "item": "candle", "prob": 50, "charges": 100 },
       [ "scissors", 30 ],
       [ "soap", 45 ],
-      [ "moisturizer", 45 ],
+      { "item": "moisturizer", "prob": 60, "charges": [ 1, -1 ], "container-item": "bottle_plastic_small" },
       { "item": "tailors_kit", "prob": 25, "charges": 400 },
       { "item": "shavingkit", "prob": 20, "charges": 10 },
       { "item": "elec_hairtrimmer", "prob": 20, "charges": 50 },

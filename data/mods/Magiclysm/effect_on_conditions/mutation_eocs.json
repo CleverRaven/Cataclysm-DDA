@@ -85,6 +85,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IRON_ALLERGY_UNWEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "u_has_trait": "IRON_ALLERGY" },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP" ],
+        "time_in_future": 1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IRON_ALLERGY_WIELDING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
@@ -152,14 +165,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IRON_ALLERGY_WEARING_IRON_OR_STEEL_RECURRING_CHECK",
-    "condition": { "u_has_trait": "IRON_ALLERGY" },
-    "deactivate_condition": { "not": { "u_has_trait": "IRON_ALLERGY" } },
-    "recurrence": 1,
-    "effect": [ { "run_eocs": [ "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_RAVENFOLK_LEAP",
     "effect": [
       {
@@ -186,6 +191,53 @@
           "spell_to_cast": "spell_ravenfolk_screech",
           "message_success": { "i18n": true, "str": "You let out a piercing cry!" },
           "message_fail": { "i18n": true, "str": "You change your mind about screeching." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOVES_SHINY_OBJECTS_WEARING",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "u_has_trait": "LOVES_SHINY_OBJECTS" },
+    "effect": [ { "run_eocs": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOVES_SHINY_OBJECTS_UNWEARING",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "u_has_trait": "LOVES_SHINY_OBJECTS" },
+    "effect": [ { "run_eocs": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOVES_SHINY_OBJECTS_WIELDING",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "u_has_trait": "LOVES_SHINY_OBJECTS" },
+    "effect": [ { "run_eocs": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP",
+    "effect": [
+      { "math": [ "u_shiny_count = 0" ] },
+      { "u_lose_morale": "morale_need_shiny_objects" },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "material": "silver", "worn_only": true }, { "material": "gold", "worn_only": true } ],
+        "true_eocs": [ { "id": "EOC_LOVES_SHINY_OBJECTS_FOLLOWUP_TRUE", "effect": [ { "math": [ "u_shiny_count += 1" ] } ] } ]
+      },
+      { "u_message": "You have <u_val:shiny_count> shiny objects.", "type": "debug" },
+      {
+        "if": { "math": [ "u_shiny_count < 6" ] },
+        "then": {
+          "u_add_morale": "morale_need_shiny_objects",
+          "bonus": { "math": [ "-30 + ( u_shiny_count * 5)" ] },
+          "max_bonus": { "math": [ "-30 + ( u_shiny_count * 5)" ] },
+          "duration": "168 hours"
         }
       }
     ]

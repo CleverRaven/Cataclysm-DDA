@@ -1,6 +1,9 @@
 #include "pickup.h"
 
 #include <algorithm>
+#include <array>
+#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -11,18 +14,24 @@
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "character.h"
-#include "colony.h"
+#include "contents_change_handler.h"
 #include "debug.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "options.h"
 #include "player_activity.h"
@@ -32,9 +41,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
-#include "units_utility.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -190,10 +198,10 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
 
     if( !newit.is_owned_by( player_character, true ) ) {
         // Has the player given input on if stealing is ok?
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
             Pickup::query_thief();
         }
-        if( player_character.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
             return true; // Since we are honest, return no problem before picking up
         }
     }
@@ -486,8 +494,9 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 
 void Pickup::pick_info::set_src( const item_location &src_ )
 {
+    const map &here = get_map(); // TODO: Change src_pos to absolute?
     // item_location of source may become invalid after the item is moved, so save the information separately.
-    src_pos = src_.pos_bub();
+    src_pos = src_.pos_bub( here );
     src_container = src_.parent_item();
     src_type = src_.where();
 }
@@ -495,16 +504,4 @@ void Pickup::pick_info::set_src( const item_location &src_ )
 void Pickup::pick_info::set_dst( const item_location &dst_ )
 {
     dst = dst_;
-}
-
-std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
-
-Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( const point &p )
-{
-    for( pickup_rect &rect : pickup_rect::list ) {
-        if( rect.contains( p ) ) {
-            return &rect;
-        }
-    }
-    return nullptr;
 }

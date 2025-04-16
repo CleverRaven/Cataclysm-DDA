@@ -29,7 +29,7 @@
         { "class": "FM_caravan_guard_A", "x": 4, "y": 1 },
         { "class": "FM_caravan_guard_B", "x": 4, "y": 2 }
       ],
-      "place_vehicles": [ { "vehicle": "FM_early_pickup", "chance": 100, "fuel": 50, "faction": "free_merchants", "x": [ 4 ], "y": [ 1 ] } ]
+      "place_vehicles": [ { "vehicle": "FM_early_pickup", "fuel": 50, "faction": "free_merchants", "x": [ 4 ], "y": [ 1 ] } ]
     }
   },
   {

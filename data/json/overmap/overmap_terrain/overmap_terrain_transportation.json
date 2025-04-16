@@ -144,7 +144,7 @@
     "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
+    "flags": [ "KNOWN_DOWN", "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -167,7 +167,7 @@
     "color": "yellow",
     "see_cost": "full_high",
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -178,7 +178,7 @@
     "color": "yellow",
     "see_cost": "full_high",
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -492,7 +492,8 @@
     "vision_levels": "large_pavement",
     "name": "parking lot",
     "sym": "O",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -830,5 +831,14 @@
     ],
     "copy-from": "generic_highway_road",
     "extend": { "flags": [ "HIGHWAY_SPECIAL", "REQUIRES_PREDECESSOR", "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "billboard_0", "billboard_1", "billboard_2" ],
+    "name": "billboard",
+    "sym": "T",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "vision_levels": "isolated_tower"
   }
 ]

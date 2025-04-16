@@ -107,10 +107,11 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "office", "chance": 30 },
-        "f": { "item": "office_paper", "chance": 30 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "L": { "item": "cleaning", "chance": 30 },
-        "y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "y": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 2, 4 ] },
         "B": { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] },
         "Z": { "item": "magic_shop_beginner_books", "chance": 100 },
         "K": { "item": "magic_shop_clothes", "chance": 20, "repeat": [ 1, 2 ] },
@@ -185,6 +186,7 @@
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "office", "chance": 30 },
         "Q": { "item": "shower", "chance": 30 },
         "S": { "item": "softdrugs", "chance": 30 },

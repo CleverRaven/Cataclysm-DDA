@@ -1,3 +1,6 @@
+#include <cstddef>
+#include <initializer_list>
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"

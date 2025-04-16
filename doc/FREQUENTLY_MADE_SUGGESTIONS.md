@@ -106,6 +106,25 @@ In the end, it's just odd to be able to hold 10000 rounds in your hands at once.
 
 Again, we do not want to make the game worse with this - there are some unavoidable problems caused by this migration, but after it is done, not only it would be easier to contribute for everyone, but the game would work better, and maybe even faster.
 
+### Options
+
+#### I should be able to disable features I don't want (fungals, portal storms, etc.): No.
+
+Every option has a maintenance cost, and the more options we have the more each of them individually costs in time, effort, and sanity for our dear contributors.
+
+At the time of this writing, despite our best efforts there are *two thousand, one hundred, and fourty-three*(2143) open issues on the repository. The vast majority of them are bug reports, either confirmed or waiting to be confirmed. This does not include bugs which have been reported but were not confirmed before being closed due to a lack of activity. (Confirmed bugs are immune to such closures)
+
+Can we afford the massive maintenance costs these options would bring? No. It would introduce many more bugs and greatly increase the workload even to fix existing ones, since the configuration of these options may be a cause.
+
+Can we afford the massive development costs these options would bring? No. All new development would have to take into account increasing numbers of possible code paths based on whether or not major features were disabled.
+
+Do we WANT these options to disable features? No! Features which make it into the game are desired features which contribute to the game's intended direction. We don't want to turn off the game we're making.
+
+There are some existing "toggle/disable feature" options which are legacy leftovers (e.g. wandering hordes, no NPC needs, railways mod). Experience has shown that making these options are a mistake, despite the intention in making these optional being to avoid major issues with their implementations. 
+
+The presence of those major issues precludes removing the option, and the fact it's an option precludes people from working on it ("oh I heard it has issues, I'll disable it" --> nobody actually uses it --> resolved issues or not, nobody would see their changes). This is a catch-22 for development, and the solution is simply not to make desired features optional.
+
+
 ### Multiplayer
 This has come up [many times](https://discourse.cataclysmdda.org/search?q=multiplayer), and it simply can not be added to DDA.
 
@@ -267,6 +286,24 @@ When this happens (which will be a while, it’s pretty invasive and complicated
 Some people want to play as a robot, or an android, or a brain in a jar piloting a robotic body, or as a dog.  The developers want to allow people to do all of that.  Unfortunately, there's a lot of changes that need to be made to get from the current state of the code to that highly desirable end-point.  Some changes have already been made, but there's nothing really visible yet.
 
 As of 2024, there have been some very exciting changes to how we handle characters, allowing them to have non-humanoid limb configurations. This is useful for if trying to play as say, an intelligent dog, as dogs typically have four legs and no arms. However the work is still ongoing, and not yet ready for a general release. Much of the foundational work can be seen in the currently named "Work in Progress Limb Stuff" mod which ships with the game.
+
+#### Losing limb in combat: sure, but character gonna die (almost always)
+
+Often I see people asking when will combat be so dangerous that you will be able to lose your beloved arm or leg. Bullet points:
+
+Main ways to lose a limb are:
+
+You have so badly damaged/infected limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest heavily in your own camp having a good surgeon with a tools reqired;
+
+The second way is in a fight, as a result of a devastating, critical attack that deals an immense amount of damage to your limb - after all, arms and legs are not noodles; it requires a lot of force for the bone to be cut or for the shoulder to be detached. This, of course, would be followed by a massive pain shock from your beloved body part being detached, blood loss of immense intensity, and realization that whoever did this to you is still alive and trying to murder you. Because of all the aforementioned things, your chances of surviving such an event are close to zero unless you have the help of your dear comrade(s) (better to have a medic by occasion).
+
+There are sure other ways, more technical, like mutating your arm into a crab claw or replacing it with a bionic drill, but that's another story.
+
+In summary, the main things that stop us from introducing limb loss are, at first, a lack of NPC intelligence so they can help you if you experienced this loss, and second, a lot of our stuff is missing being tied to limb scores (something that you should have decreased because you have no limb). This is the main reason all limb stuff currently exists in a separate mod and is not part of the game.
+
+NB: This talks specifically about average human experience; mutants are less limited to this (though a mouse or bear mutant would lose the limb in pretty similar fashion).
+
+NB2: Please do not try to make it via EoC.
 
 #### Bring back ICBM launch: Mod only
 
@@ -442,9 +479,21 @@ For this to happen, we need code to detect significant changes in aircraft, code
 
 As of this writing, a variety of 'simple parts' can be added or removed from helicopters at will without rendering them non-airworthy. This is controlled by a simple JSON flag and can be easily changed as needed, if a good argument can be made that the addition/removal of such a part would never seriously impact a helicopter.
 
-#### We should be able to make airplanes/autogyros/hot air balloons/blimps/submarines: Yes
+#### We should be able to make autogyros/hot air balloons/blimps/submarines/simple airplanes: Yes
 
 All of these have been suggested.  All of them would be possible if someone wrote a bunch of code to enable them.
+
+#### We should be able to pilot fixed-wing/tiltrotor aircraft: No
+
+The mechanics of the game simply do not support vehicles moving at the speeds needed to stay flying. Helicopters are already fast enough to break many of the game's assumptions. Aircraft can be even faster than that.
+
+The game only simulates 10 z-levels up or down, which is about 40 meters above the surface. This is a very low altitude even for a helicopter. For an aircraft, this is suicidal.
+
+#### We should be able to use fixed-wing/tiltrotor aircraft to travel the map: Yes!
+
+As some sort of 'fast travel' system, yes, with the obvious restrictions. Obviously fixed-wing aircraft need a place to takeoff, and another place to land. Some time-based events (including the real calendar time) need to be advanced while 'flying' to the destination, etc.
+
+This just needs someone to write a bunch of code to enable it.
 
 #### Vehicles should be able to span multiple z-levels: Yes
 

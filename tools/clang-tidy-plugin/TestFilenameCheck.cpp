@@ -36,7 +36,7 @@ class TestFilenameCallbacks : public PPCallbacks
 
             if( MacroName == "TEST_CASE" ) {
                 StringRef Filename = SM->getBufferName( Range.getBegin() );
-                bool IsTestFilename = Filename.endswith( "_test.cpp" );
+                bool IsTestFilename = Filename.ends_with( "_test.cpp" );
 
                 if( !IsTestFilename ) {
                     Check->diag( Range.getBegin(),

@@ -45,7 +45,7 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "stomach_size": 1300,
     "death_drops": "mon_mutant_experimental_death_drops",
-    "upgrades": { "half_life": 36, "into_group": "GROUP_MUTANT_EVOLVED" },
+    "upgrades": { "half_life": 144, "into_group": "GROUP_MUTANT_EVOLVED" },
     "regenerates": 1,
     "regen_morale": true,
     "zombify_into": "mon_meat_cocoon_small",
@@ -323,7 +323,7 @@
     "dissect": "dissect_gastropod_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
-    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] },
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF", "PULP_PRYING" ] },
     "armor": { "bash": 22, "cut": 45, "stab": 30, "heat": 50, "bullet": 70, "electric": 6 }
   }
 ]

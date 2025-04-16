@@ -16,59 +16,11 @@
         { "u_has_trait": "ARVORE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' ) = -2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_ELEMENTAL_MAGIC_ADJUSTMENT_HEAVY_FOREST",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": {
-      "and": [
-        {
-          "and": [
-            { "or": [ "u_is_outside", { "u_is_on_terrain": "t_barkfloor" } ] },
-            {
-              "or": [
-                { "u_at_om_location": "forest_thick" },
-                { "u_at_om_location": "arvore_genius_loci_NW" },
-                { "u_at_om_location": "arvore_genius_loci_NE" },
-                { "u_at_om_location": "arvore_genius_loci_SW" },
-                { "u_at_om_location": "arvore_genius_loci_SE" },
-                { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
-                { "u_near_om_location": "great_tree_z0_se", "range": 2 },
-                { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
-                { "u_near_om_location": "great_tree_z1_se", "range": 2 },
-                { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
-                { "u_near_om_location": "great_tree_z2_se", "range": 2 },
-                { "u_near_om_location": "great_tree_z3_06", "range": 2 },
-                { "u_near_om_location": "great_tree_z3_11", "range": 2 },
-                { "u_near_om_location": "great_tree_z4_06", "range": 2 },
-                { "u_near_om_location": "great_tree_z4_11", "range": 2 },
-                { "u_near_om_location": "great_tree_z5_06", "range": 2 },
-                { "u_near_om_location": "great_tree_z5_11", "range": 2 },
-                { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
-                { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-                { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
-                { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-                { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
-                { "u_near_om_location": "great_tree_z7_se", "range": 2 },
-                { "u_near_om_location": "great_tree_crown_06", "range": 2 },
-                { "u_near_om_location": "great_tree_crown_11", "range": 2 },
-                { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
-                { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
-                { "u_near_om_location": "great_tree_roots", "range": 2 },
-                { "u_near_om_location": "great_tree_roots_se", "range": 2 },
-                { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
-              ]
-            },
-            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
-          ]
-        },
-        { "u_has_trait": "ARVORE" }
-      ]
-    },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' ) = -2" ] } ]
+    "effect": [
+      {
+        "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' ) = (u_sum_traits_of_category_char_has('ARVORE') / -2)" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -113,7 +65,7 @@
         { "u_has_trait": "ARVORE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' ) = 3" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('ARVORE')", "-=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -121,21 +73,13 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' ) = -2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_HOMULLUS_MAGIC_ADJUSTMENT_NEARBY_PEOPLE",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": {
-      "math": [
-        "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_monsters_nearby('mon_feral_cop', 'mon_feral_human_pipe', 'mon_feral_human_crowbar', 'mon_feral_jackboot', 'mon_feral_marine_bayonet', 'mon_feral_soldier', 'mon_feral_prepper_knife', 'mon_feral_sailor_axe', 'mon_feral_maid_knife', 'mon_feral_maid_candlestick', 'mon_feral_officer', 'mon_feral_sailor_lug_wrench', 'mon_feral_sailor_mop', 'mon_feral_maid_broom', 'mon_feral_sailor_wrench', 'mon_feral_swimmer_kickboard', 'mon_feral_armored_battleaxe', 'mon_feral_sapien_spear', 'mon_feral_armored_mace', 'mon_feral_human_tool', 'mon_feral_militia', 'mon_feral_fancy_rapier_fake', 'mon_feral_fancy_rapier', 'mon_feral_human_axe', 'mon_feral_labsecurity_flashlight', 'mon_feral_labsecurity_9mm',  'mon_feral_survivalist', 'mon_feral_scientist_scalpel', 'mon_feral_zebra_agent', 'mon_renfield', 'mon_renfield_9mm', 'mon_renfield_shotgun', 'mon_renfield_flamethrower', 'radius': 30, 'attitude': 'both'))",
-        ">=",
-        "10"
-      ]
-    },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' ) = -2" ] } ]
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' ) = (u_sum_traits_of_category_char_has('HOMULLUS') / -2)"
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -153,25 +97,18 @@
         { "u_has_trait": "HOMULLUS" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' ) = 3" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('HOMULLUS')", "-=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERGROUND",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z') <= -1" ] }, { "u_has_trait": "IERDE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' ) = -2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_ON_DIRT_OR_STONE",
+    "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERGROUND_OR_ON_DIRT",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
       "and": [
         {
           "or": [
+            { "math": [ "u_val('pos_z') <= -1" ] },
             { "u_is_on_terrain_with_flag": "DIGGABLE" },
             { "u_is_on_terrain": "t_rock_floor" },
             { "u_is_on_terrain": "t_railroad_rubble" },
@@ -188,7 +125,11 @@
         { "u_has_trait": "IERDE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' ) = -2" ] } ]
+    "effect": [
+      {
+        "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' ) = (u_sum_traits_of_category_char_has('IERDE') / -2)" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -196,19 +137,11 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, { "u_has_trait": "IERDE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' ) = 3" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('IERDE')", "-=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SALAMANDER_ELEMENTAL_MAGIC_ADJUSTMENT_IN_FIRE",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "and": [ { "u_is_in_field": "fd_fire" }, { "u_has_trait": "SALAMANDER" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' ) = -2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SALAMANDER_ELEMENTAL_MAGIC_ADJUSTMENT_IN_HEAT",
+    "id": "EOC_SALAMANDER_ELEMENTAL_MAGIC_ADJUSTMENT_IN_FIRE_OR_HEAT",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
@@ -219,13 +152,20 @@
             { "u_is_in_field": "fd_hot_air2" },
             { "u_is_in_field": "fd_hot_air3" },
             { "u_is_in_field": "fd_hot_air4" },
+            { "u_is_in_field": "fd_fire" },
             { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] }
           ]
         },
         { "u_has_trait": "SALAMANDER" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' ) = -2" ] } ]
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' ) = (u_sum_traits_of_category_char_has('SALAMANDER') / -2)"
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -253,23 +193,29 @@
         { "u_has_trait": "SALAMANDER" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' ) = 3" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('SALAMANDER')", "-=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SYLPH_ELEMENTAL_MAGIC_ADJUSTMENT_UP_HIGH",
+    "id": "EOC_SYLPH_ELEMENTAL_MAGIC_ADJUSTMENT_UP_HIGH_OR_UNDER_THE_SKY",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z') >= 3" ] }, { "u_has_trait": "SYLPH" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' ) = -2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SYLPH_ELEMENTAL_MAGIC_ADJUSTMENT_UNDER_THE_SKY",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' ) = -2" ] } ]
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, "u_is_outside" ] },
+            { "and": [ { "math": [ "weather('windpower') >= 15" ] }, "u_is_outside" ] }
+          ]
+        },
+        { "u_has_trait": "SYLPH" }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' ) = (u_sum_traits_of_category_char_has('SYLPH') / -2)" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -277,17 +223,18 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "math": [ "u_val('pos_z') <= -1" ] }, { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' ) = 3" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('SYLPH')", "-=", "4" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_UNDINE_ELEMENTAL_MAGIC_ADJUSTMENT_NEAR_WATER",
+    "id": "EOC_UNDINE_ELEMENTAL_MAGIC_ADJUSTMENT_NEAR_OR_IN_WATER",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
       "and": [
         {
           "or": [
+            "u_is_underwater",
             { "u_is_on_terrain": "t_water_dp" },
             { "u_is_on_terrain": "t_water_sh" },
             { "u_is_on_terrain": "t_swater_dp" },
@@ -322,15 +269,11 @@
         { "u_has_trait": "UNDINE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' ) = -2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_UNDINE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERWATER",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "and": [ "u_is_underwater", { "u_has_trait": "UNDINE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' ) = -2" ] } ]
+    "effect": [
+      {
+        "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' ) = (u_sum_traits_of_category_char_has('UNDINE') / -2)" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -383,6 +326,6 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "math": [ "time_since(u_timer_undine_last_in_water) >= time('6 h')" ] }, { "u_has_trait": "UNDINE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' ) = 3" ] } ]
+    "effect": [ { "math": [ "u_school_level_adjustment('UNDINE')", "-=", "4" ] } ]
   }
 ]

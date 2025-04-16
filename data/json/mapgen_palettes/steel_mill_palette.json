@@ -88,7 +88,8 @@
       "1": { "item": "steel_mill_foundry", "chance": 5 },
       "l": { "item": "clothing_work_set", "chance": 15 },
       "S": { "item": "homebooks", "chance": 30 },
-      "7": { "item": "office_paper", "chance": 30 }
+      "7": { "item": "SUS_office_filing_cabinet", "chance": 30 },
+      "t": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "t": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }

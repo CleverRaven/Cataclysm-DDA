@@ -4,6 +4,7 @@
 #include <climits>
 #include <clocale>
 #include <iterator>
+#include <limits>
 #include <stdexcept>
 
 #include "cached_options.h"
@@ -196,7 +197,10 @@ static const std::map<std::string, std::pair<std::string, std::map<std::string, 
 &get_migrated_options()
 {
     static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
-    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
+    = {
+        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
+        {"MONSTER_UPGRADE_FACTOR", { "EVOLUTION_INVERSE_MULTIPLIER", {} }} //TODO: Remove after stable after world option reserialising is added, value migration done in migrateOptionValue instead
+    };
     return opt;
 }
 
@@ -322,14 +326,14 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.bDefault = false;
             break;
         case cOpt::CVT_INT:
-            thisOpt.iMin = INT_MIN;
-            thisOpt.iMax = INT_MAX;
+            thisOpt.iMin = std::numeric_limits<int>::lowest();
+            thisOpt.iMax = std::numeric_limits<int>::max();
             thisOpt.iDefault = 0;
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
-            thisOpt.fMax = FLT_MAX;
+            thisOpt.fMin = std::numeric_limits<float>::lowest();
+            thisOpt.fMax = std::numeric_limits<float>::max();
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -2391,6 +2395,11 @@ void options_manager::add_options_graphics()
              to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
              true, COPT_CURSES_HIDE
            );
+
+        add( "IMGUI_LOAD_CHINESE", page_id, to_translation( "Chinese glyph ranges in ImGui" ),
+             to_translation( "If true, ImGui will add glyphs of full Chinese, include zh_CN, zh_TW, ja. Use this option when your need all Chinese glyphs.  Requires restart." ),
+             false, COPT_CURSES_HIDE
+           );
     } );
 #endif // TILES
 
@@ -2741,7 +2750,7 @@ void options_manager::add_options_world_default()
     add( "ITEM_SPAWNRATE", "world_default", translation(), translation(), 0.01, 10.0, 1.0, 0.01,
          COPT_ALWAYS_HIDE
        );
-
+  
     add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
          COPT_ALWAYS_HIDE
        );
@@ -2756,6 +2765,14 @@ void options_manager::add_options_world_default()
 
     add( "MONSTER_RESILIENCE", "world_default", translation(), translation(), 1, 1000, 100,
          COPT_ALWAYS_HIDE, "%i%%"
+       );
+
+    add_empty_line();
+
+    add( "EVOLUTION_INVERSE_MULTIPLIER", "world_default",
+         to_translation( "Monster evolution slowdown" ),
+         to_translation( "A multiplier for the time between monster upgrades.  For example a value of 2.00 would cause evolution to occur at half speed.  Set to 0.00 to turn off monster upgrades." ),
+         0.0, 100, 1.0, 0.01
        );
 
     add_empty_line();
@@ -4017,6 +4034,17 @@ std::string options_manager::migrateOptionName( const std::string &name ) const
 std::string options_manager::migrateOptionValue( const std::string &name,
         const std::string &val ) const
 {
+    //TODO: Remove after stable after world option reserialising is added
+    if( name == "MONSTER_UPGRADE_FACTOR" ) {
+        const float new_value = std::stof( val ) / 4.0f;
+        std::ostringstream ssTemp;
+        ssTemp.imbue( std::locale::classic() );
+        ssTemp.precision( 2 );
+        ssTemp.setf( std::ios::fixed, std::ios::floatfield );
+        ssTemp << new_value;
+        return ssTemp.str();
+    }
+
     const auto iter = get_migrated_options().find( name );
     if( iter == get_migrated_options().end() ) {
         return val;

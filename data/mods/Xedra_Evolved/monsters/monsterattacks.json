@@ -343,5 +343,27 @@
     "max_duration": 100000,
     "min_range": 0,
     "max_range": 0
+  },
+  {
+    "id": "xedra_death_boomer_monochrome",
+    "type": "SPELL",
+    "name": { "str": "Monochrome Boomer Death", "//~": "NO_I18N" },
+    "description": { "str": "Time explosion.", "//~": "NO_I18N" },
+    "valid_targets": [ "ground", "hostile", "ally", "self" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "aoe_increment": 1,
+    "max_level": 1,
+    "min_duration": 180000,
+    "max_duration": 180000,
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_xedra_time_freeze",
+    "field_chance": 1,
+    "field_id": "fd_frozen_time",
+    "min_field_intensity": 10,
+    "max_field_intensity": 10,
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   }
 ]

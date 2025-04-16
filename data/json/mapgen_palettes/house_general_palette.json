@@ -112,8 +112,8 @@
   },
   {
     "type": "palette",
-    "id": "standard_domestic_palette",
-    "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.",
+    "id": "standard_domestic_palette_no_items",
+    "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.  This one has no items and is used in standard_domestic_palette, these are split up as a (temporary) solution until #80078 has an implementation",
     "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "house_fence_type": {
@@ -243,13 +243,22 @@
       ],
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down"
-    },
+    }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_palette",
+    "palettes": [ "standard_domestic_palette_no_items" ],
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
       "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
       "d": [
-        { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+        {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
+          }
+        }
       ],
       "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
       "f": [
@@ -278,7 +287,7 @@
         { "item": "camping", "chance": 10 },
         { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
       ],
-      "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "r": [ { "item": "SUS_office_desk", "chance": 25 } ],
       "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
       "v": [
         { "item": "art", "chance": 5 },
@@ -297,8 +306,12 @@
       "x": { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
       "B": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] },
       "D": [
-        { "item": "SUS_wardrobe_mens", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
+        {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "SUS_wardrobe_mens", "prob": 50 }, { "group": "SUS_wardrobe_womens", "prob": 50 } ]
+          }
+        }
       ],
       "F": { "item": "SUS_fridge", "chance": 100 },
       "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
@@ -311,7 +324,7 @@
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
       ],
       "O": { "item": "SUS_oven", "chance": 100 },
-      "P": { "item": "office_paper", "chance": 100 },
+      "P": { "item": "SUS_office_filing_cabinet", "chance": 100 },
       "Q": [
         { "item": "shower", "chance": 20 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
@@ -325,7 +338,7 @@
         { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "home_display_case", "chance": 50 },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
@@ -365,17 +378,239 @@
   },
   {
     "type": "palette",
-    "id": "standard_domestic_basement_palette",
-    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "id": "standard_and_variant_domestic_basement_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.",
+    "parameters": {
+      "basement_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": { "distribution": [ [ "standard_domestic_basement_palette", 99 ], [ "flooded_domestic_basement_palette", 1 ] ] }
+      }
+    },
+    "palettes": [ { "param": "basement_palette" } ]
+  },
+  {
+    "type": "palette",
+    "id": "flooded_domestic_basement_palette",
+    "//": "Intended to be used in conjunction with standard_and_variant_domestic_basement_palette.",
+    "//1": "Starting from 'a' this palette overwrites the standard_domestic_palette, any new additions to standard_domestic_palette need to be added after and any additions to flooded_domestic_basement_palette should be added before",
     "terrain": {
+      "<": "t_stairs_up",
+      " ": "t_soil",
       "^": "t_soil",
       "#": "t_concrete_wall",
+      "|": "t_concrete_wall",
+      ".": "t_water_sh_flood",
+      "!": "t_water_sh_flood",
+      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
+      "c": "t_water_sh_flood",
+      "u": "t_water_sh_flood",
+      "Â": "t_water_sh_flood",
+      "Ö": "t_water_sh_flood",
+      "X": "t_water_sh_flood",
+      "a": "t_water_sh_flood",
+      "b": "t_water_sh_flood",
+      "d": "t_water_sh_flood",
+      "e": "t_water_sh_flood",
+      "f": "t_water_sh_flood",
+      "g": "t_water_sh_flood",
+      "h": "t_water_sh_flood",
+      "i": "t_water_sh_flood",
+      "j": "t_water_sh_flood",
+      "k": "t_water_sh_flood",
+      "l": "t_water_sh_flood",
+      "m": "t_water_sh_flood",
+      "n": "t_water_sh_flood",
+      "p": "t_water_sh_flood",
+      "q": "t_water_sh_flood",
+      "r": "t_water_sh_flood",
+      "s": "t_water_sh_flood",
+      "t": "t_water_sh_flood",
+      "v": "t_water_sh_flood",
+      "w": "t_water_sh_flood",
+      "x": "t_water_sh_flood",
+      "y": "t_water_sh_flood",
+      "z": "t_water_sh_flood",
+      "A": "t_water_sh_flood",
+      "B": "t_water_sh_flood",
+      "C": "t_water_sh_flood",
+      "D": "t_water_sh_flood",
+      "E": "t_water_sh_flood",
+      "F": "t_water_sh_flood",
+      "G": "t_water_sh_flood",
+      "H": "t_water_sh_flood",
+      "I": "t_water_sh_flood",
+      "J": "t_water_sh_flood",
+      "K": "t_water_sh_flood",
+      "L": "t_water_sh_flood",
+      "M": "t_water_sh_flood",
+      "N": "t_water_sh_flood",
+      "O": "t_water_sh_flood",
+      "P": "t_water_sh_flood",
+      "Q": "t_water_sh_flood",
+      "R": "t_water_sh_flood",
+      "S": "t_water_sh_flood",
+      "T": "t_water_sh_flood",
+      "U": "t_water_sh_flood",
+      "V": "t_water_sh_flood",
+      "W": "t_water_sh_flood",
+      "Y": "t_water_sh_flood",
+      "Z": "t_water_sh_flood",
+      "1": "t_water_sh_flood",
+      "2": "t_water_sh_flood",
+      "3": "t_water_sh_flood",
+      "4": "t_water_sh_flood",
+      "5": "t_water_sh_flood",
+      "6": "t_water_sh_flood",
+      "7": "t_water_sh_flood",
+      "8": "t_water_sh_flood",
+      "9": "t_water_sh_flood",
+      "@": "t_water_sh_flood",
+      "¤": "t_water_sh_flood",
+      "₸": "t_water_sh_flood",
+      "∞": "t_water_sh_flood",
+      "≠": "t_water_sh_flood",
+      "Ø": "t_water_sh_flood",
+      "Æ": "t_water_sh_flood",
+      "ʭ": "t_water_sh_flood",
+      "é": "t_water_sh_flood",
+      "â": "t_water_sh_flood"
+    },
+    "furniture": {
+      "!": "f_locker",
+      "â": "f_home_furnace",
+      "c": "f_exercise",
+      "u": [ "f_ergometer", "f_ergometer_mechanical" ],
+      "Â": [ "f_treadmill", "f_treadmill_mechanical" ],
+      "Ö": [ [ "f_crate_c", 2 ], [ "f_crate_o", 3 ] ],
+      "X": "f_punching_bag",
+      "a": "f_fireplace",
+      "A": "f_stool",
+      "F": "f_home_furnace",
+      "J": "f_counter",
+      "S": "f_sink",
+      "U": "f_utility_shelf",
+      "W": "f_washer",
+      "Z": "f_dryer",
+      "8": "f_counter",
+      "9": "f_shower",
+      "g": [ "f_water_heater", "f_water_heater_family" ]
+    },
+    "items": {
+      ".": [
+        { "item": "allsporting", "chance": 1 },
+        { "item": "laundry", "chance": 1 },
+        { "item": "SUS_trash_floor", "chance": 1 }
+      ]
+    },
+    "monster": { ".": { "group": "GROUP_SEWER", "chance": 1 } }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_basement_palette",
+    "//": "Intended to be used in conjunction with standard_and_variant_domestic_basement_palette.",
+    "//1": "Starting from 'a' this palette overwrites the standard_domestic_palette, any new additions to standard_domestic_palette need to be added after and any additions to standard_domestic_basement_palette should be added before",
+    "terrain": {
+      "<": "t_stairs_up",
+      " ": "t_soil",
+      "^": "t_soil",
+      "#": "t_concrete_wall",
+      "|": "t_concrete_wall",
       ".": "t_thconc_floor",
+      "!": "t_thconc_floor",
+      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "c": "t_thconc_floor",
       "u": "t_thconc_floor",
-      "X": "t_thconc_floor"
+      "Â": "t_thconc_floor",
+      "Ö": "t_thconc_floor",
+      "X": "t_thconc_floor",
+      "a": "t_thconc_floor",
+      "b": "t_thconc_floor",
+      "d": "t_thconc_floor",
+      "e": "t_thconc_floor",
+      "f": "t_thconc_floor",
+      "g": "t_thconc_floor",
+      "h": "t_thconc_floor",
+      "i": "t_thconc_floor",
+      "j": "t_thconc_floor",
+      "k": "t_thconc_floor",
+      "l": "t_thconc_floor",
+      "m": "t_thconc_floor",
+      "n": "t_thconc_floor",
+      "p": "t_thconc_floor",
+      "q": "t_thconc_floor",
+      "r": "t_thconc_floor",
+      "s": "t_thconc_floor",
+      "t": "t_thconc_floor",
+      "v": "t_thconc_floor",
+      "w": "t_thconc_floor",
+      "x": "t_thconc_floor",
+      "y": "t_thconc_floor",
+      "z": "t_thconc_floor",
+      "A": "t_thconc_floor",
+      "B": "t_thconc_floor",
+      "C": "t_thconc_floor",
+      "D": "t_thconc_floor",
+      "E": "t_thconc_floor",
+      "F": "t_thconc_floor",
+      "G": "t_thconc_floor",
+      "H": "t_thconc_floor",
+      "I": "t_thconc_floor",
+      "J": "t_thconc_floor",
+      "K": "t_thconc_floor",
+      "L": "t_thconc_floor",
+      "M": "t_thconc_floor",
+      "N": "t_thconc_floor",
+      "O": "t_thconc_floor",
+      "P": "t_thconc_floor",
+      "Q": "t_thconc_floor",
+      "R": "t_thconc_floor",
+      "S": "t_thconc_floor",
+      "T": "t_thconc_floor",
+      "U": "t_thconc_floor",
+      "V": "t_thconc_floor",
+      "W": "t_thconc_floor",
+      "Y": "t_thconc_floor",
+      "Z": "t_thconc_floor",
+      "1": "t_thconc_floor",
+      "2": "t_thconc_floor",
+      "3": "t_thconc_floor",
+      "4": "t_thconc_floor",
+      "5": "t_thconc_floor",
+      "6": "t_thconc_floor",
+      "7": "t_thconc_floor",
+      "8": "t_thconc_floor",
+      "9": "t_thconc_floor",
+      "@": "t_thconc_floor",
+      "¤": "t_thconc_floor",
+      "₸": "t_thconc_floor",
+      "∞": "t_thconc_floor",
+      "≠": "t_thconc_floor",
+      "Ø": "t_thconc_floor",
+      "Æ": "t_thconc_floor",
+      "ʭ": "t_thconc_floor",
+      "é": "t_thconc_floor",
+      "â": "t_thconc_floor"
     },
-    "furniture": { "c": "f_exercise", "u": [ "f_ergometer", "f_ergometer_mechanical" ], "X": "f_punching_bag" }
+    "furniture": {
+      "!": "f_locker",
+      "â": "f_home_furnace",
+      "c": "f_exercise",
+      "u": [ "f_ergometer", "f_ergometer_mechanical" ],
+      "Â": [ "f_treadmill", "f_treadmill_mechanical" ],
+      "Ö": [ [ "f_crate_c", 2 ], [ "f_crate_o", 3 ] ],
+      "X": "f_punching_bag",
+      "a": "f_fireplace",
+      "A": "f_stool",
+      "J": "f_counter",
+      "S": "f_sink",
+      "U": "f_utility_shelf",
+      "W": "f_washer",
+      "Z": "f_dryer",
+      "8": "f_counter",
+      "9": "f_shower",
+      "g": [ "f_water_heater", "f_water_heater_family" ]
+    }
   },
   {
     "type": "palette",
@@ -426,10 +661,11 @@
       "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
       "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
       "!": "t_region_groundcover_urban",
+      "Ô": "t_region_groundcover_urban",
       "_": "t_pavement",
       "`": "t_concrete"
     },
-    "furniture": { "!": "f_region_flower" }
+    "furniture": { "!": [ [ "f_region_flower", 4 ], "f_region_weed" ], "Ô": "f_region_weed" }
   },
   {
     "type": "palette",
@@ -558,8 +794,7 @@
       ],
       "n": { "item": "SUS_dishwasher", "chance": 70, "repeat": [ 2, 3 ] },
       "r": [
-        { "item": "office_paper", "chance": 20 },
-        { "item": "office", "chance": 66 },
+        { "item": "SUS_office_desk", "chance": 20 },
         { "item": "art_all", "chance": 10 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 4 ] },
         { "item": "dining", "chance": 20, "repeat": [ 1, 2 ] },
@@ -595,7 +830,7 @@
         { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "untidy_workbench_clutter", "chance": 33, "repeat": [ 2, 5 ] }
+        { "item": "SUS_trash_hardware", "chance": 33, "repeat": [ 2, 5 ] }
       ],
       "R": [
         { "item": "novels", "chance": 40, "repeat": [ 1, 3 ] },
@@ -611,7 +846,7 @@
         { "item": "shower", "chance": 50, "repeat": [ 2, 3 ] }
       ],
       "W": { "item": "laundry", "chance": 75, "repeat": [ 2, 3 ] },
-      "Y": { "item": "trash", "chance": 80, "repeat": [ 3, 5 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 3, 5 ] },
       "1": [
         { "item": "SUS_dishes", "chance": 100 },
         { "item": "SUS_silverware", "chance": 100 },
@@ -680,8 +915,7 @@
       ],
       "n": { "item": "SUS_dishwasher", "chance": 70, "repeat": [ 2, 3 ] },
       "r": [
-        { "item": "office_paper", "chance": 20 },
-        { "item": "office", "chance": 66 },
+        { "item": "SUS_office_desk", "chance": 30 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 4 ] },
         { "item": "dining", "chance": 20, "repeat": [ 2, 3 ] },
         { "item": "novels", "chance": 25, "repeat": [ 2, 3 ] }
@@ -714,7 +948,7 @@
         { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "untidy_workbench_clutter", "chance": 33, "repeat": [ 2, 5 ] }
+        { "item": "SUS_trash_hardware", "chance": 33, "repeat": [ 2, 5 ] }
       ],
       "R": [
         { "item": "novels", "chance": 40, "repeat": [ 1, 3 ] },
@@ -730,7 +964,7 @@
         { "item": "shower", "chance": 50, "repeat": [ 2, 3 ] }
       ],
       "W": { "item": "laundry", "chance": 75, "repeat": [ 2, 3 ] },
-      "Y": { "item": "trash", "chance": 90, "repeat": [ 4, 6 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 90, "repeat": [ 4, 6 ] },
       "1": [
         { "item": "SUS_dishes", "chance": 100 },
         { "item": "SUS_silverware", "chance": 100 },

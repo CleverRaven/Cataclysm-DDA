@@ -116,7 +116,7 @@
     "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required" } ],
     "death_drops": "mon_dog_death_drops",
     "burn_into": "mon_dog_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "fungalize_into": "mon_zombie_dog_fungus",
     "flags": [
       "SEES",
@@ -162,7 +162,7 @@
     "melee_dice_sides": 4,
     "bleed_rate": 50,
     "vision_day": 30,
-    "upgrades": { "half_life": 42, "into": "mon_zombie_dog_acidic" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_dog_acidic" },
     "fungalize_into": "mon_zombie_dog_fungus"
   },
   {
@@ -185,7 +185,7 @@
     "harvest": "zombie_fur",
     "death_drops": "",
     "grab_strength": 20,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOLF_UPGRADE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOLF_UPGRADE" },
     "extend": { "flags": [ "KEENNOSE" ] }
   },
   {
@@ -220,7 +220,7 @@
     "harvest": "zombie_fur",
     "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -269,7 +269,7 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 50, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
+    "upgrades": { "half_life": 200, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "1d8->2d5, minor bonus over 1d9",
     "armor": { "electric": 1 }
@@ -337,7 +337,7 @@
     "harvest": "zombie_leather",
     "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOOSE_UPGRADE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOOSE_UPGRADE" },
     "fungalize_into": "mon_zoose_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 6, "cut": 4, "bullet": 3, "electric": 2 }
@@ -373,7 +373,7 @@
     "decay": "zombie_decay_bone",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOUGAR_UPGRADE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOUGAR_UPGRADE" },
     "fungalize_into": "mon_zougar_fungus",
     "flags": [
       "SEES",
@@ -421,7 +421,7 @@
     "harvest": "zombie_leather",
     "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_HORSE_UPGRADE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_HORSE_UPGRADE" },
     "fungalize_into": "mon_zombie_horse_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ],
     "armor": { "bash": 5, "cut": 1, "electric": 2 }
@@ -674,7 +674,7 @@
   {
     "id": "mon_zeindeer",
     "type": "MONSTER",
-    "name": { "str": "zeindeer" },
+    "name": { "str": "zombie reindeer" },
     "looks_like": "mon_zeer",
     "description": "Once a majestic caribou, this undead creature barely resembles Santa's helpful reindeer and seems to only be interested in human flesh.",
     "default_faction": "zombie",

@@ -10,6 +10,7 @@
     "difficulty": 2,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_extra_str_aspirin", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -30,6 +31,7 @@
     "skill_used": "chemistry",
     "skills_required": [ "cooking", 1 ],
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_small_blessing_brigit", 2 ] ],
     "difficulty": 2,
     "time": "160 m",
     "proficiencies": [
@@ -54,6 +56,7 @@
     "time": "1 m",
     "batch_time_factors": [ 50, 4 ],
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_blackout_rage_drink", 3 ] ],
     "components": [ [ [ "energy_drink", 3 ] ], [ [ "vodka", 3 ], [ "tequila", 3 ] ], [ [ "lotus_blossom", 1 ] ] ],
     "charges": 6
   },
@@ -69,6 +72,7 @@
     "result_mult": 20,
     "batch_time_factors": [ 80, 1 ],
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_sixdust", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -106,6 +110,7 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 1 ],
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_prophets_lsd", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -145,6 +150,7 @@
     "difficulty": 2,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_truckers_stamina_pills", 2 ] ],
     "charges": 10,
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
@@ -167,6 +173,7 @@
     "difficulty": 2,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_charm_of_marzanna", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
@@ -188,6 +195,7 @@
     "difficulty": 2,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_spiritshow_dust", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "faewild", 1 ] ], [ [ "scrap_dreamdross", 2 ] ], [ [ "bone", 1 ] ], [ [ "corpse_ash", 1 ] ] ]
@@ -203,6 +211,7 @@
     "difficulty": 3,
     "time": "75 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_nether_snare", 3 ] ],
     "tools": [ [ [ "paint_brush", -1 ] ], [ [ "paint", 1, "LIST" ] ] ],
     "components": [ [ [ "scrap_dreamdross", 3 ] ], [ [ "mutant_blood", 1 ] ], [ [ "silver_small", 1 ] ] ]
   },
@@ -217,6 +226,7 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_feline_periapta", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "feline_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -232,6 +242,7 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_lupine_periapta", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "lupine_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -247,6 +258,7 @@
     "difficulty": 3,
     "time": "67 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_väinämöinens_kantele_imitation", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_luthier_basic", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "luthier_toolset", -1 ] ] ],
     "components": [ [ [ "kantele", 1 ] ], [ [ "scrap_dreamdross", 5 ] ], [ [ "fish_sample", 3 ] ] ]
@@ -262,6 +274,7 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_cephalopod_periapta", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "cephalopod_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -277,6 +290,7 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_butterfly_periapta", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "insect_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -292,6 +306,7 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_scorpion_periapta", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "insect_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -307,6 +322,7 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_spider_periapta", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "spider_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -322,6 +338,7 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_plant_periapta", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "plant_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -337,6 +354,7 @@
     "difficulty": 5,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_life_extension_potion", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -358,6 +376,7 @@
     "difficulty": 5,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_potion_dex", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -384,6 +403,7 @@
     "difficulty": 5,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_potion_strength", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -410,6 +430,7 @@
     "difficulty": 5,
     "time": "24 m",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_hares_leap_potion", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -436,6 +457,7 @@
     "difficulty": 7,
     "time": "2 h",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_doll_imbuement", 7 ] ],
     "tools": [ [ [ "mirror", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
     "components": [
       [ [ "blood", 1 ] ],
@@ -456,13 +478,37 @@
     "difficulty": 7,
     "time": "2 h",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_plant_imbuement", 7 ] ],
     "tools": [ [ [ "bowl_wood", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
     "components": [
       [ [ "blood", 1 ] ],
       [ [ "fae_blood", 1 ] ],
       [ [ "arvore_sample", 5 ] ],
       [ [ "faewild", 5 ] ],
-      [ [ "scrap_dreamdross", 5 ] ]
+      [ [ "scrap_dreamdross", 5 ] ],
+      [ [ "leaves", 10 ], [ "young_leaves", 10 ], [ "grape_leaves", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fire_imbuement",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "skills_required": [ [ "deduction", 5 ] ],
+    "difficulty": 7,
+    "time": "2 h",
+    "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_fire_imbuement", 7 ] ],
+    "tools": [ [ [ "fire", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "components": [
+      [ [ "blood", 1 ] ],
+      [ [ "fae_blood", 1 ] ],
+      [ [ "salamander_sample", 5 ] ],
+      [ [ "faewild", 5 ] ],
+      [ [ "scrap_dreamdross", 5 ] ],
+      [ [ "ash", 50 ], [ "corpse_ash", 50 ] ]
     ]
   }
 ]

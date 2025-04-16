@@ -317,7 +317,7 @@
     ],
     "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_s" }, "baby_count": 13, "baby_timer": 240 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
-    "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
+    "upgrades": { "half_life": 260, "into": "mon_rattlesnake_giant" },
     "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 180 },
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 1 },
     "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
@@ -384,7 +384,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_rattlesnake_big_s" }, "baby_count": 15, "baby_timer": 120 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
+    "upgrades": { "half_life": 320, "into": "mon_rattlesnake_mega" },
     "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ],

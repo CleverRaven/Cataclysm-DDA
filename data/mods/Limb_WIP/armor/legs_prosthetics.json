@@ -15,7 +15,8 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED", "MUNDANE" ],
+    "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ]
   },
@@ -35,7 +36,8 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED", "MUNDANE" ],
+    "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ]
   },
@@ -55,7 +57,8 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "FRAGILE", "PADDED", "MUNDANE" ],
+    "flags": [ "LEG_PROSTHETIC", "FRAGILE", "PADDED", "MUNDANE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PEG_LEG" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_peg_r" ] } ]
   },
@@ -75,7 +78,8 @@
     "color": "brown",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "FRAGILE", "PADDED", "MUNDANE" ],
+    "flags": [ "LEG_PROSTHETIC", "FRAGILE", "PADDED", "MUNDANE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PEG_LEG" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_peg_l" ] } ]
   },
@@ -95,7 +99,8 @@
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED", "MUNDANE" ],
+    "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "RIGHT_PROSTHETIC_LEG" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_r", "leg_prosthetic_r", "foot_prosthetic_r" ] } ]
   },
@@ -115,7 +120,8 @@
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "LEG_PROSTHETIC", "ONLY_ONE", "PADDED", "MUNDANE" ],
+    "flags": [ "LEG_PROSTHETIC", "PADDED", "MUNDANE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "LEFT_PROSTHETIC_LEG" ] } ] },
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "leg_stub_l", "leg_prosthetic_l", "foot_prosthetic_l" ] } ]
   }

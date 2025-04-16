@@ -5,19 +5,17 @@
 #include <functional>
 #include <iterator>
 #include <list>
-#include <new>
 #include <optional>
 #include <ostream>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -34,7 +32,8 @@
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "units.h"
 #include "veh_interact.h"
 #include "vehicle.h"
@@ -52,10 +51,11 @@ static const flag_id json_flag_FROM_FROZEN_LIQUID( "FROM_FROZEN_LIQUID" );
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
                                      const item &liquid )
 {
+    map &here = get_map();
     act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     if( part_num != -1 ) {
-        act.coords.push_back( get_map().get_abs( veh.bub_part_pos( part_num ) ) );
+        act.coords.push_back( here.get_abs( veh.bub_part_pos( here, part_num ) ) );
     } else {
         act.coords.push_back( veh.pos_abs() );
     }
@@ -65,7 +65,9 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
 static void serialize_liquid_source( player_activity &act, const tripoint_bub_ms &pos,
                                      const item &liquid )
 {
-    const map_stack stack = get_map().i_at( pos );
+    map &here = get_map();
+
+    const map_stack stack = here.i_at( pos );
     // Need to store the *index* of the item on the ground, but it may be a virtual item from
     // an infinite liquid source.
     const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item & i ) {
@@ -78,15 +80,16 @@ static void serialize_liquid_source( player_activity &act, const tripoint_bub_ms
         act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
-    act.coords.push_back( get_map().get_abs( pos ) );
+    act.coords.push_back( here.get_abs( pos ) );
     act.str_values.push_back( serialize( liquid ) );
 }
 
 static void serialize_liquid_target( player_activity &act, const vpart_reference &vp )
 {
+    map &here = get_map();
     act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( get_map().get_abs( vp.vehicle().bub_part_pos( 0 ) ) );
+    act.coords.push_back( here.get_abs( vp.vehicle().bub_part_pos( here,  0 ) ) );
     act.values.push_back( vp.part_index() ); // tank part index
 }
 
@@ -324,6 +327,8 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 static bool get_liquid_target( item_location &liquid, const item *const source, const int radius,
                                liquid_dest_opt &target )
 {
+    const map &here = get_map();
+
     const tripoint_bub_ms *source_pos = nullptr;
     const vehicle *source_veh = nullptr;
     const monster *source_mon = nullptr;
@@ -334,7 +339,7 @@ static bool get_liquid_target( item_location &liquid, const item *const source, 
             // intentionally empty
             break;
         case item_location::type::map:
-            pos = liquid.pos_bub();
+            pos = liquid.pos_bub( here );
             source_pos = &pos;
             break;
         case item_location::type::vehicle:
@@ -383,10 +388,11 @@ static bool handle_item_target( Character &player_character, item &liquid, liqui
 static bool handle_vehicle_target( Character &player_character, item &liquid,
                                    liquid_dest_opt &target, const std::function<bool()> &create_activity )
 {
+    map &here = get_map();
     if( target.veh == nullptr ) {
         return false;
     }
-    auto sel = [&]( const vehicle_part & pt ) {
+    auto sel = [&]( const map &, const vehicle_part & pt ) {
         return pt.is_tank() && pt.can_reload( liquid );
     };
 
@@ -396,7 +402,8 @@ static bool handle_vehicle_target( Character &player_character, item &liquid,
                               round_up( to_liter( liquid.charges * stack ), 1 ),
                               liquid.tname() );
 
-    const std::optional<vpart_reference> vpr = veh_interact::select_part( *target.veh, sel, title );
+    const std::optional<vpart_reference> vpr = veh_interact::select_part( here, *target.veh, sel,
+            title );
     if( !vpr ) {
         return false;
     }
@@ -426,6 +433,8 @@ static bool check_liquid( item &liquid )
 
 bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target )
 {
+    map &here = get_map();
+
     if( !check_liquid( *liquid ) ) {
         // "canceled by the user" because we *can* not handle it.
         return false;
@@ -441,7 +450,7 @@ bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target )
             return true;
         } else if( liquid.where() == item_location::type::map ) {
             player_character.assign_activity( ACT_FILL_LIQUID );
-            serialize_liquid_source( player_character.activity, liquid.pos_bub(), *liquid );
+            serialize_liquid_source( player_character.activity, liquid.pos_bub( here ), *liquid );
             return true;
         } else {
             return false;

@@ -99,8 +99,8 @@
       "vendingmachines": { "%": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "B": { "item": "SUS_toilet", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
-        "E": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan_public", "chance": 20, "repeat": [ 2, 4 ] },
+        "E": { "item": "SUS_trash_trashcan_public", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "vehicles": {
         "1": { "vehicle": "parking_garage", "chance": 20, "rotation": 270 },

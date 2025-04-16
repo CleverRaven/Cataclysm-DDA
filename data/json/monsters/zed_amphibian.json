@@ -154,17 +154,17 @@
   {
     "id": "mon_zombullfrog",
     "type": "MONSTER",
-    "name": { "str": "zombullfrog" },
+    "name": { "str": "giant zombie bullfrog" },
     "description": "The wound covered skin of this large bullfrog appears to be peeling in places, revealing a black goop beneath the surface.  Its vacant stare passes by anything that isn't food, and it will leap to devour anything it can.",
     "copy-from": "mon_proxy_frog_zombie",
     "attack_cost": 50,
     "burn_into": "mon_frog_mummy",
-    "upgrades": { "half_life": 34, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE" }
+    "upgrades": { "half_life": 136, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE" }
   },
   {
     "id": "mon_frog_dad",
     "type": "MONSTER",
-    "name": { "str": "colossal zombullfrog" },
+    "name": { "str": "colossal zombie bullfrog" },
     "description": "This gigantic zombified frog lets out an ear splitting unholy wail as it slowly takes notice of you.  Its mostly lethargic movements are offset by its ability to leap great distances using its gargantuan stout legs.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "200 L",
@@ -215,7 +215,7 @@
     "color": "brown_green",
     "attack_cost": 50,
     "burn_into": "mon_frog_mummy",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_DEADTOAD_UPGRADE" }
   },
   {
     "id": "mon_frog_shocker",
@@ -276,7 +276,7 @@
   {
     "id": "mon_toad_bloat",
     "type": "MONSTER",
-    "name": { "str": "bloated zoad" },
+    "name": { "str": "bloated zombie toad" },
     "description": "This zombified toad wobbles as it drags along its immense, inflated form.  A yellow-brown sludge dribbles from its mouth and seeps out from its bulging, cracking skin.",
     "copy-from": "mon_proxy_frog_zombie",
     "weight": "200 kg",
@@ -315,14 +315,14 @@
       "corpse_type": "NO_CORPSE"
     },
     "death_drops": "explode_toad",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_BLOAT_TOAD_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_BLOAT_TOAD_UPGRADE" },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
     "//": "Create new death_sludge effect."
   },
   {
     "id": "mon_zombtreefrog",
     "type": "MONSTER",
-    "name": { "str": "croaked climber" },
+    "name": { "str": "zombie treefrog" },
     "description": "The pale, empty eyes of this large, reanimated treefrog still swivel in their sockets, searching for prey.  Its steps are ungainly but its hind legs look capable of great leaps.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "108500 ml",
@@ -362,7 +362,7 @@
       { "id": "drag_followup" }
     ],
     "burn_into": "mon_frog_husk",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
     "//": "Translation note - 'Croaked' is a euphemistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
   },
@@ -463,7 +463,7 @@
   {
     "id": "mon_toad_bone",
     "type": "MONSTER",
-    "name": { "str": "death mask zoad" },
+    "name": { "str": "death mask zombie toad" },
     "description": "The face and head of this enormous once-frog is encased in ossified tissue.  Its dead eyes peer out from this death mask of hardened bone, which curves into a jagged beak around its mouth.  Even its warts appear to have stiffened into dense osteoderms.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "240 L",
@@ -559,7 +559,7 @@
       { "id": "drag_followup" }
     ],
     "death_function": { "effect": { "id": "death_smokeburst_tiny", "hit_self": true }, "message": "The %s crumbles!" },
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "REVIVES_HEALTHY", "HARDTOSHOOT", "HIT_AND_RUN" ] },
     "delete": { "flags": [ "RANGED_ATTACKER" ] }
   },
@@ -599,7 +599,7 @@
       }
     ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
-    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_med" },
+    "upgrades": { "half_life": 120, "into": "mon_meat_cocoon_med" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
     "extend": { "flags": [ "REVIVES_HEALTHY" ] }
   },
@@ -640,7 +640,7 @@
       }
     ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
-    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_large" },
+    "upgrades": { "half_life": 120, "into": "mon_meat_cocoon_large" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
     "extend": { "flags": [ "REVIVES_HEALTHY" ] }
   },

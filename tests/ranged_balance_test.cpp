@@ -1,38 +1,41 @@
 #include <algorithm>
 #include <cstdlib>
 #include <functional>
-#include <list>
+#include <map>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "anatomy.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "math_parser_diag_value.h"
 #include "monster.h"
 #include "npc.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "ret_val.h"
+#include "ranged.h"
+#include "rng.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 
 static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
@@ -493,6 +496,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
                            int expected_damage, const std::string &monster_type,
                            const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr )
 {
+    map &here = get_map();
     clear_map();
     statistics<int> damage;
     constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
@@ -507,7 +511,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
         shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos, false );
         const int prev_HP = mon.get_hp();
-        shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
+        shooter->fire_gun( here, monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
         if( other_checks ) {
             other_check_success += other_checks( *shooter, mon );
@@ -515,7 +519,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
         if( damage.margin_of_error() < 0.05 && damage.n() > 500 ) {
             break;
         }
-        mon.die( nullptr );
+        mon.die( &here, nullptr );
     } while( damage.n() < 1000 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
     CAPTURE( damage.n() );

@@ -2,25 +2,33 @@
 
 #include <algorithm>
 #include <cmath>
+#include <memory>
 #include <string>
 #include <utility>
 
 #include "assign.h"
 #include "calendar.h"
 #include "character.h"
+#include "condition.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "pimpl.h"
+#include "proficiency.h"
 #include "rng.h"
+#include "talker.h"
 #include "translations.h"
 
 static const limb_score_id limb_score_reaction( "reaction" );
@@ -30,9 +38,6 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
-
-class JsonArray;
-class JsonObject;
 
 namespace
 {

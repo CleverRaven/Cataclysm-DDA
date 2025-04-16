@@ -44,5 +44,106 @@
       }
     ],
     "false_effect": [ { "u_message": "You don't have enough ruach to dedicate any to increasing your powers!", "type": "bad" } ]
+  },
+  {
+    "type": "mutation",
+    "id": "START_AS_VAMPIRE",
+    "name": { "str": "Starting as a vampire", "//~": "NO_I18N" },
+    "description": {
+      "str": "This makes you start with the vampvirus effect.  This has no effect if gained after the game started.",
+      "//~": "NO_I18N"
+    },
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VAMPIRE_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "START_AS_VAMPIRE" },
+    "effect": [ { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNLOCK_TIER_4_VAMPIRE_RECIPE",
+    "//": "Gives the tier 4 recipe to tier 3 vampires. The tier-up recipes are not automatically used, as the player might want to create them ASAP but pospone their use.",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "not": { "compare_string": [ "yes", { "u_val": "know_tier_4_recipes" } ] } },
+        { "u_has_trait": "VAMPIRE3" },
+        { "u_at_om_location": "sky_island_core" }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your potent vampirism has been noticed.  The island has given you the knowledge to push your vampirism even further, should you want to.\n\nBe warned that once you use this item, you will remain a vampire forevermore.",
+        "popup": true
+      },
+      { "u_learn_recipe": "upgradekey_vampire4" },
+      { "u_add_var": "know_tier_4_recipes", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_VAMPIRE_TIER_4",
+    "effect": [
+      { "u_remove_item_with": "upgradekey_vampire4" },
+      { "u_forget_recipe": "upgradekey_vampire4" },
+      { "u_add_trait": "VAMPIRE4" },
+      { "run_eocs": "EOC_REMOVE_DREAM_MAGIC" },
+      { "u_add_effect": "vampire_virus_ascendant", "intensity": 1, "duration": "PERMANENT" },
+      { "u_message": "Your eyes redden even more as you pass a point of no return.", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNLOCK_TIER_5_VAMPIRE_RECIPE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "not": { "compare_string": [ "yes", { "u_val": "know_tier_5_recipes" } ] } },
+        { "u_has_trait": "VAMPIRE4" },
+        { "u_at_om_location": "sky_island_core" }
+      ]
+    },
+    "effect": [
+      { "u_learn_recipe": "upgradekey_vampire5" },
+      { "u_learn_recipe": "upgradekey_bloodgift_research" },
+      {
+        "u_message": "You have decided to embrace your new condition, and the island has responded by giving you the knowledge to reach the apex of vampirism, should you find the required components.",
+        "popup": true
+      },
+      { "u_add_var": "know_tier_5_recipes", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_VAMPIRE_TIER_5",
+    "effect": [
+      { "u_remove_item_with": "upgradekey_vampire5" },
+      { "u_forget_recipe": "upgradekey_vampire5" },
+      { "u_add_trait": "BLOOD_DRINKER" },
+      { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },
+      {
+        "u_message": "Your thirst for blood grows, and so does your power, as you reach the final state of vampirism.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_VAMPIRE_GIFT_RESEARCH",
+    "effect": [
+      { "u_remove_item_with": "upgradekey_bloodgift_research" },
+      { "u_forget_recipe": "upgradekey_bloodgift_research" },
+      { "u_learn_recipe": "xe_vampire_blood_gift_research" },
+      { "u_message": "You learn how to expand your blood gifts.", "type": "good" }
+    ]
   }
 ]

@@ -852,6 +852,7 @@
     "flags": [ "VERBAL", "SOMATIC" ],
     "valid_targets": [ "ground" ],
     "skill": "deduction",
+    "spell_class": "ARVORE",
     "max_level": { "math": [ "int_to_level(1)" ] },
     "difficulty": 3,
     "effect": "ter_transform",

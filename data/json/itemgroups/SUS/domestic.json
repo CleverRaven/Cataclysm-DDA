@@ -129,7 +129,7 @@
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 25, 400 ] },
+      { "group": "duct_tape_roll_part", "prob": 40 },
       { "group": "superglue", "prob": 30 },
       { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
       { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
@@ -290,7 +290,7 @@
       { "item": "solder_wire", "prob": 40 },
       { "group": "superglue", "prob": 40 },
       { "item": "knitting_needles", "prob": 40 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 5, 160 ] },
+      { "group": "duct_tape_roll_part", "prob": 40 },
       { "item": "wax_paraffin", "prob": 10 },
       { "item": "zipper_short_plastic", "prob": 35 },
       { "item": "zipper_short_plastic", "prob": 15 },
@@ -333,7 +333,7 @@
       { "group": "tools_common", "count": 2 },
       { "group": "superglue", "prob": 90 },
       { "item": "boxcutter", "prob": 85 },
-      { "item": "duct_tape", "prob": 85, "charges": [ 5, 200 ] },
+      { "group": "duct_tape_roll_part", "prob": 85 },
       { "item": "flashlight", "prob": 80, "charges": [ 100, 300 ] },
       { "item": "toothbrush_plain", "custom-flags": [ "FILTHY" ], "prob": 80 },
       { "item": "bottle_opener", "prob": 75 },
@@ -399,14 +399,13 @@
       { "group": "small_candles_in_box", "prob": 25 },
       { "item": "corkscrew", "prob": 70 },
       { "group": "adhesive_bandages_box_used", "prob": 60 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 100, 400 ] },
+      { "group": "duct_tape_roll_part", "prob": 40 },
       { "group": "superglue", "prob": 30 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "group": "batteries", "prob": 50 },
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
       { "prob": 50, "group": "bottle_otc_painkiller_20" },
-      { "item": "fancy_sunglasses", "prob": 50 },
       { "item": "matches", "prob": 50, "charges": 20 },
       { "item": "ref_matches", "prob": 50, "charges": 32 },
       { "item": "dog_whistle", "prob": 40 },
@@ -496,6 +495,9 @@
       { "item": "sponge" },
       { "item": "brush", "prob": 85 },
       { "item": "plastic_shopping_bag", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "methed_alcohol", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "denat_alcohol", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_methanol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_washing_soda", "prob": 50, "charges": [ 1, -1 ] },
       { "item": "bleach", "prob": 75, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 65, "charges": [ 1, -1 ] }
@@ -515,6 +517,7 @@
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
       { "group": "dry_goods", "prob": 80, "count": [ 1, 3 ] },
       { "group": "preserved_food", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "baking_soda_box", "prob": 30, "count": [ 1, 2 ] },
       { "item": "garlic", "prob": 66, "count": [ 1, 3 ] },
       { "item": "onion", "prob": 66, "count": [ 1, 3 ] },
       { "item": "potato", "prob": 30, "count": [ 2, 12 ] },
@@ -537,7 +540,10 @@
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 1 },
       { "item": "snow_machine_home", "prob": 5 },
-      { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
+      {
+        "collection": [ { "group": "charcoal_bag_part", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ],
+        "prob": 5
+      },
       {
         "collection": [
           { "item": "small_propane_tank", "prob": 70, "count": [ 1, 2 ], "charges": [ 1000, 3000 ] },
@@ -581,6 +587,22 @@
         "distribution": [
           {
             "item": "milk_powder",
+            "count": [ 5, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "jar_3l_glass_sealed",
+            "prob": 60,
+            "sealed": false
+          },
+          {
+            "item": "cocoa_powder",
+            "count": [ 5, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "jar_3l_glass_sealed",
+            "prob": 60,
+            "sealed": false
+          },
+          {
+            "item": "cocoa_powder_milk",
             "count": [ 5, 20 ],
             "container-item": "null",
             "entry-wrapper": "jar_3l_glass_sealed",
@@ -650,6 +672,7 @@
       },
       { "item": "jam_fruit", "prob": 80 },
       { "item": "peanutbutter", "prob": 80 },
+      { "item": "marshmallow_fluff", "prob": 80 },
       { "item": "syrup", "prob": 50 },
       {
         "distribution": [ { "item": "cereal", "prob": 50 }, { "item": "cereal2", "prob": 50 }, { "item": "cereal3", "prob": 50 } ]
@@ -1006,6 +1029,7 @@
       },
       { "item": "mirror", "prob": 25 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
+      { "item": "moisturizer", "prob": 60, "charges": [ 1, -1 ], "container-item": "bottle_plastic_small" },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges": [ 1, -1 ] },
       {
         "collection": [
@@ -1042,19 +1066,12 @@
     "//": "clothing found in a man's wardrobe",
     "subtype": "collection",
     "entries": [
-      { "group": "shoes_unisex", "prob": 50 },
-      { "group": "pants_mens", "prob": 1 },
-      { "item": "fishing_waders", "prob": 1 },
-      { "item": "football_armor", "prob": 2 },
+      { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
       { "item": "sleeping_bag_roll", "prob": 5 },
-      { "item": "bscabbard", "prob": 1 },
-      { "item": "chaps_leather", "prob": 1 },
-      { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 50 },
-      { "group": "suits_mens", "prob": 10 },
-      { "group": "bags_unisex", "prob": 20 },
-      { "group": "hats_unisex", "prob": 20 },
-      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "coats_unisex", "prob": 50, "count": [ 0, 3 ] },
+      { "group": "suits_unisex", "prob": 50, "count": [ 0, 2 ] },
+      { "group": "suits_mens", "prob": 25, "count": [ 0, 2 ] },
+      { "group": "SUS_dresser_mens", "prob": 100 },
       { "item": "crutches", "prob": 1 }
     ]
   },
@@ -1064,29 +1081,14 @@
     "//": "clothing found in a woman's wardrobe",
     "subtype": "collection",
     "entries": [
-      { "group": "shoes_unisex", "prob": 50 },
-      { "group": "shoes_womens", "prob": 60 },
-      { "item": "fishing_waders", "prob": 1 },
-      { "item": "football_armor", "prob": 1 },
-      { "item": "pom_poms", "prob": 1 },
-      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
-      { "item": "cheerleader_top_short", "prob": 1 },
-      { "item": "cheerleader_skirt", "prob": 1 },
-      { "item": "cheerleader_skirt_short", "prob": 1 },
-      { "group": "pants_womens", "prob": 10 },
-      { "item": "bscabbard", "prob": 1 },
+      { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "shoes_womens", "prob": 60, "count": [ 1, 2 ] },
       { "item": "sleeping_bag_roll", "prob": 5 },
-      { "item": "chaps_leather", "prob": 1 },
-      { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 40 },
-      { "group": "suits_womens", "prob": 50 },
-      { "group": "bags_unisex", "prob": 20 },
-      { "group": "hats_unisex", "prob": 20 },
-      { "group": "scarfs_unisex", "prob": 20 },
-      { "item": "crutches", "prob": 1 },
-      { "item": "woven_anklet", "prob": 5 },
-      { "item": "bat_anklet", "prob": 5 },
-      { "item": "flower_anklet", "prob": 5 }
+      { "group": "coats_unisex", "prob": 50, "count": [ 0, 3 ] },
+      { "group": "suits_unisex", "prob": 50, "count": [ 0, 2 ] },
+      { "group": "suits_womens", "prob": 25, "count": [ 0, 2 ] },
+      { "group": "SUS_dresser_womens", "prob": 100 },
+      { "item": "crutches", "prob": 1 }
     ]
   },
   {
@@ -1098,15 +1100,37 @@
       { "group": "accesories_personal_unisex", "prob": 10 },
       { "group": "accesories_personal_mens", "prob": 10 },
       { "group": "masks_unisex", "prob": 3 },
-      { "group": "socks_unisex", "prob": 70 },
+      { "group": "socks_unisex", "count": [ 7, 14 ], "prob": 100 },
       { "group": "scarfs_unisex", "prob": 30 },
-      { "group": "shirts_unisex", "prob": 50 },
-      { "group": "underwear_mens", "prob": 80 },
-      { "group": "underwear_unisex", "prob": 80 },
-      { "group": "pants_unisex", "prob": 50 },
-      { "group": "pants_male", "prob": 60 },
+      { "group": "shirts_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "underwear_mens", "count": [ 5, 7 ], "prob": 100 },
+      { "group": "underwear_unisex", "count": [ 3, 7 ], "prob": 100 },
+      { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 50 },
+      { "group": "pants_male", "count": [ 4, 7 ], "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex", "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_mens_small_bags",
+    "type": "item_group",
+    "//": "clothing found in a man's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 10 },
+      { "group": "accesories_personal_mens", "prob": 10 },
+      { "group": "masks_unisex", "prob": 3 },
+      { "group": "socks_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "shirts_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "underwear_mens", "count": [ 5, 7 ], "prob": 100 },
+      { "group": "underwear_unisex", "count": [ 3, 7 ], "prob": 100 },
+      { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 50 },
+      { "group": "pants_male", "count": [ 4, 7 ], "prob": 5 },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex_small", "prob": 50 }
     ]
   },
   {
@@ -1118,17 +1142,41 @@
       { "group": "accesories_personal_unisex", "prob": 30 },
       { "group": "accesories_personal_womens", "prob": 5 },
       { "group": "masks_unisex", "prob": 3 },
-      { "group": "socks_unisex", "prob": 70 },
+      { "group": "socks_unisex", "count": [ 7, 14 ], "prob": 100 },
       { "group": "scarfs_unisex", "prob": 30 },
-      { "group": "shirts_womens", "prob": 60 },
-      { "group": "shirts_unisex", "prob": 50 },
-      { "group": "underwear_womens", "prob": 80 },
-      { "group": "underwear_unisex", "prob": 80 },
-      { "group": "pants_unisex", "prob": 50 },
-      { "group": "pants_female", "prob": 60 },
+      { "group": "shirts_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "shirts_womens", "count": [ 1, 4 ], "prob": 50 },
+      { "group": "underwear_womens", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "underwear_unisex", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "pants_female", "count": [ 4, 7 ], "prob": 100 },
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 }
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex", "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_dresser_womens_small_bags",
+    "type": "item_group",
+    "//": "clothing found in a woman's dresser",
+    "subtype": "collection",
+    "entries": [
+      { "group": "accesories_personal_unisex", "prob": 30 },
+      { "group": "accesories_personal_womens", "prob": 5 },
+      { "group": "masks_unisex", "prob": 3 },
+      { "group": "socks_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "shirts_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "shirts_womens", "count": [ 1, 4 ], "prob": 50 },
+      { "group": "underwear_womens", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "underwear_unisex", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "pants_female", "count": [ 4, 7 ], "prob": 100 },
+      { "group": "gloves_womens", "prob": 5 },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 10 },
+      { "group": "bags_unisex_small", "prob": 50 }
     ]
   },
   {
@@ -1187,6 +1235,13 @@
     "subtype": "collection",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "baking_soda_box",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "chem_baking_soda", "container-item": "null", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

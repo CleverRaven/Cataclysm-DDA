@@ -1,9 +1,12 @@
+#include <algorithm>
+#include <vector>
+
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
-#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
+#include "point.h"
 #include "type_id.h"
 
 static void place_obstacle( map &m, const std::vector<tripoint_bub_ms> &places )

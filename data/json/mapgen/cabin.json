@@ -663,6 +663,7 @@
         "h": "f_chair",
         "t": "f_table"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_monster": [ { "monster": "mon_darkman", "x": 8, "y": 10 } ]
     }
@@ -785,7 +786,7 @@
         "...___w2     R# BBw_....",
         "..____w3 CC   +  D#_....",
         "..____#y ll  x#####%....",
-        "..____+       +  D#_....",
+        "..____+    ϟ  +  D#_....",
         "...___#cttc#+## BBw_....",
         "...___#cttc# T# BB#_....",
         "....._##ww######w##_....",
@@ -800,7 +801,7 @@
       ],
       "palettes": [ "cabin_palette" ],
       "terrain": { ".": "t_region_groundcover", "_": "t_region_soil", "x": "t_floor" },
-      "furniture": { "x": "f_firefly_terrarium" },
+      "furniture": { "x": "f_firefly_terrarium", "ϟ": "f_bulletin" },
       "place_monster": [ { "monster": "mon_rabbit", "x": 8, "y": 21, "repeat": [ 3, 6 ] } ],
       "place_npcs": [ { "class": "warrener", "x": 9, "y": 17 } ]
     }

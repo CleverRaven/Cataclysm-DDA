@@ -102,5 +102,17 @@
       { "monster": "mon_zombie_winged", "weight": 60 },
       { "monster": "mon_zombie_regenerating", "weight": 10 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_ZOMBIE_THAUMIC",
+    "monsters": [
+      { "monster": "mon_zombie_leyspark", "weight": 500 },
+      { "monster": "mon_zombie_levinbolt", "weight": 90 },
+      { "monster": "mon_zombie_manastorm", "weight": 4 },
+      { "monster": "mon_zombie_queller", "weight": 400 },
+      { "monster": "mon_zombie_disruptor", "weight": 60 },
+      { "monster": "mon_zombie_magebreaker", "weight": 2 }
+    ]
   }
 ]

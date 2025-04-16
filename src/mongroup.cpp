@@ -8,10 +8,12 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "json.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"
+#include "units.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
@@ -116,20 +118,6 @@ float mongroup::avg_speed() const
     return avg_speed;
 }
 
-const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id &group )
-{
-    const MonsterGroup *groupptr = &group.obj();
-    if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
-        const time_duration replace_time = groupptr->monster_group_time *
-                                           get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-        while( groupptr->replace_monster_group &&
-               calendar::turn - time_point( calendar::start_of_cataclysm ) > replace_time ) {
-            groupptr = &groupptr->new_monster_group.obj();
-        }
-    }
-    return *groupptr;
-}
-
 static bool is_spawn_valid(
     const MonsterGroupEntry &entry, const time_point &sunset, const time_point &sunrise,
     const season_type season, const bool can_spawn_events )
@@ -209,7 +197,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
     const mongroup_id &group_name, int *quantity, bool *mon_found, bool is_recursive,
     bool *returned_default, bool use_pack_size )
 {
-    const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
+    const MonsterGroup &group = GetMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     //Our spawn details specify, by default, a single instance of the default monster
     std::vector<MonsterGroupResult> spawn_details;
@@ -462,7 +450,7 @@ std::map<mongroup_id, MonsterGroup> &MonsterGroupManager::Get_all_Groups()
 
 void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
-    float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
+    float mon_upgrade_factor = get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" );
 
     MonsterGroup g;
     int freq_total = 0;
@@ -525,17 +513,15 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 pack_min = packarr.next_int();
                 pack_max = packarr.next_int();
             }
-            static const time_duration tdfactor = 1_hours;
-            time_duration starts = 0_turns;
-            time_duration ends = 0_turns;
-            if( mon.has_member( "starts" ) ) {
-                assign( mon, "starts", starts, false, tdfactor );
-                starts *= mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
-            }
-            if( mon.has_member( "ends" ) ) {
-                assign( mon, "ends", ends, false, tdfactor );
-                ends *= mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
-            }
+            const int upgrade_mult = mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
+            const time_duration starts = mon.has_member( "starts" )
+                                         ? read_from_json_string<time_duration>( mon.get_member( "starts" ),
+                                                 time_duration::units ) * upgrade_mult
+                                         : 0_turns;
+            const time_duration ends = mon.has_member( "ends" )
+                                       ? read_from_json_string<time_duration> ( mon.get_member( "ends" ),
+                                               time_duration::units ) * upgrade_mult
+                                       : 0_turns;
             spawn_data data;
             if( mon.has_object( "spawn_data" ) ) {
                 const JsonObject &sd = mon.get_object( "spawn_data" );

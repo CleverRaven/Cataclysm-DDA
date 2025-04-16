@@ -3,12 +3,11 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
-#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
@@ -21,13 +20,15 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_martial_arts.h"
-#include "colony.h"
 #include "color.h"
+#include "condition.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
@@ -36,6 +37,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "item.h"
+#include "item_group.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "magic.h"
@@ -44,11 +46,11 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "monstergenerator.h"
-#include "morale.h"
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
@@ -58,13 +60,17 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class translation;
 
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -173,18 +179,20 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster,
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    teleport::teleport( caster, min_distance, max_distance, safe, false );
+    teleport::teleport_creature( caster, min_distance, max_distance, safe, false );
 }
 
 static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
 {
+    map &here = get_map();
+
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
-    critter->setpos( caster.pos_bub() );
-    caster.setpos( target );
+    critter->setpos( caster.pos_abs() );
+    caster.setpos( here, target );
 
     //update map in case a monster swapped positions with the player
     Character &you = get_player_character();
-    get_map().vertical_shift( you.posz() );
+    here.vertical_shift( you.posz() );
     g->update_map( you );
 }
 
@@ -589,7 +597,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = roll_remainder( val.amount / multishot );
                     }
                     for( int i = 0; i < multishot; ++i ) {
-                        cr->deal_projectile_attack( cr, atk, atk.missed_by, true );
+                        cr->deal_projectile_attack( &here, cr, atk, atk.missed_by, true );
                     }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
                     int amount_of_bp = target_bdpts.size();
@@ -607,7 +615,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         }
                     }
                 } else {
-                    cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
+                    cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
                 }
             }
 
@@ -617,7 +625,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = cr->get_hp() * sp.damage( caster ) / 100.0;
                     }
                 }
-                cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
+                cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
@@ -872,6 +880,8 @@ static void spell_move( const spell &sp, const Creature &caster,
         return;
     }
 
+    map &here = get_map();
+
     // Moving creatures
     const bool can_target_self = sp.is_valid_target( spell_target::self );
     const bool can_target_ally = sp.is_valid_target( spell_target::ally );
@@ -896,12 +906,12 @@ static void spell_move( const spell &sp, const Creature &caster,
 
     // Moving items
     if( sp.is_valid_target( spell_target::item ) ) {
-        move_items( get_map(), from, to );
+        move_items( here, from, to );
     }
 
     // Moving fields.
     if( sp.is_valid_target( spell_target::field ) ) {
-        move_field( get_map(), from, to );
+        move_field( here, from, to );
     }
 }
 
@@ -950,12 +960,14 @@ static std::pair<field, tripoint_bub_ms> spell_remove_field( const spell &sp,
 static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_ms>
         &fd_fatigue_field, Creature &caster )
 {
+    const map &here = get_map();
+
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
          ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
         const tripoint_bub_ms &field_position = std::get<1>( fd_fatigue_field );
-        const bool sees_field = caster.sees( field_position );
+        const bool sees_field = caster.sees( here, field_position );
 
         switch( intensity ) {
             case 1:
@@ -980,7 +992,7 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
             case 3:
                 std::string message_prefix = "A nearby";
 
-                if( caster.sees( field_position ) ) {
+                if( caster.sees( here, field_position ) ) {
                     message_prefix = "The";
                 }
 
@@ -989,7 +1001,7 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
                                           message_prefix, intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
-                teleport::teleport( caster );
+                teleport::teleport_creature( caster );
                 break;
         }
         break;
@@ -1055,10 +1067,12 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint_
 static void character_push_effects( Creature *caster, Character &guy, tripoint_bub_ms &push_dest,
                                     const int push_distance, const std::vector<tripoint_bub_ms> &push_vec )
 {
+    map &here = get_map();
+
     int dist_left = std::abs( push_distance );
-    tripoint_bub_ms old_pushed_point = guy.pos_bub();
+    tripoint_bub_ms old_pushed_point = guy.pos_bub( here );
     for( const tripoint_bub_ms &pushed_point : push_vec ) {
-        if( get_map().impassable( pushed_point ) ) {
+        if( here.impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
             push_dest = old_pushed_point;
             break;
@@ -1070,7 +1084,7 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint_b
             old_pushed_point = pushed_point;
         }
     }
-    guy.setpos( push_dest );
+    guy.setpos( here, push_dest );
 }
 
 void spell_effect::directed_push( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
@@ -1135,7 +1149,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                     int dist_left = std::abs( push_distance );
                     tripoint_bub_ms old_pushed_push_point = push_point;
                     for( const tripoint_bub_ms &pushed_push_point : push_vec ) {
-                        if( get_map().impassable( pushed_push_point ) ) {
+                        if( here.impassable( pushed_push_point ) ) {
                             mon->apply_damage( &caster, bodypart_id(), dist_left * 10 );
                             push_dest = old_pushed_push_point;
                             break;
@@ -1147,7 +1161,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                             old_pushed_push_point = pushed_push_point;
                         }
                     }
-                    mon->setpos( push_dest );
+                    mon->setpos( here, push_dest );
                 } else if( guy ) {
                     character_push_effects( &caster, *guy, push_dest, push_distance, push_vec );
                 }
@@ -1387,9 +1401,9 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
     }
     vehicle &veh = v_part_pos->vehicle();
     if( sp.damage( caster ) >= 0 ) {
-        veh.charge_battery( sp.damage( caster ), false );
+        veh.charge_battery( here, sp.damage( caster ), false );
     } else {
-        veh.discharge_battery( -sp.damage( caster ), false );
+        veh.discharge_battery( here, -sp.damage( caster ), false );
     }
 }
 
@@ -1821,6 +1835,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_m
 
 void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
+    class map &here = get_map(); // "map" is overridden by a spell_effect operation...
     int total_dam = sp.damage( caster );
     if( total_dam <= 0 ) {
         debugmsg( "ERROR: Banishment has negative or 0 damage value" );
@@ -1888,13 +1903,15 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
         // banished monsters take their stuff with them
         mon->death_drops = false;
-        mon->die( &caster );
+        mon->die( &here, &caster );
     }
 }
 
 void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
                                         const tripoint_bub_ms &target )
 {
+    ::map &here = get_map();
+
     const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1902,11 +1919,19 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
+        dialogue d;
+        optional_vpart_position veh = here.veh_at( target );
         Creature *victim = creatures.creature_at<Creature>( potential_target );
-        dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
-        const tripoint_abs_ms target_abs = get_map().get_abs( potential_target );
-        write_var_value( var_type::context, "spell_location", &d,
-                         target_abs.to_string() );
+        if( victim && ( sp.is_valid_target( spell_target::ally ) ||
+                        sp.is_valid_target( spell_target::hostile ) || sp.is_valid_target( spell_target::self ) ) ) {
+            d = dialogue( get_talker_for( victim ), get_talker_for( caster ) );
+        } else if( sp.is_valid_target( spell_target::vehicle ) && veh ) {
+            d = dialogue( get_talker_for( veh.value().vehicle() ), get_talker_for( caster ) );
+        } else {
+            d = dialogue( nullptr, get_talker_for( caster ) );
+        }
+        const tripoint_abs_ms target_abs = here.get_abs( potential_target );
+        write_var_value( var_type::context, "spell_location", &d, target_abs );
         d.amend_callstack( string_format( "Spell: %s Caster: %s", sp.id().c_str(), caster.disp_name() ) );
         effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
         if( eoc->type == eoc_type::ACTIVATION ) {

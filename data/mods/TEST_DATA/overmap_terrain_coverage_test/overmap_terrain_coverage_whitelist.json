@@ -28,7 +28,21 @@
       "roadstop",
       "roadstop_roof",
       "roadstop_a",
-      "roadstop_a_roof"
+      "roadstop_a_roof",
+      "roadstop_b",
+      "roadstop_b_roof",
+      "chemical_lab(_roof)?_ocu",
+      "homelesscamp_npc",
+      "ranch_camp_77",
+      "prison_island_1_.*",
+      "prison_alcatraz_.*",
+      "cabin_lakeside\\d?(_roof)?",
+      "boat_rental(_[12])?(_roof)?",
+      "nursing_home_(b.*|lab\\d)",
+      "farm_isherwood_.*",
+      "corpse_head_neck_(l|r|center)_decap",
+      "abandoned_textile_mill(_b)?_\\d_\\d",
+      "hotel_tower(_flr2)_1_5B?"
     ]
   }
 ]

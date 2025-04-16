@@ -15,10 +15,10 @@
     "dodge": 3,
     "bleed_rate": 50,
     "harvest": "doggy_bones",
-    "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
+    "upgrades": { "half_life": 168, "into": "mon_dog_skeleton_brute" },
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 1 },
     "delete": { "flags": [ "SMELLS" ] },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
   },
   {
     "id": "mon_dog_zombie_brute",
@@ -32,11 +32,11 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": 2,
+      "melee_damage": { "damage_type": "cut", "amount": 2 },
       "vision_night": 1,
       "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
     },
-    "upgrades": { "half_life": 42, "into": "mon_dog_zombie_hulk" },
+    "upgrades": { "half_life": 168, "into": "mon_dog_zombie_hulk" },
     "grab_strength": 30,
     "special_attacks": [
       { "id": "scratch_grab_required", "max_mul": 1.5 },
@@ -110,7 +110,7 @@
     "weight": "100 kg",
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25, "attack_cost": 1.25 },
-    "relative": { "melee_skill": 1, "melee_dice": 1, "melee_damage": -2 },
+    "relative": { "melee_skill": 1, "melee_dice": 1, "melee_damage": { "damage_type": "cut", "amount": -2 } },
     "bleed_rate": 0,
     "upgrades": false,
     "grab_strength": 60,
@@ -152,7 +152,7 @@
     "volume": "46 L",
     "weight": "60 kg",
     "hp": 70,
-    "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_damage": 6 },
+    "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_damage": { "damage_type": "cut", "amount": 6 } },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "bite_grab", "attack_upper": false, "cooldown": 5, "max_mul": 1.5 },
@@ -163,6 +163,7 @@
       }
     ],
     "upgrades": false,
+    "extend": { "flags": [ "PULP_PRYING" ] },
     "armor": { "stab": 30, "bash": 12, "cut": 30, "acid": 1, "bullet": 24, "electric": 2 }
   },
   {
@@ -178,7 +179,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": 2,
+      "melee_damage": { "damage_type": "cut", "amount": 2 },
       "vision_night": 1,
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
@@ -226,16 +227,16 @@
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "puppy_bones",
-    "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
+    "upgrades": { "half_life": 168, "into": "mon_dog_skeleton_brute" },
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
   },
   {
     "id": "mon_zougar_hunter",
     "type": "MONSTER",
     "name": { "str": "spearcat hunter" },
     "copy-from": "mon_zougar",
-    "description": "This undead cougar's eyes ooze with dark, oily fluid, and its fur is torn, revealing deep, festering wounds.  Its claws and teeth are unnaturally long, and sharpened into dangerous looking spikes",
+    "description": "This undead cougar's eyes ooze with dark, oily fluid, and its fur is torn, revealing deep, festering wounds.  Its claws and teeth are unnaturally long, and sharpened into dangerous looking spikes.",
     "hp": 200,
     "speed": 190,
     "attack_cost": 190,
@@ -283,6 +284,7 @@
       { "id": "scratch", "cooldown": 10, "min_mul": 1, "max_mul": 1.8 }
     ],
     "upgrades": false,
+    "extend": { "flags": [ "PULP_PRYING" ] },
     "flags": [ "SEES", "HEARS", "GRABS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "bash": 2, "cut": 17, "stab": 30, "acid": 3, "bullet": 32, "electric": 3 }
   },
@@ -342,7 +344,7 @@
   {
     "id": "mon_zombie_horse_white",
     "type": "MONSTER",
-    "name": { "str": "pestilent prancer" },
+    "name": { "str": "acidic zombie horse" },
     "copy-from": "mon_zombie_horse",
     "description": "The abdomen of this once majestic horse has grown rotund to the point you can see through the skin, at the reservoir of caustic bile inside.  Its neck is equally enlarged as well as slightly longer than normal.",
     "diff": 3,

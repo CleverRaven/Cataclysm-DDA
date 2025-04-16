@@ -5,11 +5,11 @@
 #include <map>
 #include <string>
 
-#include "field_type.h"
+#include "dialogue_helpers.h"
 #include "type_id.h"
-#include <dialogue_helpers.h>
 
 class JsonObject;
+struct const_dialogue;
 
 class emit
 {

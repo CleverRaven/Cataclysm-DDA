@@ -85,7 +85,7 @@
         "......________________sss...##  @  @  @  @     #  D##++##############  #      @  @  @  @  ##...sss________________......",
         "......_______,,_______sss...##  @  @  @  @     V    #  vvvvFFFFcdc#    V      @  @  @  @  ##...sss_______,,_______......",
         "......_______,,_______sss...##2       2        V k6k#            S# k6kV         2       2##...sss_______,,_______......",
-        "......_______,,_______sss...##                 V  h #S  ccc2ccc  S#  hkV                  ##...sss_______,,_______......",
+        "......_______,,_______sss...##                 V  h #S  ccc2ccc  Z#  hkV                  ##...sss_______,,_______......",
         "......________________sss...###      DD        #i   #c           c#D  i#        DD       ###...sss________________......",
         "......_______,,_______sss...#############++##++#i  2#cOOOc   ccccc#2  i#  ##++##############...sss_______,,_______......",
         "......_______,,_______sss....#########t+   S#  ###########   ###########==#S   +t##########....sss_______,,_______......"
@@ -111,7 +111,7 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
         "F": { "item": "SUS_fridge_survivor", "chance": 60 },
         "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] },
         "c": [ { "item": "kitchen_appliances", "chance": 5 }, { "item": "dishes_utility", "chance": 5 } ],
@@ -167,7 +167,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "......_______,,________sss.........#####   c#  ###########+#+###########  #c   #####..........sss________,,_______......",
-        "......__________________sss.........##t+ 2 S#  #           2           #b #S 2 +t##..........sss__________________......",
+        "......__________________sss.........##t+ 2 S#  #         Y 2           #b #S 2 +t##..........sss__________________......",
         "......_______,,__________ssssssss...####   c#  # bTTb bTTb   bTTb bTTb #b #c   ####...sssssssss__________,,_______......",
         "......_______,,___________ssssssss..##t+ D S#  #2bTTb bTTb   bTTb bTTb2#  #S D +t##..sssssssss___________,,_______......",
         "......_______,,________________sss..######+##  # bTTb bTTb   bTTb bTTb #  ##+######..sss_________________,,_______......",
@@ -204,7 +204,7 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] }
       ],
       "items": {
-        "D": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
         "L": { "item": "cleaning", "chance": 80, "repeat": [ 2, 6 ] },
         "S": [ { "item": "dishes_dining", "chance": 80, "repeat": [ 1, 3 ] }, { "item": "dishes_utility", "chance": 10 } ],
         "T": { "item": "dishes_dining", "chance": 5 },
@@ -290,7 +290,7 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "D": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 3 ] },
         "L": { "item": "shelter", "chance": 30 },
         "i": { "item": "office", "chance": 90, "repeat": [ 1, 6 ] },
         "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },

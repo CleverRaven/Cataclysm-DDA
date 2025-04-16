@@ -56,7 +56,7 @@
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
-    "upgrades": { "half_life": 24, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
+    "upgrades": { "half_life": 96, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
     "extend": { "flags": [ "NOHEAD", "GEN_DORMANT" ] },
     "delete": { "flags": [ "SEES" ], "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite attack to reflect damage to mouth.",
@@ -103,7 +103,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "bleed_rate": 80,
     "grab_strength": 15,
-    "upgrades": { "half_life": 24, "into": "mon_zombie_brute" },
+    "upgrades": { "half_life": 96, "into": "mon_zombie_brute" },
     "fungalize_into": "mon_zombie_tough_dusted",
     "armor": { "bash": 3, "cut": 2, "bullet": 2, "electric": 2 },
     "extend": {
@@ -137,7 +137,7 @@
     "vision_night": 4,
     "grab_strength": 30,
     "burn_into": "mon_zombie_scorched_brute",
-    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
+    "upgrades": { "half_life": 168, "into_group": "GROUP_ZOMBIE_BRUTE" },
     "fungalize_into": "mon_zombie_brute_dusted",
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 },
     "extend": {
@@ -263,7 +263,7 @@
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_skull" },
+    "upgrades": { "half_life": 112, "into": "mon_zombie_skull" },
     "extend": { "flags": [ "GOODHEARING", "NOHEAD" ] },
     "delete": { "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite as this creature does not have a 'mouth'."
@@ -327,7 +327,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
     "burn_into": "mon_zombie_scorched_lasher",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_GRAB" },
     "extend": { "flags": [ "SMELLS" ] }
   },
   {
@@ -453,7 +453,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
-    "upgrades": { "half_life": 42, "into": "mon_zombie_predator" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_predator" },
     "extend": { "flags": [ "SMELLS", "CLIMBS" ] }
   },
   {
@@ -588,7 +588,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
       }
     ],
-    "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
+    "upgrades": { "half_life": 140, "into": "mon_zombie_hunter" },
     "fungalize_into": "mon_zombie_runner_dusted"
   },
   {
@@ -605,7 +605,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "regenerates": 12,
-    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_hunter" },
+    "upgrades": { "half_life": 140, "into": "mon_zombie_regenerating_hunter" },
     "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
@@ -617,7 +617,7 @@
     "species": [ "ZOMBIE" ],
     "regenerates": 12,
     "color": "red_cyan",
-    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_final" },
+    "upgrades": { "half_life": 140, "into": "mon_zombie_regenerating_final" },
     "extend": { "flags": [ "SMELLS", "CLIMBS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
@@ -721,7 +721,7 @@
     "vision_day": 3,
     "vision_night": 40,
     "harvest": "zombie_humanoid_shadow",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
     "extend": { "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ] }
   },
   {
@@ -742,7 +742,7 @@
     "vision_night": 4,
     "harvest": "zombie_screamer",
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "SHRIEK", 10 ] ],
-    "upgrades": { "half_life": 26, "into": "mon_zombie_screecher" },
+    "upgrades": { "half_life": 104, "into": "mon_zombie_screecher" },
     "extend": { "flags": [ "SMELLS" ] }
   },
   {
@@ -812,7 +812,7 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "fungalize_into": "mon_zombie_smoker_dusted",
-    "upgrades": { "half_life": 30, "into": "mon_smoker_brute" },
+    "upgrades": { "half_life": 120, "into": "mon_smoker_brute" },
     "armor": { "heat": 5, "electric": 1 },
     "extend": { "flags": [ "HARDTOSHOOT" ] }
   },
@@ -861,7 +861,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
     "death_drops": "mon_zombie_swimmer_death_drops",
-    "upgrades": { "half_life": 30, "into": "mon_zombie_swimmer" },
+    "upgrades": { "half_life": 120, "into": "mon_zombie_swimmer" },
     "categories": [ "CLASSIC" ]
   },
   {
@@ -879,7 +879,7 @@
     "dodge": 2,
     "//grab": "Tier 2 mob, but webbed hands don't sound very grabby",
     "death_drops": "mon_zombie_swimmer_death_drops",
-    "upgrades": { "half_life": 42, "into": "mon_zombie_mancroc" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_mancroc" },
     "extend": { "flags": [ "SWIMS", "WATER_CAMOUFLAGE" ] }
   },
   {
@@ -912,7 +912,7 @@
     "vision_day": 15,
     "vision_night": 2,
     "death_drops": "mon_zombie_miner_death_drops",
-    "upgrades": { "half_life": 35, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
+    "upgrades": { "half_life": 140, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_open_helmet" ] }
   },
@@ -950,8 +950,7 @@
   {
     "id": "mon_zombie_fursuit",
     "type": "MONSTER",
-    "name": { "str": "malicious mane" },
-    "//": "A pun. 'Mane' being an archaic synonym of zombie, which also refers hair on the back of an animals neck.",
+    "name": { "str": "fursuited zombie" },
     "description": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood cakes the suit, and it gives off a foul, rotting odor.",
     "copy-from": "mon_zombie",
     "speed": 50,
@@ -961,6 +960,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "zombie_fursuits", 100 ] ] },
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 },
-    "//1": "The torn fursuit offers slightly more protection."
+    "//": "The torn fursuit offers slightly more protection."
   }
 ]

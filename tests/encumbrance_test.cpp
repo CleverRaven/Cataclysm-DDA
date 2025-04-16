@@ -1,14 +1,15 @@
 #include <functional>
-#include <iosfwd>
-#include <list>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "item.h"
+#include "item_contents.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "type_id.h"
 
 static const flag_id json_flag_UNDERSIZE( "UNDERSIZE" );
@@ -45,8 +46,7 @@ static void test_encumbrance_on(
     //if the character is made TINY their stored kcal means they are now obese and have penalties
     p.set_stored_kcal( p.get_healthy_kcal() );
     p.calc_encumbrance();
-    encumbrance_data enc = p.get_part_encumbrance_data( bodypart_id( body_part ) );
-    CHECK( enc.encumbrance == expected_encumbrance );
+    CHECK( p.get_part_encumbrance( bodypart_id( body_part ) )  == expected_encumbrance );
 }
 
 static void test_encumbrance_items(

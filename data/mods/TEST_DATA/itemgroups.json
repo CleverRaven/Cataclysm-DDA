@@ -128,5 +128,11 @@
       { "item": "test_laptop", "prob": 100, "charges": 200, "contents-item": "efile_recipes" },
       { "item": "test_laptop", "prob": 100, "charges": 200, "contents-item": "efile_recipes" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_bottle_water",
+    "subtype": "collection",
+    "entries": [ { "item": "water_clean", "charges": 1, "container-item": "bottle_plastic", "sealed": false } ]
   }
 ]

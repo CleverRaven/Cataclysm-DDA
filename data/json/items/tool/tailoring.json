@@ -77,7 +77,6 @@
     "material": [ "bone" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -105,7 +104,8 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "needle_curved",
@@ -119,7 +119,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -133,7 +132,8 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "needle_wood",
@@ -147,7 +147,6 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -161,7 +160,8 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "needle_steel",
@@ -175,7 +175,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -203,7 +202,8 @@
       "cost_scaling": 0.1,
       "move_cost": 1000
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "sewing_kit",
@@ -357,9 +357,9 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "tailors_kit",
@@ -373,7 +373,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
@@ -404,6 +403,7 @@
         "move_cost": 800
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   }
 ]

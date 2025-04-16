@@ -515,7 +515,7 @@
       ],
       "terrain": { ".": "t_soil", ",": "t_dirt_underground", ">": "t_slope_up" },
       "furniture": {  },
-      "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "trash_forest", "chance": 2 } ] }
+      "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "SUS_trash_forest_no_manmade", "chance": 2 } ] }
     }
   },
   {
@@ -662,7 +662,7 @@
       },
       "item": { "f": { "item": "stick", "amount": [ 5, 10 ] }, "J": { "item": "jumper_cable" } },
       "items": {
-        "C": { "item": "stash_food", "chance": 80, "repeat": [ 2, 3 ] },
+        "C": { "item": "stash_food", "chance": 100, "repeat": [ 1, 2 ] },
         "D": { "item": "fuel_gasoline", "chance": 80 },
         "w": { "item": "stash_wood", "repeat": [ 1, 3 ] },
         "W": { "item": "gear_survival", "chance": 80, "repeat": [ 1, 2 ] }

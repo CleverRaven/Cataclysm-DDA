@@ -675,7 +675,7 @@
     "visibility": 3,
     "ugliness": 1,
     "prereqs": [ "GREENSTRIDE" ],
-    "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS" ],
+    "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS_ARVORE" ],
     "description": "Like green wood, you can bend your limbs easily.  You gain a +4 bonus to Dexterity.",
     "category": [ "ARVORE" ],
     "types": [ "DEX" ],

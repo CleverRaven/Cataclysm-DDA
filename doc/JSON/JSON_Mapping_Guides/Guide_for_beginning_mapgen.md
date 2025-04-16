@@ -255,7 +255,7 @@ The first entry is using  that explicit symbol placement technique.  The end ent
 
 8. Vehicle spawns:
 ```
-"vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100 } }
+"vehicles": { "c": { "vehicle": "swivel_chair" } }
 ```
 Our vehicle happens to be a swivel chair using explicit symbol placement.
 

@@ -6,6 +6,7 @@
     "required_event": "avatar_enters_omt",
     "condition": { "u_has_trait": "HOMULLUS" },
     "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
       {
         "run_eocs": [
           {
@@ -14,7 +15,7 @@
               "or": [
                 { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
                 { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
-                { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
+                { "map_in_city": { "context_val": "check_loc" } }
               ]
             },
             "effect": [ { "math": [ "u_homullus_is_in_civilization = 1" ] } ],
@@ -125,8 +126,10 @@
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "u_has_trait": "HOMULLUS_DREAMWALKER" },
-        { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
+        { "or": [ { "u_has_trait": "HOMULLUS_DREAMWALKER" }, { "u_has_trait": "CHANGELING_NOBLE_DREAMWALKER" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_FAIR_FOLK_NOBLE')" ] }, "y": 10 }
+        },
         { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any') > 0" ] }
       ]
     },
@@ -142,7 +145,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_GOBLIN_FRUIT",
     "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_homullus", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be in the remnants of civilization to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
@@ -358,6 +361,73 @@
     "effect": [ { "u_cast_spell": { "id": "homullus_civilization_translocate_attune_real" }, "targeted": true } ],
     "false_effect": [
       { "u_message": "You must be within one of the remaining bastions of civilization to cast this spell.", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DEATH_DOOR_REBIRTH",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": {
+      "and": [ { "u_has_trait": "DEATH_IS_BUT_A_DOOR" }, { "not": { "u_has_effect": "effect_homullus_prevented_death" } } ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "homullus_death_door_target" },
+        "species": "FERAL",
+        "target_min_radius": 0,
+        "target_max_radius": 30
+      },
+      {
+        "if": { "math": [ "!has_var(_homullus_death_door_target)" ] },
+        "then": [
+          {
+            "u_location_variable": { "context_val": "homullus_death_door_target" },
+            "npc": "",
+            "target_min_radius": 0,
+            "target_max_radius": 30
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "has_var(_homullus_death_door_target)" ] },
+        "then": [
+          {
+            "run_eocs": { "id": "EOC_HOMULLUS_DEATH_DOOR_KILL_TARGET", "effect": [ { "npc_cast_spell": { "id": "xedra_self_banish" } } ] },
+            "beta_loc": { "context_val": "homullus_death_door_target" }
+          },
+          { "math": [ "u_vitamin('blood') = 0" ] },
+          "u_prevent_death",
+          { "math": [ "u_hp('ALL') = 999" ] },
+          { "math": [ "u_vitamin('redcells') = 0" ] },
+          { "math": [ "u_pain() = 0" ] },
+          { "math": [ "u_val('rad') = 0" ] },
+          {
+            "u_lose_effect": [
+              "corroding",
+              "onfire",
+              "dazed",
+              "stunned",
+              "venom_blind",
+              "formication",
+              "blisters",
+              "frostbite",
+              "frostbite_recovery",
+              "wet",
+              "slimed",
+              "migo_atmosphere",
+              "fetid_goop",
+              "sap",
+              "nausea",
+              "bleed"
+            ]
+          },
+          {
+            "u_add_effect": "effect_homullus_prevented_death",
+            "duration": { "math": [ "max( 20160, 1209600 - 15120 * u_sum_traits_of_category_char_has('HOMULLUS') )" ] }
+          },
+          { "u_teleport": { "context_val": "homullus_death_door_target" }, "force_safe": true }
+        ]
+      }
     ]
   }
 ]

@@ -32,7 +32,7 @@
 #include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 // single instance of world generator

@@ -30,7 +30,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "duct_tape", "prob": 25 },
+      { "group": "duct_tape_roll_part", "prob": 25 },
       { "item": "bubblewrap", "prob": 33 },
       { "item": "cardboard", "count": [ 10, 40 ], "prob": 33 },
       { "item": "box_small", "count": [ 1, 2 ], "prob": 50 },
