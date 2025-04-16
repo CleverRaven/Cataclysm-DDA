@@ -1163,8 +1163,6 @@
     "name": { "str": "pickled egg" },
     "copy-from": "egg_chicken",
     "color": "white",
-    
-
     "symbol": "%",
     "quench": -1,
     "description": "A pickled egg.  Rather salty, but tastes good and lasts for a long time.",
