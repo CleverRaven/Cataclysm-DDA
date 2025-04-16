@@ -3557,6 +3557,20 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "drink_grog",
+    "charges": 3,
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "30 s",
+    "book_learn": [ [ "distilling_cookbook", 4 ] ],
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "rum", 1 ], [ "whiskey", 1 ], [ "brandy", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "sugar", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "meat_aspic",
     "category": "CC_FOOD",
