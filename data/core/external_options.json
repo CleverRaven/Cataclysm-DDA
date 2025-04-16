@@ -575,27 +575,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "SEASON_LENGTH",
-    "//": "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results.",
-    "stype": "int",
-    "value": 91
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "CONSTRUCTION_SCALING",
-    "//": "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length.",
-    "stype": "int",
-    "value": 100
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "ETERNAL_SEASON",
-    "//": "If true, keep the initial season for ever.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "RAD_MUTATION",
     "//": "If true, radiation causes the player to mutate.",
     "stype": "bool",
