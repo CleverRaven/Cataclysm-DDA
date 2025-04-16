@@ -20,14 +20,14 @@ The first way to give a player an effect in-game is through the drug system. To 
     },
 ```
 Notice the "effects" field. Each effect has four potential fields:
-```C++
-"id" - Required
-"duration" - Required
-"bp" - This will cause the effect to target this body part specifically
-"permanent" - This means the placed effect will be permanent, and will never decrease in duration
+```jsonc
+"id"        // Required
+"duration"  // Required
+"bp"        // This will cause the effect to target this body part specifically
+"permanent" // This means the placed effect will be permanent, and will never decrease in duration
 ```
 Valid "bp" entries are (no entry means the effect is untargeted):
-```C++
+```jsonc
 "TORSO"
 "HEAD"
 "EYES"
@@ -62,8 +62,8 @@ Creatures have an effect field similar to the "consume_drug" entry for items. Yo
     ],
 ```
 The fields for "attack_effs" function identically to the ones for "consume_drug". However, creatures have an additional field:
-```C++
-"chance" - The percentage chance of the effect being applied on a good hit, defaults to 100%
+```jsonc
+"chance" // The percentage chance of the effect being applied on a good hit, defaults to 100%
 ```
 If a creature successfully damages the player and their chance roll succeeds they will apply
 all of the listed effects to the player. The effects are added one after another.
@@ -110,7 +110,7 @@ entry of "name" is the empty string ("") or "name" is missing then the effect wi
 in the status screen.
 
 Each entry in "name" can also have an optional context:
-```JSON
+```jsonc
     "name": [ { "ctxt": "ECIG", "str": "Smoke" } ]
 ```
 In this case, the game will translate the name with the given context "ECIG",
@@ -168,7 +168,7 @@ This is used for how the messages when the effect is applied and removed are dis
 If [apply_message](#advanced-apply_message) is an array you can't include this entry (it is handled with apply message).
 
 Valid entries are:
-```C++
+```jsonc
 "good"
 "neutral"
 "bad"
@@ -620,7 +620,7 @@ value. If there is only one value given it will always use that amount.
 Base mods and Scaling mods:
 While on intensity = 1 an effect will only have the basic effects of its "base_mods". However for each
 additional intensity it gains it adds the value of each of its "scaling_mods" to the calculations. So:
-```C++
+```
 Intensity 1 values = base_mods values
 Intensity 2 values = base_mods values + scaling_mods values
 Intensity 3 values = base_mods values + 2 * scaling_mods values
@@ -670,7 +670,7 @@ As it moves up through the different intensities, its name will change. Its desc
 changes, with no additional description added.
 
 As it moves up through the intensity levels its effects will be:
-```C++
+```
 Intensity 1
     +1 STR
     No other effects (since both "X_chance"s are negative)

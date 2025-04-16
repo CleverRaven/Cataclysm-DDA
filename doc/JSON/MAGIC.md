@@ -145,7 +145,7 @@ In contrast, an `attack` spell using `effect_str` to grant a `self` buff (withou
 
 Each spell effect is defined in the `effect` field. For example, the Magus spell "Magic Missile" has the `attack` effect, meaning it deals damage to a specific target:
 
-```json
+```jsonc
   {
     "id": "magic_missile",
     "effect": "attack",
@@ -155,7 +155,7 @@ Each spell effect is defined in the `effect` field. For example, the Magus spell
 
 while the Druid spell "Nature's Bow" has the `spawn_item` effect, designating the ID of the item to spawn:
 
-```json
+```jsonc
   {
     "id": "druid_naturebow1",
     "effect": "spawn_item",
@@ -260,7 +260,7 @@ Field group | Description | Example
 Flags allow you to provide additional customizations for spell effects, behavior, and limitations.
 Spells may have any number of flags, for example:
 
-```json
+```jsonc
   {
     "id": "bless",
     "//": "Encumbrance on the mouth (verbal) or arms (somatic) affect casting success, but not legs.",
@@ -351,7 +351,7 @@ Additionally, there are also included:
 
 For example:
 
-```json
+```jsonc
 ...
     "min_range": 1,
     "max_range": 25,
@@ -361,7 +361,7 @@ For example:
 
 Min and max values must always have the same sign, but it can be negative e.g. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage.  For example:
 
-```json
+```jsonc
   {
     "id": "stamina_damage",
     "type": "SPELL",
@@ -382,7 +382,7 @@ Min and max values must always have the same sign, but it can be negative e.g. i
 
 There multiple ways to learn spells: learning a spell from an item (through a `use_action`), from spells that have the `learn_spells` field, and from traits/mutations.  An example is shown below:
 
-```json
+```jsonc
   {
     "id": "DEBUG_spellbook",
     "type": "GENERIC",
@@ -403,7 +403,7 @@ There multiple ways to learn spells: learning a spell from an item (through a `u
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
 Below is an example of `learn_spells` usage:
-```json
+```jsonc
   {
     "id": "phase_door",
     "type": "SPELL",
@@ -435,7 +435,7 @@ Another two interesting fields are `extra_effects` and `effect_str`:
 
 You can add spells to professions or NPC class definitions like this:
 
-```json
+```jsonc
   {
     "id": "test_profession",
     "type": "profession",
@@ -630,7 +630,7 @@ Also, keep in mind that changing the spell experience requirements of an existin
 Note: the exp_for_level_formula_id requires the total experience required for a spell level, not the difference in experience between the current and next level.  IE, if a spell requires 1000 xp to level a level 10 spell should require 10,000 experience in its exp_for_level_formula_id, not 1,000.
 
 Constant Spell Exp Requirement Example:
-```json
+```jsonc
   {
     "id": "test_spell",
     "type": "SPELL",
@@ -715,7 +715,7 @@ All fields except for `type` and `id` are optional.  This includes the otherwise
 
 There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the inline enchantment inside something (in this case, an item):
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
@@ -819,7 +819,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
   }
 ```
 
-```json
+```jsonc
   {
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
@@ -837,7 +837,7 @@ As seen in the last example, enchantments are added to the item as `passive_effe
 
 Also supported is `charge_info`, which allows automatic charge regeneration.  This in turn enables active magical items that cast spells on use:
 
-```json
+```jsonc
 ...
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade3", "no_fail": true, "level": 1, "need_worn": true },
     "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
@@ -851,7 +851,7 @@ The item consumes 1 charge per spell cast.  It can't be recharged or unloaded, r
 
 Another example is a `GUN` type item (e.g. a firearm).  As this is a weapon that consumes ammo per use, `use_action` can be omitted:
 
-```json
+```jsonc
 ...
     "clip_size": 5,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -880,7 +880,7 @@ Identifier           | Description
 
 From now, EOC variables can be used inside enchantments, including predefined (see [NPCs.md](NPCs.md#dialogue-conditions) for examples), custom variables or [math equasions](NPCs.md#math).  Here are some examples:
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "MON_NEARBY_STR",
@@ -893,7 +893,7 @@ From now, EOC variables can be used inside enchantments, including predefined (s
 This enchantment adds the dexterity value to strength plus one: a character with str 8 and dex 10 will result with str 19 and dex 10.
 
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "MON_NEARBY_LUMINATION",
@@ -911,7 +911,7 @@ This enchantment adds the dexterity value to strength plus one: a character with
 This enchantment checks the amount of monsters near the character (in a 25 tile range), then multiplies that number by 20, and adds the value as lumination: more monsters nearby = more light produced.
 
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "MOON_STR",
@@ -927,7 +927,7 @@ First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks
 
 `condition` field support any EoC condition
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "BITE_STR",

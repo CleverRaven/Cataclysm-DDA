@@ -236,7 +236,7 @@ some in other subdirectories of `data`, but you are less likely to be interested
 in those.
 
 Each JSON file is a list of JSON objects
-```json
+```jsonc
 [
   {
     "…": "…"
@@ -277,7 +277,7 @@ common features are documented in the next section.
 For most types, every object of that type must have a unique id.  That id is
 typically defined by the `"id"` field.  For example:
 
-```json
+```jsonc
   {
     "type": "skill",
     "id": "barter",
@@ -299,7 +299,7 @@ pine tree) and then specifies only a few properties.  Other properties (such as
 the fact that it's impassable, flammable, etc.) are inherited from
 `t_tree_pine`.
 
-```json
+```jsonc
   {
     "type": "terrain",
     "id": "t_tree_pine_harvested",
@@ -321,7 +321,7 @@ you can create a special, *abstract* object and have all the others copy it.
 An abstract object specifies its id via the `"abstract"` field rather than
 `"id"`.  For example, here is the abstract vehicle alternator:
 
-```json
+```jsonc
   {
     "abstract": "vehicle_alternator",
     "type": "vehicle_part",
@@ -386,20 +386,20 @@ Examples:
 
 Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context (and sometimes a plural form), by writing it like:
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
 or, if the plural form is the same as the singular form:
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str_sp": "foo" }
 ```
 
 You can also add comments for translators by adding a "//~" entry like below. The
 order of the entries does not matter.
 
-```JSON
+```jsonc
 "name": {
     "//~": "as in 'foobar'",
     "str": "bar"
@@ -410,7 +410,7 @@ Currently, only some JSON values support this syntax (see [here](/doc/TRANSLATIN
 
 The string extractor will extract all encountered strings from JSON for translation. But if some string should not be translated, such as text that is not normally visible to the player (names and descriptions of monster-only effects and spells), then you can write `"NO_I18N"` in the comment for translators:
 
-```JSON
+```jsonc
 "name": {
     "//~": "NO_I18N",
     "str": "Fake Monster-Only Spell"
@@ -428,7 +428,7 @@ The extractor will skip these two specified strings and only these, extracting t
 JSON has no intrinsic support for comments.  However, by convention in CDDA
 JSON, any field starting with `//` is a comment.
 
-```json
+```jsonc
 {
   "//" : "comment"
 }
@@ -437,7 +437,7 @@ JSON, any field starting with `//` is a comment.
 If you want multiple comments in a single object then append a number to `//`.
 For example:
 
-```json
+```jsonc
 {
   "//" : "comment",
   "//1" : "another comment",
@@ -846,7 +846,7 @@ Once the item would be activated, the description would be replaced with one of 
 
 Snippets also support the color codes
 
-```json
+```jsonc
 "<color_yellow_red>Biohazard</color>",
 ```
 
@@ -1218,7 +1218,7 @@ Character modifiers define how effective different behaviours are for actions th
 | `builtin`         | Instead of a limb score, the `value` object can define a built-in function to handle the calculation of the modifier.
 
 The modifier is normally derived from a limb score, which is modified in a sequence of operations. Here are some possible outcomes for different combinations of specified fields in `value`:
-```C++
+```cpp
 // Only one "limb_score" specified:
 mod = limb_score;
 // 3 score id's in "limb_score" array (with "x" operation):
@@ -2125,7 +2125,7 @@ For example, consider the `gains_skill_level` event.  You can see this
 specification for it in `event.h`:
 
 <!-- {% raw %} -->
-```C++
+```cpp
 template<>
 struct event_spec<event_type::gains_skill_level> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
@@ -4140,7 +4140,7 @@ This can also be used with 0 weight values to provide unique starting map variat
 
 Any overmap terrain that is either `"shelter"` or begins with `shelter_`
 
-```json
+```jsonc
 {
     "om_terrain": "shelter",
     "om_terrain_match_type": "PREFIX"
@@ -4149,7 +4149,7 @@ Any overmap terrain that is either `"shelter"` or begins with `shelter_`
 
 Any overmap terrain that is either `"mansion"` or begins with `mansion_`, and forces the parameter `mansion_variant` to be set to `haunted_scenario_only`
 
-```json
+```jsonc
 {
     "om_terrain": "mansion",
     "om_terrain_match_type": "PREFIX",
@@ -4394,7 +4394,7 @@ Defines field emissions
 ## Immunity data
 Immunity data can be provided at the field level or at the effect level based on intensity and body part. At the field level it applies immunity to all effects.
 
-```JSON
+```jsonc
 "immunity_data": {  // Object containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
       "flags": [ "WEBWALK" ],  // Immune if the character has any of the defined character flags (see Character flags)
       "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ], // Immune if ALL bodyparts of the defined types have the defined amount of env protection
@@ -4405,7 +4405,7 @@ Immunity data can be provided at the field level or at the effect level based on
 
 # Option sliders
 
-```JSON
+```jsonc
 {
   "type": "option_slider",
   "id": "world_difficulty",

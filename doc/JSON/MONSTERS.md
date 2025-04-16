@@ -2,7 +2,7 @@
 
 Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and even stationary installations like turrets. They are defined in JSON objects with "type" set to "MONSTER":
 
-```JSON
+```jsonc
 {
   "type": "MONSTER",
   "id": "mon_foo",
@@ -117,17 +117,17 @@ Properties in the above tables are explained in more detail in the sections belo
 ## "name"
 (string or object, required)
 
-```JSON
+```jsonc
 "name": "cow"
 ```
 
-```JSON
+```jsonc
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
 or, if the singular and plural forms are the same:
 
-```JSON
+```jsonc
 "name": { "ctxt": "fish", "str_sp": "bass" }
 ```
 
@@ -157,7 +157,7 @@ In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WO
 ## "volume"
 (string, required)
 
-```JSON
+```jsonc
 "volume": "40 L"
 ```
 The numeric part of the string must be an integer. Accepts L, and ml as units. Note that l and mL are not currently accepted.
@@ -165,7 +165,7 @@ The numeric part of the string must be an integer. Accepts L, and ml as units. N
 ## "weight"
 (string, required)
 
-```JSON
+```jsonc
 "weight": "3 kg"
 ```
 The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g. Accepts g and kg as units.
@@ -302,7 +302,7 @@ Field               | Description
 
 Example:
 
-```JSON
+```jsonc
 "melee_damage": [
   {
     "damage_type": "electric",
@@ -334,7 +334,7 @@ Base intensity of the grab effect applied by this monster as used by a `grab`-ty
 
 Monster protection from various types of damage. Any `damage_type` id can be used here, see `damage_types.json`.
 
-```JSON
+```jsonc
 "armor": { "bash": 7, "cut": 7, "acid": 4, "bullet": 6, "electric": 2 }
 ```
 
@@ -403,7 +403,7 @@ A monster should have at most 1 default weakpoint.
 Each string refers to the id of a separate `"weakpoint_set"` type JSON object (See [Weakpoint Sets](JSON_INFO.md#weakpoint-sets) for details).
 
 Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
-```json
+```jsonc
 "weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
 ```
 In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
@@ -453,11 +453,11 @@ An item group that is used to spawn items when the monster dies. This can be an 
 (object, optional)
 
 How the monster behaves on death.
-```cpp
+```jsonc
 {
     "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
     "message": "The %s dies!", // substitute %s for the monster's name.
-    "effect": { "id": "death_boomer", "hit_self": true }  // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
+    "effect": { "id": "death_boomer", "hit_self": true }, // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
     "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is monster, beta talker is player (always).
 }
 ```
@@ -498,7 +498,7 @@ What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_
 
 Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it, or have the `CONVERSATION` flag. Alternatively an EOC spell/special attack between a player and monster can start a conversation using the `open_dialogue` effect, see [NPCs.md](NPCs.md) for more details.  Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
 
-```JSON
+```jsonc
 "chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]
 ```
 
@@ -512,7 +512,7 @@ If not empty and a valid item id, the monster can be converted into this item by
 
 An object containing ammo that newly spawned monsters start with. This is useful for a monster that has a special attack that consumes ammo. Example:
 
-```JSON
+```jsonc
 "starting_ammo": { "9mm": 100, "40mm_frag": 100 }
 ```
 
@@ -523,7 +523,7 @@ Controls how this monster is upgraded over time. It can either be the single val
 
 Example:
 
-```JSON
+```jsonc
 "upgrades": {
   "into_group": "GROUP_ZOMBIE_UPGRADE",
   "half_life": 28
@@ -585,7 +585,7 @@ Designate seasons during which this monster is capable of reproduction. ie: `[ "
 (array of objects, optional)
 
 A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
-```cpp
+```jsonc
 "shearing": [
     {
         "result": "wool",
@@ -612,7 +612,7 @@ This means that when this monster is sheared, it will give: 100 units of wool, 1
 (string, optional)
 
 By default monsters will use the `"DEFAULT"` speed description.
-```JSON
+```jsonc
 "speed_description": "SPEED_DESCRIPTION_ID"
 ```
 
@@ -620,7 +620,7 @@ By default monsters will use the `"DEFAULT"` speed description.
 (object, optional)
 
 Decides whether this monster can be tamed. `%s` is the monster name.
-```cpp
+```jsonc
 "petfood": {
     "food": [ "CATFOOD", "YULECATFOOD" ], // food categories this monster accepts
     "feed": "The gigantic %s decides not to maul you today.", // (optional) message when feeding the monster the food
@@ -633,7 +633,7 @@ Decides whether this monster can be tamed. `%s` is the monster name.
 
 A special defense attack, triggered when the monster is attacked. It should contain an array with the id of the defense (see Monster defense attacks in [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)) and the chance for that defense to be actually triggered. Example:
 
-```JSON
+```jsonc
 "special_when_hit": [ "ZAPBACK", 100 ]
 ```
 
@@ -642,7 +642,7 @@ A special defense attack, triggered when the monster is attacked. It should cont
 
 A set of effects that may get applied to the attacked creature when the monster successfully attacks. Example:
 
-```JSON
+```jsonc
 "attack_effs": [
   {
     "id": "paralyzepoison",
