@@ -225,8 +225,8 @@ void fault::load( const JsonObject &jo, std::string_view )
                 jo_f.get_int( "add", 0 ),
                 jo_f.get_float( "multiply", 1.0f ),
                 jo_f.get_string( "damage_id" ) );
-            }
         }
+    }
 }
 
 void fault::check() const
