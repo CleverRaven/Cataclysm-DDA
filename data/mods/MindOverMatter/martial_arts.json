@@ -23,31 +23,10 @@
         "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
-    "onmove_eocs": [
-      {
-        "id": "mom_eoc_gun_kata_onmove",
-        "name": "Gun Kata Movement",
-        "condition": {
-        	"and": [ 
-        		{ "or": [ 
-        			{ "u_has_wielded_with_skill": "pistol" },
-        			{ "u_has_wielded_with_skill": "smg" }
-        		]
-        	},
-    			{ "u_has_flag": "ACTIVE_PRECOG" },
-    			{ "math": [ "u_monsters_nearby('radius': 8) - u_monsters_nearby('radius': 1)" ] }
-        	]
-        },
-        "effect": [ { "run_eocs": "eoc_gun_kata_fire_onmove" } ],
-  		"false_effect": [ { "run_eocs": "eoc_gun_kata_check_adjacent_foes" } ]
-      }
-    ],
+    "onmove_eocs": [ "mom_eoc_gun_kata_onmove" ],
     "techniques": [
       "mom_tec_bladed_wind",
-      "mom_tec_en_passant",
-      "mom_tec_3",
-      "mom_tec_4",
-      "mom_tec_5"
+      "mom_tec_en_passant"
     ],
     "weapon_category": [ "AUTOMATIC_PISTOLS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   }
