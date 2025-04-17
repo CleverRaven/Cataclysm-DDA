@@ -25,7 +25,7 @@ std::map<std::string, std::vector<fault_id>> faults_by_type;
 
 } // namespace
 
-const std::vector<fault_id> faults::all_of_type( const std::string &type )
+std::vector<fault_id> faults::all_of_type( const std::string &type )
 {
     const auto &typed = faults_by_type.find( type );
     if( typed == faults_by_type.end() ) {
@@ -211,21 +211,22 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "affected_by_degradation", affected_by_degradation_, false );
 
     if( jo.has_array( "melee_damage_mod" ) ) {
-        for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) )
+        for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) ) {
             melee_damage_mod_.emplace_back(
                 jo_f.get_int( "add", 0 ),
                 jo_f.get_float( "multiply", 1.0f ),
                 jo_f.get_string( "damage_id" ) );
+        }
     }
 
     if( jo.has_array( "armor_mod" ) ) {
-        for( JsonObject jo_f : jo.get_array( "armor_mod" ) )
+        for( JsonObject jo_f : jo.get_array( "armor_mod" ) ) {
             melee_damage_mod_.emplace_back(
                 jo_f.get_int( "add", 0 ),
                 jo_f.get_float( "multiply", 1.0f ),
                 jo_f.get_string( "damage_id" ) );
-    }
-
+            }
+        }
 }
 
 void fault::check() const
