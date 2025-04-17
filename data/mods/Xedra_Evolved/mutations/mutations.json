@@ -723,6 +723,21 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_FEIGN_DEATH",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Corpse's Countenance" },
+    "description": "You are close enough to death now that you can easily imitate it; your heartbeat slows to a near-stop, your breathing ceases, your flesh grows pale, and you show no signs of life.  You will be unable to move or act while feigning death, but enemies will generally ignore you.  You will be unable to feign death twice in a short time if you are seen ending your masquerade.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You collapse in an imitation of death.",
+    "deactivated_eocs": [ "EOC_VAMPIRE_FEIGN_DEATH_deactivate" ],
+    "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_vampire_feign_death", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_WALK_ON_WALLS",
     "points": 3,
     "starting_trait": false,

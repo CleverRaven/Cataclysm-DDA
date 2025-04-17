@@ -1236,6 +1236,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_FEIGN_DEATH_deactivate",
+    "effect": [
+      {
+        "u_run_monster_eocs": [ { "id": "EOC_VAMPIRE_FEIGN_DEATH_SIGHT_CHECK_MONSTER", "effect": { "math": [ "_you_are_seen = 1" ] } } ],
+        "monster_range": 45,
+        "monster_must_see": true
+      },
+      {
+        "u_run_npc_eocs": [ { "id": "EOC_VAMPIRE_FEIGN_DEATH_SIGHT_CHECK_NPC", "effect": { "math": [ "_you_are_seen = 1" ] } } ],
+        "npc_range": 45,
+        "npc_must_see": true
+      },
+      {
+        "if": { "math": [ "_you_are_seen == 1" ] },
+        "then": { "u_add_effect": "effect_vampire_feign_death_ended", "duration": { "math": [ "rng(180,360)" ] } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BEAST_CLAWS_activated",
     "condition": { "not": { "u_has_trait": "VAMPIRE_BEAST_CLAWS_active" } },
     "effect": [
