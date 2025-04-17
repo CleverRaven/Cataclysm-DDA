@@ -88,7 +88,6 @@ void Character::try_remove_downed()
                                    _( "<npcname> stands up." ) );
             remove_effect( effect_downed );
         }
-    
     }
 }
 
