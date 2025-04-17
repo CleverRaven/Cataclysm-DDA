@@ -14,7 +14,7 @@
     "symbol": ":",
     "color": "green",
     "location": "sling",
-    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "pistol" ],
     "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor_data": {
       "armor": [

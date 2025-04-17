@@ -17,7 +17,7 @@
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false }
     ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
@@ -47,7 +47,7 @@
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false }
     ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [

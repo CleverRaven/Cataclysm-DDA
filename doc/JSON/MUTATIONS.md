@@ -82,7 +82,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
 
 ### Example
 
-```json
+```jsonc
 {
   "id": "LIGHTEATER",                         // Unique ID.
   "name": "Optimist",                         // In-game name displayed.
@@ -352,7 +352,7 @@ Mutations support EOC on activate, deactivate and for processing. As well for ea
 
 ### Sample trait: Example Sleep
 
-```json
+```jsonc
   {
     "type": "mutation",
     "id": "EXAMPLE_SLEEP",
@@ -388,7 +388,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 
 A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without any fuss.
 
-```json
+```jsonc
 [
   {
     "type": "TRAIT_MIGRATION",

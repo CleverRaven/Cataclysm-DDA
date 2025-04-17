@@ -181,13 +181,13 @@ get extracted.
 
 This function is appropriate for use on simple strings, for example:
 
-```c++
+```cpp
 const char *translated = _( "text marked for translation" )
 ```
 
 It also works directly:
 
-```c++
+```cpp
 add_msg( _( "You drop the %s." ), the_item_name );
 ```
 
@@ -207,7 +207,7 @@ provided to the translators, but is not part of the translated string itself.
 This function's first parameter is the context, the second is the string to be
 translated:
 
-```c++
+```cpp
 const char *translated = pgettext("The color", "blue")
 ```
 
@@ -219,7 +219,7 @@ string in singular form, the second parameter is the untranslated string in
 plural form and the third one is used to determine which one of the first two
 should be used at run time:
 
-```c++
+```cpp
 const char *translated = n_gettext("one zombie", "many zombies", num_of_zombies)
 ```
 
@@ -230,33 +230,33 @@ translation context; Sometimes you may also want to store a string that needs no
 translation or has plural forms. `class translation` in `translations.h|cpp`
 offers these functionalities in a single wrapper:
 
-```c++
+```cpp
 const translation text = to_translation( "Context", "Text" );
 ```
 
-```c++
+```cpp
 const translation text = to_translation( "Text without context" );
 ```
 
-```c++
+```cpp
 const translation text = pl_translation( "Singular", "Plural" );
 ```
 
-```c++
+```cpp
 const translation text = pl_translation( "Context", "Singular", "Plural" );
 ```
 
-```c++
+```cpp
 const translation text = no_translation( "This string will not be translated" );
 ```
 
 The string can then be translated/retrieved with the following code
 
-```c++
+```cpp
 const std::string translated = text.translated();
 ```
 
-```c++
+```cpp
 // this translates the plural form of the text corresponding to the number 2
 const std::string translated = text.translated( 2 );
 ```
@@ -265,17 +265,17 @@ const std::string translated = text.translated( 2 );
 handles deserialization from a `JsonIn` object, so translations can be read from
 JSON using the appropriate JSON functions. The JSON syntax is as follows:
 
-```JSON
+```jsonc
 "name": "bar"
 ```
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
 or
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str_sp": "foo" }
 ```
 
@@ -285,7 +285,7 @@ is equivalent to specifying `"str"` and `"str_pl"` with the same string. Additio
 `plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
 an example:
 
-```c++
+```cpp
 translation name{ translation::plural_tag() };
 jsobj.read( "name", name );
 ```
@@ -298,7 +298,7 @@ appending "s".
 You can also add comments for translators by writing it like below (the order
 of the entries does not matter):
 
-```JSON
+```jsonc
 "name": {
     "//~": "as in 'foobar'",
     "str": "bar"
@@ -315,7 +315,7 @@ unit test to fix text styling issues reported by the `translation` class.
 If a string doesn't need to be translated, you can write `"NO_I18N"` in the
 `"//~"` comment, and this string will not be available to translators (see [here](/doc/JSON/JSON_INFO.md#translatable-strings)):
 
-```JSON
+```jsonc
 "name": {
     "//~": "NO_I18N",
     "str": "Fake Monster-Only Spell"

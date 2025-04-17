@@ -8561,9 +8561,8 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         corpse.set_flag( flag_PULPED );
     }
 
-    const float corpse_volume = units::to_liter( corpse_mtype->volume );
-
-    if( one_in( corpse_volume / pd.pulp_power ) ) {
+    // Magic number to adjust splatter density to subjective balance.
+    if( one_in( 15000 / pd.pulp_power ) ) {
         // Splatter some blood around
         // Splatter a bit more randomly, so that it looks cooler
         const int radius = pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
@@ -8701,6 +8700,7 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "num_corpses", num_corpses );
     jsout.member( "placement", placement );
+    jsout.member( "nominal_pulp_power", pd.nominal_pulp_power );
     jsout.member( "pulp_power", pd.pulp_power );
     jsout.member( "pulp_effort", pd.pulp_effort );
     jsout.member( "mess_radius", pd.mess_radius );
@@ -8731,6 +8731,10 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "num_corpses", actor.num_corpses );
     data.read( "placement", actor.placement );
     data.read( "pulp_power", actor.pd.pulp_power );
+    // Backward compatibility introduced 2025-04-09
+    if( !data.read( "nominal_pulp_power", actor.pd.nominal_pulp_power ) ) {
+        actor.pd.nominal_pulp_power = actor.pd.pulp_power;
+    }
     data.read( "pulp_effort", actor.pd.pulp_effort );
     data.read( "mess_radius", actor.pd.mess_radius );
     data.read( "unpulped_corpses_qty", actor.unpulped_corpses_qty );
