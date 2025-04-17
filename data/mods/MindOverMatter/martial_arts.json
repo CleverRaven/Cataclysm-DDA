@@ -3,7 +3,7 @@
     "type": "martial_art",
     "id": "style_gun_kata_precog",
     "name": { "str": "Mirage Destiny" },
-    "description": "A martial art that requires pre-cognitive abilities.  It allows it's users to strike while on the move and be not where their enemies strike at them.",
+    "description": "A martial art that requires pre-cognitive abilities.  It allows its users to strike while on the move and not be where their enemies strike at them.",
     "initiate": [
       "You begin to gain a sense of where everything around you not only is, but will be.",
       "%s takes on a stance that seems subtly off."
