@@ -1,7 +1,7 @@
 [
   {
+    "type": "effect_on_condition",
     "id": "eoc_gun_kata_check_adjacent_foes",
-    "name": "Gun Kata Movement Check for Adjacent enemies",
     "condition": {
       "and": [
         { "u_has_wielded_with_skill": "cutting" },
@@ -12,15 +12,15 @@
     "effect": [ { "run_eocs": "eoc_gun_kata_melee_onmove" } ]
   },
   {
+    "type": "effect_on_condition",
     "id": "eoc_gun_kata_melee_onmove",
-    "name": "Bladed Wind",
     "condition": { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
     "effect": [ { "u_attack": "mom_tec_bladed_wind" } ],
     "false_effect": "eoc_gun_kata_melee_onmove2"
   },
   {
+    "type": "effect_on_condition",
     "id": "eoc_gun_kata_melee_onmove2",
-    "name": "En Passant",
     "condition": { "compare_string": [ "walk", { "context_val": "movement_mode" } ] },
     "effect": [ { "u_attack": "mom_tec_en_passant" } ]
   },
@@ -28,5 +28,22 @@
     "id": "eoc_gun_kata_fire_onmove",
     "type": "effect_on_condition",
     "effect": [ "u_ranged_attack" ]
-  }
+  },
+  {
+        "type": "effect_on_condition",
+        "id": "mom_eoc_gun_kata_onmove",
+        "condition": {
+          "and": [ 
+            { "or": [ 
+              { "u_has_wielded_with_skill": "pistol" },
+              { "u_has_wielded_with_skill": "smg" }
+            ]
+          },
+          { "u_has_flag": "ACTIVE_PRECOG" },
+          { "math": [ "u_monsters_nearby('radius': 8) - u_monsters_nearby('radius': 1)" ] }
+          ]
+        },
+        "effect": [ { "run_eocs": "eoc_gun_kata_fire_onmove" } ],
+      "false_effect": [ { "run_eocs": "eoc_gun_kata_check_adjacent_foes" } ]
+      }
 ]
