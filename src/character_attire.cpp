@@ -1520,8 +1520,8 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
     get_event_bus().send_with_talker( &guy, &loc, e );
     // Catching eoc of character_takeoff_item event may cause item to be invalid.
     // If so, skip worn.erase and guy.i_add or res->push_back.
-    bool is_item_vaild = static_cast<bool>(loc);
-    if (!is_item_vaild){
+    bool is_item_vaild = static_cast<bool>( loc );
+    if( !is_item_vaild ) {
         return true;
     }
     item takeoff_copy( it );
