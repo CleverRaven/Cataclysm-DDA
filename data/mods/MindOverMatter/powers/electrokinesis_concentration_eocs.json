@@ -344,11 +344,15 @@
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_GET_ITEM_COUNT" },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_AMMEND_ITEM_COUNT" },
       {
-        "math": [
-          "u_electrokin_personal_battery_max_indv_power",
-          "=",
-          "floor(u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count)"
-        ]
+        "if": { "math": [ "u_electrokin_personal_battery_item_count > 0" ] },
+        "then": {
+          "math": [
+            "u_electrokin_personal_battery_max_indv_power",
+            "=",
+            "floor(u_electrokin_personal_battery_power_count / u_electrokin_personal_battery_item_count)"
+          ]
+        },
+        "else": { "math": [ "u_electrokin_personal_battery_max_indv_power = 0" ] }
       },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS" }
     ]
