@@ -2974,6 +2974,12 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+    add( "WARN_ON_MODIFIED", "debug", to_translation( "Warn if file integrity check fails" ),
+         to_translation( "This option controls whether the game will warn when it detects that the game's data has been modified." ),
+         true );
+
+    add_empty_line();
+
     add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
          to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
 #if defined(EMSCRIPTEN)
