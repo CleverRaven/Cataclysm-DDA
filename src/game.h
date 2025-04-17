@@ -1113,7 +1113,7 @@ class game
         // ########################## DATA ################################
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
-        pimpl<current_map> current_map_ptr; // NOLINT(cata-serialize)
+        pimpl<::current_map> current_map_ptr; // NOLINT(cata-serialize)
         pimpl<avatar> u_ptr; // NOLINT(cata-serialize)
         pimpl<live_view> liveview_ptr; // NOLINT(cata-serialize)
         live_view &liveview; // NOLINT(cata-serialize)
@@ -1129,7 +1129,7 @@ class game
 
         map &m; // NOLINT(cata-serialize)
         // 'current_map' will be identical to 'm' as you can save only at the top of the main loop.
-        current_map &current_map; // NOLINT(cata-serialize)
+        ::current_map &current_map; // NOLINT(cata-serialize)
         avatar &u;
         scent_map &scent;
         // scenario is saved in avatar::store
