@@ -78,7 +78,7 @@ void Character::try_remove_downed()
     int chance = ( get_dex() + get_arm_str() / 2.0 ) * get_limb_score( limb_score_balance ) * 10.0;
     // Always 2,5% chance to stand up
     chance += has_flag( json_flag_DOWNED_RECOVERY ) ? 20 : 1;
-    if ( !has_flag( json_flag_CANNOT_MOVE ) ) {
+    if( !has_flag( json_flag_CANNOT_MOVE ) ) {
         if( !x_in_y( chance, 40 ) ) {
             add_msg_if_player( _( "You struggle to stand." ) );
         } else {
