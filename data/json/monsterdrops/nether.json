@@ -19,6 +19,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "nether_huntsman_drops",
-    "entries": [ { "item": "nether_huntsman_javelin", "count": [ 3, 7 ] } ]
+    "entries": [
+	    { "item": "nether_huntsman_javelin", "count": [ 3, 7 ] },
+	    { "item": "nether_huntsman_trinket", "count": [ 0, 5 ] },
+	    { "item": "nether_huntsman_statuette", "count": [ 0, 1 ], "prob": 25 },
+	    { "item": "nether_grub", "count": [ 0, 3 ], "prob": 30 },
+	    { "item": "yrax_trinket", "count": [ 0, 1 ], "prob": 1 },
+	    { "item": "ephemeral_gem", "count": [ 0, 1 ], "prob": 2 }
+	  ]
   }
 ]
