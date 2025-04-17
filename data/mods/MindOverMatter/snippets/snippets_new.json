@@ -243,15 +243,16 @@
         "name": "note on the back of a testing report",
         "id": "lab_file_electrokinesis_03",
         "weight": 400,
-        "text": "Double double toil and trouble\nlittle Jenny wants to play\nflash of lightning very frightening\nThunder drive our fears away\nShadows waiting not abating\nHope to all who fear the dark\n\nShines a light in dark of night\nEver glowing one bright spark\nA smear of blood and scorch marks hide any further words that may have been written."
+        "text": "\"Double double toil and trouble\n\"little Jenny wants to play\n\"flash of lightning very frightening\n\"Thunder drive our fears away\n\"Shadows waiting not abating\n\"Hope to all who fear the dark\n\"Shines a light in dark of night\n\"Ever glowing one bright spark\"\nA smear of blood and scorch marks hide any further words that may have been written."
       },
       {
         "name": "AAR ID# Q85-77",
         "id": "lab_file_electrokinesis_04",
         "weight": 900,
         "//": "XE338 here are hunting horrors",
-        "text": "Immediately after immersion into 471XE, the dive team confirmed probe observations that despite not being in any kind of chamber or underground, there was no visible light source anywhere.  Sgt Simmons ordered the team to turn on their flashlights, and after doing so almost immediately came under attack by multiple XE338 entities that had apparently ignored the probe.  Due to 471XE's effects on Netherum energy, Sgt Simmons ordered V78 to deter the attack using mathematics and the dive team formed a defensive formation while V78 fended off the XE338 attackers with repeated bolts of lightning.  While the attack were effective, the light itself seemed a deterrent, and the dive team was able to withdraw through the aperture in short order with only Dr. Rodriguez suffering any injuries that required more than first aid.\n\nBased on this incident, further travel to 471XE is prohibited without a CRYPTIC FORGE mathematician present."
-      }
+        "text": "Immediately after immersion into 471XE, the dive team confirmed probe observations that despite not being in any kind of chamber or underground, there were no visible light sources anywhere.  Sgt Simmons ordered the team to turn on their flashlights, and after doing so the team almost immediately came under attack by multiple XE338 entities.  Due to 471XE's effects on Netherum energy, Sgt Simmons ordered V78 to deter the attack using mathematics and the dive team formed a defensive formation while V78 fended off the XE338 attackers with repeated bolts of lightning.  While the attacks were effective, the light itself seemed to function as a deterrent and the dive team was able to withdraw through the aperture in short order with only Dr. Rodriguez suffering any injuries that required more than first aid.\n\nBased on this incident, further travel to 471XE is prohibited without a CRYPTIC FORGE mathematician present and backed up by several high-powered light sources."
+      },
+      { "name": "I am the One", "id": "lab_file_electrokinesis_05", "weight": 900, "text": "" }
     ]
   },
   {
