@@ -83,10 +83,10 @@ void Character::try_remove_downed()
             add_msg_if_player( _( "You struggle to stand." ) );
         } else {
             add_msg_player_or_npc( m_good,
-                               has_flag( json_flag_DOWNED_RECOVERY ) ? _( "You deftly roll to your feet." ) : _( "You stand up." ),
-                               has_flag( json_flag_DOWNED_RECOVERY ) ? _( "<npcname> deftly rolls to their feet." ) :
-                               _( "<npcname> stands up." ) );
-        remove_effect( effect_downed );
+                                   has_flag( json_flag_DOWNED_RECOVERY ) ? _( "You deftly roll to your feet." ) : _( "You stand up." ),
+                                   has_flag( json_flag_DOWNED_RECOVERY ) ? _( "<npcname> deftly rolls to their feet." ) :
+                                   _( "<npcname> stands up." ) );
+            remove_effect( effect_downed );
         }
     
     }
