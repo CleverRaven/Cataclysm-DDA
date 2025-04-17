@@ -2066,7 +2066,7 @@ class item : public visitable
         /** Idempotent filter setting an item specific fault. */
         void set_fault( const fault_id &fault_id );
 
-        void set_random_fault_of_type( const std::string &fault_type, const bool &force = false);
+        void set_random_fault_of_type( const std::string &fault_type, const bool &force = false );
 
         weighted_int_list<fault_id> all_potential_faults() const;
 
