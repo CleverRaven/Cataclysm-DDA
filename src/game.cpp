@@ -12187,10 +12187,11 @@ void game::water_affect_items( Character &ch ) const
             loc->deactivate();
             // TODO: Maybe different types of wet faults? But I can't think of any.
             // This just means it's still too wet to use.
-            loc->set_fault( faults::random_of_type( "wet" ) ) ;
+            // TODO2: add fault types to electronics, remove `force` argument from here
+            loc->set_random_fault_of_type( "wet", true );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_fault( faults::random_of_type( "shorted" ) );
+                loc->set_random_fault_of_type( "shorted", true );
             }
         } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {

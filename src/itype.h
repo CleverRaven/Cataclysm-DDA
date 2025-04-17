@@ -1419,7 +1419,7 @@ struct itype {
         std::set<itype_id> repair;
 
         /** What faults (if any) can occur */
-        weighted_int_list<fault_id>faults;
+        weighted_int_list<fault_id> faults;
 
         /** used to store fault types on load, when we cannot populate `faults` just yet
         `faults` is populated with values from this in finalize_post() down the road, and then this var is never used again

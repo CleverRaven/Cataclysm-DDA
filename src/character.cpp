@@ -6597,7 +6597,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             if( opts[menu.ret].second ) {
                 obj->faults.erase( opts[menu.ret].first );
             } else {
-                obj->faults.insert( opts[menu.ret].first );
+                obj->set_fault( opts[menu.ret].first );
             }
         }
         return;

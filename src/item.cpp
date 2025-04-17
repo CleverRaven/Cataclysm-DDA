@@ -7767,10 +7767,24 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-item item::set_fault( const fault_id &fault_id )
+void item::set_fault( const fault_id &fault_id )
 {
     faults.insert( fault_id );
-    return *this;
+}
+
+void item::set_random_fault_of_type( const std::string &fault_type, const bool &force )
+{
+    if( force ) {
+        set_fault( random_entry( faults::all_of_type( fault_type ) ) );
+        return;
+    }
+
+    weighted_int_list<fault_id> faults_by_type;
+    for( const weighted_object<int, fault_id> &f : type->faults ) {
+        faults_by_type.add( f.obj, f.weight );
+    }
+
+    return set_fault( *faults_by_type.pick() );
 }
 
 weighted_int_list<fault_id> item::all_potential_faults() const
@@ -14854,9 +14868,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_fault( faults::random_of_type( "wet" ) );
+            set_random_fault_of_type( "wet" );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_fault( faults::random_of_type( "shorted" ) );
+                set_random_fault_of_type( "shorted" );
             }
         }
 
@@ -14965,7 +14979,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                     }
                 } else {
                     faults.erase( fault_emp_reboot );
-                    set_fault( faults::random_of_type( "shorted" ) );
+                    set_random_fault_of_type( "shorted" );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
                     }
