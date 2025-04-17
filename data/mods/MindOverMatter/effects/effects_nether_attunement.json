@@ -88,6 +88,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_electrokinetic_power_drain",
+    "name": [ "Power Void" ],
+    "desc": [ "Is it cold in here?" ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_nether_attunement_biokinetic_inversion",
     "name": [ "Metabolic Inversion" ],
     "desc": [ "You're getting pretty hungry and thirsty." ],
