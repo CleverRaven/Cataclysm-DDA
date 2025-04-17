@@ -819,7 +819,7 @@
           }
         },
         "then": [
-          { "u_message": "Your throat and stomach feel warm.", "type": "bad" },
+          { "u_message": "Your skin breaks out in goosebumps.", "type": "bad" },
           {
             "u_add_effect": "effect_nether_attunement_electrokinetic_power_drain",
             "duration": {
@@ -1084,8 +1084,8 @@
                     "target_params": {
                       "om_terrain": "field",
                       "om_terrain_match_type": "CONTAINS",
-                      "search_range": 2500,
-                      "min_distance": { "math": [ "200 * clamp( (u_vitamin('vitamin_psionic_drain') / 100 ), 1, 5)" ] },
+                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
                       "z": 0,
                       "random": true
                     }
@@ -1100,8 +1100,8 @@
                     "target_params": {
                       "om_terrain": "forest",
                       "om_terrain_match_type": "CONTAINS",
-                      "search_range": 2500,
-                      "min_distance": { "math": [ "200 * clamp( (u_vitamin('vitamin_psionic_drain') / 100 ), 1, 5)" ] },
+                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
                       "z": 0,
                       "random": true
                     }
@@ -1116,8 +1116,8 @@
                     "target_params": {
                       "om_terrain": "house",
                       "om_terrain_match_type": "CONTAINS",
-                      "search_range": 2500,
-                      "min_distance": { "math": [ "200 * clamp( (u_vitamin('vitamin_psionic_drain') / 100 ), 1, 5)" ] },
+                      "search_range": { "math": [ "300 + (50 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
+                      "min_distance": { "math": [ "100 + (10 * clamp( ( (u_vitamin('vitamin_psionic_drain') - 149 ) / 10 ), 1, 15) )" ] },
                       "z": 0,
                       "random": true
                     }
@@ -1132,12 +1132,22 @@
             "type": "bad"
           },
           {
-            "u_add_effect": "effect_teleport_mishap_tindrift_warning",
-            "duration": {
-              "math": [
-                "time(' 3 h') + ( time(' 10 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) ) )"
-              ]
-            }
+            "run_eocs": [
+              {
+                "id": "EOC_NETHER_EFFECT_CHECK_TELEPORT_MISJUMP_APPLY_HOUNDS",
+                "effect": [
+                  {
+                    "u_add_effect": "effect_teleport_mishap_tindrift_warning",
+                    "duration": {
+                      "math": [
+                        "time(' 3 h') + ( time(' 10 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) ) )"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "time_in_future": 0
           }
         ]
       }
@@ -1733,7 +1743,7 @@
     "effect": [
       {
         "run_eocs": "EOC_NETHER_EFFECT_ELECTROKINETIC_POWER_DRAIN",
-        "time_in_future": [ { "math": [ "rng(30,120" ] }, { "math": [ "rng(90,360" ] } ]
+        "time_in_future": [ { "math": [ "rng(30,120)" ] }, { "math": [ "rng(90,360)" ] } ]
       },
       {
         "u_run_inv_eocs": "all",

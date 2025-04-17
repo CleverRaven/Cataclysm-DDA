@@ -91,7 +91,8 @@
     "id": "effect_nether_attunement_electrokinetic_power_drain",
     "name": [ "Power Void" ],
     "desc": [ "Is it cold in here?" ],
-    "rating": "bad"
+    "rating": "bad",
+    "remove_message": "The unearthly chill fades away."
   },
   {
     "type": "effect_type",
