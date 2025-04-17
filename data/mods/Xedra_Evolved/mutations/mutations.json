@@ -505,6 +505,16 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
+    "name": { "str": "Weakness: Thirst of the Damned" },
+    "points": -2,
+    "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal and vitamins from the food you eat, but additional calories and vitamins from drinking blood.",
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN",
     "name": { "str": "Weakness: Decreased Blood Empowerment" },
     "points": -2,
