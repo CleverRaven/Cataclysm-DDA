@@ -21,7 +21,7 @@
     "effect": "emit",
     "effect_str": "emit_nether_chill"
   },
-    {
+  {
     "id": "nether_attunement_pyrokinetic_fog_summon",
     "type": "SPELL",
     "name": { "str": "Pyrokinetic Fog", "//~": "NO_I18N" },
