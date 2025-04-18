@@ -390,7 +390,7 @@
     "price": "10 USD",
     "material": [ "steel", "glass" ],
     "category": "spare_parts"
-  }
+  },
   {
     "type": "GENERIC",
     "id": "nether_huntsman_spike",
