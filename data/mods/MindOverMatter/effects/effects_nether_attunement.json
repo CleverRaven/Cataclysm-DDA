@@ -102,6 +102,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_kelvinist_anti_cold",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "A roiling fog coalesces out of the surrounding air.",
+    "remove_message": "The roiling fog surrounding you dissipates.",
+    "enchantments": [ { "emitter": "emit_fog_plume" } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_observed_rate_limiter",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],

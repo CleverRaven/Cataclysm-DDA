@@ -343,6 +343,7 @@
         [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_BIOKIN_METABOLIC_INVERSION", 5 ],
         [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 5 ],
+        [ "EOC_NETHER_EFFECT_CHECK_PYROKINETIC_FOG", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_EXTRA_KCAL", 6 ],
         [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 8 ],
         [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 5 ],
@@ -746,7 +747,7 @@
         "then": [
           { "u_message": "Your throat and stomach feel warm.", "type": "bad" },
           {
-            "u_add_effect": "effect_nether_attunement_biokinetic_inversion",
+            "u_add_effect": "pyrokinetic_fog",
             "duration": {
               "math": [ "time(' 10 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
             }
@@ -779,6 +780,44 @@
             "u_add_effect": "effect_biokin_overload",
             "duration": {
               "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_PYROKINETIC_FOG",
+    "//": "Base is 1% chance from 85 attunement to 120 attunement, then scaling up 0.1% per attunement up to 8% chance at 190 attunement, then scaling up 0.35% chance per attunement up to 29% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 85" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 130) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+              ]
+            },
+            "y": 1000
+          }
+        },
+        "then": [
+          {
+            "u_message": "Your skin feels a cycle of hot and cold flashes as the temperature drops and humidity rises.",
+            "type": "bad"
+          },
+          {
+            "u_add_effect": "effect_nether_attunement_pyrokinetic_fog",
+            "duration": {
+              "math": [ "time(' 15 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
             }
           }
         ]
