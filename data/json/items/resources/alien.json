@@ -449,20 +449,6 @@
     "flags": [ "NO_SALVAGE", "NO_REPAIR" ]
   },
   {
-    "id": "nether_huntsman_trinket",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str_sp": "weird trinkets" },
-    "description": "An assortment of shiny bits of metal, glass, wire, teeth, scales and chunks of strange materials.",
-    "weight": "83 g",
-    "volume": "100 ml",
-    "price_postapoc": "0 cent",
-    "material": [ "silver", "glass", "stone", "bone", "anomaly" ],
-    "symbol": ".",
-    "color": "light_gray",
-    "flags": [ "NO_SALVAGE", "NO_REPAIR" ]
-  },
-  {
     "type": "GENERIC",
     "id": "ephemeral_gem",
     "symbol": "*",
