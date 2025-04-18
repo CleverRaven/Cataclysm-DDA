@@ -80,7 +80,7 @@
     "item": { "F": { "item": "gun_lock", "repeat": [ 5, 20 ] }, "U": { "item": "shredded_rubber", "repeat": [ 200, 500 ] } },
     "items": {
       "B": { "item": "guns_common_boxed", "repeat": [ 3, 12 ] },
-      "E": { "item": "office_mess", "repeat": 3, "chance": 20 },
+      "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
       "f": { "item": "fridgesnacks", "repeat": 10, "chance": 35 },
       "g": { "item": "guns_rifle_common_display", "repeat": [ 1, 5 ] },
       "H": { "item": "guns_pistol_common_display", "repeat": [ 1, 5 ] },
@@ -211,7 +211,7 @@
     "item": { "F": { "item": "gun_lock", "repeat": [ 5, 20 ] } },
     "items": {
       "B": { "item": "guns_common_boxed", "chance": 15 },
-      "E": { "item": "office_mess", "repeat": 3, "chance": 20 },
+      "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
       "g": { "item": "guns_rifle_common_display", "repeat": [ 0, 1 ], "chance": 30 },
       "H": { "item": "guns_pistol_common_display", "repeat": [ 0, 1 ], "chance": 30 },
       "h": { "item": "guns_shotgun_common_display", "repeat": [ 0, 1 ], "chance": 30 },
@@ -355,7 +355,7 @@
     },
     "items": {
       "B": { "item": "guns_common_boxed", "repeat": [ 9, 20 ] },
-      "E": { "item": "office_mess", "repeat": 3, "chance": 20 },
+      "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
       "f": { "item": "fridgesnacks", "repeat": 10, "chance": 35 },
       "g": { "item": "cannedfood", "repeat": [ 40, 150 ] },
       "i": { "item": "ammo_common_boxed_used", "repeat": 6 },

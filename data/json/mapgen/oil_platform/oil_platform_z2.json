@@ -157,7 +157,7 @@
           { "item": "metal_workshop", "chance": 2 }
         ],
         "K": [
-          { "item": "office_mess", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_mess", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "office", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "consumer_electronics", "chance": 5 },
           { "item": "tools_common", "chance": 10 },

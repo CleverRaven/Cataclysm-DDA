@@ -67,7 +67,7 @@
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
       "?": { "item": "bed", "chance": 50 },
-      ".": { "item": "office_mess", "chance": 1 },
+      ".": { "item": "SUS_office_mess", "chance": 1 },
       "m": [
         { "item": "grenade_can_full", "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "c4_box_full", "chance": 100, "repeat": [ 1, 3 ] }

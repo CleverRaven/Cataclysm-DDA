@@ -409,7 +409,7 @@
         { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] }
       ],
       "r": [
-        { "item": "office_mess", "chance": 5 },
+        { "item": "SUS_office_mess", "chance": 5 },
         { "item": "SUS_office_supplies", "chance": 25 },
         { "item": "lab_files_biology", "chance": 10 }
       ],
@@ -535,7 +535,7 @@
         { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] }
       ],
       "r": [
-        { "item": "office_mess", "chance": 5 },
+        { "item": "SUS_office_mess", "chance": 5 },
         { "item": "SUS_office_supplies", "chance": 25 },
         { "item": "lab_files_psychology", "chance": 10 }
       ],

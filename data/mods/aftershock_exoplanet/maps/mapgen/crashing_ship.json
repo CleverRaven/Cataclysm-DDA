@@ -187,7 +187,7 @@
           ]
         },
         "E": { "items": [ { "item": "afs_tools_space_emergency", "chance": 100 } ] },
-        "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
+        "w": { "items": [ { "item": "SUS_office_desk", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
         "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] },
         "h": { "items": [ { "item": "afs_exosuit_light_worker", "chance": 75 } ] }
