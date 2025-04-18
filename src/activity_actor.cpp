@@ -3296,7 +3296,7 @@ std::vector<item_location> efile_activity_actor::filter_edevice_efiles(
             filtered_efiles.emplace_back( *it );
             it = filter_files.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
     return filtered_efiles;

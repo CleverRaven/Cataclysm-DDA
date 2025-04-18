@@ -4488,7 +4488,7 @@ void overmap::move_hordes()
 
             // Only zombies on z-level 0 may join hordes.
             if( p.z() != 0 ) {
-                monster_map_it++;
+                ++monster_map_it;
                 continue;
             }
 
@@ -4501,21 +4501,18 @@ void overmap::move_hordes()
                 !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
-                monster_map_it++;
+                ++monster_map_it;
                 continue;
             }
 
             // Only monsters in the open (fields, forests, roads) are eligible to wander
             const oter_id &om_here = ter( project_to<coords::omt>( p ) );
-            if( !is_ot_match( "field", om_here, ot_match_type::contains ) ) {
-                if( !is_ot_match( "road", om_here, ot_match_type::contains ) ) {
-                    if( !is_ot_match( "forest", om_here, ot_match_type::prefix ) ) {
-                        if( !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
-                            monster_map_it++;
-                            continue;
-                        }
-                    }
-                }
+            if( !is_ot_match( "field", om_here, ot_match_type::contains ) &&
+                !is_ot_match( "road", om_here, ot_match_type::contains ) &&
+                !is_ot_match( "forest", om_here, ot_match_type::prefix ) &&
+                !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
+                ++monster_map_it;
+                continue;
             }
 
             // Scan for compatible hordes in this area, selecting the largest.
@@ -4549,7 +4546,7 @@ void overmap::move_hordes()
                 }
             } else { // Bad luck--the zombie would have joined a larger horde, but not this one.  Skip.
                 // Don't delete the monster, just increment the iterator.
-                monster_map_it++;
+                ++monster_map_it;
                 continue;
             }
 
@@ -4646,7 +4643,7 @@ bool overmap::remove_nemesis()
             zg.erase( it++ );
             return true;
         }
-        it++;
+        ++it;
     }
     return false;
 }
@@ -7161,7 +7158,7 @@ void overmap::place_specials_pass(
         }
 
         if( !placed ) {
-            it++;
+            ++it;
         }
     }
 }
@@ -7328,7 +7325,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             if( it->instances_placed >= it->special_details->get_constraints().occurrences.max ) {
                 it = enabled_specials.erase( it );
             } else {
-                it++;
+                ++it;
             }
         } else {
             // This special is no longer in our callee's list, which means it was completely
