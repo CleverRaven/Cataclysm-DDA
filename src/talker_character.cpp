@@ -311,9 +311,9 @@ void talker_character::mutate( const int &highest_cat_chance, const bool &use_vi
 }
 
 void talker_character::mutate_category( const mutation_category_id &mut_cat,
-                                        const bool &use_vitamins )
+                                        const bool &use_vitamins, const bool &true_random )
 {
-    me_chr->mutate_category( mut_cat, use_vitamins );
+    me_chr->mutate_category( mut_cat, use_vitamins, true_random );
 }
 
 void talker_character::mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
