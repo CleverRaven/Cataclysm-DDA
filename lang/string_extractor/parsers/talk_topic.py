@@ -31,6 +31,18 @@ dynamic_line_string_keys = [
     "u_is_character", "npc_is_character", "u_is_monster", "npc_is_monster",
     "u_is_item", "npc_is_item", "u_is_furniture", "npc_is_furniture",
     "player_see_u", "player_see_npc",
+    "u_is_driven", "npc_is_driven",
+    "u_is_remote_controlled", "npc_is_remote_controlled",
+    "u_can_fly", "npc_can_fly",
+    "u_is_flying", "npc_is_flying",
+    "u_is_in_air", "npc_is_in_air",
+    "u_can_float", "npc_can_float",
+    "u_is_floating", "npc_is_floating",
+    "u_is_falling", "npc_is_falling",
+    "u_is_skidding", "npc_is_skidding",
+    "u_is_sinking", "npc_is_sinking",
+    "u_is_on_rails", "npc_is_on_rails",
+    "u_is_avatar_passenger", "npc_is_avatar_passenger",
     # yes/no strings for complex conditions, 'and' list
     "yes", "no", "concatenate"
 ]

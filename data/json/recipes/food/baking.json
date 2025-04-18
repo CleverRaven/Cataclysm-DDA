@@ -78,11 +78,12 @@
     "batch_time_factors": [ 80, 1 ],
     "charges": 7,
     "book_learn": [ [ "cookbook_turkish", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "walnut_shelled", 4 ] ],
-      [ [ "honey_bottled", 1 ], [ "syrup", 1 ] ],
+      [ [ "honey_bottled", 1 ], [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "any_butter", 1, "LIST" ] ],
       [ [ "sugar", 2 ] ],
       [ [ "flour_any", 10, "LIST" ] ],

@@ -877,6 +877,7 @@ Bulgarian
 Bullard
 bullpup
 bullseye
+bullshit
 Buluotuo
 Bulwer
 Bundahis
@@ -993,6 +994,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1100,6 +1102,8 @@ chk
 Chloe
 Cho
 chode
+chokeberry
+chokeberries
 chokepoints
 Chol
 chonker
@@ -1114,6 +1118,9 @@ Christmas
 Christopher
 chromatographer
 chromoelectric
+chronal
+chronomancy
+chronomantic
 Chu
 Chuang
 chucklefuck
@@ -1487,6 +1494,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
@@ -1732,6 +1741,7 @@ electrolyzer
 electrolyzers
 electromagnetics
 electromancy
+electronoetic
 electroreceptors
 elephantry
 Elish
@@ -2056,6 +2066,7 @@ flockshot
 floorplan
 Florida
 Florunner
+fluffernutter
 fluffies
 fluidic
 fluorescents
@@ -2068,6 +2079,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -2160,6 +2172,7 @@ Fuji
 fulleroclathrate
 fullscreen
 fumarolic
+fungalizing
 fungaloid
 fungaloids
 fungideer
@@ -2361,6 +2374,7 @@ gravesite
 Gravol
 GravyField
 Grayfield
+grayscale
 greatbow
 greatbows
 greatclub
@@ -2630,6 +2644,8 @@ HMS
 HMTD
 hnefatafl
 Hobbes
+hobblebush
+hobbleberries
 hoc
 Hockomock
 hodag
@@ -3462,6 +3478,7 @@ locs
 Locutus
 Loew
 Loki
+lokiceratops
 lolita
 London
 longarm
@@ -3950,6 +3967,7 @@ MMA
 mmm
 Mo
 mo
+moabosaurus
 moar
 mobbings
 Mobius
@@ -4128,6 +4146,8 @@ namele
 Namibian
 Nana
 Nani
+nannyberry
+nannyberries
 nano
 nanobots
 nanocompound
@@ -4193,6 +4213,7 @@ necrowolf
 nectivore
 Ned
 Nedarim
+nedcolbertia
 Needham
 needlelike
 Needletip
@@ -4636,6 +4657,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -4831,6 +4854,7 @@ precombined
 predatorially
 premade
 premeasured
+premotion
 preoptic
 prepended
 PrepNet
@@ -5550,6 +5574,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair
@@ -5600,6 +5625,7 @@ Sikorsky
 Silat
 siloed
 siloing
+silverberry
 Silvergram
 Silvergrams
 Silverhawk
@@ -5913,6 +5939,7 @@ streetwear
 stressfully
 striders
 strigoi
+strix
 strobing
 strobus
 Stromer
@@ -6246,7 +6273,9 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timeloops
 timestamp
+timestream
 timey
 Timmy
 Timorese
@@ -6407,6 +6436,7 @@ tumescences
 Tunguska
 Tunisian
 tuno
+tupelo
 tupperware
 tupperwares
 Turing
@@ -6609,6 +6639,7 @@ valhallists
 valknut
 valkyries
 Valzain
+vampiric
 VanBuren
 Vancian
 Vaneigem
@@ -6789,6 +6820,7 @@ weaponized
 weaponizing
 weaponsmith
 weaponsmiths
+wearables
 Weatherby
 Webber
 WebbStar

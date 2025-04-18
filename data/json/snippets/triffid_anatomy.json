@@ -25,6 +25,7 @@
   {
     "type": "snippet",
     "category": "<triffid_harvest>",
+    "//": "NO_I18N",
     "text": [ "<triffid_harvest>", "<triffid_harvest_deeper>", "<triffid_harvest>  <triffid_harvest_deeper>" ]
   }
 ]

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_35_1", "urban_35_2" ], [ "urban_35_3", "urban_35_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -84,8 +83,8 @@
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -129,7 +128,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_35_5", "urban_35_6", "urban_35_34" ], [ "urban_35_7", "urban_35_8", "urban_35_35" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -194,8 +192,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -260,7 +258,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_35_9", "urban_35_10" ], [ "urban_35_11", "urban_35_12" ] ],
     "//": "patient floor",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -321,8 +318,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -369,7 +366,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_35_13", "urban_35_14" ], [ "urban_35_15", "urban_35_16" ] ],
     "//": "patient floor",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -430,8 +426,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -480,7 +476,6 @@
     "method": "json",
     "//": "surgical floor",
     "om_terrain": [ [ "urban_35_17", "urban_35_18" ], [ "urban_35_19", "urban_35_20" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -516,7 +511,7 @@
         "#  ||||||||||RS|  >|F||                 |   #...",
         "#  )QQQQQQQQ)z $   |F +    |oo*oo|oo*ooo|   #...",
         "#  (        (  |  <|F |    |     |      |   o...",
-        "#  |XXX XXOO|||||||||||    |D Я4s|D ml s|   o...",
+        "#  |XXX XXOO|||||||||||    |D Я4s|D  Я4s|   o...",
         "#  ||||()||||W |T|T| W|    |QeA s|QeA  s|   #...",
         "#  |z    BBB|    |    |    ||||||||||||||   #...",
         "#  $        |||+||||+||    $                o...",
@@ -541,8 +536,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -591,7 +586,6 @@
     "method": "json",
     "//": "maternity floor",
     "om_terrain": [ [ "urban_35_21", "urban_35_22" ], [ "urban_35_23", "urban_35_24" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -664,8 +658,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -714,7 +708,6 @@
     "method": "json",
     "//": "admin and cafe floor",
     "om_terrain": [ [ "urban_35_25", "urban_35_26" ], [ "urban_35_27", "urban_35_28" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -777,7 +770,7 @@
           { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 20, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 20, "repeat": [ 1, 2 ] },
         "7": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "textbooks", "chance": 20, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 20, "repeat": [ 1, 2 ] },
@@ -788,7 +781,7 @@
           { "item": "pantry", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "K": [
           { "item": "doctors_books", "chance": 100, "repeat": [ 1, 2 ] },
           { "item": "lab_bookshelves", "chance": 40, "repeat": [ 1, 2 ] }
@@ -823,7 +816,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_35_29", "urban_35_30" ], [ "urban_35_31", "urban_35_32" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -852,8 +844,8 @@
         "-...........................................-   ",
         "-...........................................-   ",
         "-...#############...........................-   ",
-        "-...#66r66r66r66#...........................-   ",
-        "-...#66_66_66_66#..................&&.......-   ",
+        "-...#GGrGGrGGrGG#...........................-   ",
+        "-...#GG_GG_GG_GG#..................&&.......-   ",
         "-...#___________#...........................-   ",
         "-...##########_##+##........................-   ",
         "-...#AAAAAAAAA_#__L#........................-   ",
@@ -886,13 +878,13 @@
         "r": "t_thconc_floor",
         "L": "t_thconc_floor",
         "A": "t_thconc_floor",
-        "6": "t_thconc_floor"
+        "G": "t_thconc_floor"
       },
       "items": {
         "L": [ { "item": "jackets", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "r": [ { "item": "tools_mechanic", "chance": 40 }, { "item": "tools_common", "chance": 80 } ]
       },
-      "furniture": { "1": "f_water_purifier", "6": "f_generator_broken" },
+      "furniture": { "1": "f_water_purifier", "G": "f_generator_broken" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 },
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 25, 30 ], "density": 0.06 }
@@ -903,7 +895,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_35_33" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

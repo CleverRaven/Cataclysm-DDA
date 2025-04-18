@@ -123,7 +123,7 @@ static void CheckDecl( NoLongCheck &Check, const MatchFinder::MatchResult &Resul
     if( alternatives.empty() ) {
         return;
     }
-    if( MatchedDecl->getName().startswith( "__" ) ) {
+    if( MatchedDecl->getName().starts_with( "__" ) ) {
         // Can happen for e.g. compiler-generated code inside an implicitly
         // generated function
         return;

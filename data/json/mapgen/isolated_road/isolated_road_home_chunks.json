@@ -27,8 +27,8 @@
         "%,|       X      o|...%G",
         "%,|yYa 888X hncfuu|...%G",
         "%,||v|+||||vvv|||||...%G",
-        "%,,,,,,...............%G",
-        "%H%%%%%%%%%%%%%%%%%%%%%G",
+        "H,,,,,,...............%G",
+        "%%%%%%H%%%%%%%%%%%%%%%%G",
         "......................%G"
       ],
       "palettes": [ "artisans" ],
@@ -42,7 +42,7 @@
           "faction": "isolated_artisans",
           "x": [ 2, 2 ],
           "y": [ 7, 7 ],
-          "filter": "ammo_rifle_common"
+          "filter": "ammo_common_boxed"
         },
         {
           "type": "LOOT_ITEM_GROUP",
@@ -93,7 +93,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "G%%%%%%%%%%%%%%%%%%%%%..",
+        "G%%%%%%%%%%%%%%H%%%%%%..",
         "G%.....q........b....%..",
         "G%...................H..",
         "G%...||||||vv|| |####|..",
@@ -153,7 +153,7 @@
         "Gddddddddddddddd........",
         "G........ddddddd........",
         "G........ddddddd........",
-        "G........ddddddd........",
+        "G........ddddddd......ϟ.",
         "Gddddddddddddddd........",
         "Gdddddddddddddd.........",
         "Gddddddddddddd..........",
@@ -165,7 +165,7 @@
         "G......................."
       ],
       "terrain": { "G": "t_pit_spiked", "j": "t_pit_covered", "d": "t_region_soil" },
-      "place_vehicles": [ { "vehicle": "pickup", "chance": 100, "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 } ],
+      "place_vehicles": [ { "vehicle": "pickup", "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 } ],
       "place_monster": [
         { "monster": "mon_turret_artisans", "x": 8, "y": 1, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 16, "y": 1, "chance": 100 },
@@ -173,6 +173,7 @@
         { "monster": "mon_turret_artisans", "x": 2, "y": 23, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 23, "y": 2, "chance": 100 }
       ],
+      "furniture": { "ϟ": "f_bulletin" },
       "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },

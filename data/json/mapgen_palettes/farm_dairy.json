@@ -8,7 +8,8 @@
         "default": {
           "distribution": [ [ "t_splitrail_fence", 3 ], [ "t_chainfence", 2 ], [ "t_fence_barbed", 2 ], [ "t_privacy_fence", 1 ] ]
         }
-      }
+      },
+      "cow_type": { "type": "mongroup_id", "default": { "distribution": [ [ "GROUP_COWS_DAIRY", 1 ], [ "GROUP_ZOMBIE_BOVINE", 3 ] ] } }
     },
     "terrain": {
       "$": { "param": "fence_type", "fallback": "t_splitrail_fence" },
@@ -22,8 +23,10 @@
         }
       },
       ".": [ [ "t_region_groundcover", 2 ], [ "t_region_soil", 3 ] ],
-      ",": [ [ "t_region_groundcover", 2 ], [ "t_region_soil", 3 ] ]
+      ",": [ [ "t_region_groundcover", 2 ], [ "t_region_soil", 3 ] ],
+      "-": "t_region_groundcover"
     },
-    "furniture": { ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ], ",": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ] }
+    "furniture": { ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ], ",": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ] },
+    "monsters": { ".": { "monster": { "param": "cow_type", "fallback": "GROUP_ZOMBIE_BOVINE" }, "chance": 1, "density": 0.00025 } }
   }
 ]

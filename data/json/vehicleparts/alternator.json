@@ -24,8 +24,8 @@
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 5 ] },
-      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "mc_steel_lump", "count": [ 2, 5 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
     "requirements": {
@@ -48,8 +48,8 @@
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 5 ] },
-      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "mc_steel_lump", "count": [ 2, 5 ] },
+      { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
       { "item": "scrap", "count": [ 2, 5 ] }
     ],
     "requirements": {
@@ -76,8 +76,8 @@
     "damage_modifier": 80,
     "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "mc_steel_lump", "count": [ 3, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] }
     ],
     "requirements": {
@@ -104,8 +104,8 @@
     "damage_modifier": 80,
     "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 7 ] },
+      { "item": "mc_steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] }
     ],
     "requirements": {
@@ -118,33 +118,5 @@
       }
     },
     "damage_reduction": { "all": 20 }
-  },
-  {
-    "id": "generator_7500w",
-    "copy-from": "vehicle_alternator",
-    "type": "vehicle_part",
-    "name": { "str": "7.5 kW generator" },
-    "//": "625 A @ 12 VDC ~ 14 HP drain @ 72% efficiency",
-    "item": "generator_7500w",
-    "durability": 400,
-    "power": "-10444 W",
-    "epower": "7500 W",
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 18 ] },
-      { "item": "steel_chunk", "count": [ 10, 18 ] },
-      { "item": "scrap", "count": [ 10, 18 ] }
-    ],
-    "//1": "30 cm weld to repair per damage quadrant",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 12 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
-      }
-    },
-    "damage_reduction": { "all": 25 }
   }
 ]

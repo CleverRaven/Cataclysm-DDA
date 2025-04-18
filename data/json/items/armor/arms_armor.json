@@ -1120,7 +1120,7 @@
     "color": "yellow",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],

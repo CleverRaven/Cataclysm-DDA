@@ -1,0 +1,10 @@
+[
+  {
+    "type": "skill",
+    "id": "spellcraft",
+    "name": { "str": "sorcery" },
+    "display_category": "display_ranged",
+    "sort_rank": 14500,
+    "description": "Your ability to control the hidden forces behind reality."
+  }
+]

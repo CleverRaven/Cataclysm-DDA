@@ -1,0 +1,135 @@
+[
+  {
+    "id": [ "TALK_MUG", "TALK_STRANGER_AGGRESSIVE" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Autumn Glamour] *Use Scarecrow's Mien*.",
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('changeling_autumn_scare_humans_spell') > 0" ] },
+            {
+              "math": [
+                "u_val('mana') > max( ( 300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) - (u_skill('deduction') * 7)), 150)"
+              ]
+            }
+          ]
+        },
+        "trial": {
+          "type": "CONDITION",
+          "//": "5 * 9 in the formula is because Scarecrow's Mien has a Difficulty of 5",
+          "condition": {
+            "roll_contested": { "math": [ "0" ] },
+            "difficulty": {
+              "math": [
+                "(15 + (global_what_is_the_season == 1 ? 35 : 0 ) + (global_what_is_the_season == 2 ? 15 : 0 ) + (global_what_is_the_season == 4 ? 15 : 0 ) + (5 * 9 ) + (xe_fey_magick_mana_penalty() * 100) ) - ( (u_skill('deduction') * 6) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) )"
+              ]
+            },
+            "die_size": 100
+          }
+        },
+        "success": {
+          "topic": "TALK_MUG_SCARECROW_MIEN_USED",
+          "effect": [
+            { "u_add_effect": "effect_changeling_autumn_scare_humans", "duration": 15 },
+            {
+              "math": [
+                "u_val('mana')",
+                "-=",
+                "max( ( 300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) - (u_skill('deduction') * 7)), 150)"
+              ]
+            }
+          ],
+          "opinion": { "fear": 5 }
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [
+            "hostile",
+            { "u_message": "The glamour fails to take hold!", "type": "bad" },
+            {
+              "math": [
+                "u_val('mana')",
+                "-=",
+                "max( ( 300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) - (u_skill('deduction') * 7)), 150)"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "text": "<color_light_green>[Hypnotic Gaze] *Look directly into their eyes*</color>.",
+        "topic": "TALK_HYPNOTIC_GAZE_USED",
+        "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] } ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
+          {
+            "math": [
+              "_vampire_hypnotic_gaze_power_level",
+              "=",
+              "2 + (vampire_total_tier_one_traits_plus_potency() * 0.5) + (vampire_total_tier_two_traits() * 0.75) + (vampire_total_tier_three_traits() * 1.2) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)"
+            ]
+          },
+          {
+            "npc_add_effect": "effect_vampire_hypnotism",
+            "duration": { "math": [ "_vampire_hypnotic_gaze_power_level" ] }
+          },
+          { "npc_add_effect": "dazed", "duration": { "math": [ "_vampire_hypnotic_gaze_power_level" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_MUG_SCARECROW_MIEN_USED" ],
+    "type": "talk_topic",
+    "dynamic_line": "*blanches and takes a step back before turning and fleeing.",
+    "responses": [ { "text": "Watch them go.", "topic": "TALK_DONE", "effect": "flee" } ]
+  },
+  {
+    "id": [ "TALK_HYPNOTIC_GAZE_USED" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_any_trait": [ "VAMPIRE4", "PSYCHOPATH" ],
+      "yes": "*stares stupidly as you meet <mypossesivepronoun> gaze and overwhelm <mypossesivepronoun> pitiful mind.  Pathetic.  Like a lamb awaiting the slaughter.",
+      "no": "*stares blankly as you meet <mypossesivepronoun> gaze and overwhelm <mypossesivepronoun> mind.  As <mypossesivepronoun> hands fall listlessly to <mypossesivepronoun> sides, <mypossesivepronoun> gaze becomes unfocused and <mypossesivepronoun> mouth drops half-open."
+    },
+    "responses": [
+      {
+        "text": "Ha.  Mortals are nothing but cattle.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_any_trait": [ "VAMPIRE4", "PSYCHOPATH" ] }
+      },
+      {
+        "text": "Well, that's one problem solved.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_any_trait": [ "VAMPIRE4", "PSYCHOPATH" ] } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_STOLE_ITEM",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "<color_light_green>[Hypnotic Gaze] *Look directly into their eyes*</color>.",
+        "topic": "TALK_HYPNOTIC_GAZE_USED",
+        "condition": { "and": [ { "u_has_trait": "HYPNOTIC_GAZE" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] } ] },
+        "effect": [
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
+          {
+            "math": [
+              "_vampire_hypnotic_gaze_power_level",
+              "=",
+              "2 + (vampire_total_tier_one_traits_plus_potency() * 0.5) + (vampire_total_tier_two_traits() * 0.75) + (vampire_total_tier_three_traits() * 1.2) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)"
+            ]
+          },
+          {
+            "npc_add_effect": "effect_vampire_hypnotism",
+            "duration": { "math": [ "_vampire_hypnotic_gaze_power_level" ] }
+          },
+          { "npc_add_effect": "dazed", "duration": { "math": [ "_vampire_hypnotic_gaze_power_level" ] } }
+        ]
+      }
+    ]
+  }
+]

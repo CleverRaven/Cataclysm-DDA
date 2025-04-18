@@ -25,7 +25,7 @@
     "dodge": 5,
     "harvest": "lizardfolk",
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-    "families": [ "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "death_drops": [
       { "item": "lizardfolk_club", "prob": 30 },
       { "item": "loincloth", "prob": 40 },
@@ -45,6 +45,7 @@
       "SWIMS",
       "PUSH_MON",
       "SWARMS",
+      "HUMAN",
       "CAN_OPEN_DOORS",
       "NO_BREATHE",
       "WIELDED_WEAPON"
@@ -110,7 +111,8 @@
         { "item": "robe", "prob": 40 },
         { "item": "leather_belt", "prob": 20 }
       ]
-    }
+    },
+    "extend": { "flags": [ "MAGIC_USER" ] }
   },
   {
     "id": "mon_lizardfolk_chieftan",

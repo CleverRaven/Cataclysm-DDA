@@ -1,28 +1,23 @@
 #include "effect.h"
 
 #include <algorithm>
+#include <cmath>
 #include <map>
-#include <memory>
 #include <optional>
-#include <type_traits>
 #include <unordered_set>
 
 #include "bodypart.h"
 #include "cata_assert.h"
-#include "cata_variant.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "effect_source.h"
-#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "json_error.h"
 #include "magic_enchantment.h"
 #include "messages.h"
 #include "output.h"
@@ -31,6 +26,8 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+
+enum class cata_variant_type : int;
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -187,6 +184,7 @@ void weed_msg( Character &p )
             case 5:
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Mitch_Hedberg" ).value_or(
                                          translation() ) );
+                return;
             default:
                 return;
         }
@@ -271,6 +269,7 @@ void weed_msg( Character &p )
             case 4:
                 // re-roll
                 weed_msg( p );
+                return;
             case 5:
             default:
                 return;
@@ -891,6 +890,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
     std::vector<desc_freq> values;
+    values.reserve( 9 ); // Pre-allocate space for each value.
     // Add various desc_freq structs to values. If more effects wish to be placed in the descriptions this is the
     // place to add them.
     int val = 0;
@@ -1083,8 +1083,8 @@ void effect::set_duration( const time_duration &dur, bool alert )
 
     // Force intensity if it is duration based
     if( eff_type->int_dur_factor != 0_turns ) {
-        // + 1 here so that the lowest is intensity 1, not 0
-        set_intensity( duration / eff_type->int_dur_factor + 1, alert );
+        const int intensity = std::ceil( duration / eff_type->int_dur_factor );
+        set_intensity( std::max( 1, intensity ), alert );
     }
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),

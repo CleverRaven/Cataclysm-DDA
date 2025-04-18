@@ -65,7 +65,7 @@
         "l": [
           { "item": "guns_pistol_common", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "mags_common", "chance": 20, "repeat": 5 },
-          { "item": "ammo_pistol_rare", "chance": 20, "repeat": [ 5, 10 ] }
+          { "item": "ammo_common_boxed", "chance": 20, "repeat": [ 5, 10 ] }
         ]
       },
       "monsters": { "s": { "monster": "GROUP_LAB_SECURITY", "chance": 50 }, ".": { "monster": "GROUP_LAB_SECURITY", "chance": 15 } }

@@ -1,12 +1,12 @@
 #pragma GCC diagnostic ignored "-Wunused-macros"
 #define CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
-#include "cata_catch.h"
-
 #include <algorithm>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "cata_algo.h"
+#include "cata_catch.h"
 
 static void check_cycle_finding( std::unordered_map<int, std::vector<int>> &g,
                                  std::vector<std::vector<int>> &expected )

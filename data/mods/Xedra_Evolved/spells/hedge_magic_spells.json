@@ -180,8 +180,8 @@
   {
     "id": "hedge_stunning_spell_real",
     "type": "SPELL",
-    "name": "To Befuddle As the Thunderstrike Real",
-    "description": "The actual spell that causes the effect.  It's a bug if you have it.",
+    "name": { "str": "To Befuddle As the Thunderstrike Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that causes the effect.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground", "ally" ],
     "teachable": false,
     "effect": "flashbang",
@@ -257,6 +257,26 @@
     "base_casting_time": 1500
   },
   {
+    "id": "hedge_luck_spell",
+    "type": "SPELL",
+    "name": "The Coin of Gad",
+    "description": "With a candle, a penny, and paper, this will create a short lived luck charm upon oneself.",
+    "message": "You write the words upon the paper, place the penny on the ground, place the paper upon the penny, light the candle then the paper and firmly place the candle in the ashes on top of the penny, let the candle burn down melting all over the penny.  You will find your steps slightly lucky for the several hours to potentially a full day.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "attack",
+    "effect_str": "effect_hedge_magic_luck_spell",
+    "shape": "blast",
+    "components": "spell_components_hedge_luck_spell",
+    "max_level": 1,
+    "base_casting_time": 250000,
+    "min_duration": 1000000,
+    "max_duration": 8600000
+  },
+  {
     "id": "hedge_clairvoyance_cone",
     "type": "SPELL",
     "name": "To See Beyond the Barriers",
@@ -277,8 +297,11 @@
   {
     "id": "hedge_clairvoyance_cone_real",
     "type": "SPELL",
-    "name": "To See Beyond the Barriers Real",
-    "description": "The actual spell that causes the effect for To See Beyond the Barriers.  It's a bug if you have it.",
+    "name": { "str": "To See Beyond the Barriers Real", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that causes the effect for To See Beyond the Barriers.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "IGNORE_WALLS" ],
@@ -434,8 +457,11 @@
   {
     "id": "hedge_blessed_weapon_nether_damage",
     "type": "SPELL",
-    "name": "Blessed Weapon Nether Damage",
-    "description": "This is the extra damage a blessed weapon does to Nether creatures.  It's a bug if you have it directly.",
+    "name": { "str": "Blessed Weapon Nether Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is the extra damage a blessed weapon does to Nether creatures.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "valid_targets": [ "hostile" ],
@@ -511,8 +537,11 @@
   {
     "id": "hedge_bash_terrain_magic_square_real",
     "type": "SPELL",
-    "name": "To Demolish Buildings and Strongholds Real",
-    "description": "The actual spell for To Demolish Buildings and Strongholds.  It's a bug if you have it directly.",
+    "name": { "str": "To Demolish Buildings and Strongholds Real", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell for To Demolish Buildings and Strongholds.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],

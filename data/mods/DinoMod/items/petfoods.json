@@ -21,6 +21,13 @@
     "extend": { "petfood": [ "DINOFOOD_A" ] }
   },
   {
+    "id": "dogfood_raw",
+    "copy-from": "dogfood_raw",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "raw dog food" },
+    "extend": { "petfood": [ "DINOFOOD_A" ] }
+  },
+  {
     "id": "catfood",
     "copy-from": "catfood",
     "type": "COMESTIBLE",
@@ -32,6 +39,13 @@
     "copy-from": "catfood_dry",
     "type": "COMESTIBLE",
     "name": { "str_sp": "dry cat food" },
+    "extend": { "petfood": [ "DINOFOOD_B" ] }
+  },
+  {
+    "id": "catfood_raw",
+    "copy-from": "catfood_raw",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "raw cat food" },
     "extend": { "petfood": [ "DINOFOOD_B" ] }
   }
 ]

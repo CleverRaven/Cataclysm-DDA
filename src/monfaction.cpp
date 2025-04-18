@@ -1,16 +1,13 @@
 #include "monfaction.h"
 
-#include <array>
 #include <list>
 #include <map>
-#include <new>
 #include <set>
 #include <utility>
 
 #include "debug.h"
 #include "debug_menu.h"
 #include "generic_factory.h"
-#include "json.h"
 
 // for legacy reasons "monfaction::id" is called "name" in json
 static generic_factory<monfaction> faction_factory( "MONSTER_FACTION", "name" );

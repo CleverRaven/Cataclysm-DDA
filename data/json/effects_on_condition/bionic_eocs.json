@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "bio_drain",
     "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "math": [ "u_val('power')", ">=", "energy('25 kJ')" ] } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "math": [ "u_val('power') >= energy('25 kJ')" ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
@@ -42,7 +42,7 @@
     "effect": [
       { "u_message": "Your malfunctioning bionic causes you to spasm and fall to the floor!", "type": "bad" },
       { "sound_effect": "elec_crackle_high", "id": "bionics", "volume": 100 },
-      { "math": [ "u_pain()", "++" ] },
+      { "math": [ "u_pain()++" ] },
       { "u_add_effect": "stunned", "duration": 1 },
       { "u_add_effect": "downed", "duration": 1, "force": true }
     ]
@@ -51,7 +51,7 @@
     "type": "effect_on_condition",
     "id": "bio_shakes",
     "recurrence": [ "1 hours", "3 hours" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "math": [ "u_val('power')", ">=", "energy('25 kJ')" ] } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "math": [ "u_val('power') >= energy('25 kJ')" ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
       { "u_message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
@@ -68,7 +68,7 @@
       "and": [
         { "u_has_bionics": "bio_glowy" },
         { "not": { "u_has_effect": "glowy_led" } },
-        { "math": [ "u_val('power')", ">=", "energy('1 kJ')" ] }
+        { "math": [ "u_val('power') >= energy('1 kJ')" ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
@@ -84,7 +84,7 @@
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
-    "effect": { "math": [ "u_val('sleepiness')", "++" ] }
+    "effect": { "math": [ "u_val('sleepiness')++" ] }
   },
   {
     "type": "effect_on_condition",
@@ -140,7 +140,7 @@
     "recurrence": [ "3 minutes", "9 minutes" ],
     "condition": { "u_has_bionics": "bio_leaky" },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
-    "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
+    "effect": [ { "math": [ "u_health() -= 1" ] } ]
   },
   {
     "type": "effect_on_condition",

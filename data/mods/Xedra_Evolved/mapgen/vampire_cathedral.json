@@ -63,8 +63,7 @@
         { "monster": "GROUP_VAMPIRES_MIXED", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 },
         { "monster": "GROUP_VAMPIRES_MIXED", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.1 },
         { "monster": "GROUP_VAMPIRES_MIXED", "x": [ 0, 17 ], "y": [ 24, 47 ], "density": 0.1 },
-        { "monster": "GROUP_VAMPIRES_MIXED", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 0.2 },
-        { "monster": "GROUP_CHURCH_BLANK", "x": [ 20, 23 ], "y": [ 34, 38 ], "density": 0.1 }
+        { "monster": "GROUP_VAMPIRES_MIXED", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 0.2 }
       ]
     }
   },

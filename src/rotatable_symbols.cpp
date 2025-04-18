@@ -8,8 +8,8 @@
 #include <vector>
 
 #include "catacharset.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "string_formatter.h"
 
 namespace

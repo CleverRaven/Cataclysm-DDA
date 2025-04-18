@@ -94,7 +94,7 @@
         { "chunks": [ [ "supply_trash", 50 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "chunks": [ [ "supply_generator_active", 30 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "density": 0.3 } ]
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 4, 6 ] } ]
     }
   },
   {
@@ -136,10 +136,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_item": [
-        { "item": "laptop", "x": 0, "y": 0, "repeat": [ 0, 4 ] },
-        { "item": "smart_phone", "x": 0, "y": 0, "repeat": [ 2, 7 ] }
-      ],
+      "place_item": [ { "item": "laptop", "x": 0, "y": 0, "repeat": [ 0, 4 ] } ],
+      "place_items": [ { "item": "civilian_phones", "x": 0, "y": 0, "repeat": [ 2, 7 ] } ],
       "place_furniture": [ { "furn": "f_active_backup_generator", "x": 0, "y": 0 } ]
     }
   }

@@ -115,7 +115,7 @@
     },
     "responses": [
       { "text": "Nice to meet you too, Uyen.", "topic": "TALK_REFUGEE_Uyen_1_firstmeet" },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -134,7 +134,7 @@
     },
     "responses": [
       { "text": "Hi, Uyen.  Got a minute?", "topic": "TALK_REFUGEE_Uyen_2" },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -143,7 +143,7 @@
     "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
     "responses": [
       { "text": "Just a traveler.  Can I ask you a few things?", "topic": "TALK_REFUGEE_Uyen_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -253,7 +253,7 @@
       "concatenate": [
         "We've got it okay, I guess",
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "6" ],
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 6" ],
           "yes": ".  Things have been getting better.  I wasn't even sure it was possible",
           "no": ", as long as this doesn't last too long."
         },
@@ -276,6 +276,7 @@
     "item": "disinfectant",
     "count": 50,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_REFUGEE_Uyen_2",
     "dialogue": {
       "describe": "We need help…",
@@ -292,7 +293,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 8 },
         { "u_add_var": "mission_flag_Uyen_Mission1", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },
@@ -307,6 +308,7 @@
     "item": "bandages",
     "count": 30,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_REFUGEE_Uyen_3",
     "dialogue": {
       "describe": "We need help…",
@@ -323,7 +325,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 7 },
         { "u_add_var": "mission_flag_Uyen_Mission2", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },
@@ -338,6 +340,7 @@
     "item": "prozac",
     "count": 60,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We could still use your help…",
       "offer": "I probably shouldn't be prescribing things, but there's a ton of people needing help with sleep in here.  If you could get us some antidepressants, Rhyzaea and I can probably make sure they're doled out appropriately without people having to starve to pay for them.  Three month's worth - about 6 bottles - would last us a little while.",

@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_DOMESTIC",
+    "id": "GROUP_DOMESTIC",
     "default": "mon_peccary_flathead",
     "is_animal": true,
     "monsters": [
@@ -21,7 +21,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SAFE",
+    "id": "GROUP_SAFE",
     "is_safe": true,
     "is_animal": true,
     "monsters": [

@@ -91,7 +91,7 @@
     "batch_time_factors": [ 83, 3 ],
     "charges": 50,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "any_chili_pepper", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -124,7 +124,7 @@
     "charges": 50,
     "batch_time_factors": [ 95, 10 ],
     "tools": [ [ [ "food_processor", 10 ] ] ],
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "any_chili_pepper", 1, "LIST" ] ] ]
   },
   {
     "//": "For use by mills, so the only entries used are the charges and components.",
@@ -626,6 +626,60 @@
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "bone_edible", 1, "LIST" ] ] ],
     "charges": 4
+  },
+  {
+    "//": "For use by mills, so the only entries used are the charges and components.",
+    "//1": "Note that there should only be a single component with no extras such as lubricants, etc.",
+    "result": "meal_bone",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "mill_20_1",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET" ],
+    "tools": [  ],
+    "components": [ [ [ "skull_rodent", 20 ] ] ]
+  },
+  {
+    "//": "For use by mills, so the only entries used are the charges and components.",
+    "//1": "Note that there should only be a single component with no extras such as lubricants, etc.",
+    "result": "meal_bone",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "mill_2_1",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET" ],
+    "tools": [  ],
+    "components": [ [ [ "skull_small", 2, "LIST" ] ] ]
+  },
+  {
+    "//": "For use by mills, so the only entries used are the charges and components.",
+    "//1": "Note that there should only be a single component with no extras such as lubricants, etc.",
+    "result": "meal_bone",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "mill_1_1",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET" ],
+    "tools": [  ],
+    "components": [ [ [ "skull_medium", 1, "LIST" ] ] ]
   },
   {
     "//": "For use by mills, so the only entries used are the charges and components.",

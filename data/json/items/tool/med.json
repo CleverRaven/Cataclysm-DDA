@@ -9,7 +9,7 @@
     "volume": "2 ml",
     "price": "5 cent",
     "price_postapoc": "2 cent",
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "!",
     "color": "white",
     "flags": [ "SINGLE_USE" ],
@@ -25,6 +25,7 @@
     "volume": "3 ml",
     "price": "10 cent",
     "price_postapoc": "6 cent",
+    "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
     "flags": [ "SINGLE_USE", "IRREPLACEABLE_CONSUMABLE" ],
@@ -43,9 +44,9 @@
     "material": [ "glass" ],
     "symbol": "!",
     "color": "cyan",
-    "ammo": [ "anesthetic" ],
     "qualities": [ [ "ANESTHESIA", 1 ] ],
-    "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ]
+    "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 6000 } } ],
+    "tool_ammo": [ "anesthetic" ]
   },
   {
     "id": "bandages",
@@ -240,10 +241,10 @@
     "material": [ "ceramic", "superalloy" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "ampoule" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
     "charges_per_use": 1,
-    "use_action": [ "JET_INJECTOR" ]
+    "use_action": [ "JET_INJECTOR" ],
+    "tool_ammo": [ "ampoule" ]
   },
   {
     "id": "scalpel",
@@ -434,8 +435,8 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_250",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "3" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "250" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 3" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "250" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -462,8 +463,8 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_500",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "500" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "500" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -490,8 +491,8 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_1000",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "1000" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "1000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -518,12 +519,28 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_2000",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "2000" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "2000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
       }
     ]
+  },
+  {
+    "id": "dental_tools",
+    "type": "TOOL",
+    "name": { "str": "dental tool set" },
+    "description": "A set of picks, hooks, and scrapers designed for cleaning teeth.",
+    "weight": "160 g",
+    "volume": "370 ml",
+    "longest_side": "20 cm",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "qualities": [ [ "LOCKPICK", 1 ], [ "LEATHER_AWL", 1 ], [ "PUNCH", 1 ] ],
+    "melee_damage": { "stab": 1 }
   }
 ]

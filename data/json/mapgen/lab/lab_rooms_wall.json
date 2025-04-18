@@ -75,8 +75,8 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "set": [
-        { "line": "terrain", "id": "t_chainfence_h", "x": 0, "x2": 7, "y": 0, "y2": 0 },
-        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 1, "y2": 7 },
+        { "line": "terrain", "id": "t_chainfence", "x": 0, "x2": 7, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_chainfence", "x": 0, "x2": 0, "y": 1, "y2": 7 },
         { "point": "terrain", "id": "t_chaingate_c", "x": [ 3, 5 ], "y": 0 },
         { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [ 3, 5 ] }
       ],
@@ -91,8 +91,8 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "set": [
-        { "line": "terrain", "id": "t_chainfence_h", "x": 0, "x2": 7, "y": 7, "y2": 7 },
-        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 0, "y2": 6 },
+        { "line": "terrain", "id": "t_chainfence", "x": 0, "x2": 7, "y": 7, "y2": 7 },
+        { "line": "terrain", "id": "t_chainfence", "x": 0, "x2": 0, "y": 0, "y2": 6 },
         { "point": "terrain", "id": "t_chaingate_c", "x": [ 3, 5 ], "y": 7 },
         { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [ 2, 4 ] }
       ],
@@ -139,16 +139,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
-        "|-------",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW"
+        "--------",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW"
       ],
-      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+      "terrain": { "W": "t_water_dp", "-": "t_railing" }
     }
   },
   {
@@ -159,16 +159,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|WWWWWWW",
-        "|-------"
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "-WWWWWWW",
+        "--------"
       ],
-      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+      "terrain": { "W": "t_water_dp", "-": "t_railing" }
     }
   },
   {
@@ -246,8 +246,8 @@
     "object": {
       "mapgensize": [ 10, 10 ],
       "set": [
-        { "line": "terrain", "id": "t_chainfence_h", "x": 0, "x2": 9, "y": 0, "y2": 0 },
-        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 1, "y2": 9 },
+        { "line": "terrain", "id": "t_chainfence", "x": 0, "x2": 9, "y": 0, "y2": 0 },
+        { "line": "terrain", "id": "t_chainfence", "x": 0, "x2": 0, "y": 1, "y2": 9 },
         { "point": "terrain", "id": "t_chaingate_c", "x": [ 4, 6 ], "y": 0 },
         { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [ 4, 6 ] }
       ],
@@ -262,8 +262,8 @@
     "object": {
       "mapgensize": [ 10, 10 ],
       "set": [
-        { "line": "terrain", "id": "t_chainfence_v", "x": 0, "x2": 0, "y": 0, "y2": 9 },
-        { "line": "terrain", "id": "t_chainfence_h", "x": 1, "x2": 9, "y": 9, "y2": 9 },
+        { "line": "terrain", "id": "t_chainfence", "x": 0, "x2": 0, "y": 0, "y2": 9 },
+        { "line": "terrain", "id": "t_chainfence", "x": 1, "x2": 9, "y": 9, "y2": 9 },
         { "point": "terrain", "id": "t_chaingate_c", "x": [ 4, 6 ], "y": 9 },
         { "point": "terrain", "id": "t_chaingate_c", "x": 0, "y": [ 3, 5 ] }
       ],
@@ -405,18 +405,18 @@
       "mapgensize": [ 10, 10 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "|---------",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW"
+        "----------",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW"
       ],
-      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+      "terrain": { "W": "t_water_dp", "-": "t_railing" }
     }
   },
   {
@@ -453,18 +453,18 @@
       "mapgensize": [ 10, 10 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|WWWWWWWWW",
-        "|---------"
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "-WWWWWWWWW",
+        "----------"
       ],
-      "terrain": { "W": "t_water_dp", "|": "t_railing_v", "-": "t_railing_h" }
+      "terrain": { "W": "t_water_dp", "-": "t_railing" }
     }
   },
   {

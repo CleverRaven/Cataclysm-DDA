@@ -103,7 +103,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "general_name_u_luliya_name" } ] },
-            { "math": [ "time_since(u_timer_meeting_luliya_music_timer)", ">=", "time('3 d')" ] }
+            { "math": [ "time_since(u_timer_meeting_luliya_music_timer) >= time('3 d')" ] }
           ]
         },
         "topic": "TALK_LULIYA_MUSIC"
@@ -122,14 +122,14 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "general_meeting_u_met_luliya", "value": "yes" },
-        { "math": [ "u_timer_meeting_luliya_music_timer", "=", "time('now')" ] }
+        { "math": [ "u_timer_meeting_luliya_music_timer = time('now')" ] }
       ]
     },
     "responses": [
       { "text": "Hello.  Are you all right?  I just hit the button on your back.", "topic": "TALK_LULIYA" },
       { "text": "I'm not understanding that.  Can you try again?", "topic": "TALK_LULIYA" },
       {
-        "text": "Speak English ya <swear> robot.  We don't take kindly to that kind of thing here.  [You frown menacingly]",
+        "text": "Speak English ya <freaking> robot.  We don't take kindly to that kind of thing here.  [You frown menacingly]",
         "topic": "TALK_LULIYA"
       },
       { "text": "State your name and function machine.", "topic": "TALK_LULIYA" },

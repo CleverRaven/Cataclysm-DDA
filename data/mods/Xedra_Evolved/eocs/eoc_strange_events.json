@@ -1,0 +1,72 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEPING_SEIZED_BY_LILIT_WARNING",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "LILIN_TRAITS" } },
+        { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
+        { "not": "u_is_outside" },
+        { "x_in_y_chance": { "x": 1, "y": 2 } },
+        { "math": [ "time_since('cataclysm', 'unit':'days')", "<=", "20" ] },
+        { "not": { "u_has_effect": "effect_lilin_attack_warning_cooldown" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "The night was a little rough.  You tossed and turned, aware of every single noise and creak of wood in a way you never were before all of this happened, before you finally fell asleep.  You weren't attacked and woke up without trouble, but you have to wonder if it's really safe, sleeping alone like this in an abandoned building?",
+        "popup": true
+      },
+      { "u_add_effect": "effect_lilin_attack_warning_cooldown", "duration": "20 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEPING_SEIZED_BY_LILIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "LILIN_TRAITS" } },
+        { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
+        { "not": "is_day" },
+        { "not": "u_is_outside" },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "1 + min( (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 90 ), 180) + (u_effect_intensity('common_cold') > -1 ? 15 : 0) + (u_effect_intensity('influenza') > -1 ? 25 : 0) + (u_effect_intensity('pre_common_cold') > -1 ? 7 : 0) + (u_effect_intensity('pre_flu') > -1 ? 12 : 0)"
+              ]
+            },
+            "y": 365
+          }
+        },
+        { "not": { "u_has_worn_with_flag": "WARDING_SYMBOL" } }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_SLEEPING_SEIZED_BY_LILIT_EFFECTS", "time_in_future": [ "3 hours", "5 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEPING_SEIZED_BY_LILIT_EFFECTS",
+    "condition": {
+      "and": [
+        { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
+        { "u_has_effect": "sleep" },
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "effect_sleep_shield" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "effect_lilin_ruach_drain_side_effects",
+        "intensity": { "math": [ "rand(2) + 1" ] },
+        "duration": 259200
+      },
+      { "u_message": "snippet_drained_by_lilit", "snippet": true, "type": "bad" },
+      { "math": [ "u_lilin_ruach_drained_recently = 1" ] }
+    ]
+  }
+]

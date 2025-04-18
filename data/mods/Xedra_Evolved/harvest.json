@@ -79,6 +79,13 @@
     ]
   },
   {
+    "id": "vampire",
+    "type": "harvest",
+    "copy-from": "demihuman",
+    "extend": { "entries": [ { "drop": "vampire_blood", "type": "blood", "mass_ratio": 0.02 } ] },
+    "delete": { "entries": [ { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.1 } ] }
+  },
+  {
     "id": "fig_harv",
     "type": "harvest",
     "entries": [ { "drop": "fig", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]

@@ -1,11 +1,19 @@
 #include "mapgendata.h"
 
+#include <algorithm>
+#include <iterator>
+#include <optional>
+
 #include "all_enum_values.h"
+#include "coordinates.h"
+#include "cube_direction.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "hash_utils.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -58,8 +66,8 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     , mission_( miss )
     , zlevel_( over.z() )
     , predecessors_( overmap_buffer.predecessors( over ) )
-    , t_above( overmap_buffer.ter( over + tripoint_above ) )
-    , t_below( overmap_buffer.ter( over + tripoint_below ) )
+    , t_above( overmap_buffer.ter( over + tripoint::above ) )
+    , t_below( overmap_buffer.ter( over + tripoint::below ) )
     , region( overmap_buffer.get_settings( over ) )
     , m( mp )
     , default_groundcover( region.default_groundcover )

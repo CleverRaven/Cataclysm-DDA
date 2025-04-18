@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_library_1", "urban_library_2" ], [ "urban_library_3", "urban_library_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -56,8 +55,11 @@
         "................................................",
         "................................................"
       ],
-      "palettes": [ "library_palette", "standard_building_general_and_variant_palette" ],
-      "terrain": { "S": "t_linoleum_white", "t": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "library_palette", "standard_building_general_and_variant_palette" ],
+      "terrain": {
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "items": { "[": { "item": "SUS_book", "chance": 20 } }
     }
   },
@@ -65,7 +67,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_library_5", "urban_library_6" ], [ "urban_library_7", "urban_library_8" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -118,8 +119,14 @@
         "................................................",
         "................................................"
       ],
-      "palettes": [ "library_palette", "standard_building_general_and_variant_palette" ],
-      "terrain": { "S": "t_linoleum_white", "t": "t_linoleum_white", ",": "t_flat_roof", ".": "t_open_air", ";": "t_gutter" },
+      "palettes": [ "parametrized_linoleum_palette", "library_palette", "standard_building_general_and_variant_palette" ],
+      "terrain": {
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        ",": "t_flat_roof",
+        ".": "t_open_air",
+        ";": "t_gutter"
+      },
       "items": { "[": { "item": "SUS_book", "chance": 20 } }
     }
   },
@@ -127,7 +134,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_library_roof_1", "urban_library_roof_2" ], [ "urban_library_roof_3", "urban_library_roof_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

@@ -1,23 +1,25 @@
-#include <memory>
-#include <optional>
+#include <cmath>
+#include <cstddef>
+#include <set>
+#include <string>
 #include <vector>
 
 #include "action.h"
-#include "avatar.h"
-#include "catch/catch.hpp"
-#include "damage.h"
-#include "enums.h"
-#include "game.h"
-#include "item.h"
+#include "cata_assert.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "tileray.h"
 #include "type_id.h"
+#include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "veh_type.h"
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_obstacle_test( "obstacle_test" );
@@ -118,7 +120,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
          */
         for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
             REQUIRE( !vp.part().is_fake );
-            veh->open( vp.part_index() );
+            veh->open( here, vp.part_index() );
         }
         // include inactive fakes since the vehicle isn't rotated
         bool tested_a_fake = false;
@@ -130,7 +132,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         }
         REQUIRE( tested_a_fake );
         for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
-            veh->close( vp.part_index() );
+            veh->close( here, vp.part_index() );
         }
         for( const vpart_reference &vp : veh->get_all_parts_with_fakes( true ) ) {
             if( vp.info().has_flag( "OPENABLE" ) ) {
@@ -156,7 +158,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
             }
         }
         here.vehmove();
-        veh->idle( true );
+        veh->idle( here, true );
         validate_part_count( *veh, target_velocity, 0_degrees, original_parts, fake_parts,
                              active_fakes_by_angle.at( 0 ) );
     }
@@ -178,12 +180,12 @@ TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
     veh->velocity = veh->cruise_velocity;
 
     GIVEN( "A vehicle with a known weight" ) {
-        units::mass initial_weight = veh->total_mass();
+        units::mass initial_weight = veh->total_mass( here );
         WHEN( "The vehicle turns such that it is not perpendicular to a cardinal axis" ) {
             veh->turn( 45_degrees );
             here.vehmove();
             THEN( "The vehicle weight is constant" ) {
-                units::mass turned_weight = veh->total_mass();
+                units::mass turned_weight = veh->total_mass( here );
                 CHECK( initial_weight == turned_weight );
             }
         }
@@ -211,14 +213,14 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
         WHEN( "A bashable object is placed in the vehicle's path such that it will hit a fake part" ) {
             // we know the mount point of the front right headlight is 2,2
             // that places it's fake mirror at 2,3
-            const point fake_r_hl( 2, 3 );
-            tripoint fake_front_right_headlight = veh->mount_to_tripoint( fake_r_hl );
+            const point_rel_ms fake_r_hl( 2, 3 );
+            tripoint_bub_ms fake_front_right_headlight = veh->mount_to_tripoint( &here, fake_r_hl );
             // we're travelling south east, so placing it SE of the fake headlight mirror
             // will impact it on next move
-            tripoint obstacle_point = fake_front_right_headlight + tripoint_south_east;
+            tripoint_bub_ms obstacle_point = fake_front_right_headlight + tripoint::south_east;
             here.furn_set( obstacle_point.xy(), furn_id( "f_boulder_large" ) );
 
-            int part_count = veh->parts_at_relative( point( 2, 2 ), true, false ).size();
+            int part_count = veh->parts_at_relative( point_rel_ms( 2, 2 ), true, false ).size();
             THEN( "The collision damage is applied to the fake's parent" ) {
                 here.vehmove();
                 std::vector<int> damaged_parts;
@@ -226,14 +228,14 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
                 // hitting the boulder should have slowed the vehicle down
                 REQUIRE( veh->velocity < target_velocity );
 
-                std::vector<int> parent_parts = veh->parts_at_relative( point( 2, 2 ), true, false );
+                std::vector<int> parent_parts = veh->parts_at_relative( point_rel_ms( 2, 2 ), true, false );
                 for( int rel : parent_parts ) {
                     vehicle_part &vp = veh->part( rel );
                     if( vp.info().durability > vp.hp() ) {
                         damaged_parts.push_back( rel );
                     }
                 }
-                for( int rel : veh->parts_at_relative( point( 2, 3 ), true, false ) ) {
+                for( int rel : veh->parts_at_relative( point_rel_ms( 2, 3 ), true, false ) ) {
                     vehicle_part &vp = veh->part( rel );
                     if( vp.info().durability > vp.hp() ) {
                         damaged_fake_parts.push_back( rel );
@@ -258,7 +260,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         const tripoint_bub_ms test_origin( 30, 30, 0 );
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 30_degrees, 100, 0 );
         REQUIRE( veh != nullptr );
-        const tripoint global_origin = veh->global_pos3();
+        const tripoint_bub_ms global_origin = veh->pos_bub( here );
 
         veh->tags.insert( "IN_CONTROL_OVERRIDE" );
         veh->engine_on = true;
@@ -266,7 +268,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         veh->cruise_velocity = target_velocity;
         veh->velocity = veh->cruise_velocity;
         here.vehmove();
-        const tripoint global_move = veh->global_pos3();
+        const tripoint_bub_ms global_move = veh->pos_bub( here );
         const tripoint_bub_ms obstacle_point = test_origin + 2 * ( global_move - global_origin );
         vehicle *trg = here.add_vehicle( vehicle_prototype_schoolbus, obstacle_point, 90_degrees, 100, 0 );
         REQUIRE( trg != nullptr );
@@ -333,7 +335,7 @@ TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle
     vehicle *veh = here.add_vehicle( vehicle_prototype_obstacle_test,
                                      test_origin, 315_degrees, 100, 0 );
     REQUIRE( veh != nullptr );
-    veh->refresh();
+    veh->refresh( );
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
     validate_part_count( *veh, 0, 315_degrees, 11, 6, 5 );
@@ -355,12 +357,12 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
     map &here = get_map();
     set_time_to_day();
 
-    REQUIRE( you.sees( you.pos_bub() + point( 10, 10 ) ) );
+    REQUIRE( you.sees( here, you.pos_bub( here ) + point( 10, 10 ) ) );
     vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100, 0 );
     REQUIRE( veh != nullptr );
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
-    CHECK( !you.sees( you.pos_bub() + point( 10, 10 ) ) );
+    CHECK( !you.sees( here, you.pos_bub( here ) + point( 10, 10 ) ) );
 }
 
 TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
@@ -377,7 +379,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
     // First get the doors to a known good state.
     for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
-        veh->close( vp.part_index() );
+        veh->close( here, vp.part_index() );
     }
 
     // Then scan through all the openables including fakes and assert that we can open them.
@@ -386,23 +388,23 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             REQUIRE( !vp.part().open );
-            CHECK( can_interact_at( ACTION_OPEN, vp.pos_bub() ) );
+            CHECK( can_interact_at( ACTION_OPEN, here, vp.pos_bub( here ) ) );
             int part_to_open = veh->next_part_to_open( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_open == static_cast<int>( vp.part_index() ) );
             // Using open_all_at because it will usually be from outside the vehicle.
-            veh->open_all_at( part_to_open );
+            veh->open_all_at( here, part_to_open );
             CHECK( vp.part().open );
             CHECK( veh->part( vp.part().fake_part_to ).open );
         }
     }
     REQUIRE( fakes_tested == 4 );
 
-    tripoint prev_player_pos = you.pos();
+    tripoint_bub_ms prev_player_pos = you.pos_bub();
     // Then open them all back up.
     for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
-        veh->open( vp.part_index() );
+        veh->open( here, vp.part_index() );
         REQUIRE( vp.part().open );
         if( !vp.part().has_fake ) {
             continue;
@@ -412,17 +414,18 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
             continue;
         }
         CAPTURE( prev_player_pos );
-        CAPTURE( you.pos() );
+        CAPTURE( you.pos_bub( here ) );
         REQUIRE( veh->can_close( vp.part_index(), you ) );
         REQUIRE( veh->can_close( fake_door.part_index(), you ) );
-        you.setpos( vp.pos() );
+        you.setpos( vp.pos_abs() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
         // Move to the location of the fake part and repeat the assetion
-        you.setpos( fake_door.pos() );
+        you.setpos( fake_door.pos_abs() );
+        you.setpos( fake_door.pos_abs() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
-        you.setpos( prev_player_pos );
+        you.setpos( here, prev_player_pos );
     }
 
     // Then scan through all the openables including fakes and assert that we can close them.
@@ -431,12 +434,12 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             CHECK( vp.part().open );
-            CHECK( can_interact_at( ACTION_CLOSE, vp.pos_bub() ) );
+            CHECK( can_interact_at( ACTION_CLOSE, here, vp.pos_bub( here ) ) );
             int part_to_close = veh->next_part_to_close( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_close == static_cast<int>( vp.part_index() ) );
             // Using open_all_at because it will usually be from outside the vehicle.
-            veh->close( part_to_close );
+            veh->close( here, part_to_close );
             CHECK( !vp.part().open );
             CHECK( !veh->part( vp.part().fake_part_to ).open );
         }

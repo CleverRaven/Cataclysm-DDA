@@ -1243,7 +1243,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "Snakes and Ladders" },
-    "description": "A board game for two or more players, regarded before the Cataclysm as as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
+    "description": "A board game for two or more players, regarded before the Cataclysm as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
     "weight": "300 g",
     "volume": "1800 ml",
     "price": "25 cent",
@@ -1586,7 +1586,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "id": "glass_apple",
@@ -1602,7 +1602,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "id": "glass_boat",
@@ -1617,7 +1617,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -1869,5 +1869,20 @@
     "price_postapoc": "5 cent",
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "gun_lock",
+    "name": { "str": "gun cable lock" },
+    "//": "Stats from a 10/22 lock I had laying about.  If the length or volume seems weird, the cable doesn't fold all the way so it's an odd shape.",
+    "description": "A set with a key and a small lock, resembling a padlock if the shackle was replaced by a steel cable.  This design allows the cable to fit into the chamber of a firearm and lock, preventing the firearm from functioning.  An import part of gun safety, it is required by law to be sold with any firearm.",
+    "weight": "83 g",
+    "volume": "53 ml",
+    "longest_side": "9 cm",
+    "color": "black",
+    "symbol": "P",
+    "material": [ "steel", "plastic" ],
+    "price": "14 USD 99 cent",
+    "price_postapoc": "5 cent"
   }
 ]

@@ -136,23 +136,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "460_casing",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "skills_required": [ "gun", 4 ],
-    "time": "3 m",
-    "//": "Operations required: trimming, reaming, resizing.",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "762_51_casing", 1 ], [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "38_casing",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -302,24 +285,6 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
     "components": [ [ [ "762_51_casing", 1 ], [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "45_casing",
-    "id_suffix": "from_460",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "skills_required": [ "gun", 3 ],
-    "time": "2 m 6 s",
-    "//": "Operations required: trimming, resizing.",
-    "batch_time_factors": [ 80, 5 ],
-    "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "460_casing", 1 ] ] ]
   },
   {
     "type": "recipe",

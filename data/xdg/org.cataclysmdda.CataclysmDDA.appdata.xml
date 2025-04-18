@@ -86,8 +86,58 @@
   <developer id="org.cataclysmdda">
     <name>Kevin Granade and Contributors</name>
   </developer>
-
   <releases>
+    <release version="0.H" date="2024-07-22">
+      <description>
+        <p>
+          I'm proud to announce that the Cataclysm: Dark Days Ahead 0.H "Herbert" release is here!
+          With an 11 month Gestation (before forking) and a 10 month delivery (after forking),
+          we once again utterly failed to limit the scope of work with a release, the 0.H
+          development process has been the longest in many releases, packing in thousands of new
+          pieces of content, massive performance improvements, and IMO more polish than we've ever
+          seen in a DDA release. A huge group of about 450 people contributed to this release,
+          about 200 for the first time this release. All together we changed about 12 million
+          lines of code and data across about 5,500 files, adding about 5,000 game entities in the
+          core game and another 5,000 in mods. This time around we handled the release process
+          differently, following a more traditional process where we called 0.H "feature complete"
+          all the way back in January of 2024 and moved it to a dedicated fork for bugfixing.
+          Since then we've created new infrastructure to manage the stabilization process,
+          fixed many many bugs, and backported a limited number of key features from the
+          experimental branch. Whether this new approach really hits its stride is yet to be seen,
+          but I'm hopeful next cycle can be shorter now that the infrastructure is in place.
+        </p>
+        <p>
+          Feature wise, we've seen the addition of biomes, where traveling East now leads to larger
+          cities to a point, then the lands ends in an ocean. Travelling West leads to sparser human
+          settlements and more wilderness. Portal storms now spawn and move around on the map, you
+          can either hunker down or move to avoid them (or chase them if you're so inclined), and an
+          unprecedented amount of new and interesting content has been added to their chaotic mix.
+          After years of hard work, 3D vision has improved greatly, bugs are few and far between,
+          and thanks to this feature we can see a lot more interactivity between Z levels. It still
+          defaults off, but you don't need to be afraid of it. Our accidental bespoke scripting
+          framework, the EOC system, has been greatly expanded and many, many features have been
+          overhauled to take advantage of it. This allows an enormous flexibility of events in both
+          mainline and mods without ever touching a compiler. Multiple new boss-tier encounters have
+          been added for late game challenge, though I don't want to spoil them here. Now you will
+          know why you fear the night. The number of proficiencies has increased greatly for this
+          version, roughly doubling the number of proficiencies you can learn, with unique effects.
+          We've seen an expansion of the proficiency framework in some of the directions desired
+          initially, allowing proficiencies to confer more than just crafting bonuses. Practice
+          actions have also filled out, providing a smooth path for skill gain instead of grinding
+          crafting or other activities. This version should see an end to repeatedly crafting and
+          uncrafting a simple object to grind skills, allowing you to streamline the process to
+          represent your character studying and practicing, spending character time but not so much
+          player time. You'll also notice other savings in player time, we've found a number of
+          places to speed up key code and drastically reduce waiting times, making for a much more
+          responsive experience.
+        </p>
+	<p>
+          Try it out. It's the best DDA yet.
+	</p>
+      </description>
+      <url type="details">
+        https://github.com/CleverRaven/Cataclysm-DDA/tree/0.H-branch/data/changelog.txt</url>
+    </release>
     <release version="0.G Gaiman" date="2023-03-01">
       <description>
         <p>

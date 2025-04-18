@@ -13,7 +13,7 @@
     "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "volume": "80 L",
-    "longest_side": "2500 cm",
+    "longest_side": "250 cm",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ],
     "melee_damage": { "bash": 45 }
@@ -54,7 +54,7 @@
     "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "volume": "180 L",
-    "longest_side": "2000 cm",
+    "longest_side": "200 cm",
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
@@ -71,7 +71,7 @@
     "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "volume": "36 L",
-    "longest_side": "2000 cm",
+    "longest_side": "200 cm",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ],
     "melee_damage": { "bash": 35 }

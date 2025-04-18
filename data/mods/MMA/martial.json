@@ -92,7 +92,7 @@
   {
     "abstract": "scroll_martial_base",
     "type": "TOOL",
-    "name": { "str": "scroll abstract" },
+    "name": { "str": "scroll abstract", "//~": "NO_I18N" },
     "weight": "415 g",
     "volume": "250 ml",
     "material": [ "paper" ],

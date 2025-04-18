@@ -9,7 +9,7 @@
         "topic": "BOSS_Lapin_01_Story2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 1" ] },
             { "npc_has_trait": "BOSS_Lapin_01" },
             { "not": { "compare_string": [ "lapin", { "u_val": "BOSS_mission_directions" } ] } }
           ]
@@ -36,7 +36,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Cabin_Lapin", "om_terrain": "cabin_lapin", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Cabin_Lapin", "om_terrain": "cabin_lapin", "reveal_radius": 5 },
       "effect": { "u_add_var": "BOSS_mission_directions", "value": "lapin" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

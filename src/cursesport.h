@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CURSESPORT_H
 #define CATA_SRC_CURSESPORT_H
 
-#include <utility>
 #if defined(IMTUI) || !(defined(TILES) || defined(WIN32))
 #   define TUI
 #endif
@@ -11,6 +10,7 @@
 #include <array>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "point.h"
 

@@ -1,18 +1,21 @@
 #include "past_games_info.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <map>
 #include <stdexcept>
 #include <string>
-#include <vector>
-#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "achievement.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "event.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
+#include "hash_utils.h"
 #include "input.h"
 #include "json_loader.h"
 #include "memorial_logger.h"
@@ -96,7 +99,7 @@ const achievement_completion_info *past_games_info::legacy_achievement(
     return ach_it == legacy_achievements_.end() ? nullptr : &ach_it->second;
 }
 
-void past_games_info::ensure_loaded()
+void past_games_info::ensure_loaded( bool show_popup )
 {
     if( loaded_ ) {
         return;
@@ -104,10 +107,13 @@ void past_games_info::ensure_loaded()
 
     loaded_ = true;
 
-    static_popup popup;
-    popup.message( "%s", _( "Please wait while past game data loads…" ) );
-    ui_manager::redraw();
-    refresh_display();
+    // TODO: Had to guard UI refresh because it corrupted imgui window stack
+    if( show_popup ) {
+        static_popup popup;
+        popup.message( "%s", _( "Please wait while past game data loads…" ) );
+        ui_manager::redraw();
+        refresh_display();
+    }
 
     const cata_path &memorial_dir = PATH_INFO::memorialdir_path();
     assure_dir_exist( memorial_dir );
@@ -179,9 +185,9 @@ void past_games_info::ensure_loaded()
     }
 }
 
-const past_games_info &get_past_games()
+const past_games_info &get_past_games( bool show_popup )
 {
-    past_games.ensure_loaded();
+    past_games.ensure_loaded( show_popup );
     return past_games;
 }
 

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "ACT_AFS_ESPER_STUDYING_POWER",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "rooted": true,
+    "do_turn_eoc": "EOC_AFS_ESPER_STUDYING_POWER"
+  }
+]

@@ -1,0 +1,178 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_garage_a1_floor_1",
+    "object": {
+      "fill_ter": "t_thconc_floor_no_roof",
+      "rows": [
+        "  © ¢  ¢ ¢  ©  ¢ ¢¢ ¢ © ",
+        " © ¢¢ ¢¢¢¢ © ¢¢ ¢ ¢¢¢©  ",
+        "       ¢¢¢¢© ¢  ¢   ¢©  ",
+        " ©©¢¢ ¢  ¢  ©  ¢  ¢ ¢   ",
+        "   ¢ ¢  ¢¢ ©©¢ ¢ ¢¢  ©  ",
+        "  ©¢ ¢¢¢  ¢©     ¢ ¢  © ",
+        " ©©7  ¢  ¢¢ ©¢¢¢    7©©©",
+        " ||$$$$$$$$||$$$$$$$$||©",
+        " |°°......°45°......°4| ",
+        " |°°.$..$.°°°°.$..$.°5| ",
+        " |°°.$,,$.°33°.$,,$.°°|©",
+        "℗|á°.$..$.°66°.$..$.°á|©",
+        "℗|á°.$..$.°ff°.$..$.°á| ",
+        "℗|á°.$..$.°ff°.$..$.°á|©",
+        " |f°.$..$.°66°.$..$.°f| ",
+        " |f°.$,,$.°33°.$,,$.°f| ",
+        " |%°.$..$.°°°°.$..$.°%|©",
+        " |45......6ff6......°°| ",
+        " ||||||||||||||))))|!||©",
+        " |ââââáá°|~|~|%hyyh°°°|©",
+        " |°°3°°°°|!|!|°°°°3°°°! ",
+        " |ââââáá°1°3°°°°llloUU|2",
+        " ||||####||||||####||||©",
+        "    ℗℗             ℗℗℗℗ "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
+      "terrain": {
+        "1": "t_door_metal_elocked",
+        "2": "t_ladder_up",
+        "3": "t_thconc_floor_olight_inactive",
+        "7": "t_region_groundcover_urban"
+      },
+      "furniture": {
+        "4": "f_sealed_intermodal_crate",
+        "5": "f_intermodal_crate_open",
+        "6": "f_machinery_light",
+        "á": "f_locker",
+        "â": "f_rack",
+        "7": "f_security_panel_10"
+      },
+      "items": {
+        "4": { "item": "afs_tools_vehicle_repair", "repeat": [ 1, 2 ] },
+        "f": { "item": "afs_tools_vehicle_repair", "repeat": [ 1, 3 ], "chance": 15 },
+        "á": { "item": "afs_tools_vehicle_repair", "repeat": [ 1, 3 ], "chance": 30 },
+        "â": { "item": "afs_machinery_maintenance_scrapgroup", "repeat": [ 3, 10 ], "chance": 30 },
+        "%": { "item": "afs_tools_space_emergency", "chance": 40 }
+      },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 5, 22 ], "y": [ 5, 22 ], "pack_size": [ 1, 2 ], "chance": 25 } ],
+      "place_nested": [
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 },
+        { "chunks": [ [ "afs_garage_1_open", 70 ], [ "afs_garage_1_closed", 30 ] ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_garage_a1_floor_2",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " [[[[[[[[[[[[[[[[[[[[[[ ",
+        " [....................[ ",
+        " [..2........3.3..❺❶..[ ",
+        " [....................[ ",
+        " [..2.............❷❸..[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [..44....5..5....44..[ ",
+        " [..44....5..5....44..[ ",
+        " [..44....5..5....44..[ ",
+        " [.....................1",
+        " [[[[[[[[[[[[[[[[[[[[[[ ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_life_support" ],
+      "terrain": { "1": "t_ladder_down", " ": "t_open_air" },
+      "furniture": { "2": "f_small_satellite_dish", "3": "f_roof_turbine_vent", "4": "f_solar_unit", "5": "f_vent_pipe" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_garage_1_open",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   11111111  11111111   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "1": "t_afs_security_door_frame" },
+      "place_vehicles": [
+        { "vehicle": "atomic_city_cars", "x": 7, "y": 14, "rotation": 90, "chance": 5, "status": 1 },
+        { "vehicle": "atomic_city_cars", "x": 17, "y": 14, "rotation": 90, "chance": 5, "status": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_garage_1_closed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   11111111  11111111   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "1": "t_afs_security_gate_closed" },
+      "place_vehicles": [
+        { "vehicle": "atomic_city_cars", "x": 7, "y": 14, "rotation": 90, "chance": 30 },
+        { "vehicle": "atomic_city_cars", "x": 17, "y": 14, "rotation": 90, "chance": 30 }
+      ]
+    }
+  }
+]

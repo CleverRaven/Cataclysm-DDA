@@ -18,7 +18,7 @@
       "#": "t_metal_floor_no_roof"
     },
     "monster": { "8": { "group": "GROUP_WASP_QUEEN" } },
-    "furniture": { ":": "f_cellphone_booster", "#": "f_small_satelitte_dish" },
+    "furniture": { ":": "f_cellphone_booster", "#": "f_small_satellite_dish" },
     "nested": { "O": { "chunks": [ "wasp_brood" ] } }
   },
   {

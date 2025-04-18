@@ -1,20 +1,19 @@
 [
   {
-    "id": "EOC_Nunez_Travel",
+    "id": "EOC_Nunez_Travel_To_Tacoma",
     "type": "effect_on_condition",
-    "recurrence": 1000,
-    "condition": {
-      "and": [
-        { "math": [ "nunez_travel_stage", "==", "1" ] },
-        { "math": [ "nunez_travel_timer", "<", "time_since('cataclysm', 'unit': 'days')" ] }
-      ]
-    },
-    "deactivate_condition": { "math": [ "nunez_travel_stage", "==", "2" ] },
     "effect": [
-      { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
-      { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
-      { "mapgen_update": "refcenter_nunez_departure", "om_terrain": "evac_center_7" },
-      { "math": [ "nunez_travel_stage", "++" ] }
+      { "math": [ "u_counter_refugee_center_refugee_happiness++" ] },
+      {
+        "mapgen_update": "tacoma_nunez_trailer_arrive",
+        "om_terrain": "ranch_camp_55",
+        "target_var": { "context_val": "tacoma_nunez_trailer_arrive" }
+      },
+      {
+        "mapgen_update": "refcenter_nunez_departure",
+        "om_terrain": "evac_center_7",
+        "target_var": { "context_val": "refcenter_nunez_departure" }
+      }
     ]
   },
   {
@@ -31,14 +30,7 @@
     "update_mapgen_id": "tacoma_nunez_trailer_arrive",
     "method": "json",
     "//": "In addition to basic mapgen, adds some point variables in the hopes that I can add some passive movement animations for pablo and dana.",
-    "object": {
-      "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 0, "y": 17 } ],
-      "place_npcs": [ { "class": "tacoma_DanaNunez", "x": 4, "y": 19 }, { "class": "tacoma_PabloNunez", "x": 4, "y": 20 } ],
-      "set": [
-        { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 20 },
-        { "point": "variable", "id": "Dana_baking", "x": 4, "y": 19 }
-      ]
-    }
+    "object": { "flags": [ "NO_UNDERLYING_ROTATE" ], "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 5, "y": 15 } ] }
   },
   {
     "type": "mapgen",
@@ -46,8 +38,9 @@
     "nested_mapgen_id": "nunez_trailer",
     "//": "Nunez bakery inside a silver bullet trailer.",
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "mapgensize": [ 6, 6 ],
+      "rotation": [ 0 ],
       "rows": [
         "ABCDE ",
         "123456",
@@ -100,7 +93,32 @@
         "c": "f_bullettrailer_bed_head",
         "d": "f_bullettrailer_toilet",
         "i": "f_bullettrailer_sign_danabakery"
-      }
+      },
+      "place_npcs": [ { "class": "tacoma_DanaNunez", "x": 4, "y": 2 }, { "class": "tacoma_PabloNunez", "x": 4, "y": 3 } ],
+      "set": [
+        { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 3 },
+        { "point": "variable", "id": "Dana_baking", "x": 4, "y": 2 }
+      ],
+      "place_nested": [ { "chunks": [ "nunez_trailer_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nunez_trailer_roof",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0 ],
+      "rows": [
+        "      ",
+        "......",
+        "......",
+        "......",
+        "......",
+        "      "
+      ],
+      "terrain": { ".": "t_bullettrailer_roof" }
     }
   }
 ]

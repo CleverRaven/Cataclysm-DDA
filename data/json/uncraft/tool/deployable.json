@@ -7,7 +7,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "steel_chunk", 3 ] ],
+      [ [ "lc_steel_chunk", 3 ] ],
       [ [ "scrap", 17 ] ],
       [ [ "sheet_cotton", 1 ] ],
       [ [ "cotton_patchwork", 7 ] ]
@@ -40,7 +40,7 @@
     "difficulty": 2,
     "time": "40 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 2 ] ], [ [ "steel_chunk", 5 ] ], [ [ "steel_lump", 2 ] ] ]
+    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 2 ] ], [ [ "lc_steel_chunk", 5 ] ], [ [ "lc_steel_lump", 2 ] ] ]
   },
   {
     "type": "uncraft",
@@ -53,8 +53,8 @@
     "components": [
       [ [ "scrap", 12 ] ],
       [ [ "pipe", 2 ] ],
-      [ [ "steel_chunk", 6 ] ],
-      [ [ "steel_lump", 4 ] ],
+      [ [ "lc_steel_chunk", 6 ] ],
+      [ [ "lc_steel_lump", 4 ] ],
       [ [ "plastic_chunk", 6 ] ],
       [ [ "hand_pump", 1 ] ]
     ]
@@ -98,7 +98,7 @@
       [ [ "hd_pipe", 4 ] ],
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "steel_chunk", 1 ] ]
+      [ [ "mc_steel_chunk", 1 ] ]
     ]
   },
   {
@@ -107,6 +107,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 4 ] ], [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "lc_steel_lump", 4 ] ], [ [ "lc_steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
   }
 ]

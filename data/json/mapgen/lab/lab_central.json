@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "central_lab_entrance" ],
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -40,7 +39,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "central_lab_shaft" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_soil",
       "rows": [
@@ -81,7 +79,6 @@
       [ "central_lab_hq_6", "central_lab_hq_5", "central_lab_hq_4" ],
       [ "central_lab_hq_9", "central_lab_hq_8", "central_lab_hq_7" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

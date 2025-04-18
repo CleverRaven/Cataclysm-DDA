@@ -31,51 +31,7 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_region_groundcover_barren",
-        "&": "t_region_soil",
-        "^": "t_region_soil",
-        " ": "t_region_groundcover_urban",
-        "|": "t_chainfence"
-      },
-      "furniture": {
-        "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
-        "&": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
-      },
-      "items": {
-        "^": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
-          { "item": "road", "chance": 2 },
-          { "item": "allclothes_damaged", "chance": 3 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
-          { "item": "garden_shed", "chance": 2 },
-          { "item": "homebooks", "chance": 2 },
-          { "item": "wheels", "chance": 2 },
-          { "item": "electronics", "chance": 2 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "hardware", "chance": 2 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ],
-        "&": [
-          { "item": "trash", "chance": 35 },
-          { "item": "road", "chance": 1 },
-          { "item": "allclothes_damaged", "chance": 2 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
-          { "item": "garden_shed", "chance": 1 },
-          { "item": "homebooks", "chance": 1 },
-          { "item": "wheels", "chance": 1 },
-          { "item": "electronics", "chance": 1 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "hardware", "chance": 1 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ]
-      },
+      "palettes": [ "dump_palette" ],
       "place_signs": [ { "signage": "<city> Dump", "x": 9, "y": 2 }, { "signage": "<city> Dump", "x": 14, "y": 2 } ]
     }
   },
@@ -111,51 +67,7 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_region_groundcover_barren",
-        "&": "t_region_soil",
-        "^": "t_region_soil",
-        " ": "t_region_groundcover_urban",
-        "|": "t_chainfence"
-      },
-      "furniture": {
-        "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
-        "&": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
-      },
-      "items": {
-        "^": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
-          { "item": "road", "chance": 2 },
-          { "item": "allclothes_damaged", "chance": 3 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
-          { "item": "garden_shed", "chance": 2 },
-          { "item": "homebooks", "chance": 2 },
-          { "item": "wheels", "chance": 2 },
-          { "item": "electronics", "chance": 2 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "hardware", "chance": 2 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ],
-        "&": [
-          { "item": "trash", "chance": 35 },
-          { "item": "road", "chance": 1 },
-          { "item": "allclothes_damaged", "chance": 2 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
-          { "item": "garden_shed", "chance": 1 },
-          { "item": "homebooks", "chance": 1 },
-          { "item": "wheels", "chance": 1 },
-          { "item": "electronics", "chance": 1 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "hardware", "chance": 1 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ]
-      },
+      "palettes": [ "dump_palette" ],
       "place_signs": [ { "signage": "<city> Dump", "x": 8, "y": 2 }, { "signage": "<city> Dump", "x": 15, "y": 2 } ]
     }
   },
@@ -171,82 +83,27 @@
         "    __PPPPPPPPPPPP__    ",
         "   _PPPPPPPPPPPPPPPP_   ",
         "  _PPPPPPPPPPPPPPPPPP_  ",
-        "  _PPPPPPPP##PPPPPPPP__ ",
-        " _PPPPPPP######PPPPPPP_ ",
-        " _PPPPP##########PPPPP_ ",
-        " _PPPPP##########PPPPP_ ",
-        "_PPPPP#####&&#####PPPPP_",
-        "_PPPPP####&&&&####PPPPP_",
-        "_PPPP####&&&&&&####PPPP_",
-        "_PPPP####&&&&&&####PPPP_",
-        "_PPPPP####&&&&####PPPPP_",
-        "_PPPPP#####&&#####PPPPP_",
-        " _PPPPP##########PPPPP_ ",
-        " _PPPPP##########PPPPP_ ",
-        " _PPPPPPP######PPPPPPP_ ",
-        "  _PPPPPPPP##PPPPPPPP_  ",
+        "  _PPPPPPPP&&PPPPPPPP__ ",
+        " _PPPPPPP&&&&&&PPPPPPP_ ",
+        " _PPPPP&&&&&&&&&&PPPPP_ ",
+        " _PPPPP&&&&&&&&&&PPPPP_ ",
+        "_PPPPP&&&&&^^&&&&&PPPPP_",
+        "_PPPPP&&&&^^^^&&&&PPPPP_",
+        "_PPPP&&&&^^^^^^&&&&PPPP_",
+        "_PPPP&&&&^^^^^^&&&&PPPP_",
+        "_PPPPP&&&&^^^^&&&&PPPPP_",
+        "_PPPPP&&&&&^^&&&&&PPPPP_",
+        " _PPPPP&&&&&&&&&&PPPPP_ ",
+        " _PPPPP&&&&&&&&&&PPPPP_ ",
+        " _PPPPPPP&&&&&&PPPPPPP_ ",
+        "  _PPPPPPPP&&PPPPPPPP_  ",
         "  _PPPPPPPPPPPPPPPPPP_  ",
         "   _PPPPPPPPPPPPPPPP_   ",
         "    __PPPPPPPPPPPP__    ",
         "      ___PPPPPP___      ",
         "         ______         "
       ],
-      "terrain": {
-        "#": "t_region_soil",
-        "&": "t_region_soil",
-        " ": "t_region_groundcover_urban",
-        "P": "t_region_soil",
-        "_": "t_region_soil"
-      },
-      "furniture": {
-        "#": [ [ "f_rubble", 6 ], [ "f_rubble_rock", 2 ], "f_wreckage", [ "f_null", 4 ] ],
-        "&": [ [ "f_rubble", 6 ], [ "f_rubble_rock", 2 ], "f_wreckage" ],
-        "P": [ [ "f_rubble", 6 ], [ "f_rubble_rock", 2 ], "f_wreckage", [ "f_null", 12 ] ]
-      },
-      "items": {
-        "&": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
-          { "item": "road", "chance": 2 },
-          { "item": "allclothes_damaged", "chance": 3 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
-          { "item": "garden_shed", "chance": 2 },
-          { "item": "homebooks", "chance": 2 },
-          { "item": "wheels", "chance": 2 },
-          { "item": "electronics", "chance": 2 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "hardware", "chance": 2 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ],
-        "#": [
-          { "item": "trash", "chance": 35 },
-          { "item": "road", "chance": 1 },
-          { "item": "allclothes_damaged", "chance": 2 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
-          { "item": "garden_shed", "chance": 1 },
-          { "item": "homebooks", "chance": 1 },
-          { "item": "wheels", "chance": 1 },
-          { "item": "electronics", "chance": 2 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "hardware", "chance": 1 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ],
-        "P": [
-          { "item": "trash", "chance": 15 },
-          { "item": "road", "chance": 1 },
-          { "item": "allclothes_damaged", "chance": 1 },
-          { "item": "oven", "chance": 1 },
-          { "item": "wheels", "chance": 1 },
-          { "item": "garden_shed", "chance": 1 },
-          { "item": "hardware", "chance": 1 },
-          { "item": "misc_smoking", "chance": 1 }
-        ]
-      },
+      "palettes": [ "dump_palette" ],
       "place_signs": [ { "signage": "DUMP", "x": 1, "y": 1 }, { "signage": "DUMP", "x": 22, "y": 1 } ]
     }
   },
@@ -267,11 +124,11 @@
         "   __________________   ",
         "  ____________________  ",
         "  ____________________  ",
-        "  _______rrrrrr_______  ",
-        "  ____rrrrrrrrrrrr____  ",
-        "  __rrrrrrrrrrrrrrrr__  ",
-        "  __rrrrrrr^^rrrrrrr__  ",
-        "  _rrrr^^^^^^^^^^rrrr_  ",
+        "  _______&&&&&&_______  ",
+        "  ____&&&&&&&&&&&&____  ",
+        "  __&&&&&&&&&&&&&&&&__  ",
+        "  __&&&&&&&^^&&&&&&&__  ",
+        "  _&&&&^^^^^^^^^^&&&&_  ",
         "  ^^^^^^^^^^^^^^^^^^^^  ",
         "  ^^^^^^^^^^^^^^^^^^^^  ",
         "  |^^^^^^^^^^^^^^^^^^|  ",
@@ -282,54 +139,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": "t_region_groundcover_urban",
-        "7": "t_region_tree",
-        "^": "t_region_groundcover_barren",
-        "_": "t_region_groundcover_barren",
-        "r": "t_region_groundcover_barren",
-        "|": "t_concrete_wall"
-      },
-      "furniture": {
-        "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
-        "r": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
-      },
-      "items": {
-        "^": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
-          { "item": "road", "chance": 2 },
-          { "item": "allclothes_damaged", "chance": 3 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
-          { "item": "garden_shed", "chance": 2 },
-          { "item": "homebooks", "chance": 2 },
-          { "item": "electronics", "chance": 2 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "barrels", "chance": 1 },
-          { "item": "hardware", "chance": 2 },
-          { "item": "wheels", "chance": 1 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ],
-        "r": [
-          { "item": "trash", "chance": 35 },
-          { "item": "road", "chance": 1 },
-          { "item": "allclothes_damaged", "chance": 2 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
-          { "item": "garden_shed", "chance": 1 },
-          { "item": "homebooks", "chance": 1 },
-          { "item": "wheels", "chance": 1 },
-          { "item": "electronics", "chance": 1 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "barrels", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "hardware", "chance": 1 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ]
-      },
+      "palettes": [ "dump_palette" ],
       "place_signs": [ { "signage": "<city> Area Dump", "x": 17, "y": 2 } ]
     }
   },
@@ -347,14 +157,14 @@
         "    ________________    ",
         "   __________________   ",
         "   __________________   ",
-        "  _____rrrrrrrrrr_____  ",
-        "  ___rrrrrrrrrrrrrr___  ",
-        "  __rrrrrrrrrrrrrrrr__  ",
-        "  _rrrrrrrrrrrrrrrrrr_  ",
-        "  _rrrrrrrrrrrrrrrrrr_  ",
-        "  _rrrrrrrrrrrrrrrrrr_  ",
-        "  _rrr^^^^^^^^^^^^rrr_  ",
-        "  _r^^^^^^^^^^^^^^^^r_  ",
+        "  _____&&&&&&&&&&_____  ",
+        "  ___&&&&&&&&&&&&&&___  ",
+        "  __&&&&&&&&&&&&&&&&__  ",
+        "  _&&&&&&&&&&&&&&&&&&_  ",
+        "  _&&&&&&&&&&&&&&&&&&_  ",
+        "  _&&&&&&&&&&&&&&&&&&_  ",
+        "  _&&&^^^^^^^^^^^^&&&_  ",
+        "  _&^^^^^^^^^^^^^^^^&_  ",
         "  _^^^^^^^^^^^^^^^^^^_  ",
         "  _^^^^^^^^^^^^^^^^^^_  ",
         "  _^^^^^^^^^^^^^^^^^^_  ",
@@ -365,46 +175,10 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_region_groundcover_urban", "^": "t_region_soil", "_": "t_region_groundcover_barren", "r": "t_region_soil" },
+      "palettes": [ "dump_palette" ],
       "furniture": {
         "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
         "r": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
-      },
-      "items": {
-        "^": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
-          { "item": "road", "chance": 2 },
-          { "item": "allclothes_damaged", "chance": 3 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 2 },
-          { "item": "garden_shed", "chance": 2 },
-          { "item": "homebooks", "chance": 2 },
-          { "item": "electronics", "chance": 2 },
-          { "item": "wheels", "chance": 2 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "barrels", "chance": 1 },
-          { "item": "hardware", "chance": 2 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ],
-        "r": [
-          { "item": "trash", "chance": 35 },
-          { "item": "road", "chance": 1 },
-          { "item": "allclothes_damaged", "chance": 2 },
-          { "item": "stoner", "chance": 1 },
-          { "item": "oven", "chance": 1 },
-          { "item": "wheels", "chance": 1 },
-          { "item": "garden_shed", "chance": 1 },
-          { "item": "homebooks", "chance": 1 },
-          { "item": "electronics", "chance": 1 },
-          { "item": "creepy", "chance": 1 },
-          { "item": "chem_home", "chance": 1 },
-          { "item": "barrels", "chance": 1 },
-          { "item": "hardware", "chance": 1 },
-          { "item": "misc_smoking", "chance": 1 },
-          { "item": "tools_home", "chance": 1 }
-        ]
       }
     }
   }

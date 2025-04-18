@@ -9,9 +9,9 @@
       {
         "collection": [
           { "item": "chain", "prob": 30, "count": [ 2, 15 ] },
-          { "item": "steel_chunk", "prob": 40, "count": [ 2, 10 ] },
+          { "item": "mc_steel_chunk", "prob": 40, "count": [ 2, 10 ] },
           { "item": "spring", "prob": 20, "count": [ 2, 10 ] },
-          { "item": "steel_lump", "prob": 40, "count": [ 1, 5 ] },
+          { "item": "mc_steel_lump", "prob": 40, "count": [ 1, 5 ] },
           { "item": "frame", "prob": 10, "count": [ 1, 10 ] },
           { "item": "frame", "prob": 10, "count": [ 1, 5 ] },
           { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
@@ -64,7 +64,11 @@
         "prob": 5
       },
       {
-        "collection": [ { "item": "exodiiminimag", "count": [ 2, 5 ] }, { "item": "exodiiBRmag", "count": [ 2, 3 ] } ],
+        "collection": [
+          { "item": "exodiiminimag", "count": [ 2, 5 ] },
+          { "item": "exodiiBRmag", "count": [ 2, 3 ] },
+          { "item": "exodiiBRmag_26", "count": [ 3, 5 ] }
+        ],
         "prob": 5
       },
       {
@@ -89,6 +93,8 @@
         "collection": [
           { "item": "exodiiminimag", "count": [ 2, 3 ] },
           { "item": "exodiiBRmag", "count": [ 1, 2 ] },
+          { "item": "exodiiBRmag_153", "count": [ 0, 1 ] },
+          { "item": "exodiiBRmag_26", "count": [ 2, 4 ] },
           { "item": "123ln", "count": [ 0, 100 ] }
         ],
         "prob": 5
@@ -148,7 +154,7 @@
         "collection": [
           { "item": "chem_agar", "prob": 20 },
           { "item": "lye", "prob": 45 },
-          { "item": "lye_powder", "prob": 20, "charges": [ 100, 200 ] },
+          { "group": "lye_powder_bottle_part", "prob": 20 },
           { "item": "chem_sulphur", "prob": 30, "charges": [ 100, -1 ], "container-item": "bottle_plastic_small" },
           { "item": "chem_peptone_broth", "prob": 95 }
         ],
@@ -163,7 +169,7 @@
       [ "exodii_sensor", 20 ],
       [ "exodii_motor", 30 ],
       [ "spring", 50 ],
-      [ "steel_lump", 10 ],
+      [ "ch_steel_lump", 10 ],
       [ "pipe", 10 ],
       [ "frame", 20 ],
       [ "hdframe", 20 ],

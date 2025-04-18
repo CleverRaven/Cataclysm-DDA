@@ -2,8 +2,12 @@
 #ifndef CATA_SRC_STOMACH_H
 #define CATA_SRC_STOMACH_H
 
+#include <cstdint>
 #include <map>
+#include <string>
+#include <utility>
 #include <variant>
+#include <vector>
 
 #include "calendar.h"
 #include "type_id.h"
@@ -20,7 +24,7 @@ using mass = units::quantity<int, units::mass_in_microgram_tag>;
 
 constexpr mass microgram = units::quantity<int, units::mass_in_microgram_tag>( 1, {} );
 constexpr mass milligram = units::quantity<int, units::mass_in_microgram_tag>( 1000, {} );
-constexpr mass gram = units::quantity<int, units::mass_in_microgram_tag>( 1'000'000, {} );
+constexpr mass gram = units::quantity<int, units::mass_in_microgram_tag>( 1000000, {} );
 const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "ug", microgram },
         { "μg", microgram },
@@ -34,6 +38,7 @@ const std::vector<std::pair<std::string, mass>> mass_units = { {
 // Separate struct for nutrients so that we can easily perform arithmetic on
 // them
 struct nutrients {
+        friend struct islot_comestible; //this is for loading vitamins from JSON only
         /** amount of calories (1/1000s of kcal) this food has */
         int64_t calories = 0;
 
@@ -46,7 +51,7 @@ struct nutrients {
         std::map<vitamin_id, int> vitamins() const;
 
         // For vitamins that support units::mass quantities
-        // If finalized == true, these will instantly convert to units,
+        // If finalized == true, these will instantly convert to int,
         // so make sure finalized = false if you call these before vitamins are loaded
         void set_vitamin( const vitamin_id &, vitamin_units::mass mass );
         void add_vitamin( const vitamin_id &, vitamin_units::mass mass );
@@ -97,7 +102,8 @@ struct nutrients {
 
     private:
         /** vitamins potentially provided by this comestible (if any) */
-        std::map<vitamin_id, std::variant<int, vitamin_units::mass>> vitamins_; // NOLINT(cata-serialize)
+        std::map<vitamin_id, std::variant<int, vitamin_units::mass>>
+                vitamins_; // NOLINT(cata-serialize)
 };
 
 // Contains all information that can pass out of (or into) a stomach

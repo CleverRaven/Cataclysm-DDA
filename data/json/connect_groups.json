@@ -1,9 +1,7 @@
 [
   {
     "type": "connect_group",
-    "id": "WALL",
-    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
-    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
+    "id": "WALL"
   },
   {
     "type": "connect_group",
@@ -135,8 +133,10 @@
   },
   {
     "type": "connect_group",
-    "id": "INDOORFLOOR",
-    "group_flags": [ "INDOORS" ],
-    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+    "id": "INDOORFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "BEACH_FORMATIONS"
   }
 ]

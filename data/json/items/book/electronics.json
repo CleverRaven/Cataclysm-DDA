@@ -12,13 +12,13 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 2,
     "max_level": 5,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "arduino_experiments",
@@ -33,13 +33,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 2,
     "max_level": 4,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "mag_electronics",
@@ -54,11 +54,11 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "electronics",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "manual_electronics",
@@ -73,10 +73,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "skill": "electronics",
     "max_level": 3,
     "intelligence": 7,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "electronics"
   },
   {
     "id": "ic_reference_electronics",
@@ -93,7 +93,7 @@
     "color": "green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -2
+    "read_fun": -2
   },
   {
     "id": "radio_book",
@@ -108,13 +108,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 4,
     "max_level": 8,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "recipe_atomic_battery",
@@ -129,11 +129,11 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 6,
     "intelligence": 12,
     "time": "60 m",
-    "fun": -3
+    "read_skill": "electronics",
+    "read_fun": -3
   },
   {
     "id": "recipe_augs",
@@ -151,12 +151,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "electronics",
     "required_level": 4,
     "max_level": 5,
     "intelligence": 10,
     "time": "45 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "recipe_lab_elec",
@@ -171,12 +171,12 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 5,
     "max_level": 8,
     "intelligence": 13,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "electronics",
+    "read_fun": -2
   },
   {
     "id": "recipe_mil_augs",
@@ -192,12 +192,12 @@
     "symbol": "?",
     "looks_like": "recipe_lab_elec",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 12,
     "time": "45 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "repeater_mod_guide",
@@ -212,12 +212,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 2,
     "intelligence": 10,
     "time": "20 m",
-    "fun": -1,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "textbook_electronics",
@@ -232,13 +232,13 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "textbook_robots",
@@ -253,13 +253,13 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "electronics",
     "required_level": 5,
     "max_level": 10,
     "intelligence": 12,
     "time": "55 m",
-    "fun": -1,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "robofac_yrax_trifacet_deactivation_manual",
@@ -274,12 +274,12 @@
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 12,
     "time": "45 m",
-    "fun": 1
+    "read_skill": "electronics",
+    "read_fun": 1
   },
   {
     "id": "exodii_wiring_kit_reference",
@@ -293,12 +293,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 4,
     "max_level": 4,
     "intelligence": 10,
     "time": "30 m",
-    "fun": -1
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "schematics_nursebot",

@@ -1,13 +1,11 @@
 #include "vitamin.h"
 
-#include <cstdlib>
 #include <map>
 
-#include "assign.h"
 #include "calendar.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "json.h"
+#include "flexbuffer_json.h"
 #include "options.h"
 #include "units.h"
 #include "units_utility.h"
@@ -127,7 +125,7 @@ float vitamin::RDA_to_default( int percent ) const
     if( type_ != vitamin_type::VITAMIN ) {
         return percent;
     }
-    return ( 24_hours / rate_ ) * ( static_cast<float>( percent ) / 100.0f );
+    return 24_hours * ( percent / 100.0f ) / rate_;
 }
 
 int vitamin::units_absorption_per_day() const

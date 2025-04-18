@@ -49,8 +49,8 @@
     "entries": [
       { "group": "coins", "damage": [ 0, 1 ], "prob": 25, "count": [ 1, 10 ] },
       { "group": "silverware", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 3 ] },
-      { "group": "looted_store", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 2 ] },
-      { "group": "hardware_trash", "damage": [ 0, 3 ], "prob": 25, "count": [ 1, 2 ] }
+      { "group": "SUS_trash_floor", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 2 ] },
+      { "group": "SUS_trash_hardware", "damage": [ 0, 3 ], "prob": 25, "count": [ 1, 2 ] }
     ]
   },
   {

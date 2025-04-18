@@ -1,0 +1,288 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_ARVORE_GAIN_TRAIT_FROM_PASSIVE_POWER_CHECKER",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": { "u_has_trait": "ARVORE" },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE" } },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" },
+            {
+              "or": [
+                {
+                  "and": [
+                    "u_is_outside",
+                    { "not": { "math": [ "u_val('pos_z') <= -1" ] } },
+                    { "u_near_om_location": "forest", "range": 2 },
+                    { "not": { "u_at_om_location": "field" } }
+                  ]
+                },
+                {
+                  "and": [
+                    "u_is_outside",
+                    { "not": { "math": [ "u_val('pos_z') <= -1" ] } },
+                    { "u_near_om_location": "forest_thick", "range": 2 },
+                    { "not": { "u_at_om_location": "field" } }
+                  ]
+                },
+                { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+                { "u_is_on_terrain": "t_barkfloor" }
+              ]
+            }
+          ]
+        },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "else": {
+          "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
+          "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_paraclesian_passive_mutation_value", ">=", "500" ] },
+            { "math": [ "u_vitamin('mutagen')", "==", "0" ] }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER" },
+          { "math": [ "u_paraclesian_passive_mutation_value", "-=", "500" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_HOMULLUS_GAIN_TRAIT_FROM_PASSIVE_POWER_CHECKER",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": { "u_has_trait": "HOMULLUS" },
+    "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
+    "effect": [
+      { "u_location_variable": { "context_val": "check_loc" } },
+      {
+        "if": {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
+            { "map_in_city": { "context_val": "check_loc" } }
+          ]
+        },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "else": {
+          "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
+          "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_paraclesian_passive_mutation_value", ">=", "500" ] },
+            { "math": [ "u_vitamin('mutagen')", "==", "0" ] }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER" },
+          { "math": [ "u_paraclesian_passive_mutation_value", "-=", "500" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_IERDE_GAIN_TRAIT_FROM_PASSIVE_POWER_CHECKER",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": { "u_has_trait": "IERDE" },
+    "deactivate_condition": { "not": { "u_has_trait": "IERDE" } },
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "math": [ "u_val('pos_z') <= -1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_grass_alien" } },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            },
+            { "u_at_om_location": "ierde_genius_loci_NW" },
+            { "u_at_om_location": "ierde_genius_loci_NE" },
+            { "u_at_om_location": "ierde_genius_loci_SW" },
+            { "u_at_om_location": "ierde_genius_loci_SE" }
+          ]
+        },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "else": {
+          "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
+          "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_paraclesian_passive_mutation_value", ">=", "500" ] },
+            { "math": [ "u_vitamin('mutagen')", "==", "0" ] }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER" },
+          { "math": [ "u_paraclesian_passive_mutation_value", "-=", "500" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_SALAMANDER_GAIN_TRAIT_FROM_PASSIVE_POWER_CHECKER",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": { "u_has_trait": "SALAMANDER" },
+    "deactivate_condition": { "not": { "u_has_trait": "SALAMANDER" } },
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "u_has_item": "torch_lit" },
+            { "u_has_item": "candle_lit" },
+            { "u_has_item": "oil_lamp_on" },
+            { "u_has_item": "oil_lamp_clay_on" },
+            { "u_has_item": "cigar_lit" },
+            { "u_has_item": "cig_lit" },
+            { "math": [ "u_salamander_near_fire == 1" ] },
+            { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] }
+          ]
+        },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "else": {
+          "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
+          "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_paraclesian_passive_mutation_value", ">=", "500" ] },
+            { "math": [ "u_vitamin('mutagen')", "==", "0" ] }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER" },
+          { "math": [ "u_paraclesian_passive_mutation_value", "-=", "500" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_SYLPH_GAIN_TRAIT_FROM_PASSIVE_POWER_CHECKER",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": { "u_has_trait": "SYLPH" },
+    "deactivate_condition": { "not": { "u_has_trait": "SYLPH" } },
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, "u_is_outside" ] },
+            { "and": [ { "math": [ "weather('windpower') >= 15" ] }, "u_is_outside" ] },
+            {
+              "and": [
+                "u_is_outside",
+                {
+                  "or": [
+                    { "is_weather": "thunder" },
+                    { "is_weather": "lightning" },
+                    { "is_weather": "rain" },
+                    { "is_weather": "rainstorm" },
+                    { "is_weather": "drizzle" }
+                  ]
+                }
+              ]
+            },
+            { "u_at_om_location": "sylph_genius_loci_NW" },
+            { "u_at_om_location": "sylph_genius_loci_NE" },
+            { "u_at_om_location": "sylph_genius_loci_SW" },
+            { "u_at_om_location": "sylph_genius_loci_SE" }
+          ]
+        },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "else": {
+          "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
+          "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_paraclesian_passive_mutation_value", ">=", "500" ] },
+            { "math": [ "u_vitamin('mutagen')", "==", "0" ] }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER" },
+          { "math": [ "u_paraclesian_passive_mutation_value", "-=", "500" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_UNDINE_GAIN_TRAIT_FROM_PASSIVE_POWER_CHECKER",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": { "u_has_trait": "UNDINE" },
+    "deactivate_condition": { "not": { "u_has_trait": "UNDINE" } },
+    "effect": [
+      {
+        "if": {
+          "or": [ { "math": [ "u_undine_is_connected_to_waters == 1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
+        },
+        "then": { "math": [ "u_paraclesian_passive_mutation_value", "+=", "1 " ] },
+        "else": {
+          "if": { "math": [ "u_paraclesian_passive_mutation_value", ">", "0 " ] },
+          "then": { "math": [ "u_paraclesian_passive_mutation_value", "-=", "1 " ] }
+        }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_paraclesian_passive_mutation_value", ">=", "500" ] },
+            { "math": [ "u_vitamin('mutagen')", "==", "0" ] }
+          ]
+        },
+        "then": [
+          { "run_eocs": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER" },
+          { "math": [ "u_paraclesian_passive_mutation_value", "-=", "500" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_GAIN_TRAIT_FROM_PASSIVE_POWER",
+    "condition": { "math": [ "u_vitamin('mutagen')", "==", "0" ] },
+    "effect": [
+      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] },
+      { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin')", "+=", "550 " ] } },
+      { "if": { "u_has_trait": "UNDINE" }, "then": { "math": [ "u_vitamin('mutagen_waterkin')", "+=", "550 " ] } },
+      { "if": { "u_has_trait": "SALAMANDER" }, "then": { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "550 " ] } },
+      { "if": { "u_has_trait": "SYLPH" }, "then": { "math": [ "u_vitamin('mutagen_airkin')", "+=", "550 " ] } },
+      { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "550 " ] } },
+      { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "550 " ] } },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_earthkin')", "=", "0 " ] },
+      { "math": [ "u_vitamin('mutagen_waterkin')", "=", "0 " ] },
+      { "math": [ "u_vitamin('mutagen_flamekin')", "=", "0 " ] },
+      { "math": [ "u_vitamin('mutagen_airkin')", "=", "0 " ] },
+      { "math": [ "u_vitamin('mutagen_dollkin')", "=", "0 " ] },
+      { "math": [ "u_vitamin('mutagen_plantkin')", "=", "0 " ] }
+    ]
+  }
+]

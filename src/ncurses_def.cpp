@@ -41,6 +41,10 @@
 #include <langinfo.h>
 #endif
 
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
+
 std::unique_ptr<cataimgui::client> imclient;
 
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
@@ -361,6 +365,14 @@ void catacurses::init_interface()
     // The below line tries to force the mouse pointer events to be turned on anyway. ImTui misbehaves without them.
     printf( "\033[?1003h\n" );
 #endif
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif
 }
 
 bool catacurses::supports_256_colors()
@@ -408,6 +420,9 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
         previously_pressed_key = 0;
         // flush any output
         catacurses::doupdate();
+        // could also just do this each time a window is created to ensure every ncurses window has this property,
+        // but this function is virtually free anyway
+        nodelay( stdscr, true );
         key = getch();
         if( key != ERR ) {
             int newch;
@@ -557,18 +572,18 @@ void ensure_term_size()
     while( TERMY < minHeight || TERMX < minWidth ) {
         catacurses::erase();
         if( TERMY < minHeight && TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
                                "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
                             minWidth, minHeight, TERMX, TERMY );
         } else if( TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
                                "requires a minimum terminal size of %dx%d to function.  It just won't work "
                                "with only %dx%d.  Can you stretch it out sideways a bit?" ),
                             minWidth, minHeight, TERMX, TERMY );
         } else {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Woah, woah, we're just a little short on space here.  The game requires a "
                                "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
                                "make the terminal just a smidgen taller?" ),
@@ -600,7 +615,7 @@ void check_encoding()
                    "characters (e.g. empty boxes or question marks). You have been warned." );
             catacurses::erase();
             const int maxx = getmaxx( catacurses::stdscr );
-            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white, unicode_error_msg );
+            fold_and_print( catacurses::stdscr, point::zero, maxx, c_white, unicode_error_msg );
             catacurses::refresh();
             // do not use input_manager or input_context here to avoid re-entry
             key = getch();

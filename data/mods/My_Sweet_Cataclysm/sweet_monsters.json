@@ -42,7 +42,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "marshmallow_boy",
-    "upgrades": { "half_life": 14, "into": "mon_marshmallow_guy" },
+    "upgrades": { "half_life": 56, "into": "mon_marshmallow_guy" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "NO_BREATHE" ]
   },
   {
@@ -66,7 +66,7 @@
     "melee_dice_sides": 3,
     "vision_night": 3,
     "harvest": "marshmallow_boy",
-    "upgrades": { "half_life": 14, "into": "mon_marshmallow_buff" },
+    "upgrades": { "half_life": 56, "into": "mon_marshmallow_buff" },
     "reproduction": { "baby_type": { "baby_egg": "marshmallow" }, "baby_count": 5, "baby_timer": 14 },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
   },
@@ -93,7 +93,7 @@
     "vision_night": 4,
     "harvest": "marshmallow_boy",
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "upgrades": { "half_life": 21, "into": "mon_marshmallow_goliath" },
+    "upgrades": { "half_life": 84, "into": "mon_marshmallow_goliath" },
     "reproduction": { "baby_type": { "baby_egg": "marshmallow" }, "baby_count": 7, "baby_timer": 12 },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON", "PUSH_VEH" ],
     "armor": { "bash": 2, "cut": 3, "bullet": 2 }
@@ -146,7 +146,7 @@
     "copy-from": "mon_marshmallow_kid",
     "color": "white_red",
     "harvest": "armored_marshmallow_boy",
-    "upgrades": { "half_life": 14, "into": "mon_marshmallow_guy_armored" },
+    "upgrades": { "half_life": 56, "into": "mon_marshmallow_guy_armored" },
     "armor": { "bash": 2, "cut": 3, "bullet": 2 }
   },
   {
@@ -158,7 +158,7 @@
     "copy-from": "mon_marshmallow_guy",
     "color": "white_magenta",
     "harvest": "armored_marshmallow_boy",
-    "upgrades": { "half_life": 14, "into": "mon_marshmallow_buff_armored" },
+    "upgrades": { "half_life": 56, "into": "mon_marshmallow_buff_armored" },
     "reproduction": { "baby_type": { "baby_egg": "smores" }, "baby_count": 5, "baby_timer": 14 },
     "armor": { "bash": 3, "cut": 4, "bullet": 3 }
   },
@@ -171,7 +171,7 @@
     "copy-from": "mon_marshmallow_buff",
     "color": "yellow_magenta",
     "harvest": "armored_marshmallow_boy",
-    "upgrades": { "half_life": 14, "into": "mon_marshmallow_goliath_armored" },
+    "upgrades": { "half_life": 56, "into": "mon_marshmallow_goliath_armored" },
     "reproduction": { "baby_type": { "baby_egg": "smores" }, "baby_count": 7, "baby_timer": 12 },
     "armor": { "bash": 6, "cut": 7, "bullet": 6 }
   },
@@ -184,6 +184,7 @@
     "copy-from": "mon_marshmallow_goliath",
     "symbol": "M",
     "color": "brown_magenta",
+    "harvest": "armored_marshmallow_boy",
     "reproduction": { "baby_type": { "baby_egg": "smores" }, "baby_count": 10, "baby_timer": 10 },
     "armor": { "bash": 9, "cut": 11, "bullet": 9 }
   },
@@ -205,7 +206,7 @@
     "melee_dice_sides": 3,
     "dodge": 2,
     "harvest": "gummy_bear",
-    "upgrades": { "half_life": 20, "into": "mon_gummy" }
+    "upgrades": { "half_life": 80, "into": "mon_gummy" }
   },
   {
     "id": "mon_gummy",
@@ -310,7 +311,7 @@
     "vision_night": 3,
     "harvest": "cracker_boy",
     "special_attacks": [ [ "scratch", 10 ] ],
-    "upgrades": { "half_life": 15, "into": "mon_cracker" },
+    "upgrades": { "half_life": 60, "into": "mon_cracker" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ],
     "armor": { "cut": 10, "stab": 25, "bullet": 8 }
   },

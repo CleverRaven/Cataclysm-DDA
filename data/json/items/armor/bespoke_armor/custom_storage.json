@@ -528,7 +528,6 @@
     "symbol": "[",
     "looks_like": "legrig",
     "color": "brown",
-    "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -650,7 +649,8 @@
         "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
         "volume_encumber_modifier": 0.2
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "nomad_rig_on",

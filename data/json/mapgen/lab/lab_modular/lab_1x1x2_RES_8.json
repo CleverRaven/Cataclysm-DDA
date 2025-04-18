@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_maintenance",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -51,7 +50,6 @@
     "method": "json",
     "om_terrain": "lab_1x1_RES_8_bedrooms_security",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -110,7 +108,6 @@
     "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_SEC" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -244,7 +241,6 @@
     "method": "json",
     "om_terrain": [ "lab_1x1_RES_8_commons_MAINT" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

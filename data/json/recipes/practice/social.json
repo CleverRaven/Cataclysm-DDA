@@ -6,13 +6,13 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_SOCIAL",
     "name": "social (beginner)",
-    "description": "Practice speaking in front of a mirror to improve your poise and eloquence and project confidence.",
+    "description": "Practice speaking in front of a mirror or in front of a device with a front-facing camera to improve your poise and eloquence and project confidence.",
     "skill_used": "speech",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "speech", 2 ] ],
     "book_learn": [ [ "manual_business", 1 ], [ "manual_speech", 1 ] ],
-    "tools": [ [ "mirror" ] ]
+    "tools": [ [ [ "mirror", -1 ], [ "laptop", 10 ], [ "smart_phone", 5 ] ] ]
   },
   {
     "id": "prac_speech_int",
@@ -21,13 +21,13 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_SOCIAL",
     "name": "social (intermediate)",
-    "description": "Practice advanced persuasion and negotiation techniques while acting out both sides of a dialogue in front of a mirror.",
+    "description": "Practice advanced persuasion and negotiation techniques while acting out both sides of a dialogue in front of a mirror or in front of a device with a front-facing camera to improve your poise and eloquence and project confidence.",
     "skill_used": "speech",
     "time": "1 h",
     "practice_data": { "min_difficulty": 3, "max_difficulty": 5, "skill_limit": 6 },
     "autolearn": [ [ "speech", 5 ] ],
     "book_learn": [ [ "textbook_speech", 4 ] ],
-    "tools": [ [ "mirror" ] ]
+    "tools": [ [ [ "mirror", -1 ], [ "laptop", 10 ], [ "smart_phone", 5 ] ] ]
   },
   {
     "type": "practice",

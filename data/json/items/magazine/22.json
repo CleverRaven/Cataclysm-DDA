@@ -451,5 +451,31 @@
     "ammo_type": [ "22" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
+  },
+  {
+    "id": "sr22_mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": ".22 plinking handgun magazine" },
+    "description": "A 10-round magazine for the plinking handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sr22_mag",
+        "name": { "str": "SR22 magazine" },
+        "description": "A magazine for the SR22 pistol, holding 10 rounds of .22 LR."
+      }
+    ],
+    "weight": "91 g",
+    "volume": "44 ml",
+    "longest_side": "113 mm",
+    "price": "37 USD 95 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   }
 ]

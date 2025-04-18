@@ -128,6 +128,7 @@
       "z": "f_cupboard",
       "Z": "f_cupboard"
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   },
   {
@@ -223,6 +224,7 @@
       "x": "f_entertainment_center",
       "Y": "f_null"
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } },
     "nested": { "@": { "chunks": [ "ret_comm_home" ] } }
   },
@@ -417,6 +419,7 @@
       "C": "f_speaker_cabinet",
       "k": "f_sink"
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   }
 ]

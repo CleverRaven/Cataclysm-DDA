@@ -1,16 +1,22 @@
 #include "string_input_popup.h"
 
 #include <cctype>
+#include <climits>
 
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
+#include "condition.h"
+#include "flexbuffer_json.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
+#include "translation.h"
 #include "translations.h"
 #include "try_parse_integer.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "wcwidth.h"
@@ -234,9 +240,11 @@ void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
 
         if( !_title.empty() ) {
             int pos_y = 0;
+            wattron( w_title_and_entry, _title_color );
             for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-                mvwprintz( w_title_and_entry, point( i, pos_y++ ), _title_color, title_split[i] );
+                mvwprintw( w_title_and_entry, point( i, pos_y++ ), title_split[i] );
             }
+            wattroff( w_title_and_entry, _title_color );
             trim_and_print( w_title_and_entry, point( 0, pos_y ), titlesize, _title_color, title_split.back() );
         }
     }
@@ -690,9 +698,6 @@ string_input_params string_input_params::parse_string_input_params( const JsonOb
     if( jo.has_member( "identifier" ) ) {
         const JsonValue &jv_identifier = jo.get_member( "identifier" );
         p.identifier = get_str_or_var( jv_identifier, "" );
-    }
-    if( jo.has_bool( "only_digits" ) ) {
-        p.only_digits = jo.get_bool( "only_digits" );
     }
     return p;
 }

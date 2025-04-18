@@ -18,7 +18,6 @@
     "method": "json",
     "om_terrain": [ "house_dogs" ],
     "//": "uses house_08_basement",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

@@ -29,7 +29,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "breaks_into": [ { "item": "mc_steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "extend": { "flags": [ "MUSCLE_LEGS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
   },
@@ -49,7 +49,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "breaks_into": [ { "item": "mc_steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "extend": { "flags": [ "MUSCLE_ARMS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
   },

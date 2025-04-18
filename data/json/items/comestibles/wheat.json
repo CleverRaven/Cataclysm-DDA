@@ -595,7 +595,7 @@
     "color": "brown",
     "calories": 278,
     "fun": 4,
-    "spoils_in": 420,
+    "spoils_in": "17 days",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },

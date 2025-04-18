@@ -13,11 +13,11 @@
     "symbol": "?",
     "looks_like": "adv_chemistry",
     "color": "green",
-    "skill": "chemistry",
     "required_level": 10,
     "max_level": 10,
     "intelligence": 16,
     "time": "35 m",
-    "fun": -3
+    "read_skill": "chemistry",
+    "read_fun": -3
   }
 ]

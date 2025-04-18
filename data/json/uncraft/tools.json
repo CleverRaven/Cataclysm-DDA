@@ -37,7 +37,7 @@
     "difficulty": 1,
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "ch_steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "carver_off",
@@ -306,5 +306,31 @@
     "difficulty": 1,
     "time": "2 m",
     "components": [ [ [ "pot_canning_clay", 1 ] ], [ [ "clay_pot", 1 ] ], [ [ "fire_brick", 2 ] ] ]
+  },
+  {
+    "result": "60mm_propellant",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "difficulty": 1,
+    "time": "20 seconds",
+    "components": [ [ [ "chem_compositionb", 8 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "shovel_snow",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "plank_short", 1 ] ], [ [ "sheet_metal_small", 1 ] ], [ [ "splinter", 2 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "rake",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "plank_short", 1 ] ], [ [ "wire", 1 ] ], [ [ "scrap", 2 ] ] ]
   }
 ]

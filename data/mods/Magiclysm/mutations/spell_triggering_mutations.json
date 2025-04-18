@@ -1,0 +1,246 @@
+[
+  {
+    "type": "mutation",
+    "id": "COLD_AURA_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Cold Aura" },
+    "points": 0,
+    "active": true,
+    "description": "Your presence is so dangerous you can freeze everything around yourself.  You are currently suppressing this power.",
+    "transform": { "target": "COLD_AURA_ON", "msg_transform": "Everything around you is covered in frost!", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "COLD_AURA_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Cold Aura (on)" },
+    "points": -1,
+    "description": "Your presence is so dangerous you can freeze everything around yourself.",
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "boreal_mage_cold_damage" } ] } ] }
+      }
+    ],
+    "transform": { "target": "COLD_AURA_OFF", "msg_transform": "You suppress your frozen powers.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "DUST_REBORN",
+    "name": { "str": "Split" },
+    "description": "Your body and soul were split in half, and part of it were left inside the ley-line, connected with your main body with tiniest, ethereal thread.  In danger situation, you will abandon your main body and turn back into copy, with all knowledge and skills you have.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "FROZEN_PRESSURE_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Frozen Pressure" },
+    "points": 0,
+    "active": true,
+    "description": "Your presence is so dangerous living creatures nearby are smashed.  You are currently suppressing this power.",
+    "transform": {
+      "target": "FROZEN_PRESSURE_ON",
+      "msg_transform": "Living creatures around you are crushed!",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "FROZEN_PRESSURE_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Frozen Pressure (on)" },
+    "points": 0,
+    "description": "Your presence is so dangerous living creatures nearby are smashed.",
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "glacier_mage_bash_damage" } ] } ] }
+      }
+    ],
+    "transform": { "target": "FROZEN_PRESSURE_OFF", "msg_transform": "You suppress your frozen pressure.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIRVOYANCE_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Rad Senses" },
+    "points": 0,
+    "active": true,
+    "description": "You can perceive radiation being emitted in your surroundings with sufficient precision to see while totally blind.  You suppress it now.",
+    "transform": { "target": "CLAIRVOYANCE_ON", "msg_transform": "You see everything!", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIRVOYANCE_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Rad Senses (on)" },
+    "points": 0,
+    "description": "You can perceive radiation being emitted in your surroundings with sufficient precision to see while totally blind.",
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "radiation_mage_clairvoyance" } ] } ] }
+      }
+    ],
+    "transform": { "target": "CLAIRVOYANCE_OFF", "msg_transform": "You suppress your rad senses.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "MIND_READ_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Mind Reading" },
+    "points": 0,
+    "active": true,
+    "description": "You can feel the living energy of creatures around you, which allows you to predict their movements or words.  You suppress it now.",
+    "transform": {
+      "target": "MIND_READ_ON",
+      "msg_transform": "You reach out with your powers, seeking nearby living beings.",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "MIND_READ_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Mind Reading (on)" },
+    "points": 0,
+    "description": "You can feel the living energy of creatures around you, which allows you to predict their movements or words.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "//": "can see every creature, not only one that has mind, for some reason",
+        "special_vision": [
+          {
+            "distance": { "math": [ "10 + (( u_spell_count('school': 'ANIMIST') + u_spell_count('school': 'DRUID')) / 2)" ] },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something here." } ]
+          }
+        ]
+      },
+      {
+        "values": [
+          { "value": "SOCIAL_INTIMIDATE", "add": 20 },
+          { "value": "SOCIAL_LIE", "add": 20 },
+          { "value": "SOCIAL_PERSUADE", "add": 20 }
+        ]
+      },
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "mind_read" } ] } ] }
+      }
+    ],
+    "transform": { "target": "MIND_READ_OFF", "msg_transform": "You suppress your mind abilities.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "SOUL_PRESSURE_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Soul Pressure" },
+    "points": 0,
+    "active": true,
+    "description": "Your presence is so dangerous you can burn living creatures around you.  You suppress it now.",
+    "transform": {
+      "target": "SOUL_PRESSURE_ON",
+      "msg_transform": "Living creatures around you start to burn!",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "SOUL_PRESSURE_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Soul Pressure (on)" },
+    "points": -1,
+    "description": "Your presence is so dangerous you can burn living creatures around you.",
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "soul_pressure" } ] } ] }
+      }
+    ],
+    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "FREEZING_AURA_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Freezing Aura" },
+    "points": 0,
+    "active": true,
+    "description": "Your body emits a large amount of cold energy, which freezes all enemies near you.  You suppress this ability now.",
+    "transform": { "target": "FREEZING_AURA_ON", "msg_transform": "Living creatures around you freezes!", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "FREEZING_AURA_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Freezing Aura (on)" },
+    "points": 0,
+    "description": "Your body emits a large amount of cold energy, which freezes all enemies near you.",
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "tundra_mage_aoe" } ] } ] }
+      }
+    ],
+    "transform": { "target": "FREEZING_AURA_OFF", "msg_transform": "You suppress your freezing aura.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "TOXIC_AURA_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Toxic Aura" },
+    "points": 0,
+    "active": true,
+    "description": "Your body can emit an aura of deadly toxins.  You suppress this ability now.",
+    "transform": { "target": "TOXIC_AURA_ON", "msg_transform": "Living creatures around you are poisoned!", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "TOXIC_AURA_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Toxic Aura (on)" },
+    "points": 0,
+    "description": "Your body can emit an aura of deadly toxins.",
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "wither_mage_bio_damage" } ] } ] }
+      }
+    ],
+    "transform": { "target": "TOXIC_AURA_OFF", "msg_transform": "You suppress your toxic aura.", "active": false, "moves": 10 }
+  }
+]

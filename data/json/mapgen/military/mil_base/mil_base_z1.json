@@ -8,7 +8,6 @@
       [ "mil_base_1c1", "mil_base_2c1", "mil_base_3c1", "mil_base_4c1" ],
       [ "mil_base_1d1", "mil_base_2d1", "mil_base_3d1", "mil_base_4d1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -37,16 +36,16 @@
         "                                                                      .....                     ",
         "                                                                      .....                     ",
         "                                                                     #######                ####",
-        "                                                                     #/www/#                #/ww",
-        "                                                                     #w,,,w#                #w,,",
-        "                                                                     #w,,,w#                #w,,",
-        "                                                                     #w,,,w#                #w,,",
-        "    #######                                                          #w,,>w#                #w>,",
-        "    #/www/#ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/w+w/#                #/w+",
-        "    #w,,>w#                                                          #######                ####",
-        "    #w,,,+#                                                                                     ",
-        "    #w,,,w#                                                                                     ",
-        "    #/www/#                                                                                     ",
+        "                                                                     #/OOO/#                #/OO",
+        "                                                                     #O,,,O#                #O,,",
+        "                                                                     #O,,,O#                #O,,",
+        "                                                                     #O,,,O#                #O,,",
+        "    #######                                                          #O,,>O#                #O>,",
+        "    #/OOO/#ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/O+O/#                #/O+",
+        "    #O,,>O#                                                          #######                ####",
+        "    #O,,,+#                                                                                     ",
+        "    #O,,,O#                                                                                     ",
+        "    #/OOO/#                                                                                     ",
         "    #######                                                                                     ",
         "     f                                                                                          ",
         "     f                                                                                          ",
@@ -110,7 +109,7 @@
         "     f                   ---------------------------5--                                         "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "'": "t_metal_floor_no_roof", ",": "t_thconc_floor", "/": "t_strconc_wall", "w": "t_window", "f": "t_fence_barbed" }
+      "terrain": { "'": "t_metal_floor_no_roof", ",": "t_thconc_floor", "/": "t_strconc_wall", "O": "t_window", "f": "t_fence_barbed" }
     }
   },
   {
@@ -122,7 +121,6 @@
       [ "mil_base_5c1", "mil_base_6c1", "mil_base_7c1", "mil_base_8c1" ],
       [ "mil_base_5d1", "mil_base_6d1", "mil_base_7d1", "mil_base_8d1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -151,16 +149,16 @@
         "                                              xxxxx                                             ",
         "                                                                                                ",
         "###                                                                                             ",
-        "w/#                                                                                             ",
-        ",w#                                                                                             ",
-        ",w#                                                                                             ",
-        ",w#                                                                                             ",
-        ",w#                                                                                  #######    ",
-        "w/#ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/www/#    ",
-        "###                                                                                  #w,,,w#    ",
-        "                                                                                     #+,,,w#    ",
-        "                                                                                     #w,,>w#    ",
-        "                                                                                     #/www/#    ",
+        "O/#                                                                                             ",
+        ",O#                                                                                             ",
+        ",O#                                                                                             ",
+        ",O#                                                                                             ",
+        ",O#                                                                                  #######    ",
+        "O/#ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/OOO/#    ",
+        "###                                                                                  #O,,,O#    ",
+        "                                                                                     #+,,,O#    ",
+        "                                                                                     #O,,>O#    ",
+        "                                                                                     #/OOO/#    ",
         "                                                                                     #######    ",
         "                                                                                          f     ",
         "                                                                                          f     ",
@@ -224,7 +222,7 @@
         "                                                                                          f     "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ",": "t_thconc_floor", "/": "t_strconc_wall", "w": "t_window", "f": "t_fence_barbed", "x": "t_canvas_roof" }
+      "terrain": { ",": "t_thconc_floor", "/": "t_strconc_wall", "O": "t_window", "f": "t_fence_barbed", "x": "t_canvas_roof" }
     }
   },
   {
@@ -235,7 +233,6 @@
       [ "mil_base_1f1", "mil_base_2f1", "mil_base_3f1", "mil_base_4f1" ],
       [ "mil_base_1g1", "mil_base_2g1", "mil_base_3g1", "mil_base_4g1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -301,11 +298,11 @@
         "     f                         ___________________________________                             -",
         "     f                         ___________________________________                             -",
         "    ######                     ___________________________________                             -",
-        "    #/www                      ___________________________________                             -",
-        "    #w,>                       ___________________________________                             -",
-        "    #w,,                       ___________________________________                             -",
-        "    #w,                        ___________________________________                             -",
-        "    #/w                        ___________________________________                             5",
+        "    #/OOO                      ___________________________________                             -",
+        "    #O,>                       ___________________________________                             -",
+        "    #O,,                       ___________________________________                             -",
+        "    #O,                        ___________________________________                             -",
+        "    #/O                        ___________________________________                             5",
         "    ###                        ___________________________________                              ",
         "     f                         ___________________________________                              ",
         "     f                         ___________________________________                              ",
@@ -317,7 +314,7 @@
         ",": "t_thconc_floor",
         "_": "t_concrete",
         "/": "t_strconc_wall",
-        "w": "t_window",
+        "O": "t_window",
         "+": "t_door_metal_locked",
         "E": "t_gates_mech_control",
         "f": "t_fence_barbed"
@@ -332,7 +329,6 @@
       [ "mil_base_5f1", "mil_base_6f1", "mil_base_7f1", "mil_base_8f1" ],
       [ "mil_base_5g1", "mil_base_6g1", "mil_base_7g1", "mil_base_8g1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -398,11 +394,11 @@
         "............................-       xxxxxxx  xxxxxxx              xxxxxxxxxxxxxxx         f     ",
         "............................-       xxxxxxx  xxxxxxx              xxxxxxxxxxxxxxx         f     ",
         "............................-       xxxxxxx  xxxxxxx              xxxxxxxxxxxxxxx    #######    ",
-        "..........5------------------       xxxxxxx  xxxxxxx              xxxxxxxxxxxxxxx    #/www/#    ",
-        "..........-                         xxxxxxx  xxxxxxx                                 #w,>,w#    ",
-        "..........-                         xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx   #+,,,w#    ",
-        "..........-                         xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx   #w,,,w#    ",
-        "-----------                         xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx   #/www/#    ",
+        "..........5------------------       xxxxxxx  xxxxxxx              xxxxxxxxxxxxxxx    #/OOO/#    ",
+        "..........-                         xxxxxxx  xxxxxxx                                 #O,>,O#    ",
+        "..........-                         xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx   #+,,,O#    ",
+        "..........-                         xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx   #O,,,O#    ",
+        "-----------                         xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx   #/OOO/#    ",
         "                                    xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx   #######    ",
         "                                    xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx        f     ",
         "                                    xxxxxxx  xxxxxxx               xxxxxxxxxxxxxxx        f     ",
@@ -414,7 +410,7 @@
         ",": "t_thconc_floor",
         "_": "t_concrete",
         "/": "t_strconc_wall",
-        "w": "t_window",
+        "O": "t_window",
         "f": "t_fence_barbed",
         "x": "t_canvas_roof"
       }
@@ -429,7 +425,6 @@
       [ "mil_base_1j1", "mil_base_2j1", "mil_base_3j1", "mil_base_4j1" ],
       [ "mil_base_1k1", "mil_base_2k1", "mil_base_3k1", "mil_base_4k1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -519,11 +514,11 @@
         "     f                                                                                          ",
         "     f                                                                                          ",
         "    #######                                                                              #######",
-        "    #/w+w/#                                                                              #/w+w/#",
-        "    #w,,,w#                                                                              #w,,,w#",
-        "    #w,,,w#                                                                              #w>,,w#",
-        "    #w,,>w#                                                                              #w,,,w#",
-        "    #/www/#ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/www/#",
+        "    #/O+O/#                                                                              #/O+O/#",
+        "    #O,,,O#                                                                              #O,,,O#",
+        "    #O,,,O#                                                                              #O>,,O#",
+        "    #O,,>O#                                                                              #O,,,O#",
+        "    #/OOO/#ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/OOO/#",
         "    #######                                                                              #######",
         "                                                                                                ",
         "                                                                                                ",
@@ -536,7 +531,7 @@
         "_": "t_concrete",
         "'": "t_metal_floor_no_roof",
         "/": "t_strconc_wall",
-        "w": "t_window",
+        "O": "t_window",
         "f": "t_fence_barbed",
         "R": "t_radio_tower",
         "a": "t_railing",
@@ -553,7 +548,6 @@
       [ "mil_base_5j1", "mil_base_6j1", "mil_base_7j1", "mil_base_8j1" ],
       [ "mil_base_5k1", "mil_base_6k1", "mil_base_7k1", "mil_base_8k1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -643,11 +637,11 @@
         "                                                                                          f     ",
         "                                                                                          f     ",
         "                                                                                     #######    ",
-        "                                                                                     #/www/#    ",
-        "                                                                                     #w,,,w#    ",
-        "                                                                                     #+,,,w#    ",
-        "                                                                                     #w>,,w#    ",
-        "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/www/#    ",
+        "                                                                                     #/OOO/#    ",
+        "                                                                                     #O,,,O#    ",
+        "                                                                                     #+,,,O#    ",
+        "                                                                                     #O>,,O#    ",
+        "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff#/OOO/#    ",
         "                                                                                     #######    ",
         "                                                                                                ",
         "                                                                                                ",
@@ -659,7 +653,7 @@
         "'": "t_metal_floor_no_roof",
         ",": "t_thconc_floor",
         "/": "t_strconc_wall",
-        "w": "t_window",
+        "O": "t_window",
         "f": "t_fence_barbed",
         "x": "t_canvas_roof"
       }

@@ -40,6 +40,7 @@
       "WARM",
       "STUMBLES",
       "HUMAN",
+      "PULP_PRYING",
       "NO_NECRO"
     ],
     "armor": { "bash": 14, "cut": 10, "bullet": 8 }
@@ -85,6 +86,7 @@
       "STUMBLES",
       "HUMAN",
       "PATH_AVOID_DANGER",
+      "PULP_PRYING",
       "PRIORITIZE_TARGETS"
     ],
     "armor": { "bash": 10, "cut": 6, "bullet": 5 }
@@ -130,6 +132,7 @@
       "NO_BREATHE",
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
+      "PULP_PRYING",
       "HIT_AND_RUN"
     ],
     "armor": { "bash": 12, "cut": 28, "acid": 12, "heat": 8, "bullet": 12 }
@@ -197,6 +200,7 @@
       "NO_BREATHE",
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
+      "PULP_PRYING",
       "HIT_AND_RUN"
     ],
     "armor": { "bash": 42, "cut": 48, "acid": 12, "heat": 8, "bullet": 35 }
@@ -233,7 +237,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
     "harvest": "mon_zomborg",
     "dissect": "dissect_mon_zomborg",
-    "upgrades": { "half_life": 43, "into": "mon_zomborg_devourer" },
+    "upgrades": { "half_life": 172, "into": "mon_zomborg_devourer" },
     "armor": { "bash": 12, "cut": 28, "bullet": 8 },
     "flags": [
       "SEES",
@@ -247,6 +251,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PULP_PRYING",
       "FILTHY"
     ]
   },
@@ -295,6 +300,7 @@
       "REVIVES",
       "PUSH_MON",
       "PATH_AVOID_DANGER",
+      "PULP_PRYING",
       "FILTHY"
     ],
     "armor": { "bash": 12, "cut": 28, "bullet": 8 }

@@ -145,8 +145,8 @@
     "type": "effect_on_condition",
     "id": "EOC_test_f_eoc",
     "effect": [
-      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "this" } },
-      { "set_string_var": { "context_val": "pos" }, "target_var": { "global_val": "pos" } }
+      { "copy_var": { "context_val": "this" }, "target_var": { "global_val": "this" } },
+      { "copy_var": { "context_val": "pos" }, "target_var": { "global_val": "pos" } }
     ]
   }
 ]

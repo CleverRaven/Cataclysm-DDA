@@ -47,11 +47,11 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "cutting",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "cutting",
+    "read_fun": 1
   },
   {
     "id": "manual_cutting",
@@ -104,10 +104,10 @@
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "green",
-    "skill": "cutting",
     "max_level": 3,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "cutting"
   },
   {
     "id": "manual_swords",
@@ -160,10 +160,10 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "blue",
-    "skill": "cutting",
     "required_level": 1,
     "max_level": 4,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "cutting"
   }
 ]

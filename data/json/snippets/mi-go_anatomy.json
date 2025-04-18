@@ -29,6 +29,7 @@
   {
     "type": "snippet",
     "category": "<mi-go_harvest>",
+    "//": "NO_I18N",
     "text": [ "<mi-go_harvest>", "<mi-go_harvest_deeper>", "<mi-go_harvest>  <mi-go_harvest_deeper>" ]
   }
 ]

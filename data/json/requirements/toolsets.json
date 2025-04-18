@@ -203,7 +203,7 @@
     ],
     "components": [
       [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ]
+      [ [ "steel_chunk_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -223,7 +223,7 @@
     ],
     "components": [
       [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
-      [ [ "lc_steel_tiny", 1, "LIST" ] ]
+      [ [ "lc_steel_chunk", 1 ] ]
     ]
   },
   {

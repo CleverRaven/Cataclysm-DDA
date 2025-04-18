@@ -1,0 +1,132 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_changeling_spring_command_grasses",
+    "terrain": [
+      {
+        "result": [ [ "t_grass_tall", 300 ] ],
+        "valid_terrain": [ "t_grass_long" ],
+        "message": "The grass grows tall, reaching toward the sky."
+      },
+      {
+        "result": [ [ "t_grass_long", 300 ], [ "t_grass_tall", 75 ] ],
+        "valid_terrain": [ "t_grass" ],
+        "message": "The grass grows tall, reaching toward the sky."
+      },
+      {
+        "result": [ [ "t_grass", 150 ], [ "t_grass_long", 300 ], [ "t_grass_tall", 30 ] ],
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "The ground churns as blades of grass push out of the soil."
+      }
+    ],
+    "furniture": [
+      {
+        "result": [
+          [ "f_null", 300 ],
+          [ "f_flower_spurge", 1 ],
+          [ "f_flower_tulip", 1 ],
+          [ "f_bluebell", 1 ],
+          [ "f_black_eyed_susan", 1 ],
+          [ "f_sunflower", 1 ],
+          [ "f_dandelion", 1 ],
+          [ "f_lily", 1 ],
+          [ "f_dahlia", 1 ]
+        ],
+        "valid_furniture": [ "f_null" ]
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_changeling_spring_verdant_vitality",
+    "terrain": [
+      { "result": "t_grass_dead", "valid_flags": [ "PLOWABLE" ], "message": "The grass wilts." },
+      { "result": "t_dirt", "valid_terrain": [ "t_forestfloor" ], "message": "" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_changeling_spring_plant_growth",
+    "terrain": [
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory", 32 ],
+          [ "t_tree_walnut_harvested", 16 ],
+          [ "t_tree_tupelo_harvested", 16 ],
+          [ "t_tree_nannyberry_harvested", 16 ],
+          [ "t_tree_butternut_harvested", 4 ],
+          [ "t_tree_chestnut_harvested", 8 ],
+          [ "t_tree_hazelnut_harvested", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple_harvested", 2 ],
+          [ "t_tree_cherry_harvested", 2 ],
+          [ "t_tree_juniper_harvested", 2 ],
+          [ "t_tree_pear_harvested", 2 ],
+          [ "t_tree_plum_harvested", 2 ],
+          [ "t_tree_elderberry_harvested", 2 ],
+          [ "t_tree_mulberry_harvested", 2 ],
+          [ "t_tree_sassafras_harvested", 3 ]
+        ],
+        "valid_terrain": [ "t_tree_young" ],
+        "message": "The young tree creaks as its limbs begin growing, first slowly and then with increasing speed.  Roots churn through the soil and leaves stretch toward the sun, and in moments, before you is a tree that could have stood for a human lifetime."
+      },
+      {
+        "result": "t_grass_long",
+        "valid_terrain": [ "t_grass" ],
+        "message": "Fresh green grass grows longer and longer until it stands as tall as your knees."
+      },
+      {
+        "result": "t_grass_tall",
+        "valid_terrain": [ "t_grass_long" ],
+        "message": "The tall grass grows and grows until a child could easily hide themselves within it."
+      }
+    ],
+    "furniture": [
+      {
+        "result": "f_plant_mature",
+        "valid_furniture": [ "f_plant_seedling", "f_plant_seed" ],
+        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's fully grown, though not yet ready for the harvest."
+      },
+      {
+        "result": "f_dirtmound_shallow_mature",
+        "valid_furniture": [ "f_dirtmound_shallow_seed", "f_dirtmound_shallow_seedling" ],
+        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's fully grown, though not yet ready for the harvest."
+      },
+      {
+        "result": "f_dirtmound_pile_mature",
+        "valid_furniture": [ "f_dirtmound_pile_seed", "f_dirtmound_pile_seedling" ],
+        "message": "The plant grows in moments, leaves unfurling, roots churning the soil, and flowers opening toward the sun.  Before you even lower your hands, it's fully grown, though not yet ready for the harvest."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_changeling_autumn_plant_harvest",
+    "furniture": [
+      {
+        "result": "f_plant_harvest",
+        "valid_furniture": [ "f_plant_mature" ],
+        "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
+      },
+      {
+        "result": "f_dirtmound_shallow_harvest",
+        "valid_furniture": [ "f_dirtmound_shallow_mature" ],
+        "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
+      },
+      {
+        "result": "f_dirtmound_pile_harvest",
+        "valid_furniture": [ "f_dirtmound_pile_mature" ],
+        "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
+      }
+    ]
+  }
+]

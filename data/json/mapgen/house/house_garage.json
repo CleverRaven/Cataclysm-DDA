@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_garage" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,7 +31,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "!": "t_region_groundcover_urban",
@@ -110,7 +109,7 @@
         " |....................| ",
         " |....................| ",
         " |g...................| ",
-        " |F...................| ",
+        " |â...................| ",
         " |....................| ",
         " |J...................| ",
         " |J...................| ",
@@ -123,7 +122,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "standard_and_variant_domestic_basement_palette" ]
     }
   },
   {

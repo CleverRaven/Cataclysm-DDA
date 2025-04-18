@@ -44,11 +44,11 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
     "volume": "1 ml",
-    "skill": "cooking",
     "required_level": 1,
     "intelligence": 6,
     "time": "5 m",
-    "fun": -2
+    "read_skill": "cooking",
+    "read_fun": -2
   },
   {
     "id": "sylph_parchment",
@@ -160,6 +160,143 @@
       { "u_learn_recipe": "revenant_effigy" },
       { "u_roll_remainder": [ "bait_abyssal_hunger" ], "type": "recipe" },
       { "u_add_var": "you_know_vampire_mentor_recipes", "value": "yes" }
+    ]
+  },
+  {
+    "id": "deathworm_map",
+    "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
+    "type": "GENERIC",
+    "category": "books",
+    "name": "map to the cryptid",
+    "description": "The map on which you wrote the cryptid's location.",
+    "symbol": ",",
+    "color": "white",
+    "weight": "30 g",
+    "volume": "10 ml",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Read",
+        "description": "Read the map.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_DEATHWORM_MAP_ALREADY_TRACKED",
+            "condition": { "math": [ "u_tracked_deathworm == 1" ] },
+            "effect": [ { "u_message": "You already know where this map leads." } ]
+          },
+          {
+            "id": "EOC_DEATHWORM_MAP_TRACK",
+            "condition": { "math": [ "u_tracked_deathworm == 0" ] },
+            "effect": [
+              { "u_message": "You reference your map with your location, determining the path to take to find the cryptid." },
+              { "assign_mission": "MISSION_DEATHWORM" },
+              { "math": [ "u_tracked_deathworm = 1" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "deathworm_note",
+    "//": "The notes are intended to be basic but telling some info, as they are the closest to a consensus reached on creatures defined by being nigh-impossible to find.",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "notes about the cryptid" },
+    "description": "The notes you have taken about the cryptid you're hunting.\nAlso known as the mongolian death worm, the Olgoi-khorkhoi is a massive acid-spewing burrowing worm.  Finding acid-resistant gear will prove useful to survive the encounter.  According to most of the credible stories you've read, the lethal poison covering its skin is nothing but exaggerations.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "30 g",
+    "volume": "10 ml"
+  },
+  {
+    "id": "sevenoclock_map",
+    "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
+    "type": "GENERIC",
+    "category": "books",
+    "name": "map to the cryptid",
+    "description": "The map on which you wrote the cryptid's location.",
+    "symbol": ",",
+    "color": "white",
+    "weight": "30 g",
+    "volume": "10 ml",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Read",
+        "description": "Read the map.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_SEVENOCLOCK_MAP_ALREADY_TRACKED",
+            "condition": { "math": [ "u_tracked_sevenoclock == 1" ] },
+            "effect": [ { "u_message": "You already know where this map leads." } ]
+          },
+          {
+            "id": "EOC_SEVENOCLOCK_MAP_TRACK",
+            "condition": { "math": [ "u_tracked_sevenoclock == 0" ] },
+            "effect": [
+              { "u_message": "You reference your map with your location, determining the path to take to find the cryptid." },
+              { "assign_mission": "MISSION_SEVENOCLOCK" },
+              { "math": [ "u_tracked_sevenoclock = 1" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sevenoclock_note",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "notes about the cryptid" },
+    "description": "The notes you have taken about the cryptid you're hunting.\nThe man of the Nineteenth Hour is peaceful for most of the day but becomes incredibly violent against those who are still awake when he enters his active phase.  Some stories tell that his presence shields those who are sleeping against everything that could disturb their sleep.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "30 g",
+    "volume": "10 ml"
+  },
+  {
+    "id": "vampire_anathema_book",
+    "type": "TOOL",
+    "name": { "str_sp": "old leather-bound journal" },
+    "description": "This handwritten book contains the detailed yet disorganized notes of a vampire who found how to consume other vampires for power.  Reading it might tell you how to do it, if it is what you want.",
+    "//": "As it is a unique item acquired in violent circumstances, I made it fireproof so the player can use fire without fearing the lost of this item.",
+    "weight": "830 g",
+    "volume": "1320 ml",
+    "price": "1 USD",
+    "material": [ "paper_fireproof" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Read the book.",
+      "effect_on_conditions": [ "TALK_READ_VAMPIRE_ANATHEMA_BOOK" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "TALK_READ_VAMPIRE_ANATHEMA_BOOK",
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_READ_VAMPIRE_ANATHEMA_BOOK" } },
+      { "run_eocs": "EOC_LEARN_FROM_VAMPIRE_ANATHEMA_BOOK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEARN_FROM_VAMPIRE_ANATHEMA_BOOK",
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "you_know_vampire_anathema_recipe" } ] } },
+    "effect": [
+      { "u_learn_recipe": "anathema_blood_catalyst_unready" },
+      { "u_add_var": "you_know_vampire_anathema_recipe", "value": "yes" }
     ]
   }
 ]

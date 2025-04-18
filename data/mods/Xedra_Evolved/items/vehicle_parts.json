@@ -10,5 +10,17 @@
     "color": "yellow",
     "material": [ "steel" ],
     "price": "8 kUSD"
+  },
+  {
+    "type": "GENERIC",
+    "id": "floral_base_item",
+    "name": { "str": "floral vessel" },
+    "symbol": "v",
+    "description": { "str": "The parts of the floral vehicle that have to exist for code reasons.", "//~": "NO_I18N" },
+    "volume": "1 L",
+    "weight": "2 kg",
+    "color": "green",
+    "material": [ "veggy" ],
+    "price": "8 kUSD"
   }
 ]

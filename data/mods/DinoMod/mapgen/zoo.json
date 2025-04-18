@@ -205,6 +205,7 @@
         ]
       },
       "items": {
+        "t": { "item": "SUS_toilet", "chance": 50 },
         "C": { "item": "cash_register_random", "chance": 100 },
         "I": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 2 ] },
         "O": [ { "item": "SUS_oven", "chance": 50 }, { "item": "SUS_pantry", "chance": 25 } ],
@@ -222,10 +223,10 @@
           { "item": "SUS_dishes", "chance": 15 }
         ],
         "T": [ { "item": "SUS_silverware", "chance": 25 }, { "item": "SUS_dishes", "chance": 25 } ],
-        "Y": { "item": "trash", "chance": 50, "repeat": [ 1, 20 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 20 ] },
         ",": { "item": "forest", "chance": 2 },
-        "d": [ { "item": "office_paper", "chance": 15 }, { "item": "office", "chance": 30 } ],
-        "r": { "item": "gift_shop_zoo", "chance": 75 },
+        "d": { "item": "SUS_office_desk", "chance": 30 },
+        "r": { "item": "gift_shop", "chance": 75 },
         "w": { "item": "shelves_zoo", "chance": 50, "repeat": [ 1, 3 ] },
         "z": { "item": "butcher_raw_meat", "chance": 20, "repeat": [ 1, 20 ] }
       },

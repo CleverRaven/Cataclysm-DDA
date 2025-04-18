@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_FIELD_TYPE_H
 #define CATA_SRC_FIELD_TYPE_H
 
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <unordered_map>
 #include <utility>
@@ -20,16 +20,15 @@
 #include "effect.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "mapdata.h"
 #include "map_field.h"
-#include "translations.h"
+#include "mapdata.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
+struct field_type;
 template <typename E> struct enum_traits;
-
-class field_entry;
-struct field_proc_data;
+template <typename T> class generic_factory;
 
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
@@ -177,8 +176,6 @@ extern const field_type_str_id fd_tindalos_rift;
 extern const field_type_str_id fd_toxic_gas;
 extern const field_type_str_id fd_web;
 
-struct field_type;
-
 struct field_type {
     public:
         void load( const JsonObject &jo, std::string_view src );
@@ -207,7 +204,7 @@ struct field_type {
         bool has_elec = false;
         bool has_fume = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
-        map_bash_info bash_info;
+        std::optional<map_fd_bash_info> bash_info;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, translation> npc_complain_data;
@@ -222,6 +219,8 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         bool legacy_make_rubble = false;
+        bool linear_half_life = false;
+        bool indestructible = false;
         field_type_str_id wandering_field;
         std::string looks_like;
 

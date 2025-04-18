@@ -1,0 +1,233 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "billboard_0" ],
+    "method": "json",
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  .<    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_column", "<": "t_ladder_up" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "billboard_1" ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  .≷    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_column", "≷": "t_ladder_up_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "billboard_2" ],
+    "method": "json",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "               _________",
+        "               _|||!|||_",
+        "               =___>____",
+        "               _|||!|||_",
+        "               _________",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "|": "t_wall_w", "!": "t_wall_w", "_": "t_bridge", "=": "t_bridge", ">": "t_ladder_down" },
+      "nested": {
+        "!": { "chunks": [ "billboard_sign_nest" ] },
+        "=": { "chunks": [ [ "null", 17 ], [ "billboard_lookout", 2 ], [ "billboard_wasp", 1 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "billboard_2" ],
+    "method": "json",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "               =|||!|||_",
+        "               ____>____",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "|": "t_wall_w", "!": "t_wall_w", "_": "t_bridge", "=": "t_bridge", ">": "t_ladder_down" },
+      "nested": {
+        "!": { "chunks": [ "billboard_sign_nest" ] },
+        "=": { "chunks": [ [ "null", 17 ], [ "billboard_lookout", 2 ], [ "billboard_wasp", 1 ] ] }
+      }
+    }
+  },
+  {
+    "nested_mapgen_id": "billboard_sign_nest",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 300,
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "billboard_ad_snippets", "x": 0, "y": 0 } ] }
+  },
+  {
+    "nested_mapgen_id": "billboard_sign_nest",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "general_graffiti_snippets", "x": 0, "y": 0 } ] }
+  },
+  {
+    "nested_mapgen_id": "billboard_lookout",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_chair_folding", "x": 0, "y": 0 } ],
+      "place_loot": [ { "item": "binoculars", "x": 0, "y": 0 } ],
+      "place_monster": [ { "group": "GROUP_VANILLA_DORMANT", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "billboard_lookout",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_chair_folding", "x": 0, "y": 0 } ],
+      "place_loot": [ { "item": "binoculars", "x": 0, "y": 0 } ],
+      "place_corpses": [ { "group": "GROUP_VANILLA", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "billboard_wasp",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 200,
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " |||",
+        "|__|",
+        "|__|",
+        "||| "
+      ],
+      "terrain": { "|": "t_paper_hard", "_": "t_floor_paper_noroof" },
+      "place_loot": [
+        { "group": "wasp_lair", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ] },
+        { "group": "human_parts", "x": [ 1, 2 ], "y": [ 1, 2 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 3 ], "y": [ 0, 3 ] } ],
+      "place_nested": [ { "chunks": [ "wasp_gibs" ], "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "nested_mapgen_id": "billboard_wasp",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " ||||",
+        "|_|_|",
+        "||__|",
+        " ||||",
+        "     "
+      ],
+      "terrain": { "|": "t_paper_hard", "_": "t_floor_paper_noroof" },
+      "place_loot": [
+        { "group": "wasp_lair", "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 0, 2 ] },
+        { "group": "human_parts", "x": [ 1, 2 ], "y": [ 1, 2 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 3 ], "y": [ 0, 3 ] }, { "group": "GROUP_WASP_PUPA", "x": [ 2, 3 ], "y": 2 } ],
+      "place_nested": [ { "chunks": [ "wasp_gibs" ], "x": [ 1, 2 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ] } ]
+    }
+  }
+]

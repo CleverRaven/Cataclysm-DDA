@@ -64,11 +64,11 @@
         ".": "t_floor",
         "=": "t_door_locked",
         "D": "t_door_locked_alarm",
-        "F": "t_chainfence_h",
+        "F": "t_chainfence",
         "G": "t_grate",
         "O": "t_column",
         "_": "t_pavement",
-        "f": "t_chainfence_v",
+        "f": "t_chainfence",
         "g": "t_chaingate_l",
         "s": "t_sidewalk",
         "w": "t_window",
@@ -98,7 +98,11 @@
         "t": "f_table"
       },
       "toilets": { "T": {  } },
-      "items": { "P": { "item": "pool_table", "chance": 80 }, "e": { "item": "SUS_fridge_breakroom", "chance": 80 } },
+      "items": {
+        "T": { "item": "SUS_toilet", "chance": 50 },
+        "P": { "item": "pool_table", "chance": 80 },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80 }
+      },
       "place_items": [
         { "item": "hardware", "x": [ 2, 2 ], "y": [ 39, 44 ], "chance": 85, "repeat": 2 },
         { "item": "hardware", "x": [ 6, 13 ], "y": 45, "chance": 85, "repeat": 2 },

@@ -81,7 +81,7 @@
           { "item": "magic_shop_clothes", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       },
-      "vehicles": { "$": { "vehicle": "swivel_chair", "chance": 100, "status": 0 } },
+      "vehicles": { "$": { "vehicle": "swivel_chair", "status": 0 } },
       "place_nested": [ { "chunks": [ "magic_door_graffiti_snippet" ], "x": 12, "y": 6 } ]
     }
   },

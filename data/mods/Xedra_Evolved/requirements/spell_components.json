@@ -1,5 +1,30 @@
 [
   {
+    "id": "spell_components_changeling_dreamsparks",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamsparks_2",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamsparks_3",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamsparks_4",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 4 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamspark_5",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 5 ] ] ]
+  },
+  {
     "id": "spell_components_dreamdross",
     "type": "requirement",
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -135,6 +160,15 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "wild_herbs", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_hedge_luck_spell",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 4 ], [ "blue_pen", 4 ], [ "green_pen", 4 ], [ "black_pen", 4 ], [ "red_pen", 4 ] ]
+    ],
+    "components": [ [ [ "coin_penny", 1 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "id": "spell_components_hedge_evil_eye_ward",

@@ -16,11 +16,34 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "use_action": [ "POST_UP" ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 60,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "debug_energy_shield",
+    "type": "ARMOR",
+    "name": { "str": "weak energy shield" },
+    "description": "A weak energy shield that protects against ballistic damage.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "ballistic_shield" ],
+    "material_thickness": 0.3,
+    "max_energy_shield_hp": 4,
+    "flags": [ "AURA", "ENERGY_SHIELD", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
   },
@@ -1552,6 +1575,12 @@
         "name": { "str": "Rhode Island flag" },
         "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads \"hope\".",
         "weight": 5
+      },
+      {
+        "id": "new_england_flag",
+        "name": { "str": "New England flag" },
+        "description": "A large red flag, in the canton is a green pine tree on a white field.",
+        "weight": 5
       }
     ]
   },
@@ -1916,7 +1945,6 @@
     "warmth": 10,
     "material_thickness": 0.5,
     "environmental_protection": 4,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "Your optical cloak flickers as it becomes transparent.",
@@ -1935,7 +1963,8 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "optical_cloak_on",

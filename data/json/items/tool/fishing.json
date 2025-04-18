@@ -11,10 +11,10 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 5 } } ],
     "qualities": [ [ "FISH_TRAP", 1 ] ],
-    "tick_action": [ "FISH_TRAP_TICK" ]
+    "tick_action": [ "FISH_TRAP_TICK" ],
+    "tool_ammo": [ "fish_bait" ]
   },
   {
     "id": "fish_trap_basket",
@@ -29,10 +29,10 @@
     "material": [ "dry_plant" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 10 } } ],
     "qualities": [ [ "FISH_TRAP", 1 ] ],
-    "tick_action": [ "FISH_TRAP_TICK" ]
+    "tick_action": [ "FISH_TRAP_TICK" ],
+    "tool_ammo": [ "fish_bait" ]
   },
   {
     "id": "fishing_hook_basic",

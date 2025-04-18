@@ -113,7 +113,11 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 500 ], [ "welding_standard", 500 ], [ "welding_standard", 500 ] ],
     "//1": "1200cm of weld per rebar",
-    "components": [ [ [ "frame", 4 ] ], [ [ "sheet_metal", 16 ] ], [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ] ],
+    "components": [
+      [ [ "frame", 4 ] ],
+      [ [ "sheet_metal", 16 ] ],
+      [ [ "steel_lump_any", 2, "LIST" ], [ "steel_chunk_any", 8, "LIST" ], [ "scrap", 40 ] ]
+    ],
     "pre_special": "check_empty",
     "post_terrain": "f_dumpster"
   },
@@ -218,7 +222,7 @@
     "tools": [ [ [ "concrete_mix_tool", 50 ] ] ],
     "components": [
       [ [ "hdframe", 1 ] ],
-      [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ],
+      [ [ "steel_lump_any", 2, "LIST" ], [ "steel_chunk_any", 8, "LIST" ], [ "scrap", 40 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "rebar", 16 ] ],
       [ [ "concrete", 6 ] ],

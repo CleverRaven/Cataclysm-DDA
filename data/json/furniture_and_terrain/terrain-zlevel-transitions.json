@@ -79,7 +79,7 @@
     "type": "terrain",
     "id": "t_wood_stairs_up",
     "name": "wooden stairs",
-    "description": "A wooden staircase leading up",
+    "description": "A wooden staircase leading up.",
     "symbol": "<",
     "color": "light_red",
     "move_cost": 2,
@@ -184,7 +184,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -203,7 +203,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_open_air_rooved",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {
@@ -221,7 +221,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_ladder_down",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
   },
   {

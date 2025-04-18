@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "house_43" ],
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "........................",
         "..#:*:####oo#ŦŦŦŦɤŦŦŦŦŦŦ",
@@ -31,7 +31,7 @@
         "..###ooo#####ŦŦŦŦŦŦŦŦŦŦŦ",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": { "$": "t_thconc_floor", "º": "t_water_pool" },
       "place_monster": [ { "group": "GROUP_ZOMBIE_POOL", "x": 16, "y": 18, "chance": 50 } ],
       "place_loot": [
@@ -48,7 +48,7 @@
     "method": "json",
     "om_terrain": "house_43_first_floor",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,##oooo#####,,,,,,,,,,,",
@@ -75,7 +75,7 @@
         ",,##oooo#####,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": { ",": "t_open_air" }
     }
   },
@@ -84,7 +84,7 @@
     "method": "json",
     "om_terrain": "house_43_second_floor",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,###ooo#####,,,,,,,,,,,",
@@ -111,7 +111,7 @@
         ",,ººººººººººº,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": { ",": "t_open_air", "º": "t_guardrail" },
       "furniture": {
         "á": [ "f_ergometer", "f_ergometer_mechanical" ],

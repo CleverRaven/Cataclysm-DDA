@@ -11,8 +11,8 @@
     "weight": "48 g",
     "volume": "25 ml",
     "material": [ "steel" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 2, "cut": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 1 }
   },
   {
     "abstract": "base_utensil",
@@ -26,8 +26,8 @@
     "weight": "158 g",
     "volume": "75 ml",
     "material": [ "steel" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 3, "cut": 2 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 2 }
   },
   {
     "abstract": "base_plastic_silverware",
@@ -40,8 +40,7 @@
     "price_postapoc": "0 cent",
     "weight": "28 g",
     "volume": "25 ml",
-    "material": [ "plastic" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "material": [ "plastic" ]
   },
   {
     "abstract": "base_ceramic_dish",
@@ -55,7 +54,8 @@
     "material": [ "ceramic" ],
     "weight": "375 g",
     "volume": "375 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -70,7 +70,8 @@
     "material": [ "glass" ],
     "weight": "322 g",
     "volume": "262 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -85,7 +86,7 @@
     "material": [ "tin" ],
     "weight": "262 g",
     "volume": "262 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 2 }
   },
   {
@@ -99,9 +100,7 @@
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "weight": "130 g",
-    "volume": "262 ml",
-    "to_hit": -1,
-    "melee_damage": { "bash": 1 }
+    "volume": "262 ml"
   },
   {
     "abstract": "base_cookpot",
@@ -122,6 +121,7 @@
     "category": "other",
     "id": "ceramic_plate",
     "volume": "125 ml",
+    "longest_side": "26 cm",
     "name": { "str": "ceramic plate" },
     "symbol": ",",
     "description": "A ceramic dinner plate, unremarkable in every way.",
@@ -136,6 +136,7 @@
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
     "volume": "625 ml",
+    "longest_side": "13 cm",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -407,6 +408,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "tin_plate",
+    "longest_side": "26 cm",
     "name": { "str": "tin plate" },
     "symbol": ",",
     "description": "A tin dinner plate, lightweight and clanky.",
@@ -444,6 +446,7 @@
     "description": "A small pewter serving bowl without a lid.  Holds 250 mL of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
+    "longest_side": "11 cm",
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
@@ -460,6 +463,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "glass_plate",
+    "longest_side": "26 cm",
     "name": { "str": "glass plate" },
     "symbol": ",",
     "description": "A glass dinner plate, for people who don't have clumsy children.",
@@ -476,6 +480,7 @@
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
     "volume": "620 ml",
+    "longest_side": "16 cm",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -522,6 +527,7 @@
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
     "volume": "620 ml",
+    "longest_side": "13 cm",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -538,6 +544,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "plastic_plate",
+    "longest_side": "26 cm",
     "name": { "str": "plastic plate" },
     "symbol": ",",
     "description": "A durable plastic plate, the sort you might use as patio dishware.",
@@ -1256,12 +1263,12 @@
     "category": "tools",
     "name": { "str": "makeshift pot" },
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
-    "weight": "6000 g",
+    "weight": "6 kg",
     "volume": "1050 ml",
     "longest_side": "20 cm",
     "price": "2 USD",
     "price_postapoc": "5 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1277,7 +1284,7 @@
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "pot_makeshift_copper",
@@ -1290,7 +1297,7 @@
     "longest_side": "20 cm",
     "price": "2 USD",
     "price_postapoc": "5 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "copper" ],
     "symbol": ")",
     "color": "light_red",
@@ -1306,7 +1313,7 @@
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -1400,10 +1407,8 @@
     "material": [ "steel" ],
     "weight": "300 g",
     "volume": "250 ml",
-    "to_hit": -1,
     "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 2 }
+    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",

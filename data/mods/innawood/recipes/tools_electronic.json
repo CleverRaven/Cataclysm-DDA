@@ -262,7 +262,7 @@
     ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "steel_chunk_any", 4, "LIST" ] ],
       [ [ "cable", 2 ] ],
       [ [ "motor_small", 1 ] ],
       [ [ "2x4", 1 ] ],

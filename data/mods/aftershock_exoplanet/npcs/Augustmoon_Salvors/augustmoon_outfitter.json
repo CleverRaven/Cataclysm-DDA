@@ -1,0 +1,118 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_AUGUSTMOON_OUTFITTER",
+    "name": { "str": "Outfitter Clerk" },
+    "job_description": "Outfitter Clerk",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "AUGUSTMOON_OUTFITTER_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } } ],
+    "//": "All guns are more expensive here.",
+    "shopkeeper_item_group": [
+      { "group": "afs_augustmoon_outfitter", "rigid": true },
+      {
+        "group": "afs_augustmoon_outfitter_military",
+        "rigid": true,
+        "condition": { "u_has_proficiency": "prof_armament_license" },
+        "refusal": "You need an armament license to buy this."
+      }
+    ],
+    "shopkeeper_price_rules": [
+      { "group": "afs_augustmoon_outfitter", "fixed_adj": 0 },
+      { "group": "afs_augustmoon_outfitter_military", "fixed_adj": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_outfitter",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_wintersuit_generic_advanced", "count": [ 1, 3 ] },
+      { "group": "afs_frontier_cryo_g_full_combo", "count": 1 },
+      { "group": "afs_basic_armor", "count": [ 0, 3 ] },
+      { "group": "afs_colonist_outfit", "count": [ 1, 3 ] },
+      { "group": "afs_civilian_hazard_outfit", "count": [ 1, 3 ], "prob": 60 },
+      { "group": "afs_pals_pieces", "count": [ 6, 12 ] },
+      { "group": "afs_augustmoon_outfitter_bags", "count": [ 10, 28 ] },
+      { "group": "augustmoon_shop_money" }
+    ]
+  },
+  {
+    "id": "afs_frontier_cryo_g_full_combo",
+    "type": "item_group",
+    "//": "The bare minimum matching suit to vist Salus. Prevents having to restart because Port Augustmoon is mising a part like the mask.",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_frontier_cryo" }, { "item": "afs_frontier_cryomask" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "AUGUSTMOON_OUTFITTER_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "legpouch_large" },
+      { "item": "afs_jumpsuit_military" },
+      { "item": "afs_company_jacket" },
+      { "item": "boots_combat" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" }
+    ]
+  },
+  {
+    "id": "afs_augustmoon_outfitter_bags",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      [ "afs_herc_rig", 20 ],
+      [ "afs_ilbe", 20 ],
+      [ "molle_pack", 20 ],
+      [ "backpack", 20 ],
+      [ "runner_bag", 20 ],
+      [ "frame_pack", 20 ],
+      [ "nylon_scabbard", 1 ],
+      [ "dry_bag", 20 ]
+    ]
+  },
+  {
+    "id": "afs_augustmoon_outfitter_military",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      { "group": "afs_armor_military_infantry_g", "prob": 85 },
+      { "item": "afs_backpack_rockets", "prob": 10 },
+      { "item": "afs_backpack_shieldgen", "prob": 5 },
+      { "item": "afs_combat_cryo", "count": [ 1, 2 ], "prob": 60 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "augustmoon_outfitter",
+    "name_suffix": "outfitter clerk",
+    "class": "NC_AUGUSTMOON_OUTFITTER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_OUTFITTER",
+    "faction": "UICA"
+  },
+  {
+    "id": [ "TALK_AUGUSTMOON_OUTFITTER" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You find the clerk in between stacked second hand outfits of all kinds.",
+    "responses": [
+      { "text": "I want to buy some gear.", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  }
+]

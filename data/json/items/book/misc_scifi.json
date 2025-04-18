@@ -227,7 +227,7 @@
     "name": { "str": "Brave New World", "str_pl": "copies of Brave New World" },
     "description": "This is weather worn copy of \"Brave New World\" by Aldous Huxley looks like it has been left out in rain.  The novel begins in a bleak building where fetuses are grown in bottles on an assembly line.",
     "copy-from": "book_fict_soft_scifi_tpl",
-    "relative": { "chapters": -6, "price_postapoc": -1490 }
+    "relative": { "chapters": -6, "price_postapoc": "-1490 cents" }
   },
   {
     "id": "book_fict_soft_scifi_roadp",
@@ -266,8 +266,8 @@
     "copy-from": "book_fict_soft_scifi_tpl",
     "time": "60 m",
     "chapters": 3,
-    "fun": 8,
-    "relative": { "intelligence": -2 }
+    "relative": { "intelligence": -2 },
+    "read_fun": 8
   },
   {
     "id": "book_fict_soft_docu_AWT",
@@ -277,7 +277,7 @@
     "copy-from": "book_fict_soft_scifi_tpl",
     "time": "60 m",
     "chapters": 34,
-    "fun": 10,
-    "relative": { "intelligence": 1 }
+    "relative": { "intelligence": 1 },
+    "read_fun": 10
   }
 ]

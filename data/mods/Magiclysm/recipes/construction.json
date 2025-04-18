@@ -19,6 +19,24 @@
   },
   {
     "type": "construction",
+    "id": "constr_magiclysm_greater_translocator_gate",
+    "group": "build_greater_translocator_gate",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 8 ], [ "spellcraft", 8 ] ],
+    "time": "360 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "components": [
+      [ [ "frame", 4 ] ],
+      [ [ "nail", 48 ] ],
+      [ [ "teleporter", 2 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "crystallized_mana", 250 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_magiclysm_greater_translocator_gate"
+  },
+  {
+    "type": "construction",
     "id": "constr_magiclysm_magic_circle",
     "group": "build_magiclysm_magic_circle",
     "category": "FURN",

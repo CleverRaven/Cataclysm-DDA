@@ -10,7 +10,7 @@
     "armor": { "bash": 12, "cut": 16, "acid": 14, "heat": 18, "bullet": 10, "electric": 4 },
     "harvest": "zombie_nomex",
     "hp": 100,
-    "upgrades": { "half_life": 32, "into_group": "GROUP_FIREMAN_UPGRADE" }
+    "upgrades": { "half_life": 128, "into_group": "GROUP_FIREMAN_UPGRADE" }
   },
   {
     "id": "mon_zombie_fireproof",

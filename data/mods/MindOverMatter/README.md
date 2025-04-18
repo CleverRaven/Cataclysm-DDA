@@ -10,7 +10,7 @@ This mod adds (currently) nine separate psionic power paths to Cataclysm, includ
 5) Pyrokinesis - Manipulating fire and heat. Pyrokinetics can start fires and protect themselves from heat, and even cover their whole body in raging flames to discourage attack (starting profession: Firestarter)
 6) Telekinesis - Moving objects at a distance. Telekinetics can pull objects to them and hurl their enemies away, and even collapse buildings or shield themselves with a barrier of telekinetic force. (starting profession: Test Subject, Project ONYX LIGHTNING)
 7) Telepathy - Control of the mind. Telepaths can become more persuasive and shield their presence from their enemies, and a powerful one can seize control of their enemies' minds. (starting profession: Government Interrogater (DECEASED))
-8) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division)
+8) Teleportation - Moving without crossing the intervening distance. Teleporters can escape danger and move quickly, and at higher levels they can travel long distances across the ravaged earth or hurl their enemies away to the space between dimensions. (starting profession: Itzcuauhtli Corps Liaison, Yohualli Ehēcatl Division)
 9) Vitakinesis - Control of health and injury. Vitakinetics can bind their own wounds and speed healing, eventually recovering from even near-crippling injuries. (starting profession: Faith Healer)
 
 If you would like a random power path, pick the profession "Awakening Psion."

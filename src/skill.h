@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_SKILL_H
 #define CATA_SRC_SKILL_H
 
+#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -12,7 +12,7 @@
 
 #include "calendar.h"
 #include "game_constants.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -36,6 +36,8 @@ class Skill
 
         translation _name;
         translation _description;
+        std::map<int, translation> _level_descriptions_theory;
+        std::map<int, translation> _level_descriptions_practice;
         std::set<std::string> _tags;
         time_info_t _time_to_attack;
         skill_displayType_id _display_type;
@@ -117,6 +119,7 @@ class Skill
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
+        std::string get_level_description( int skill_lvl, bool practical ) const;
 };
 
 class SkillLevel

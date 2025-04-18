@@ -17,7 +17,7 @@
     "precip": "none",
     "rains": false,
     "priority": 119,
-    "condition": { "math": [ "blotted_sun", "==", "1" ] }
+    "condition": { "math": [ "blotted_sun == 1" ] }
   },
   {
     "id": "magic_weather_thick_fog",
@@ -36,7 +36,7 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 119,
-    "condition": { "math": [ "magic_weather_dense_fog", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] }
   },
   {
     "id": "magic_weather_light_drizzle",
@@ -57,7 +57,7 @@
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
     "sound_category": "drizzle",
     "priority": 114,
-    "condition": { "math": [ "magic_weather_light_drizzle", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_light_drizzle == 1" ] }
   },
   {
     "id": "magic_weather_drizzle",
@@ -78,7 +78,7 @@
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "." },
     "sound_category": "drizzle",
     "priority": 115,
-    "condition": { "math": [ "magic_weather_drizzle", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_drizzle == 1" ] }
   },
   {
     "id": "magic_weather_rain",
@@ -99,7 +99,7 @@
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
     "priority": 117,
-    "condition": { "math": [ "magic_weather_rain", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_rain == 1" ] }
   },
   {
     "id": "magic_weather_rainstorm",
@@ -120,7 +120,7 @@
     "weather_animation": { "factor": 0.04, "color": "blue", "sym": ";" },
     "sound_category": "rainstorm",
     "priority": 118,
-    "condition": { "math": [ "magic_weather_rainstorm", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_rainstorm == 1" ] }
   },
   {
     "id": "magic_weather_thunder",
@@ -141,7 +141,7 @@
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
     "sound_category": "thunder",
     "priority": 70,
-    "condition": { "math": [ "magic_weather_thunder", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_thunder == 1" ] }
   },
   {
     "id": "magic_weather_lightning",
@@ -162,6 +162,6 @@
     "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
     "priority": 119,
-    "condition": { "math": [ "magic_weather_lightning", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_lightning == 1" ] }
   }
 ]

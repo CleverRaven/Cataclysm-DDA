@@ -11,16 +11,21 @@
 #include <vector>
 
 #include "character.h"
+#include "color.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "inventory_ui.h"
 #include "item_location.h"
+#include "memory_fast.h"
+#include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "units.h"
 
 class npc;
 class trade_ui;
-struct point;
 
 class trade_selector : public inventory_drop_selector
 {

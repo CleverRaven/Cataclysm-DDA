@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <iosfwd>
 #include <map>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -25,7 +26,7 @@ class sokoban_game
                 std::string sTileOld;
 
                 cUndo() {
-                    old = point_zero;
+                    old = point::zero;
 
                     sTileOld = " ";
                 }

@@ -106,14 +106,13 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "leg_sheath6",
     "type": "ARMOR",
     "name": { "str": "throwing knives leg sheath" },
-    "description": "A nylon strap knife sheath worn on the thigh, made to hold 6 very small knives, such as throwing knives, close at hand.  Activate to sheathe/draw a weapon.",
+    "description": "A nylon strap knife sheath worn on the thigh, made to hold 6 very thin knives, such as throwing knives, close at hand.  Activate to sheathe/draw a weapon.",
     "weight": "250 g",
     "volume": "1000 ml",
     "price": "52 USD",
@@ -132,7 +131,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -141,7 +140,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -150,7 +149,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -159,7 +158,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -168,7 +167,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -177,7 +176,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
@@ -382,8 +381,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "scabbard",
@@ -420,8 +418,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "nylon_scabbard",
@@ -495,8 +492,7 @@
         "encumbrance": [ 0, 1 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "sheath_birchbark",

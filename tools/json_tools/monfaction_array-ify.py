@@ -14,18 +14,18 @@ def gen_new(path):
     with open(path, "r", encoding="utf-8") as json_file:
         json_data = json.load(json_file)
         for jo in json_data:
-            if (type(jo) == dict and "type" in jo and
+            if (type(jo) is dict and "type" in jo and
                     jo["type"] == "MONSTER_FACTION"):
-                if "by_mood" in jo and type(jo["by_mood"]) == str:
+                if "by_mood" in jo and type(jo["by_mood"]) is str:
                     jo["by_mood"] = [jo.pop("by_mood")]
                     change = True
-                if "neutral" in jo and type(jo["neutral"]) == str:
+                if "neutral" in jo and type(jo["neutral"]) is str:
                     jo["neutral"] = [jo.pop("neutral")]
                     change = True
-                if "friendly" in jo and type(jo["friendly"]) == str:
+                if "friendly" in jo and type(jo["friendly"]) is str:
                     jo["friendly"] = [jo.pop("friendly")]
                     change = True
-                if "hate" in jo and type(jo["hate"]) == str:
+                if "hate" in jo and type(jo["hate"]) is str:
                     jo["hate"] = [jo.pop("hate")]
                     change = True
 

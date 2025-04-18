@@ -9,14 +9,14 @@
     "volume": "1500 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leg_splint",
     "color": "brown",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -28,7 +28,7 @@
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "carpet_legguards",
@@ -41,7 +41,6 @@
     "volume": "3 L",
     "price": "20 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic", "carpet_pilling" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -76,7 +75,6 @@
     "volume": "2 L",
     "price": "20 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic", "carpet_pilling" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -110,7 +108,6 @@
     "volume": "5000 ml",
     "price": "250 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": 1,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -187,7 +184,6 @@
     "volume": "5 L",
     "price": "815 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "nomex", "kevlar", "lycra" ],
     "symbol": "[",
     "looks_like": "pants_cargo",
@@ -240,12 +236,11 @@
     "longest_side": "11 cm",
     "price": "75 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "BLOCK_WHILE_WORN" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -655,14 +650,13 @@
     "volume": "1500 ml",
     "price": "75 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "looks_like": "chainmail_legs",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -684,7 +678,6 @@
     "volume": "1250 ml",
     "price": "210 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "pants_leather",
@@ -758,7 +751,6 @@
     "volume": "1500 ml",
     "price": "25 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -787,14 +779,13 @@
     "volume": "5500 ml",
     "price": "400 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": 1,
     "material": [ "bronze", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "yellow",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -833,7 +824,6 @@
     "volume": "3 L",
     "price": "34 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -841,7 +831,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -864,14 +854,13 @@
     "volume": "6 L",
     "price": "200 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -910,14 +899,13 @@
     "volume": "5500 ml",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -957,7 +945,6 @@
     "volume": "2500 ml",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -965,7 +952,7 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -998,7 +985,6 @@
     "volume": "1200 ml",
     "price": "200 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -1006,7 +992,7 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -1039,7 +1025,6 @@
     "volume": "2 L",
     "price": "5 USD",
     "price_postapoc": "4 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "m",
     "color": "light_gray",
@@ -1077,7 +1062,6 @@
     "volume": "1 L",
     "price": "5 USD",
     "price_postapoc": "4 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "repairs_with": [ "steel" ],
     "symbol": "m",
@@ -1132,7 +1116,6 @@
     "volume": "500 ml",
     "price": "2 USD 30 cent",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "paper" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -1159,10 +1142,9 @@
     "name": { "str": "pair of improvised tire leg guards", "str_pl": "pairs of improvised tire leg guards" },
     "description": "Leg guards made of thick chunks of tire held together with duct tape.",
     "weight": "2400 g",
-    "volume": "2000 ml",
+    "volume": "2 L",
     "price": "23 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -1192,13 +1174,13 @@
     "volume": "5 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
     "color": "light_gray",
     "warmth": 10,
-    "flags": [ "OUTER", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -1210,7 +1192,7 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
     "id": "xl_legguard_scrap",
@@ -1238,14 +1220,13 @@
     "volume": "5 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "NONCONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -1361,7 +1342,7 @@
     "color": "light_blue",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ],
+    "flags": [ "VARSIZE", "POCKETS", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "encumbrance": [ 12, 16 ],
@@ -1468,7 +1449,8 @@
     "color": "light_green",
     "environmental_protection": 2,
     "material_thickness": 15,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "flags": [ "STURDY", "OUTER", "RAINPROOF" ],
+    "max_worn": 1,
     "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -1500,7 +1482,8 @@
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 7,
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "flags": [ "STURDY", "OUTER", "RAINPROOF" ],
+    "max_worn": 1,
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -1526,7 +1509,7 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -1633,7 +1616,7 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1740,7 +1723,7 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1847,7 +1830,6 @@
     "volume": "2500 ml",
     "price_postapoc": "12 USD",
     "looks_like": "technician_pants_gray",
-    "to_hit": 1,
     "material": [ "canvas", "leather" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1902,7 +1884,6 @@
     "volume": "2500 ml",
     "price_postapoc": "12 USD",
     "looks_like": "technician_pants_gray",
-    "to_hit": 1,
     "material": [ "canvas", "cotton" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1956,7 +1937,6 @@
     "volume": "2500 ml",
     "price": "100 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -3,
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -1994,7 +1974,6 @@
     "volume": "2 L",
     "price": "40 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "legguard_bronze",

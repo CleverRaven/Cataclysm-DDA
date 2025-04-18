@@ -4,13 +4,14 @@
 
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "math_parser.h"
 #include "type_id.h"
 
 class JsonObject;
-struct dialogue;
+struct const_dialogue;
 
 struct jmath_func {
     jmath_func_id id;
@@ -18,8 +19,8 @@ struct jmath_func {
     bool was_loaded = false;
     int num_params{};
 
-    double eval( dialogue &d ) const;
-    double eval( dialogue &d, std::vector<double> const &params ) const;
+    double eval( const_dialogue const &d ) const;
+    double eval( const_dialogue const &d, std::vector<double> const &params ) const;
 
     void load( const JsonObject &jo, std::string_view src );
     static void load_func( const JsonObject &jo, std::string const &src );

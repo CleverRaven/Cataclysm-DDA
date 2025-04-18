@@ -1163,7 +1163,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "place_vehicles": [ { "vehicle": "farm_horse_vehicles", "x": 2, "y": 3, "rotation": 270, "status": 0, "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "farm_horse_vehicles", "x": 2, "y": 3, "rotation": 270, "status": 0 } ]
     }
   },
   {
@@ -1173,7 +1173,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "place_vehicles": [ { "vehicle": "cars_only", "x": 1, "y": 3, "rotation": 270, "status": 0, "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "cars_only", "x": 1, "y": 3, "rotation": 270, "status": 0 } ]
     }
   },
   {

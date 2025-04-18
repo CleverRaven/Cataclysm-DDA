@@ -63,6 +63,13 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
+    "id": "colt_army",
+    "type": "GUN",
+    "copy-from": "colt_army",
+    "name": { "str_sp": "Colt M1860 Army" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
     "id": "model_10_revolver",
     "type": "GUN",
     "copy-from": "model_10_revolver",

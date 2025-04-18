@@ -107,7 +107,8 @@
     "color": "light_red",
     "sided": true,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ],
+    "max_worn": 1,
     "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
     "description": "A copper ring that makes you a little stronger when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] },
@@ -165,7 +166,12 @@
     "symbol": ",",
     "color": "white",
     "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
+      {
+        "type": "heal",
+        "move_cost": 200,
+        "bleed": 1,
+        "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
+      },
       "WASH_HARD_ITEMS"
     ],
     "flags": [ "NO_SALVAGE" ]
@@ -330,7 +336,6 @@
     "name": { "str": "electric shears (off)" },
     "description": "This is a set of electric shears designed to obtain wool from sheep.",
     "qualities": [  ],
-    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "Your %s activates.",
@@ -348,7 +353,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
@@ -372,7 +378,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 5,
     "qualities": [ [ "SCREW", 1 ] ],
@@ -384,7 +389,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "test_tool_belt",
@@ -707,7 +713,6 @@
     "price": "5 USD",
     "price_postapoc": "1 USD",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE" ],
     "use_action": {
       "type": "transform",
@@ -724,7 +729,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",
@@ -920,7 +926,6 @@
     "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -942,25 +947,15 @@
         "item_restriction": [ "test_battery_disposable", "test_battery_rechargable" ]
       }
     ],
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "melee_damage": { "bash": 2, "stab": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
     "id": "test_ebook_reader",
     "name": { "str": "eBook reader" },
     "description": "Test book reader.",
-    "weight": "250 g",
-    "volume": "250 ml",
-    "longest_side": "25 cm",
-    "price": "200 USD",
-    "price_postapoc": "1 USD",
-    "to_hit": -1,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "use_action": [ "EBOOKSAVE", "EBOOKREAD" ],
+    "copy-from": "eink_tablet_pc",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -971,7 +966,7 @@
         "item_restriction": [ "test_battery_disposable" ]
       },
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
@@ -1045,7 +1040,6 @@
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } } ],
     "charges_per_use": 1,
     "use_action": [
@@ -1061,7 +1055,8 @@
       "CAMERA",
       "MP3"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
@@ -1072,7 +1067,6 @@
     "volume": "75 ml",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
-    "ammo": [ "battery" ],
     "use_action": [ "MP3" ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK_ACTIVE" ],
@@ -1085,7 +1079,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "test_socks",
@@ -1585,6 +1580,31 @@
     ]
   },
   {
+    "id": "test_xl_waist_apron_long",
+    "type": "GENERIC",
+    "name": { "str": "long waist apron" },
+    "copy-from": "test_waist_apron_long",
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "//": "the variants are not copy-from'd at the time of writing so let's make some",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who like pink.",
+        "color": "pink",
+        "weight": 3,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "test_umbrella",
     "type": "GENERIC",
     "category": "tools",
@@ -1646,7 +1666,7 @@
     "name": { "str_sp": "TEST pine nuts" },
     "weight": "30 g",
     "color": "brown",
-    "spoils_in": 1080,
+    "spoils_in": "45 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -1779,7 +1799,6 @@
     "weight": "190 g",
     "volume": "3938 ml",
     "price": "0 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1821,7 +1840,6 @@
     "weight": "453 g",
     "volume": "500 ml",
     "price": "20 USD",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -1859,7 +1877,6 @@
     "volume": "15 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "rubber" ],
     "symbol": ")",
     "color": "white",
@@ -1887,7 +1904,6 @@
     "volume": "15 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -1965,7 +1981,6 @@
     "longest_side": "40 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -5,
     "symbol": ")",
     "pocket_data": [
       {
@@ -2069,9 +2084,140 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "test_heavy_debug_backpack",
+    "type": "ARMOR",
+    "name": { "str": "debug pocket universe" },
+    "description": "A pocket universe.  Can store approximately 384 * 10^6 bugs.  Still applies weight to the character",
+    "weight": "1 g",
+    "volume": "1 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "yellow",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like it could calm local conditions.",
+      "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
+    },
+    "pocket_data": [
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 1,
+        "volume_multiplier": 0.01
+      }
+    ],
+    "warmth": 0,
+    "material_thickness": 0,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE", "WATCH", "THERMOMETER" ],
+    "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "test_quiver",
@@ -2529,7 +2675,6 @@
     "volume": "1 L",
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "ammo": [ "weldgas" ],
     "qualities": [ [ "WELD", 10 ] ],
     "charges_per_use": 4,
     "use_action": [ "OXYTORCH" ],
@@ -2541,7 +2686,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_weldtank" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "weldgas" ]
   },
   {
     "id": "test_rod_14cm",
@@ -2586,7 +2732,6 @@
     "name": { "str": "test electric pair of bolt cutters" },
     "description": "Test bolt cutters which uses batteries.",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2596,7 +2741,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "test_crafted_suppressor",
@@ -2608,7 +2754,6 @@
     "price": "4 USD 80 cent",
     "price_postapoc": "2 USD 50 cent",
     "install_time": "30 s",
-    "to_hit": 1,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -2643,7 +2788,6 @@
     "name": { "str": "test electric hacksaw" },
     "description": "Test hacksaw which uses batteries.",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "use_action": [ [ "HACKSAW", 1 ] ],
     "pocket_data": [
       {
@@ -2654,7 +2798,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "COMESTIBLE",
@@ -2699,7 +2844,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "test_wine", "yeast" ] }
+    "brewable": { "brew_time": "12 hours", "brew_results": [ "test_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -2836,7 +2981,7 @@
     "symbol": "?",
     "color": "blue",
     "time": "5 m",
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "test_dragon_book",
@@ -2850,13 +2995,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "skill": "computer",
     "required_level": 4,
     "max_level": 7,
     "intelligence": 12,
     "time": "50 m",
-    "fun": -1,
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "read_skill": "computer",
+    "read_fun": -1
   },
   {
     "id": "test_power_armor",
@@ -2868,7 +3013,6 @@
     "volume": "100 L",
     "price": "70 kUSD",
     "price_postapoc": "300 USD",
-    "to_hit": 1,
     "material": [ "qt_steel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -2996,7 +3140,6 @@
     "volume": "13 L",
     "price": "2 kUSD 850 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -3191,7 +3334,6 @@
     "volume": "4 L",
     "price": "200 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "cotton", "fur" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -3334,7 +3476,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
-      "vitamins": [ [ "calcium", 100, 100 ], [ "iron", 100, 100 ], [ "vitC", 100, 100 ] ]
+      "vitamins": [ [ "calcium", 100 ], [ "iron", 100 ], [ "vitC", 100 ] ]
     }
   },
   {
@@ -3758,9 +3900,9 @@
         "encumbrance": 20
       }
     ],
-    "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "tool_ammo": "battery"
   },
   {
     "id": "test_knife_combat",
@@ -3802,7 +3944,6 @@
     "volume": "17500 ml",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -3870,8 +4011,8 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
-      "weight": 200,
-      "volume": 1000,
+      "weight": "200 g",
+      "volume": "1000 ml",
       "price": "1 USD",
       "material_thickness": 2,
       "environmental_protection": 2,
@@ -3885,8 +4026,8 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
-      "weight": 200,
-      "volume": 1000,
+      "weight": "200 g",
+      "volume": "1000 ml",
       "price": "1 USD",
       "material_thickness": 2,
       "environmental_protection": 2,
@@ -3904,7 +4045,6 @@
     "volume": "250 ml",
     "price": "14 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "glasses_safety",
@@ -4014,7 +4154,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -4034,7 +4173,6 @@
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "lycra" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -4057,7 +4195,6 @@
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -4080,7 +4217,6 @@
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -4104,7 +4240,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "red",
@@ -4130,7 +4265,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "red",
@@ -4158,7 +4292,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -4186,7 +4319,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -4413,7 +4545,6 @@
     "weight": "9500 g",
     "volume": "4500 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
@@ -4516,7 +4647,8 @@
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "test_ghost_vest",
@@ -4654,7 +4786,6 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -4790,10 +4921,10 @@
     "volume": "1500 ml",
     "symbol": "?",
     "color": "blue",
-    "skill": "computer",
     "required_level": 0,
     "max_level": 5,
-    "fun": -1
+    "read_skill": "computer",
+    "read_fun": -1
   },
   {
     "id": "test_mag",
@@ -4805,10 +4936,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "computer",
     "max_level": 1,
     "intelligence": 2,
-    "time": "7 m"
+    "time": "7 m",
+    "read_skill": "computer"
   },
   {
     "id": "test_ups",
@@ -4819,11 +4950,9 @@
     "volume": "2500 ml",
     "price": "2 kUSD 800 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "IS_UPS" ],
     "pocket_data": [
       {
@@ -4832,7 +4961,8 @@
         "default_magazine": "heavy_plus_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",
@@ -4921,6 +5051,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_MELEE_TO_HIT_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_MELEE_TO_HIT_ench_item_1",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": 100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_TO_HIT_ench_item_2",
+    "copy-from": "test_item_ench",
+    "name": "test_MELEE_TO_HIT_ench_item_2",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": -100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
     "id": "test_BONUS_DODGE_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_BONUS_DODGE_ench_item_1",
@@ -4971,7 +5115,6 @@
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "melee_damage": { "bash": 1 },
     "revert_to": "cheese_hard"
   },
@@ -4990,7 +5133,6 @@
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -5009,7 +5151,6 @@
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -5022,12 +5163,10 @@
     "name": { "str": "TEST 500kcal" },
     "description": "This one's 500kcal, and some vitamins.",
     "price": "0 cent",
-    "spoils_in": 0,
     "calories": 500,
     "material": [ "stone" ],
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "//": "Do not use calcium, iron or vitamin C! Those are calculated as RDAs, and you only get 96% of the listed value! No, that doesn't make any sense! But that's how it is. So use a normal vitamin. This is for a camp test, not a vitamin test...",
     "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 200 ] ],
     "melee_damage": { "bash": 1 }
@@ -5079,5 +5218,47 @@
     "copy-from": "modular_m4_carbine",
     "name": { "str": "debug m4 carbine" },
     "default_mods": [ "retool_ar15_223rem_medium" ]
+  },
+  {
+    "id": "test_laptop",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "test laptop" },
+    "copy-from": "laptop"
+  },
+  {
+    "id": "test_eink_tablet_pc",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "test e-ink tablet" },
+    "copy-from": "eink_tablet_pc"
+  },
+  {
+    "id": "test_efile_large",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "large test file" },
+    "ememory_size": "500 GB"
+  },
+  {
+    "id": "test_efile_medium",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "medium test file`" },
+    "ememory_size": "24 GB"
+  },
+  {
+    "id": "test_efile_small",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "small test file" },
+    "ememory_size": "1 KB"
+  },
+  {
+    "id": "test_efile_copiable",
+    "type": "GENERIC",
+    "copy-from": "test_book",
+    "name": { "str": "copiable test file" },
+    "ememory_size": "1 MB"
   }
 ]

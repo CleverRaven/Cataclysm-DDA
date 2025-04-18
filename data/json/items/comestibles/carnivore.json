@@ -750,7 +750,8 @@
     "proportional": { "parasites": 0.5 },
     "price_postapoc": "25 cent",
     "delete": { "flags": [ "SMOKABLE" ] },
-    "relative": { "vitamins": [ [ "iron", 4 ] ], "fun": -5 }
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 16 ], [ "meat_allergen", 1 ] ],
+    "relative": { "fun": -5 }
   },
   {
     "id": "offal_cooked",

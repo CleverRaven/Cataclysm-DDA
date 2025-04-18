@@ -23,6 +23,52 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "1cyl_combustion_med",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": "40 m",
+    "components": [
+      [ [ "rope_6", 1 ] ],
+      [ [ "mc_steel_chunk", 2 ] ],
+      [ [ "chunk_rubber", 2 ] ],
+      [ [ "scrap_aluminum", 4 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "engine_block_tiny", 1 ] ],
+      [ [ "motor_oil", 500 ] ],
+      [ [ "nuts_bolts", 10 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "i1_diesel",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": "40 m",
+    "components": [
+      [ [ "mc_steel_chunk", 4 ] ],
+      [ [ "chunk_rubber", 3 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "well_pump", 1 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "glowplug", 1 ] ],
+      [ [ "engine_block_small", 1 ] ],
+      [ [ "motor_oil", 1200 ] ],
+      [ [ "nuts_bolts", 10 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "engine_1cyl_diesel_large",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],

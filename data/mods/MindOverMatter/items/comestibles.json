@@ -19,11 +19,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_BIOKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_BIOKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_clair_dust_potion",
@@ -45,11 +41,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_CLAIR_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_CLAIR_POTION" ]
   },
   {
     "id": "matrix_crystal_electrokin_dust_potion",
@@ -71,11 +63,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_ELECTROKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_ELECTROKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_photokin_dust_potion",
@@ -97,11 +85,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_PHOTOKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_PHOTOKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_pyrokin_dust_potion",
@@ -123,11 +107,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_PYROKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_PYROKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_telekin_dust_potion",
@@ -149,11 +129,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_TELEKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_TELEKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_telepath_dust_potion",
@@ -175,11 +151,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_TELEPATH_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_TELEPATH_POTION" ]
   },
   {
     "id": "matrix_crystal_teleport_dust_potion",
@@ -201,11 +173,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_TELEPORT_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_TELEPORT_POTION" ]
   },
   {
     "id": "matrix_crystal_vitakin_dust_potion",
@@ -227,11 +195,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_VITAKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_VITAKIN_POTION" ]
   },
   {
     "type": "COMESTIBLE",
@@ -294,11 +258,7 @@
     "volume": "250 ml",
     "fun": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the berries.",
-      "effect_on_conditions": [ "EOC_ALIEN_MEADOW_BUSH_2_BERRIES" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_ALIEN_MEADOW_BUSH_2_BERRIES" ]
   },
   {
     "type": "COMESTIBLE",
@@ -319,5 +279,12 @@
     "flags": [ "FREEZERBURN", "INEDIBLE" ],
     "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "35800 μg" ], [ "calcium", "32300 μg" ] ],
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pigeon_passenger",
+    "name": { "str": "feral pigeon egg" },
+    "copy-from": "egg_pigeon",
+    "rot_spawn": { "monster": "mon_pigeon_passenger", "chance": 70 }
   }
 ]

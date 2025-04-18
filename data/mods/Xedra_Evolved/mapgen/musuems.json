@@ -65,6 +65,7 @@
         "*": [ "f_golden_monolith", "f_broken_golden_monolith", "f_broken_golden_monolith" ]
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "G": { "item": "museum_security", "chance": 80 },
         "l": { "item": "cleaning", "chance": 30 },
         "j": { "item": "museum_armor_pet", "chance": 80 },

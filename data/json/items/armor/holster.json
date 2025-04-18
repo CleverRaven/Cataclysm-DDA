@@ -349,7 +349,6 @@
           "9x18": 18,
           "9mm": 18,
           "454": 18,
-          "460": 18,
           "500": 18
         },
         "moves": 20
@@ -727,7 +726,7 @@
     "id": "XL_nylon_holster",
     "type": "ARMOR",
     "name": { "str": "large nylon holster" },
-    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with nylon instead of leather.  Activate to holster/draw a gun",
+    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with nylon instead of leather.  Activate to holster/draw a gun.",
     "weight": "287 g",
     "volume": "250 ml",
     "price": "9 USD",

@@ -37,7 +37,7 @@
     "style": "text",
     "arrange": "rows",
     "width": 9,
-    "default_clause": { "text": "**ERROR**", "sym": "-", "color": "dark_gray" },
+    "default_clause": { "text": { "str": "**ERROR**", "//~": "NO_I18N" }, "sym": "-", "color": "dark_gray" },
     "clauses": [
       { "id": "run", "text": " running", "color": "red", "condition": { "u_has_move_mode": "run" } },
       { "id": "walk", "text": " walking", "color": "white", "condition": { "u_has_move_mode": "walk" } },

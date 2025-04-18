@@ -1,18 +1,19 @@
 #include "mod_manager.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <functional>
 #include <iterator>
 #include <memory>
 #include <ostream>
 #include <queue>
-#include <type_traits>
 
 #include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "path_info.h"
@@ -155,6 +156,10 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
+    if( !dir_exist( PATH_INFO::user_moddir() ) ) {
+        assure_dir_exist( PATH_INFO::user_moddir() );
+    }
+
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from( PATH_INFO::moddir() );
     load_mods_from( PATH_INFO::user_moddir_path() );
@@ -226,8 +231,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
         return;
     }
 
-    // TEMPORARY until 0.G: Remove "ident" support
-    const mod_id m_ident( jo.has_string( "ident" ) ? jo.get_string( "ident" ) : jo.get_string( "id" ) );
+    const mod_id m_ident( jo.get_string( "id" ) );
     // can't use string_id::is_valid as the global mod_manger instance does not exist yet
     if( mod_map.count( m_ident ) > 0 ) {
         // TODO: change this to make unique ident for the mod
@@ -280,6 +284,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     assign( jo, "description", modfile.description );
     assign( jo, "version", modfile.version );
     assign( jo, "dependencies", modfile.dependencies );
+    assign( jo, "conflicts", modfile.conflicts );
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
     assign( jo, "loading_images", modfile.loading_images );
@@ -300,6 +305,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         json.start_object();
         json.member( "type", "MOD_INFO" );
         json.member( "id", "user:default" );
+        json.member( "conflicts", std::vector<std::string>() );
         json.member( "dependencies" );
         json.write( mods );
         json.end_object();
@@ -395,7 +401,7 @@ void mod_manager::load_mod_info( const cata_path &info_file_path )
 
 cata_path mod_manager::get_mods_list_file( const WORLD *world )
 {
-    return world->folder_path_path() / "mods.json";
+    return world->folder_path() / "mods.json";
 }
 
 void mod_manager::save_mods_list( const WORLD *world ) const

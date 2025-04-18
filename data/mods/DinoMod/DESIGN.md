@@ -34,7 +34,7 @@ monstergroups folder:
 * fungi.json is where you add the fungal variant to spawn in fungal locations
 * lab.json is where you add the dinosaur if it is not native to North America
 * misc.json has all kinds of odd lists, especially for safe, scavenging, and underground dinos
-* monstergroups_egg.json is where you add the hatchling to be spawned from its own egg, and from random eggs
+* monstergroups_egg.json is where you add the hatchling to be spawned from random eggs, if they are North American natives
 * wilderness.json is where your dino will be spawned in natural settings. Forests should stay safe.
 * zinosaur.json  adds the zombified version to zombie spawn lists and is where the zombie upgrade groups go for now
 

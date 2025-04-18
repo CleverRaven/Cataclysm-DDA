@@ -417,7 +417,7 @@
       "furniture": { " ": [ [ "f_null", 5 ], "f_rubble_rock" ] },
       "items": { " ": { "item": "mine_equipment", "chance": 3 } },
       "monster": { " ": { "monster": "mon_zombie_miner", "chance": 5 } },
-      "vehicles": { "o": { "vehicle": "trencher", "chance": 100, "fuel": 100, "status": 0 } },
+      "vehicles": { "o": { "vehicle": "trencher", "fuel": 100, "status": 0 } },
       "nested": { " ": { "chunks": [ [ "mine_minerals_equipment", 10 ], [ "null", 100 ] ] } }
     }
   },

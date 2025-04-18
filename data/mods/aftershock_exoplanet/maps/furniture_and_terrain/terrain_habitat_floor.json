@@ -1,0 +1,218 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_strconc_floor_heated",
+    "name": "reinforced concrete floor",
+    "description": "An extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
+    "looks_like": "t_strconc_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
+    "emissions": [ "afs_emit_geovent" ],
+    "connect_groups": [ "INDOORFLOOR", "CONCRETE" ],
+    "connects_to": "CONCRETE",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 150,
+      "str_max": 400,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "rebar", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_heated",
+    "name": "metal floor",
+    "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls.  Can support a roof.",
+    "looks_like": "t_metal_floor",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connect_groups": [ "INDOORFLOOR", "METALFLOOR" ],
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "emissions": [ "afs_emit_AC" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_clearcrete_roof",
+    "name": "clearcrete skylight",
+    "description": "A roof made from transparent fiber-reinforced concrete, allowing light to pass through.  Often used to build greenhouses in unfavorable environments.",
+    "symbol": "o",
+    "looks_like": "t_glass_roof",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "stone shattering",
+      "sound_fail": "whunk!",
+      "ter_set": "t_null",
+      "items": [ { "item": "clearcrete_chunk", "count": [ 21, 29 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight_inactive",
+    "name": "metal floor, inactive overhead light",
+    "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls, with a still-functioning inactive light attached to the ceiling above.",
+    "looks_like": "t_metal_floor_olight",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connect_groups": "METALFLOOR",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_metal_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_linoleum_white_olight_inactive",
+    "name": "linoleum tile, inactive overhead light",
+    "description": "A section of flooring made out of a tough, rubbery material.  Colored a simple white.  There is a still-functioning inactive light attached to the ceiling above.",
+    "looks_like": "t_linoleum_whitefloor_olight",
+    "symbol": ".",
+    "color": "white",
+    "connect_groups": [ "INDOORFLOOR", "LINOLEUM" ],
+    "connects_to": "LINOLEUM",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_linoleum_white",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strconc_floor_olight_inactive",
+    "name": "strong concrete floor, inactive overhead light",
+    "description": "An extremely resilient floor made from carefully placed rebar and poured concrete, with a still-functioning inactive light attached to the ceiling above.",
+    "looks_like": "t_strconc_floor_olight",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "roof": "t_concrete_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
+    "connect_groups": [ "CONCRETE", "INDOORFLOOR" ],
+    "connects_to": "CONCRETE",
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_strconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_thconc_floor_olight_inactive",
+    "name": "concrete floor, inactive overhead light",
+    "description": "A bare and cold concrete floor with a still-functioning inactive light attached to the ceiling above.",
+    "looks_like": "t_thconc_floor_olight",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "roof": "t_concrete_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
+    "connect_groups": [ "CONCRETE", "INDOORFLOOR" ],
+    "connects_to": "CONCRETE",
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_thconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scrap_floor_olight",
+    "name": "simple metal floor, overhead light",
+    "description": "A crudely welded-together metal floor with steel trusses and supporting girders.  Can support a roof.  A still-functioning light hangs from the ceiling above.",
+    "looks_like": "t_scrap_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "light_emitted": 120,
+    "move_cost": 2,
+    "roof": "t_metal_flat_roof",
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "sound": "SMASH!",
+      "ter_set": "t_scrap_floor",
+      "str_min_supported": 100,
+      "items": [ { "item": "lc_steel_chunk", "count": [ 5, 11 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scrap_floor_olight_inactive",
+    "name": "simple metal floor, inactive overhead light",
+    "description": "A crudely welded-together metal floor with steel trusses and supporting girders.  Can support a roof.  A still-functioning inactive light hangs from the ceiling above.",
+    "looks_like": "t_scrap_floor_olight",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_metal_flat_roof",
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "sound": "SMASH!",
+      "ter_set": "t_scrap_floor",
+      "str_min_supported": 100,
+      "items": [ { "item": "lc_steel_chunk", "count": [ 5, 11 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+  }
+]

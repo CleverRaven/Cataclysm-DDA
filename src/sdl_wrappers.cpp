@@ -1,4 +1,4 @@
-#if defined(TILES)
+#if defined(TILES) || defined(SDL_SOUND)
 
 #include "sdl_wrappers.h"
 
@@ -34,6 +34,8 @@ void throwErrorIf( const bool condition, const char *const message )
     }
     throw std::runtime_error( std::string( message ) + ": " + SDL_GetError() );
 }
+
+#if defined(TILES)
 
 void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture,
                  const SDL_Rect *srcrect, const SDL_Rect *dstrect )
@@ -191,5 +193,5 @@ SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int
     throwErrorIf( !surface, "Failed to create surface" );
     return surface;
 }
-
-#endif
+#endif // defined(TILES)
+#endif // defined(TILES) || defined(SDL_SOUND)

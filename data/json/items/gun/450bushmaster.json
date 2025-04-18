@@ -1,7 +1,7 @@
 [
   {
     "id": "ruger_arr",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Ruger American Ranch Rifle" },
@@ -12,26 +12,19 @@
     "barrel_length": "409 mm",
     "price": "669 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "color": "brown",
     "ammo": [ "450" ],
     "dispersion": 120,
-    "durability": 8,
-    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "grip", 1 ],
-      [ "rail", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_arr_mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_arr_mag" ] } ]
   }
 ]

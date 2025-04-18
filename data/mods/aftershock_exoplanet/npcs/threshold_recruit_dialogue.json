@@ -1,0 +1,23 @@
+[
+  {
+    "id": [ "TALK_SUGGEST_FOLLOW" ],
+    "type": "talk_topic",
+    "//": "Sets a base level response if you share the same threshold with an uplift or other specific type of post thresh mutant.  Higher base chance for herd type animals.",
+    "responses": [
+      {
+        "text": "[MASTODON 75%] Come, join the herd before you're left behind.",
+        "condition": { "and": [ { "u_has_trait": "THRESH_MASTODON" }, { "npc_has_trait": "THRESH_MASTODON" } ] },
+        "topic": "TALK_AGREE_FOLLOW",
+        "effect": "follow",
+        "opinion": { "value": -1 }
+      },
+      {
+        "text": "[MI-GO 50%] Let's see just how much we can improve ourselves.",
+        "condition": { "and": [ { "u_has_trait": "THRESH_YUGGOTH" }, { "npc_has_trait": "THRESH_YUGGOTH" } ] },
+        "topic": "TALK_AGREE_FOLLOW",
+        "effect": "follow",
+        "opinion": { "value": -1 }
+      }
+    ]
+  }
+]

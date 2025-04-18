@@ -2,8 +2,13 @@
 #ifndef CATA_SRC_PROFESSION_GROUP_H
 #define CATA_SRC_PROFESSION_GROUP_H
 
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include "type_id.h"
-#include "json.h"
+
+class JsonObject;
 
 struct profession_group {
 

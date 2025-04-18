@@ -79,7 +79,7 @@
     "time": "60 m",
     "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
-    "components": [ [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "sheet_metal", 10 ] ] ],
+    "components": [ [ [ "steel_lump_any", 4, "LIST" ], [ "steel_chunk_any", 12, "LIST" ], [ "scrap", 36 ] ], [ [ "sheet_metal", 10 ] ] ],
     "pre_note": "Must be supported directly from below or on at least two sides.  May need a 'room' supporting a roof directly below.",
     "pre_special": [ "check_support", "check_unblocked" ],
     "post_terrain": "t_metal_roof"

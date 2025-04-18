@@ -6,11 +6,35 @@
       { "prob": 60, "group": "cig_box_cigarette_1_20" },
       { "prob": 20, "group": "tobacco_bag_plastic_1_20" },
       { "prob": 20, "group": "chaw_wrapper_1_20" },
+      { "prob": 20, "group": "nic_pouch_can_opened" },
+      { "prob": 10, "group": "nic_pouch_can_new" },
       { "item": "cigar", "prob": 10, "count": [ 1, 5 ] },
       { "item": "ecig", "prob": 10, "count": [ 1, 40 ] },
       { "item": "advanced_ecig", "prob": 8, "charges": [ 1, 100 ] },
-      [ "nicotine_liquid", 15 ],
+      { "group": "nicotine_liquid_bottle_part", "prob": 15 },
       [ "pipe_tobacco", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cigarettes_opened",
+    "items": [
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 1, 20 ], "container-item": "null" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cigarettes_new",
+    "items": [
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 20, 20 ], "container-item": "null" }
     ]
   },
   {
@@ -55,7 +79,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 75, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes_opened", "prob": 75, "entry-wrapper": "box_cigarette" },
           {
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
@@ -91,6 +115,40 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": 20 } ]
+    "entries": [ { "group": "cigarettes_new" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nic_pouch_can_opened",
+    "subtype": "distribution",
+    "container-item": "nic_pouch_can",
+    "items": [
+      { "item": "nic_pouch", "variant": "nic_pouch_basic", "prob": 20, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_mint", "prob": 15, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_coffee", "prob": 10, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_citrus", "prob": 5, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_cinnamon", "prob": 8, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_menthol", "prob": 10, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_spearmint", "prob": 5, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_peppermint", "prob": 15, "count": [ 1, 14 ] },
+      { "item": "nic_pouch", "variant": "nic_pouch_wintergreen", "prob": 12, "count": [ 1, 14 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nic_pouch_can_new",
+    "subtype": "distribution",
+    "container-item": "nic_pouch_can",
+    "items": [
+      { "item": "nic_pouch", "variant": "nic_pouch_basic", "prob": 20, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_mint", "prob": 15, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_citrus", "prob": 5, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_coffee", "prob": 10, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_cinnamon", "prob": 8, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_menthol", "prob": 10, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_spearmint", "prob": 5, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_peppermint", "prob": 15, "count": 15 },
+      { "item": "nic_pouch", "variant": "nic_pouch_wintergreen", "prob": 12, "count": 15 }
+    ]
   }
 ]

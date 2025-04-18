@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK",
-    "condition": { "math": [ "lizardfolk_allowed", "==", "1" ] },
+    "condition": { "math": [ "lizardfolk_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_LIZARDFOLK_DM",
@@ -18,7 +18,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_GOLEMS",
-    "condition": { "math": [ "golems_allowed", "==", "1" ] },
+    "condition": { "math": [ "golems_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_GOLEM_DM",
@@ -34,7 +34,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_GOBLINS",
-    "condition": { "math": [ "goblins_allowed", "==", "1" ] },
+    "condition": { "math": [ "goblins_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_GOBLIN_STANDARD",
@@ -50,7 +50,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_ORCS",
-    "condition": { "math": [ "orcs_allowed", "==", "1" ] },
+    "condition": { "math": [ "orcs_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_ORC_DM",

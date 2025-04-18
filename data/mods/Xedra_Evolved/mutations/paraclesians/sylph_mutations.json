@@ -173,6 +173,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_BONUS_MELEE_RANGE",
+    "name": { "str": "Breeze-Cutting Blows" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to strike so precisely that the air will carry their melee attacks a short distance.",
+    "prereqs": [ "SYLPH_BONUS_RANGE", "SYLPH_DEX_BONUS_2" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_bonus_melee_range_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SLOWFALL",
     "name": { "str": "Slow Fall" },
     "points": 3,
@@ -223,7 +235,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": -10 } ]
+        "incoming_damage_mod": [ { "type": "cold", "add": -10 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -240,7 +253,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.75 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -259,7 +273,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.75 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
       }
     ]
   },
@@ -431,11 +446,11 @@
   {
     "type": "mutation",
     "id": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE",
-    "name": { "str": "Fulgurating Strikes Active" },
+    "name": { "str": "Fulgurating Strikes Active", "//~": "NO_I18N" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.",
+    "description": { "str": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.", "//~": "NO_I18N" },
     "category": [ "SYLPH" ],
     "valid": false,
     "player_display": false,

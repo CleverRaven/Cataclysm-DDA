@@ -1,0 +1,158 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"You should be sleeping by now!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"You should be sleeping by now.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I'm going to eat you!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"SLEEP!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"Jump in my bag, it will be less painful that way.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"Another one awake past its bedtime.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"Those who do not sleep won't ever wake up.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I'm going to beat you until you sleep, one way or another.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"This time is for the sleeping, not for the wakeful.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"There is no excuse.  You sleep, or you die.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I am here to guard the sleepers.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I am here to kill the awake.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I won't let you wake them up.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"They say being dead is akin to being asleep.  Sleep now, or you'll know what is it to be dead.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"So hungry.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"Need to eat.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"Their flesh and dreams are rotten.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"You will be fine food.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"The wakeful threaten the sleepers.  I cannot let that be.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"It is currently the sleepers' time.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"All who are awake during the sleepers' time are mine.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I wish for all to sleep well in this time.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"You are still able to sleep.  Why do you squander this gift?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I will ensure that all who sleep won't be disturbed.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"I will ensure that all who cannot sleep will die.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_sevenoclock_active" ],
+    "sound": "\"For the last time: SLEEP!\"",
+    "volume": 32
+  }
+]

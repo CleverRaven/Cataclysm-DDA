@@ -185,7 +185,7 @@
         "y": "f_woodstove",
         "{": "f_rack"
       },
-      "items": { "1": { "item": "spy_map" } },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 }, "1": { "item": "spy_map" } },
       "toilets": { "t": {  } },
       "place_liquids": [ { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 } ],
       "place_loot": [

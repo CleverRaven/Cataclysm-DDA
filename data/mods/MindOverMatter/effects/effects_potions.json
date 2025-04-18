@@ -43,7 +43,7 @@
     "flags": [ "BLEED_IMMUNE", "STEADY" ],
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -6 }, { "value": "ARMOR_STAB", "add": -3 } ]
+        "incoming_damage_mod": [ { "type": "bash", "add": -6 }, { "type": "stab", "add": -3 }, { "type": "cut", "add": -4 } ]
       }
     ]
   },
@@ -66,7 +66,7 @@
       "pain_max_val": [ 10 ],
       "pain_tick": [ 200 ]
     },
-    "enchantments": [ { "values": [ { "value": "ARMOR_BASH", "add": 4 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "bash", "add": 4 } ] } ]
   },
   {
     "type": "effect_type",

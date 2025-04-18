@@ -112,6 +112,7 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
         "Q": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
         "S": { "item": "softdrugs", "chance": 30, "repeat": [ 1, 2 ] },

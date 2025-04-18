@@ -69,8 +69,8 @@
     "description": "This is a high quality engraved wooden torch.  On command, the tip bursts into flame and produces a fair amount of light.  It will burn forever.",
     "weight": "831 g",
     "volume": "750 ml",
-    "price": "0 cent",
-    "price_postapoc": "150 USD",
+    "price": "1 kUSD 250 USD",
+    "price_postapoc": "1 kUSD 250 USD",
     "to_hit": 1,
     "material": [ "wood" ],
     "symbol": "/",
@@ -196,9 +196,9 @@
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "borealmosin_clip",

@@ -14,7 +14,7 @@
     "color": "light_cyan",
     "time": "4 m",
     "chapters": 4,
-    "fun": 1
+    "read_fun": 1
   },
   {
     "id": "fairy_tales",
@@ -32,7 +32,6 @@
     "intelligence": 6,
     "time": "18 m",
     "chapters": 24,
-    "fun": 3,
     "//": "The ids below represent the Aarne-Thompson System of folklore classification.  Do not change.",
     "snippet_category": [
       {
@@ -126,7 +125,8 @@
         "id": "fairyat_2025",
         "text": "Titled \"The Fleeing Pancake\", this collection of silly folk tales is suitable for small children."
       }
-    ]
+    ],
+    "read_fun": 3
   },
   {
     "id": "book_fict_soft_ya_adrk",
@@ -224,7 +224,7 @@
     "intelligence": 4,
     "time": "20 m",
     "chapters": 16,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "novel_coa2",

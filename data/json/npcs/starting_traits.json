@@ -46,7 +46,6 @@
       { "trait": "QUICK", "prob": 10 },
       { "trait": "ROBUST", "prob": 10 },
       { "trait": "SPIRITUAL", "prob": 10 },
-      { "trait": "STYLISH", "prob": 10 },
       { "trait": "TERRIFYING", "prob": 10 },
       { "trait": "TOUGH_FEET", "prob": 10 },
       { "trait": "ALBINO", "prob": 1 },

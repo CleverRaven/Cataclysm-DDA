@@ -2,10 +2,13 @@
 
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "pocket_type.h"  // IWYU pragma: keep // need full type to read from json
 
+// Define the static class varaibles
 std::set<itype_id> test_data::legacy_to_hit;
 std::set<itype_id> test_data::known_bad;
-std::unordered_set<oter_type_id> test_data::overmap_terrain_coverage_whitelist;
+std::vector<pulp_test_data> test_data::pulp_test;
+std::vector<std::regex> test_data::overmap_terrain_coverage_whitelist;
 std::map<vproto_id, std::vector<double>> test_data::drag_data;
 std::map<vproto_id, efficiency_data> test_data::eff_data;
 std::map<itype_id, double> test_data::expected_dps;
@@ -124,11 +127,37 @@ void test_data::load( const JsonObject &jo )
         known_bad.insert( new_known_bad.begin(), new_known_bad.end() );
     }
 
+    if( jo.has_array( "pulp_testing_data" ) ) {
+        for( JsonObject job : jo.get_array( "pulp_testing_data" ) ) {
+
+            std::string name;
+            int pulp_time = 0;
+            std::vector<itype_id> items;
+            std::map<skill_id, int> skills;
+            bool profs;
+            mtype_id corpse;
+
+            job.read( "name", name );
+            job.read( "pulp_time", pulp_time );
+            job.read( "items", items );
+            profs = job.get_bool( "proficiencies", false );
+            job.read( "corpse", corpse );
+
+            if( job.has_array( "skills" ) ) {
+                for( JsonObject job_skills : job.get_array( "skills" ) ) {
+                    skills.emplace( job_skills.get_string( "skill" ), job_skills.get_int( "level" ) );
+                }
+            }
+
+            pulp_test.push_back( { name, pulp_time, items, skills, profs, corpse } );
+        }
+    }
+
     if( jo.has_array( "overmap_terrain_coverage_whitelist" ) ) {
-        std::unordered_set<oter_type_str_id> new_overmap_terrain_coverage_whitelist;
+        std::vector<std::string> new_overmap_terrain_coverage_whitelist;
         jo.read( "overmap_terrain_coverage_whitelist", new_overmap_terrain_coverage_whitelist );
-        for( const oter_type_str_id &o : new_overmap_terrain_coverage_whitelist ) {
-            overmap_terrain_coverage_whitelist.insert( o.id() );
+        for( const std::string &o : new_overmap_terrain_coverage_whitelist ) {
+            overmap_terrain_coverage_whitelist.emplace_back( o );
         }
     }
 

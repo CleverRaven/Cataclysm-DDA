@@ -34,6 +34,7 @@
       "<": "t_stairs_up"
     },
     "furniture": { "?": "f_null" },
+    "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { ";": {  } }
   },
   {

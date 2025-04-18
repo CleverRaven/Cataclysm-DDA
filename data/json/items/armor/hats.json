@@ -123,7 +123,7 @@
     "warmth": 5,
     "material_thickness": 0.3,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "VARSIZE" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1279,7 +1279,7 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "VARSIZE" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -1409,7 +1409,7 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],

@@ -1,0 +1,127 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "ravine_tunnels",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty", "ravine_edge", "land" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 10, 10 ],
+    "flags": [ "WILDERNESS", "EXOPLANET" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "ravine_edge" ] ],
+      [ [ -1, 0, 0 ], [ "ravine_edge" ] ],
+      [ [ 1, 0, 0 ], [ "ravine_edge" ] ],
+      [ [ 0, 0, -1 ], [ "ravine_edge" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 2, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [
+      { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel" },
+      { "id": "sinkhole_to_tunnel", "opposite": "tunnel_to_sinkhole" },
+      { "id": "tunnel_to_sinkhole", "opposite": "sinkhole_to_tunnel", "into_locations": [ "land" ] },
+      { "id": "lake_to_lake", "opposite": "lake_to_lake", "into_locations": [ "subterranean_empty" ] },
+      { "id": "tunnel_to_tunnel", "into_locations": [ "subterranean_empty" ] },
+      { "id": "river_to_river", "into_locations": [ "subterranean_empty" ] },
+      { "id": "cliffside_to_tunnel", "opposite": "tunnel_to_cliffside", "into_locations": [ "subterranean_empty" ] },
+      { "id": "tunnel_to_cliffside", "opposite": "cliffside_to_tunnel", "into_locations": [ "ravine_edge" ] }
+    ],
+    "overmaps": {
+      "surface": { "overmap": "ravine_edge", "below": "surface_to_tunnel" },
+      "cliffside": { "overmap": "afs_tunnel_ravine_edge_north", "above": "tunnel_to_surface", "north": "cliffside_to_tunnel" },
+      "cliffside_access": { "overmap": "afs_tunnel_ns", "north": "tunnel_to_cliffside", "south": "tunnel_to_tunnel" },
+      "open_cliffside": {
+        "overmap": "afs_tunnel_ravine_edge_north",
+        "north": "cliffside_to_tunnel",
+        "east": { "id": "cliffside_to_tunnel", "type": "available" },
+        "south": { "id": "cliffside_to_tunnel", "type": "available" },
+        "west": { "id": "cliffside_to_tunnel", "type": "available" }
+      },
+      "sinkhole": { "overmap": "afs_tunnel_sinkhole_surface_north", "below": "sinkhole_to_tunnel" },
+      "sinkhole_under": {
+        "overmap": "afs_tunnel_sinkhole_north",
+        "above": "tunnel_to_sinkhole",
+        "north": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel"
+      },
+      "crossroads": {
+        "overmap": "afs_tunnel_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": { "overmap": "afs_tunnel_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "afs_tunnel_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "afs_tunnel_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "afs_tunnel_end_south", "north": "tunnel_to_tunnel" },
+      "river_end": { "overmap": "afs_tunnel_river_end_south", "north": "river_to_river" },
+      "river_start": { "overmap": "afs_tunnel_river_start_south", "north": "river_to_river", "south": "tunnel_to_tunnel" },
+      "river_straight": { "overmap": "afs_tunnel_river_ns", "north": "river_to_river", "south": "river_to_river" },
+      "river_corner": { "overmap": "afs_tunnel_river_ne", "north": "river_to_river", "east": "river_to_river" },
+      "river_tee": { "overmap": "afs_tunnel_river_nes", "north": "river_to_river", "east": "river_to_river", "south": "tunnel_to_tunnel" },
+      "river_crossroads": {
+        "overmap": "afs_tunnel_river_nesw",
+        "north": "river_to_river",
+        "east": { "id": "tunnel_to_tunnel", "type": "available", "alternatives": [ "river_to_river" ] },
+        "south": { "id": "tunnel_to_tunnel", "type": "available", "alternatives": [ "river_to_river" ] },
+        "west": { "id": "tunnel_to_tunnel", "type": "available", "alternatives": [ "river_to_river" ] }
+      },
+      "afs_tunnel_lake1": { "overmap": "afs_tunnel_lake1_north", "south": "lake_to_lake", "east": "lake_to_lake" },
+      "afs_tunnel_lake2": { "overmap": "afs_tunnel_lake2_north", "south": "lake_to_lake", "east": "lake_to_lake", "west": "lake_to_lake" },
+      "afs_tunnel_lake3": { "overmap": "afs_tunnel_lake3_north", "south": "lake_to_lake", "west": "lake_to_lake" },
+      "afs_tunnel_lake4": { "overmap": "afs_tunnel_lake4_north", "north": "lake_to_lake", "east": "lake_to_lake", "south": "river_to_river" },
+      "afs_tunnel_lake5": { "overmap": "afs_tunnel_lake5_north", "north": "lake_to_lake", "east": "lake_to_lake", "west": "lake_to_lake" },
+      "afs_tunnel_lake6": { "overmap": "afs_tunnel_lake6_north", "north": "lake_to_lake", "west": "lake_to_lake" }
+    },
+    "root": "surface",
+    "phases": [
+      [ { "overmap": "cliffside", "max": 1 } ],
+      [ { "overmap": "cliffside_access", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 5 } },
+        { "overmap": "tee", "max": { "poisson": 10 } },
+        { "overmap": "river_start", "max": { "poisson": 0.5 } },
+        {
+          "name": "sinkhole",
+          "chunk": [ { "overmap": "sinkhole_under", "pos": [ 0, 0, 0 ] }, { "overmap": "sinkhole", "pos": [ 0, 0, 1 ] } ],
+          "max": { "poisson": 0.5 }
+        }
+      ],
+      [
+        { "overmap": "river_straight", "max": { "poisson": 20 } },
+        { "overmap": "river_corner", "max": { "poisson": 8 } },
+        {
+          "name": "lake",
+          "chunk": [
+            { "overmap": "afs_tunnel_lake4", "pos": [ 0, 0, 0 ] },
+            { "overmap": "afs_tunnel_lake5", "pos": [ 1, 0, 0 ] },
+            { "overmap": "afs_tunnel_lake6", "pos": [ 2, 0, 0 ] },
+            { "overmap": "afs_tunnel_lake1", "pos": [ 0, -1, 0 ] },
+            { "overmap": "afs_tunnel_lake2", "pos": [ 1, -1, 0 ] },
+            { "overmap": "afs_tunnel_lake3", "pos": [ 2, -1, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "cliffside_access", "weight": 6000 },
+        { "overmap": "cliffside", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "crossroads", "weight": 1 },
+        { "overmap": "open_cliffside", "weight": 1 },
+        { "overmap": "surface", "weight": 1 },
+        { "overmap": "river_straight", "weight": 100 },
+        { "overmap": "river_corner", "weight": 100 },
+        { "overmap": "river_tee", "weight": 1 },
+        { "overmap": "river_start", "weight": 1 },
+        { "overmap": "river_crossroads", "weight": 1 },
+        { "overmap": "river_end", "weight": 2000 }
+      ]
+    ]
+  }
+]

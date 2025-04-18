@@ -89,5 +89,12 @@
     "extend": { "flags": [ "SUNDEATH" ] },
     "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fetch_daffodil_warrior_player",
+    "copy-from": "mon_fetch_daffodil_warrior",
+    "looks_like": "mon_fetch_daffodil_warrior",
+    "default_faction": "player"
   }
 ]

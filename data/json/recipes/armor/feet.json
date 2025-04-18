@@ -352,7 +352,7 @@
       [ "adhesive_rubber", 1 ],
       [ "tailoring_leather_small", 16 ],
       [ "welding_standard", 10 ],
-      [ "steel_tiny", 2 ]
+      [ "steel_chunk_any", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -551,7 +551,7 @@
       { "proficiency": "prof_articulation" }
     ],
     "components": [
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -563,7 +563,7 @@
     "time": "24 h",
     "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_leather_small", 3 ], [ "fastener_small", 1 ] ],
     "components": [
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
+      [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ],
       [ [ "duct_tape", 75 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -576,7 +576,7 @@
     "using": [ [ "tailoring_kevlar_fabric", 5 ], [ "tailoring_leather_small", 5 ], [ "fastener_small", 2 ] ],
     "time": "27 h",
     "components": [
-      [ [ "steel_chunk", 5 ], [ "scrap", 15 ] ],
+      [ [ "steel_chunk_any", 5, "LIST" ], [ "scrap", 15 ] ],
       [ [ "duct_tape", 150 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -965,7 +965,7 @@
       [ "adhesive_rubber", 1 ],
       [ "tailoring_leather_small", 16 ],
       [ "welding_standard", 10 ],
-      [ "steel_tiny", 2 ]
+      [ "steel_chunk_any", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -1002,7 +1002,7 @@
       [ "tailoring_leather_small", 30 ],
       [ "welding_standard", 12 ],
       [ "blacksmithing_standard", 2 ],
-      [ "steel_tiny", 2 ]
+      [ "steel_chunk_any", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },

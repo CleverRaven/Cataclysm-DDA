@@ -54,7 +54,7 @@
       { "proficiency": "prof_pottery" }
     ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "con_mix", 50 ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
+    "tools": [ [ [ "concrete_mix_tool", 50 ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "demon_chitin_piece", 10 ] ] ]
   },
   {

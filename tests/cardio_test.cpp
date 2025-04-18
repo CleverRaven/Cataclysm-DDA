@@ -1,10 +1,18 @@
-#include "avatar.h"
+#include <memory>
+#include <string>
+
+#include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "game.h"
-#include "options.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "options.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 // Cardio Fitness
 // --------------
@@ -63,7 +71,7 @@ static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pav
     REQUIRE_FALSE( they.is_npc() );
     // You put your left foot in, you put your right foot in
     const tripoint_bub_ms left = they.pos_bub();
-    const tripoint_bub_ms right = left + tripoint_east;
+    const tripoint_bub_ms right = left + tripoint::east;
     // You ensure two tiles of terrain to hokey-pokey in
     here.ter_set( left, terrain );
     here.ter_set( right, terrain );
@@ -116,7 +124,7 @@ static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pav
         last_moves = they.get_moves();
     }
     // Reset to starting position
-    they.setpos( left );
+    they.setpos( here, left );
     return steps;
 }
 

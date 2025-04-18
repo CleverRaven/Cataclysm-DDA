@@ -29,7 +29,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "8" ],
+      "math": [ "n_npc_anger() >= 8" ],
       "yes": "What brings you back here?  Come to exploit me again?",
       "no": {
         "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
@@ -65,7 +65,7 @@
         "text": "Good to see you again, Reverend.  I wanted to talk.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "8" ] },
+            { "math": [ "n_npc_anger() < 8" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -75,7 +75,7 @@
         "text": "I'm looking for work.  Can I do anything for your congregation?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "8" ] },
+            { "math": [ "n_npc_anger() < 8" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -88,7 +88,7 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "8" ] },
+            { "math": [ "n_npc_anger() < 8" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_greenwood" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -108,9 +108,9 @@
       {
         "text": "What are you talking about?",
         "topic": "TALK_GODCO_Greenwood_Angry",
-        "condition": { "math": [ "n_npc_anger()", ">=", "8" ] }
+        "condition": { "math": [ "n_npc_anger() >= 8" ] }
       },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -119,7 +119,7 @@
     "dynamic_line": "What can I do for you?",
     "responses": [
       { "text": "Where am I?", "topic": "TALK_GODCO_Greenwood_Where" },
-      { "text": "Actually, I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -131,11 +131,11 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Greenwood_Past",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Could you tell me a bit about this church?", "topic": "TALK_GODCO_Greenwood_NECC" },
       { "text": "I'm looking for work.  Can I do anything for your congregation?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -195,7 +195,7 @@
     "id": "TALK_GODCO_Greenwood_You_Mutant",
     "dynamic_line": "Well, it's your appearance.  You're… how do I say, significantly different than what most people are used to.  With the sudden appearance of strange phenomenon following the Rapture, some have taken your changes as a mark of demonic corruption, and won't be very kind to you either.  Be wary of this.",
     "responses": [
-      { "text": "Alright.  Let's talk about something else.", "topic": "TALK_GODCO_Greenwood_2" },
+      { "text": "Alright.  <done_conversation_section>", "topic": "TALK_GODCO_Greenwood_2" },
       { "text": "Thanks for the info, I'd best be going then.", "topic": "TALK_DONE" }
     ]
   },

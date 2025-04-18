@@ -170,5 +170,129 @@
       "palettes": [ "microlab" ],
       "terrain": { "`": "t_open_air", "E": "t_elevator_control_iso" }
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "iso_elevator_office" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "((((((((((((((((((((((((",
+        "(    =  =    |      dh (",
+        "( :  [  =    +         (",
+        "( : :=  =    |ddd   ddd(",
+        "( : :=rr=BB  | h     h (",
+        "(|||||rr|||++||||||||||(",
+        "(  h =rr        rr| h  (",
+        "(htt [rr h   tt rr|ddd (",
+        "( tth=rrdd   tt rr|h h (",
+        "(^h ^=rr h      rr+    (",
+        "(|||||rrdd dd ddrr|||||(",
+        "(hd^ =rr h  h  hrr|rhr|(",
+        "(    =rrdd dd ddrr|rtr|(",
+        "(hd  =rr        rr|rhr|(",
+        "( d  =rr^^nFcc^^rr|rrr|(",
+        "(|||+|rr||||||||rr|+==|(",
+        "( t   rr        rr     (",
+        "(                      (",
+        "(|||||  |||  ||||  ||||(",
+        "( d  =  |--22-##-22--|||",
+        "(hdh =  |-Eee-##-eeE-|||",
+        "( d  +  |-eee-##-eee-|||",
+        "(   &= ^|-----##-----|||",
+        "(((((((((((((((((((((((("
+      ],
+      "terrain": { "`": "t_open_air", "E": "t_elevator_control_off" },
+      "place_nested": [
+        {
+          "chunks": [ "office_up_ew" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        },
+        {
+          "chunks": [ "office_left_ns" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        },
+        {
+          "chunks": [ "office_bottom_ew" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        },
+        {
+          "chunks": [ "office_right_ns" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        }
+      ],
+      "palettes": [ "iso_office" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "iso_elevator_office_next" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "((((((((((((((((((((((((",
+        "(    =  =    |      dh (",
+        "( :  [  =    +         (",
+        "( : :=  =    |ddd   ddd(",
+        "( : :=rr=BB  | h     h (",
+        "(|||||rr|||++||||||||||(",
+        "(  h =rr        rr| h  (",
+        "(htt [rr h   tt rr|ddd (",
+        "( tth=rrdd   tt rr|h h (",
+        "(^h ^=rr h      rr+    (",
+        "(|||||rrdd dd ddrr|||||(",
+        "(hd^ =rr h  h  hrr|rhr|(",
+        "(    =rrdd dd ddrr|rtr|(",
+        "(hd  =rr        rr|rhr|(",
+        "( d  =rr^^nFcc^^rr|rrr|(",
+        "(|||+|rr||||||||rr|+==|(",
+        "( t   rr        rr     (",
+        "(                      (",
+        "(|||||  |||  ||||  |||=(",
+        "( d  =  |--22-##-22--|||",
+        "(hdh =  |-Eee-##-eeE-|||",
+        "( d  +  |-eee-##-eee-|||",
+        "(   &= ^|-----##-----|||",
+        "(((((((((((((((((((((((("
+      ],
+      "terrain": { "`": "t_open_air", "E": "t_elevator_control_iso" },
+      "place_nested": [
+        {
+          "chunks": [ "office_up_ew" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        },
+        {
+          "chunks": [ "office_left_ns" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        },
+        {
+          "chunks": [ "office_bottom_ew" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        },
+        {
+          "chunks": [ "office_right_ns" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "iso_office", "iso_elevator_office_next", "iso_elevator_office" ] }
+        }
+      ],
+      "palettes": [ "iso_office" ]
+    }
   }
 ]

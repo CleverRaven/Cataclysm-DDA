@@ -12,10 +12,10 @@
     "color": "green",
     "material": [ "oil" ],
     "flags": [
+      "RAINPROOF",
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "WATER_FRIENDLY",
       "TRADER_AVOID",
       "NO_TAKEOFF",
@@ -23,7 +23,8 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
+    "max_worn": 1,
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
@@ -46,7 +47,6 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "WATER_FRIENDLY",
       "TRADER_AVOID",
       "NO_TAKEOFF",
@@ -54,7 +54,8 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" }, { "id": "ench_cold_armor" } ] },
+    "max_worn": 1,
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" }, { "id": "ench_cold_armor" } ] },
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]

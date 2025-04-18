@@ -38,7 +38,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmf_2_fallback_recipe_1",
-    "description": "Add crafting recipes to the farm expansion",
+    "description": "Add crafting recipes to the farm expansion.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

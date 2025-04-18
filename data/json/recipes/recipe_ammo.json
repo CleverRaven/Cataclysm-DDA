@@ -56,7 +56,7 @@
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
     "using": [ [ "forging_standard", 2 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "weights", 34, "LIST" ], [ "steel_tiny", 2, "LIST" ] ] ]
+    "components": [ [ [ "weights", 34, "LIST" ], [ "steel_chunk_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -131,7 +131,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -155,7 +155,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -179,7 +179,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -201,7 +201,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "GRIND", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -315,7 +315,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 2, "LIST" ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -356,7 +356,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -380,7 +380,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -404,7 +404,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -426,7 +426,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "GRIND", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -573,7 +573,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 8 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -703,7 +703,7 @@
     "difficulty": 2,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {

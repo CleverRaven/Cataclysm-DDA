@@ -197,10 +197,10 @@
         "                                                ",
         "        ||||||                                  ",
         "       ||RHHV|||||                ||||||||||||  ",
-        "       |q....gF|<|                |..........|  ",
+        "       |q....gâ|<|                |..........|  ",
         "       |NA.......|            |||||.ɅɅɅɅɅɅɅɅ.|  ",
         "       |N.......q|            |UUU|.ΔΔΔΔΔΔΔΔ.|  ",
-        " |||||||%%%%%+%%%||||||||||||||...|..........|  ",
+        " ||||||||||||+|||||||||||||||||...|..........|  ",
         " |............................|<..|..........|  ",
         " |............................|||.|..........|  ",
         " |...........................................|  ",
@@ -218,7 +218,7 @@
         " |||||||||||||||||||||||||||||||||||||||||||||  ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "Δ": "t_ramp_up_low", "Ʌ": "t_ramp_up_high" },
       "furniture": {
         "q": "f_rack",
@@ -257,8 +257,8 @@
       ],
       "place_vehicles": [
         { "vehicle": "suburban_home", "x": 39, "y": 15, "chance": 70, "status": 0, "rotation": 270 },
-        { "vehicle": "car_chassis", "x": 11, "y": 14, "chance": 100, "status": 0, "rotation": 0 },
-        { "chance": 100, "fuel": 0, "rotation": 0, "status": 0, "vehicle": "back_alley", "x": 20, "y": 9 },
+        { "vehicle": "car_chassis", "x": 11, "y": 14, "status": 0, "rotation": 0 },
+        { "fuel": 0, "rotation": 0, "status": 0, "vehicle": "back_alley", "x": 20, "y": 9 },
         { "chance": 70, "fuel": 0, "rotation": 0, "status": -1, "vehicle": "engine_crane", "x": 29, "y": 8 },
         { "chance": 70, "fuel": 30, "rotation": 180, "status": -1, "vehicle": "welding_cart", "x": 27, "y": 8 }
       ]

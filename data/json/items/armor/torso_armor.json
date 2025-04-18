@@ -9,7 +9,7 @@
     "volume": "6 L",
     "price": "500 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "bronze" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
@@ -47,7 +47,7 @@
     "volume": "6 L",
     "price": "400 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "bronze" ],
     "symbol": "[",
     "looks_like": "armor_cuirass",
@@ -290,10 +290,10 @@
     "price": "200 USD",
     "price_postapoc": "25 USD",
     "material": [ "cotton" ],
-    "to_hit": -1,
     "warmth": 80,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "RAINPROOF", "NO_REPAIR", "ONLY_ONE", "BLOCK_WHILE_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "RAINPROOF", "NO_REPAIR", "BLOCK_WHILE_WORN" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [
@@ -305,8 +305,7 @@
         "coverage": 100,
         "encumbrance": 40
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "armor_lorica",
@@ -317,7 +316,6 @@
     "volume": "6 L",
     "price": "500 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -5,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -335,8 +333,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l" ]
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   },
   {
     "id": "xl_armor_lorica",
@@ -364,7 +361,7 @@
     "volume": "6 L",
     "price": "500 USD",
     "price_postapoc": "70 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -437,7 +434,7 @@
     "volume": "4 L",
     "price": "10 USD",
     "price_postapoc": "4 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel" ],
     "repairs_with": [ "steel" ],
     "symbol": "H",
@@ -510,7 +507,6 @@
     "volume": "9500 ml",
     "price": "42 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "paper" ],
     "symbol": "O",
     "looks_like": "armor_scrapsuit",
@@ -526,12 +522,11 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tireplate" },
-    "description": "Armor fashioned from from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
+    "description": "Armor fashioned from overlapping chunks of tire and rolls of duct tape, covering the shoulders and torso.",
     "weight": "5790 g",
     "volume": "9500 ml",
     "price": "42 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "symbol": "O",
     "looks_like": "armor_scrapsuit",
@@ -553,7 +548,6 @@
     "longest_side": "10 cm",
     "price": "100 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -852,7 +846,7 @@
     "volume": "6 L",
     "price": "200 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
@@ -903,7 +897,7 @@
     "volume": "5750 ml",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "repairs_with": [ "budget_steel" ],
     "symbol": "[",
@@ -951,7 +945,6 @@
     "volume": "5750 ml",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
@@ -1006,7 +999,6 @@
     "volume": "4500 ml",
     "price": "179 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -3,
     "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
@@ -1380,7 +1372,6 @@
     "volume": "4 L",
     "price": "350 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -1412,8 +1403,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   },
   {
     "id": "motorbike_armor",
@@ -1497,7 +1487,6 @@
     "volume": "3 L",
     "price": "179 USD",
     "price_postapoc": "12 USD",
-    "to_hit": -3,
     "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -1552,7 +1541,7 @@
     "volume": "8750 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
@@ -1560,7 +1549,8 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [
@@ -1668,7 +1658,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1676,7 +1666,8 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [
@@ -1784,7 +1775,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1792,7 +1783,8 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [
@@ -1972,10 +1964,9 @@
     "name": { "str": "riot chest guard" },
     "description": "A hard chest protector, attached to thigh and upper arm guards.  Used by riot police officers.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
     "weight": "2 kg",
-    "volume": "10000 ml",
+    "volume": "10 L",
     "price": "400 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -3,
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
@@ -2025,7 +2016,6 @@
     "volume": "3500 ml",
     "price": "60 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -5,
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -2048,8 +2038,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_larmor_chest",
@@ -2077,7 +2066,6 @@
     "volume": "2 L",
     "price": "200 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "lc_steel", "leather" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",

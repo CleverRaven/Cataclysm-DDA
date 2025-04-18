@@ -45,6 +45,6 @@
       "p": "f_table"
     },
     "vendingmachines": { "F": { "item_group": "vending_drink", "lootable": true }, "K": { "item_group": "vending_food", "lootable": true } },
-    "items": { "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 } }
+    "items": { "_": { "item": "SUS_trash_metal", "chance": 3, "repeat": 2 } }
   }
 ]

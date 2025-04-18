@@ -27,7 +27,7 @@
     "time": "60 m",
     "//": "50cm weld",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "welding_standard", 50 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "welding_standard", 50 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "any_wire", 8, "LIST" ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
@@ -43,7 +43,7 @@
     "time": "60 m",
     "autolearn": true,
     "//": "40cm weld",
-    "using": [ [ "welding_standard", 40 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "welding_standard", 40 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "jack", 1 ] ], [ [ "pipe", 4 ] ], [ [ "pipe_fittings", 2 ] ] ]
   },

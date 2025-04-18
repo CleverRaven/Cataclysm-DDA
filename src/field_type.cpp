@@ -1,12 +1,12 @@
 #include "field_type.h"
 
-#include <cstdlib>
+#include <algorithm>
 
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
 const field_type_str_id fd_acid( "fd_acid" );
@@ -294,6 +294,8 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "has_fume", has_fume, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
+    optional( jo, was_loaded, "linear_half_life", linear_half_life, false );
+    optional( jo, was_loaded, "indestructible", indestructible, false );
     const auto description_affix_reader = enum_flags_reader<description_affix> { "description affixes" };
     optional( jo, was_loaded, "description_affix", desc_affix, description_affix_reader,
               description_affix::DESCRIPTION_AFFIX_IN );
@@ -309,8 +311,12 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "mopsafe", mopsafe, false );
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
-
-    bash_info.load( jo, "bash", map_bash_info::field, "field " + id.str() );
+    if( jo.has_object( "bash" ) ) {
+        if( !bash_info ) {
+            bash_info.emplace();
+        }
+        bash_info->load( jo.get_object( "bash" ), was_loaded, "field " + id.str() );
+    }
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
