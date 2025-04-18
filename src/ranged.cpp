@@ -19,7 +19,7 @@
 #include "ballistics.h"
 #include "bionics.h"
 #include "bodypart.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"

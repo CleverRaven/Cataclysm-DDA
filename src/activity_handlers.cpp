@@ -77,6 +77,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -2902,18 +2903,8 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
         }
         map &here = get_map();
         tripoint_bub_ms centre_sub = here.get_bub( waypoint );
-        if( !here.passable_through( centre_sub ) ) {
-            tripoint_range<tripoint_bub_ms> candidates = here.points_in_radius( centre_sub, 2 );
-            for( const tripoint_bub_ms &elem : candidates ) {
-                if( here.passable_through( elem ) ) {
-                    centre_sub = elem;
-                    break;
-                }
-            }
-        }
         const std::vector<tripoint_bub_ms> route_to =
-            here.route( you->pos_bub(), centre_sub, you->get_pathfinding_settings(),
-                        you->get_path_avoid() );
+            here.route( *you, pathfinding_target::radius( centre_sub, 2 ) );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
             you->set_destination( route_to, player_activity( act_travel ) );
@@ -3570,8 +3561,7 @@ static void perform_zone_activity_turn(
         const tripoint_bub_ms &tile_loc = here.get_bub( tile );
 
         std::vector<tripoint_bub_ms> route =
-            here.route( you->pos_bub(), tile_loc, you->get_pathfinding_settings(),
-                        you->get_path_avoid() );
+            here.route( *you, pathfinding_target::point( tile_loc ) );
         if( route.size() > 1 ) {
             route.pop_back();
 
