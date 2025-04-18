@@ -83,5 +83,13 @@
       },
       { "math": [ "u_vampire_blood_scale_updated = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_POWER_TRAIT_UPDATE_GAME_BEGIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "or": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "u_has_effect": "vampire_virus" } ] },
+    "effect": [ { "u_add_trait": "VAMPIRE_BLOOD_ARTS" } ]
   }
 ]

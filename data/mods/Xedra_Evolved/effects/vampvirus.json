@@ -20,6 +20,7 @@
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
+              { "u_lose_trait": "VAMPIRE_BLOOD_ARTS" },
               { "u_lose_trait": "EYEGLEAM" },
               { "u_lose_trait": "BLOOD_FUN" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
@@ -204,6 +205,7 @@
                     ],
                     "false_effect": [
                       { "u_add_trait": "VAMPIRE" },
+                      { "u_add_trait": "VAMPIRE_BLOOD_ARTS" },
                       {
                         "u_message": "You suddenly understand that drinking someones blood will make you feel better than you've ever felt before in your life."
                       }
