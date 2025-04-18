@@ -1833,7 +1833,7 @@ use_function Item_factory::read_use_function( const JsonObject &jo,
 //reads a single use_function from the provided JsonValue
 static std::pair<std::string, use_function> use_function_reader_helper(
     std::map<std::string, int> &ammo_scale,
-    const std::string_view &src, const JsonValue &val )
+    std::string_view src, const JsonValue &val )
 {
     if( val.test_object() ) {
         JsonObject use_obj = val.get_object();
@@ -1865,8 +1865,8 @@ class use_function_reader_map : public generic_typed_reader<use_function_reader_
 {
     public:
         std::map<std::string, int> &ammo_scale;
-        const std::string_view &src;
-        use_function_reader_map( std::map<std::string, int> &ammo_scale, const std::string_view &src ) :
+        std::string_view src;
+        use_function_reader_map( std::map<std::string, int> &ammo_scale, std::string_view src ) :
             ammo_scale( ammo_scale ), src( src ) {};
         std::pair<std::string, use_function> get_next( const JsonValue &val ) const {
             return use_function_reader_helper( ammo_scale, src, val );
@@ -1878,8 +1878,8 @@ class use_function_reader_single : public generic_typed_reader<use_function_read
 {
     public:
         std::map<std::string, int> &ammo_scale;
-        const std::string_view &src;
-        use_function_reader_single( std::map<std::string, int> &ammo_scale, const std::string_view &src ) :
+        std::string_view src;
+        use_function_reader_single( std::map<std::string, int> &ammo_scale, std::string_view src ) :
             ammo_scale( ammo_scale ), src( src ) {
         };
         use_function get_next( const JsonValue &val ) const {
@@ -2137,8 +2137,8 @@ class snippet_reader : public generic_typed_reader<snippet_reader>
 {
     public:
         const itype &def;
-        const std::string_view &src;
-        explicit snippet_reader( const itype &def, const std::string_view &src ) : def( def ),
+        std::string_view src;
+        explicit snippet_reader( const itype &def, std::string_view src ) : def( def ),
             src( src ) {};
         std::string get_next( const JsonValue &val ) const {
             if( val.test_array() ) {
@@ -4695,7 +4695,7 @@ void itype::relative_qualities_from_json( const JsonObject &jo,
     }
 }
 
-void itype::set_techniques_from_json( const JsonObject &jo, const std::string_view &member,
+void itype::set_techniques_from_json( const JsonObject &jo, std::string_view member,
                                       itype &def )
 {
     if( jo.has_array( member ) ) {
