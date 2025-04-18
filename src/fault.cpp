@@ -221,7 +221,7 @@ void fault::load( const JsonObject &jo, std::string_view )
 
     if( jo.has_array( "armor_mod" ) ) {
         for( JsonObject jo_f : jo.get_array( "armor_mod" ) ) {
-            melee_damage_mod_.emplace_back(
+            armor_mod_.emplace_back(
                 jo_f.get_int( "add", 0 ),
                 jo_f.get_float( "multiply", 1.0f ),
                 jo_f.get_string( "damage_id" ) );
