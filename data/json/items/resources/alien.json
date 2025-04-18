@@ -469,7 +469,7 @@
     "color": "black",
     "name": { "str": "ephemeral gemstone" },
     "category": "other",
-    "description": "You know it as a mesmerising black gem with beautifully etched surfaces, despite only being able to see a pure void in its place when looked at.  You cannot gauge its weight or even feel it in your hands, but it's yours now.",
+    "description": "You know it as a mesmerizing black gem with beautifully etched surfaces, despite only being able to see a pure void in its place when looked at.  You cannot gauge its weight or even feel it in your hands, but it's yours now.",
     "material": [ "gemstone", "anomaly" ],
     "weight": "1 g",
     "volume": "10 ml",
