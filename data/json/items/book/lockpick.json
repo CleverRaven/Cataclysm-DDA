@@ -38,9 +38,9 @@
     "symbol": "?",
     "looks_like": "pocket_firstaid",
     "color": "green",
-    "skill": "traps",
     "max_level": 2,
     "intelligence": 8,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "traps"
   }
 ]

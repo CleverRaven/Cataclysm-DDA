@@ -9,6 +9,7 @@
 #include <string_view>
 
 #include "calendar.h"
+#include "math_parser_diag_value.h"
 #include "memory_fast.h"
 #include "requirements.h"
 #include "translation.h"
@@ -38,7 +39,7 @@ class fault_fix
         translation name;
         translation success_msg; // message to print on applying successfully
         time_duration time = 0_seconds;
-        std::map<std::string, std::string> set_variables; // item vars applied to item
+        std::map<std::string, diag_value> set_variables; // item vars applied to item
         // item vars adjustment(s) applied to item via multiplication; // item vars adjustment(s) applied to item via multiplication
         std::map<std::string, double> adjust_variables_multiply;
         std::map<skill_id, int> skills; // map of skill_id to required level

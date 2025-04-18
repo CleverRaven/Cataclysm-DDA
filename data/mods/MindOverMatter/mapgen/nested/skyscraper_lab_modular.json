@@ -28,8 +28,8 @@
         { "item": "water_clean", "x": 7, "y": 1, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
-        "t": { "item": "office_supplies", "chance": 20 },
+        "d": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_office_desk", "chance": 20 },
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
@@ -65,8 +65,8 @@
         { "item": "water_clean", "x": 7, "y": 1, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
-        "t": { "item": "office_supplies", "chance": 20 },
+        "d": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_office_desk", "chance": 20 },
         "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
         ".": { "item": "office_mess", "chance": 1 }
       },
@@ -178,7 +178,7 @@
       "furniture": { "ȼ": "f_chair" },
       "items": {
         "d": [
-          { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_desk", "chance": 80, "repeat": [ 1, 2 ] },
           { "item": "psi_testing_materials", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "t": { "item": "dist_maps", "chance": 50, "repeat": [ 1, 3 ] },
@@ -217,7 +217,7 @@
       "furniture": { "ȼ": "f_chair" },
       "items": {
         "d": [
-          { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_desk", "chance": 80, "repeat": [ 1, 2 ] },
           { "item": "psi_testing_materials", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "t": { "item": "dist_maps", "chance": 50, "repeat": [ 1, 3 ] },

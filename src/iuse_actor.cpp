@@ -35,6 +35,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
@@ -47,7 +48,6 @@
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "global_vars.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_components.h"
@@ -709,11 +709,7 @@ static std::vector<tripoint_bub_ms> points_for_gas_cloud( map *here, const tripo
 
 void explosion_iuse::load( const JsonObject &obj, const std::string & )
 {
-    if( obj.has_object( "explosion" ) ) {
-        JsonObject expl = obj.get_object( "explosion" );
-        explosion = load_explosion_data( expl );
-    }
-
+    optional( obj, false, "explosion", explosion );
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
@@ -3677,9 +3673,9 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
 {
     // Mandatory
     move_cost = obj.get_int( "move_cost" );
-    limb_power = obj.get_float( "limb_power", 0 );
 
     // Optional
+    limb_power = obj.get_float( "limb_power", 0 );
     bandages_power = obj.get_float( "bandages_power", 0 );
     bandages_scaling = obj.get_float( "bandages_scaling", 0.25f * bandages_power );
     disinfectant_power = obj.get_float( "disinfectant_power", 0 );
@@ -3704,8 +3700,13 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
         }
     }
 
-    if( !bandages_power && !disinfectant_power && !bleed && !bite && !infect &&
-        !obj.has_array( "effects" ) ) {
+    const bool does_instant_healing = limb_power || head_power || torso_power;
+    const bool heal_over_time = bandages_power;
+    const bool stops_bleed = bleed;
+    const bool has_any_disinfect = disinfectant_power || bite || infect;
+    const bool has_scripted_effect = obj.has_array( "effects" );
+    if( !does_instant_healing && !heal_over_time && !stops_bleed
+        && !has_any_disinfect && !has_scripted_effect ) {
         obj.throw_error( _( "Heal actor is missing any valid healing effect" ) );
     }
 

@@ -14,20 +14,11 @@
     "symbol": ":",
     "color": "brown",
     "location": "underbarrel",
-    "mod_targets": [ "rifle", "launcher" ],
+    "mod_targets": [ "rifle", "launcher", "smg", "shotgun", "crossbow" ],
     "handling_modifier": 18,
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "BIPOD", "SLOW_WIELD" ],
     "melee_damage": { "bash": 10 }
-  },
-  {
-    "id": "bipod_mod",
-    "copy-from": "bipod",
-    "type": "GUNMOD",
-    "name": { "str": "modified bipod" },
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil, they are usable only on certain surfaces (or from the prone position), and are slow to equip.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "bipod_handguard",
@@ -467,7 +458,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
-    "mod_targets": [ "rifle", "crossbow" ],
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": {
       "barrel_length": "419 mm",
       "ammo": [ "shot" ],
@@ -479,14 +470,6 @@
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
-  },
-  {
-    "id": "u_shotgun_mod",
-    "copy-from": "u_shotgun",
-    "type": "GUNMOD",
-    "name": { "str": "modified underslung shotgun" },
-    "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "arisaka_monopod",

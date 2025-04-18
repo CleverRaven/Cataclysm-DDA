@@ -410,13 +410,13 @@
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1",
     "effect": [
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "copy_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_one" }
       },
       { "message": "Spell name for slot 1 is <u_val:last_scion_spell_name_slot_one>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_one) = -1" ] },
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "copy_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_one" }
       },
       { "message": "Spell id for slot 1 is <u_val:last_scion_spell_id_slot_one>", "type": "debug" },
@@ -428,13 +428,13 @@
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_2",
     "effect": [
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "copy_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_two" }
       },
       { "message": "Spell name for slot 2 is <u_val:last_scion_spell_name_slot_two>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_two) = -1" ] },
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "copy_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_two" }
       },
       { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_two>", "type": "debug" },
@@ -447,13 +447,13 @@
     "condition": { "math": [ "last_scion_number_of_spell_slots >= 3" ] },
     "effect": [
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "copy_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_three" }
       },
       { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_three>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_three) = -1" ] },
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "copy_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_three" }
       },
       { "message": "Spell id for slot 3 is <u_val:last_scion_spell_id_slot_three>", "type": "debug" },
@@ -466,13 +466,13 @@
     "condition": { "math": [ "last_scion_number_of_spell_slots >= 4" ] },
     "effect": [
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "copy_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_four" }
       },
       { "message": "Spell name for slot 4 is <u_val:last_scion_spell_name_slot_four>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_four) = -1" ] },
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "copy_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_four" }
       },
       { "message": "Spell id for slot 4 is <u_val:last_scion_spell_id_slot_four>", "type": "debug" },
@@ -485,13 +485,13 @@
     "condition": { "math": [ "last_scion_number_of_spell_slots >= 5" ] },
     "effect": [
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "copy_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_five" }
       },
       { "message": "Spell name for slot 5 is <u_val:last_scion_spell_name_slot_five>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_five) = -1" ] },
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "copy_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_five" }
       },
       { "message": "Spell id for slot 5 is <u_val:last_scion_spell_id_slot_five>", "type": "debug" },
@@ -504,13 +504,13 @@
     "condition": { "math": [ "last_scion_number_of_spell_slots >= 6" ] },
     "effect": [
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "copy_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_six" }
       },
       { "message": "Spell name for slot 6 is <u_val:last_scion_spell_name_slot_six>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_six) = -1" ] },
       {
-        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "copy_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_six" }
       },
       { "message": "Spell id for slot 6 is <u_val:last_scion_spell_id_slot_six>", "type": "debug" },

@@ -577,7 +577,16 @@
     "//": "Hidden--provides blood every ~60 seconds until 1 below the blood_quenched level",
     "name": [ "" ],
     "desc": [ "" ],
-    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "30 s", "90 s" ] } ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "60 s" ] } ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_slow_blood_gain_with_weakness",
+    "//": "Hidden--provides blood every ~120 seconds until 1 below the blood_quenched level",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "120 s" ] } ],
     "removes_effects": [ "withering" ]
   },
   {
@@ -587,6 +596,54 @@
     "name": [ "" ],
     "desc": [ "" ],
     "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ -1, -1 ] ], "tick": [ "30 s", "90 s" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_empowered_blood_indicator",
+    "name": [ "Empowered Blood" ],
+    "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_fall_one_story",
+    "//": "Hidden--tied to a conditional enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "WINGS_1" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_resist_disease_poison_infection",
+    "//": "Hidden--tied to a conditional enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      { "mutations": [ "POISRESIST" ] },
+      { "condition": { "not": { "u_has_trait": "DISIMMUNE" } }, "mutations": [ "DISRESISTANT" ] },
+      { "condition": { "not": { "u_has_trait": "INFIMMUNE" } }, "mutations": [ "INFRESIST" ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_water_weakness_pain",
+    "name": [ "Pain in Water" ],
+    "desc": [ "The running water burns you!" ],
+    "rating": "bad",
+    "base_mods": { "pain_min": [ 1 ], "pain_max": [ 2 ], "pain_max_val": [ 25 ], "pain_chance": [ 5 ], "pain_tick": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_bloodlust_cravings",
+    "//": "Still distracting but not as bad as for vampires",
+    "name": [ "Blood Craving" ],
+    "desc": [ "Your thoughts keep going back to the taste of warm, fresh blood." ],
+    "rating": "bad",
+    "limb_score_mods": [
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.08 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.07 },
+      { "limb_score": "footing", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -713,6 +770,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_drank_blood_power_boost",
+    "name": [ "Carmine Vitality" ],
+    "desc": [ "You can still taste the warm blood on your lips.  You feel amazing." ],
+    "rating": "good",
+    "max_duration": "1 h",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] } },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "2 + u_has_trait('VAMPIRE4') + u_has_trait('BLOOD_DRINKER')" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampiric_dodge",
     "name": [ "Flow Like Blood" ],
     "desc": [ "You can move so quickly you might even be able to dodge bullets." ],
@@ -752,13 +828,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_feign_death",
+    "name": [ "Corpse's Countenance" ],
+    "desc": [ "Nothing here but a corpse." ],
+    "remove_message": "You end your imitation of death.",
+    "rating": "mixed",
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_feign_death_ended",
+    "name": [ "Feigned Death" ],
+    "desc": [ "You've been caught, and they know you aren't dead" ],
+    "rating": "bad",
+    "removes_effects": [ "effect_vampire_feign_death" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_hypnotism",
     "name": [ "Mesmerized" ],
     "desc": [ "You just can't seem to move or think." ],
     "remove_message": "You snap out of your fugue.",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "MUTE" ]
   },
   {
     "type": "effect_type",
@@ -2038,6 +2132,31 @@
             "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
             "distance": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] },
             "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sense_vampire",
+    "name": [ "Sense the Night Hunters" ],
+    "desc": [ "You can sense nearby vampires." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
           }
         ]
       }

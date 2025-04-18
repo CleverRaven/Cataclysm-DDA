@@ -15,7 +15,7 @@
     "intelligence": 8,
     "time": "20 m",
     "chapters": 30,
-    "fun": 6
+    "read_fun": 6
   },
   {
     "id": "afs_welcome1_book",
@@ -33,7 +33,7 @@
     "intelligence": 4,
     "time": "20 m",
     "chapters": 3,
-    "fun": 2
+    "read_fun": 2
   },
   {
     "id": "afs_welcome2_book",
@@ -62,13 +62,13 @@
     "symbol": "?",
     "looks_like": "adv_chemistry",
     "color": "light_green",
-    "skill": "electronics",
     "required_level": 5,
     "max_level": 7,
     "intelligence": 13,
-    "fun": -1,
     "time": "50 m",
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "electronics",
+    "read_fun": -1
   },
   {
     "id": "afs_bugbrew_book",
@@ -85,11 +85,11 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 12,
-    "skill": "chemistry",
     "required_level": 0,
     "max_level": 2,
     "time": "50 m",
-    "fun": -2
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "schematics_chickenbot",
@@ -160,11 +160,11 @@
     "symbol": "?",
     "looks_like": "file",
     "color": "light_green",
-    "skill": "survival",
     "max_level": 2,
     "intelligence": 9,
-    "fun": -1,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "survival",
+    "read_fun": -1
   },
   {
     "id": "cyrus'_notes",
@@ -179,13 +179,13 @@
     "symbol": "?",
     "looks_like": "adv_chemistry",
     "color": "light_green",
-    "skill": "firstaid",
     "required_level": 8,
     "max_level": 9,
     "intelligence": 13,
-    "fun": -3,
     "time": "50 m",
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "firstaid",
+    "read_fun": -3
   },
   {
     "id": "recipe_uplift",
@@ -193,9 +193,9 @@
     "name": { "str": "Dr. Moreau and You", "str_pl": "copies of Dr. Moreau and You" },
     "description": "In what many considered a stunning example of poor taste and others considered overt speciesism this text on the creation of Uplifted Animals references a story about sapient animals killing their creator.  Otherwise a dry text about genetic modification.",
     "copy-from": "textbook_atomic",
-    "skill": "chemistry",
     "required_level": 9,
-    "max_level": 10
+    "max_level": 10,
+    "read_skill": "chemistry"
   },
   {
     "id": "millyficents_diary",
@@ -210,12 +210,12 @@
     "symbol": "?",
     "looks_like": "ZSG",
     "color": "cyan",
-    "skill": "chemistry",
     "required_level": 10,
     "max_level": 10,
     "intelligence": 16,
     "time": "35 m",
-    "fun": -3
+    "read_skill": "chemistry",
+    "read_fun": -3
   },
   {
     "id": "recipes_resistance",
@@ -230,13 +230,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
-    "skill": "chemistry",
     "looks_like": "adv_chemistry",
     "required_level": 6,
     "max_level": 7,
     "intelligence": 9,
     "time": "50 m",
-    "fun": -1
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "recipes_cryolab",
@@ -252,12 +252,12 @@
     "symbol": "?",
     "color": "light_cyan",
     "looks_like": "recipe_lab_elec",
-    "skill": "chemistry",
     "required_level": 3,
     "max_level": 5,
     "intelligence": 14,
     "time": "35 m",
-    "fun": -1
+    "read_skill": "chemistry",
+    "read_fun": -1
   },
   {
     "id": "recipe_unusual_ammos",
@@ -272,13 +272,13 @@
     "symbol": "?",
     "looks_like": "adv_chemistry",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 2,
     "max_level": 3,
     "intelligence": 9,
-    "fun": 1,
     "time": "50 m",
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "chemistry",
+    "read_fun": 1
   },
   {
     "id": "recipe_lichenlog",
@@ -293,12 +293,12 @@
     "symbol": "?",
     "looks_like": "recipe_medicalmut",
     "color": "light_green",
-    "skill": "chemistry",
     "required_level": 0,
     "max_level": 2,
     "intelligence": 9,
-    "fun": -2,
-    "time": "50 m"
+    "time": "50 m",
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "exosuit_maintenance",
@@ -312,12 +312,12 @@
     "symbol": "?",
     "looks_like": "adv_chemistry",
     "color": "light_green",
-    "skill": "fabrication",
     "required_level": 5,
     "max_level": 8,
     "intelligence": 9,
-    "fun": -3,
-    "time": "50 m"
+    "time": "50 m",
+    "read_skill": "fabrication",
+    "read_fun": -3
   },
   {
     "id": "recipe_augs",

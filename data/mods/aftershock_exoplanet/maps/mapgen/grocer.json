@@ -93,7 +93,7 @@
       "palettes": [ "afs_habitat_structure", "afs_habitat_life_support", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "terrain": { " ": "t_open_air" },
       "furniture": { "1": "f_small_satellite_dish", "2": "f_vent_pipe", "3": "f_solar_unit", "4": "f_roof_turbine_vent" },
-      "items": { "k": { "item": "SUS_office_desk", "chance": 40 }, "y": { "item": "office_paper", "chance": 20 } },
+      "items": { "k": { "item": "SUS_office_desk", "chance": 40 } },
       "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
     }
   },

@@ -305,8 +305,8 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         json.start_object();
         json.member( "type", "MOD_INFO" );
         json.member( "id", "user:default" );
+        json.member( "conflicts", std::vector<std::string>() );
         json.member( "dependencies" );
-        json.member( "conflicts" );
         json.write( mods );
         json.end_object();
     }, _( "list of default mods" ) );

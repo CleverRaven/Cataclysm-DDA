@@ -67,7 +67,7 @@
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 40,
     "handling_modifier": 1,
-    "loudness_modifier": -30,
+    "loudness_multiplier": 0.9,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ],
     "melee_damage": { "bash": 3 }
   },
@@ -95,7 +95,7 @@
     "consume_divisor": 40,
     "dispersion_modifier": 10,
     "handling_modifier": 1,
-    "loudness_modifier": -20,
+    "loudness_multiplier": 0.8,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ],
     "melee_damage": { "bash": 3 }
   },
@@ -122,7 +122,7 @@
     "handling_modifier": 2,
     "consume_chance": 5000,
     "consume_divisor": 235,
-    "loudness_modifier": -30,
+    "loudness_multiplier": 0.9,
     "flags": [ "CONSUMABLE" ],
     "melee_damage": { "bash": 3 }
   },
@@ -149,7 +149,7 @@
     "handling_modifier": 2,
     "consume_chance": 1,
     "consume_divisor": 840,
-    "loudness_modifier": -50,
+    "loudness_multiplier": 0.7,
     "flags": [ "CONSUMABLE" ],
     "melee_damage": { "bash": 3 }
   },
@@ -193,7 +193,7 @@
     "consume_chance": 7000,
     "consume_divisor": 85,
     "handling_modifier": 1,
-    "loudness_modifier": -30,
+    "loudness_multiplier": 0.75,
     "flags": [ "CONSUMABLE" ]
   },
   {

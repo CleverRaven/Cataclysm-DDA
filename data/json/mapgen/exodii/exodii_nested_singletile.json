@@ -108,7 +108,9 @@
           "furniture": "f_wreckage",
           "items": [
             { "item": "dry_goods", "chance": 30, "repeat": [ 1, 4 ] },
-            { "item": "metal_wreckage", "chance": 90, "repeat": [ 1, 6 ] }
+            { "item": "trash_junkyard", "chance": 90, "repeat": [ 1, 6 ] },
+            { "item": "SUS_trash_electrical", "chance": 90, "repeat": [ 1, 6 ] },
+            { "item": "SUS_trash_metal", "chance": 90, "repeat": [ 1, 6 ] }
           ]
         }
       }
@@ -169,7 +171,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "metal_wreckage", "chance": 10 } ] } }
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "trash_junkyard", "chance": 10 } ] } }
     }
   },
   {

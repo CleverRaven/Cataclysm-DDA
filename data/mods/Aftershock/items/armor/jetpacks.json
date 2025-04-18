@@ -11,7 +11,6 @@
     "material": [ "vacuum_carbide_hard" ],
     "symbol": "[",
     "looks_like": "rpg",
-    "ammo": [ "ammonia_liquid" ],
     "use_action": { "type": "cast_spell", "spell_id": "spell_rocket_jump", "no_fail": true, "level": 1 },
     "pocket_data": [
       {
@@ -28,6 +27,7 @@
     "material_thickness": 5,
     "flags": [ "BELTED", "JETPACK" ],
     "max_worn": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "tool_ammo": [ "ammonia_liquid" ]
   }
 ]

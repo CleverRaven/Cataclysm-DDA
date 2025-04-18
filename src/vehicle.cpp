@@ -58,6 +58,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "math_defines.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mod_manager.h"
 #include "monster.h"
@@ -1186,9 +1187,9 @@ int vehicle::power_to_energy_bat( const units::power power, const time_duration 
 }
 
 // Methods for setting/getting misc key/value pairs.
-void vehicle::set_value( const std::string &key, const std::string &value )
+void vehicle::set_value( const std::string &key, diag_value value )
 {
-    values[ key ] = value;
+    values[ key ] = std::move( value );
 }
 
 void vehicle::remove_value( const std::string &key )
@@ -1196,15 +1197,14 @@ void vehicle::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::string vehicle::get_value( const std::string &key ) const
+diag_value const &vehicle::get_value( const std::string &key ) const
 {
-    return maybe_get_value( key ).value_or( std::string{} );
+    return global_variables::_common_get_value( key, values );
 }
 
-std::optional<std::string> vehicle::maybe_get_value( const std::string &key ) const
+diag_value const *vehicle::maybe_get_value( const std::string &key ) const
 {
-    auto it = values.find( key );
-    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
+    return global_variables::_common_maybe_get_value( key, values );
 }
 
 void vehicle::clear_values()
@@ -3212,7 +3212,7 @@ int vehicle::get_next_shifted_index( int original_index, Character &you ) const
     int ret_index = original_index;
     bool found_shifted_index = false;
     for( const vpart_reference &vpr : get_all_parts() ) {
-        if( you.get_value( "veh_index_type" ) == vpr.info().name() ) {
+        if( you.get_value( "veh_index_type" ).str() == vpr.info().name() ) {
             ret_index = vpr.part_index();
             found_shifted_index = true;
             break;
@@ -7926,7 +7926,7 @@ item vehicle::get_folded_item( map &here ) const
     const int avg_part_damage = static_cast<int>( sum_of_damage / num_of_parts );
 
     folded.set_var( "tracking", tracking_on ? 1 : 0 );
-    folded.set_var( "weight", to_milligram( total_mass( here ) ) );
+    folded.set_var( "weight", static_cast<double>( to_milligram( total_mass( here ) ) ) );
     folded.set_var( "volume", folded_volume / 250_ml );
     folded.set_var( "name", string_format( _( "folded %s" ), name ) );
     folded.set_var( "vehicle_name", name );

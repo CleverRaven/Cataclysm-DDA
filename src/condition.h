@@ -3,7 +3,6 @@
 #define CATA_SRC_CONDITION_H
 
 #include <functional>
-#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_set>
@@ -16,8 +15,8 @@
 
 class JsonObject;
 class JsonValue;
-enum class var_type : int;
 template <typename T> struct enum_traits;
+struct diag_value;
 
 namespace dialogue_data
 {
@@ -52,18 +51,15 @@ duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_vie
                                      bool required = true,
                                      time_duration default_val = 0_seconds );
 duration_or_var_part get_duration_or_var_part( const JsonValue &jv );
-template<typename T>
-T convert_tripoint_from_var( std::optional<var_info> &var, const_dialogue const &d,
-                             bool is_npc );
-tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dialogue const &d,
-        bool is_npc );
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
-                      const std::string &value, int call_depth = 0 );
+                      const std::string &value );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value );
-void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
-                      const std::string &value );
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      const tripoint_abs_ms &value );
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      const diag_value &value );
 std::string get_talk_varname( const JsonObject &jo, std::string_view member );
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );

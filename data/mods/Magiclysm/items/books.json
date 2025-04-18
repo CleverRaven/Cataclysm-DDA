@@ -13,13 +13,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "spellcraft",
     "required_level": 2,
     "max_level": 4,
     "intelligence": 12,
     "time": "60 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "spellcraft",
+    "read_fun": -1
   },
   {
     "id": "spellcraft_theory_basic",
@@ -36,7 +36,7 @@
     "max_level": 2,
     "intelligence": 9,
     "time": "45 m",
-    "fun": 0
+    "read_fun": 0
   },
   {
     "id": "caster_boosts_info",
@@ -53,7 +53,7 @@
     "max_level": 2,
     "intelligence": 9,
     "time": "45 m",
-    "fun": 0
+    "read_fun": 0
   },
   {
     "id": "textbook_mithril",
@@ -68,12 +68,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "fabrication",
     "required_level": 7,
     "max_level": 10,
     "proficiencies": [ { "proficiency": "prof_bladesmith", "time_factor": 0.2, "fail_factor": 0.3, "include_prereqs": false } ],
     "intelligence": 9,
     "time": "60 m",
-    "fun": -1
+    "read_skill": "fabrication",
+    "read_fun": -1
   }
 ]

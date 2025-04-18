@@ -46,9 +46,9 @@
     "//": "A fake stove used for basecamps.",
     "copy-from": "fake_item",
     "sub": "hotplate",
-    "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
-    "charge_factor": 10
+    "charge_factor": 10,
+    "tool_ammo": [ "tinder" ]
   },
   {
     "id": "brick_oven_pseudo",

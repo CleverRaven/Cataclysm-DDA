@@ -451,6 +451,7 @@
   {
     "type": "mutation",
     "id": "WINTER_FEIGN_DEATH_TRAITS",
+    "//": "Also used by vampires",
     "name": { "str": "Stillness of the Tomb", "//~": "NO_I18N" },
     "description": { "str": "You are feigning death.  Shhhhhhh!", "//~": "NO_I18N" },
     "valid": false,

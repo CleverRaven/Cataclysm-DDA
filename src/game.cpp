@@ -879,8 +879,7 @@ void game::load_map( const tripoint_abs_sm &pos_sm,
     here.load( pos_sm, true, pump_events );
 }
 
-void game::legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
-        &map_of_vars )
+void game::legacy_migrate_npctalk_var_prefix( global_variables::impl_t &map_of_vars )
 {
     // migrate existing variables with npctalk_var prefix to no prefix (npctalk_var_foo to just foo)
     // remove after 0.J
@@ -2832,13 +2831,13 @@ vehicle *game::remoteveh()
         return remoteveh_cache;
     }
     remoteveh_cache_time = calendar::turn;
-    std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
-    if( remote_veh_string.str().empty() ||
+    diag_value const *remote_controlling_vehicle = u.maybe_get_value( "remote_controlling_vehicle" );
+    if( !remote_controlling_vehicle ||
         ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( itype_remotevehcontrol ) ) ) {
         remoteveh_cache = nullptr;
     } else {
-        tripoint_bub_ms vp;
-        remote_veh_string >> vp.x() >> vp.y() >> vp.z();
+        // FIXME: migrate to abs
+        tripoint_bub_ms vp( remote_controlling_vehicle->tripoint().raw() );
         vehicle *veh = veh_pointer_or_null( here.veh_at( vp ) );
         if( veh && veh->fuel_left( here, itype_battery ) > 0 ) {
             remoteveh_cache = veh;
@@ -2866,10 +2865,8 @@ void game::setremoteveh( vehicle *veh )
         return;
     }
 
-    std::stringstream remote_veh_string;
-    const tripoint_bub_ms vehpos = veh->pos_bub( here );
-    remote_veh_string << vehpos.x() << ' ' << vehpos.y() << ' ' << vehpos.z();
-    u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
+    // FIXME: migrate to abs
+    u.set_value( "remote_controlling_vehicle", tripoint_abs_ms{ veh->pos_bub( here ).raw() } );
 }
 
 bool game::try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target )
@@ -5767,7 +5764,7 @@ void game::assing_revive_form( item &it, tripoint_bub_ms p )
         return;
     }
     dialogue d( nullptr, nullptr );
-    write_var_value( var_type::context, "loc", &d, get_map().get_abs( p ).to_string() );
+    write_var_value( var_type::context, "loc", &d, get_map().get_abs( p ) );
     write_var_value( var_type::context, "corpse_damage", &d, it.damage() );
     for( const revive_type &rev_type : montype->revive_types ) {
         if( rev_type.condition( d ) ) {
@@ -12758,12 +12755,16 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    const tripoint_bub_ms old_pos = pos;
+    tripoint_bub_ms old_pos = pos;
     const tripoint_abs_ms old_abs_pos = here.get_abs( old_pos );
-    point_rel_sm submap_shift;
     const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
-        submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
+        const point_rel_sm submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
+        // Adjust all bubble coordinates used according to the submap shift.
+        const point_rel_ms ms_shift = coords::project_to<coords::ms>( submap_shift );
+        pos = pos - ms_shift;
+        old_pos = old_pos - ms_shift;
+        stairs = stairs - ms_shift;
     }
 
     // if an NPC or monster is on the stairs when player ascends/descends
@@ -12842,9 +12843,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( u.is_hauling() ) {
-        const tripoint_bub_ms adjusted_pos = old_pos - coords::project_to<coords::ms>( point_rel_sm(
-                submap_shift ) ).raw();
-        start_hauling( adjusted_pos );
+        start_hauling( old_pos );
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
@@ -14445,9 +14444,9 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
             you.get_skill_level( skill_survival ),
             you.get_skill_level( skill_firstaid ) ) );
 
-    pd.pulp_power = bash_factor * skill_factor * ( pd.can_cut_precisely ? 1 : 0.85 );
+    pd.nominal_pulp_power = bash_factor * skill_factor * ( pd.can_cut_precisely ? 1 : 0.85 );
 
-    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.pulp_power );
+    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.nominal_pulp_power );
 
     // since we are trying to depict pulping as more involved than you Isaac Clarke the corpse 100% of time,
     // we would assume there is some time between attacks, where you try to reach some sweet spot,
@@ -14481,11 +14480,22 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 
     float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
-    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.pulp_power;
-
+    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.nominal_pulp_power;
     // in seconds also
     // 30 seconds for human body volume of 62.5L, scale from this
     int min_time_to_pulp = 30 * corpse_volume / 62.5;
+
+    // you have a hard time pulling armor to reach important parts of this monster
+    if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
+        if( pd.can_pry_armor ) {
+            time_to_pulp *= 1.25;
+        } else {
+            time_to_pulp *= 1.7;
+        }
+    }
+
+    // Adjust pulp_power to match the time taken.
+    pd.pulp_power = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / time_to_pulp;
 
     // +25% to pulp time if char knows no weakpoints of monster
     // -25% if knows all of them
@@ -14498,19 +14508,19 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
                 pd.unknown_prof = wf.proficiency;
             }
         }
+        // We're not adjusting pulp_power here, so no proficiency will result in more
+        // splatter and full proficiency will result in less, as no needless bashes
+        // resulting in splatter are made.
         time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype.families.families.size();
     }
 
-    // you have a hard time pulling armor to reach important parts of this monster
-    if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
-        if( pd.can_pry_armor ) {
-            time_to_pulp *= 1.25;
-        } else {
-            time_to_pulp *= 1.7;
-        }
+    if( time_to_pulp < min_time_to_pulp ) {
+        pd.time_to_pulp = min_time_to_pulp;
+        // Reducing the power to match the time in order to get the same amount of splatter.
+        pd.pulp_power = pd.time_to_pulp / ( std::pow( corpse_volume, pow_factor ) * 1000 );
+    } else {
+        pd.time_to_pulp = time_to_pulp;
     }
-
-    pd.time_to_pulp = std::max( min_time_to_pulp, time_to_pulp );
 
     return pd;
 }

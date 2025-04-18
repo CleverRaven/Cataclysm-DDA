@@ -78,7 +78,7 @@
       "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "homebooks", "chance": 2 } ],
       "e": [ { "item": "SUS_fridge_breakroom", "chance": 70 } ],
       "o": { "item": "oven", "chance": 70 },
-      "r": [ { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] } ],
+      "r": [ { "item": "SUS_office_supplies", "chance": 65, "repeat": [ 1, 4 ] } ],
       "y": { "item": "SUS_janitors_closet", "chance": 90 },
       "Y": { "item": "coat_rack", "chance": 90 },
       "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] },

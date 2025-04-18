@@ -14,7 +14,6 @@
 
 #include "calendar.h"
 #include "debug.h"
-#include "global_vars.h"
 #include "translation.h"
 
 class JsonObject;
@@ -22,6 +21,7 @@ class math_exp;
 class npc;
 enum class math_type_t : int;
 struct const_dialogue;
+struct diag_value;
 struct dialogue;
 
 using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
@@ -29,6 +29,15 @@ using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
 struct dbl_or_var;
+
+enum class var_type : int {
+    u,
+    npc,
+    global,
+    context,
+    var,
+    last
+};
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
@@ -47,7 +56,7 @@ struct abstract_str_or_var {
     std::optional<var_info> var_val;
     std::optional<T> default_val;
     std::optional<std::function<T( const_dialogue const & )>> function;
-    std::string evaluate( const_dialogue const & ) const;
+    std::string evaluate( const_dialogue const &, bool convert = false ) const;
     abstract_str_or_var() = default;
     explicit abstract_str_or_var( T str ) : str_val( str ) {};
 };
@@ -57,7 +66,7 @@ using translation_or_var = abstract_str_or_var<translation>;
 
 struct str_translation_or_var {
     std::variant<str_or_var, translation_or_var> val;
-    std::string evaluate( const_dialogue const & ) const;
+    std::string evaluate( const_dialogue const &, bool convert = false ) const;
 };
 
 struct talk_effect_fun_t {
@@ -86,9 +95,8 @@ struct talk_effect_fun_t {
         }
 };
 
-std::string read_var_value( const var_info &info, const_dialogue const &d );
-std::optional<std::string> maybe_read_var_value(
-    const var_info &info, const_dialogue const &d, int call_depth = 0 );
+diag_value const &read_var_value( const var_info &info, const_dialogue const &d );
+diag_value const *maybe_read_var_value( const var_info &info, const_dialogue const &d );
 
 var_info process_variable( const std::string &type );
 

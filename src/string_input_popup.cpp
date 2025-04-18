@@ -699,8 +699,5 @@ string_input_params string_input_params::parse_string_input_params( const JsonOb
         const JsonValue &jv_identifier = jo.get_member( "identifier" );
         p.identifier = get_str_or_var( jv_identifier, "" );
     }
-    if( jo.has_bool( "only_digits" ) ) {
-        p.only_digits = jo.get_bool( "only_digits" );
-    }
     return p;
 }

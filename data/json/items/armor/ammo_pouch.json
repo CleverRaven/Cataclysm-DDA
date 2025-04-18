@@ -1463,5 +1463,33 @@
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "sustainment_pouch",
+    "type": "ARMOR",
+    "//": " stats taken from: https://www.varusteleka.com/en/product/us-molle-ii-sustainment-pouch-surplus/63566",
+    "name": { "str": "sustainment pouch", "str_pl": "sustainment pouches" },
+    "description": "A large, drawstring & buckle pouch originally designed to hold 3 MREs, and part of the official MOLLE II rucksack system.  Has MOLLE straps for attaching to a belt, vest, or rucksack.",
+    "weight": "230 g",
+    "volume": "300 ml",
+    "price": "30 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "10000 g",
+        "max_item_length": "30 cm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

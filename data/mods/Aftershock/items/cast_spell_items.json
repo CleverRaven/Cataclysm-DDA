@@ -82,7 +82,6 @@
     "price": "100 kUSD",
     "charges_per_use": 1000,
     "material": [ "diamond" ],
-    "ammo": [ "battery" ],
     "use_action": [
       {
         "type": "cast_spell",
@@ -102,6 +101,7 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   }
 ]
