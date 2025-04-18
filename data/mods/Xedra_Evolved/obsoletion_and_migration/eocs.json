@@ -67,6 +67,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_COMMUNE_WITH_NIGHT_UPDATE_GAME_BEGIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_trait": "COMMUNE_NIGHT" },
+    "effect": [ { "math": [ "u_spell_level('vampire_commune_with_night_spell') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLOOD_UPDATE_GAME_BEGIN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",

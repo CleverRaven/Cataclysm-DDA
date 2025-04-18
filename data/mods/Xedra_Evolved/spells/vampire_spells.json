@@ -1,5 +1,14 @@
 [
   {
+    "id": "xe_vampire_blood_powers",
+    "type": "magic_type",
+    "energy_source": "NONE",
+    "cannot_cast_flags": [ "NO_VAMPIRE_BLOOD_POWERS" ],
+    "cannot_cast_message": "Your blood will not respond to you!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0
+  },
+  {
     "type": "enchantment",
     "id": "ench_vampire_heightened_senses_hearing",
     "condition": "ALWAYS",
@@ -75,6 +84,24 @@
     "skill": "deduction",
     "spell_class": "VAMPIRE",
     "base_casting_time": 100,
+    "difficulty": 5
+  },
+  {
+    "id": "vampire_commune_with_night_spell",
+    "type": "SPELL",
+    "name": "Learn from the Children of the Night",
+    "description": "Speak to nearby night-creatures; rats, bats, wolves, and so on.  They will tell you the layout of your surrounding area.\n\n<color_light_red>Blood Cost:</color> 100 ml (<u_val:blood_amount_for_graph> ml current).",
+    "message": "",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_COMMUNE_NIGHT_MAP",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_casting_time": 12000,
     "difficulty": 5
   },
   {
