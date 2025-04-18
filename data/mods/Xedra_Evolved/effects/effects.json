@@ -828,6 +828,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_feign_death",
+    "name": [ "Corpse's Countenance" ],
+    "desc": [ "Nothing here but a corpse." ],
+    "remove_message": "You end your imitation of death.",
+    "rating": "mixed",
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_feign_death_ended",
+    "name": [ "Feigned Death" ],
+    "desc": [ "You've been caught, and they know you aren't dead" ],
+    "rating": "bad",
+    "removes_effects": [ "effect_vampire_feign_death" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_hypnotism",
     "name": [ "Mesmerized" ],
     "desc": [ "You just can't seem to move or think." ],
