@@ -484,7 +484,7 @@
     "name": { "str": "tiny golden plate" },
     "category": "other",
     "price_postapoc": "0 cent",
-    "description": "A very small rectangular strip of metal, presumably made of gold.  One side is etched with some barely noticable but incredibly detailed artwork of something you don't recognise, possibly a diagram of sorts.  Sometimes you feel it resonating gently.",
+    "description": "A very small rectangular strip of metal, presumably made of gold.  One side is etched with some barely noticable but incredibly detailed artwork of something you don't recognize, possibly a diagram of sorts.  Sometimes you feel it resonating gently.",
     "material": [ "gold" ],
     "weight": "385 g",
     "volume": "20 ml"
