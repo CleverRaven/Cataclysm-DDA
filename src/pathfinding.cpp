@@ -380,7 +380,14 @@ int map::extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     return pass_cost + avoid_cost;
 }
 
-std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+std::vector<tripoint_bub_ms> map::route( const Creature &who,
+        const pathfinding_target &target ) const
+{
+    return route( who.pos_bub(), target, who.get_pathfinding_settings(), who.get_path_avoid() );
+}
+
+std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
+        const pathfinding_target &target,
         const pathfinding_settings &settings,
         const std::function<bool( const tripoint_bub_ms & )> &avoid ) const
 {
@@ -388,6 +395,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
      * in-bounds point and go to that, then to the real origin/destination.
      */
     std::vector<tripoint_bub_ms> ret;
+    const tripoint_bub_ms &t = target.center;
 
     if( f == t || !inbounds( f ) ) {
         return ret;
@@ -396,7 +404,8 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     if( !inbounds( t ) ) {
         tripoint_bub_ms clipped = t;
         clip_to_bounds( clipped );
-        return route( f, clipped, settings, avoid );
+        const pathfinding_target clipped_target = { clipped, target.r };
+        return route( f, clipped_target, settings, avoid );
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
@@ -429,6 +438,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     pf.add_point( 0, 0, f, f );
 
     bool done = false;
+    tripoint_bub_ms found_target;
 
     do {
         tripoint_bub_ms cur( pf.get_next() );
@@ -444,8 +454,9 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
             return std::vector<tripoint_bub_ms>();
         }
 
-        if( cur == t ) {
+        if( target.contains( cur ) ) {
             done = true;
+            found_target = cur;
             break;
         }
 
@@ -468,7 +479,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 continue;
             }
 
-            if( p != t && avoid( p ) ) {
+            if( !target.contains( p ) && avoid( p ) ) {
                 layer.closed[index] = true;
                 continue;
             }
@@ -610,8 +621,8 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     } while( !done && !pf.empty() );
 
     if( done ) {
-        ret.reserve( rl_dist( f, t ) * 2 );
-        tripoint_bub_ms cur = t;
+        ret.reserve( rl_dist( f, found_target ) * 2 );
+        tripoint_bub_ms cur = found_target;
         // Just to limit max distance, in case something weird happens
         for( int fdist = max_length; fdist != 0; fdist-- ) {
             const int cur_index = flat_index( cur.xy() );
@@ -637,4 +648,12 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     }
 
     return ret;
+}
+
+bool pathfinding_target::contains( const tripoint_bub_ms &p ) const
+{
+    if( r == 0 ) {
+        return center == p;
+    }
+    return square_dist( center, p ) <= r;
 }
