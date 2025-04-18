@@ -7784,7 +7784,7 @@ void item::set_random_fault_of_type( const std::string &fault_type, const bool &
         faults_by_type.add( f.obj, f.weight );
     }
 
-    return set_fault( *faults_by_type.pick() );
+    set_fault( *faults_by_type.pick() );
 }
 
 weighted_int_list<fault_id> item::all_potential_faults() const

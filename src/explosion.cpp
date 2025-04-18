@@ -27,7 +27,6 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "field_type.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
@@ -60,7 +59,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 

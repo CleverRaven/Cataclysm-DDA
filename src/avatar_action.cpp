@@ -23,7 +23,6 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
