@@ -987,7 +987,7 @@ bool game::start_game()
     here.build_map_cache( level );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.pos_abs_omt().xy(),
-                           get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
+                           get_scenario()->get_distance_initial_visibility(), 0 );
 
     const int city_size = get_option<int>( "CITY_SIZE" );
     if( get_scenario()->get_reveal_locale() && city_size > 0 ) {

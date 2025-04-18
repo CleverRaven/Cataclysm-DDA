@@ -198,6 +198,7 @@ Use the `Home` key to return to the top.
   - [`map_special`](#map_special)
   - [`requirement`](#requirement)
   - [`reveal_locale`](#reveal_locale)
+  - [`distance_initial_visibility`](#distance_initial_visibility)
   - [`eocs`](#eocs)
   - [`missions`](#missions)
   - [`start_of_cataclysm`](#start_of_cataclysm)
@@ -4026,6 +4027,12 @@ The achievement you need to do to access this scenario
 (optional, boolean)
 
 Defaults true. If a road can be found within 3 OMTs of the starting position, reveals a path to the nearest city and that city's center.
+
+## `distance_initial_visibility`
+
+(optional, int)
+
+Defaults 15. How much of the initial map should be known when the game is started? This value is a radius.
 
 ## `eocs`
 (optional, array of strings)
