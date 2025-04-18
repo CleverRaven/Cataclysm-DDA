@@ -1,14 +1,18 @@
 #include <algorithm>
 #include <memory>
+#include <string>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "field_type.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
+#include "monster.h"
 #include "pathfinding.h"
 #include "point.h"
 #include "type_id.h"
@@ -54,6 +58,14 @@ static void place_wreckage( map &m, const std::vector<tripoint_bub_ms> &places )
     const furn_id f_wreckage( "f_wreckage" );
     for( const tripoint_bub_ms &p : places ) {
         m.furn_set( p, f_wreckage );
+    }
+    clear_map_caches( m );
+}
+
+static void place_fires( map &m, const std::vector<tripoint_bub_ms> &places )
+{
+    for( const tripoint_bub_ms &p : places ) {
+        m.add_field( p, fd_fire, 1, 10_minutes );
     }
     clear_map_caches( m );
 }
@@ -570,6 +582,66 @@ TEST_CASE( "map_route_player_into_unreachable_tiles", "[map][pathfinding]" )
                     pathfinding_target::adjacent( not_passable ) );
             THEN( "it does not find any route" ) {
                 CHECK( path.empty() );
+            }
+        }
+    }
+    clear_map();
+}
+
+TEST_CASE( "map_route_mon_around_danger", "[map][pathfinding]" )
+{
+    map &m = setup_map_without_obstacles();
+    const monster &mon = spawn_test_monster( "mon_mi_go", tripoint_bub_ms{ 10, 10, 0 } );
+    GIVEN( "Map has obstacles between mi-go and target" ) {
+        /*
+         * Map layout:
+         *   . # # # . .     #=trap, sharp wreckage or fire
+         *   . # & # . t     &=mi-go
+         *   . # . # . .     t=target
+         *   . . . . . .
+         */
+        const pathfinding_target t = pathfinding_target::point(
+                                         tripoint_bub_ms { 13, 10, 0 } );
+        const std::vector<tripoint_bub_ms> obstacles = {
+            { 9, 9,  0 }, { 10, 9,  0 }, { 11, 9,  0 },
+            { 9, 10, 0 },                { 11, 10, 0 },
+            { 9, 11, 0 },                { 11, 11, 0 }
+        };
+        const std::vector<tripoint_bub_ms> expected_path = {
+            { 10, 11, 0 }, { 11, 12, 0 }, { 12, 11, 0 }, { 13, 10, 0 }
+        };
+        GIVEN( "Obstacles are traps" ) {
+            place_traps( m, obstacles );
+            WHEN( "map::route does pathfinding for mi-go" ) {
+                const std::vector<tripoint_bub_ms> path = m.route( mon, t );
+                THEN( "route avoids the traps" ) {
+                    CHECK( path == expected_path );
+                }
+            }
+            m.clear_traps();
+        }
+        GIVEN( "Obstacles are sharp wreckage" ) {
+            place_wreckage( m, obstacles );
+            WHEN( "map::route does pathfinding for mi-go" ) {
+                const std::vector<tripoint_bub_ms> path = m.route( mon, t );
+                THEN( "route avoids the sharp wreckage" ) {
+                    CHECK( path == expected_path );
+                }
+            }
+            for( const tripoint_bub_ms &p : obstacles ) {
+                m.furn_clear( p );
+            }
+        }
+        GIVEN( "Obstacles are fire" ) {
+            place_fires( m, obstacles );
+            WHEN( "map::route does pathfinding for mi-go" ) {
+                const std::vector<tripoint_bub_ms> path = m.route( mon, t );
+                THEN( "route avoids the fire" ) {
+                    CHECK( path == expected_path );
+                }
+            }
+            for( const tripoint_bub_ms &p : obstacles ) {
+                m.clear_fields( p );
             }
         }
     }
