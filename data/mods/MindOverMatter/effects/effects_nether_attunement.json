@@ -88,10 +88,29 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_electrokinetic_power_drain",
+    "name": [ "Power Void" ],
+    "desc": [ "Is it cold in here?" ],
+    "rating": "bad",
+    "remove_message": "The unearthly chill fades away."
+  },
+  {
+    "type": "effect_type",
     "id": "effect_nether_attunement_biokinetic_inversion",
     "name": [ "Metabolic Inversion" ],
-    "desc": [ "You getting pretty hungry and thirsty." ],
-    "rating": "bad"
+    "desc": [ "You're getting pretty hungry and thirsty." ],
+    "rating": "bad",
+    "remove_message": "Your gnawing hunger finally fades away."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_mishap_tindrift_warning",
+    "name": [ "Hunted" ],
+    "desc": [
+      "You feel the sensation of watching eyes and see prowling forms out of the corners of your vision.  Using further teleportation powers would be very unwise."
+    ],
+    "rating": "bad",
+    "remove_message": "The prowling forms finally fade away."
   },
   {
     "type": "effect_type",
