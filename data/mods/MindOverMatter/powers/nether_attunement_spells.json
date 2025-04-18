@@ -21,35 +21,6 @@
     "effect": "emit",
     "effect_str": "emit_nether_chill"
   },
-    {
-    "id": "nether_attunement_pyrokinetic_fog_summon",
-    "type": "SPELL",
-    "name": { "str": "Pyrokinetic Fog", "//~": "NO_I18N" },
-    "description": { "str": "Summons a fog from using your powers.", "//~": "NO_I18N" },
-    "valid_targets": [ "self" ],
-    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_pyrokinetic_fog",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": 10000
-  },
-  {
-    "id": "aura_pyrokinetic_fog",
-    "type": "ARMOR",
-    "name": { "str": "Pyrokinetic Fog", "//~": "NO_I18N" },
-    "//": "dirty hack till emit spell would be fixed",
-    "description": { "str": "Summons a fog from using your powers.", "//~": "NO_I18N" },
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "blue",
-    "material": [ "monolith" ],
-    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
-    "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "emitter": "emit_fog_plume" } ] }
-  },
   {
     "id": "nether_attunement_everyone_downed",
     "type": "SPELL",

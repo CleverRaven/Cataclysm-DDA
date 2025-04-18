@@ -747,7 +747,7 @@
         "then": [
           { "u_message": "Your throat and stomach feel warm.", "type": "bad" },
           {
-            "u_cast_spell": "mom_spell_pyrokinetic_fog",
+            "u_add_effect": "pyrokinetic_fog",
             "duration": {
               "math": [ "time(' 10 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
             }
