@@ -2596,7 +2596,6 @@ std::string Character::mutation_desc( const trait_id &mut ) const
     }
 
     parse_tags( description, *this, *this );
-     
 
     return description;
 }
