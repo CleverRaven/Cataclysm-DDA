@@ -1923,7 +1923,7 @@
     "comestible_type": "FOOD",
     "id": "nether_grub",
     "name": { "str": "alien grub" },
-    "weight": "80 g",
+    "weight": "54 g",
     "color": "black_red",
     "symbol": "g",
     "healthy": -1,
