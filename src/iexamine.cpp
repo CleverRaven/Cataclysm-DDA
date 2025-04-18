@@ -845,7 +845,7 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
                                  attunement->name() ) ) ) {
         you.toggle_trait( attunement );
         // There's no way for you to have this mutation, so a variant is pointless
-        you.add_msg_if_player( m_info, attunement->desc() );
+        you.add_msg_if_player( m_info, you.mutation_desc( attunement ) );
     } else {
         you.add_msg_if_player( _( "Maybe later." ) );
     }
