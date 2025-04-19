@@ -6105,7 +6105,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string_view install_where,
+                                     std::string_view install_where,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
             std::vector<std::string> result_parts;

@@ -75,7 +75,7 @@ void effect_on_conditions::check_consistency()
 {
 }
 
-void effect_on_condition::load( const JsonObject &jo, const std::string_view src )
+void effect_on_condition::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
@@ -117,7 +117,7 @@ void effect_on_condition::load( const JsonObject &jo, const std::string_view src
 }
 
 effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
-        const std::string_view src )
+        std::string_view src )
 {
     if( jv.test_string() ) {
         return effect_on_condition_id( jv.get_string() );
