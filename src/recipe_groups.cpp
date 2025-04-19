@@ -49,7 +49,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 
 } // namespace
 
-void recipe_group_data::load( const JsonObject &jo, const std::string_view )
+void recipe_group_data::load( const JsonObject &jo, std::string_view )
 {
     building_type = jo.get_string( "building_type" );
     for( JsonObject ordering : jo.get_array( "recipes" ) ) {

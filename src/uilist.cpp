@@ -598,7 +598,7 @@ void uilist::inputfilter()
     filter_popup.reset();
 }
 
-static ImVec2 calc_size( const std::string_view line )
+static ImVec2 calc_size( std::string_view line )
 {
     return ImGui::CalcTextSize( remove_color_tags( line ).c_str() );
 }
