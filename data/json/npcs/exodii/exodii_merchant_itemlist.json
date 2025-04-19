@@ -13,6 +13,12 @@
   },
   {
     "type": "item_group",
+    "id": "EXODII_Shop_Currency",
+    "subtype": "collection",
+    "items": [ { "item": "ExodiiCoin", "prob": 100, "count": [ 30, 60 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "EXODII_trade_Tier1",
     "subtype": "collection",
     "entries": [

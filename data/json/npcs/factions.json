@@ -1014,6 +1014,7 @@
     "fac_food_supply": { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } },
     "wealth": 75000000,
     "price_rules": [ { "group": "games_board_all", "premium": 2.5 } ],
+    "currency": "ExodiiCoin",
     "relations": {
       "free_merchants": {
         "kill on sight": false,

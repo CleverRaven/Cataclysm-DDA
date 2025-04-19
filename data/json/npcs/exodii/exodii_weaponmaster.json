@@ -29,6 +29,7 @@
     "bonus_int": { "rng": [ 0, 6 ] },
     "bonus_per": { "rng": [ 0, 1 ] },
     "shopkeeper_item_group": [
+      { "group": "EXODII_Shop_Currency", "rigid": true },
       { "group": "EXODII_Shop_Guns_Tier0", "rigid": true },
       { "group": "EXODII_Shop_OldArmour", "rigid": true },
       { "group": "EXODII_Shop_Guns_Tier1", "rigid": true, "trust": 1 },

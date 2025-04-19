@@ -28,6 +28,7 @@
     "bonus_int": { "rng": [ 0, 2 ] },
     "bonus_per": { "rng": [ 0, 4 ] },
     "shopkeeper_item_group": [
+      { "group": "EXODII_Shop_Currency", "rigid": true },
       { "group": "EXODII_Shop_Tier0", "rigid": true },
       { "group": "EXODII_Shop_NomadGear_Tier0", "rigid": true },
       { "group": "EXODII_CBM_Store_Tier1", "rigid": true },

@@ -34,6 +34,20 @@
   {
     "type": "GENERIC",
     "category": "currency",
+    "id": "ExodiiCoin",
+    "name": { "str": "Exodii Coin" },
+    "description": "Exodii Coin Description.",
+    "price": "25 USD",
+    "weight": "15 g",
+    "volume": "1 ml",
+    "color": "white",
+    "symbol": "$",
+    "flags": [ "COIN_SHAPED" ],
+    "material": [ "platinum" ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
     "id": "FlatCoin",
     "name": { "str": "FlatCoin" },
     "description": "A coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlaid with a hand-drawn emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
