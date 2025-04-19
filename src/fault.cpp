@@ -15,6 +15,7 @@ namespace
 
 generic_factory<fault> fault_factory( "fault", "id" );
 generic_factory<fault_fix> fault_fixes_factory( "fault_fix", "id" );
+generic_factory<fault_group> fault_group_factory( "fault_group", "id" );
 
 // we'll store requirement_ids here and wait for requirements to load in, then we can actualize them
 std::multimap<fault_fix_id, std::pair<std::string, int>> reqs_temp_storage;
@@ -24,26 +25,27 @@ std::map<std::string, std::vector<fault_id>> faults_by_type;
 
 } // namespace
 
-const fault_id &faults::random_of_type( const std::string &type )
+std::vector<fault_id> faults::all_of_type( const std::string &type )
 {
     const auto &typed = faults_by_type.find( type );
     if( typed == faults_by_type.end() ) {
         debugmsg( "there are no faults with type '%s'", type );
-        return fault_id::NULL_ID();
+        return {};
     }
-    return random_entry_ref( typed->second );
+    return typed->second ;
+}
+
+const fault_id &faults::random_of_type( const std::string &type )
+{
+    return random_entry_ref( all_of_type( type ) );
 }
 
 const fault_id &faults::random_of_type_item_has( const item &it, const std::string &type )
 {
-    const auto &typed = faults_by_type.find( type );
-    if( typed == faults_by_type.end() ) {
-        debugmsg( "there are no faults with type '%s'", type );
-        return fault_id::NULL_ID();
-    }
+    const std::vector<fault_id> &typed = all_of_type( type );
 
     // not actually random
-    for( const fault_id &fid : typed->second ) {
+    for( const fault_id &fid : typed ) {
         if( it.has_fault( fid ) ) {
             return fid;
         }
@@ -60,6 +62,11 @@ void faults::load_fault( const JsonObject &jo, const std::string &src )
 void faults::load_fix( const JsonObject &jo, const std::string &src )
 {
     fault_fixes_factory.load( jo, src );
+}
+
+void faults::load_group( const JsonObject &jo, const std::string &src )
+{
+    fault_group_factory.load( jo, src );
 }
 
 void faults::reset()
@@ -121,6 +128,21 @@ const fault_fix &string_id<fault_fix>::obj() const
     return fault_fixes_factory.obj( *this );
 }
 
+/** @relates string_id */
+template<>
+bool string_id<fault_group>::is_valid() const
+{
+    return fault_group_factory.is_valid( *this );
+}
+
+/** @relates string_id */
+template<>
+const fault_group &string_id<fault_group>::obj() const
+{
+    return fault_group_factory.obj( *this );
+}
+
+
 std::string fault::name() const
 {
     return name_.translated();
@@ -136,10 +158,29 @@ std::string fault::item_prefix() const
     return item_prefix_.translated();
 }
 
+std::string fault::item_suffix() const
+{
+    return item_suffix_.translated();
+}
 
 double fault::price_mod() const
 {
     return price_modifier;
+}
+
+std::vector<std::tuple<int, float, damage_type_id>> fault::melee_damage_mod() const
+{
+    return melee_damage_mod_;
+}
+
+std::vector<std::tuple<int, float, damage_type_id>> fault::armor_mod() const
+{
+    return armor_mod_;
+}
+
+bool fault::affected_by_degradation() const
+{
+    return affected_by_degradation_;
 }
 
 std::string fault::type() const
@@ -159,12 +200,33 @@ const std::set<fault_fix_id> &fault::get_fixes() const
 
 void fault::load( const JsonObject &jo, std::string_view )
 {
+
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "item_prefix", item_prefix_ );
+    optional( jo, was_loaded, "item_suffix", item_suffix_ );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );
+    optional( jo, was_loaded, "affected_by_degradation", affected_by_degradation_, false );
+
+    if( jo.has_array( "melee_damage_mod" ) ) {
+        for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) ) {
+            melee_damage_mod_.emplace_back(
+                jo_f.get_int( "add", 0 ),
+                jo_f.get_float( "multiply", 1.0f ),
+                jo_f.get_string( "damage_id" ) );
+        }
+    }
+
+    if( jo.has_array( "armor_mod" ) ) {
+        for( JsonObject jo_f : jo.get_array( "armor_mod" ) ) {
+            armor_mod_.emplace_back(
+                jo_f.get_int( "add", 0 ),
+                jo_f.get_float( "multiply", 1.0f ),
+                jo_f.get_string( "damage_id" ) );
+        }
+    }
 }
 
 void fault::check() const
@@ -184,7 +246,6 @@ const requirement_data &fault_fix::get_requirements() const
 
 void fault_fix::load( const JsonObject &jo, std::string_view )
 {
-    fault_fix f;
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "success_msg", success_msg );
     optional( jo, was_loaded, "time", time );
@@ -281,5 +342,20 @@ void fault_fix::check() const
             debugmsg( "fault_fix '%s' has negative mend time if item possesses flag '%s'",
                       id.str(), flag_id.str() );
         }
+    }
+}
+
+weighted_int_list<fault_id> fault_group::get_weighted_list() const
+{
+    return fault_weighted_list;
+}
+
+void fault_group::load( const JsonObject &jo, std::string_view )
+{
+    if( jo.has_array( "group" ) ) {
+        for( const JsonObject jog : jo.get_array( "group" ) ) {
+            fault_weighted_list.add( fault_id( jog.get_string( "fault" ) ), jog.get_int( "weight", 100 ) );
+        }
+
     }
 }

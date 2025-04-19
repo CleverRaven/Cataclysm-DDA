@@ -3416,7 +3416,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
             total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
         }
     }
 
@@ -3548,7 +3548,7 @@ void iexamine::arcfurnace_full( Character &, const tripoint_bub_ms &examp )
             total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
         }
     }
 
@@ -3929,7 +3929,7 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
             // This will add items to a space near the vat, because it's flagged as NOITEM.
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
             brew_present = true;
         }
     }
@@ -4158,7 +4158,7 @@ void iexamine::compost_empty( Character &you, const tripoint_bub_ms &examp )
             // This will add items to a space near the tank, because it's flagged as NOITEM.
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
             compost_present = true;
         }
     }
@@ -4433,7 +4433,7 @@ static void displace_items_except_one_liquid( const tripoint_bub_ms &examp )
             items.insert( *it );
             it = items.erase( it );
         } else {
-            it++;
+            ++it;
             liquid_present = true;
         }
     }

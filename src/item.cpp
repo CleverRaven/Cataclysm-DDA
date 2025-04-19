@@ -909,12 +909,24 @@ int item::damage_level( bool precise ) const
     return precise ? damage_ : type->damage_level( damage_ );
 }
 
-float item::damage_adjusted_melee_weapon_damage( float value ) const
+float item::damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const
 {
     if( type->count_by_charges() ) {
         return value; // count by charges items don't have partial damage
     }
-    return value * ( 1.0f - 0.1f * std::max( 0, damage_level() - 1 ) );
+
+    for( fault_id fault : faults ) {
+        for( const std::tuple<int, float, damage_type_id> &damage_mod : fault.obj().melee_damage_mod() ) {
+            const damage_type_id dmg_type_of_fault = std::get<2>( damage_mod );
+            if( dt == dmg_type_of_fault ) {
+                const int damage_added = std::get<0>( damage_mod );
+                const float damage_mult = std::get<1>( damage_mod );
+                value = ( value + damage_added ) * damage_mult;
+            }
+        }
+    }
+
+    return std::max( 0.0f, value * ( 1.0f - 0.1f * std::max( 0, damage_level() - 1 ) ) );
 }
 
 float item::damage_adjusted_gun_damage( float value ) const
@@ -925,12 +937,24 @@ float item::damage_adjusted_gun_damage( float value ) const
     return value - 2 * std::max( 0, damage_level() - 1 );
 }
 
-float item::damage_adjusted_armor_resist( float value ) const
+float item::damage_adjusted_armor_resist( float value, const damage_type_id &dmg_type ) const
 {
     if( type->count_by_charges() ) {
         return value; // count by charges items don't have partial damage
     }
-    return value * ( 1.0f - std::max( 0, damage_level() - 1 ) * 0.125f );
+
+    for( fault_id fault : faults ) {
+        for( const std::tuple<int, float, damage_type_id> &damage_mod : fault.obj().armor_mod() ) {
+            const damage_type_id dmg_type_of_fault = std::get<2>( damage_mod );
+            if( dmg_type == dmg_type_of_fault ) {
+                const int damage_added = std::get<0>( damage_mod );
+                const float damage_mult = std::get<1>( damage_mod );
+                value = ( value + damage_added ) * damage_mult;
+            }
+        }
+    }
+
+    return std::max( 0.0f, value * ( 1.0f - std::max( 0, damage_level() - 1 ) * 0.125f ) );
 }
 
 void item::set_damage( int qty )
@@ -1718,6 +1742,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, bits[tname::segments::TAGS] );
 
     bits.set( tname::segments::FAULTS, faults == rhs.faults );
+    bits.set( tname::segments::FAULTS_SUFFIX, faults == rhs.faults );
     bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
     bits.set( tname::segments::OVERHEAT, overheat_symbol() == rhs.overheat_symbol() );
     bits.set( tname::segments::DIRT, get_var( "dirt", 0 ) == rhs.get_var( "dirt", 0 ) );
@@ -2568,6 +2593,18 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    iteminfo::lower_is_better | iteminfo::is_decimal,
                                    units::to_kelvin( get_freeze_point() ) );
             }
+
+            std::string faults;
+            for( const weighted_object<int, fault_id> &fault : type->faults ) {
+                const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
+                if( has_fault( fault.obj ) ) {
+                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight,
+                                        weight_percent ), c_yellow );
+                } else {
+                    faults += fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight, weight_percent );
+                }
+            }
+            info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
         }
     }
 }
@@ -7550,7 +7587,7 @@ int item::damage_melee( const damage_type_id &dt ) const
     if( type->melee.damage_map.count( dt ) > 0 ) {
         res = type->melee.damage_map.at( dt );
     }
-    res = damage_adjusted_melee_weapon_damage( res );
+    res = damage_adjusted_melee_weapon_damage( res, dt );
 
     // apply type specific flags
     // FIXME: Hardcoded damage types
@@ -7730,10 +7767,54 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-item &item::set_fault( const fault_id &fault_id )
+void item::set_fault( const fault_id &fault_id )
 {
     faults.insert( fault_id );
-    return *this;
+}
+
+void item::set_random_fault_of_type( const std::string &fault_type, const bool &force )
+{
+    if( force ) {
+        set_fault( random_entry( faults::all_of_type( fault_type ) ) );
+        return;
+    }
+
+    weighted_int_list<fault_id> faults_by_type;
+    for( const weighted_object<int, fault_id> &f : type->faults ) {
+        faults_by_type.add( f.obj, f.weight );
+    }
+
+    set_fault( *faults_by_type.pick() );
+}
+
+weighted_int_list<fault_id> item::all_potential_faults() const
+{
+    weighted_int_list<fault_id> potential_faults;
+    for( const weighted_object<int, fault_id> &potential_fault : type->faults ) {
+        if( potential_fault.obj.obj().affected_by_degradation() ) {
+            potential_faults.add( potential_fault.obj, potential_fault.weight + degradation() );
+        } else {
+            potential_faults.add( potential_fault.obj, potential_fault.weight );
+        }
+    }
+    return potential_faults;
+}
+
+weighted_int_list<fault_id> item::all_potential_faults_of_type(
+    const std::string &fault_type ) const
+{
+    weighted_int_list<fault_id> potential_faults_of_type;
+    for( const weighted_object<int, fault_id> &potential_fault : all_potential_faults() ) {
+        if( potential_fault.obj.obj().type() == fault_type ) {
+            potential_faults_of_type.add( potential_fault.obj, potential_fault.weight );
+        }
+    }
+    return potential_faults_of_type;
+}
+
+const fault_id &item::random_potential_fault_of_type( const std::string &fault_type ) const
+{
+    return *all_potential_faults_of_type( fault_type ).pick();
 }
 
 item &item::unset_flag( const flag_id &flag )
@@ -9050,7 +9131,7 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
     float resist = 0.0f;
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
-    const float damage_scale = damage_adjusted_armor_resist( 1.0f );
+    const float damage_scale = damage_adjusted_armor_resist( 1.0f, dmg_type );
 
     if( !bp_null ) {
         // If we have armour portion materials for this body part, use that instead
@@ -9294,6 +9375,7 @@ bool item::mod_damage( int qty )
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
+
         return destroy;
     }
 }
@@ -10236,15 +10318,16 @@ int item::wind_resist() const
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
-    res.insert( type->faults.begin(), type->faults.end() );
+    for( const weighted_object<int, fault_id> &fault_pair : type->faults ) {
+        res.insert( fault_pair.obj );
+    }
     return res;
 }
 
 bool item::can_have_fault_type( const std::string &fault_type ) const
 {
-    std::set<fault_id> res;
-    for( const auto &some_fault : type->faults ) {
-        if( some_fault->type() == fault_type ) {
+    for( const weighted_object<int, fault_id> &some_fault : type->faults ) {
+        if( some_fault.obj->type() == fault_type ) {
             return true;
         }
     }
@@ -10254,9 +10337,9 @@ bool item::can_have_fault_type( const std::string &fault_type ) const
 std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
 {
     std::set<fault_id> res;
-    for( const auto &some_fault : type->faults ) {
-        if( some_fault->type() == fault_type ) {
-            res.emplace( some_fault );
+    for( const weighted_object<int, fault_id> &some_fault : type->faults ) {
+        if( some_fault.obj->type() == fault_type ) {
+            res.emplace( some_fault.obj );
         }
     }
     return res;
@@ -14785,9 +14868,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_fault( faults::random_of_type( "wet" ) );
+            set_random_fault_of_type( "wet" );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_fault( faults::random_of_type( "shorted" ) );
+                set_random_fault_of_type( "shorted" );
             }
         }
 
@@ -14896,7 +14979,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                     }
                 } else {
                     faults.erase( fault_emp_reboot );
-                    set_fault( faults::random_of_type( "shorted" ) );
+                    set_random_fault_of_type( "shorted" );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
                     }

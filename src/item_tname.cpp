@@ -74,6 +74,27 @@ std::string faults( item const &it, unsigned int /* quantity */,
     return damtext;
 }
 
+std::string faults_suffix( item const &it, unsigned int /* quantity */,
+                           segment_bitset const &/* segments */ )
+{
+    std::string text;
+    for( const fault_id &f : it.faults ) {
+        const std::string suffix = f->item_suffix();
+        if( !suffix.empty() ) {
+            text = "(" + suffix + ") ";
+            break;
+        }
+    }
+    // remove excess space, add one space before the string
+    if( !text.empty() ) {
+        text.pop_back();
+        const std::string ret = " " + text;
+        return ret;
+    } else {
+        return "";
+    }
+}
+
 std::string dirt_symbol( item const &it, unsigned int /* quantity */,
                          segment_bitset const &/* segments */ )
 {
@@ -633,6 +654,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
 {
     std::array<decl_f_print_segment *, num_segments> arr{};
     arr[static_cast<size_t>( tname::segments::FAULTS ) ] = faults;
+    arr[static_cast<size_t>( tname::segments::FAULTS_SUFFIX ) ] = faults_suffix;
     arr[static_cast<size_t>( tname::segments::DIRT ) ] = dirt_symbol;
     arr[static_cast<size_t>( tname::segments::OVERHEAT ) ] = overheat_symbol;
     arr[static_cast<size_t>( tname::segments::FAVORITE_PRE ) ] = pre_asterisk;
@@ -698,6 +720,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
     switch( seg ) {
         // *INDENT-OFF*
         case tname::segments::FAULTS: return "FAULTS";
+        case tname::segments::FAULTS_SUFFIX: return "FAULTS_SUFFIX";
         case tname::segments::DIRT: return "DIRT";
         case tname::segments::OVERHEAT: return "OVERHEAT";
         case tname::segments::FAVORITE_PRE: return "FAVORITE_PRE";

@@ -844,7 +844,13 @@ Guns can be defined like this:
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
 "min_cycle_recoil": 0,     // Minimum ammo recoil for the gun to be able to fire more than once per attack (to cycle), else shooting it results in a cycling failure. Set at 90% of the base ammo recoil, or 75% of the value if the weapon is known to cycle with blackpowder. This is to prevent the weapon from cycling with any kind of ammo
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
-"faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ], // Type of faults, that can be applied to this gun; usually are inherited from single abstract like rifle_base, but exceptions exist
+"faults": [                                     // Type of faults, that can be applied to this item; usually are inherited from single abstract like rifle_base, but exceptions exist
+  { "fault": "fault_gun_dirt" },                // `fault` defines this fault can be applied to this item
+  { "fault": "fault_stovepipe", "weight": 20 }  // `weight` defines the chance of this specific fault to be applied. default weight is 100 
+  { "fault_group": "handles" },                 // `fault_group` defines the fault group that would be applied to this item
+  { "fault_group": "handles", "weight_override": 20 } // if weight_override is used, the weight of an entire fault group is assigned to this value, and original weight is deleted
+  { "fault_group": "handles", "weight_add": -5, "weight_mult": 0.8 } // weight_add and weight_mult both modify the weight of each fault in fault group. Default add is 0, default mult is 1
+  ],                                            // Faults are applied from the code side
 "handling": 10             // handling of the weapon; better handling means less recoil
 "energy_drain": "2 kJ",    // Additionally to the normal ammo (if any), a gun can require some electric energy. Drains from battery in gun. Use flags "USE_UPS" and "USES_BIONIC_POWER" to drain other sources. This also works on mods. Attaching a mod with energy_drain will add/increase drain on the weapon.
 "heat_per_shot": 10,       // Each shot from this weapon adds this amount of heat
