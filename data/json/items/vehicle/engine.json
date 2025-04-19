@@ -14,13 +14,13 @@
     "type": "ENGINE",
     "name": { "str": "base diesel engine", "//~": "NO_I18N" },
     "faults": [
-      "fault_engine_belt_drive",
-      "fault_engine_filter_air",
-      "fault_engine_filter_fuel",
-      "fault_engine_glow_plug",
-      "fault_engine_immobiliser",
-      "fault_engine_pump_diesel",
-      "fault_engine_starter"
+      { "fault": "fault_engine_belt_drive" },
+      { "fault": "fault_engine_filter_air" },
+      { "fault": "fault_engine_filter_fuel" },
+      { "fault": "fault_engine_glow_plug" },
+      { "fault": "fault_engine_immobiliser" },
+      { "fault": "fault_engine_pump_diesel" },
+      { "fault": "fault_engine_starter" }
     ]
   },
   {
@@ -29,12 +29,12 @@
     "type": "ENGINE",
     "name": { "str": "base gasoline engine", "//~": "NO_I18N" },
     "faults": [
-      "fault_engine_belt_drive",
-      "fault_engine_filter_air",
-      "fault_engine_filter_fuel",
-      "fault_engine_immobiliser",
-      "fault_engine_pump_fuel",
-      "fault_engine_starter"
+      { "fault": "fault_engine_belt_drive" },
+      { "fault": "fault_engine_filter_air" },
+      { "fault": "fault_engine_filter_fuel" },
+      { "fault": "fault_engine_immobiliser" },
+      { "fault": "fault_engine_pump_fuel" },
+      { "fault": "fault_engine_starter" }
     ]
   },
   {
@@ -43,7 +43,7 @@
     "type": "ENGINE",
     "name": { "str": "base steam engine", "//~": "NO_I18N" },
     "looks_like": "v12_diesel",
-    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_belt_drive" }, { "fault": "fault_engine_filter_air" }, { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion",
@@ -56,7 +56,7 @@
     "volume": "12 L",
     "price": "100 USD",
     "price_postapoc": "10 USD",
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion_large",
@@ -69,7 +69,7 @@
     "volume": "42 L",
     "price": "100 USD",
     "price_postapoc": "12 USD 50 cent",
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion_med",
@@ -94,7 +94,7 @@
     "volume": "42 L",
     "price": "100 USD",
     "price_postapoc": "12 USD 50 cent",
-    "faults": [ "fault_engine_starter" ]
+    "faults": [ { "fault": "fault_engine_starter" } ]
   },
   {
     "id": "1cyl_combustion_small",
