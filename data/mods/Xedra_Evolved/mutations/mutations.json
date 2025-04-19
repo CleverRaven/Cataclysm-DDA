@@ -548,7 +548,25 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_EYEGLEAM_activated" ],
-    "deactivated_eocs": [ "EOC_EYEGLEAM_deactivated" ]
+    "deactivated_eocs": [ "EOC_EYEGLEAM_deactivated" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "NIGHT_VIS",
+            "add": {
+              "math": [
+                "2 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + (u_has_trait('VAMPIRE4') * 2) + (u_has_trait('BLOOD_DRINKER') * 2)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "not": "is_day" }, "u_is_outside" ] },
+        "values": [ { "value": "OVERMAP_SIGHT", "add": 2 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -573,7 +591,11 @@
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_STRENGTH_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_deactivated" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "STRENGTH", "add": { "math": [ "1 + u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER') * 2)" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -590,6 +612,15 @@
     "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
     "enchantments": [
       {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.05 },
+          { "type": "stab", "multiply": -0.02 },
+          { "type": "cut", "multiply": -0.03 },
+          { "type": "bullet", "multiply": -0.08 }
+        ]
+      },
+      {
+        "condition": { "u_has_trait": "VAMPIRE4" },
         "incoming_damage_mod": [
           { "type": "bash", "multiply": -0.05 },
           { "type": "stab", "multiply": -0.02 },
@@ -718,7 +749,11 @@
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_DODGE_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_DODGE_deactivate" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "DEXTERITY", "add": { "math": [ "1 + u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER') * 2)" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
