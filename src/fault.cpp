@@ -163,6 +163,11 @@ std::string fault::item_suffix() const
     return item_suffix_.translated();
 }
 
+std::string fault::message() const
+{
+    return message_.translated();
+}
+
 double fault::price_mod() const
 {
     return price_modifier;
@@ -205,6 +210,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     mandatory( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "item_prefix", item_prefix_ );
     optional( jo, was_loaded, "item_suffix", item_suffix_ );
+    optional( jo, was_loaded, "message", message_ );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );

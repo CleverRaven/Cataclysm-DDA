@@ -18,10 +18,12 @@
 #include "debug.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
+#include "fault.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "magic_enchantment.h"
@@ -1203,6 +1205,44 @@ bool item_location::protected_from_liquids() const
     // we recursively checked all containers
     // none are closed watertight containers
     return false;
+}
+
+void item_location::set_fault( const fault_id &fault_id, const bool force, const bool message )
+{
+    map &here = get_map();
+    item &it = *item_location::get_item();
+    if( !force && it.type->faults.get_specific_weight( fault_id ) == 0 ) {
+        return;
+    }
+
+    if( message ) {
+        add_msg_if_player_sees( pos_bub( here ), fault_id.obj().message() );
+    }
+
+    it.faults.insert( fault_id );
+}
+
+void item_location::set_random_fault_of_type( const std::string &fault_type, const bool force,
+        const bool message )
+{
+    map &here = get_map();
+    item &it = *get_item();
+    if( force ) {
+        item_location::set_fault( random_entry( faults::all_of_type( fault_type ) ), true, true );
+        return;
+    }
+
+    weighted_int_list<fault_id> faults_by_type;
+    for( const weighted_object<int, fault_id> &f : it.type->faults ) {
+        faults_by_type.add( f.obj, f.weight );
+    }
+
+    const fault_id f = *faults_by_type.pick();
+    if( message ) {
+        add_msg_if_player_sees( pos_bub( here ), f.obj().message() );
+    }
+
+    it.faults.insert( f );
 }
 
 std::unique_ptr<talker> get_talker_for( item_location &it )

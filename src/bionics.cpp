@@ -2205,7 +2205,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         here.add_item( pos_bub(), cbm );
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
@@ -2282,7 +2282,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         here.add_item( patient.pos_bub(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
@@ -2625,7 +2625,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         item cbm( bid->itype() );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         get_map().add_item( patient_pos, cbm );
     }
 }
