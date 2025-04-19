@@ -36,12 +36,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER" ],
-    "faults": [
-      { "fault": "fault_overheat_explosion" },
-      { "fault": "fault_overheat_venting" },
-      { "fault": "fault_overheat_melting" },
-      { "fault": "fault_overheat_safety" }
-    ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",
@@ -103,12 +98,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "IGNITE" ],
-    "faults": [
-      { "fault": "fault_overheat_explosion" },
-      { "fault": "fault_overheat_venting" },
-      { "fault": "fault_overheat_melting" },
-      { "fault": "fault_overheat_safety" }
-    ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",
@@ -170,12 +160,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "IGNITE" ],
-    "faults": [
-      { "fault": "fault_overheat_explosion" },
-      { "fault": "fault_overheat_venting" },
-      { "fault": "fault_overheat_melting" },
-      { "fault": "fault_overheat_safety" }
-    ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",
@@ -234,12 +219,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "IGNITE" ],
-    "faults": [
-      { "fault": "fault_overheat_explosion" },
-      { "fault": "fault_overheat_venting" },
-      { "fault": "fault_overheat_melting" },
-      { "fault": "fault_overheat_safety" }
-    ],
+    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",

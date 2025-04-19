@@ -514,7 +514,7 @@ bool vehicle_part::fault_set( const fault_id &f )
     if( !faults_potential().count( f ) ) {
         return false;
     }
-    base.set_fault( f );
+    base.faults.insert( f );
     return true;
 }
 

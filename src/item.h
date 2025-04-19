@@ -40,7 +40,6 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "weighted_list.h"
 
 class Character;
 class Creature;
@@ -1402,11 +1401,11 @@ class item : public visitable
         int damage_level( bool precise = false ) const;
 
         /** Modifiy melee weapon damage to account for item's damage. */
-        float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
+        float damage_adjusted_melee_weapon_damage( float value ) const;
         /** Modifiy gun damage to account for item's damage. */
         float damage_adjusted_gun_damage( float value ) const;
         /** Modifiy armor resist to account for item's damage. */
-        float damage_adjusted_armor_resist( float value, const damage_type_id &dmg_type ) const;
+        float damage_adjusted_armor_resist( float value ) const;
 
         /** @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ ). */
         int max_damage() const;
@@ -1738,8 +1737,6 @@ class item : public visitable
 
         std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
 
-        void apply_fault();
-
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
@@ -2064,16 +2061,7 @@ class item : public visitable
         item &set_flag( const flag_id &flag );
 
         /** Idempotent filter setting an item specific fault. */
-        void set_fault( const fault_id &fault_id );
-
-        void set_random_fault_of_type( const std::string &fault_type, const bool &force = false );
-
-        weighted_int_list<fault_id> all_potential_faults() const;
-
-        weighted_int_list<fault_id> all_potential_faults_of_type( const std::string
-                &fault_type ) const;
-
-        const fault_id &random_potential_fault_of_type( const std::string &fault_type ) const;
+        item &set_fault( const fault_id &fault_id );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
