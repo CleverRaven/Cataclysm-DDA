@@ -2232,12 +2232,12 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     thresholds_it = thresholds.begin();
     aim_types.push_back( aim_type { _( "Regular" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
-    thresholds_it++;
+    ++thresholds_it;
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Careful" ), "CAREFUL_SHOT",
                                         _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
-        thresholds_it++;
+        ++thresholds_it;
     }
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Precise" ), "PRECISE_SHOT",
