@@ -3539,8 +3539,10 @@ talk_effect_fun_t::func f_mutate_category( const JsonObject &jo, std::string_vie
 {
     str_or_var mut_cat = get_str_or_var( jo.get_member( member ), member, true, "" );
     const bool use_vitamins = jo.get_bool( "use_vitamins", true );
-    return [is_npc, mut_cat, use_vitamins]( dialogue const & d ) {
-        d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins );
+    const bool true_random = jo.get_bool( "true_random", false );
+    return [is_npc, mut_cat, use_vitamins, true_random]( dialogue const & d ) {
+        d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins,
+                                            true_random );
     };
 }
 
