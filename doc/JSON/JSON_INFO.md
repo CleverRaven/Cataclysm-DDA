@@ -45,6 +45,7 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item faults](#item-faults)
     - [Item fault fixes](#item-fault-fixes)
+    - [Item fault groups](#item-fault-groups)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
       - [Burn data](#burn-data)
