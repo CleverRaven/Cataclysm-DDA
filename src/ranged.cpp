@@ -1,5 +1,3 @@
-#include "ranged.h"
-
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -70,6 +68,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -4414,7 +4413,6 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         const bool v_mountable = static_cast<bool>( m.veh_at(
                                      you.pos_bub() ).part_with_feature( "MOUNTABLE",
                                              true ) &&
-                !u.has_trait("ACTIVE_MECH_WEAPON") );
         bool t_mountable = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, you.pos_bub() );
         if( !t_mountable && !v_mountable ) {
             messages.push_back( string_format(
