@@ -412,7 +412,19 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
     if( f.z() == t.z() ) {
         auto line_path = straight_route( f, t );
         if( !line_path.empty() ) {
-            if( std::none_of( line_path.begin(), line_path.end(), avoid ) ) {
+            const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z() );
+            auto should_avoid = [&avoid, &pf_cache]( const tripoint_bub_ms & p ) {
+                PathfindingFlags flags_copy = PathfindingFlags( pf_cache.special[p.xy()] );
+                flags_copy.set_clear( PathfindingFlag::Ground );
+                if( flags_copy.is_any_set() ) {
+                    // If the straight line goes through any tile with any sort of special, then we
+                    // don't use the straight-line optimization. Instead, we fall back to regular
+                    // pathfinding. The costs might make the pathfinder pick a different path.
+                    return true;
+                }
+                return avoid( p );
+            };
+            if( std::none_of( line_path.begin(), line_path.end(), should_avoid ) ) {
                 return line_path;
             }
         }

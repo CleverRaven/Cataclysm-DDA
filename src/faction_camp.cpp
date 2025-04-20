@@ -103,6 +103,8 @@
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const addiction_id addiction_alcohol( "alcohol" );
+
 static const efftype_id effect_HACK_camp_vision_for_npc( "HACK_camp_vision_for_npc" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
@@ -5898,6 +5900,10 @@ bool basecamp::distribute_food( bool player_command )
             return false;
         }
         if( it.rotten() ) {
+            return false;
+        }
+        // Alcohol is specifically excluded until it can be turned into a vitamin/tracked by the larder
+        if( it.get_comestible()->addictions.count( addiction_alcohol ) ) {
             return false;
         }
         nutrients from_it = default_character_compute_effective_nutrients( it ) * it.count();

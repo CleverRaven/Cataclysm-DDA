@@ -5473,7 +5473,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                             m.create_burnproducts( target_pos, *it, it->weight() );
                             it = stack.erase( it );
                         } else {
-                            it++;
+                            ++it;
                         }
                     }
                 }
