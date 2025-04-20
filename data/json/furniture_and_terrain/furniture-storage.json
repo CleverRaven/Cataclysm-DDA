@@ -1726,15 +1726,13 @@
     "id": "f_exodii_kiln",
     "name": "exodii_kiln",
     "looks_like": "f_heavy_duty_freezer",
-    "description": "An imposing kiln produced by the Exodii.  While intended to produce their cerramic armor, this functions perfectly well as a kiln.",
+    "description": "An imposing kiln produced by the Exodii, used to produce their ceramic armor",
     "symbol": "H",
     "color": "brown",
     "move_cost_mod": -1,
     "coverage": 1000,
     "required_str": 10,
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "examine_action": "keg",
-    "keg_capacity": 500,
     "deconstruct": { "items": [ { "item": "exodii_kiln", "count": 1 } ] }
   }
 ]
