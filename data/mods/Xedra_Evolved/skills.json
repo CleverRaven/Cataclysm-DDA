@@ -29,7 +29,7 @@
         "description": "You can figure out the workings of the world mundane and supernatural from some observations."
       },
       { "level": 7, "description": "You're basically modern day Sherlock Holmes." },
-      { "level": 9, "description": "No secrets is safe from you." },
+      { "level": 9, "description": "No secret is safe from you." },
       { "level": 10, "description": "Even the unknownable unknowns are known to you." }
     ],
     "sort_rank": 26500,
