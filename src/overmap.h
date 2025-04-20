@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_OVERMAP_H
 #define CATA_SRC_OVERMAP_H
 
+#include <stdint.h>
 #include <algorithm>
 #include <array>
 #include <climits>
@@ -13,20 +14,27 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "basecamp.h"
 #include "city.h"
-#include "coords_fwd.h"
+#include "colony.h"
+#include "color.h"
+#include "coordinates.h"
 #include "cube_direction.h"
 #include "enums.h"
-#include "game_constants.h"
+#include "hash_utils.h"
+#include "map_scale_constants.h"
 #include "mapgendata.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -35,11 +43,13 @@
 class JsonArray;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class cata_path;
 class character_id;
 class npc;
 class overmap_connection;
 struct regional_settings;
+template <typename T> struct enum_traits;
 
 namespace pf
 {

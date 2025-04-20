@@ -1,3 +1,4 @@
+from .enchant import parse_enchant
 from ..helper import get_singular_name
 from .use_action import parse_use_action
 from ..write_text import write_text
@@ -70,3 +71,7 @@ def parse_generic(json, origin):
                 write_text(pocket["name"], origin,
                            comment="Brief name of a pocket in item \"{}\""
                            .format(name))
+
+    if "relic_data" in json and "passive_effects" in json["relic_data"]:
+        for enchantment in json["relic_data"]["passive_effects"]:
+            parse_enchant(enchantment, origin)

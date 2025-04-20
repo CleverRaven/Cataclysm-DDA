@@ -4,6 +4,7 @@
 #include <climits>
 #include <clocale>
 #include <iterator>
+#include <limits>
 #include <stdexcept>
 
 #include "cached_options.h"
@@ -196,7 +197,10 @@ static const std::map<std::string, std::pair<std::string, std::map<std::string, 
 &get_migrated_options()
 {
     static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
-    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
+    = {
+        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
+        {"MONSTER_UPGRADE_FACTOR", { "EVOLUTION_INVERSE_MULTIPLIER", {} }} //TODO: Remove after stable after world option reserialising is added, value migration done in migrateOptionValue instead
+    };
     return opt;
 }
 
@@ -322,14 +326,14 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.bDefault = false;
             break;
         case cOpt::CVT_INT:
-            thisOpt.iMin = INT_MIN;
-            thisOpt.iMax = INT_MAX;
+            thisOpt.iMin = std::numeric_limits<int>::lowest();
+            thisOpt.iMax = std::numeric_limits<int>::max();
             thisOpt.iDefault = 0;
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
-            thisOpt.fMax = FLT_MAX;
+            thisOpt.fMin = std::numeric_limits<float>::lowest();
+            thisOpt.fMax = std::numeric_limits<float>::max();
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -2391,6 +2395,11 @@ void options_manager::add_options_graphics()
              to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
              true, COPT_CURSES_HIDE
            );
+
+        add( "IMGUI_LOAD_CHINESE", page_id, to_translation( "Chinese glyph ranges in ImGui" ),
+             to_translation( "If true, ImGui will add glyphs of full Chinese, include zh_CN, zh_TW, ja. Use this option when your need all Chinese glyphs.  Requires restart." ),
+             false, COPT_CURSES_HIDE
+           );
     } );
 #endif // TILES
 
@@ -2726,62 +2735,40 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "game_world_opts", to_translation( "Game world options" ),
-                      to_translation( "Options regarding game world." ) ),
-    [&]( const std::string & page_id ) {
-        add( "CITY_SIZE", page_id, to_translation( "Size of cities" ),
-             to_translation( "A number determining how large cities are.  A higher number means larger cities.  0 disables cities, roads and any scenario requiring a city start." ),
-             0, 16, 8
-           );
+    // These optiosn are purposefully and permanently hidden. It can only be modified through the sliders when creating a new world.
+    // As such there is no name or description to show, those are blanked.
+    add( "CITY_SIZE", "world_default", translation(), translation(), 0, 16, 8, COPT_ALWAYS_HIDE
+       );
 
-        add( "CITY_SPACING", page_id, to_translation( "City spacing" ),
-             to_translation( "A number determining how far apart cities are.  A higher number means cities are further apart.  Warning, small numbers lead to very slow mapgen." ),
-             0, 8, 4
-           );
+    add( "CITY_SPACING", "world_default", translation(), translation(), 0, 8, 4, COPT_ALWAYS_HIDE
+       );
 
-        add( "SPAWN_DENSITY", page_id, to_translation( "Spawn rate scaling factor" ),
-             to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
-             0.0, 50.0, 1.0, 0.1
-           );
+    add( "SPAWN_DENSITY", "world_default", translation(), translation(), 0.0, 50.0, 1.0, 0.1,
+         COPT_ALWAYS_HIDE
+       );
 
-        add( "ITEM_SPAWNRATE", page_id, to_translation( "Item spawn scaling factor" ),
-             to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
-             0.01, 10.0, 1.0, 0.01
-           );
+    add( "ITEM_SPAWNRATE", "world_default", translation(), translation(), 0.01, 10.0, 1.0, 0.01,
+         COPT_ALWAYS_HIDE
+       );
 
-        add( "NPC_SPAWNTIME", page_id, to_translation( "Random NPC spawn time" ),
-             to_translation( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
-             0.0, 100.0, 4.0, 0.01
-           );
+    add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
+         COPT_ALWAYS_HIDE
+       );
 
-        add( "MONSTER_UPGRADE_FACTOR", page_id,
-             to_translation( "Monster evolution slowdown" ),
-             to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-             0.0, 100, 4.0, 0.01
-           );
-    } );
-    add_empty_line();
+    add( "MONSTER_SPEED", "world_default", translation(), translation(), 1, 1000, 100, COPT_ALWAYS_HIDE,
+         "%i%%"
+       );
 
-    add_option_group( "world_default", Group( "monster_props_opts",
-                      to_translation( "Monster properties options" ),
-                      to_translation( "Options regarding monster properties." ) ),
-    [&]( const std::string & page_id ) {
-        add( "MONSTER_SPEED", page_id, to_translation( "Monster speed" ),
-             to_translation( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
-             1, 1000, 100, COPT_NO_HIDE, "%i%%"
-           );
-
-        add( "MONSTER_RESILIENCE", page_id, to_translation( "Monster resilience" ),
-             to_translation( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
-             1, 1000, 100, COPT_NO_HIDE, "%i%%"
-           );
-    } );
+    add( "MONSTER_RESILIENCE", "world_default", translation(), translation(), 1, 1000, 100,
+         COPT_ALWAYS_HIDE, "%i%%"
+       );
 
     add_empty_line();
 
-    add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
-         to_translation( "(WIP feature) Determines terrain, shops, plants, and more." ),
-    { { "default", to_translation( "default" ) } }, "default"
+    add( "EVOLUTION_INVERSE_MULTIPLIER", "world_default",
+         to_translation( "Monster evolution slowdown" ),
+         to_translation( "A multiplier for the time between monster upgrades.  For example a value of 2.00 would cause evolution to occur at half speed.  Set to 0.00 to turn off monster upgrades." ),
+         0.0, 100, 1.0, 0.01
        );
 
     add_empty_line();
@@ -2831,13 +2818,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "RAD_MUTATION", "world_default", to_translation( "Mutations by radiation" ),
-         to_translation( "If true, radiation causes the player to mutate." ),
-         true
-       );
-
-    add_empty_line();
-
     add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
          to_translation( "Allowed point pools for character generation." ),
     { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
@@ -2863,13 +2843,6 @@ void options_manager::add_options_debug()
     const auto add_empty_line = [&]() {
         this->add_empty_line( "debug" );
     };
-
-    add( "DISTANCE_INITIAL_VISIBILITY", "debug", to_translation( "Distance initial visibility" ),
-         to_translation( "Determines the scope, which is known in the beginning of the game." ),
-         3, 20, 15
-       );
-
-    add_empty_line();
 
     add_option_group( "debug", Group( "chargen_point_opts",
                                       to_translation( "Character generation points options" ),
@@ -2919,17 +2892,6 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
-         to_translation(
-             "How many levels up and down the 3D field of vision reaches.  (This many levels up, this many levels down.)  "
-             "3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  "
-             "Setting this to 0 disables vertical vision.  In tiles mode this also affects how many levels up and down are "
-             "drawn on screen, and setting this to 0 displays only one level below with colored blocks instead." ),
-         0, OVERMAP_LAYERS, 4
-       );
-
-    add_empty_line();
-
     add_option_group( "debug", Group( "occlusion_opts", to_translation( "Occlusion options" ),
                                       to_translation( "Options regarding occlusion." ) ),
     [&]( const std::string & page_id ) {
@@ -2962,6 +2924,12 @@ void options_manager::add_options_debug()
              0.0, 60.0, 0.0, 0.1
            );
     } );
+
+    add_empty_line();
+
+    add( "WARN_ON_MODIFIED", "debug", to_translation( "Warn if file integrity check fails" ),
+         to_translation( "This option controls whether the game will warn when it detects that the game's data has been modified." ),
+         true );
 
     add_empty_line();
 
@@ -4068,6 +4036,17 @@ std::string options_manager::migrateOptionName( const std::string &name ) const
 std::string options_manager::migrateOptionValue( const std::string &name,
         const std::string &val ) const
 {
+    //TODO: Remove after stable after world option reserialising is added
+    if( name == "MONSTER_UPGRADE_FACTOR" ) {
+        const float new_value = std::stof( val ) / 4.0f;
+        std::ostringstream ssTemp;
+        ssTemp.imbue( std::locale::classic() );
+        ssTemp.precision( 2 );
+        ssTemp.setf( std::ios::fixed, std::ios::floatfield );
+        ssTemp << new_value;
+        return ssTemp.str();
+    }
+
     const auto iter = get_migrated_options().find( name );
     if( iter == get_migrated_options().end() ) {
         return val;
@@ -4097,7 +4076,6 @@ void options_manager::update_options_cache()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 

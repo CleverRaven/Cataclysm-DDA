@@ -17,12 +17,9 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "input_context.h"
-#include "json_error.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "output.h"
@@ -31,7 +28,7 @@
 #include "subbodypart.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
@@ -653,7 +650,7 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 
 std::vector<std::string> get_bodygraph_lines( const Character &u,
         const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height,
-        const std::string_view &label )
+        std::string_view label )
 {
     width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
     height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;

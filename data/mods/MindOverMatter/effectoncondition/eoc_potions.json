@@ -19,8 +19,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_biokin_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_biokin_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_add_effect": "effect_biokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },
@@ -44,8 +43,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_clair_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_clair_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_add_effect": "effect_clair_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },
@@ -76,8 +74,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_electrokin_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_electrokin_potion", "effect_matrix_potion_nether_boost" ] },
       { "if": { "math": [ "u_preexisting_jittery_trait != 1" ] }, "then": { "u_add_trait": "JITTERY" } },
       { "u_add_effect": "effect_electrokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
@@ -111,8 +108,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_photokin_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_photokin_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_lose_trait": "PHOTOLIXIR_LIGHT" },
       { "u_lose_trait": "PHOTOLIXIR_LIGHT_active" },
       { "u_add_effect": "effect_photokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
@@ -138,8 +134,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_pyrokin_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_pyrokin_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_add_effect": "effect_pyrokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },
@@ -164,8 +159,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_telekin_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_telekin_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_add_effect": "effect_telekin_potion_comedown", "duration": [ "24 hours", "55 hours" ] },
       { "u_lose_trait": "TELELIXIRDOWN" },
       { "u_lose_trait": "TELELIXIRDOWN_active" }
@@ -191,8 +185,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_telepath_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_telepath_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_add_effect": "effect_telepath_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },
@@ -216,8 +209,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_teleport_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_teleport_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_add_effect": "effect_teleport_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },
@@ -253,8 +245,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_POTION_COMEDOWN",
     "effect": [
-      { "u_lose_effect": "effect_vitakin_potion" },
-      { "u_lose_effect": "effect_matrix_potion_nether_boost" },
+      { "u_lose_effect": [ "effect_vitakin_potion", "effect_matrix_potion_nether_boost" ] },
       { "u_add_effect": "effect_vitakin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },

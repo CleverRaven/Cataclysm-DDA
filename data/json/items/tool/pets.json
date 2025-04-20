@@ -99,7 +99,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "charged_qualities": [ [ "SHEAR", 3 ] ],
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "charges_per_use": 25,
     "pocket_data": [
@@ -110,7 +109,8 @@
         "default_magazine": "light_minus_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "horse_tack",
@@ -142,7 +142,6 @@
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
-    "ammo": [ "battery" ],
     "use_action": { "type": "weigh_self", "max_weight": "2300 kg" },
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 1,
@@ -154,7 +153,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 16 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "pet_carrier",

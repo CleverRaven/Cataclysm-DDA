@@ -14,7 +14,7 @@
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get some kind of medicinal tea for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
-      "rejected": "What?!  Please, <ill_die> without your help!",
+      "rejected": "What?!  Please, I'll be dead soon without your help!",
       "advice": "I'm dead unless I can get this special tea.  Maybe it's from a flower?",
       "inquire": "Find any tea yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
@@ -46,10 +46,10 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "deadline": [ "24 days", "48 days" ],
     "dialogue": {
-      "describe": "This infection is bad, <very> bad…",
+      "describe": "This infection is bad, totally bad…",
       "offer": "I'm infected.  Badly.  I need you to get something antiseptic for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry.  Get me some cattail jelly.  That should hopefully be good enough.",
-      "rejected": "What?!  Please, <ill_die> without your help!",
+      "rejected": "What?!  Please, I'll be dead soon without your help!",
       "advice": "I think if you can pull cattail jelly out of some cattails from like a swamp or something, I can smear it on the wound.",
       "inquire": "Find any jelly yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
@@ -188,8 +188,8 @@
         "om_terrain": "standing_stones",
         "om_terrain_match_type": "PREFIX",
         "om_special": "Standing stones",
-        "search_range": 80,
         "min_distance": 5,
+        "search_range": 80,
         "random": true,
         "z": 0
       }
@@ -218,7 +218,7 @@
     "item": "etched_skull",
     "start": {
       "update_mapgen": { "place_item": [ { "item": "etched_skull", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
-      "assign_mission_target": { "om_terrain": "cave_rat", "om_special": "Rat Cave", "reveal_radius": 3, "search_range": 120 }
+      "assign_mission_target": { "om_terrain": "cave_rat", "om_special": "Rat Cave", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
@@ -243,7 +243,7 @@
     "value": 150000,
     "item": "visions_solitude",
     "start": {
-      "assign_mission_target": { "om_terrain": "island_forest_thick", "om_special": "Island", "reveal_radius": 3, "search_range": 180 },
+      "assign_mission_target": { "om_terrain": "island_forest_thick", "om_special": "Island", "reveal_radius": 3 },
       "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -289,7 +289,7 @@
     "value": 250000,
     "item": "veggy_tainted",
     "start": {
-      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3, "search_range": 120 },
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3 },
       "update_mapgen": { "place_item": [ { "item": "veggy_tainted", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [ 1, 3 ] } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -475,9 +475,9 @@
     "end": { "effect": [ "follow", { "u_consume_item": "tinder" }, { "mapgen_update": "MISSION_PYROMANIAC_BURN_INNAWOOD" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
-      "describe": "Oh man, I want to <swear> burn it so bad…",
-      "offer": "I'm so <swear> infuriated!  I've got a tree that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn that tree!  Would you help me, <name_g>?",
-      "accepted": "Good.  Let's go to the tree and <swear> burn it down!  Oh, bring some tinder so we can start the fire.  I can make the sparks.",
+      "describe": "Oh man, I want to fucking burn it so bad…",
+      "offer": "I'm so fucking infuriated!  I've got a tree that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn that tree!  Would you help me, <name_g>?",
+      "accepted": "Good.  Let's go to the tree and goddamn burn it down!  Oh, bring some tinder so we can start the fire.  I can make the sparks.",
       "rejected": "Seriously?  It's such an easy job…",
       "advice": "Maybe we can find a stick in the woods.",
       "inquire": "Are you ready, <name_g>?",

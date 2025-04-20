@@ -10,12 +10,12 @@
     "type": "EXTERNAL_OPTION",
     "name": "GENERIC_PROFESSION_ID",
     "stype": "string_input",
-    "value": "afs_rating"
+    "value": "afs_salvor"
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "GENERIC_SCENARIO_ID",
     "stype": "string_input",
-    "value": "escape_pod"
+    "value": "augustmoon"
   }
 ]

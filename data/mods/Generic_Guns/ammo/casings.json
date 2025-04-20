@@ -42,6 +42,13 @@
     "description": "A shotshell's casing, a plastic tube with a brass casehead, commonly referred to as a hull."
   },
   {
+    "id": "caotel_cell_spent",
+    "type": "GENERIC",
+    "copy-from": "caotel_cell_spent",
+    "name": { "str": "spent plasma cell" },
+    "description": "A plasma cell that has been depleted of energy.  It cannot be recharged."
+  },
+  {
     "id": "grenade_casing",
     "copy-from": "40x46mm_m199_casing",
     "type": "GENERIC",

@@ -17,9 +17,9 @@
         "                    fff__fff__fff               ",
         "                    fR__ff ff__Rf               ",
         "                    f__ff   ff__f               ",
-        "                    f__f & & f__f               ",
+        "                    f__f     f__f               ",
         "                    f__ff   ff__f               ",
-        "                    fR__ff&ff__Rf               ",
+        "                    fR__ff ff__Rf               ",
         "                    fff__fff__fff               ",
         "                      ff_{___ff                 ",
         "                       fR___Rf                  ",
@@ -33,8 +33,8 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "palettes": [ "nuclear_plant_palette" ],
-      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      "set": [ { "square": "radiation", "amount": [ 1, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "palettes": [ "nuclear_plant_palette" ]
     }
   }
 ]

@@ -994,6 +994,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1493,6 +1494,8 @@ devs
 dex
 Dhamma
 Dhammapada
+dhampir
+dhampirs
 dharmachakra
 diaspora
 dichloroisocyanurate
@@ -1738,6 +1741,7 @@ electrolyzer
 electrolyzers
 electromagnetics
 electromancy
+electronoetic
 electroreceptors
 elephantry
 Elish
@@ -2062,6 +2066,7 @@ flockshot
 floorplan
 Florida
 Florunner
+fluffernutter
 fluffies
 fluidic
 fluorescents
@@ -3962,6 +3967,7 @@ MMA
 mmm
 Mo
 mo
+moabosaurus
 moar
 mobbings
 Mobius
@@ -4848,6 +4854,7 @@ precombined
 predatorially
 premade
 premeasured
+premotion
 preoptic
 prepended
 PrepNet
@@ -5567,6 +5574,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair
@@ -6631,6 +6639,7 @@ valhallists
 valknut
 valkyries
 Valzain
+vampiric
 VanBuren
 Vancian
 Vaneigem
@@ -6811,6 +6820,7 @@ weaponized
 weaponizing
 weaponsmith
 weaponsmiths
+wearables
 Weatherby
 Webber
 WebbStar

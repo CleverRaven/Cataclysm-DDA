@@ -197,7 +197,7 @@
         "description": "The fungaloid shambler throws a rock!"
       }
     ],
-    "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "trash_forest", "count": 5 } ],
+    "death_drops": [ { "group": "SUS_trash_metal", "count": 5 }, { "group": "SUS_trash_forest_no_manmade", "count": 5 } ],
     "upgrades": false,
     "armor": { "bash": 4, "cut": 10, "stab": 20, "acid": 3, "bullet": 20, "electric": 3 }
   },
@@ -367,9 +367,11 @@
       "prof_wp_fungaloid_advanced"
     ],
     "harvest": "exempt",
-    "special_attacks": [ [ "PLANT", 100 ] ],
+    "//COMMENT": "This monster is meant to have the 'PLANT' special attack, allowing the fungus to spread incredibly rapidly. However with that attack their growth becomes *quadratic*, far outside of any reasonable means. There have been various proposals to balance to the faction, but none successfully implemented. If and when it can be balanced it is hoped that one day they can get the attack back. But definitely not before then.",
+    "special_attacks": [ [ "DISAPPEAR", 10 ] ],
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "upgrades": { "age_grow": 21, "into": "mon_fungaloid" },
+    "//COMMENT2": "Same deal as the first comment this is meant to upgrade into mon_fungaloid when the faction has been properly balanced for it.",
+    "upgrades": false,
     "flags": [ "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB" ]
   },
   {

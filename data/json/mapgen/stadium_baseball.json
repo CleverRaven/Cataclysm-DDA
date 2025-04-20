@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "stadium_0_0", "stadium_1_0", "stadium_2_0", "stadium_3_0" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -44,7 +43,6 @@
       [ "stadium_0_3", "stadium_1_3", "stadium_2_3", "stadium_3_3" ],
       [ "stadium_0_4", "stadium_1_4", "stadium_2_4", "stadium_3_4" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -191,7 +189,6 @@
       [ "stadium_0_3_1", "stadium_1_3_1", "stadium_2_3_1", "stadium_3_3_1" ],
       [ "stadium_0_4_1", "stadium_1_4_1", "stadium_2_4_1", "stadium_3_4_1" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -337,7 +334,6 @@
       [ "stadium_0_3_2", "stadium_1_3_2", "stadium_2_3_2", "stadium_3_3_2" ],
       [ "stadium_0_4_2", "stadium_1_4_2", "stadium_2_4_2", "stadium_3_4_2" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -490,7 +486,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "stadium_1_1_3", "stadium_2_1_3" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -527,7 +522,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "stadium_0_3_3" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

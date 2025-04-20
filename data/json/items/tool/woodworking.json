@@ -16,7 +16,8 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 3 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "NO_SALVAGE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "//": "Wood axes also lack the ability to hook appropriately in combat, for the same reason they work well against trees.  Straight axe head instead of curved.",
+    "weapon_category": [ "GREAT_AXES" ],
     "melee_damage": { "bash": 14, "cut": 28 }
   },
   {
@@ -50,7 +51,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -74,7 +74,8 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "chainsaw_on",
@@ -137,7 +138,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -161,7 +161,8 @@
       ]
     },
     "flags": [ "POLEARM", "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "polesaw_on",
@@ -220,7 +221,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "type": "effect_on_conditions",
@@ -245,7 +245,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 2, "cut": 4 }
+    "melee_damage": { "bash": 2, "cut": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "circsaw_on",
@@ -326,7 +327,6 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "melee_damage": { "bash": 12, "cut": 24 }
   },
   {
@@ -382,7 +382,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": {
@@ -410,7 +409,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "elec_chainsaw_on",
@@ -592,7 +592,6 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "melee_damage": { "bash": 8, "cut": 14 }
   },
   {

@@ -1,5 +1,6 @@
 [
   {
+    "//1": "This file consists of chunks of mapgen intended to be reusable for other labs, they don't spawn as is.",
     "type": "overmap_special",
     "id": "Lab_Parking_Lot",
     "//": "A secure parking lot and concrete wall.",
@@ -14,7 +15,7 @@
       { "point": [ -1, 2, 1 ], "overmap": "lab_surface_parking_blockA2_roof_west" },
       { "point": [ -2, 0, 0 ], "overmap": "lab_surface_parking_blockC1_west" },
       { "point": [ -3, 0, 0 ], "overmap": "lab_surface_parking_blockC0_west" },
-      { "point": [ -3, 0, 1 ], "overmap": "lab_surface_parking_blockC0_roof_west" },
+      { "point": [ -2, 2, 1 ], "overmap": "lab_surface_parking_blockC0_roof_west" },
       { "point": [ -2, 1, 0 ], "overmap": "lab_surface_parking_blockB1_west" },
       { "point": [ -3, 1, 0 ], "overmap": "lab_surface_parking_blockB0_west" },
       { "point": [ -2, 2, 0 ], "overmap": "lab_surface_parking_blockA1_west" },

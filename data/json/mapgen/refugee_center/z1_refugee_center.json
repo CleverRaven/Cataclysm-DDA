@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_7_z1", "evac_center_8_z1", "evac_center_9_z1" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -39,7 +38,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_12_z1", "evac_center_13_z1", "evac_center_14_z1" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -76,7 +74,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_17_z1", "evac_center_18_z1", "evac_center_19_z1" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

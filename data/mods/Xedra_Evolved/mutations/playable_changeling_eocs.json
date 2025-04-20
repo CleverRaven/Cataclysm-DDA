@@ -1,6 +1,20 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GLOBAL_SET_SEASON_FOR_JMATH",
+    "//": "This EoC is solely to allow jmath to access what season it is.  Delete if that functionality is ever added.",
+    "recurrence": { "math": [ "time_since('midnight') >= 1" ] },
+    "global": true,
+    "run_for_npcs": false,
+    "effect": [
+      { "if": { "is_season": "spring" }, "then": { "math": [ "global_what_is_the_season = 1" ] } },
+      { "if": { "is_season": "summer" }, "then": { "math": [ "global_what_is_the_season = 2" ] } },
+      { "if": { "is_season": "autumn" }, "then": { "math": [ "global_what_is_the_season = 3" ] } },
+      { "if": { "is_season": "winter" }, "then": { "math": [ "global_what_is_the_season = 4 " ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS",
     "condition": {
       "and": [
@@ -24,8 +38,15 @@
     "id": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT",
     "condition": {
       "or": [
-        { "u_has_effect": "effect_changeling_invisibility" },
-        { "u_has_effect": "effect_changeling_right_of_passage" },
+        {
+          "u_has_any_effect": [
+            "effect_changeling_invisibility",
+            "effect_changeling_right_of_passage",
+            "effect_changeling_summer_run_for_long_periods",
+            "effect_changeling_winter_feign_death",
+            "effect_changeling_autumn_freeze_in_place_self"
+          ]
+        },
         {
           "u_has_any_trait": [
             "CHANGELING_DISGUISE_AS_NATURE_BUSH",
@@ -33,6 +54,23 @@
             "CHANGELING_DISGUISE_AS_NATURE_POND",
             "CHANGELING_DISGUISE_AS_NATURE_GRASS",
             "CHANGELING_DISGUISE_AS_NATURE_ROCK"
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_CASTING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_using_glamour_removes_checker" },
+        {
+          "u_has_any_effect": [
+            "effect_changeling_summer_run_for_long_periods",
+            "effect_changeling_winter_feign_death",
+            "effect_changeling_autumn_freeze_in_place_self"
           ]
         }
       ]
@@ -56,6 +94,28 @@
     },
     "effect": [
       { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNKNOWING_CHANGELING_UNWEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "FAIR_FOLK_COMMONER_SELECTOR",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ],
+        "time_in_future": 1
+      }
     ]
   },
   {
@@ -86,10 +146,7 @@
       "true_eocs": [
         {
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
-          ]
+          "effect": [ { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" } ]
         }
       ],
       "false_eocs": [
@@ -128,10 +185,7 @@
       "true_eocs": [
         {
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
-          ],
+          "effect": [ { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" } ],
           "false_effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
         }
       ],
@@ -177,7 +231,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_TAKING DAMAGE",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_TAKING_DAMAGE",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
@@ -185,15 +239,85 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER",
+    "//": "Due to the way spellcasting_finish events work, this has to be run 1 second after the initial glamour weaving, or a glamour that fades if another glamour is woven is immediately removed because the initial weaving count as 'another glamour' ",
+    "effect": [ { "u_add_effect": "effect_changeling_using_glamour_removes_checker", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_SPELLCASTING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_using_glamour_removes_checker" },
+        { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_CASTING" }
+      ]
+    },
+    "effect": [
+      { "message": "You cast a spell and effects are being removed", "type": "debug" },
+      {
+        "u_lose_effect": [
+          "effect_changeling_using_glamour_removes_checker",
+          "effect_changeling_summer_run_for_long_periods",
+          "effect_changeling_winter_feign_death",
+          "effect_changeling_autumn_freeze_in_place_self"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_GLAMOUR_CHECKER_SAFEGUARD",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "u_has_effect": "effect_changeling_using_glamour_removes_checker" },
+    "effect": { "u_lose_effect": "effect_changeling_using_glamour_removes_checker" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS",
     "effect": [
-      { "u_lose_effect": "effect_changeling_invisibility" },
-      { "u_lose_effect": "effect_changeling_right_of_passage" },
+      { "message": "Effects are being removed", "type": "debug" },
+      {
+        "u_lose_effect": [
+          "effect_changeling_invisibility",
+          "effect_changeling_right_of_passage",
+          "effect_changeling_summer_run_for_long_periods",
+          "effect_changeling_winter_feign_death",
+          "effect_changeling_autumn_freeze_in_place_self"
+        ]
+      },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_TREE" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_POND" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_GRASS" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_ROCK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_MOVEMENT",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "or": [
+        { "u_has_any_effect": [ "effect_changeling_winter_feign_death", "effect_changeling_autumn_freeze_in_place_self" ] },
+        {
+          "u_has_any_trait": [
+            "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+            "CHANGELING_DISGUISE_AS_NATURE_TREE",
+            "CHANGELING_DISGUISE_AS_NATURE_POND",
+            "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+            "CHANGELING_DISGUISE_AS_NATURE_ROCK"
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "message": "You moved and effects are being removed", "type": "debug" },
+      { "u_lose_effect": [ "effect_changeling_winter_feign_death", "effect_changeling_autumn_freeze_in_place_self" ] },
+      { "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END" }
     ]
   },
   {
@@ -322,29 +446,24 @@
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
     "effect": [
+      {
+        "if": {
+          "u_has_any_trait": [
+            "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+            "CHANGELING_DISGUISE_AS_NATURE_TREE",
+            "CHANGELING_DISGUISE_AS_NATURE_POND",
+            "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+            "CHANGELING_DISGUISE_AS_NATURE_ROCK"
+          ]
+        },
+        "then": { "u_message": "The glamour disguising you fades.", "type": "bad" }
+      },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_TREE" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_POND" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_GRASS" },
-      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_ROCK" },
-      { "u_message": "The glamour disguising you fades.", "type": "bad" }
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_ROCK" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CHANGELING_DISGUISE_AS_NATURE_MOVEMENT_ENDS",
-    "eoc_type": "EVENT",
-    "required_event": "avatar_moves",
-    "condition": {
-      "u_has_any_trait": [
-        "CHANGELING_DISGUISE_AS_NATURE_BUSH",
-        "CHANGELING_DISGUISE_AS_NATURE_TREE",
-        "CHANGELING_DISGUISE_AS_NATURE_POND",
-        "CHANGELING_DISGUISE_AS_NATURE_GRASS",
-        "CHANGELING_DISGUISE_AS_NATURE_ROCK"
-      ]
-    },
-    "effect": [ { "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1699,8 +1818,7 @@
     "condition": { "math": [ "magic_weather_lightning == 1" ] },
     "effect": [
       { "math": [ "u_weather_change_limit = 0" ] },
-      { "u_lose_effect": "effect_controlling_weather" },
-      { "u_lose_effect": "effect_controlling_weather_lightningstorm" }
+      { "u_lose_effect": [ "effect_controlling_weather", "effect_controlling_weather_lightningstorm" ] }
     ]
   },
   {
@@ -1715,7 +1833,169 @@
         "then": { "u_learn_recipe": "moon_tear_ingot" },
         "else": { "run_eocs": "EOC_LEARN_MOONS_TEARS_RECIPES" }
       },
-      { "u_message": "You dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
+      { "u_message": "Your dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_START_MINING",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_calories_pre_mining = u_calories()" ] },
+      { "u_add_effect": "effect_trow_no_eating_or_sleep", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_WHILE_MINING",
+    "recurrence": "5 minutes",
+    "condition": { "u_has_effect": "effect_trow_no_eating_or_sleep" },
+    "deactivate_condition": { "not": { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" } },
+    "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) = u_calories_pre_mining" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_END_MINING",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_trow_no_eating_or_sleep" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        {
+          "and": [
+            "u_is_outside",
+            {
+              "or": [
+                { "is_weather": "magic_weather_light_drizzle" },
+                { "is_weather": "magic_weather_drizzle" },
+                { "is_weather": "magic_weather_rain" },
+                { "is_weather": "magic_weather_rainstorm" },
+                { "is_weather": "magic_weather_thunder" },
+                { "is_weather": "magic_weather_lightning" },
+                { "is_weather": "weather_light_drizzle" },
+                { "is_weather": "weather_drizzle" },
+                { "is_weather": "weather_rain" },
+                { "is_weather": "weather_rainstorm" },
+                { "is_weather": "weather_thunder" },
+                { "is_weather": "weather_lightning" }
+              ]
+            }
+          ]
+        },
+        { "u_near_om_location": "generic_river_bank", "range": 1 },
+        { "u_near_om_location": "generic_river", "range": 1 },
+        { "u_near_om_location": "river_center", "range": 1 },
+        { "u_near_om_location": "river", "range": 1 },
+        { "u_near_om_location": "river_c_not_ne", "range": 1 },
+        { "u_near_om_location": "river_c_not_nw", "range": 1 },
+        { "u_near_om_location": "river_c_not_se", "range": 1 },
+        { "u_near_om_location": "river_c_not_sw", "range": 1 },
+        { "u_near_om_location": "lake_shore", "range": 1 },
+        { "u_near_om_location": "lake_surface", "range": 1 },
+        { "u_near_om_location": "ocean", "range": 1 },
+        { "u_near_om_location": "ocean_shore", "range": 1 },
+        { "u_near_om_location": "ocean_surface", "range": 1 },
+        { "u_near_om_location": "ocean_bed", "range": 1 },
+        { "u_near_om_location": "ocean_water_cube", "range": 1 },
+        { "u_near_om_location": "ocean_surface", "range": 1 },
+        { "u_near_om_location": "pond_field", "range": 1 },
+        { "u_at_om_location": "fishing_pond_0_0" },
+        { "u_at_om_location": "fishing_pond_1_0" },
+        { "u_at_om_location": "fishing_pond_0_1" },
+        { "u_at_om_location": "fishing_pond_1_1" },
+        { "u_at_om_location": "forest_water" },
+        { "u_at_om_location": "undine_genius_loci_NW" },
+        { "u_at_om_location": "undine_genius_loci_NE" },
+        { "u_at_om_location": "undine_genius_loci_SW" },
+        { "u_at_om_location": "undine_genius_loci_SE" }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_selkie", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be near water or under the rain to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        { "not": "u_is_outside" },
+        { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+        { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_brownie", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be inside and unobserved to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        { "math": [ "u_mon_species_nearby('MAMMAL', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('AMPHIBIAN', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('BIRD', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('REPTILE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('FISH', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('KRAKEN', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('INSECT', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('CENTIPEDE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('INSECT_FLYING', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SPIDER', 'radius': 30, 'attitude': 'both') >= 1" ] }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_pooka", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be near an animal to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_GOBLIN_FRUIT",
+    "condition": { "or": [ { "not": "is_day" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_trow", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be under the ground or at night to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOBLE_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        { "math": [ "u_mon_species_nearby('CHANGELING', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('ARVORE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('IERDE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('HOMULLUS', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SALAMANDER', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SYLPH', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('UNDINE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_characters_nearby('radius': 30) >= 1" ] }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_noble", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be near humans or Fae to call forth a goblin fruit.", "type": "bad" } ]
   }
 ]

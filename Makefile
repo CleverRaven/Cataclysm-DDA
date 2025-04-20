@@ -252,12 +252,17 @@ endif
 
 # Windows sets the OS environment variable so we can cheaply test for it.
 ifneq (,$(findstring Windows_NT,$(OS)))
-  IS_WINDOWS_HOST = 1
+  ifeq ($(MSYS2),1)
+    OS = Msys
+  else ifeq ($(MAKE_HOST),x86_64-pc-cygwin)
+    OS = Cygwin
+  else # MAKE_HOST=x86_64-w64-mingw32
+    IS_WINDOWS_HOST = 1
+  endif
 else
   IS_WINDOWS_HOST = 0
+  OS = $(shell uname -o)
 endif
-
-OS = $(shell uname -s)
 
 ifneq ($(findstring Darwin,$(OS)),)
   ifndef NATIVE
@@ -481,7 +486,7 @@ else
   CXXFLAGS += $(OPTLEVEL)
 endif
 
-ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+ifeq ($(OS),Cygwin)
   OTHERS += -std=gnu++17
 else
   OTHERS += -std=c++17
@@ -534,7 +539,7 @@ W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DI
 # Check if called without a special build target
 ifeq ($(NATIVE),)
   ifeq ($(CROSS),)
-    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+    ifeq ($(OS),Cygwin)
       DEFINES += -DCATA_NO_CPP11_STRING_CONVERSIONS
       TARGETSYSTEM=CYGWIN
     else
@@ -576,8 +581,8 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=10.13
-  LDFLAGS += -mmacosx-version-min=10.13 -framework CoreFoundation -Wl,-headerpad_max_install_names
+  CXXFLAGS += -mmacosx-version-min=10.15
+  LDFLAGS += -mmacosx-version-min=10.15 -framework CoreFoundation -Wl,-headerpad_max_install_names
   ifeq ($(UNIVERSAL_BINARY), 1)
     CXXFLAGS += -arch x86_64 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
@@ -835,9 +840,6 @@ else
 endif # TILES
 
 ifeq ($(SOUND), 1)
-  ifneq ($(TILES),1)
-    $(error "SOUND=1 only works with TILES=1")
-  endif
   ifeq ($(NATIVE),osx)
     ifndef FRAMEWORK # libsdl build
       ifeq ($(MACPORTS), 1)
@@ -1271,7 +1273,6 @@ ifdef LANGUAGES
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif
-ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
 endif  # ifeq ($(SOUND), 1)
@@ -1284,7 +1285,6 @@ ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
 endif  # ifeq ($(SOUND), 1)
 endif  # ifdef FRAMEWORK
-endif  # ifdef TILES
 	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/
 
 dmgdistclean:

@@ -4,22 +4,22 @@
 
 #include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class cata_path;
 class JsonArray;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class cata_path;
 
 class options_manager
 {

@@ -13,6 +13,7 @@
 #include "cata_lazy.h"
 #include "dialogue_helpers.h"
 #include "dialogue_win.h"
+#include "global_vars.h"
 #include "npc_opinion.h"
 #include "talker.h"
 #include "type_id.h"
@@ -197,10 +198,10 @@ struct talk_response {
     bool ignore_conditionals = false;
 
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id();
-    matype_id style = matype_id();
-    spell_id dialogue_spell = spell_id();
-    proficiency_id proficiency = proficiency_id();
+    skill_id skill;
+    matype_id style;
+    spell_id dialogue_spell;
+    proficiency_id proficiency;
 
     talk_effect_t success;
     talk_effect_t failure;
@@ -231,7 +232,7 @@ struct const_dialogue {
         const_dialogue(
             std::unique_ptr<const_talker> alpha_in, std::unique_ptr<const_talker> beta_in,
             const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond = {},
-            const std::unordered_map<std::string, std::string> &ctx = {} );
+            global_variables::impl_t const &ctx = {} );
 
         bool has_beta{};
         bool has_alpha{};
@@ -244,17 +245,21 @@ struct const_dialogue {
         bool by_radio = false;
 
         // Methods for setting/getting misc key/value pairs.
-        void set_value( const std::string &key, const std::string &value );
+        void set_value( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_value( const std::string &key, Args... args ) {
+            set_value( key, diag_value{ std::forward<Args>( args )... } );
+        }
         void remove_value( const std::string &key );
 
         void set_conditional( const std::string &key,
                               const std::function<bool( const_dialogue const & )> &value );
-        std::string get_value( const std::string &key ) const;
-        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+        diag_value const &get_value( const std::string &key ) const;
+        diag_value const *maybe_get_value( const std::string &key ) const;
 
         bool evaluate_conditional( const std::string &key, const_dialogue const &d ) const;
 
-        const std::unordered_map<std::string, std::string> &get_context() const;
+        global_variables::impl_t const &get_context() const;
         const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>>
                 &get_conditionals() const;
         void amend_callstack( const std::string &value );
@@ -263,7 +268,7 @@ struct const_dialogue {
     private:
         std::unique_ptr<const_talker> alpha, beta;
 
-        lazy<std::unordered_map<std::string, std::string>> context;
+        lazy<global_variables::impl_t> context;
         mutable std::string callstack;
 
         lazy<std::unordered_map<std::string, std::function<bool( const_dialogue const & )>>> conditionals;
@@ -285,7 +290,7 @@ struct dialogue: public const_dialogue {
         dialogue &operator=( dialogue && ) = default;
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
                   const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond = {},
-                  const std::unordered_map<std::string, std::string> &ctx = {} );
+                  global_variables::impl_t const &ctx = {} );
         talker *actor( bool is_beta ) const;
 
         std::string dynamic_line( const talk_topic &topic );
@@ -296,6 +301,14 @@ struct dialogue: public const_dialogue {
          */
         std::vector<talk_response> responses;
         void gen_responses( const talk_topic &topic );
+
+        // response conditional result cache
+        std::vector<bool> response_condition_exists;
+        std::vector<bool> response_condition_eval;
+
+        // add an already-generated response to this dialogue's responses
+        void add_gen_response( const talk_response &resp, bool insert_front, bool condition_exists = true,
+                               bool condition_result = true );
 
         void add_topic( const std::string &topic );
         void add_topic( const talk_topic &topic );

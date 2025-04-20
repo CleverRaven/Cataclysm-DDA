@@ -311,7 +311,7 @@
     ]
   },
   {
-    "name": "GROUP_AMALGAMATIONS_SPAWNED",
+    "id": "GROUP_AMALGAMATIONS_SPAWNED",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_amalgamation_swarmer", "weight": 20 },
@@ -446,7 +446,7 @@
     "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen, or you've run far enough away from where it spawned (7.5 OMTs).",
     "condition": {
       "and": [
-        { "not": { "compare_string": [ "", { "global_val": "shadow_encounter_XYZ_pos" } ] } },
+        { "math": [ "has_var(shadow_encounter_XYZ_pos)" ] },
         {
           "or": [
             { "npc_allies": 3 },

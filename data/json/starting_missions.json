@@ -7,15 +7,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 4,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "s_air_term",
-        "om_special": "o_airport",
-        "reveal_radius": 6,
-        "random": true,
-        "search_range": 90,
-        "min_distance": 15,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "s_air_term", "om_special": "o_airport", "reveal_radius": 6, "min_distance": 15, "z": 0 },
       "update_mapgen": {
         "place_monster": [
           { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
@@ -48,7 +40,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "min_distance": 1, "z": 0 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
       }
@@ -75,14 +67,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "prison_alcatraz_9",
-        "om_special": "Alcatraz Prison",
-        "reveal_radius": 1,
-        "search_range": 6,
-        "min_distance": 1,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "prison_alcatraz_9", "om_special": "Alcatraz Prison", "reveal_radius": 1, "min_distance": 1, "z": 0 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
       }
@@ -109,14 +94,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "prison_island_1_8",
-        "om_special": "Island prison",
-        "reveal_radius": 1,
-        "search_range": 6,
-        "min_distance": 1,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "prison_island_1_8", "om_special": "Island prison", "reveal_radius": 1, "min_distance": 1, "z": 0 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
       }
@@ -646,9 +624,7 @@
     "destination": "s_air_hangars",
     "difficulty": 1,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 120 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport" } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -661,14 +637,7 @@
     "difficulty": 4,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "helipad_nw",
-        "reveal_radius": 10,
-        "om_special": "military helipad",
-        "search_range": 70,
-        "min_distance": 25,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "helipad_nw", "reveal_radius": 10, "om_special": "military helipad", "min_distance": 25, "z": 0 }
     },
     "origins": [ "ORIGIN_GAME_START" ]
   },
@@ -680,15 +649,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "s_air_helicopter_pad",
-        "om_special": "o_airport",
-        "reveal_radius": 6,
-        "random": true,
-        "search_range": 65,
-        "min_distance": 15,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "s_air_helicopter_pad", "om_special": "o_airport", "reveal_radius": 6, "min_distance": 15, "z": 0 },
       "update_mapgen": {
         "place_monster": [
           { "monster": "mon_zombie_military_pilot", "x": 1, "y": 1 },
@@ -722,7 +683,7 @@
     "destination": "mansion_c3",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Road", "search_range": 200 } },
+    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Road" } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {

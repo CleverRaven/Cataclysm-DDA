@@ -182,7 +182,7 @@
       },
       "no": {
         "compare_string": [ "south", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
-        "yes": "I'm going south.  Hopefully somebody down there fared better than the people I knew up here.  Besides, I won't have to worry about freezing my <swear> butt off when winter comes.",
+        "yes": "I'm going south.  Hopefully somebody down there fared better than the people I knew up here.  Besides, I won't have to worry about freezing my <freaking> butt off when winter comes.",
         "no": {
           "compare_string": [ "east", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
           "yes": {
@@ -191,7 +191,7 @@
           },
           "no": {
             "compare_string": [ "west", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
-            "yes": "I'm going west, see how things are out there in tumbleweed territory.  You see, the Midwest didn't have a whole lot of people in it compared the East Coast, so there logically shouldn't be as many <zombies> as there are here.  I just hope that everything hasn't <swear> collapsed, that someone's still holding on.",
+            "yes": "I'm going west, see how things are out there in tumbleweed territory.  You see, the Midwest didn't have a whole lot of people in it compared the East Coast, so there logically shouldn't be as many <zombies> as there are here.  I just hope that everything hasn't collapsed, that someone's still holding on.",
             "no": "ERROR: DIRECTION PARAMETERS EITHER NOT PICKED OR OUT OF BOUNDS"
           }
         }
@@ -211,7 +211,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_TRADE",
-    "dynamic_line": "I don't have a whole lot, but I've got a few things that I could stand to be rid of, too much weight tanks the gas mileage.  I could always use more fuel, food, and clean water if you have any to spare.  Entertainment is also appreciated, it's pretty <swear> boring looking at nothing but road for 10 hours a day.",
+    "dynamic_line": "I don't have a whole lot, but I've got a few things that I could stand to be rid of, too much weight tanks the gas mileage.  I could always use more fuel, food, and clean water if you have any to spare.  Entertainment is also appreciated, it's pretty fucking boring looking at nothing but road for 10 hours a day.",
     "responses": [
       { "text": "Let's take a look.", "topic": "TALK_NPC_CAMPER_VAN_TRAVELER", "effect": "start_trade" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -235,7 +235,7 @@
         "no": {
           "math": [ "npc_randomize_dialogue_direction == 2" ],
           "yes": {
-            "gendered_line": "I found a small cabin out in the woods, someone was living there and had some serious chemistry equipment.  I managed to get good medical supplies from there.  They even had some oddball things too, like <swear> napalm and black powder.",
+            "gendered_line": "I found a small cabin out in the woods, someone was living there and had some serious chemistry equipment.  I managed to get good medical supplies from there.  They even had some oddball things too, like fucking napalm and black powder.",
             "relevant_genders": [ "npc" ]
           },
           "no": {
@@ -323,7 +323,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 }
+      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -345,9 +345,7 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "chemical_lab_ocu", "om_special": "Occupied Chem Lab", "reveal_radius": 5, "search_range": 400 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "chemical_lab_ocu", "om_special": "Occupied Chem Lab", "reveal_radius": 5 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",
@@ -368,9 +366,7 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "desolatebarn", "om_special": "desolate barn", "reveal_radius": 5, "search_range": 400 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "desolatebarn", "om_special": "desolate barn", "reveal_radius": 5 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",

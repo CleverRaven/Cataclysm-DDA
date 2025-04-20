@@ -48,9 +48,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": {
-      "assign_mission_target": { "om_terrain": "hunter_shack", "reveal_radius": 5, "om_special": "Swamp Shack", "search_range": 120 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "hunter_shack", "reveal_radius": 5, "om_special": "Swamp Shack" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "hunter_shack",
     "dialogue": {

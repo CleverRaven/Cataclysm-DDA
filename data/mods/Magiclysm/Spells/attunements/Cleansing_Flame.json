@@ -10,7 +10,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "CLEANSING_FLAME",
     "difficulty": 8,
     "max_level": 1,
@@ -129,7 +129,7 @@
     "max_level": 35,
     "base_casting_time": 390,
     "sound_description": "a searing whoosh",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "immolate_push",
@@ -162,7 +162,7 @@
     "shape": "blast",
     "base_casting_time": 350,
     "base_energy_cost": 800,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 10,
     "min_damage": { "math": [ "(u_spell_level('cleansingflame_hermes_heal') * -1.1) - 8" ] },
     "max_damage": { "math": [ "(u_spell_level('cleansingflame_hermes_heal') * -2.2) - 15" ] },

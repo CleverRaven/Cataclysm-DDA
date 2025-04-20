@@ -3,32 +3,29 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <numeric>
 #include <utility>
 
 #include "action.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "build_reqs.h"
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -37,12 +34,11 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "iteminfo_query.h"
 #include "iuse.h"
-#include "json_error.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -50,13 +46,11 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h"
 #include "panels.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
-#include "sdltiles.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -64,14 +58,22 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+#if defined(TILES)
+#include "cached_options.h"    // for use_tiles
+#include "cata_tiles.h"        // for cata_tiles
+#include "cuboid_rectangle.h"  // for half_open_rectangle
+#include "cursesport.h"        // for get_scaling_factor (??)
+#include "sdltiles.h"          // for tilecontext
+#endif
 
 class read_only_visitable;
 
@@ -103,6 +105,7 @@ static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
@@ -423,7 +426,6 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
     return make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
         // Draw construction result preview on valid squares
-        // TODO: fix point types
         for( const auto &elem : valid ) {
             const tripoint_bub_ms &loc = elem.first;
             const construction &con = *elem.second;
@@ -1058,6 +1060,8 @@ construction_id construction_menu( const bool blueprint )
                     if( constructs[select] != construction_group_deconstruct_simple_furniture &&
                         !player_can_see_to_build( player_character, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
+                    } else if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+                        continue; // player declined to mess with faction's stuff
                     } else {
                         draw_preview.reset();
                         restore_view.reset();
@@ -1315,7 +1319,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     player_character.invalidate_crafting_inventory();
     player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.getglobal( pnt );
+    player_character.activity.placement = here.get_abs( pnt );
 }
 
 void complete_construction( Character *you )
@@ -1325,7 +1329,7 @@ void complete_construction( Character *you )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms terp = here.bub_from_abs( you->activity.placement );
+    const tripoint_bub_ms terp = here.get_bub( you->activity.placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
@@ -1657,7 +1661,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
     }
     if( player_character.has_quality( qual_CUT ) ) {
         iuse::handle_ground_graffiti( player_character, nullptr, _( "Inscribe something on the grave?" ),
-                                      p );
+                                      &here, p );
     } else {
         add_msg( m_neutral,
                  _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
@@ -1719,7 +1723,7 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
 
     veh->name = name;
-    const int partnum = veh->install_part( point_rel_ms::zero, vpart_from_item( base.typeId() ),
+    const int partnum = veh->install_part( here, point_rel_ms::zero, vpart_from_item( base.typeId() ),
                                            item( base ) );
     veh->part( partnum ).set_flag( vp_flag::unsalvageable_flag );
 
@@ -1730,9 +1734,10 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 
 void construct::done_wiring( const tripoint_bub_ms &p, Character &who )
 {
-    get_map().partial_con_remove( p );
+    map &here = get_map();
+    here.partial_con_remove( p );
 
-    place_appliance( p, vpart_from_item( itype_wall_wiring ), who );
+    place_appliance( here, p, vpart_from_item( itype_wall_wiring ), who );
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
@@ -1756,7 +1761,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
     const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
-    place_appliance( p, vpart, who, base );
+    place_appliance( here, p, vpart, who, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
@@ -1836,7 +1841,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
 static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
-    item rope( "rope_30" );
+    item rope( itype_rope_30 );
     map &here = get_map();
     tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
     here.add_item_or_charges( avatar_pos, rope );
@@ -2058,58 +2063,20 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
         get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
         bool cancel_construction = false;
 
-        auto deconstruct_items = []( const item_group_id & drop_group ) {
-            std::string ret;
-            const Item_spawn_data *spawn_data = item_group::spawn_data_from_group( drop_group );
-            if( spawn_data == nullptr ) {
-                return ret;
-            }
-            const std::map<const itype *, std::pair<int, int>> deconstruct_items =
-                        spawn_data->every_item_min_max();
-            for( const auto &deconstruct_item : deconstruct_items ) {
-                const int &min = deconstruct_item.second.first;
-                const int &max = deconstruct_item.second.second;
-                if( min != max ) {
-                    ret += string_format( "- %d-%d %s\n", min, max, deconstruct_item.first->nname( max ) );
-                } else {
-                    ret += string_format( "- %d %s\n", max, deconstruct_item.first->nname( max ) );
-                }
-            }
-            return ret;
-        };
-        auto deconstruction_will_practice_skill = [&who]( auto & skill ) {
-            return who.get_skill_level( skill.id ) >= skill.min &&
-                   who.get_skill_level( skill.id ) < skill.max;
-        };
-
-        auto deconstruct_query = [&who, &cancel_construction, &deconstruction_will_practice_skill,
-              &deconstruct_items]( map_common_deconstruct_info & deconstruct, std::string & name ) {
-            if( !!deconstruct.skill &&
-                deconstruction_will_practice_skill( deconstruct.skill.value() ) ) {
-                cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
-                                          name, deconstruct_items( deconstruct.drop_group ), deconstruct.skill->id.obj().name() );
-            } else {
-                cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
-                                          name, deconstruct_items( deconstruct.drop_group ) );
-            }
+        auto deconstruct_query = [&]( const std::string & info ) {
+            cancel_construction = !who.query_yn( string_format( _( "%s\nConfirm deconstruct?" ), info ) );
         };
 
         std::string tname;
         if( here.has_furn( p ) ) {
             const furn_t &f = here.furn( p ).obj();
             if( f.deconstruct ) {
-                map_furn_deconstruct_info deconstruct = f.deconstruct.value();
-                tname = f.name();
-                deconstruct_query( deconstruct, tname );
+                deconstruct_query( f.deconstruct->potential_deconstruct_items( f.name() ) );
             }
         } else {
             const ter_t &t = here.ter( p ).obj();
             if( t.deconstruct ) {
-                map_ter_deconstruct_info deconstruct = t.deconstruct.value();
-                tname = t.name();
-                deconstruct_query( deconstruct, tname );
+                deconstruct_query( t.deconstruct->potential_deconstruct_items( t.name() ) );
             }
         }
         if( cancel_construction ) {
@@ -2121,10 +2088,8 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
-    // TODO: fix point types
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
     if( calendar::once_every( 1_minutes ) ) {
-        // TODO: fix point types
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
@@ -2557,9 +2522,9 @@ void finalize_constructions()
 }
 
 build_reqs get_build_reqs_for_furn_ter_ids(
-    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids,
-    ter_id const &base_ter )
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
+    ter_id const &base_ter = ter_t_dirt.id();
     build_reqs total_reqs;
 
     if( !finalized ) {

@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_DOG_UPGRADE",
+    "id": "GROUP_ZOMBIE_DOG_UPGRADE",
     "//": "No bionics or fungal",
     "monsters": [
       { "monster": "mon_dog_skeleton", "weight": 340, "cost_multiplier": 5 },
@@ -13,7 +13,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_PIG_UPGRADE",
+    "id": "GROUP_ZOMBIE_PIG_UPGRADE",
     "//": "No bionics or fungal",
     "monsters": [
       { "monster": "mon_zpig_brute", "weight": 45, "cost_multiplier": 2 },
@@ -22,7 +22,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOLF_UPGRADE",
+    "id": "GROUP_ZOLF_UPGRADE",
     "default": "mon_wolf_skeleton",
     "//": "No bionics or fungal",
     "monsters": [
@@ -32,7 +32,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_HORSE_UPGRADE",
+    "id": "GROUP_ZOMBIE_HORSE_UPGRADE",
     "monsters": [
       { "monster": "mon_zombie_horse_white", "weight": 250, "cost_multiplier": 2 },
       { "monster": "mon_zombie_horse_red", "weight": 250, "cost_multiplier": 2 },
@@ -42,7 +42,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBEAR_UPGRADE",
+    "id": "GROUP_ZOMBEAR_UPGRADE",
     "default": "mon_zombear_skeleton",
     "//": "No bionics or fungal",
     "monsters": [
@@ -52,7 +52,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOOSE_UPGRADE",
+    "id": "GROUP_ZOOSE_UPGRADE",
     "default": "mon_zoose_brute",
     "monsters": [
       { "monster": "mon_zoose_brute", "weight": 500, "cost_multiplier": 15 },
@@ -61,7 +61,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOUGAR_UPGRADE",
+    "id": "GROUP_ZOUGAR_UPGRADE",
     "monsters": [
       { "monster": "mon_zougar_hunter", "weight": 600, "cost_multiplier": 4 },
       { "monster": "mon_zougar_shady", "weight": 400, "cost_multiplier": 6 }

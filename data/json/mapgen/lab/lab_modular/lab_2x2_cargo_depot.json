@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": [ "lab_2x2_cargo_NW" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -73,7 +72,6 @@
     "method": "json",
     "om_terrain": [ "lab_2x2_cargo_NE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -129,7 +127,6 @@
     "method": "json",
     "om_terrain": [ "lab_2x2_cargo_SW" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -176,7 +173,6 @@
     "method": "json",
     "om_terrain": [ "lab_2x2_cargo_SE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

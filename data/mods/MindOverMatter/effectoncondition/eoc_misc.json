@@ -222,8 +222,7 @@
     "id": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_VIRAL_TO_CONJUNCTIVITIS_VIRAL",
     "condition": { "u_has_effect": "pre_conjunctivitis_viral" },
     "effect": [
-      { "u_lose_effect": "pre_conjunctivitis_viral" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
+      { "u_lose_effect": [ "pre_conjunctivitis_viral", "pre_conjunctivitis_bacterial" ] },
       {
         "u_add_effect": "conjunctivitis_viral",
         "duration": { "math": [ "rand(259200) + 432000" ] },
@@ -236,8 +235,7 @@
     "id": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_BACTERIAL_TO_CONJUNCTIVITIS_BACTERIAL",
     "condition": { "u_has_effect": "pre_conjunctivitis_bacterial" },
     "effect": [
-      { "u_lose_effect": "pre_conjunctivitis_viral" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
+      { "u_lose_effect": [ "pre_conjunctivitis_viral", "pre_conjunctivitis_bacterial" ] },
       {
         "u_add_effect": "conjunctivitis_bacterial",
         "duration": { "math": [ "rand(259200) + 432000" ] },

@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": [ "lab_res_8_NWD" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -196,7 +195,6 @@
     "method": "json",
     "om_terrain": [ "lab_res_8_NED" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -252,7 +250,6 @@
     "method": "json",
     "om_terrain": [ "lab_res_8_SWD" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -306,7 +303,6 @@
     "method": "json",
     "om_terrain": [ "lab_res_8_SED" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

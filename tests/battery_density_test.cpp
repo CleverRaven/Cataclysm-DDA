@@ -1,6 +1,18 @@
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "cata_catch.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 static const ammotype ammo_battery( "battery" );
 static const flag_id json_flag_DEBUG_ONLY( "DEBUG_ONLY" );

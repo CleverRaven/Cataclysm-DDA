@@ -20,12 +20,6 @@
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
-    "id": "fake_arcfurnace",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "arc furnace" }
-  },
-  {
     "id": "spinwheelitem",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -119,14 +113,18 @@
     "name": { "str": "Integrated AR System" },
     "description": "Extremely thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "charges_per_use": 1,
-    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
+    "etransfer_rate": "140 MB",
+    "e_port": "phone",
+    "variables": { "browsed": "true" },
     "pocket_data": [
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0.0,
+        "ememory_max": "2 TB"
       }
     ],
     "flags": [
@@ -241,14 +239,14 @@
     "type": "TOOL",
     "copy-from": "fake_item",
     "name": { "str": "fake power tool", "//~": "NO_I18N" },
-    "ammo": [ "battery" ],
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] }
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "fake_arc_furnace",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "industrial arc furnace" }
+    "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_beverly_shear",
@@ -263,9 +261,9 @@
     "name": { "str": "fake appliance tool", "//~": "NO_I18N" },
     "type": "TOOL",
     "copy-from": "fake_item",
-    "ammo": [ "battery" ],
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "drill_press_tool",
@@ -461,18 +459,18 @@
     "type": "TOOL",
     "name": { "str": "oxygen concentrator" },
     "copy-from": "fake_crafting_tool",
-    "ammo": [ "battery" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "pseudo_app_hd_compressor_unit",
     "type": "TOOL",
     "name": { "str": "high pressure compressor unit" },
     "copy-from": "fake_crafting_tool",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "charges_per_use": 100,
-    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "concrete_mix_tool",
@@ -501,8 +499,8 @@
     },
     "weight": "22680 g",
     "volume": "15020 ml",
-    "price": 6000,
-    "price_postapoc": 1000,
+    "price": "60 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "material": [ { "type": "tnt", "portion": 95 }, { "type": "paper", "portion": 5 } ],
     "symbol": "*",

@@ -359,7 +359,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
-    "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
+    "compostable": { "compost_time": "60 days", "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
     "charges": 1
   },
   {
@@ -1332,6 +1332,20 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "butternut_husk",
+    "category": "food",
+    "symbol": "%",
+    "color": "yellow",
+    "name": { "str_sp": "butternut husks" },
+    "description": "A handful of husks from a butternuts, emptied of their meat.",
+    "//spoils_in": "180 days",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "weight": "210 g",
     "volume": "250 ml"
   },
   {

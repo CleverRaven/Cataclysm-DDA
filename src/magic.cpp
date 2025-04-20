@@ -2,9 +2,11 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
+#include <ostream>
 #include <set>
 #include <utility>
 
@@ -15,25 +17,28 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_id.h"
 #include "color.h"
 #include "condition.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "field.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "json.h"
-#include "line.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -45,23 +50,28 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_attack.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "text.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
+#include "vpart_position.h"
+
+struct species_type;
 
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
-static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
-static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
@@ -91,6 +101,8 @@ static std::string target_to_string( spell_target data )
             return pgettext( "Valid spell target", "item" );
         case spell_target::field:
             return pgettext( "Valid spell target", "field" );
+        case spell_target::vehicle:
+            return pgettext( "Valid spell target", "vehicle" );
         case spell_target::num_spell_targets:
             break;
     }
@@ -112,6 +124,7 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::none: return "none";
         case spell_target::item: return "item";
         case spell_target::field: return "field";
+        case spell_target::vehicle: return "vehicle";
         case spell_target::num_spell_targets: break;
     }
     cata_fatal( "Invalid valid_target" );
@@ -485,10 +498,12 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     }
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
-    optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
+    optional( jo, was_loaded, "energy_source", energy_source );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
+    optional( jo, was_loaded, "magic_type", magic_type );
+    optional( jo, was_loaded, "max_book_level", max_book_level );
     if( ( get_level_formula_id.has_value() && !exp_for_level_formula_id.has_value() ) ||
         ( !get_level_formula_id.has_value() && exp_for_level_formula_id.has_value() ) ) {
         debugmsg( "spell id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
@@ -619,8 +634,9 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "energy_increment", static_cast<float>( energy_increment.min.dbl_val.value() ),
                  energy_increment_default );
     json.member( "spell_class", spell_class, spell_class_default );
-    json.member( "energy_source", io::enum_to_string( energy_source ),
-                 io::enum_to_string( energy_source_default ) );
+    if( energy_source.has_value() ) {
+        json.member( "energy_source", io::enum_to_string( energy_source.value() ) );
+    }
     json.member( "damage_type", dmg_type, dmg_type_default );
     json.member( "difficulty", static_cast<int>( difficulty.min.dbl_val.value() ), difficulty_default );
     json.member( "multiple_projectiles", static_cast<int>( multiple_projectiles.min.dbl_val.value() ),
@@ -634,6 +650,8 @@ void spell_type::serialize( JsonOut &json ) const
                  static_cast<float>( casting_time_increment.min.dbl_val.value() ), casting_time_increment_default );
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
+    json.member( "magic_type", magic_type );
+    json.member( "max_book_level", max_book_level );
 
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
@@ -878,6 +896,8 @@ std::string spell::damage_string( const Character &caster ) const
 
 std::optional<tripoint_bub_ms> spell::select_target( Creature *source )
 {
+    const map &here = get_map();
+
     tripoint_bub_ms target = source->pos_bub();
     bool target_is_valid = false;
     if( range( *source ) > 0 && !is_valid_target( spell_target::none ) &&
@@ -890,7 +910,7 @@ std::optional<tripoint_bub_ms> spell::select_target( Creature *source )
                 if( !trajectory.empty() ) {
                     target = trajectory.back();
                     target_is_valid = is_valid_target( source_avatar, target );
-                    if( !( is_valid_target( spell_target::ground ) || source_avatar.sees( target ) ) ) {
+                    if( !( is_valid_target( spell_target::ground ) || source_avatar.sees( here, target ) ) ) {
                         target_is_valid = false;
                     }
                 } else {
@@ -1029,7 +1049,7 @@ std::vector<tripoint_bub_ms> spell::targetable_locations( const Character &sourc
         }
 
         if( !select_ground ) {
-            if( !source.sees( query ) ) {
+            if( !source.sees( here, query ) ) {
                 // can't target a critter you can't see
                 continue;
             }
@@ -1149,7 +1169,7 @@ int spell::energy_cost( const Character &guy ) const
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
                                            guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
-        switch( type->energy_source ) {
+        switch( type->get_energy_source() ) {
             default:
                 cost += 10 * hands_encumb * temp_somatic_difficulty_multiplyer;
                 break;
@@ -1192,12 +1212,13 @@ bool spell::can_cast( const Character &guy ) const
         return true;
     };
 
-    if( guy.has_flag( json_flag_NO_SPELLCASTING ) && !has_flag( spell_flag::PSIONIC ) ) {
-        return false;
-    }
-
-    if( guy.has_flag( json_flag_NO_PSIONICS ) && has_flag( spell_flag::PSIONIC ) ) {
-        return false;
+    if( type->magic_type.has_value() ) {
+        for( std::string cannot_cast_flag_string : type->magic_type.value()->cannot_cast_flags ) {
+            json_character_flag cannot_cast_flag( cannot_cast_flag_string );
+            if( guy.has_flag( cannot_cast_flag ) ) {
+                return false;
+            }
+        }
     }
 
     if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
@@ -1211,6 +1232,19 @@ bool spell::can_cast( const Character &guy ) const
     }
 
     return guy.magic->has_enough_energy( guy, *this );
+}
+
+bool spell::can_cast( const Character &guy, std::set<std::string> &failure_messages )
+{
+    if( can_cast( guy ) ) {
+        return true;
+    } else if( type->magic_type.has_value() &&
+               type->magic_type.value()->cannot_cast_message.has_value() ) {
+        failure_messages.insert( type->magic_type.value()->cannot_cast_message.value() );
+        return false;
+    } else {
+        return false;
+    }
 }
 
 void spell::use_components( Character &guy ) const
@@ -1246,6 +1280,12 @@ bool spell::check_if_component_in_hand( Character &guy ) const
 
     // if it isn't in hand, return false
     return false;
+}
+
+int spell_type::get_difficulty( const Creature &caster ) const
+{
+    const_dialogue d( get_const_talker_for( caster ), nullptr );
+    return difficulty.evaluate( d );
 }
 
 int spell::get_difficulty( const Creature &caster ) const
@@ -1326,6 +1366,7 @@ float spell::spell_fail( const Character &guy ) const
     if( has_flag( spell_flag::NO_FAIL ) ) {
         return 0.0f;
     }
+
     const bool is_psi = has_flag( spell_flag::PSIONIC );
 
     // formula is based on the following:
@@ -1367,15 +1408,27 @@ float spell::spell_fail( const Character &guy ) const
                                          static_cast<float>( 45 ) );
         }
     }
+    bool has_type_fail_chance = type->magic_type.has_value() &&
+                                type->magic_type.value()->failure_chance_formula_id.has_value();
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
-    if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
-        return 0.0f;
-    } else if( ( effective_skill < 0.0f && !is_psi ) || ( psi_effective_skill < 0.0f && is_psi ) ) {
-        return 1.0f;
+    if( !has_type_fail_chance ) {
+        if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
+            return 0.0f;
+        } else if( ( effective_skill < 0.0f && !is_psi ) || ( psi_effective_skill < 0.0f && is_psi ) ) {
+            return 1.0f;
+        }
     }
 
-    float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    float psi_fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
+    float fail_chance = 0;
+    if( has_type_fail_chance ) {
+        const_dialogue d( get_const_talker_for( guy ), nullptr );
+        d.set_value( "spell_id", id().str() );
+        fail_chance = type->magic_type.value()->failure_chance_formula_id.value()->eval( d );
+    } else if( is_psi ) {
+        fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
+    } else {
+        fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
+    }
 
     if( !is_psi ) {
         if( has_flag( spell_flag::SOMATIC ) &&
@@ -1406,10 +1459,9 @@ float spell::spell_fail( const Character &guy ) const
             return 1.0f;
         }
         fail_chance /= 1.0f - concentration_loss;
-        psi_fail_chance /= 1.0f - concentration_loss;
     }
 
-    return clamp( is_psi ? psi_fail_chance : fail_chance, 0.0f, 1.0f );
+    return clamp( fail_chance, 0.0f, 1.0f );
 }
 
 std::string spell::colorized_fail_percent( const Character &guy ) const
@@ -1462,7 +1514,7 @@ void spell::set_exp( int nxp )
 
 std::string spell::energy_string() const
 {
-    switch( type->energy_source ) {
+    switch( type->get_energy_source() ) {
         case magic_energy_type::hp:
             return _( "health" );
         case magic_energy_type::mana:
@@ -1589,7 +1641,7 @@ std::string spell::effect() const
 
 magic_energy_type spell::energy_source() const
 {
-    return type->energy_source;
+    return type->get_energy_source();
 }
 
 bool spell::is_target_in_range( const Creature &caster, const tripoint_bub_ms &p ) const
@@ -1616,6 +1668,9 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
+    } else if( get_map().veh_at( p ) ) {
+        valid = is_valid_target( spell_target::vehicle ) ||
+                is_valid_target( spell_target::ground );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
@@ -1695,6 +1750,134 @@ static constexpr double a = 6200.0;
 static constexpr double b = 0.146661;
 static constexpr double c = -62.5;
 
+std::optional<int> spell_type::get_max_book_level() const
+{
+    std::optional<int> max_level;
+    if( max_book_level.has_value() ) {
+        max_level = max_book_level;
+    } else if( magic_type.has_value() ) {
+        max_level = magic_type.value()->max_book_level;
+    }
+    return max_level;
+}
+
+std::optional<int> spell::max_book_level() const
+{
+    return type->get_max_book_level();
+}
+
+magic_energy_type spell_type::get_energy_source() const
+{
+    if( energy_source.has_value() ) {
+        return energy_source.value();
+    } else if( magic_type.has_value() && magic_type.value()->energy_source.has_value() ) {
+        return magic_type.value()->energy_source.value();
+    } else {
+        return magic_energy_type::none;
+    }
+}
+
+std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const
+{
+    if( get_level_formula_id.has_value() ) {
+        return get_level_formula_id;
+    } else if( magic_type.has_value() && magic_type.value()->get_level_formula_id.has_value() ) {
+        return magic_type.value()->get_level_formula_id;
+    } else {
+        std::optional<jmath_func_id> val;
+        return val;
+    }
+}
+
+std::optional<jmath_func_id> spell_type::overall_exp_for_level_formula_id() const
+{
+    if( exp_for_level_formula_id.has_value() ) {
+        return exp_for_level_formula_id;
+    } else if( magic_type.has_value() && magic_type.value()->exp_for_level_formula_id.has_value() ) {
+        return magic_type.value()->exp_for_level_formula_id;
+    } else {
+        std::optional<jmath_func_id> val;
+        return val;
+    }
+}
+
+double spell::get_failure_cost_percent( Creature &caster ) const
+{
+    if( type->magic_type.has_value() ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->magic_type.value()->failure_cost_percent.evaluate( d );
+    } else {
+        return 0.0f;
+    }
+}
+
+double spell::get_failure_exp_percent( Creature &caster ) const
+{
+    if( type->magic_type.has_value() ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->magic_type.value()->failure_exp_percent.evaluate( d );
+    } else {
+        return 0.2f;
+    }
+}
+
+static void blood_magic( Character *you, int cost )
+{
+    std::vector<uilist_entry> uile;
+    std::vector<bodypart_id> parts;
+    int i = 0;
+    for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+        const int hp_cur = you->get_part_hp_cur( bp );
+        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( bp ) );
+
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, you->get_part_hp_max( bp ) );
+        entry.ctxt = colorize( hp.first, hp.second );
+        uile.emplace_back( entry );
+        parts.push_back( bp );
+        i++;
+    }
+    int action = -1;
+    while( action < 0 ) {
+        action = uilist( _( "Choose part\nto draw blood from." ), uile );
+    }
+    you->mod_part_hp_cur( parts[action], - cost );
+    you->mod_pain( std::max( 1, cost / 3 ) );
+}
+
+void spell::consume_spell_cost( Character &caster, bool cast_success ) const
+{
+    int cost = energy_cost( caster );
+    if( !cast_success ) {
+        cost *= get_failure_cost_percent( caster );
+    }
+    switch( energy_source() ) {
+        case magic_energy_type::mana:
+            caster.magic->mod_mana( caster, -cost );
+            break;
+        case magic_energy_type::stamina:
+            caster.mod_stamina( -cost );
+            break;
+        case magic_energy_type::bionic:
+            caster.mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
+            break;
+        case magic_energy_type::hp:
+            blood_magic( &caster, cost );
+            break;
+        case magic_energy_type::none:
+        default:
+            break;
+    }
+}
+
+std::vector<effect_on_condition_id> spell::get_failure_eoc_ids() const
+{
+    if( type->magic_type.has_value() ) {
+        return type->magic_type.value()->failure_eocs;
+    } else {
+        return std::vector<effect_on_condition_id> {};
+    }
+}
+
 int spell::get_level() const
 {
     return type->get_level( experience );
@@ -1702,12 +1885,14 @@ int spell::get_level() const
 
 int spell_type::get_level( int experience ) const
 {
-    // you aren't at the next level unless you have the requisite xp, so floor
-    if( get_level_formula_id.has_value() ) {
-        return std::max( static_cast<int>( std::floor( get_level_formula_id.value()->eval( dialogue(
-                                               std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
-    }
+    std::optional<jmath_func_id> level_formula = overall_get_level_formula_id();
 
+    // you aren't at the next level unless you have the requisite xp, so floor
+    if( level_formula.has_value() ) {
+        std::vector<double> params = { static_cast<double>( experience ) };
+        return std::max( static_cast<int>( std::floor( level_formula.value()->eval( dialogue(
+                                               std::make_unique<talker>(), nullptr ), params ) ) ), 0 );
+    }
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
@@ -1790,9 +1975,11 @@ int spell_type::exp_for_level( int level ) const
     if( level == 0 ) {
         return 0;
     }
-    if( exp_for_level_formula_id.has_value() ) {
-        return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
-                          nullptr ), { static_cast<double>( level ) } ) );
+    std::optional<jmath_func_id> func_id = overall_exp_for_level_formula_id();
+    if( func_id.has_value() ) {
+        std::vector<double> params = { static_cast<double>( level ) };
+        return std::ceil( func_id.value()->eval( dialogue( std::make_unique<talker>(),
+                          nullptr ), params ) );
     }
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;
 }
@@ -1824,10 +2011,14 @@ float spell::exp_modifier( const Character &guy ) const
 
 int spell::casting_exp( const Character &guy ) const
 {
-    // the amount of xp you would get with no modifiers
-    const int base_casting_xp = 75;
-
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
+    if( type->magic_type.has_value() && type->magic_type.value()->casting_xp_formula_id.has_value() ) {
+        const_dialogue d( get_const_talker_for( guy ), nullptr );
+        return std::round( type->magic_type.value()->casting_xp_formula_id.value()->eval( d ) );
+    } else {
+        // the amount of xp you would get with no modifiers
+        const int base_casting_xp = 75;
+        return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
+    }
 }
 
 std::string spell::enumerate_targets() const
@@ -1937,7 +2128,7 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint_bub_ms &tar
 
     dealt_projectile_attack atk;
     atk.end_point = target;
-    atk.hit_critter = &hit_critter;
+    atk.last_hit_critter = &hit_critter;
     atk.proj = bolt;
     atk.missed_by = 0.0;
 
@@ -1971,8 +2162,10 @@ int spell::heal( const tripoint_bub_ms &target, Creature &caster ) const
 
 void spell::cast_spell_effect( const tripoint_bub_ms &target ) const
 {
+    map &here = get_map();
+
     avatar fake_avatar;
-    fake_avatar.setpos( target );
+    fake_avatar.setpos( here, target );
 
     get_event_bus().send<event_type::character_casts_spell>( character_id( -1 ),
             this->id(), this->spell_class(),
@@ -1997,8 +2190,10 @@ void spell::cast_spell_effect( Creature &source, const tripoint_bub_ms &target )
 
 void spell::cast_all_effects( const tripoint_bub_ms &target ) const
 {
+    map &here = get_map();
+
     avatar fake_avatar;
-    fake_avatar.setpos( target );
+    fake_avatar.setpos( here, target );
 
     if( has_flag( spell_flag::WONDER ) ) {
         const auto iter = type->additional_spells.begin();
@@ -2070,8 +2265,10 @@ void spell::cast_all_effects( Creature &source, const tripoint_bub_ms &target ) 
 
 void spell::cast_extra_spell_effects( const tripoint_bub_ms &target ) const
 {
+    map &here = get_map();
+
     avatar fake_avatar;
-    fake_avatar.setpos( target );
+    fake_avatar.setpos( here, target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp = extra_spell.get_spell( fake_avatar, get_effective_level() );
         sp.cast_all_effects( target );
@@ -2489,7 +2686,7 @@ std::vector<spell> Character::spells_known_of_class( const trait_id &spell_class
     return ret;
 }
 
-static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
+static void refresh_favorite( uilist *menu, std::vector<spell *> known_spells )
 {
     for( uilist_entry &entry : menu->entries ) {
         if( get_player_character().magic->is_favorite( known_spells[entry.retval]->id() ) ) {
@@ -2544,7 +2741,7 @@ class spellcasting_callback : public uilist_callback
                 return true;
             } else if( action == "SCROLL_FAVORITE" ) {
                 get_player_character().magic->toggle_favorite( known_spells[entnum]->id() );
-                reflesh_favorite( menu, known_spells );
+                refresh_favorite( menu, known_spells );
             } else if( action == "SCROLL_UP_SPELL_MENU" ) {
                 spell_info_scroll = cataimgui::scroll::line_up;
             } else if( action == "SCROLL_DOWN_SPELL_MENU" ) {
@@ -2676,7 +2873,9 @@ void spellcasting_callback::display_spell_info( size_t index )
     cataimgui::set_scroll( spell_info_scroll );
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
-    std::vector<std::string> lines = string_split( sp.description(), '\n' );
+    std::string desc = sp.description();
+    parse_tags( desc, *get_avatar().as_character(), *get_avatar().as_character() );
+    std::vector<std::string> lines = string_split( desc, '\n' );
     for( std::string &l : lines ) {
         cataimgui::TextColoredParagraph( c_white, l );
         ImGui::NewLine();
@@ -3051,7 +3250,7 @@ spell &known_magic::select_spell( Character &guy )
         spell_menu.addentry( static_cast<int>( i ), known_spells_sorted[i]->can_cast( guy ),
                              get_invlet( known_spells_sorted[i]->id(), used_invlets ), known_spells_sorted[i]->name() );
     }
-    reflesh_favorite( &spell_menu, known_spells_sorted );
+    refresh_favorite( &spell_menu, known_spells_sorted );
 
     spell_menu.query( true, 50, true );
 
@@ -3075,16 +3274,16 @@ void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
     }
 }
 
-void known_magic::on_mutation_loss( const trait_id &mid )
+void known_magic::on_mutation_loss( const trait_id &mid, Character &guy )
 {
-    std::vector<spell_id> spells_to_forget;
-    for( const spell *sp : get_spells() ) {
-        if( sp->is_spell_class( mid ) ) {
-            spells_to_forget.emplace_back( sp->id() );
+    for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {
+        spell &temp_sp = get_spell( sp.first );
+        int new_level = temp_sp.get_level() - sp.second;
+        if( new_level > 0 ) {
+            temp_sp.set_level( guy, new_level );
+        } else {
+            forget_spell( sp.first );
         }
-    }
-    for( const spell_id &sp_id : spells_to_forget ) {
-        forget_spell( sp_id );
     }
 }
 

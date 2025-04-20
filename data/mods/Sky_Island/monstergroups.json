@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_ZOMEASY",
+    "id": "GROUP_SI_ZOMEASY",
     "//": "A simple mix of common low level zombies.  Threat level keeps below around 7.",
     "monsters": [
       { "monster": "mon_zombie", "weight": 2000 },
@@ -38,7 +38,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_ZOMMID",
+    "id": "GROUP_SI_ZOMMID",
     "//": "A simple mix of evolved zombies.  Threat level to mid/low teens.  A few exceptions made for special effects like acid or speed, like dogs.",
     "monsters": [
       { "monster": "mon_zombie_tough", "weight": 1000 },
@@ -82,7 +82,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_ZOMHARD",
+    "id": "GROUP_SI_ZOMHARD",
     "//": "A mix of powerful zombies.  Threat level high teens up to mid 20s.  Exceptions made for especially tough monsters.",
     "monsters": [
       { "monster": "mon_zombie_brute", "weight": 1000 },
@@ -116,7 +116,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_ZOMELITE",
+    "id": "GROUP_SI_ZOMELITE",
     "//": "A blend of truly elite zombies.  Threat level up to the ceiling.",
     "monsters": [
       { "monster": "mon_zombie_soldier_blackops_1", "weight": 100 },
@@ -149,7 +149,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_ZOMBOSS",
+    "id": "GROUP_SI_ZOMBOSS",
     "//": "Boss tier encounters.  Extreme danger level.",
     "monsters": [
       { "monster": "mon_zombie_hulk", "weight": 100 },
@@ -163,7 +163,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_ZOMBOSSMULT",
+    "id": "GROUP_SI_ZOMBOSSMULT",
     "//": "Boss tier encounters for enemies that show up in bunches.  Extreme danger level.",
     "monsters": [
       { "monster": "mon_zombie_hulk", "weight": 10 },
@@ -176,7 +176,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_MIGO",
+    "id": "GROUP_SI_MIGO",
     "//": "Powerful migo.",
     "monsters": [
       { "monster": "mon_mi_go", "weight": 200 },
@@ -187,7 +187,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SI_MIGO_ELITE",
+    "id": "GROUP_SI_MIGO_ELITE",
     "//": "Evolved migo.",
     "monsters": [ { "monster": "mon_mi_go_myrmidon", "weight": 25 }, { "monster": "mon_mi_go_guard", "weight": 75 } ]
   }

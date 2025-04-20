@@ -182,7 +182,7 @@
         "          |.z.............|                     ",
         "          |.z.z...........|                     ",
         "          |..z............|                     ",
-        "          ||||Fg||||||..|||                     ",
+        "          ||||âg||||||..|||                     ",
         "             ||||    ||||                       ",
         "                                                ",
         "                                                ",
@@ -191,7 +191,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "v": "t_dirtfloor", "~": "t_dirtfloor" },
       "nested": {
         "1": { "chunks": [ [ "null", 60 ], [ "8x8_gym_E", 20 ], [ "room_8x8_hobby_E", 20 ], [ "room_8x8_junk_E", 40 ] ] },

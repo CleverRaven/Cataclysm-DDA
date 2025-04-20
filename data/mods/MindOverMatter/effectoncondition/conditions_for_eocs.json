@@ -144,6 +144,7 @@
     "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT",
     "condition": {
       "or": [
+        { "npc_has_effect": "effect_biokin_metabolism_enhance" },
         { "npc_has_effect": "effect_clair_speed_reader" },
         { "npc_has_effect": "effect_clair_see_auras" },
         { "npc_has_effect": "effect_clair_craft_bonus" },

@@ -67,7 +67,7 @@
     "range_increment": 0.2,
     "base_casting_time": 350,
     "base_energy_cost": 400,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
     "extra_effects": [
       { "id": "lava_bomb_shrapnel" },
@@ -100,7 +100,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 500,
     "energy_increment": 5,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE", "SPLIT_DAMAGE" ],
     "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "VULCANIST"

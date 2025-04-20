@@ -2,21 +2,20 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <ostream>
+#include <unordered_set>
 
 #include "achievement.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
-#include "string_id.h"
 #include "translations.h"
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
@@ -105,6 +104,7 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "requirement", _requirement );
 
     optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+    optional( jo, was_loaded, "distance_initial_visibility", distance_initial_visibility, 15 );
 
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
@@ -561,6 +561,11 @@ std::optional<achievement_id> scenario::get_requirement() const
 bool scenario::get_reveal_locale() const
 {
     return reveal_locale;
+}
+
+bool scenario::get_distance_initial_visibility() const
+{
+    return distance_initial_visibility;
 }
 
 void scenario::normalize_calendar() const

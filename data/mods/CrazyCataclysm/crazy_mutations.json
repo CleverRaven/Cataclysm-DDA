@@ -1,0 +1,24 @@
+[
+  {
+    "type": "mutation",
+    "id": "LUCKY",
+    "name": { "str": "Lucky" },
+    "points": 3,
+    "description": "You're naturally quite lucky!",
+    "starting_trait": true,
+    "valid": false,
+    "random_at_chargen": false,
+    "cancels": [ "UNLUCKY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNLUCKY",
+    "name": { "str": "Unlucky" },
+    "points": -3,
+    "description": "You're naturally quite unlucky.",
+    "starting_trait": true,
+    "valid": false,
+    "random_at_chargen": false,
+    "cancels": [ "LUCKY" ]
+  }
+]

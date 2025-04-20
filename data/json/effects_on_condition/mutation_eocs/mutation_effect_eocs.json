@@ -585,7 +585,11 @@
         "target_var": { "context_val": "radiation_mutation_category" },
         "parse_tags": true
       },
-      { "u_mutate_category": { "context_val": "radiation_mutation_category" }, "use_vitamins": false }
+      {
+        "u_mutate_category": { "context_val": "radiation_mutation_category" },
+        "use_vitamins": false,
+        "true_random": true
+      }
     ]
   },
   {
@@ -691,8 +695,7 @@
       ]
     },
     "effect": [
-      { "u_lose_effect": "social_dissatisfied" },
-      { "u_lose_effect": "social_satisfied" },
+      { "u_lose_effect": [ "social_dissatisfied", "social_satisfied" ] },
       { "u_add_effect": "social_satisfied", "duration": "2 hours" }
     ]
   },
@@ -709,8 +712,7 @@
       ]
     },
     "effect": [
-      { "u_lose_effect": "social_dissatisfied" },
-      { "u_lose_effect": "social_satisfied" },
+      { "u_lose_effect": [ "social_dissatisfied", "social_satisfied" ] },
       { "u_add_effect": "social_satisfied", "duration": "6 hours" }
     ]
   },
@@ -752,8 +754,7 @@
       ]
     },
     "effect": [
-      { "u_lose_effect": "asocial_dissatisfied" },
-      { "u_lose_effect": "asocial_satisfied" },
+      { "u_lose_effect": [ "asocial_dissatisfied", "asocial_satisfied" ] },
       { "u_add_effect": "asocial_satisfied", "duration": "2 hours" }
     ]
   },
@@ -806,7 +807,7 @@
         { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
       ]
     },
-    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+    "effect": [ { "u_lose_effect": [ "asocial_dissatisfied", "social_dissatisfied" ] } ]
   },
   {
     "type": "effect_on_condition",

@@ -370,6 +370,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_moabosaurus",
+    "name": "moabosaurus egg",
+    "copy-from": "egg_dino_large",
+    "rot_spawn": { "monster": "mon_moabosaurus_hatchling" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_haplocanthosaurus",
     "name": "haplocanthosaurus egg",
     "copy-from": "egg_dino_large",

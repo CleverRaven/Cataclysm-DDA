@@ -118,12 +118,8 @@
         {
           "has": "WORN",
           "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
-          "values": [
-            { "value": "RANGED_DAMAGE", "multiply": 0.25 },
-            { "value": "RANGE", "multiply": 0.2 },
-            { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
-          ],
-          "ench_effects": [ { "effect": "effect_plus_two_to_hit", "intensity": 1 } ]
+          "values": [ { "value": "RANGE", "multiply": 0.2 }, { "value": "WEAPON_DISPERSION", "multiply": -0.33 } ],
+          "ench_effects": [ { "effect": "effect_plus_two_to_hit", "intensity": 1 }, { "effect": "archerybracers", "intensity": 1 } ]
         }
       ]
     }

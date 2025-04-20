@@ -302,6 +302,17 @@
   },
   {
     "type": "construction",
+    "id": "constr_kiln_portable_empty",
+    "group": "place_char_kiln",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "char_kiln", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_kiln_portable_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_place_screw_press",
     "group": "place_screw_press",
     "//": "Set up Screw Press",

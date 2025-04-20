@@ -2,11 +2,12 @@
 #ifndef CATA_SRC_SKILL_BOOST_H
 #define CATA_SRC_SKILL_BOOST_H
 
-#include <iosfwd>
 #include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;

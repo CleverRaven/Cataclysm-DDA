@@ -13,7 +13,7 @@
 #include "cata_utility.h"
 #include "flexbuffer_cache.h"
 #include "json.h"
-#include "json_error.h"
+#include "json_error.h" // IWYU pragma: export
 #include "int_id.h"
 #include "memory_fast.h"
 #include "string_id.h"

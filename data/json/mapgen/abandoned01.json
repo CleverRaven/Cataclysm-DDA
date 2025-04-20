@@ -70,7 +70,7 @@
       [ "bandana", 10 ],
       [ "cig", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 18, "charges": [ 0, -1 ] },
       [ "gloves_fingerless", 5 ],
       [ "holster", 5 ],
       [ "hatchet", 5 ],
@@ -95,7 +95,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dirtroad1_aban1" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -142,7 +141,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dirtroad2_aban1" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -193,7 +191,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "forest_aban1" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -245,7 +242,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cabin_aban1" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -324,14 +320,13 @@
         "H": "f_armchair"
       },
       "toilets": { ";": {  } },
-      "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 20 ] } ]
+      "place_items": [ { "item": "SUS_trash_forest_manmade", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 20 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cabin_aban1_roof" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -377,7 +372,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "car_corner_aban1" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -450,7 +444,7 @@
         "G": "f_oven",
         "H": "f_armchair"
       },
-      "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
+      "place_items": [ { "item": "SUS_trash_forest_manmade", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
       "place_item": [ { "item": "teddy_bear", "x": 14, "y": 2 }, { "item": "silver_locket", "x": 14, "y": 2 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 5, "y": 7, "chance": 80, "fuel": 0, "status": 1, "rotation": 0 } ]
     }
@@ -459,7 +453,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "car_corner_aban1_roof" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -495,7 +488,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dirtplaza_aban1" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -547,7 +539,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "barn_aban1" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_dirtfloor",
       "rows": [
@@ -653,7 +644,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "barn_aban1_roof" ],
-    "weight": 333,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

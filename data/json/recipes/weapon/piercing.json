@@ -10,7 +10,7 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -36,7 +36,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -51,7 +51,7 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -73,7 +73,7 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -120,7 +120,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -140,7 +140,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
@@ -155,7 +155,7 @@
     "difficulty": 5,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -182,7 +182,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
@@ -298,7 +298,7 @@
     "time": "60 m",
     "autolearn": true,
     "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 1 ], [ "cordage_superior", 2 ] ],
+    "using": [ [ "welding_standard", 20 ], [ "steel_chunk_any", 1 ], [ "cordage_superior", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "simple_spear_pipe", 1 ] ] ]
@@ -314,7 +314,7 @@
     "time": "30 m",
     "autolearn": true,
     "//": "10cm weld",
-    "using": [ [ "welding_standard", 10 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "welding_standard", 10 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "spike", 1 ] ] ]
@@ -518,7 +518,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_case_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -1198,7 +1198,7 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_case_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
@@ -1246,7 +1246,7 @@
         "skill_penalty": 0
       }
     ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
@@ -1537,5 +1537,32 @@
     "copy-from": "knuckle_skewer",
     "time": "4h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "sword_bayonet",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 9,
+    "time": "2 h",
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      {
+        "proficiency": "prof_plasticworking",
+        "time_multiplier": 1.1,
+        "learning_time_multiplier": 0.1,
+        "skill_penalty": 0
+      },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "book_learn": [ [ "welding_book", 7 ], [ "recipe_melee", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
   }
 ]

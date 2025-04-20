@@ -1,14 +1,28 @@
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
 #include <tuple>
+#include <vector>
 
-#include "catch/catch.hpp"
-#include "player_helpers.h"
-
-#include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character_martial_arts.h"
-#include "martialarts.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "item.h"
+#include "magic_enchantment.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "martialarts.h"
+#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const bodypart_str_id body_part_debug_tail( "debug_tail" );
 static const efftype_id effect_downed( "downed" );
@@ -20,6 +34,7 @@ static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PA
 
 static const itype_id itype_club_wooden( "club_wooden" );
 static const itype_id itype_sword_crude( "sword_crude" );
+static const itype_id itype_test_eoc_armor_suit( "test_eoc_armor_suit" );
 static const itype_id itype_test_weapon1( "test_weapon1" );
 static const itype_id itype_test_weapon2( "test_weapon2" );
 
@@ -136,7 +151,7 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
     }
     SECTION( "Encumbrance" ) {
         REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
-        item test_eoc_armor_suit( "test_eoc_armor_suit" );
+        item test_eoc_armor_suit( itype_test_eoc_armor_suit );
         REQUIRE( dude.wear_item( test_eoc_armor_suit, false ) );
         CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                          false ) );

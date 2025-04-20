@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <initializer_list>
@@ -21,17 +22,21 @@
 #include "addiction.h"
 #include "bionics.h"
 #include "calendar_ui.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
+#include "input_enums.h"
 #include "item.h"
 #include "json.h"
 #include "loading_ui.h"
@@ -45,17 +50,20 @@
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "player_difficulty.h"
+#include "point.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
@@ -64,9 +72,10 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units_utility.h"
 #include "veh_type.h"
@@ -75,6 +84,7 @@
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
+static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
@@ -800,7 +810,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // Don't apply the default backgrounds on a template
-    if( type != character_type::TEMPLATE ) {
+    if( type != character_type::TEMPLATE &&
+        !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
     }
 
@@ -889,6 +900,16 @@ void Character::set_skills_from_hobbies( bool no_override )
     }
 }
 
+void Character::set_recipes_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const recipe_id &recipeID : profession->recipes() ) {
+            const recipe &r = recipe_dictionary::get_craft( recipeID->result() );
+            learn_recipe( &r );
+        }
+    }
+}
+
 void Character::set_proficiencies_from_hobbies()
 {
     for( const profession *profession : hobbies ) {
@@ -936,7 +957,8 @@ void Character::initialize( bool learn_recipes )
     set_skills_from_hobbies();
 
     // setup staring bank money
-    cash = rng( -200000, 200000 );
+    cash = prof->starting_cash().value_or( rng( -200000, 200000 ) );
+
     randomize_heartrate();
 
     //set stored kcal to a normal amount for your height
@@ -991,6 +1013,9 @@ void Character::initialize( bool learn_recipes )
 
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
+
+    // Add hobby recipes
+    set_recipes_from_hobbies();
 
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
@@ -1279,7 +1304,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     } while( true );
 }
 
-static std::string assemble_stat_details( avatar &u, const unsigned char sel )
+static std::string assemble_stat_details( avatar &u, int sel )
 {
     std::string description_str;
     switch( sel ) {
@@ -1440,7 +1465,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     const int max_stat_points = pool == pool_type::FREEFORM ? 20 : MAX_STAT;
     const int min_stat_points = 4;
 
-    unsigned char sel = 0;
+    int sel = 0;
 
     const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
     std::string warning_text; // Used to move warnings from the header to the details pane
@@ -1473,6 +1498,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     u.reset();
@@ -1525,6 +1551,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         u.reset_stats();
+        u.recalc_speed_bonus();
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         if( details_recalc ) {
@@ -1555,11 +1582,12 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        const unsigned char id_for_curr_description = sel;
+        const int id_for_curr_description = sel;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( details.handle_navigation( action, ctxt ) ) {
+        } else if( details.handle_navigation( action, ctxt )
+                   || navigate_ui_list( action, sel, 1, 4, true ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" ) {
             if( *stats[sel] > min_stat_points ) {
@@ -1571,10 +1599,6 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 ( *stats[sel] )++;
                 details_recalc = true;
             }
-        } else if( action == "DOWN" ) {
-            sel = ( sel + 1 ) % 4;
-        } else if( action == "UP" ) {
-            sel = ( sel + 3 ) % 4;
         }
         if( sel != id_for_curr_description ) {
             details_recalc = true;
@@ -2391,6 +2415,15 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += mission_type::get( mission_id )->tname() + "\n";
         }
     }
+
+    // Profession money
+    std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
+
+    if( cash.has_value() ) {
+        assembled += "\n" + colorize( _( "Profession money:" ), COL_HEADER ) + "\n";
+        assembled += format_money( cash.value() ) + "\n";
+    }
+
     return assembled;
 }
 
@@ -2537,7 +2570,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, profs_length, sorted_profs.size() } );
         std::string cur_prof_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -2892,7 +2925,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, hobbies_length, sorted_hobbies.size() } );
         std::string cur_hob_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -3606,7 +3639,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, scens_length, sorted_scens.size() } );
         std::string current_scenario_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;

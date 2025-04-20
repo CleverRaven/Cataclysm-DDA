@@ -320,7 +320,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Angry_Pressed",
-    "dynamic_line": "&Katherine scowls with anger at you.  \"This is the exact <swear> reason I don't want to talk to you, now go away!\"",
+    "dynamic_line": "&Katherine scowls with anger at you.  \"This is the exact <freaking> reason I don't want to talk to you, now go away!\"",
     "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()++" ] } } ],
     "responses": [ { "text": "Fuck's sake <name_b>, I'm leaving!", "topic": "TALK_DONE" } ]
   }

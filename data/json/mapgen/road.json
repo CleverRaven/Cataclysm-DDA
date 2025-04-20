@@ -520,8 +520,8 @@
       "furniture": { "t": "f_table", "X": "f_trashcan" },
       "items": {
         "t": { "item": "fast_food", "chance": 33, "repeat": [ 0, 2 ] },
-        "x": { "item": "trash", "chance": 50, "repeat": [ 0, 5 ] },
-        "X": { "item": "trash", "chance": 50, "repeat": [ 0, 5 ] }
+        "x": { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 0, 5 ] },
+        "X": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 0, 5 ] }
       },
       "place_nested": [
         { "chunks": [ [ "24x24_road_curved_layby_vehicles", 1 ], [ "null", 3 ] ], "x": 0, "y": 0 },
@@ -568,6 +568,7 @@
       ],
       "palettes": [ "road_palette" ],
       "place_nested": [
+        { "chunks": [ "1x1_stop_sign" ], "x": 20, "y": 20 },
         { "chunks": [ "24x24_sidewalk_ew_long" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 12, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_esw_corner_half_e" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
@@ -709,6 +710,17 @@
         },
         {
           "chunks": [ "24x24_traffic_lights", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "chunks": [ "24x24_stop_signs", "null" ],
           "x": 0,
           "y": 0,
           "flags": {
@@ -1043,6 +1055,17 @@
           "x": 0,
           "y": 0,
           "flags_any": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "chunks": [ "24x24_stop_signs", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
             "north_east": [ "SIDEWALK" ],
             "south_east": [ "SIDEWALK" ],
             "south_west": [ "SIDEWALK" ],

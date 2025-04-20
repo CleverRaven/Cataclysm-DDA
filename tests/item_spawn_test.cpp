@@ -1,16 +1,25 @@
+#include <list>
+#include <map>
+#include <optional>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"
-#include "game.h"
+#include "coordinates.h"
 #include "item.h"
 #include "item_group.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "point.h"
 #include "profession.h"
 #include "recipe.h"
 #include "test_data.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
-#include "veh_type.h"
+#include "vpart_position.h"
 
 static std::string get_section_name( const spawn_type &type )
 {
@@ -58,7 +67,7 @@ TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]"
                             vehicle *veh = here.add_vehicle( cs_data.vehicle, vehpos, 0_degrees, 0, 0 );
                             REQUIRE( veh );
                             REQUIRE( here.get_vehicles().size() == 1 );
-                            const tripoint_bub_ms pos( point_bub_ms::zero, veh->sm_pos.z );
+                            const tripoint_bub_ms pos( point_bub_ms::zero, veh->sm_pos.z() );
                             const std::optional<vpart_reference> ovp_cargo = here.veh_at( pos ).cargo();
                             REQUIRE( ovp_cargo );
                             for( item &it : ovp_cargo->items() ) {

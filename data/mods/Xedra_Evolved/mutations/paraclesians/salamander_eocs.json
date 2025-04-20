@@ -95,8 +95,8 @@
       ]
     },
     "effect": [
-      { "u_message": "You full a goblin fruit from the flames.", "type": "good" },
-      { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } }
+      { "u_message": "You pull a goblin fruit from the flames.", "type": "good" },
+      { "u_spawn_item": "spell_spawned_goblin_fruit_salamander", "use_item_group": true, "suppress_message": true }
     ],
     "false_effect": [ { "u_message": "You must have a nearby source of flames or heat to call forth a goblin fruit.", "type": "bad" } ]
   },

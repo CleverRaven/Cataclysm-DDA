@@ -86,5 +86,27 @@
     "move_cost_mod": 0,
     "required_str": 0,
     "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_region_lake_bed",
+    "name": "this should never actually show up, it's a pseudo furniture",
+    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost_mod": 0,
+    "required_str": 0,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_region_ocean_bed",
+    "name": "this should never actually show up, it's a pseudo furniture",
+    "description": "This is pseudo-furniture and should never actually show up.  Please report this bug.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost_mod": 0,
+    "required_str": 0,
+    "flags": [ "TRANSPARENT" ]
   }
 ]

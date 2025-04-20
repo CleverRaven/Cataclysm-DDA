@@ -44,6 +44,7 @@
       "L": "f_exodii_lamp",
       "n": [ [ "f_boulder_medium", 2 ], "f_boulder_small" ],
       "P": "f_exodii_pump",
+      "Q": "f_bulletin",
       "ϟ": "f_capacitor",
       "}": "f_ground_cable",
       "/": "f_ground_cable",

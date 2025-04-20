@@ -4,7 +4,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_escape_cells" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -43,7 +42,7 @@
           "item": [
             { "item": "bottle_plastic", "amount": [ 1, 2 ] },
             { "item": "can_food", "amount": [ 1, 2 ] },
-            { "item": "steel_chunk", "amount": 1 }
+            { "item": "lc_steel_chunk", "amount": 1 }
           ]
         }
       }

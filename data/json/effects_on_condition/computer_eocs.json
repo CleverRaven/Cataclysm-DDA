@@ -48,25 +48,99 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_MAP_CACHE",
     "//": "todo: make it not reveal fungal towers and such? would require edits in reveal_map code, to accept blacklist of locations?",
-    "condition": { "or": [ { "compare_string": [ { "npc_val": "map_cache" }, "has", "lack", "read" ] } ] },
-    "false_effect": [ { "npc_add_var": "map_cache", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_CHECK_MAP_CACHE" } ],
     "effect": [
       {
         "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
-        "then": [ { "u_message": "You already noted everything map application on this phone can offer." } ]
-      },
-      {
-        "if": { "compare_string": [ "has", { "npc_val": "map_cache" } ] },
-        "then": [
-          { "location_variable_adjust": { "npc_val": "spawn_location_omt" }, "z_adjust": 0, "z_override": true },
-          { "reveal_map": { "npc_val": "spawn_location_omt" }, "radius": { "math": [ "rng(11, 36)" ] } },
+        "then": [ { "u_message": "You already noted everything this map cache can offer." } ],
+        "else": [
+          { "location_variable_adjust": { "npc_val": "spawn_location" }, "z_adjust": 0, "z_override": true, "overmap_tile": true },
+          { "reveal_map": { "npc_val": "spawn_location" }, "radius": { "math": [ "rng(11, 36)" ] } },
           { "npc_add_var": "map_cache", "value": "read" },
-          { "u_message": "You found some cached map in the map application, and noted it.", "type": "good" }
+          { "u_message": "You found some useful data in the map cache and noted it.", "type": "good" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SMARTPHONE_RECOVERY",
+    "//": "should be removed if any of #74335, #71814, #50277 and #28975 would be resolved",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_SMARTPHONE_RECOVERY_BASIC", "EOC_SMARTPHONE_RECOVERY_ADVANCED" ],
+        "allow_cancel": true,
+        "hilight_disabled": true,
+        "names": [ "Simple recovery", "Advanced recovery" ],
+        "title": "Pick the recovery type",
+        "descriptions": [
+          "Reset the smartphone completely, erasing all the data inside, but allowing to use it without restrictions.",
+          "Use your computer knowledge, computer, and hackPRO, to bypass the restrictions while preserving the data inside.  Requires computer skill 4, copy fo hackPRO, and laptop with at least 10 charges."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "smart_phone_discharged",
+    "items": [ { "item": "smart_phone", "charges": [ 3, 11 ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SMARTPHONE_RECOVERY_BASIC",
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "15 minutes" },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "smart_phone_locked" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_RECOVER_DELETE_DATA",
+            "effect": [
+              { "u_consume_item": "smart_phone_locked" },
+              { "u_spawn_item": "smart_phone_discharged", "suppress_message": true, "use_item_group": true },
+              { "math": [ "_amount_of_smartphones_recovered++" ] }
+            ]
+          }
         ]
       },
       {
-        "if": { "compare_string": [ "lack", { "npc_val": "map_cache" } ] },
-        "then": [ { "u_message": "Whoever used this phone didn't ever open their map application.  Worthless." } ]
+        "if": { "math": [ "_amount_of_smartphones_recovered == 1" ] },
+        "then": [ { "u_message": "You recovered the locked smartphone.", "type": "good" } ],
+        "else": [ { "u_message": "You recovered all the smartphones you had.", "type": "good" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SMARTPHONE_RECOVERY_ADVANCED",
+    "condition": {
+      "and": [
+        { "u_has_item": "software_hacking" },
+        { "u_has_items": { "item": "laptop", "charges": 10 } },
+        { "math": [ "u_skill('computer') >= 4" ] }
+      ]
+    },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "60 minutes" },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "smart_phone_locked" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_RECOVER",
+            "effect": [ { "transform_item": "smart_phone" }, { "math": [ "_amount_of_smartphones_recovered++" ] } ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "laptop" } ],
+        "true_eocs": [ { "id": "EOC_CONSUME_POWER", "effect": [ { "math": [ "n_val('power') -= 100" ] } ] } ]
+      },
+      {
+        "if": { "math": [ "_amount_of_smartphones_recovered == 1" ] },
+        "then": [ { "u_message": "You recovered the locked smartphone and the data inside of it.", "type": "good" } ],
+        "else": [ { "u_message": "You recovered all the smartphones you had and the data inside of them.", "type": "good" } ]
       }
     ]
   }

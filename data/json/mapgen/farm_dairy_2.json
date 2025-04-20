@@ -150,6 +150,7 @@
         "M": "f_bathtub",
         "O": "f_locker",
         "x": "f_utility_shelf",
+        "J": "f_active_backup_generator",
         "y": "f_air_conditioner"
       },
       "item": {
@@ -193,8 +194,7 @@
         "z": { "field": "fd_blood", "intensity": 1, "age": 10 },
         "M": { "field": "fd_blood", "intensity": 1, "age": 10 },
         "q": { "field": "fd_blood", "intensity": 1, "age": 10 }
-      },
-      "vehicles": { "J": { "vehicle": "portable_generator", "rotation": 90, "chance": 100, "fuel": 40, "status": 1 } }
+      }
     }
   },
   {

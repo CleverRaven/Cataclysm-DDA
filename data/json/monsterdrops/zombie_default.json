@@ -128,8 +128,8 @@
       { "group": "homebooks", "prob": 30 },
       { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 10 },
-      { "item": "laptop", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "eink_tablet_pc", "prob": 10, "charges": [ 0, 50 ] },
+      { "item": "laptop", "prob": 10, "charges": [ 0, 500 ], "contents-group": "civilian_laptop_efiles" },
+      { "item": "eink_tablet_pc", "prob": 10, "charges": [ 0, 50 ], "contents-group": "civilian_einktablet_efiles" },
       { "item": "teleumbrella", "prob": 10 },
       { "item": "thermos", "prob": 10 },
       { "item": "spray_can", "prob": 10 },
@@ -210,7 +210,7 @@
       },
       {
         "distribution": [
-          { "item": "cig", "prob": 65, "count": [ 0, 20 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes_opened", "prob": 65, "entry-wrapper": "box_cigarette" },
           { "item": "chaw", "prob": 5 },
           { "item": "cigar", "prob": 5 },
           { "group": "pocket_cigar", "prob": 1 },
@@ -224,7 +224,7 @@
             ],
             "prob": 10
           },
-          { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 }
+          { "collection": [ { "item": "advanced_ecig" }, { "group": "nicotine_liquid_bottle_part" } ], "prob": 10 }
         ],
         "prob": 15
       },
@@ -252,7 +252,7 @@
       { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
       { "group": "softdrugs", "prob": 10 },
       { "group": "harddrugs", "prob": 5 },
-      { "group": "phones", "prob": 85 },
+      { "group": "civilian_phones", "prob": 85 },
       { "group": "vending_food_items", "prob": 5 }
     ]
   },

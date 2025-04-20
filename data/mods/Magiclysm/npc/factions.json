@@ -137,8 +137,8 @@
     "//": "90 days worth of food for 10 people, at 3000kcal/day and full RDA of iron/calcium/vitC",
     "fac_food_supply": { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } },
     "wealth": 75000000,
-    "currency": "denarius",
     "price_rules": [
+      { "item": "denarius", "price": 2500, "fixed_adj": 0 },
       { "category": "drink", "price": 0 },
       { "category": "food", "price": 0 },
       { "category": "guns", "premium": 0.1 },

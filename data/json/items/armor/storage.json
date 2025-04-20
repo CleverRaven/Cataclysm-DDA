@@ -202,7 +202,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATERPROOF", "OVERSIZE" ],
+    "max_worn": 1,
     "armor": [
       { "encumbrance": [ 10, 40 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
@@ -246,7 +247,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -258,7 +259,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -341,7 +342,8 @@
       }
     ],
     "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE" ],
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 10,
@@ -409,6 +411,13 @@
     "color": "brown",
     "pocket_data": [
       {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      },
+      {
         "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
@@ -421,13 +430,6 @@
         "description": "Tucked between your back and the backpack.",
         "ripoff": 3,
         "transparent": true
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "30 kg",
-        "max_item_length": "40 cm",
-        "moves": 300
       }
     ],
     "warmth": 9,
@@ -591,40 +593,11 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATERPROOF", "OVERSIZE" ],
+    "max_worn": 1,
     "armor": [
       { "encumbrance": [ 10, 55 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
-  },
-  {
-    "id": "basket_laundry",
-    "type": "ARMOR",
-    "name": { "str": "laundry basket" },
-    "description": "A plastic basket meant for storing and hauling clothing.",
-    "weight": "680 g",
-    "volume": "52500 ml",
-    "price": "75 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "symbol": ")",
-    "looks_like": "plastic_shopping_bag",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "50 kg",
-        "max_item_length": "80 cm",
-        "moves": 300
-      }
-    ],
-    "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
   },
   {
     "id": "bigback",
@@ -703,7 +676,8 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATERPROOF", "OVERSIZE" ],
+    "max_worn": 1,
     "armor": [
       { "encumbrance": [ 16, 65 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
@@ -898,7 +872,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -1848,7 +1822,6 @@
     "id": "mbag",
     "type": "ARMOR",
     "name": { "str": "messenger bag" },
-    "//": "KA101's ran about $90 but is ballistic nylon.  Bit tougher than the DDA model.",
     "description": "Light and easy to wear, but doesn't offer much storage.",
     "weight": "690 g",
     "volume": "2625 ml",
@@ -1900,7 +1873,7 @@
         "volume_encumber_modifier": 0.25,
         "coverage": 40,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ],
     "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Adjust", "target": "mbag", "moves": 120 }
@@ -2287,7 +2260,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -2696,7 +2669,7 @@
         "max_item_length": "24 cm",
         "min_item_length": "18 cm",
         "moves": 80,
-        "description": "Small pocket for a water bottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -3275,7 +3248,7 @@
         "max_contains_volume": "50 L",
         "max_contains_weight": "80 kg",
         "min_item_length": "60 cm",
-        "max_item_length": "250 cm",
+        "max_item_length": "260 cm",
         "moves": 1000,
         "ripoff": 5,
         "activity_noise": { "volume": 9, "chance": 15 },
@@ -3396,7 +3369,7 @@
         "max_contains_weight": "150 kg",
         "moves": 300,
         "min_item_volume": "1 L",
-        "max_item_length": "180 cm"
+        "max_item_length": "260 cm"
       }
     ],
     "warmth": 5,

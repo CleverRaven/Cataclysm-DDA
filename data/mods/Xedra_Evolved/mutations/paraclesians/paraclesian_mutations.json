@@ -45,6 +45,8 @@
     "anger_relations": [ [ "IERDE", -20 ], [ "SYLPH", 20 ] ],
     "allowed_category": [ "IERDE" ],
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
+    "empathize_with": [ "IERDE" ],
+    "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -93,8 +95,28 @@
     "anger_relations": [ [ "ARVORE", -20 ], [ "HOMULLUS", 20 ] ],
     "allowed_category": [ "ARVORE" ],
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
+    "empathize_with": [ "ARVORE" ],
+    "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ]
+    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_arvore_attacked_a_triffid" } },
+            {
+              "and": [
+                { "u_has_trait": "ARVORE_VERDANT_HAIR" },
+                { "u_has_any_trait": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ] },
+                { "u_has_any_trait": [ "ARVORE_FLORAL_SCENT", "ARVORE_MIND_CONTROL_POLLEN" ] },
+                { "u_has_any_trait": [ "ARVORE_BLOOD", "ARVORE_BLOOD_2", "ARVORE_BLOOD_3", "ARVORE_BLOOD_4" ] }
+              ]
+            }
+          ]
+        },
+        "mutations": [ "ARVORE_TRIFFID_NEUTRALITY" ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -142,6 +164,8 @@
     "anger_relations": [ [ "SALAMANDER", -20 ], [ "UNDINE", 20 ] ],
     "allowed_category": [ "SALAMANDER" ],
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
+    "empathize_with": [ "SALAMANDER" ],
+    "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -200,6 +224,8 @@
     "anger_relations": [ [ "UNDINE", -20 ], [ "SALAMANDER", 20 ] ],
     "allowed_category": [ "UNDINE" ],
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
+    "empathize_with": [ "UNDINE" ],
+    "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -246,6 +272,7 @@
     "can_heal_with": [ "doll_repair_paste" ],
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "description": "A spirit of the image of humans given life.",
+    "empathize_with": [ "HOMULLUS" ],
     "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
   },
   {
@@ -294,6 +321,8 @@
     "anger_relations": [ [ "SYLPH", -20 ], [ "IERDE", 20 ] ],
     "allowed_category": [ "SYLPH" ],
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
+    "empathize_with": [ "SYLPH" ],
+    "no_empathize_with": [ "HUMAN" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -480,7 +509,7 @@
     "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
     "prereqs": [
       "ARVORE_EYES",
-      "HOMULLUS_SKIN_1",
+      "HOMULLUS_EYES",
       "IERDE_EYES",
       "SALAMANDER_EYES",
       "SYLPH_EYES",
@@ -634,15 +663,26 @@
   },
   {
     "type": "mutation",
-    "id": "WIND_BLOWS_WILLOW_BENDS",
+    "id": "WIND_BLOWS_WILLOW_BENDS_ARVORE",
     "name": { "str": "The Wind Blows, the Willow Bends" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
-    "category": [ "ARVORE", "SYLPH" ],
+    "category": [ "ARVORE" ],
     "leads_to": [ "ARVORE_DEX_BONUS" ],
-    "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
+    "spells_learned": [ [ "paraclesian_spell_dodge_bonus_arvore", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WIND_BLOWS_WILLOW_BENDS_SYLPH",
+    "name": { "str": "The Wind Blows, the Willow Bends" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "paraclesian_spell_dodge_bonus_sylph", 1 ] ]
   },
   {
     "type": "mutation",

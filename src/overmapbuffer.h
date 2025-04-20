@@ -4,39 +4,45 @@
 
 #include <array>
 #include <functional>
-#include <iosfwd>
+#include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "coordinates.h"
 #include "enums.h"
-#include "json.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
-#include "omdata.h"
+#include "overmap.h"
 #include "overmap_types.h"
+#include "point.h"
 #include "simple_pathfinding.h"
 #include "type_id.h"
 
+class JsonObject;
+class JsonOut;
+class JsonValue;
 class basecamp;
 class character_id;
-enum class cube_direction : int;
-enum class om_vision_level : int8_t;
-class map_extra;
 class monster;
 class npc;
-class overmap;
-class overmap_special_batch;
+class overmap_special;
 class vehicle;
+enum class cube_direction : int;
+enum class oter_travel_cost_type : int;
+namespace om_direction
+{
+enum class type : int;
+}  // namespace om_direction
 struct mapgen_arguments;
 struct mongroup;
-struct om_vehicle;
-struct radio_tower;
 struct regional_settings;
 
 struct overmap_path_params {
@@ -181,6 +187,8 @@ class overmapbuffer
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
         std::vector<oter_id> predecessors( const tripoint_abs_omt & );
+        // pick an OMT, scan it from z level 10, and return the first level that is not air
+        int highest_omt_point( tripoint_abs_omt loc );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -197,6 +205,12 @@ class overmapbuffer
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
+        // compare origin_pos with a limit
+        bool distance_limit( int distance, const tripoint_abs_omt &origin_pos,
+                             const tripoint_abs_omt &picked_pos );
+        // same as distance_limit, used to draw a border, to visualize the limit
+        bool distance_limit_line( int distance, const tripoint_abs_omt &origin_pos,
+                                  const tripoint_abs_omt &picked_pos );
         om_vision_level seen( const tripoint_abs_omt &p );
         bool seen_more_than( const tripoint_abs_omt &p, om_vision_level test );
         void set_seen( const tripoint_abs_omt &p, om_vision_level seen );

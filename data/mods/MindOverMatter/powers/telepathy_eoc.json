@@ -116,7 +116,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "and": [ { "u_has_effect": "psi_stunned" }, { "u_has_effect": "effect_telepath_mesmerize_tracker" } ] },
-    "effect": [ { "u_lose_effect": "effect_telepath_mesmerize_tracker" }, { "u_lose_effect": "psi_stunned" } ]
+    "effect": [ { "u_lose_effect": [ "effect_telepath_mesmerize_tracker", "psi_stunned" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -124,7 +124,7 @@
     "eoc_type": "EVENT",
     "required_event": "monster_takes_damage",
     "condition": { "and": [ { "u_has_effect": "psi_stunned" }, { "u_has_effect": "effect_telepath_mesmerize_tracker" } ] },
-    "effect": [ { "u_lose_effect": "effect_telepath_mesmerize_tracker" }, { "u_lose_effect": "psi_stunned" } ]
+    "effect": [ { "u_lose_effect": [ "effect_telepath_mesmerize_tracker", "psi_stunned" ] } ]
   },
   {
     "type": "effect_on_condition",

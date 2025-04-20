@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "house_detatched8",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -136,7 +135,7 @@
         "       |1.......|       ",
         "       |.......g|       ",
         "       |........|       ",
-        "       |.......F|       ",
+        "       |.......â|       ",
         "       |........||      ",
         "       |........Z|      ",
         "       |.....<..W|      ",
@@ -151,7 +150,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

@@ -10,7 +10,7 @@
     "effect": "attack",
     "shape": "line",
     "spell_class": "FORCE_MAGE",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 250,
     "base_energy_cost": 350,
     "difficulty": 4,
@@ -50,16 +50,8 @@
         }
       ]
     },
-    "flags": [
-      "WATERPROOF",
-      "TRADER_AVOID",
-      "SEMITANGIBLE",
-      "ONLY_ONE",
-      "OVERSIZE",
-      "AURA",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
+    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "OVERSIZE", "AURA", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 0,
@@ -80,7 +72,7 @@
     "effect_str": "force_magical_armor",
     "shape": "blast",
     "spell_class": "FORCE_MAGE",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 500,
     "base_energy_cost": 500,
     "max_level": 35,

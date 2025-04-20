@@ -13,9 +13,15 @@
   },
   {
     "type": "jmath_function",
-    "id": "maintenance_exp_factor",
-    "num_args": 1,
-    "return": "(_0 / 100) * 75 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
+    "id": "psionic_power_experience_formula_channeling",
+    "num_args": 0,
+    "return": "(u_val('focus_effective') / 100 ) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_experience_formula",
+    "num_args": 0,
+    "return": "(u_val('focus_effective') / 100) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
   },
   {
     "type": "jmath_function",
@@ -27,32 +33,32 @@
     "type": "jmath_function",
     "id": "psionics_kcal_cost",
     "num_args": 1,
-    "return": "(4 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling"
+    "return": "(4 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling * (u_effect_intensity('effect_nether_attunement_extra_kcal') > 0 ? 3 : 1)"
   },
   {
     "type": "jmath_function",
     "id": "psionics_contemplation_kcal_cost",
     "num_args": 1,
-    "return": "(1.2 * _0) * rng( 0.3, 1.7)"
+    "return": "(1.2 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling * (u_effect_intensity('effect_nether_attunement_extra_kcal') > 0 ? 3 : 1)"
   },
   {
     "type": "jmath_function",
     "id": "matrix_awakening_odds",
     "num_args": 1,
-    "return": "(100 - (100 * (e ^ (_0 / -1.7) ) ) )"
+    "return": "100 - (100 * (e ^ ( ( _0 - max( (u_has_trait('MORE_PSI_ALPHA') * 0.75), 0) ) / -1.7) ) )"
   },
   {
     "type": "jmath_function",
     "id": "portal_storm_awakening_odds",
     "num_args": 1,
-    "return": "(100 - (100 * (e ^ (_0 / -3) ) ) )"
+    "return": "100 - (100 * (e ^ ( ( _0 - max( (u_has_trait('MORE_PSI_ALPHA') * 0.75), 0) ) / -3) ) )"
   },
   {
     "type": "jmath_function",
     "id": "concentration_trait_bonuses",
     "num_args": 0,
     "//": "Effects with an intelligence penalty have not been included below to avoid double counting",
-    "return": "(u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('NOMAD2') ? -1 : 0) + (u_has_trait('NOMAD3') ? -1 : 0) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate')) + (u_has_proficiency('prof_concentration_master') * 2) + (u_effect_intensity('effect_disease_psionic_drain') > 4 ? -1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? -1 : 0) + (u_effect_intensity('hallu') > 0 ? -1 : 0) + (u_effect_intensity('winded') > 0 ? -2 : 0) + (u_effect_intensity('nausea') > 0 ? -1 : 0) + (u_effect_intensity('nausea') > 3 ? -1 : 0) +  (u_effect_intensity('cold') > 1 ? -1 : 0) + (u_effect_intensity('hot') > 1 ? -1 : 0) + (u_effect_intensity('asthma') > 0 ? -3 : 0) + (u_effect_intensity('datura') > 0 ? -3 : 0) + (u_effect_intensity('dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed_zap') > 0 ? -1 : 0) + (u_effect_intensity('downed') > 0 ? -2 : 0) + (u_effect_intensity('boomered') > 0 ? -1 : 0) + (u_effect_intensity('conjunctivitis') > 0 ? -1 : 0) + (u_effect_intensity('teargas') > 0 ? -3 : 0) + (u_effect_intensity('smoke_eyes') > 0 ? -1 : 0) + (u_effect_intensity('smoke_lungs') > 0 ? -2 : 0)"
+    "return": "(u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('NOMAD2') ? -1 : 0) + (u_has_trait('NOMAD3') ? -1 : 0) + (u_has_trait('PER_SLIME') ? -15 : 0) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate')) + (u_has_proficiency('prof_concentration_master') * 2) + (u_effect_intensity('effect_disease_psionic_drain') > 4 ? -1 : 0) + (u_effect_intensity('effect_disease_psionic_drain') > 10 ? -1 : 0) + (u_effect_intensity('hallu') > 0 ? -1 : 0) + (u_effect_intensity('winded') > 0 ? -2 : 0) + (u_effect_intensity('nausea') > 0 ? -1 : 0) + (u_effect_intensity('nausea') > 3 ? -1 : 0) +  (u_effect_intensity('cold') > 1 ? -1 : 0) + (u_effect_intensity('hot') > 1 ? -1 : 0) + (u_effect_intensity('asthma') > 0 ? -3 : 0) + (u_effect_intensity('datura') > 0 ? -3 : 0) + (u_effect_intensity('dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed') > 0 ? -2 : 0) + (u_effect_intensity('psi_dazed_zap') > 0 ? -1 : 0) + (u_effect_intensity('downed') > 0 ? -2 : 0) + (u_effect_intensity('boomered') > 0 ? -1 : 0) + (u_effect_intensity('conjunctivitis') > 0 ? -1 : 0) + (u_effect_intensity('teargas') > 0 ? -3 : 0) + (u_effect_intensity('smoke_eyes') > 0 ? -1 : 0) + (u_effect_intensity('smoke_lungs') > 0 ? -2 : 0) + (u_effect_intensity('effect_whispering_amalgamation_whispers') > 0 ? -2 : 0)"
   },
   {
     "type": "jmath_function",
@@ -62,10 +68,22 @@
   },
   {
     "type": "jmath_function",
+    "id": "concentration_nether_attunement_influences",
+    "num_args": 0,
+    "return": "(concentration_calculations() > 1 ? concentration_calculations(): 1) * (u_has_proficiency('prof_concentration_basic') ? 0.9: 1) + (u_has_proficiency('prof_concentration_intermediate') ? 0.9: 1) + (u_has_proficiency('prof_concentration_master') ? 0.8: 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
-    "//": "This equates to about 500 XP per hour of contemplation when at minimum focus",
-    "return": "(u_val('focus') * 0.005) * (_0)"
+    "//": "This equates to about 400 XP per hour of contemplation when at minimum focus, modified by Nether Attunement",
+    "return": "(u_val('focus_effective') * 0.004) * (_0) * u_nether_attunement_power_scaling"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_difficulty_setting",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty + 4"
   },
   {
     "type": "jmath_function",
@@ -78,6 +96,18 @@
     "id": "learn_new_power_upper_time_bound",
     "num_args": 1,
     "return": "(((_0 + 2) * 60) * 60) * 1.2"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_lower_nether_attunement_level",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty * 10"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_upper_nether_attunement_level",
+    "num_args": 0,
+    "return": "u_latest_studied_power_difficulty * 20"
   },
   {
     "type": "jmath_function",

@@ -1,17 +1,5 @@
 [
   {
-    "id": "SUS_gunstore_safe",
-    "type": "item_group",
-    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for the contents of gunsafes",
-    "subtype": "collection",
-    "entries": [
-      { "group": "ammo_common_collection", "prob": 100 },
-      { "group": "ammo_rare_collection", "prob": 1 },
-      { "group": "ammo_obscure_collection", "prob": 1 }
-    ]
-  },
-  {
     "id": "SUS_gunstore_crate",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
@@ -37,7 +25,7 @@
     "entries": [
       { "group": "guns_common", "prob": 15, "damage": [ 0, 4 ] },
       { "group": "book_gunmags", "prob": 25, "damage": [ 0, 4 ] },
-      { "group": "looted_store", "prob": 75 },
+      { "group": "SUS_trash_floor", "prob": 75 },
       { "group": "ammo_parts", "prob": 5 },
       { "group": "SUS_gunstore_gear", "prob": 30, "damage": [ 0, 4 ] }
     ]
@@ -121,6 +109,70 @@
       { "item": "balclava", "prob": 30 },
       { "item": "ballistic_vest_esapi", "prob": 5 },
       { "item": "aim_game", "prob": 35 }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_hearing",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for gear that protects hearing.  Should have more items like proper ear muffs, but needs to be added.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "blister_pack", "contents-item": "powered_earmuffs", "prob": 10 },
+      { "item": "blister_pack", "contents-item": "powered_earplugs", "prob": 1 },
+      { "item": "bag_plastic_small", "contents-item": "ear_plugs", "prob": 90 }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_optics_packaged",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for optics, such as red dots or scopes that are in their containers.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "box_small", "contents-item": "holo_sight", "prob": 100 },
+      { "item": "box_small", "contents-item": "pistol_scope", "prob": 8 },
+      { "item": "box_small", "contents-item": "red_dot_sight", "prob": 800 },
+      { "item": "box_small", "contents-item": "rifle_scope", "prob": 1000 },
+      { "item": "box_small", "contents-item": "rifle_scope_high_end_mount", "prob": 15 },
+      { "item": "box_small", "contents-item": "acog_scope", "prob": 12 },
+      { "item": "box_small", "contents-item": "holo_magnifier", "prob": 10 },
+      { "item": "box_small", "contents-item": "hybrid_sight_4x", "prob": 3 }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_optics_display",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for optics, such as red dots or scopes that are for display.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "holo_sight", "prob": 100 },
+      { "item": "pistol_scope", "prob": 8 },
+      { "item": "red_dot_sight", "prob": 800 },
+      { "item": "rifle_scope", "prob": 1000 },
+      { "item": "rifle_scope_high_end_mount", "prob": 15 },
+      { "item": "acog_scope", "prob": 12 },
+      { "item": "holo_magnifier", "prob": 10 },
+      { "item": "hybrid_sight_4x", "prob": 3 }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_carry_gear",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for gear such as holsters, intended to help carry a gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "holster", "prob": 60 },
+      { "item": "sholster", "prob": 25 },
+      { "item": "bholster", "prob": 20 },
+      { "item": "bbholster", "prob": 10 },
+      { "item": "suspenders_holster", "prob": 8 },
+      { "item": "tactical_holster", "prob": 25 },
+      { "item": "shoulder_holster", "prob": 12 },
+      { "item": "bootstrap", "prob": 15 },
+      { "item": "nylon_holster", "prob": 120 }
     ]
   }
 ]

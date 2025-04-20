@@ -298,11 +298,11 @@
   {
     "id": "mission_best_friend_bookhunt3",
     "type": "mission_definition",
-    "name": { "str": "Help me find my favorite book.  All Things Weird." },
-    "description": "Could you help me find my favorite book?  It's All Things Weird, by Felicity Powell.  It gives a great sense of humor to the end of the world!",
+    "name": { "str": "Help me find my favorite book.  Cat's Cradle." },
+    "description": "Could you help me find my favorite book?  It's Cat's Cradle, by Kurt Vonnegut.  It's an interesting take on an alternate cataclysmic scenario.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
-    "item": "book_fict_soft_docu_AWT",
+    "item": "book_fict_soft_satire_cats",
     "origins": [ "ORIGIN_SECONDARY" ],
     "value": 0,
     "dialogue": {

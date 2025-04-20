@@ -189,8 +189,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
     "weakpoints": [
-      { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the funky, funky head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the glittering, beautiful eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 50,

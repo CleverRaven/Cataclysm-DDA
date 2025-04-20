@@ -220,6 +220,7 @@
     "points": 7,
     "proficiencies": [ "prof_wp_netherium_abomination", "prof_unarmed_familiar", "prof_traps" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "survival" } ],
+    "flags": [ "SKIP_DEFAULT_BACKGROUND" ],
     "items": {
       "both": {
         "entries": [
@@ -578,6 +579,7 @@
     "name": { "male": "Ierde", "female": "Ierda" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the earth, your powers are strengthened by contact with the soil and the rock and weakened by separation from the living earth.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
     "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
@@ -597,7 +599,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -605,6 +607,7 @@
     "name": { "male": "Arvi", "female": "Arvori" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the forest, your powers are strengthened by the wild places and weakened within the constructs of humanity.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
@@ -624,7 +627,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -632,6 +635,7 @@
     "name": { "male": "Onduine", "female": "Ondua" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the lakes and rivers, your powers are strengthened when you are surrounded by water and weakened when you spend too long away from the water.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
     "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
@@ -651,7 +655,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -659,6 +663,7 @@
     "name": { "male": "Kéményseprő", "female": "Bejárónő" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the flames, your powers are strengthened when among heat and fire and weakened by the cold.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
@@ -678,7 +683,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -686,6 +691,7 @@
     "name": { "male": "Dúln", "female": "Dúkka" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of humanity, your powers are strengthened when among humankind or in the remnants of civilization and weakened when in the wilderness.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
     "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
@@ -705,7 +711,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -713,6 +719,7 @@
     "name": { "male": "Silvestris", "female": "Silvestra" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the winds, your powers are strengthened when under the open sky and weakened when indoors or underground.",
     "points": 5,
+    "starting_cash": 0,
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
     "recipes": [ "mutagen_airkin", "ethereal_draught" ],
@@ -732,7 +739,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",

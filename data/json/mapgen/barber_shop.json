@@ -82,13 +82,14 @@
         "V": { "item": "hair_dye_display", "chance": 70, "repeat": [ 3, 4 ] },
         "S": { "item": "SUS_dishes", "chance": 65 },
         "C": { "item": "SUS_silverware", "chance": 45 },
-        "t": { "item": "trash", "chance": 25, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 3 ] },
         "F": { "item": "SUS_fridge_partial_empty", "chance": 65 },
         "L": [
           { "item": "SUS_hair_drawer", "chance": 45, "repeat": [ 1, 2 ] },
           { "item": "SUS_janitors_closet", "chance": 15 },
           { "item": "SUS_bathroom_sink", "chance": 45 }
-        ]
+        ],
+        "X": { "item": "SUS_toilet", "chance": 100 }
       },
       "place_monster": [
         { "monster": "mon_zombie", "x": 7, "y": 13, "chance": 10 },
@@ -129,7 +130,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 6, 11 ], "y": [ 8, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 6, 11 ], "y": [ 8, 13 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   }
 ]

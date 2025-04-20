@@ -290,7 +290,6 @@
       [ "druid_giant_tree_empty_crown_w", "druid_giant_tree_empty_crown", "druid_giant_tree_empty_crown_e" ],
       [ "druid_giant_tree_empty_crown_sw", "druid_giant_tree_empty_crown_s", "druid_giant_tree_empty_crown_se" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_barkfloor",
       "rows": [

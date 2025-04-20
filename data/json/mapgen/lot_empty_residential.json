@@ -39,8 +39,8 @@
         { "chance": 1, "item": "creepy", "x": 10, "y": 16 },
         { "chance": 15, "item": "forest", "x": 21, "y": 19 },
         { "chance": 15, "item": "forest", "x": 4, "y": 19 },
-        { "chance": 10, "item": "trash", "x": 20, "y": 12 },
-        { "chance": 10, "item": "trash", "x": 4, "y": 8 }
+        { "chance": 10, "item": "SUS_trash_floor", "x": 20, "y": 12 },
+        { "chance": 10, "item": "SUS_trash_floor", "x": 4, "y": 8 }
       ],
       "place_signs": [ { "signage": "Cheap lot for sale!  Call <given_name> at 555-5151!", "x": 12, "y": 1 } ]
     }

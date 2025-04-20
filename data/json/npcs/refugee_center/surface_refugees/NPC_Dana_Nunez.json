@@ -453,10 +453,7 @@
     "responses": [
       {
         "text": "Why not?  I'll see what I can do.",
-        "effect": [
-          { "assign_mission": "MISSION_REFUGEE_Dana_Sourdough" },
-          { "u_add_var": "mission_flag_Dana_Sourdough", "value": "yes" }
-        ],
+        "effect": [ { "add_mission": "MISSION_REFUGEE_Dana_Sourdough" }, { "u_add_var": "mission_flag_Dana_Sourdough", "value": "yes" } ],
         "topic": "TALK_DANA_Sourdough2"
       },
       { "text": "Maybe not right now.  <end_talking_leave>", "topic": "TALK_DONE" }
@@ -578,7 +575,6 @@
     "weight": "450 g",
     "volume": "680 ml",
     "longest_side": "132 mm",
-    "material": [ "glass", "wheat" ],
     "melee_damage": { "bash": 8 }
   },
   {

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "fungal_bloom" ],
-    "weight": 100,
     "object": {
       "rows": [
         "     ..............     ",

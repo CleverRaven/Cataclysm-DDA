@@ -58,25 +58,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_nether_attunement_health_bonus",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "rating": "good",
-    "max_duration": "30 seconds",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 2 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_nether_attunement_health_penalty",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "rating": "bad",
-    "max_duration": "30 seconds",
-    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
-  },
-  {
-    "type": "effect_type",
     "id": "effect_nether_attunement_raiser",
     "name": [ "Nether Conduit" ],
     "desc": [ "Your skin prickles." ],
@@ -87,9 +68,16 @@
     "type": "effect_type",
     "id": "effect_nether_attunement_attenuation",
     "name": [ "Nether Attenuation" ],
-    "desc": [ "You feel strangely listless." ],
-    "remove_message": "The listless feeling vanishes.",
+    "desc": [ "You have to work extra hard to draw enough energy to use your powers." ],
+    "remove_message": "Your difficulty in drawing on the Nether fades.",
     "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": 4 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_extra_kcal",
+    "name": [ "Gnawing Hunger" ],
+    "desc": [ "Whenever you use your powers, your stomach rumbles." ],
+    "remove_message": "Your stomach finally calms down."
   },
   {
     "type": "effect_type",
@@ -100,10 +88,46 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_electrokinetic_power_drain",
+    "name": [ "Power Void" ],
+    "desc": [ "Is it cold in here?" ],
+    "rating": "bad",
+    "remove_message": "The unearthly chill fades away."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_biokinetic_inversion",
+    "name": [ "Metabolic Inversion" ],
+    "desc": [ "You're getting pretty hungry and thirsty." ],
+    "rating": "bad",
+    "remove_message": "Your gnawing hunger finally fades away."
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_mishap_tindrift_warning",
+    "name": [ "Hunted" ],
+    "desc": [
+      "You feel the sensation of watching eyes and see prowling forms out of the corners of your vision.  Using further teleportation powers would be very unwise."
+    ],
+    "rating": "bad",
+    "remove_message": "The prowling forms finally fade away."
+  },
+  {
+    "type": "effect_type",
     "id": "effect_in_the_nether_warning_timer",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_cold",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "A roiling fog coalesces out of the surrounding air.",
+    "remove_message": "The roiling fog surrounding you dissipates.",
+    "enchantments": [ { "emitter": "emit_fog_plume" } ]
   },
   {
     "type": "effect_type",

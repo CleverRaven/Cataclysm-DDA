@@ -3,25 +3,21 @@
 #define CATA_SRC_MISSION_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "character_id.h"
-#include "coords_fwd.h"
-#include "dialogue.h"
+#include "coordinates.h"
+#include "dialogue_helpers.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "npc_favor.h"
-#include "omdata.h"
-#include "overmap.h"
-#include "talker.h"
-#include "translations.h"
+#include "point.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Creature;
@@ -33,9 +29,10 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
+struct const_dialogue;
+struct dialogue;
+struct oter_type_t;
 template<typename T> struct enum_traits;
-
-enum npc_mission : int;
 
 namespace debug_menu
 {
@@ -263,7 +260,7 @@ struct mission_type {
 
         bool parse_funcs( const JsonObject &jo, std::string_view src,
                           std::function<void( mission * )> &phase_func );
-        void load( const JsonObject &jo, const std::string &src );
+        bool load( const JsonObject &jo, const std::string &src );
 
         /**
          * Returns the translated name

@@ -22,7 +22,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ]
     ]
   },
   {
@@ -739,7 +739,7 @@
       [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
+      [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ]
     ]
   },
   {
@@ -1029,7 +1029,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -1049,7 +1049,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
@@ -1137,7 +1137,7 @@
       [ [ "rope_superior_short", 2, "LIST" ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "nails", 60, "LIST" ] ]
     ]
   },
@@ -1268,7 +1268,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "fletching", 2, "LIST" ] ],
       [ [ "lead", 4 ] ]
@@ -1291,7 +1291,7 @@
       { "proficiency": "prof_fletching" },
       { "proficiency": "prof_carving" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],

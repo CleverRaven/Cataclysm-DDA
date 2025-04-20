@@ -48,12 +48,13 @@
       "r": { "item": "clothing_hunting", "chance": 50 },
       "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 2, 3 ] },
       "L": { "item": "jackets", "chance": 50 },
-      "F": { "item": "office_supplies", "chance": 80, "repeat": [ 2, 4 ] },
+      "F": { "item": "SUS_office_filing_cabinet", "chance": 80, "repeat": [ 2, 4 ] },
       "X": { "item": "ammo_hunting", "chance": 80, "repeat": [ 4, 6 ] },
       "x": { "item": "mags_hunting", "chance": 80, "repeat": [ 4, 6 ] },
-      "Y": { "item": "trash_cart", "chance": 70, "repeat": [ 1, 2 ] },
-      "I": { "item": "office_supplies", "chance": 50 },
-      "m": { "item": "clothing_hunting", "chance": 80, "repeat": [ 2, 3 ] }
+      "Y": { "item": "SUS_trash_floor_light", "chance": 70, "repeat": [ 1, 2 ] },
+      "I": { "item": "SUS_office_desk", "chance": 50 },
+      "m": { "item": "clothing_hunting", "chance": 80, "repeat": [ 2, 3 ] },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

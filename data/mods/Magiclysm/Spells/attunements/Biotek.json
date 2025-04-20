@@ -19,6 +19,7 @@
     "min_field_intensity": 2,
     "max_field_intensity": 2,
     "spell_class": "BIOTEK",
+    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 300,
     "base_energy_cost": 350,
     "max_level": 35,
@@ -48,6 +49,7 @@
     "components": "jury_rig",
     "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "BIOTEK",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 2,
     "energy_source": "BIONIC"
   }

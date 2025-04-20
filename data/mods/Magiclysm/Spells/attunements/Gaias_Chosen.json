@@ -12,7 +12,7 @@
     "shape": "blast",
     "base_casting_time": 60000,
     "base_energy_cost": 800,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 8,
     "min_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -1.6) - 5" ] },
     "max_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -4) - 12" ] },
@@ -31,7 +31,7 @@
     "shape": "blast",
     "base_casting_time": 2160000,
     "base_energy_cost": 1000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "GAIAS_CHOSEN",
     "difficulty": 0,
@@ -56,7 +56,7 @@
     "max_level": 35,
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC" ],
     "spell_class": "GAIAS_CHOSEN",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "effect_terra_armor",

@@ -436,7 +436,7 @@
       "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "furniture": { "!": "f_chair", "ō": "f_glass_fridge" },
-      "vehicles": { "ւ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 } },
+      "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } },
       "monster": { "ւ": { "monster": "mon_mi_go_captured" } },
       "item": {
         "ō": [
@@ -1046,7 +1046,7 @@
       "palettes": [ "lab_common_palette" ],
       "place_loot": [
         { "item": "meat", "x": [ 5, 10 ], "y": 4, "chance": 70 },
-        { "item": "smart_phone", "x": [ 5, 10 ], "y": 5, "chance": 70 },
+        { "group": "civilian_phones", "x": [ 5, 10 ], "y": 5, "chance": 70 },
         { "item": "apple", "x": [ 5, 10 ], "y": 4, "chance": 70 }
       ],
       "place_nested": [ { "chunks": [ [ "lab_16x1_bash", 80 ], [ "null", 20 ] ], "x": 0, "y": 0 } ],

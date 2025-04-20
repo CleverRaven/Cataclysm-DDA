@@ -13,11 +13,11 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "speech",
     "max_level": 1,
     "intelligence": 3,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "speech",
+    "read_fun": 1
   },
   {
     "id": "manual_speech",
@@ -33,10 +33,10 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "speech",
     "max_level": 3,
     "intelligence": 5,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "speech"
   },
   {
     "id": "textbook_speech",
@@ -52,12 +52,12 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "speech",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "speech"
   },
   {
     "id": "dnd_handbook",
@@ -74,11 +74,11 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "light_blue",
-    "skill": "speech",
     "max_level": 5,
     "intelligence": 9,
     "time": "30 m",
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_skill": "speech"
   },
   {
     "id": "book_nonf_soft_speech_naillaw",
@@ -94,11 +94,11 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "blue",
-    "skill": "speech",
     "required_level": 3,
     "max_level": 4,
     "intelligence": 7,
     "time": "24 m",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "read_skill": "speech"
   }
 ]

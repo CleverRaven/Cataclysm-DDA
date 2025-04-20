@@ -2,26 +2,30 @@
 #ifndef CATA_SRC_OVERMAP_UI_H
 #define CATA_SRC_OVERMAP_UI_H
 
-#include "avatar.h"
-#include "coords_fwd.h"
+#include <stddef.h>
+#include <climits>
+#include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <vector>
+
+#include "city.h"
+#include "coordinates.h"
 #include "input_context.h"
-#include "regional_settings.h"
+#include "map_scale_constants.h"
+#include "point.h"
 #include "string_id.h"
-#include "ui_manager.h"
+
+class ui_adaptor;
 
 constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
-class uilist;
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-
-class input_context;
 class nc_color;
-
+class uilist;
 struct weather_type;
+
 using weather_type_id = string_id<weather_type>;
 
 namespace ui
@@ -75,7 +79,8 @@ void display_editor();
  * @returns The absolute coordinates of the chosen point or
  * point::invalid if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false,
+                               const int distance = INT_MAX );
 
 /**
  * Interactive point choosing; used as the map screen.
@@ -84,7 +89,8 @@ tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_
  * @returns The absolute coordinates of the chosen point or
  * point::invalid if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false,
+                               const int distance = INT_MAX );
 
 /**
  * Interactive point choosing; used as the map screen.
@@ -93,7 +99,7 @@ tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debu
  * point::invalid if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const std::string &message, const tripoint_abs_omt &origin,
-                               bool show_debug_info = false );
+                               bool show_debug_info = false, const int distance = INT_MAX );
 
 void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container );
 
@@ -121,11 +127,13 @@ struct overmap_draw_data_t {
     bool fast_traveling = false;
     // message to display while using the map
     std::string message;
+    // if there is a distance limit to pick the OMT
+    int distance = INT_MAX;
 
     // draw zone location.
     tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );
     int iZoneIndex = -1;
-    std::vector<tripoint_abs_omt> display_path = {};
+    std::vector<tripoint_abs_omt> display_path;
     //center of UI view; usually player OMT position
     tripoint_abs_omt origin_pos = tripoint_abs_omt( -1, -1, -1 );
     /**

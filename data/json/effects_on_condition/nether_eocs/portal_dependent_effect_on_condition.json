@@ -32,24 +32,21 @@
       }
     },
     "effect": {
-      "run_eocs": {
-        "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
-        "condition": { "math": [ "ps_str > 4" ] },
-        "effect": {
-          "weighted_list_eocs": [
-            [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
-            [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 6 ],
-            [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 3 ],
-            [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE", 1 ]
-          ]
-        },
-        "false_effect": {
-          "weighted_list_eocs": [
-            [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
-            [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 5 ],
-            [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 2 ]
-          ]
-        }
+      "if": { "math": [ "ps_str > 4" ] },
+      "then": {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
+          [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 6 ],
+          [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 3 ],
+          [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE", 1 ]
+        ]
+      },
+      "else": {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
+          [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 5 ],
+          [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 2 ]
+        ]
       }
     }
   },
@@ -142,20 +139,17 @@
       ]
     },
     "effect": {
-      "run_eocs": {
-        "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_OUTSIDE",
-        "condition": "u_is_outside",
-        "effect": [
-          {
-            "u_message": "You suddenly feel a profound sense of belonging take root inside you, spreading throughout your body.  It fades quickly, but something warm remains…",
-            "type": "good"
-          },
-          { "u_add_trait": "REALITY_GRASP" }
-        ],
-        "false_effect": {
-          "u_message": "You suddenly feel a profound sense of belonging take root inside you, but then abruptly grow cold.  You reach out for it, but it's gone now, taken away by the indoors.  You long for the sky…",
-          "type": "warning"
-        }
+      "if": "u_is_outside",
+      "then": [
+        {
+          "u_message": "You suddenly feel a profound sense of belonging take root inside you, spreading throughout your body.  It fades quickly, but something warm remains…",
+          "type": "good"
+        },
+        { "u_add_trait": "REALITY_GRASP" }
+      ],
+      "else": {
+        "u_message": "You suddenly feel a profound sense of belonging take root inside you, but then abruptly grow cold.  You reach out for it, but it's gone now, taken away by the indoors.  You long for the sky…",
+        "type": "warning"
       }
     }
   },
@@ -213,34 +207,31 @@
       ]
     },
     "effect": {
-      "run_eocs": {
-        "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_REJECTION",
-        "condition": { "not": { "u_has_trait": "REALITY_GRASP" } },
-        "effect": {
-          "weighted_list_eocs": [
-            [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", 18 ],
-            [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", 6 ],
-            [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", 5 ],
-            [ "EOC_PORTAL_DEPENDENT_SHAKES", 4 ],
-            [ "EOC_PORTAL_DEPENDENT_NAUSEA", 4 ],
-            [ "EOC_PORTAL_DEPENDENT_STUN", 3 ],
-            [ "EOC_PORTAL_DEPENDENT_DOWNED", 3 ],
-            [ "EOC_PORTAL_DEPENDENT_STATS_BAD", 3 ],
-            [ "EOC_PORTAL_TELEPORT_STUCK_START", 3 ],
-            [ "EOC_PORTAL_DEPENDENT_PAIN", 2 ],
-            [ "EOC_PORTAL_DEPENDENT_PAIN_CONSTANT", 1 ],
-            [ "EOC_PORTAL_DEPENDENT_DAMAGE_CONSTANT", 1 ]
-          ]
-        },
-        "false_effect": {
-          "weighted_list_eocs": [
-            [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", 10 ],
-            [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", 3 ],
-            [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", 2 ],
-            [ "EOC_PORTAL_DEPENDENT_SHAKES", 1 ],
-            [ "EOC_PORTAL_DEPENDENT_NAUSEA", 1 ]
-          ]
-        }
+      "if": { "not": { "u_has_trait": "REALITY_GRASP" } },
+      "then": {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", 18 ],
+          [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", 6 ],
+          [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", 5 ],
+          [ "EOC_PORTAL_DEPENDENT_SHAKES", 4 ],
+          [ "EOC_PORTAL_DEPENDENT_NAUSEA", 4 ],
+          [ "EOC_PORTAL_DEPENDENT_STUN", 3 ],
+          [ "EOC_PORTAL_DEPENDENT_DOWNED", 3 ],
+          [ "EOC_PORTAL_DEPENDENT_STATS_BAD", 3 ],
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", 3 ],
+          [ "EOC_PORTAL_DEPENDENT_PAIN", 2 ],
+          [ "EOC_PORTAL_DEPENDENT_PAIN_CONSTANT", 1 ],
+          [ "EOC_PORTAL_DEPENDENT_DAMAGE_CONSTANT", 1 ]
+        ]
+      },
+      "else": {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", 10 ],
+          [ "EOC_PORTAL_DEPENDENT_MORALE_BAD", 3 ],
+          [ "EOC_PORTAL_DEPENDENT_FOCUS_BAD", 2 ],
+          [ "EOC_PORTAL_DEPENDENT_SHAKES", 1 ],
+          [ "EOC_PORTAL_DEPENDENT_NAUSEA", 1 ]
+        ]
       }
     }
   },
@@ -275,21 +266,14 @@
     "id": "EOC_PORTAL_DEPENDENT_STATS_BAD",
     "//": "Stats debuffs as consequence of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
-    "effect": [
-      {
-        "run_eocs": {
-          "id": "EOC_PORTAL_DEPENDENT_STATS_EFFECTS",
-          "effect": {
-            "weighted_list_eocs": [
-              [ "EOC_PORTAL_DEPENDENT_STR_BAD", 1 ],
-              [ "EOC_PORTAL_DEPENDENT_DEX_BAD", 1 ],
-              [ "EOC_PORTAL_DEPENDENT_PER_BAD", 1 ],
-              [ "EOC_PORTAL_DEPENDENT_INT_BAD", 1 ]
-            ]
-          }
-        }
-      }
-    ]
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_PORTAL_DEPENDENT_STR_BAD", 1 ],
+        [ "EOC_PORTAL_DEPENDENT_DEX_BAD", 1 ],
+        [ "EOC_PORTAL_DEPENDENT_PER_BAD", 1 ],
+        [ "EOC_PORTAL_DEPENDENT_INT_BAD", 1 ]
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -471,7 +455,7 @@
     "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD",
     "//": "Rewards for Portal Dependent characters that survive the dimensional experience of a portal dungeon.",
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "switch": { "global_val": "portal_dungeon_level" },
       "cases": [
         {
           "case": 0,
@@ -627,7 +611,7 @@
     "id": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL_REWARD",
     "//": "Rewards for Portal Dependent characters that survive the last level of a portal dungeon.",
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "switch": { "global_val": "portal_dungeon_level" },
       "cases": [
         {
           "case": 5,
@@ -675,24 +659,21 @@
     "//": "Final reward for experiencing a whole different reality, allowing you to partially anchor yourself to reality again.",
     "effect": [
       {
-        "run_eocs": {
-          "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_TRAIT",
-          "condition": { "not": { "u_has_trait": "REALITY_GRASP" } },
-          "effect": [
-            {
-              "u_message": "You suddenly feel a profound sense of belonging take root inside you, spreading throughout your body.  It fades quickly, but something warm remains…",
-              "type": "good"
-            },
-            { "u_add_trait": "REALITY_GRASP" }
-          ],
-          "false_effect": [
-            {
-              "u_message": "You suddenly feel a profound sense of belonging take root inside you, temporally amplifying your grasp of reality.  For some time you will be the master of your surroundings.",
-              "type": "good"
-            },
-            { "u_add_effect": "pd_strengthened_reality", "duration": "14 days", "intensity": 4 }
-          ]
-        }
+        "if": { "not": { "u_has_trait": "REALITY_GRASP" } },
+        "then": [
+          {
+            "u_message": "You suddenly feel a profound sense of belonging take root inside you, spreading throughout your body.  It fades quickly, but something warm remains…",
+            "type": "good"
+          },
+          { "u_add_trait": "REALITY_GRASP" }
+        ],
+        "else": [
+          {
+            "u_message": "You suddenly feel a profound sense of belonging take root inside you, temporally amplifying your grasp of reality.  For some time you will be the master of your surroundings.",
+            "type": "good"
+          },
+          { "u_add_effect": "pd_strengthened_reality", "duration": "14 days", "intensity": 4 }
+        ]
       },
       {
         "u_add_morale": "morale_feeling_good",

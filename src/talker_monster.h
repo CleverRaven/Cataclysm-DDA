@@ -2,23 +2,14 @@
 #ifndef CATA_SRC_TALKER_MONSTER_H
 #define CATA_SRC_TALKER_MONSTER_H
 
-#include <functional>
-#include <list>
+#include <memory>
 #include <string>
-#include <vector>
 
+#include "bodypart.h"
 #include "coords_fwd.h"
 #include "monster.h"
 #include "talker.h"
 #include "type_id.h"
-
-class faction;
-class item;
-class mission;
-class npc;
-class time_duration;
-class vehicle;
-struct tripoint;
 
 /*
  * Talker wrapper class for monster.
@@ -45,13 +36,12 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         std::string disp_name() const override;
         std::string get_name() const override;
 
-        int posx() const override;
-        int posy() const override;
+        int posx( const map &here ) const override;
+        int posy( const map &here ) const override;
         int posz() const override;
-        tripoint pos() const override;
-        tripoint_bub_ms pos_bub() const override;
-        tripoint_abs_ms global_pos() const override;
-        tripoint_abs_omt global_omt_location() const override;
+        tripoint_bub_ms pos_bub( const map &here ) const override;
+        tripoint_abs_ms pos_abs() const override;
+        tripoint_abs_omt pos_abs_omt() const override;
 
         int pain_cur() const override;
 
@@ -61,7 +51,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
 
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        diag_value const *maybe_get_value( const std::string &var_name ) const override;
 
         bool has_flag( const flag_id &f ) const override;
         bool has_species( const species_id &species ) const override;
@@ -115,14 +105,14 @@ class talker_monster: public talker_monster_const, public talker_cloner<talker_m
         void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
         void mod_pain( int amount ) override;
 
-        void set_value( const std::string &var_name, const std::string &value ) override;
+        void set_value( const std::string &var_name, diag_value const &value ) override;
         void remove_value( const std::string &var_name ) override;
 
         void set_anger( int ) override;
         void set_morale( int ) override;
         void set_friendly( int ) override;
         bool get_is_alive() const override;
-        void die() override;
+        void die( map *here ) override;
 
         void set_all_parts_hp_cur( int ) override;
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,

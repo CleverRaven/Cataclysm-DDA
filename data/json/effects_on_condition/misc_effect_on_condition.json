@@ -62,17 +62,29 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror') < 1" ] },
+    "condition": { "math": [ "n_monsters_nearby('mon_amigara_horror') < 1" ] },
     "effect": [
-      { "u_location_variable": { "context_val": "my_loc" }, "max_radius": 2, "passable_only": true },
-      { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "my_loc" } },
-      { "u_lose_effect": "effect_amigara" },
+      { "npc_location_variable": { "context_val": "loc" }, "max_radius": 2, "passable_only": true },
+      { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "loc" } },
+      { "run_eocs": [ "EOC_remove_amigara_effect" ] },
       {
-        "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
-        "type": "info"
-      },
-      { "u_add_var": "general_talk_clearead_amigara_mine", "value": "yes" }
+        "if": "has_alpha",
+        "then": [
+          { "u_lose_effect": "effect_amigara" },
+          { "u_add_var": "general_talk_clearead_amigara_mine", "value": "yes" },
+          {
+            "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
+            "type": "info"
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_remove_amigara_effect",
+    "global": true,
+    "effect": [ { "u_lose_effect": "effect_amigara" } ]
   },
   {
     "type": "effect_on_condition",
@@ -90,21 +102,16 @@
     "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
     "effect": [
       {
-        "run_eocs": {
-          "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "math": [ "u_monsters_nearby() > 1" ] },
-          "effect": [
-            {
-              "u_spawn_monster": "GROUP_YOUR_FEARS",
-              "group": true,
-              "real_count": 0,
-              "hallucination_count": { "math": [ "rand(2) + 1" ] },
-              "outdoor_only": false,
-              "min_radius": 10,
-              "max_radius": 40,
-              "lifespan": [ "1 hours", "4 hours" ]
-            }
-          ]
+        "if": { "math": [ "u_monsters_nearby() > 1" ] },
+        "then": {
+          "u_spawn_monster": "GROUP_YOUR_FEARS",
+          "group": true,
+          "real_count": 0,
+          "hallucination_count": { "math": [ "rand(2) + 1" ] },
+          "outdoor_only": false,
+          "min_radius": 10,
+          "max_radius": 40,
+          "lifespan": [ "1 hours", "4 hours" ]
         }
       }
     ]
@@ -160,7 +167,14 @@
     "id": "sewer_morale_debuff",
     "global": false,
     "recurrence": [ "20 minutes", "1 hour" ],
-    "condition": { "u_at_om_location": "sewer" },
+    "condition": {
+      "or": [
+        { "u_at_om_location": "sewer" },
+        { "u_at_om_location": "pump_station_3" },
+        { "u_at_om_location": "pump_station_4" },
+        { "u_at_om_location": "pump_station_5" }
+      ]
+    },
     "effect": [
       { "u_message": "<SEWER_MORALE_DEBUFF>", "snippet": true },
       {
@@ -303,7 +317,7 @@
     "recurrence": { "math": [ "time_until('sunrise')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES" } ] },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -362,11 +376,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNRISE_MORALE_OVERRIDES",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "sunset_morale_buff",
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "condition": { "and": [ "u_is_outside", "u_can_see", { "test_eoc": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES" } ] },
     "effect": [
       {
         "if": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] },
@@ -422,5 +442,11 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_SUNSET_MORALE_OVERRIDES",
+    "condition": { "math": [ "0 == 0" ] },
+    "effect": [  ]
   }
 ]

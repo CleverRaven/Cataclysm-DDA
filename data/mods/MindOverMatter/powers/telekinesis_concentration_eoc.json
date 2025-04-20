@@ -38,7 +38,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('telekinetic_momentum')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('telekinetic_momentum')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEKIN_MOMENTUM_DRAIN",
@@ -51,6 +51,68 @@
           {
             "math": [
               "( (u_spell_level('telekinetic_momentum') * 20) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_WATER_WALKING",
+    "condition": { "not": { "u_has_effect": "effect_telekinetic_water_walking" } },
+    "effect": [
+      { "u_message": "Your steps feel very light on the ground.", "type": "good" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
+      { "u_add_effect": "effect_telekinetic_water_walking", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_TELEKIN_WATER_WALKING_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('telekinetic_water_walk') * 8) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('telekinetic_water_walk') * 26) + 75) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_TELEKIN_REMOVE_WATER_WALKING" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_REMOVE_WATER_WALKING",
+    "condition": { "u_has_effect": "effect_telekinetic_water_walking" },
+    "effect": [
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
+      { "u_lose_effect": "effect_telekinetic_water_walking" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_WATER_WALKING_DRAIN",
+    "condition": { "u_has_effect": "effect_telekinetic_water_walking" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('telekinetic_water_walk')", "+=", "psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_TELEKIN_WATER_WALKING_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('telekinetic_water_walk') * 8) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('telekinetic_water_walk') * 26) + 75) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -178,7 +240,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('telekinetic_lifting_field')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('telekinetic_lifting_field')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEKIN_LIFTING_FIELD_DRAIN",
@@ -237,7 +299,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('telekinetic_strength')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('telekinetic_strength')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
@@ -296,7 +358,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('telekinetic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('telekinetic_shield')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEKIN_SHIELD_DRAIN",
@@ -465,7 +527,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
@@ -527,7 +589,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('telekinetic_levitation')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('telekinetic_levitation')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",

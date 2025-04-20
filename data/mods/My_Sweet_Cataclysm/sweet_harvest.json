@@ -3,19 +3,32 @@
     "id": "marshmallow_boy",
     "type": "harvest",
     "leftovers": "ruined_candy",
-    "entries": [ { "drop": "marshmallow_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+    "entries": [
+      { "drop": "marshmallow_flesh", "type": "flesh", "mass_ratio": 0.7 },
+      { "drop": "bone_sugar", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "syrup_corn", "type": "blood", "mass_ratio": 0.05 }
+    ]
   },
   {
     "id": "armored_marshmallow_boy",
     "type": "harvest",
     "leftovers": "ruined_candy",
-    "entries": [ { "drop": "smores_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+    "entries": [
+      { "drop": "smores_flesh", "type": "flesh", "mass_ratio": 0.65 },
+      { "drop": "bone_sugar", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "syrup_corn", "type": "blood", "mass_ratio": 0.05 },
+      { "drop": "grahmcrackers_shell", "type": "skin", "mass_ratio": 0.05 }
+    ]
   },
   {
     "id": "gummy_bear",
     "type": "harvest",
     "leftovers": "ruined_candy",
-    "entries": [ { "drop": "candy3_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+    "entries": [
+      { "drop": "candy3_flesh", "type": "flesh", "mass_ratio": 0.7 },
+      { "drop": "bone_sugar", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "syrup_corn", "type": "blood", "mass_ratio": 0.05 }
+    ]
   },
   {
     "id": "cracker_boy",
@@ -45,13 +58,21 @@
     "id": "choc_cows",
     "type": "harvest",
     "message": "As you butcher the chocolate corpse, you break the large pieces of flesh down into more manageable chunks.",
-    "entries": [ { "drop": "cow_candy_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+    "entries": [
+      { "drop": "cow_candy_flesh", "type": "flesh", "mass_ratio": 0.7 },
+      { "drop": "bone_sugar", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "blood_chocolate", "type": "blood", "mass_ratio": 0.05 }
+    ]
   },
   {
     "id": "licorice_snake",
     "type": "harvest",
     "leftovers": "ruined_candy",
     "message": "You carefully open the snake to extract the sweet fillets.",
-    "entries": [ { "drop": "licorice_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+    "entries": [
+      { "drop": "licorice_flesh", "type": "flesh", "mass_ratio": 0.7 },
+      { "drop": "bone_sugar", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "syrup_corn", "type": "blood", "mass_ratio": 0.05 }
+    ]
   }
 ]

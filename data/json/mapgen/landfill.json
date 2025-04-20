@@ -42,7 +42,7 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
@@ -102,7 +102,7 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
@@ -165,7 +165,7 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
@@ -227,7 +227,7 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
@@ -289,7 +289,7 @@
       "furniture": { "#": "f_rubble_landfill" },
       "items": {
         "#": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },

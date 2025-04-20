@@ -1,8 +1,16 @@
 #include "addiction.h"
+
+#include <algorithm>
+#include <map>
+#include <memory>
+
 #include "cata_catch.h"
 #include "character.h"
+#include "enums.h"
+#include "item.h"
 #include "itype.h"
 #include "player_helpers.h"
+#include "value_ptr.h"
 
 static const addiction_id addiction_alcohol( "alcohol" );
 static const addiction_id addiction_amphetamine( "amphetamine" );
@@ -21,6 +29,8 @@ static const addiction_id addiction_test_nicotine( "test_nicotine" );
 
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_shakes( "shakes" );
+
+static const itype_id itype_test_whiskey_caffenated( "test_whiskey_caffenated" );
 
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
@@ -720,7 +730,7 @@ TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
 
 TEST_CASE( "check_that_items_can_inflict_multiple_addictions", "[addiction]" )
 {
-    item addict_itm( "test_whiskey_caffenated" );
+    item addict_itm( itype_test_whiskey_caffenated );
     REQUIRE( addict_itm.is_comestible() );
     REQUIRE( addict_itm.get_comestible()->addictions.size() == 2 );
     CHECK( addict_itm.get_comestible()->addictions.at( addiction_alcohol ) == 101 );
@@ -731,7 +741,7 @@ TEST_CASE( "check_that_items_can_inflict_multiple_addictions", "[addiction]" )
     REQUIRE( !victim.has_addiction( addiction_alcohol ) );
     REQUIRE( !victim.has_addiction( addiction_caffeine ) );
     for( int i = 0; i < MIN_ADDICTION_LEVEL; i++ ) {
-        item addict_itm = item( "test_whiskey_caffenated" );
+        item addict_itm = item( itype_test_whiskey_caffenated );
         REQUIRE( victim.consume( addict_itm, true ) != trinary::NONE );
     }
     CHECK( victim.has_addiction( addiction_alcohol ) );

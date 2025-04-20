@@ -935,42 +935,36 @@
                 {
                   "case": 5,
                   "effect": {
-                    "run_eocs": {
-                      "id": "portal_storm_reflection_summon_guilt",
-                      "condition": {
-                        "and": [
-                          { "math": [ "portal_dungeon_level > 0" ] },
-                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
-                        ]
-                      },
-                      "effect": {
-                        "u_spawn_monster": "mon_guilt",
-                        "real_count": 1,
-                        "min_radius": 2,
-                        "max_radius": 4,
-                        "spawn_message": "Something deep inside you is manifested physically."
-                      }
+                    "if": {
+                      "and": [
+                        { "math": [ "portal_dungeon_level > 0" ] },
+                        { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
+                      ]
+                    },
+                    "then": {
+                      "u_spawn_monster": "mon_guilt",
+                      "real_count": 1,
+                      "min_radius": 2,
+                      "max_radius": 4,
+                      "spawn_message": "Something deep inside you is manifested physically."
                     }
                   }
                 },
                 {
                   "case": 8,
                   "effect": {
-                    "run_eocs": {
-                      "id": "portal_storm_reflection_summon_sloth",
-                      "condition": {
-                        "and": [
-                          { "math": [ "portal_dungeon_level > 0" ] },
-                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
-                        ]
-                      },
-                      "effect": {
-                        "u_spawn_monster": "mon_sloth",
-                        "real_count": 1,
-                        "min_radius": 2,
-                        "max_radius": 4,
-                        "spawn_message": "Something deep inside you is manifested physically."
-                      }
+                    "if": {
+                      "and": [
+                        { "math": [ "portal_dungeon_level > 0" ] },
+                        { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
+                      ]
+                    },
+                    "then": {
+                      "u_spawn_monster": "mon_sloth",
+                      "real_count": 1,
+                      "min_radius": 2,
+                      "max_radius": 4,
+                      "spawn_message": "Something deep inside you is manifested physically."
                     }
                   }
                 }

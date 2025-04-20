@@ -3,21 +3,20 @@
 #define CATA_SRC_CONDITION_H
 
 #include <functional>
-#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_set>
 
 #include "calendar.h"
 #include "coords_fwd.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "global_vars.h"
+#include "translation.h"
 
 class JsonObject;
 class JsonValue;
-class translation;
-struct dialogue;
 template <typename T> struct enum_traits;
+struct diag_value;
 
 namespace dialogue_data
 {
@@ -39,38 +38,29 @@ struct enum_traits<jarg> {
 
 str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
                            std::string_view default_val = "" );
-str_or_var get_str_or_var( const JsonObject &jo, std::string_view member,
-                           std::string_view default_val = "" );
+str_or_var get_str_or_var_part( const JsonObject &jo );
 translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required = true, const translation &default_val = {} );
-translation_or_var get_translation_or_var( const JsonObject &jo, std::string_view member,
-        const translation &default_val = {} );
+translation_or_var get_translation_or_var( const JsonObject &jo );
 str_translation_or_var get_str_translation_or_var(
-    const JsonValue &jv, std::string_view member, bool required = true,
-    std::string_view str_default_val = "", const translation &translation_default_val = {} );
+    const JsonValue &jv, std::string_view member, bool required = true );
 dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required = true,
                            double default_val = 0.0 );
-dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member,
-                                     bool required = true,
-                                     double default_val = 0.0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_view &member,
+dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string_view member,
                                      bool required = true,
                                      time_duration default_val = 0_seconds );
-duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string_view &member,
-        bool required = true,
-        time_duration default_val = 0_seconds );
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const_dialogue const &d,
-                                       bool is_npc );
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv );
 var_info read_var_info( const JsonObject &jo );
-translation_var_info read_translation_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
-                      const std::string &value, int call_depth = 0 );
+                      const std::string &value );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value );
-void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
-                      const std::string &value );
-std::string get_talk_varname( const JsonObject &jo, std::string_view member,
-                              bool check_value, dbl_or_var &default_val );
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      const tripoint_abs_ms &value );
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      const diag_value &value );
+std::string get_talk_varname( const JsonObject &jo, std::string_view member );
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
@@ -97,10 +87,8 @@ struct conditional_t {
         static std::function<std::string( const_dialogue const & )> get_get_string( const JsonObject &jo );
         static std::function<translation( const_dialogue const & )> get_get_translation(
             const JsonObject &jo );
-        static std::function<double( const_dialogue const & )> get_get_dbl( std::string_view checked_value,
-                char scope );
-        std::function<void( dialogue &, double )>
-        static get_set_dbl( std::string_view checked_value, char scope );
+        static double get_legacy_dbl( const_dialogue const &d, std::string_view checked_value, char scope );
+        static void set_legacy_dbl( dialogue &d, double input, std::string_view checked_value, char scope );
         bool operator()( const_dialogue const &d ) const {
             if( !condition ) {
                 return false;

@@ -2,16 +2,17 @@
 #ifndef CATA_SRC_POINT_H
 #define CATA_SRC_POINT_H
 
+#include <algorithm>
 #include <array>
 #include <climits>
-#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <optional>
 #include <ostream>
+#include <string>
+#include <tuple>
 #include <vector>
-
-#include "cata_assert.h"
 
 class JsonArray;
 class JsonOut;
@@ -358,6 +359,18 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
 
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int min_dist, int max_dist,
+        PredicateFn &&fn );
+
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int max_dist,
+        PredicateFn &&fn );
+
+
+// Calculate the number of tiles in a square from min_dist to max_dist about an arbitrary centre.
+std::optional<int> rectangle_size( int min_dist, int max_dist );
+
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
 namespace std
@@ -441,5 +454,57 @@ inline constexpr const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint::south_east },
     }
 };
+
+/* Return points in a clockwise spiral from min_dist to max_dist, inclusive, ordered by
+ * the closest points first. The distance is calculated using roguelike distances, so
+ * movement in any direction only counts as 1.
+ *
+ * The predicate function is evaluated on each point. If the function returns true, the
+ * point is returned. If the predicate function never returns true then std::nullopt is
+ * returned once max_dist is reached.
+ *
+ * @param center The center of the spiral.
+ * @param min_dist minimum distance to start the spiral from.
+ * @param max_dist greatest distance from the centre that the spiral will go to.
+ * @returns std::nullopt if min_dist > max_dist or predicate_fn evaluated to true for
+ *      no points.
+ */
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int min_dist, int max_dist,
+        PredicateFn &&predicate_fn )
+{
+    const std::optional<int> n = rectangle_size( min_dist, max_dist );
+
+    if( n == std::nullopt ) {
+        return {};
+    }
+
+    const bool is_center_included = min_dist == 0;
+
+    if( is_center_included && predicate_fn( center ) ) {
+        return center;
+    }
+
+    int x_init = std::max( min_dist, 1 );
+    point p {x_init, 1 - x_init};
+
+    point d = point::east;
+
+    for( int i = is_center_included; i < *n; i++ ) {
+        const Point next = Point{ center.raw() + p.raw() };
+        if( predicate_fn( next ) ) {
+            return next;
+        }
+
+        if( p.x == p.y || ( p.x < 0 && p.x == -p.y ) || ( p.x > 0 && p.x == 1 - p.y ) ) {
+            std::swap( d.x, d.y );
+            d.x = -d.x;
+        }
+
+        p += d;
+    }
+
+    return std::nullopt;
+}
 
 #endif // CATA_SRC_POINT_H

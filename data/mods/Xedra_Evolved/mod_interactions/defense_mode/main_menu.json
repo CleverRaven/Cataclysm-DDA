@@ -15,7 +15,7 @@
           { "math": [ "exodii_allowed = 1" ] },
           {
             "u_location_variable": { "global_val": "your_spawnpoint" },
-            "target_params": { "om_terrain": "dm_field_office_8", "search_range": 500, "z": 0 }
+            "target_params": { "om_terrain": "dm_field_office_8", "z": 0 }
           },
           { "u_teleport": { "global_val": "your_spawnpoint" } },
           { "mapgen_update": "precinct_13_spawns" }

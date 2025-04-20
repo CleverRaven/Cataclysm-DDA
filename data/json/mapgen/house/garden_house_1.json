@@ -6,88 +6,46 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "....Gss.9.9.9.9.9.9.9.9.",
-        ".9...ss.................",
-        "...ssssCMMMMMMMCMM..9.9.",
-        ".9.s#*o#o#o#o#o#o##.....",
-        "...s#,,{    }     #.9.9.",
-        ".9.s#,,           #.....",
-        "...s#             o.9.9.",
-        ".9.s#             o.....",
-        "...s#             #.9.9.",
-        "...s#<>           #.....",
-        ".!!@####||+|      #!!!!.",
-        ".!.s..^#t,,|Y,,1,,o...!.",
-        ".!.s...#88j|7,,,,,*.9.!.",
-        ".!9s9..#o###l,,,,3#...!.",
-        ".!.ssssssss#6c45i2#.9.!.",
-        ".!9.9.9.9.s###oo###...!.",
-        ".!]......9s.........9.!.",
-        ".!......9.s909.9[.....!.",
-        ".!.......9s0009.......!.",
-        ".!......9.s000.9......!.",
-        ".!.......9s0009.......!.",
-        ".!......9..909........!.",
-        ".!.......9..9..9......!.",
-        ".!!!!!!!!!!!!!!!!!!!!!!."
+        "....p``.[.[.[.[.[.[.[.[.",
+        ".[...``.................",
+        "...````/%%%%%%%/%%..[.[.",
+        ".[.`#*o#o#o#o#o#o##.....",
+        "...`#=={    }     #.[.[.",
+        ".[.`#==           #.....",
+        "...`#             o.[.[.",
+        ".[.`#             o.....",
+        "...`#             #.[.[.",
+        "...`#<>           #.....",
+        ".ŦŦɤ####||+|      #ŦŦŦŦ.",
+        ".Ŧ.`..^#t~~|Y==1==o...Ŧ.",
+        ".Ŧ.`...#88S|7=====*.[.Ŧ.",
+        ".Ŧ[`[..#o###F====3#...Ŧ.",
+        ".Ŧ.````````#6J45O2#.[.Ŧ.",
+        ".Ŧ[.[.[.[.`###oo###...Ŧ.",
+        ".Ŧ]......[`.........[.Ŧ.",
+        ".Ŧ......[.`[0[.[!.....Ŧ.",
+        ".Ŧ.......[`000[.......Ŧ.",
+        ".Ŧ......[.`000.[......Ŧ.",
+        ".Ŧ.......[`000[.......Ŧ.",
+        ".Ŧ......[..[0[........Ŧ.",
+        ".Ŧ.......[..[..[......Ŧ.",
+        ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ."
       ],
-      "palettes": [ "parametrized_linoleum_palette", "house_w_foundation_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
-        ".": "t_region_groundcover_urban",
-        "[": "t_region_groundcover_urban",
+        "!": "t_region_groundcover_urban",
         "]": "t_region_groundcover_urban",
-        "!": "t_fence",
-        "@": "t_fencegate_c",
-        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "2": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "3": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "4": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "5": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "9": [
-          [ "t_region_groundcover_urban", 60 ],
-          "t_region_tree_shade",
-          [ "t_region_tree_fruit", 2 ],
-          [ "t_region_tree_nut", 2 ]
-        ],
         "0": "t_water_pool_shallow_outdoors",
-        "c": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "i": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "j": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "/": "t_column",
         "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "furniture": {
-        "c": "f_cupboard",
-        "1": "f_cupboard",
-        "2": "f_cupboard",
-        "3": "f_cupboard",
-        "4": "f_cupboard",
-        "5": "f_sink",
-        "6": "f_cupboard",
-        "7": "f_cupboard",
-        "8": "f_counter"
-      },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 10, "y": 1 } ],
-      "items": {
-        "c": { "item": "kitchen_counters", "chance": 10 },
-        "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
-        "2": { "item": "SUS_cookware", "chance": 100 },
-        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
-        "4": { "item": "SUS_junk_drawer", "chance": 100 },
-        "5": { "item": "SUS_kitchen_sink", "chance": 100 },
-        "6": { "item": "SUS_pantry", "chance": 60 },
-        "7": [ { "item": "SUS_breakfast_cupboard", "chance": 80 }, { "item": "SUS_coffee_cupboard", "chance": 70 } ],
-        "8": [
-          { "item": "SUS_hair_drawer", "chance": 50 },
-          { "item": "SUS_bathroom_cabinet", "chance": 50 },
-          { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "harddrugs", "chance": 2 }
-        ]
-      },
       "nested": {
         "{": {
           "chunks": [
@@ -105,7 +63,7 @@
             [ "diningroom_6x6_N_S_1B", 20 ]
           ]
         },
-        "[": {
+        "!": {
           "chunks": [
             [ "roof_6x6_garden_4", 5 ],
             [ "roof_6x6_garden_1", 15 ],
@@ -119,8 +77,7 @@
         },
         "]": {
           "chunks": [
-            [ "shed_6x6_junk", 5 ],
-            [ "shed_6x6_junk", 5 ],
+            [ "shed_6x6_junk", 10 ],
             [ "greenhouse_6x6_herbal", 10 ],
             [ "greenhouse_6x6_vegetable", 10 ],
             [ "pond_6x6", 15 ],
@@ -137,42 +94,40 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "------------------------",
-        "------------------------",
-        "----##oo##o#o##oo##-----",
-        "----#{   |HRH|}   #-----",
-        "----o    |___|    o-----",
-        "----o    |___|    o-----",
-        "----#    +___+    #-----",
-        "----#|||||__||||||#-----",
-        "----#_______+ [   #-----",
-        "----#>R|||+||     o-----",
-        "----####TT 8|     o-----",
-        "------^#   j|     #-----",
-        "-------sw t8#u#oo##-----",
-        "-------##o###~~~~~s-----",
-        "-----------s~~~~~~s-----",
-        "-----------CssssssC-----",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "------------------------"
+        "                        ",
+        "                        ",
+        "    ##oo##o#o##oo##     ",
+        "    #{___|ERE|}___#     ",
+        "    o____|===|____o     ",
+        "    o____|===|____o     ",
+        "    #____+===+____#     ",
+        "    #|||||==||||||#     ",
+        "    #=======+_[___#     ",
+        "    #>R|||+||_____o     ",
+        "    ####BB_8|_____o     ",
+        "      ^#___i|_____#     ",
+        "       0w_t8#¶#oo##     ",
+        "       ##o###~~~~~0     ",
+        "           0~~~~~~0     ",
+        "           ]000000]     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
       ],
-      "palettes": [ "house_w_foundation_palette", "parametrized_carpets_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_palette" ],
       "terrain": {
-        "_": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        " ": "t_open_air",
+        "_": "t_floor",
+        "~": "t_thconc_floor",
+        "]": "t_column",
         "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-        "s": "t_screened_porch_wall",
-        "R": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-        "u": "t_door_glass_c"
-      },
-      "furniture": { "8": "f_counter" },
-      "items": {
-        "8": [ { "item": "shower", "chance": 10 }, { "item": "cleaning", "chance": 3 }, { "item": "softdrugs", "chance": 5 } ]
+        "0": "t_screened_porch_wall",
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "nested": {
         "{": {
@@ -213,7 +168,7 @@
         "^^^^#.............#^^^^^",
         "^^^^#.............#^^^^^",
         "^^^^#.............#^^^^^",
-        "^^^^#Z......!!!...#^^^^^",
+        "^^^^#Z......sss...#^^^^^",
         "^^^^#W............#^^^^^",
         "^^^^#!<|...|NNUUUU#^^^^^",
         "^^^^###############^^^^^",
@@ -232,7 +187,6 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
-      "furniture": { "!": "f_table" },
       "place_nested": [
         { "chunks": [ "utility_3x3_S" ], "x": 8, "y": 7 },
         { "chunks": [ "basement_storage_1x1" ], "x": [ 5, 17 ], "y": [ 3, 6 ], "repeat": [ 4, 16 ] }
@@ -256,7 +210,7 @@
         "^^^^#.............#^^^^^",
         "^^^^#Z............#^^^^^",
         "^^^^#W............#^^^^^",
-        "^^^^#!<|...|......#^^^^^",
+        "^^^^#s<|...|......#^^^^^",
         "^^^^###############^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -273,7 +227,6 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
-      "furniture": { "!": "f_table" },
       "place_nested": [
         { "chunks": [ "utility_3x3_S" ], "x": 8, "y": 7 },
         { "chunks": [ "livingroom_5x5_S_1" ], "x": [ 7, 12 ], "y": 3 },

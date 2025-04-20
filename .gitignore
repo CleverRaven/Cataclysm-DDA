@@ -49,6 +49,8 @@ chkjson*
 debug.log
 logg.txt
 json_formatter
+*.output
+.cache/
 
 # Visual Studio files
 *.code-workspace
@@ -195,6 +197,7 @@ cataclysm.a
 # clang tooling
 compile_commands.json
 .clangd
+clang-tidy-trace/
 
 # IDA database
 Cataclysm.i64

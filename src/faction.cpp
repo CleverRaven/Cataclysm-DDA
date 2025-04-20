@@ -2,8 +2,6 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cstdlib>
-#include <limits>
 #include <map>
 #include <memory>
 #include <optional>
@@ -21,14 +19,14 @@
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input_context.h"
-#include "json_error.h"
 #include "line.h"
 #include "localized_comparator.h"
+#include "map.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
 #include "mission_companion.h"
 #include "mtype.h"
 #include "npc.h"
@@ -41,8 +39,9 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "vitamin.h"
 
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
@@ -607,7 +606,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     int y = 2;
     const nc_color col = c_white;
     Character &player_character = get_player_character();
-    const tripoint_abs_omt player_abspos = player_character.global_omt_location();
+    const tripoint_abs_omt player_abspos = player_character.pos_abs_omt();
     tripoint_abs_omt camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to rename this camp" ) );
@@ -659,11 +658,13 @@ std::string npc::get_current_status() const
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
 {
+    const map &here = get_map();
+
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
     Character &player_character = get_player_character();
-    const tripoint_abs_omt player_abspos = player_character.global_omt_location();
+    const tripoint_abs_omt player_abspos = player_character.pos_abs_omt();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to talk to this follower " ) );
@@ -697,7 +698,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_eta );
     }
 
-    tripoint_abs_omt guy_abspos = global_omt_location();
+    tripoint_abs_omt guy_abspos = pos_abs_omt();
     basecamp *temp_camp = nullptr;
     if( assigned_camp ) {
         std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
@@ -724,9 +725,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     bool u_has_radio = player_character.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
-    if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( player_character.pos_bub(), pos_bub() ) > SEEX * 2 ||
-          !player_character.sees( pos_bub() ) ) ) {
+    if( rl_dist( player_abspos, pos_abs_omt() ) > 3 ||
+        ( rl_dist( player_character.pos_abs(), pos_abs() ) > SEEX * 2 ||
+          !player_character.sees( here, pos_bub( here ) ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             if( !( player_character.posz() >= 0 && posz() >= 0 ) &&
                 !( player_character.posz() == posz() ) ) {
@@ -738,8 +739,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 const int base_range = 200;
                 float send_elev_boost = ( 1 + ( player_character.posz() * 0.1 ) );
                 float recv_elev_boost = ( 1 + ( posz() * 0.1 ) );
-                if( ( square_dist( player_character.global_sm_location(),
-                                   global_sm_location() ) <= base_range * send_elev_boost * recv_elev_boost ) ) {
+                if( ( square_dist( player_character.pos_abs_sm(),
+                                   pos_abs_sm() ) <= base_range * send_elev_boost * recv_elev_boost ) ) {
                     //Direct radio contact, both of their elevation are in effect
                     retval = 2;
                     can_see = _( "Within radio range" );
@@ -751,9 +752,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                     const int radio_tower_boost = 5;
                     // find camps that are near player or npc
                     const std::vector<camp_reference> &camps_near_player = overmap_buffer.get_camps_near(
-                                player_character.global_sm_location(), send_range * radio_tower_boost );
+                                player_character.pos_abs_sm(), send_range * radio_tower_boost );
                     const std::vector<camp_reference> &camps_near_npc = overmap_buffer.get_camps_near(
-                                global_sm_location(), recv_range * radio_tower_boost );
+                                pos_abs_sm(), recv_range * radio_tower_boost );
                     bool camp_to_npc = false;
                     bool camp_to_camp = false;
                     for( const camp_reference &i : camps_near_player ) {
@@ -761,7 +762,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                             continue;
                         }
                         if( camp_to_camp ||
-                            square_dist( i.abs_sm_pos, global_sm_location() ) <= recv_range * radio_tower_boost ) {
+                            square_dist( i.abs_sm_pos, pos_abs_sm() ) <= recv_range * radio_tower_boost ) {
                             //one radio tower relay
                             camp_to_npc = true;
                             break;

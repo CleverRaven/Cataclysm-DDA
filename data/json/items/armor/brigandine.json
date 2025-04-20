@@ -1235,7 +1235,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
-    "description": "A pair of gloves made of tough fabric, with steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
+    "description": "A pair of gloves made of tough fabric, with steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering.",
     "weight": "684 g",
     "volume": "750 ml",
     "price": "50 USD 12 cent",

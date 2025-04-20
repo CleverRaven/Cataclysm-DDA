@@ -2,18 +2,32 @@
 #ifndef CATA_TEST_DATA_H
 #define CATA_TEST_DATA_H
 
+#include <cstdint>
 #include <map>
 #include <optional>
+#include <regex>
 #include <set>
+#include <string>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "coordinates.h"
 #include "point.h"
 #include "type_id.h"
-#include "pocket_type.h"
 
 class Character;
 class JsonObject;
+enum class pocket_type : int;
+
+struct pulp_test_data {
+    std::string name;
+    int expected_pulp_time;
+    std::vector<itype_id> items;
+    std::map<skill_id, int> skills;
+    bool profs;
+    mtype_id corpse;
+};
 
 struct efficiency_data {
     std::vector<int> forward;
@@ -104,7 +118,8 @@ class test_data
         static std::set<itype_id> legacy_to_hit;
         // TODO: remove when all known bad items got fixed
         static std::set<itype_id> known_bad;
-        static std::unordered_set<oter_type_id> overmap_terrain_coverage_whitelist;
+        static std::vector<pulp_test_data> pulp_test;
+        static std::vector<std::regex> overmap_terrain_coverage_whitelist;
         static std::map<vproto_id, std::vector<double>> drag_data;
         static std::map<vproto_id, efficiency_data> eff_data;
         static std::map<itype_id, double> expected_dps;

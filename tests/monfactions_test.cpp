@@ -1,7 +1,10 @@
+#include <cstdio>
+#include <filesystem>
+#include <fstream>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
-#include "filesystem.h"
 #include "monfaction.h"
 #include "type_id.h"
 
@@ -42,7 +45,7 @@ static std::string att_enum_to_string( mf_attitude att )
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
     std::ofstream outfile;
-    outfile.open( fs::u8path( "monfactions.txt" ) );
+    outfile.open( std::filesystem::u8path( "monfactions.txt" ) );
     for( const monfaction &f : monfactions::get_all() ) {
         for( const monfaction &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );

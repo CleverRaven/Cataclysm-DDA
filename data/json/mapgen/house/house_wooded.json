@@ -4,7 +4,6 @@
     "om_terrain": "house_wooded",
     "//": "normal variant",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

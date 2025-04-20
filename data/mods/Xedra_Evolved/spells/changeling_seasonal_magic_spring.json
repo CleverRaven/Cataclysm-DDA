@@ -1,0 +1,441 @@
+[
+  {
+    "//": "Spring magic should focus on: plants, growth, healing, rain, creativity, and love.",
+    "//2": "Make sure to add each new spell to the proper research EoC in the playable_changeling_seasonal_magic_research_eocs file.",
+    "//3": "Seasonal magic can have direct damage spells, but they should always be relevantly themed to the season, accomplish some secondary effect (slowing, blinding, starting fires, terrain alteration, etc), have some limitation on targets, or otherwise be less efficient than 'Wizard casts fireball' ",
+    "id": "xe_fey_seasonal_magick_spring",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
+    "cannot_cast_message": "You can't use your glamours now!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "xe_fey_seasonal_magick_spring_failure_chance"
+  },
+  {
+    "id": "changeling_spring_summon_grass_field_spell",
+    "type": "SPELL",
+    "name": { "str": "Commanding the Grasses" },
+    "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traverse.  The glamour is much more difficult to use in the winter.",
+    "valid_targets": [ "hostile", "ground" ],
+    "teachable": false,
+    "flags": [ "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "max_level": 1,
+    "skill": "deduction",
+    "difficulty": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_changeling_spring_command_grasses",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.8) + u_skill('deduction')), 30)" ]
+    },
+    "max_range": {
+      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.8) + u_skill('deduction')), 30)" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 4)), 50) * (global_what_is_the_season == 3 ? 4 : 1)"
+      ]
+    },
+    "base_casting_time": 100
+  },
+  {
+    "id": "changeling_spring_reduce_scent_spell",
+    "type": "SPELL",
+    "name": "Scent of Fresh Flowers",
+    "description": "Cover your own scent with the scent of fresh-blooming flowers, marking it harder for animals (or the dead) to track you.  The glamour's is <color_yellow>less effective</color> in the autumn.",
+    "message": "A pleasant scent fills the air",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_reduce_scent",
+    "min_duration": {
+      "math": [
+        "( ( 27095 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4521) + (u_skill('deduction') * 6241) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 70912 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8491) + (u_skill('deduction') * 18405) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 2) - (u_skill('deduction') * 6)), 75)" ]
+    },
+    "base_casting_time": 250
+  },
+  {
+    "id": "changeling_spring_minor_restore_stamina_and_pain_spell",
+    "type": "SPELL",
+    "name": "Verdant Vitality",
+    "description": "You can draw some of the energy inherent in nearby plants into yourself, restoring a bit of your stamina and easing your pain.  However, the energy is drawn from nearby foliage and cannot be accessed if you are not standing on verdant ground.",
+    "//": "Once terrain can accept flags or timed effects or something, we can use that instead of dead grass.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_MINOR_RESTORE_STAMINA_AND_PAIN",
+    "min_range": 1,
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 75)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 1500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 25) - (u_skill('deduction') * 50)), 150)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_growing_plants_spell",
+    "type": "SPELL",
+    "name": "Nurturing the Green",
+    "description": "You can greatly speed plant growth.  Grass can grow from seed in moments, crops can shoot towards the sky, and even young trees can put forth mighty limbs.  You cannot, however, bring a plant to ripeness or fruiting.  The glamour <color_red>cannot be used</color> in the winter.",
+    "flags": [ "VERBAL", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "ter_transform",
+    "effect_str": "ter_changeling_spring_plant_growth",
+    "min_range": 1,
+    "base_energy_cost": {
+      "math": [
+        "max( ( 1000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 500) * (global_what_is_the_season == 4 ? 10000 : 1)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 150) - (u_skill('deduction') * 75)), 1500)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_prevent_bad_conditions_spell",
+    "type": "SPELL",
+    "name": "Spring Cleansing",
+    "description": "Like a house after a long winter, this glamour removes impurities in the target's body, curing them of poison or disease and preventing them from reoccurring while it lasts.  The glamour's duration is <color_yellow>greatly reduced</color> in the autumn.",
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_prevent_bad_conditions",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": {
+      "math": [
+        "( ( 90854 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 18625) + (u_skill('deduction') * 38543) ) ) * (global_what_is_the_season == 3 ? 0.3 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 244800 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 41835) + (u_skill('deduction') * 98515) ) )  * (global_what_is_the_season == 3 ? 0.2 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4) - (u_skill('deduction') * 8)), 350)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 50) - (u_skill('deduction') * 120)), 2000)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_summon_flower_warriors_spell",
+    "type": "SPELL",
+    "name": "War of the Flowers",
+    "description": "Endless fields of daffodil warriors fight and die at the pleasure of their overlords in the battles constantly waging in the Bright Lands.  While this is a simpler glamour that that which creates those armies, you can still spin up a small group of daffodil warriors from some nearby foliage.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_SUMMON_FLOWER_WARRIORS",
+    "min_duration": {
+      "math": [ "( ( 3051 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 510) + (u_skill('deduction') * 952) ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 7512 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 1204) + (u_skill('deduction') * 2185) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 6) - (u_skill('deduction') * 10)), 200)"
+      ]
+    },
+    "base_casting_time": 300
+  },
+  {
+    "id": "changeling_spring_protective_plant_armor_spell",
+    "type": "SPELL",
+    "name": "Viridian Cuirass",
+    "description": "Grow a set of enchanted living armor around yourself or an ally, providing protection and resistance to chill temperatures.  The glamour offers <color_yellow>no protection from cold</color> in autumn.",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_protective_plant_armor",
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "( ( 20864 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 7534) + (u_skill('deduction') * 9852) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 85346 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 17854) + (u_skill('deduction') * 21852) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 6) - (u_skill('deduction') * 10)), 300)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 3000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 75) - (u_skill('deduction') * 100)), 500)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_remove_fatigue_and_sleep_deprivation_spell",
+    "type": "SPELL",
+    "name": "Ending the Long Slumber",
+    "description": "Like a hibernating animal shaking off the last remnants of sleep when the snow melts, you can shed sleepiness and fatigue.  The glamour requires that you be <color_yellow>outdoors in sunlight</color> if used in autumn.",
+    "message": "",
+    "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "components": "spell_components_changeling_dreamsparks",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE",
+    "base_energy_cost": {
+      "math": [
+        "max( ( 550 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 6) - (u_skill('deduction') * 12)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 75) - (u_skill('deduction') * 125)), 500)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_summon_rain_shower_spell",
+    "type": "SPELL",
+    "name": "Spring Shower",
+    "description": "Cause the sky to cloud over and a soft spring rain to fall.  Reweave the glamour to dispel it.  You cannot summon the rains if the weather is below freezing.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "components": "spell_components_changeling_dreamsparks",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_SUMMON_RAIN_SHOWER",
+    "min_duration": {
+      "math": [
+        "( ( 55653 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 14677) + (u_skill('deduction') * 26749) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 125650 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 20548) + (u_skill('deduction') * 68740) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4) - (u_skill('deduction') * 8)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max( ( 45000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 75) - (u_skill('deduction') * 1000)), 6000)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_healing_increase_while_outside_spell",
+    "type": "SPELL",
+    "name": "New Growth",
+    "description": "Draw on the power of growth and new sprouts to speed the healing of yourself or one of your allies, as long as you are outside.  The healing rate is <color_yellow>reduced</color> in autumn.",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 8,
+    "components": "spell_components_changeling_dreamsparks_2",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_INITIATE",
+    "min_range": 10,
+    "min_duration": {
+      "math": [
+        "( ( 84612 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12952) + (u_skill('deduction') * 18542) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 168524 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 34815) + (u_skill('deduction') * 49851) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 15)), 450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 50) - (u_skill('deduction') * 75)), 250)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_charm_control_target_spell",
+    "type": "SPELL",
+    "name": "Ishtar's Folly",
+    "description": "By spinning the energy of desire into a group of human or fae targets, you can fill them with so overpowering a love for you that they will furiously defend you against all threats.  This glamour is <color_yellow>less likely to succeed</color> in the autumn.",
+    "message": "With a whispered hymn, you weave a glamour over your targets.",
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DURATION", "RANDOM_DAMAGE", "NO_LEGS", "SILENT" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 9,
+    "components": "spell_components_changeling_dreamsparks_3",
+    "effect": "charm_monster",
+    "extra_effects": [ { "id": "changeling_spring_charm_control_target_extra_buffs" } ],
+    "min_range": 15,
+    "min_damage": {
+      "math": [
+        "( ( 42 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 1) + (u_skill('deduction') * 4) ) ) * (global_what_is_the_season == 3 ? 0.6 : 1)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( 78 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 2.5) + (u_skill('deduction') * 12) ) ) * (global_what_is_the_season == 3 ? 0.4 : 1)"
+      ]
+    },
+    "min_duration": {
+      "math": [ "( ( 1385 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 254) + (u_skill('deduction') * 544) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 3482 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 518) + (u_skill('deduction') * 815) ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 1100 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12) - (u_skill('deduction') * 25)), 650)"
+      ]
+    },
+    "base_casting_time": 75,
+    "targeted_monster_species": [ "FERAL", "HUMAN", "CHANGELING", "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ]
+  },
+  {
+    "id": "changeling_spring_charm_control_target_extra_buffs",
+    "type": "SPELL",
+    "name": { "str": "Ishtar's Folly Target buffs", "//~": "NO_I18N" },
+    "description": { "str": "Extra buffs for targets affected by Ishtar's Folly.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_charm_control_target",
+    "min_range": 15,
+    "min_duration": {
+      "math": [ "( ( 1385 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 254) + (u_skill('deduction') * 544) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 3482 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 518) + (u_skill('deduction') * 815) ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "targeted_monster_species": [ "FERAL", "HUMAN", "CHANGELING", "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ]
+  }
+]

@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <bitset>
 #include <climits>
 #include <functional>
 #include <iterator>
@@ -16,9 +15,11 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -30,19 +31,17 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
-#include "units_fwd.h"
+#include "uilist.h"
+#include "units.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
@@ -161,7 +160,7 @@ int Character::count_softwares( const itype_id &id )
 {
     int count = 0;
     for( const item_location &it_loc : all_items_loc() ) {
-        if( it_loc->is_software_storage() ) {
+        if( it_loc->is_estorage() ) {
             for( const item *soft : it_loc->softwares() ) {
                 if( soft->typeId() == id ) {
                     count++;
@@ -338,7 +337,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( get_location() ), &get_map().add_item_or_charges( pos_bub(),
+                return item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
                                       it ) );
             } else {
                 return added;
@@ -373,7 +372,7 @@ item_location Character::i_add( item it, int &copies_remaining,
         }
         if( allow_drop && copies_remaining > 0 ) {
             item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
-            added = added ? added : item_location( map_cursor( get_location() ), &map_added );
+            added = added ? added : item_location( map_cursor( pos_abs() ), &map_added );
         }
     }
     return added;
@@ -399,7 +398,7 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
-                    loc = item_location( map_cursor( get_location() ), &get_map().add_item_or_charges( pos_bub(),
+                    loc = item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
                                          it ) );
                 }
             } else {
@@ -590,12 +589,14 @@ void Character::drop( item_location loc, const tripoint_bub_ms &where )
 void Character::drop( const drop_locations &what, const tripoint_bub_ms &target,
                       bool stash )
 {
+    map &here = get_map();
+
     if( what.empty() ) {
         return;
     }
     invalidate_leak_level_cache();
-    const std::optional<vpart_reference> vp = get_map().veh_at( target ).cargo();
-    if( rl_dist( pos_bub(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
+    const std::optional<vpart_reference> vp = here.veh_at( target ).cargo();
+    if( rl_dist( pos_bub(), target ) > 1 || !( stash || here.can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );
@@ -672,6 +673,8 @@ ret_val<void> Character::can_drop( const item &it ) const
 
 void Character::drop_invalid_inventory()
 {
+    map &here = get_map();
+
     if( cache_inventory_is_valid ) {
         return;
     }
@@ -680,7 +683,7 @@ void Character::drop_invalid_inventory()
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
-            get_map().add_item_or_charges( pos_bub(), it );
+            here.add_item_or_charges( pos_bub( here ), it );
             // must be last
             i_rem( &it );
         }
@@ -691,7 +694,7 @@ void Character::drop_invalid_inventory()
 
     item_location weap = get_wielded_item();
     if( weap ) {
-        weap.overflow();
+        weap.overflow( here );
     }
     worn.overflow( *this );
     cache_inventory_is_valid = true;
@@ -746,6 +749,10 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
 
 bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 {
+    if( test_mode ) {
+        return false;
+    }
+
     uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
     std::vector<dispose_option> opts;

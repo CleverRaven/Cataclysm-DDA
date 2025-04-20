@@ -26,6 +26,7 @@ AMMO_TYPE_WHITELIST = {
     'fishspear',
     'flammable',
     'gene_sting',
+    'nether_huntsman_javelin_ammo',
     'm235',  # Rocket
     'metal_rail',
     'nail',
@@ -58,6 +59,7 @@ ID_WHITELIST = {
     'raging_judge',
     'american_180',
     'gene_sting_gun',
+    'nether_huntsman_arm',
     'ppsh',
     'af2011a1_38super',
     # Magazines

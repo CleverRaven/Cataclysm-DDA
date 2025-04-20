@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "house_09" ],
     "//": "uses bionic_basement",
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

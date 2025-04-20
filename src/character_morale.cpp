@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -18,6 +19,7 @@
 #include "messages.h"
 #include "morale.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -80,7 +82,7 @@ void Character::apply_persistent_morale()
     }
     // Nomads get a morale penalty if they stay near the same overmap tiles too long.
     if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
+        const tripoint_abs_omt ompos = pos_abs_omt();
         float total_time = 0.0f;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;

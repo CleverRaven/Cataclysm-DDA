@@ -1,25 +1,27 @@
-#include <algorithm>
 #include <cmath>
+#include <filesystem>
+#include <fstream>
 #include <functional>
 #include <map>
 #include <memory>
-#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "cata_utility.h"
+#include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
-#include "filesystem.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
-#include "game_constants.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -43,7 +45,7 @@ static int moves_to_destination( const std::string &monster_type,
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( get_map().getglobal( end ) );
+    test_monster.set_dest( get_map().get_abs( end ) );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     int moves_spent = 0;
@@ -54,7 +56,7 @@ static int moves_to_destination( const std::string &monster_type,
             const int moves_before = test_monster.get_moves();
             test_monster.move();
             moves_spent += moves_before - test_monster.get_moves();
-            if( test_monster.get_location() == test_monster.get_dest() ) {
+            if( test_monster.pos_abs() == test_monster.get_dest() ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
             }
@@ -94,6 +96,7 @@ static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec
  **/
 static int can_catch_player( const std::string &monster_type, const tripoint &direction_of_flight )
 {
+    map &here = get_map();
     clear_map();
     REQUIRE( g->num_creatures() == 1 ); // the player
     Character &test_player = get_player_character();
@@ -102,8 +105,8 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         return true;
     } );
 
-    const tripoint center{ 65, 65, 0 };
-    test_player.setpos( center );
+    const tripoint_bub_ms center{ 65, 65, 0 };
+    test_player.setpos( here, center );
     test_player.set_moves( 0 );
     // Give the player a head start.
     const tripoint_bub_ms monster_start = { -10 * direction_of_flight + test_player.pos_bub()
@@ -111,7 +114,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     monster &test_monster = spawn_test_monster( monster_type, monster_start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( test_player.get_location() );
+    test_monster.set_dest( test_player.pos_abs() );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     const int target_speed = 100;
@@ -120,33 +123,35 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
         while( test_player.get_moves() >= 0 ) {
-            test_player.setpos( test_player.pos_bub() + direction_of_flight );
-            if( test_player.posx() < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.posy() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.posx() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
-                test_player.posy() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
-                tripoint offset = center - test_player.pos();
-                test_player.setpos( center );
-                test_monster.setpos( test_monster.pos_bub() + offset );
+            test_player.setpos( test_player.pos_abs() + direction_of_flight );
+            const tripoint_bub_ms pos = test_player.pos_bub( here );
+
+            if( pos.x() < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
+                pos.y() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
+                pos.x() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
+                pos.y() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
+                tripoint_rel_ms offset = center - test_player.pos_bub();
+                test_player.setpos( here, center );
+                test_monster.setpos( test_monster.pos_abs() + offset );
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
-            const int move_cost = get_map().combined_movecost(
+            const int move_cost = here.combined_movecost(
                                       test_player.pos_bub(), test_player.pos_bub() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
-                                test_player.pos()
+                                test_player.pos_bub().raw()
                                } );
             test_player.mod_moves( -move_cost );
         }
-        get_map().clear_traps();
-        test_monster.set_dest( test_player.get_location() );
+        here.clear_traps();
+        test_monster.set_dest( test_player.pos_abs() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.get_moves() >= 0 ) {
             const int moves_before = test_monster.get_moves();
             test_monster.move();
             tracker.push_back( {'m', moves_before - test_monster.get_moves(),
                                 rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
-                                test_monster.pos()
+                                test_monster.pos_bub().raw()
                                } );
             if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) == 1 ) {
                 INFO( tracker );
@@ -256,8 +261,9 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
 
     if( write_data ) {
         std::ofstream data;
-        data.open( fs::u8path( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) +
-                               monster_type ) );
+        data.open( std::filesystem::u8path( "slope_test_data_" + std::string( (
+                                                trigdist ? "trig_" : "square_" ) ) +
+                                            monster_type ) );
         for( const auto &stat_pair : turns_at_angle ) {
             data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }

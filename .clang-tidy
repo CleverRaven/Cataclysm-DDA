@@ -4,104 +4,117 @@
 # this codebase and we do not intend to fix.  The disabled checks appearing
 # thereafter in a separate alphabetical list have yet to be triaged.  We may
 # fix their errors or recategorise them as checks we don't care about.
-#
-# Comments on the checks we have decided are not worthwhile:
-#
-# * bugprone-throw-keyword-missing
-# This check is too time consuming.  Disable it for now to save CI time.
-#
-# * cert-dcl21-cpp (postfix operator++ and operator-- should return const objects)
-# This is an unconventional code style, and conflicts with
-# readability-const-return-type.
-#
-# * cert-env33-c (calls to system, popen)
-# Unlikely to catch bugs, and using system is convenient for portability.
-#
-# * cert-dcl37-c and cert-dcl-51-cpp (reserved identifiers)
-# These two checks are aliases for bugprone-reserved-identifier.
-# Don't repeatedly run the same check for three times.
-#
-# * cert-err58-cpp (exceptions from static variable declarations)
-# We have lots of memory allocations in static variable declarations, and
-# that's fine.
-#
-# * clang-analyzer-core.{DivideZero,NonNullParamChecker,UndefinedBinaryOperatorResult}
-# * clang-analyzer-cplusplus.NewDelete
-# They report too many false positives.
-#
-# * modernize-use-auto
-# We prefer an almost-always-avoid-auto style.
-#
-# * modernize-use-trailing-return-type
-# An arbitrary style convention we haven't adopted.
-#
-# * readability-identifier-naming
-# We are not enforcing a standard identifier naming scheme in the code base.
-# This check does not bring much value at the moment and consumes a lot of CPU time.
 
-Checks: "\
-bugprone-*,\
-cata-*,\
-cert-*,\
--cert-dcl21-cpp,\
--cert-env33-c,\
--cert-dcl37-c,\
--cert-dcl51-cpp,\
--cert-err58-cpp,\
--clang-analyzer-core.CallAndMessage,\
--clang-analyzer-core.DivideZero,\
--clang-analyzer-core.NonNullParamChecker,\
--clang-analyzer-core.UndefinedBinaryOperatorResult,\
--clang-analyzer-cplusplus.NewDelete,\
-clang-diagnostic-*,\
-cppcoreguidelines-slicing,\
-google-explicit-constructor,\
-llvm-namespace-comment,\
-misc-*,\
-modernize-*,\
--modernize-use-auto,\
--modernize-use-trailing-return-type,\
-performance-*,\
-readability-*,\
--bugprone-assignment-in-if-condition,\
--bugprone-easily-swappable-parameters,\
--bugprone-empty-catch,\
--bugprone-implicit-widening-of-multiplication-result,\
--bugprone-narrowing-conversions,\
--bugprone-switch-missing-default-case,\
--bugprone-throw-keyword-missing,\
--bugprone-unchecked-optional-access,\
--bugprone-unhandled-exception-at-new,\
--misc-confusable-identifiers,\
--misc-const-correctness,\
--misc-header-include-cycle,\
--misc-include-cleaner,\
--misc-no-recursion,\
--misc-non-private-member-variables-in-classes,\
--misc-use-anonymous-namespace,\
--modernize-concat-nested-namespaces,\
--modernize-macro-to-enum,\
--modernize-pass-by-value,\
--modernize-return-braced-init-list,\
--modernize-use-default-member-init,\
--modernize-use-nodiscard,\
--performance-avoid-endl,\
--performance-noexcept-swap,\
--performance-no-automatic-move,\
--readability-avoid-unconditional-preprocessor-if,\
--readability-container-data-pointer,\
--readability-convert-member-functions-to-static,\
--readability-else-after-return,\
--readability-function-cognitive-complexity,\
--readability-identifier-length,\
--readability-identifier-naming,\
--readability-implicit-bool-conversion,\
--readability-magic-numbers,\
--readability-named-parameter,\
--readability-simplify-boolean-expr,\
--readability-suspicious-call-argument,\
--readability-use-anyofallof,\
-"
+Checks: [
+    bugprone-*,
+    # This check is too time consuming.  Disable it for now to save CI time.
+    -bugprone-throw-keyword-missing,
+    cata-*,
+    cert-*,
+    # * cert-dcl21-cpp (postfix operator++ and operator-- should return const objects)
+    # This is an unconventional code style, and conflicts with
+    # readability-const-return-type.
+    -cert-dcl21-cpp,
+    # * cert-env33-c (calls to system, popen)
+    # Unlikely to catch bugs, and using system is convenient for portability.
+    -cert-env33-c,
+    # * cert-dcl37-c and cert-dcl-51-cpp (reserved identifiers)
+    # These two checks are aliases for bugprone-reserved-identifier.
+    # Don't repeatedly run the same check for three times.
+    -cert-dcl37-c,
+    -cert-dcl51-cpp,
+    # * cert-err58-cpp (exceptions from static variable declarations)
+    # We have lots of memory allocations in static variable declarations, and
+    # that's fine.
+    -cert-err58-cpp,
+    # * clang-analyzer-core.{DivideZero,NonNullParamChecker,UndefinedBinaryOperatorResult}
+    # * clang-analyzer-cplusplus.NewDelete
+    # They report too many false positives.
+    -clang-analyzer-core.CallAndMessage,
+    -clang-analyzer-core.DivideZero,
+    -clang-analyzer-core.NonNullParamChecker,
+    -clang-analyzer-core.UndefinedBinaryOperatorResult,
+    -clang-analyzer-cplusplus.NewDelete,
+    # We often use enums as bitsets and do things like `enum::A | enum::B`
+    # which is explicitly unsupported by this check, and it is officially recommended to disable
+    # this lint for project that use such patterns.
+    -clang-analyzer-optin.core.EnumCastOutOfRange,
+    clang-diagnostic-*,
+    cppcoreguidelines-slicing,
+    google-explicit-constructor,
+    llvm-namespace-comment,
+    misc-*,
+    # Extremely expensive, and we are not using `using` anyway, so it's not catching anything.
+    -misc-unused-using-decls,
+    modernize-*,
+    # Rather expensive check, and it is unlikely that somebody
+    # would *want* to use std::auto_ptr in %CURRENT_YEAR% (2025+) when unique_ptr is both better
+    # and is a de-facto default in the codebase already.
+    -modernize-replace-auto-ptr,
+    # * modernize-use-auto
+    # We prefer an almost-always-avoid-auto style.
+    -modernize-use-auto,
+    # * modernize-use-trailing-return-type
+    # An arbitrary style convention we haven't adopted.
+    -modernize-use-trailing-return-type,
+    performance-*,
+    readability-*,
+    # * readability-identifier-naming
+    # We are not enforcing a standard identifier naming scheme in the code base.
+    # This check does not bring much value at the moment and consumes a lot of CPU time.
+    -readability-identifier-length,
+    -readability-identifier-naming,
+    # disabled due to behaviour change between pre-module and post-module world.
+    # Reevaluate in 2027(?) when the code is sufficiently migrated to C++20 modules
+    # or when there is a decision not perform the migration
+    -readability-redundant-inline-specifier,
+  
+    # ====  Untriaged checks follow  ====
+    # Either fix the code and re-enable the check,
+    # or add a good comment and move to the appropriate section above.
+    # Silencing the existing errors with a //NOLINT does count as a "fix", as that still
+    # prevents new issues from cropping up.
+    -bugprone-assignment-in-if-condition,
+    -bugprone-easily-swappable-parameters,
+    -bugprone-empty-catch,
+    -bugprone-implicit-widening-of-multiplication-result,
+    -bugprone-narrowing-conversions,
+    -bugprone-switch-missing-default-case,
+    -bugprone-unchecked-optional-access,
+    -bugprone-unhandled-exception-at-new,
+    -bugprone-unused-local-non-trivial-variable,  # great lint, but hard to fix
+    -misc-confusable-identifiers,
+    -misc-const-correctness,
+    -misc-header-include-cycle,
+    -misc-include-cleaner,
+    -misc-no-recursion,
+    -misc-non-private-member-variables-in-classes,
+    -misc-use-anonymous-namespace,
+    -modernize-concat-nested-namespaces,
+    -modernize-macro-to-enum,
+    -modernize-pass-by-value,
+    -modernize-return-braced-init-list,
+    -modernize-use-default-member-init,
+    -modernize-use-nodiscard,
+    -performance-avoid-endl,
+    -performance-enum-size,  # untriaged since upgrade to LLVM 18
+    -performance-noexcept-swap,
+    -performance-no-automatic-move,
+    -readability-avoid-nested-conditional-operator,  # great lint, but hard to fix
+    -readability-avoid-unconditional-preprocessor-if,
+    -readability-container-data-pointer,
+    -readability-convert-member-functions-to-static,
+    -readability-else-after-return,
+    -readability-function-cognitive-complexity,
+    -readability-implicit-bool-conversion,
+    -readability-magic-numbers,
+    -readability-named-parameter,
+    -readability-redundant-casting,  # probably good lint, just needs fixing
+    -readability-simplify-boolean-expr,
+    -readability-suspicious-call-argument,
+    -readability-use-anyofallof,
+]
+
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none

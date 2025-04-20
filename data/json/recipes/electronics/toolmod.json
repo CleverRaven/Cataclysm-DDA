@@ -127,24 +127,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "medium_battery_cell",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": "15 m",
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "light_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "heavy_battery_cell",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -158,7 +140,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "medium_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "medium_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -176,6 +158,6 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "medium_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "medium_battery_cell", 10 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
   }
 ]

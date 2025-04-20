@@ -61,7 +61,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
-      "place_vehicles": [ { "vehicle": "shopping_cart", "chance": 100, "x": 0, "y": 0 } ],
+      "place_vehicles": [ { "vehicle": "shopping_cart", "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -71,7 +71,7 @@
     "update_mapgen_id": "test_update_place_shopping_cart",
     "object": {
       "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
-      "place_vehicles": [ { "vehicle": "shopping_cart", "chance": 100, "x": 0, "y": 0 } ],
+      "place_vehicles": [ { "vehicle": "shopping_cart", "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -223,11 +223,8 @@
           "spawn_data": { "patrol": [ { "x": 14, "y": 8 }, { "x": 7, "y": 8 } ] }
         }
       ],
-      "vehicles": {
-        "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 },
-        "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 }
-      },
-      "place_vehicles": [ { "vehicle": "unicycle", "x": 5, "y": 3, "chance": 100, "status": 1 } ],
+      "vehicles": { "o": { "vehicle": "welding_cart", "fuel": 40, "status": 1 }, "s": { "vehicle": "wheelchair", "status": 1 } },
+      "place_vehicles": [ { "vehicle": "unicycle", "x": 5, "y": 3, "status": 1 } ],
       "remove_vehicles": [ { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] } ],
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ], "chance": 1 } },
       "place_liquids": [ { "liquid": "gasoline", "x": 18, "y": 3 } ],

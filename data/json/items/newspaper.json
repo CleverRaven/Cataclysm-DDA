@@ -223,7 +223,7 @@
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_BIO",
@@ -246,7 +246,7 @@
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_PSY",
@@ -290,7 +290,7 @@
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_SEC",

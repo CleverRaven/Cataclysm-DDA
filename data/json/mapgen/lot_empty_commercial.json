@@ -45,10 +45,10 @@
       "place_signs": [ { "signage": "Empty lot, great for your small business!  Call <full_name> at 555-2117!", "x": 9, "y": 3 } ],
       "furniture": { "^": "f_rubble_rock", "r": "f_rubble_rock" },
       "place_items": [
-        { "chance": 15, "item": "trash", "x": 13, "y": 20 },
-        { "chance": 15, "item": "trash", "x": 6, "y": 19 },
-        { "chance": 15, "item": "trash", "x": 6, "y": 16 },
-        { "chance": 15, "item": "trash", "x": 4, "y": 12 }
+        { "chance": 15, "item": "SUS_trash_floor", "x": 13, "y": 20 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 6, "y": 19 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 6, "y": 16 },
+        { "chance": 15, "item": "SUS_trash_floor", "x": 4, "y": 12 }
       ]
     }
   },
@@ -89,12 +89,12 @@
       "furniture": { "b": "f_bench", "t": "f_table" },
       "items": { "E": { "item": "fast_table", "chance": 10 } },
       "place_items": [
-        { "chance": 35, "item": "trash", "x": 2, "y": 18 },
-        { "chance": 35, "item": "trash", "x": 16, "y": 5 },
-        { "chance": 35, "item": "trash", "x": 2, "y": 5 },
-        { "chance": 25, "item": "trash", "x": 16, "y": 19 },
-        { "chance": 25, "item": "trash", "x": 9, "y": 13 },
-        { "chance": 25, "item": "trash", "x": 20, "y": 7 }
+        { "chance": 35, "item": "SUS_trash_floor", "x": 2, "y": 18 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 16, "y": 5 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 2, "y": 5 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 16, "y": 19 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 9, "y": 13 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 20, "y": 7 }
       ],
       "place_vehicles": [
         { "chance": 75, "fuel": 0, "rotation": 180, "vehicle": "food_cart", "x": 20, "y": 17 },
@@ -138,7 +138,10 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { " ": [ [ "t_null", 8 ], "t_region_soil" ], "_": "t_region_soil" },
       "furniture": {  },
-      "place_items": [ { "chance": 35, "item": "trash", "x": 16, "y": 17 }, { "chance": 35, "item": "trash", "x": 7, "y": 11 } ],
+      "place_items": [
+        { "chance": 35, "item": "SUS_trash_floor", "x": 16, "y": 17 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 7, "y": 11 }
+      ],
       "place_vehicles": [
         { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "bicycle", "x": 6, "y": 17 },
         { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "shopping_cart", "x": 17, "y": 19 }
@@ -183,7 +186,7 @@
       ],
       "terrain": { "+": "t_chaingate_l", " ": "t_region_groundcover_urban", "_": "t_region_groundcover_barren", "|": "t_chainfence" },
       "furniture": {  },
-      "place_items": [ { "chance": 55, "item": "trash", "x": 16, "y": 17 } ],
+      "place_items": [ { "chance": 55, "item": "SUS_trash_floor", "x": 16, "y": 17 } ],
       "place_signs": [ { "signage": "SOLD!", "x": 14, "y": 2 }, { "signage": "East <city> Realty!", "x": 15, "y": 2 } ]
     }
   },
@@ -222,7 +225,10 @@
       "terrain": { "+": "t_chaingate_l", ".": "t_concrete", " ": "t_region_groundcover_barren", "|": "t_chainfence" },
       "furniture": {  },
       "place_signs": [ { "signage": "Lot for sale!", "x": 7, "y": 2 }, { "signage": "Call for more info.  555-7723", "x": 8, "y": 2 } ],
-      "place_items": [ { "chance": 35, "item": "trash", "x": 20, "y": 11 }, { "chance": 35, "item": "trash", "x": 10, "y": 9 } ]
+      "place_items": [
+        { "chance": 35, "item": "SUS_trash_floor", "x": 20, "y": 11 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 10, "y": 9 }
+      ]
     }
   },
   {
@@ -267,7 +273,7 @@
       "furniture": { "^": [ [ "f_rubble", 3 ], [ "f_null", 2 ], "f_rubble_rock" ] },
       "items": {
         "^": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 2 },
           { "item": "allclothes_damaged", "chance": 2 },
           { "item": "stoner", "chance": 1 },
@@ -326,15 +332,15 @@
       "furniture": { "^": [ [ "f_rubble", 3 ], [ "f_null", 2 ], "f_rubble_rock" ] },
       "place_signs": [ { "signage": "Private Property!", "x": 3, "y": 3 }, { "signage": "NO Dumping!", "x": 20, "y": 3 } ],
       "place_items": [
-        { "chance": 35, "item": "trash", "x": 5, "y": 20 },
-        { "chance": 35, "item": "trash", "x": 12, "y": 17 },
-        { "chance": 35, "item": "trash", "x": 8, "y": 16 },
-        { "chance": 35, "item": "trash", "x": 13, "y": 14 },
-        { "chance": 35, "item": "trash", "x": 4, "y": 13 }
+        { "chance": 35, "item": "SUS_trash_floor", "x": 5, "y": 20 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 12, "y": 17 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 8, "y": 16 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 13, "y": 14 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 4, "y": 13 }
       ],
       "items": {
         "^": [
-          { "item": "trash", "chance": 25, "repeat": 2 },
+          { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 1 },
           { "item": "allclothes_damaged", "chance": 1 },
           { "item": "stoner", "chance": 1 },
@@ -393,13 +399,13 @@
       },
       "furniture": {  },
       "place_items": [
-        { "chance": 35, "item": "trash", "x": 7, "y": 18 },
-        { "chance": 35, "item": "trash", "x": 14, "y": 17 },
-        { "chance": 35, "item": "trash", "x": 17, "y": 15 },
-        { "chance": 35, "item": "trash", "x": 18, "y": 12 },
-        { "chance": 35, "item": "trash", "x": 16, "y": 11 },
-        { "chance": 35, "item": "trash", "x": 3, "y": 10 },
-        { "chance": 35, "item": "trash", "x": 16, "y": 9 }
+        { "chance": 35, "item": "SUS_trash_floor", "x": 7, "y": 18 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 14, "y": 17 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 17, "y": 15 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 18, "y": 12 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 16, "y": 11 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 3, "y": 10 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 16, "y": 9 }
       ],
       "place_vehicles": [ { "chance": 90, "fuel": 0, "rotation": 180, "status": 1, "vehicle": "forgotten_vehicles", "x": 5, "y": 14 } ]
     }
@@ -444,12 +450,12 @@
       },
       "furniture": {  },
       "place_items": [
-        { "chance": 35, "item": "trash", "x": 9, "y": 18 },
-        { "chance": 35, "item": "trash", "x": 17, "y": 15 },
-        { "chance": 35, "item": "trash", "x": 14, "y": 14 },
-        { "chance": 35, "item": "trash", "x": 11, "y": 13 },
-        { "chance": 35, "item": "trash", "x": 13, "y": 11 },
-        { "chance": 35, "item": "trash", "x": 7, "y": 10 }
+        { "chance": 35, "item": "SUS_trash_floor", "x": 9, "y": 18 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 17, "y": 15 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 14, "y": 14 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 11, "y": 13 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 13, "y": 11 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 7, "y": 10 }
       ]
     }
   },
@@ -494,14 +500,14 @@
       "furniture": { "{": "f_dumpster" },
       "place_items": [
         { "chance": 20, "item": "road", "x": 14, "y": 19 },
-        { "chance": 30, "item": "trash", "x": 4, "y": 19 },
+        { "chance": 30, "item": "SUS_trash_floor", "x": 4, "y": 19 },
         { "chance": 20, "item": "road", "x": 8, "y": 18 },
-        { "chance": 20, "item": "trash", "x": 10, "y": 18 },
-        { "chance": 30, "item": "trash", "x": 6, "y": 17 },
-        { "chance": 30, "item": "trash", "x": 19, "y": 15 },
+        { "chance": 20, "item": "SUS_trash_floor", "x": 10, "y": 18 },
+        { "chance": 30, "item": "SUS_trash_floor", "x": 6, "y": 17 },
+        { "chance": 30, "item": "SUS_trash_floor", "x": 19, "y": 15 },
         { "chance": 20, "item": "road", "x": 10, "y": 15 },
-        { "chance": 30, "item": "trash", "x": 14, "y": 14 },
-        { "chance": 30, "item": "trash", "x": 3, "y": 11 }
+        { "chance": 30, "item": "SUS_trash_floor", "x": 14, "y": 14 },
+        { "chance": 30, "item": "SUS_trash_floor", "x": 3, "y": 11 }
       ],
       "place_vehicles": [ { "chance": 85, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "shopping_cart", "x": 18, "y": 15 } ]
     }

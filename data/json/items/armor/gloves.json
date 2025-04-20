@@ -629,7 +629,7 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "WATER_FRIENDLY", "FANCY" ],
+    "flags": [ "WATER_FRIENDLY" ],
     "armor": [
       {
         "coverage": 100,
@@ -698,7 +698,7 @@
     "id": "gloves_denim_fingerless",
     "type": "ARMOR",
     "name": { "str": "pair of fingerless denim gloves", "str_pl": "pairs of fingerless denim gloves" },
-    "description": "A pair of fingerless denim gloves.  Much less cumbersome this way, but not as protective or warm",
+    "description": "A pair of fingerless denim gloves.  Much less cumbersome this way, but not as protective or warm.",
     "weight": "122 g",
     "volume": "270 ml",
     "price_postapoc": "3 USD 50 cent",
@@ -1174,7 +1174,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "FANCY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "mittens",
@@ -1394,7 +1394,8 @@
     "material": [ "kevlar_layered" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "STURDY", "OUTER", "ONLY_ONE", "NO_SALVAGE" ],
+    "flags": [ "STURDY", "OUTER", "NO_SALVAGE" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 10,

@@ -491,10 +491,10 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "EMP_DISABLE_ELECTRONICS",
-    "//": "Whether EMP effects will permanently disable items.",
+    "name": "GAME_EMP",
+    "//": "EMP will disable electonics for a short period of ~60 seconds, instead of permanently.  Theres a 5% chance of items shorting out permanently.",
     "stype": "bool",
-    "value": true
+    "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -565,5 +565,19 @@
     "//": "Sets the longitude used for sunrise/sunset times.  Defaults to Boston.",
     "stype": "float",
     "value": -71.06
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "//": "(WIP feature) Determines terrain, shops, plants, and more.",
+    "stype": "string_input",
+    "value": "default"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "RAD_MUTATION",
+    "//": "If true, radiation causes the player to mutate.",
+    "stype": "bool",
+    "value": true
   }
 ]

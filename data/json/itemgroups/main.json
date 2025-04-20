@@ -19,7 +19,6 @@
       { "item": "laser_rifle", "prob": 10 },
       { "item": "optical_cloak", "prob": 10 },
       { "item": "holo_cloak", "prob": 10 },
-      { "item": "plasma_rifle", "prob": 10 },
       { "item": "portal", "prob": 10 },
       { "item": "rm13_armor", "prob": 10 },
       { "item": "high_density_capacitor", "prob": 10 },
@@ -48,16 +47,6 @@
       { "item": "combat_exoskeleton_armor_torso_light", "prob": 1 },
       { "item": "combat_exoskeleton_armor_arm_light", "prob": 1 },
       { "item": "combat_exoskeleton_armor_leg_light", "prob": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "ammo_pistol_common", "prob": 1000 },
-      { "group": "ammo_shotgun_common", "prob": 1000 },
-      { "group": "ammo_rifle_common", "prob": 1000 }
     ]
   },
   {
@@ -146,8 +135,7 @@
       { "item": "bow_sight_pin", "prob": 50 },
       { "item": "bow_silencer", "prob": 50 },
       { "item": "bow_stabilizer", "prob": 50 },
-      { "item": "bow_stabilizer_set", "prob": 40 },
-      { "item": "gun_crossbow", "prob": 40 }
+      { "item": "bow_stabilizer_set", "prob": 40 }
     ]
   },
   {

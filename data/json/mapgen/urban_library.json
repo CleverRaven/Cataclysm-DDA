@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_library_1", "urban_library_2" ], [ "urban_library_3", "urban_library_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -68,7 +67,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_library_5", "urban_library_6" ], [ "urban_library_7", "urban_library_8" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -136,7 +134,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_library_roof_1", "urban_library_roof_2" ], [ "urban_library_roof_3", "urban_library_roof_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

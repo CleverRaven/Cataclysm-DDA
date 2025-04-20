@@ -14,20 +14,11 @@
     "symbol": ":",
     "color": "brown",
     "location": "underbarrel",
-    "mod_targets": [ "rifle", "launcher" ],
+    "mod_targets": [ "rifle", "launcher", "smg", "shotgun", "crossbow" ],
     "handling_modifier": 18,
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "BIPOD", "SLOW_WIELD" ],
     "melee_damage": { "bash": 10 }
-  },
-  {
-    "id": "bipod_mod",
-    "copy-from": "bipod",
-    "type": "GUNMOD",
-    "name": { "str": "modified bipod" },
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil, they are usable only on certain surfaces (or from the prone position), and are slow to equip.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "bipod_handguard",
@@ -121,7 +112,7 @@
     "mod_targets": [ "rifle" ],
     "gun_data": {
       "barrel_length": "508 mm",
-      "ammo": "shot",
+      "ammo": [ "shot" ],
       "skill": "shotgun",
       "range": 2,
       "dispersion": 345,
@@ -266,10 +257,10 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "gun_data": {
       "barrel_length": "305 mm",
-      "ammo": "40x46mm",
+      "ammo": [ "40x46mm" ],
       "skill": "launcher",
       "dispersion": 300,
       "durability": 10,
@@ -279,7 +270,7 @@
     "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ]
   },
   {
     "id": "m203_mod",
@@ -305,10 +296,10 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "gun_data": {
       "barrel_length": "280 mm",
-      "ammo": "40x46mm",
+      "ammo": [ "40x46mm" ],
       "skill": "launcher",
       "dispersion": 270,
       "durability": 10,
@@ -318,7 +309,7 @@
     "min_skills": [ [ "weapon", 1 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ]
   },
   {
     "id": "m320_mod_mod",
@@ -345,7 +336,7 @@
     "mod_targets": [ "rifle" ],
     "gun_data": {
       "barrel_length": "470 mm",
-      "ammo": "shot",
+      "ammo": [ "shot" ],
       "skill": "shotgun",
       "range": 1,
       "dispersion": 320,
@@ -354,23 +345,6 @@
     },
     "flags": [ "RELOAD_EJECT", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
-  },
-  {
-    "id": "makeshift_bayonet",
-    "copy-from": "spike",
-    "type": "GENERIC",
-    "name": { "str": "makeshift bayonet" },
-    "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
-    "longest_side": "12 cm",
-    "integral_longest_side": "12 cm",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
-      "is_bayonet": true,
-      "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-      "install_time": "5 m"
-    },
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "masterkey",
@@ -388,8 +362,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-    "gun_data": { "barrel_length": "254 mm", "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
+    "gun_data": {
+      "barrel_length": "254 mm",
+      "ammo": [ "shot" ],
+      "skill": "shotgun",
+      "dispersion": 330,
+      "durability": 10,
+      "clip_size": 4
+    },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
@@ -418,9 +399,16 @@
     "symbol": ":",
     "color": "white",
     "location": "underbarrel",
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
     "mod_targets": [ "rifle" ],
-    "gun_data": { "barrel_length": "197 mm", "ammo": "shot", "skill": "shotgun", "dispersion": 310, "durability": 10, "clip_size": 5 },
+    "gun_data": {
+      "barrel_length": "197 mm",
+      "ammo": [ "shot" ],
+      "skill": "shotgun",
+      "dispersion": 310,
+      "durability": 10,
+      "clip_size": 5
+    },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
   },
@@ -469,20 +457,19 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-    "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "barrel_length": "419 mm", "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
+    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "sword_bayonet" ],
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "gun_data": {
+      "barrel_length": "419 mm",
+      "ammo": [ "shot" ],
+      "skill": "shotgun",
+      "dispersion": 375,
+      "durability": 10,
+      "clip_size": 2
+    },
     "min_skills": [ [ "weapon", 1 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
-  },
-  {
-    "id": "u_shotgun_mod",
-    "copy-from": "u_shotgun",
-    "type": "GUNMOD",
-    "name": { "str": "modified underslung shotgun" },
-    "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "arisaka_monopod",

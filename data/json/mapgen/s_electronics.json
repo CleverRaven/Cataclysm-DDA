@@ -24,8 +24,8 @@
         " #...------......-c..r# ",
         " #r..------..|||||||I|# ",
         " 8r..........|EEEEt..F# ",
-        " 8r..xxxwyw..|E.c...cE8 ",
-        " 8r..xxxywy..I.......E8 ",
+        " 8r..xxxxxx..|E.c...cE8 ",
+        " 8r..xxxxxx..I.......E8 ",
         " #..........^|.--llll^# ",
         " #D|||D#######L####55## ",
         "4#.S|S.#d<dsssssss      ",
@@ -33,7 +33,7 @@
         " #######ssssssssss      ",
         "                        "
       ],
-      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette", "commercial" ],
       "terrain": {
         "%": "t_region_shrub_decorative",
         "+": "t_door_metal_pickable",
@@ -68,10 +68,17 @@
         "q": "f_stool",
         "r": "f_rack",
         "t": "f_trashcan",
-        "w": "f_washer",
-        "x": "f_console_broken",
-        "y": "f_dryer"
+        "x": [
+          [ "f_console_broken", 10 ],
+          [ "f_washer", 5 ],
+          [ "f_dryer", 5 ],
+          [ { "param": "freezer_to_sell", "fallback": "f_freezer" }, 10 ],
+          [ { "param": "coolers_to_sell", "fallback": "f_fridge" }, 10 ],
+          [ "f_dishwasher", 5 ],
+          [ "f_shredder", 2 ]
+        ]
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 80, "repeat": [ 1, 12 ] },
@@ -91,8 +98,8 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "snacks", "x": 16, "y": 9, "chance": 85 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 60, "repeat": [ 1, 8 ] },
-        { "item": "trash", "x": 18, "y": 15, "chance": 65 },
-        { "item": "trash", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 },
+        { "item": "SUS_trash_trashcan", "x": 18, "y": 15, "chance": 65 },
+        { "item": "SUS_trash_trashcan", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 },
         { "item": "cash_register_random", "x": 17, "y": [ 11, 13 ], "chance": 100 }
       ],
       "place_item": [
@@ -164,16 +171,16 @@
         "    9    xxxpJpxxx  9   ",
         "        xxxxxxxxxxxxxxxx",
         "   ######:::#+##:::### x",
-        " 9 #{{{{{y.......c..Y# x",
-        "   #{............cS..# x",
-        "   #{..{{..{{....c...# x",
-        "   #{..{{..{{....ccc.# x",
-        "   #{..{{..{{........# x",
-        "   #{...........HH..-:px",
-        "   #{..{{..{{.......-:px",
-        "   #{..{{..{{...HH..-:px",
-        "   #{..{{..{{...tt..-:px",
-        "   #{................#px",
+        " 9 #XXXXXy.......c..Y# x",
+        "   #X............cS..# x",
+        "   #X..{{..{{....c...# x",
+        "   #X..{{..{{....ccc.# x",
+        "   #X..{{..{{........# x",
+        "   #X...........HH..-:px",
+        "   #X..{{..{{.......-:px",
+        "   #X..{{..{{...HH..-:px",
+        "   #X..{{..{{...tt..-:px",
+        "   #X................#px",
         "   #-----.--------..y#4x",
         "   #|||||+|||:::|||+|#px",
         "   #@@@t|.|FttGtt.|..:px",
@@ -185,7 +192,7 @@
         "        xxU<UUxxxxxxxxxx",
         "         xUUxxxxxxx     "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_walls_palette", "commercial" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         ".": "t_floor",
@@ -218,13 +225,22 @@
         "F": "f_filing_cabinet",
         "@": "f_sofa",
         "G": "f_workbench",
-        "p": "f_region_flower"
+        "p": "f_region_flower",
+        "X": [
+          [ "f_console_broken", 10 ],
+          [ "f_washer", 5 ],
+          [ "f_dryer", 5 ],
+          [ { "param": "freezer_to_sell", "fallback": "f_freezer" }, 10 ],
+          [ { "param": "coolers_to_sell", "fallback": "f_fridge" }, 10 ],
+          [ "f_dishwasher", 5 ],
+          [ "f_shredder", 2 ]
+        ]
       },
       "toilets": { "&": {  } },
       "items": {
         "I": { "item": "office", "chance": 30 },
-        "F": { "item": "office_paper", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "F": { "item": "SUS_office_filing_cabinet", "chance": 30 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "consumer_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "-": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
         "{": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
@@ -232,7 +248,8 @@
         "G": { "item": "elecsto_diy", "chance": 75, "repeat": [ 1, 4 ] },
         "t": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
         "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "U": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] }
+        "U": { "item": "SUS_trash_dumpster", "chance": 25, "repeat": [ 1, 4 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
       "place_loot": [ { "group": "cash_register_random", "x": 17, "y": [ 4, 6 ] } ]

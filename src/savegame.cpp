@@ -102,7 +102,7 @@ void game::serialize( std::ostream &fout )
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
-    tripoint_abs_sm pos_abs_sm = m.get_abs_sub();
+    tripoint_abs_sm pos_abs_sm = get_map().get_abs_sub();
     point_abs_om pos_om;
     tripoint_om_sm pos_sm;
     std::tie( pos_om, pos_sm ) = project_remain<coords::om>( pos_abs_sm );
@@ -274,11 +274,7 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             queued_eoc temp;
             temp.time = time_point( elem.get_int( "time" ) );
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
-            std::unordered_map<std::string, std::string> context;
-            for( const JsonMember &jm : elem.get_object( "context" ) ) {
-                context[jm.name()] = jm.get_string();
-            }
-            temp.context = context;
+            elem.read( "context", temp.context );
             queued_global_effect_on_conditions.push( temp );
         }
         global_variables_instance.unserialize( data );
@@ -832,7 +828,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             }
         }
 
-        ter_set( tripoint_om_omt( p ), shore ? oter_lake_shore : oter_lake_surface );
+        ter_set( p, shore ? oter_lake_shore : oter_lake_surface );
 
         // If this is not a shore, we'll make our subsurface lake cubes and beds.
         if( !shore ) {
@@ -862,7 +858,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             }
         }
 
-        ter_set( tripoint_om_omt( p ), shore ? oter_ocean_shore : oter_ocean_surface );
+        ter_set( p, shore ? oter_ocean_shore : oter_ocean_surface );
 
         // If this is not a shore, we'll make our subsurface ocean cubes and beds.
         if( !shore ) {
@@ -892,7 +888,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             }
         }
 
-        ter_set( tripoint_om_omt( p ), forest_border ? oter_forest : oter_forest_thick );
+        ter_set( p, forest_border ? oter_forest : oter_forest_thick );
     }
 }
 
@@ -1180,7 +1176,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
         // The position is stored separately, in the list
         // TODO: Do it without the copy
         mongroup saved_group = group_bin.first;
-        saved_group.abs_pos = tripoint_abs_sm();
+        saved_group.abs_pos = tripoint_abs_sm::zero;
         jout.write( saved_group );
         jout.write( group_bin.second );
         jout.end_array();
@@ -1393,12 +1389,12 @@ template<typename Archive>
 void mongroup::io( Archive &archive )
 {
     archive.io( "type", type );
-    archive.io( "abs_pos", abs_pos, tripoint_abs_sm() );
+    archive.io( "abs_pos", abs_pos, tripoint_abs_sm::zero );
     archive.io( "population", population, 1u );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
-    archive.io( "target", target, point_abs_sm() );
-    archive.io( "nemesis_target", nemesis_target, point_abs_sm() );
+    archive.io( "target", target, point_abs_sm::zero );
+    archive.io( "nemesis_target", nemesis_target, point_abs_sm::zero );
     archive.io( "interest", interest, 0 );
     archive.io( "horde_behaviour", behaviour, horde_behaviour::none );
     archive.io( "monsters", monsters, io::empty_default_tag() );
@@ -1660,7 +1656,7 @@ void global_variables::serialize( JsonOut &jsout ) const
     jsout.member( "global_vals", global_values );
 }
 
-void global_variables::load_migrations( const JsonObject &jo, const std::string_view & )
+void global_variables::load_migrations( const JsonObject &jo, std::string_view )
 {
     const std::string from( jo.get_string( "from" ) );
     const std::string to = jo.has_string( "to" )
@@ -1820,7 +1816,7 @@ void npc::import_and_clean( const JsonObject &data )
     queued_effect_on_conditions = defaults.queued_effect_on_conditions;
 
     // space coordinates are irrelevant if importing into a different world
-    set_location( defaults.get_location() );
+    set_pos_abs_only( defaults.pos_abs() );
     omt_path = defaults.omt_path;
     known_traps.clear();
     camps = defaults.camps;
