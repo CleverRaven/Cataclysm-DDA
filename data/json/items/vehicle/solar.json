@@ -105,7 +105,7 @@
     "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.",
     "weight": "24153 g",
     "color": "light_blue",
-    "material": [ "glass", "steel" ],
+    "material": [ "glass", "lc_steel" ],
     "volume": "6500 ml",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "15 USD",
