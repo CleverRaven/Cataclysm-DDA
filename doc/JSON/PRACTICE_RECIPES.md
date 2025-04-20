@@ -44,7 +44,7 @@ work the same way.
 
 For example, here is a recipe for practicing intermediate level computer skill:
 
-```json
+```jsonc
 [
   {
     "id": "prac_computer_int",

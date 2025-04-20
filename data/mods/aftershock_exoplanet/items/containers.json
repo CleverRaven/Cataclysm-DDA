@@ -41,7 +41,7 @@
     "weight": "530 g",
     "volume": "1250 ml",
     "longest_side": "32 cm",
-    "price": "15 USD 95 cent",
+    "price": "175 USD ",
     "price_postapoc": "1 USD",
     "material": [ "steel" ],
     "symbol": "I",
@@ -56,7 +56,7 @@
       }
     ],
     "insulation": 1600,
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
   },
   {
     "id": "afs_mre_package",

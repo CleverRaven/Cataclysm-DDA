@@ -7926,7 +7926,7 @@ item vehicle::get_folded_item( map &here ) const
     const int avg_part_damage = static_cast<int>( sum_of_damage / num_of_parts );
 
     folded.set_var( "tracking", tracking_on ? 1 : 0 );
-    folded.set_var( "weight", to_milligram( total_mass( here ) ) );
+    folded.set_var( "weight", static_cast<double>( to_milligram( total_mass( here ) ) ) );
     folded.set_var( "volume", folded_volume / 250_ml );
     folded.set_var( "name", string_format( _( "folded %s" ), name ) );
     folded.set_var( "vehicle_name", name );

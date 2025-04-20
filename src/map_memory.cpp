@@ -16,6 +16,7 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "game_constants.h"
 #include "map_memory.h"
 #include "path_info.h"
 #include "string_formatter.h"

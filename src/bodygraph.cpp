@@ -650,7 +650,7 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 
 std::vector<std::string> get_bodygraph_lines( const Character &u,
         const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height,
-        const std::string_view &label )
+        std::string_view label )
 {
     width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
     height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;

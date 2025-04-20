@@ -2463,5 +2463,35 @@
     "id": "muzzle_brake_mod",
     "type": "MIGRATION",
     "replace": "muzzle_brake"
+  },
+  {
+    "id": "offset_sights_mod",
+    "type": "MIGRATION",
+    "replace": "offset_sights"
+  },
+  {
+    "id": "offset_sight_rail_mod",
+    "type": "MIGRATION",
+    "replace": "offset_sight_rail"
+  },
+  {
+    "id": "rifle_scope_mod",
+    "type": "MIGRATION",
+    "replace": "rifle_scope"
+  },
+  {
+    "id": "acog_scope_mod",
+    "type": "MIGRATION",
+    "replace": "acog_scope"
+  },
+  {
+    "id": "bipod_mod",
+    "type": "MIGRATION",
+    "replace": "bipod"
+  },
+  {
+    "id": "u_shotgun_mod",
+    "type": "MIGRATION",
+    "replace": "u_shotgun"
   }
 ]

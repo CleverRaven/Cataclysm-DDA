@@ -229,7 +229,7 @@
     "weight": "1250 g",
     "volume": "4500 ml",
     "charges_per_use": 5,
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

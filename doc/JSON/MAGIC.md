@@ -43,7 +43,7 @@ By making clever use of JSON fields, interactions, combinations and descriptions
 
 In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
 
-```C++
+```jsonc
   {
     // This spell exists in json as a template for contributors to see the possible values of the spell
     "id": "example_template",                                 // id of the spell, used internally. not translated
@@ -65,15 +65,15 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "final_energy_cost": 100,
     "energy_increment": -6,
     "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
-    "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
+    "components": [ /* requirement_id */],                    // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
     "max_level": 10,                                          // maximum level you can achieve in the spell
     "get_level_formula_id": "jmath_get_level_formula",        // The id of a jmath formula that calculates what level the spell is for a given exp value.  Must be the inverse of exp_for_level_formula_id.
     "exp_for_level_formula_id": "jmath_exp_for_level_formula",// The id of a jmath formula that calculates how much exp is required for a given level.  Must be the inverse of get_level_formula_id.
     "magic_type": "magiclysm_default_magic",                  // the id of the magic_type object that holds some values for this spell and others with the same type defined.
-    "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
+    "min_accuracy": -20,                                      // the accuracy bonus of the spell. around -15 and it gets blocked all the time
     "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
-    "accuracy_increment": 1.5
+    "accuracy_increment": 1.5,
     "min_damage": 0,                                          // minimum damage (or "starting" damage)
     "max_damage": 100,                                        // maximum damage the spell can achieve
     "damage_increment": 2.5,                                  // to get damage (and any of the other below stats) multiply this by spell's level and add to minimum damage
@@ -97,7 +97,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "min_field_intensity": 10,                                // field intensity of fields generated
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
-    "field_intensity_variance": 0.1                           // the field can range in intensity from -variance as a percent to +variance as a percent i.e. this spell would be 9-11
+    "field_intensity_variance": 0.1,                          // the field can range in intensity from -variance as a percent to +variance as a percent i.e. this spell would be 9-11
     "sound_type": "combat",                                   // the type of sound. possible types are: background, weather, music, movement, speech, activity, destructive_activity, alarm, combat, alert, order
     "sound_description": "a whoosh",                          // the sound description. in the form of "You hear %s" by default it is "an explosion"
     "sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
@@ -145,7 +145,7 @@ In contrast, an `attack` spell using `effect_str` to grant a `self` buff (withou
 
 Each spell effect is defined in the `effect` field. For example, the Magus spell "Magic Missile" has the `attack` effect, meaning it deals damage to a specific target:
 
-```json
+```jsonc
   {
     "id": "magic_missile",
     "effect": "attack",
@@ -155,7 +155,7 @@ Each spell effect is defined in the `effect` field. For example, the Magus spell
 
 while the Druid spell "Nature's Bow" has the `spawn_item` effect, designating the ID of the item to spawn:
 
-```json
+```jsonc
   {
     "id": "druid_naturebow1",
     "effect": "spawn_item",
@@ -260,7 +260,7 @@ Field group | Description | Example
 Flags allow you to provide additional customizations for spell effects, behavior, and limitations.
 Spells may have any number of flags, for example:
 
-```json
+```jsonc
   {
     "id": "bless",
     "//": "Encumbrance on the mouth (verbal) or arms (somatic) affect casting success, but not legs.",
@@ -351,7 +351,7 @@ Additionally, there are also included:
 
 For example:
 
-```json
+```jsonc
 ...
     "min_range": 1,
     "max_range": 25,
@@ -361,7 +361,7 @@ For example:
 
 Min and max values must always have the same sign, but it can be negative e.g. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage.  For example:
 
-```json
+```jsonc
   {
     "id": "stamina_damage",
     "type": "SPELL",
@@ -382,7 +382,7 @@ Min and max values must always have the same sign, but it can be negative e.g. i
 
 There multiple ways to learn spells: learning a spell from an item (through a `use_action`), from spells that have the `learn_spells` field, and from traits/mutations.  An example is shown below:
 
-```json
+```jsonc
   {
     "id": "DEBUG_spellbook",
     "type": "GENERIC",
@@ -403,7 +403,7 @@ There multiple ways to learn spells: learning a spell from an item (through a `u
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
 Below is an example of `learn_spells` usage:
-```json
+```jsonc
   {
     "id": "phase_door",
     "type": "SPELL",
@@ -435,7 +435,7 @@ Another two interesting fields are `extra_effects` and `effect_str`:
 
 You can add spells to professions or NPC class definitions like this:
 
-```json
+```jsonc
   {
     "id": "test_profession",
     "type": "profession",
@@ -454,7 +454,7 @@ The following are some spell examples, from simple to advanced:
 
 ### Summon spell
 
-```C++
+```jsonc
   {
     "type": "SPELL",
     "id": "test_summon",                                     // id of the spell, used internally. not translated
@@ -477,7 +477,7 @@ Self explanatory: when cast, `test_summon` will silently summon 1 hostile `mon_t
 
 ### Typical attack
 
-```C++
+```jsonc
   {
     "id": "test_attack",                                     // id of the spell, used internally. not translated
     "type": "SPELL",
@@ -506,7 +506,7 @@ Note: `valid_targets` has both `ground` and `hostile` so it can be targeted in a
 
 ### Consecutive spell casting
 
-```C++
+```jsonc
   {
     "id": "test_combo",                                      // id of the spell, used internally. not translated
     "type": "SPELL",
@@ -519,7 +519,7 @@ Note: `valid_targets` has both `ground` and `hostile` so it can be targeted in a
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
     "min_damage": 7,                                         // minimum damage (or "starting" damage)
     "max_damage": 14,                                        // maximum  damage the spell can achieve
-    "damage_increment": 0.7                                  // damage increase per spell level
+    "damage_increment": 0.7,                                 // damage increase per spell level
     "min_aoe": 2,                                            // area of effect
     "max_aoe": 4,
     "aoe_increment": 0.2,                                    // how much wider the area of effect gets per spell level
@@ -537,7 +537,7 @@ Explanation: If you put two or more spells in `extra_effects`, it will consecuti
 
 ### Random spell casting
 
-```C++
+```jsonc
   {
     "id": "test_starter_spell",                              // id of the spell, used internally. not translated
     "type": "SPELL",
@@ -556,7 +556,7 @@ Explanation: If you put two or more spells in `extra_effects`, it will consecuti
     ],
     "min_damage": 3,                                         // minimum damage (or "starting" damage)
     "max_damage": 5,                                         // maximum damage the spell can achieve
-    "damage_increment": 0.2                                  // damage increase per spell level
+    "damage_increment": 0.2,                                 // damage increase per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10
   }
@@ -569,7 +569,7 @@ Note: There must be a minimum of one spell in `extra_effects` for the `WONDER` f
 
 ### Repeatedly cast the same spell
 
-```C++
+```jsonc
   {
     "type": "SPELL",
     "id": "test_attack_repeat",                              // id of the spell, used internally. not translated
@@ -582,7 +582,7 @@ Note: There must be a minimum of one spell in `extra_effects` for the `WONDER` f
     "effect_str": "target_message",                          // varies, see table of implemented effects in this document
     "min_damage": 5,                                         // minimum (starting damage)
     "max_damage": 7,                                         // maximum damage the spell can achieve
-    "damage_increment": 0.2                                  // damage increase per spell level
+    "damage_increment": 0.2,                                 // damage increase per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10,
     "min_duration": 1,                                       // duration of spell effect in moves (if the spell has a special effect)
@@ -595,7 +595,7 @@ Explanation: Notice a different approach for the `WONDER` and `RANDOM_DAMAGE` co
 
 ### A spell that casts a note on the target and an effect on the caster
 
-```C++
+```jsonc
   {
     "id": "test_attack_note",                                // id of the spell, used internally. not translated
     "type": "SPELL",
@@ -630,7 +630,7 @@ Also, keep in mind that changing the spell experience requirements of an existin
 Note: the exp_for_level_formula_id requires the total experience required for a spell level, not the difference in experience between the current and next level.  IE, if a spell requires 1000 xp to level a level 10 spell should require 10,000 experience in its exp_for_level_formula_id, not 1,000.
 
 Constant Spell Exp Requirement Example:
-```json
+```jsonc
   {
     "id": "test_spell",
     "type": "SPELL",
@@ -715,7 +715,7 @@ All fields except for `type` and `id` are optional.  This includes the otherwise
 
 There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the inline enchantment inside something (in this case, an item):
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
@@ -819,7 +819,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
   }
 ```
 
-```json
+```jsonc
   {
     "copy-from": "mring_silver",
     "type": "TOOL_ARMOR",
@@ -837,7 +837,7 @@ As seen in the last example, enchantments are added to the item as `passive_effe
 
 Also supported is `charge_info`, which allows automatic charge regeneration.  This in turn enables active magical items that cast spells on use:
 
-```json
+```jsonc
 ...
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade3", "no_fail": true, "level": 1, "need_worn": true },
     "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
@@ -851,7 +851,7 @@ The item consumes 1 charge per spell cast.  It can't be recharged or unloaded, r
 
 Another example is a `GUN` type item (e.g. a firearm).  As this is a weapon that consumes ammo per use, `use_action` can be omitted:
 
-```json
+```jsonc
 ...
     "clip_size": 5,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -880,7 +880,7 @@ Identifier           | Description
 
 From now, EOC variables can be used inside enchantments, including predefined (see [NPCs.md](NPCs.md#dialogue-conditions) for examples), custom variables or [math equasions](NPCs.md#math).  Here are some examples:
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "MON_NEARBY_STR",
@@ -893,7 +893,7 @@ From now, EOC variables can be used inside enchantments, including predefined (s
 This enchantment adds the dexterity value to strength plus one: a character with str 8 and dex 10 will result with str 19 and dex 10.
 
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "MON_NEARBY_LUMINATION",
@@ -911,7 +911,7 @@ This enchantment adds the dexterity value to strength plus one: a character with
 This enchantment checks the amount of monsters near the character (in a 25 tile range), then multiplies that number by 20, and adds the value as lumination: more monsters nearby = more light produced.
 
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "MOON_STR",
@@ -927,7 +927,7 @@ First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks
 
 `condition` field support any EoC condition
 
-```json
+```jsonc
   {
     "type": "enchantment",
     "id": "BITE_STR",
@@ -1068,9 +1068,9 @@ Character status value  | Description
 
 ### Enchantment value examples
 
-```C++
-  { "incoming_damage_mod": [ { "type": "electric", "add": -20 } ] },      // subtracts 20 points of incoming electrical damage
-  { "value": "ATTACK_SPEED", "add": -60 }     // subtracts 60 attack moves, making the attacker faster
+```jsonc
+  { "incoming_damage_mod": [ { "type": "electric", "add": -20 } ] }, // subtracts 20 points of incoming electrical damage
+  { "value": "ATTACK_SPEED", "add": -60 } // subtracts 60 attack moves, making the attacker faster
   { "incoming_damage_mod": [ { "type": "cold", "multiply": -0.4 } ] } // subtracts 40% of incoming cold damage
   { "incoming_damage_mod": [ { "type": "heat", "multiply": 0.4 } ] } // increases damage taken from fire by 40%
   { "incoming_damage_mod": [ { "type": "cut", "add": 2 } ] } // increases incoming cut damage by 2

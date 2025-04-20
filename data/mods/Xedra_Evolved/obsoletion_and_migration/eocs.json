@@ -64,5 +64,24 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_UPDATE_GAME_BEGIN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "u_vampire_blood_scale_updated != 1" ] },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "or": [ { "u_has_any_trait": [ "VAMPIRE", "DHAMPIR_TRAIT" ] }, { "u_has_effect": "vampire_virus" } ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] }
+          ]
+        },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 500" ] }
+      },
+      { "math": [ "u_vampire_blood_scale_updated = 1" ] }
+    ]
   }
 ]

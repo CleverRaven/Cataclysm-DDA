@@ -2084,6 +2084,31 @@
     ]
   },
   {
+    "id": "nether_huntsman",
+    "type": "harvest",
+    "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.15 },
+      { "drop": "demihuman_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "demihuman_blood", "type": "blood", "mass_ratio": 0.05 },
+      { "drop": "demihuman_stomach", "base_num": [ 2, 2 ], "scale_num": [ 1, 1 ], "max": 2, "type": "offal" },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "demihuman_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_heart", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "demihuman_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "demihuman_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "demihuman_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "demihuman_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "demihuman_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "nether_huntsman_armorpiece_small", "type": "skin", "mass_ratio": 0.05 },
+      { "drop": "nether_huntsman_armorpiece_big", "type": "skin", "mass_ratio": 0.05 },
+      { "drop": "nether_huntsman_organ", "base_num": [ 1, 1 ], "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "nether_huntsman_spike", "type": "skin", "mass_ratio": 0.1 },
+      { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.005 }
+    ]
+  },
+  {
     "id": "fungaloid",
     "type": "harvest",
     "message": "<fungaloid_harvest>",

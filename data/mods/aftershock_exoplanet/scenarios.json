@@ -44,6 +44,19 @@
     "allowed_locs": [ "sloc_forest" ],
     "map_extra": "mx_gunship",
     "missions": [ "MISSION_LAST_DANCE" ],
+    "whitelist_hobbies": true,
+    "hobbies": [
+      "afs_speed_freak",
+      "afs_armament_license",
+      "afs_spacer",
+      "afs_leadership",
+      "afs_earthling",
+      "afs_physical_stat_genemod",
+      "afs_mental_stat_genemod",
+      "afs_health_genemod",
+      "afs_efficiency_genemod",
+      "afs_beauty_genemod"
+    ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
     "flags": [ "LONE_START" ]
   },
@@ -130,6 +143,8 @@
     "professions": [ "afs_espatier", "afs_rating", "afs_ship_escape" ],
     "flags": [ "LONE_START", "HELI_CRASH" ],
     "start_name": "Crashing Ship",
+    "whitelist_hobbies": true,
+    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
     "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
   },
   {
@@ -144,6 +159,18 @@
     "flags": [ "LONE_START" ],
     "start_name": "Lost on the Surface",
     "reveal_locale": false,
+    "whitelist_hobbies": true,
+    "hobbies": [
+      "afs_armament_license",
+      "afs_spacer",
+      "afs_leadership",
+      "afs_earthling",
+      "afs_physical_stat_genemod",
+      "afs_mental_stat_genemod",
+      "afs_health_genemod",
+      "afs_efficiency_genemod",
+      "afs_beauty_genemod"
+    ],
     "eoc": [ "EOC_ESPER_SCENARIO_SETUP" ]
   },
   {
@@ -154,6 +181,19 @@
     "description": "What was to be a routine cargo transfer ended in tragedy when, in a brief moment of chaos, your space ship was intercepted and destroyed by a StO missile.  As soon as the MAW alarm flared to life, you scrambled to the nearest escape pod and barely managed reach the uncertain safety of the planet below.",
     "allowed_locs": [ "sloc_escape_pod" ],
     "professions": [ "afs_espatier", "afs_rating" ],
+    "whitelist_hobbies": true,
+    "hobbies": [
+      "afs_speed_freak",
+      "afs_armament_license",
+      "afs_spacer",
+      "afs_leadership",
+      "afs_earthling",
+      "afs_physical_stat_genemod",
+      "afs_mental_stat_genemod",
+      "afs_health_genemod",
+      "afs_efficiency_genemod",
+      "afs_beauty_genemod"
+    ],
     "flags": [ "LONE_START" ],
     "start_name": "Escape Pod"
   }

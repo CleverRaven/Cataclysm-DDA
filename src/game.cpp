@@ -987,7 +987,7 @@ bool game::start_game()
     here.build_map_cache( level );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.pos_abs_omt().xy(),
-                           get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
+                           get_scenario()->get_distance_initial_visibility(), 0 );
 
     const int city_size = get_option<int>( "CITY_SIZE" );
     if( get_scenario()->get_reveal_locale() && city_size > 0 ) {
@@ -4508,8 +4508,8 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-
-                if( !get_map().route( u.pos_bub(), critter->pos_bub(), pf_settings ).empty() ) {
+                const pathfinding_target pf_t = pathfinding_target::point( critter->pos_bub() );
+                if( !get_map().route( u.pos_bub(), pf_t, pf_settings ).empty() ) {
                     return critter;
                 }
                 continue;
@@ -4900,7 +4900,7 @@ void game::cleanup_dead()
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = critter_tracker->active_npc.erase( it );
             } else {
-                it++;
+                ++it;
             }
         }
     }
@@ -7906,7 +7906,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         if( is_dangerous_tile( p ) ) {
             continue;
         }
-        const route_t route = here.route( who.pos_bub(), p,
+        const route_t route = here.route( who.pos_bub(), pathfinding_target::point( p ),
         who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
             return is_dangerous_tile( p );
         } );
@@ -12187,10 +12187,11 @@ void game::water_affect_items( Character &ch ) const
             loc->deactivate();
             // TODO: Maybe different types of wet faults? But I can't think of any.
             // This just means it's still too wet to use.
-            loc->set_fault( faults::random_of_type( "wet" ) ) ;
+            // TODO2: add fault types to electronics, remove `force` argument from here
+            loc->set_random_fault_of_type( "wet", true );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_fault( faults::random_of_type( "shorted" ) );
+                loc->set_random_fault_of_type( "shorted", true );
             }
         } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
@@ -13245,7 +13246,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
             ( *it )->on_unload();
             it = critter_tracker->active_npc.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 

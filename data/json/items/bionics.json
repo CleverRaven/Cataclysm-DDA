@@ -13,7 +13,7 @@
     "use_action": [ "install_bionic" ],
     "flags": [ "CBM", "FRAGILE_MELEE" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ]
+    "faults": [ { "fault": "fault_bionic_salvaged" } ]
   },
   {
     "abstract": "bionic_general_npc_usable",

@@ -104,6 +104,7 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "requirement", _requirement );
 
     optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+    optional( jo, was_loaded, "distance_initial_visibility", distance_initial_visibility, 15 );
 
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
@@ -560,6 +561,11 @@ std::optional<achievement_id> scenario::get_requirement() const
 bool scenario::get_reveal_locale() const
 {
     return reveal_locale;
+}
+
+bool scenario::get_distance_initial_visibility() const
+{
+    return distance_initial_visibility;
 }
 
 void scenario::normalize_calendar() const

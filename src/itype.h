@@ -37,6 +37,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weighted_list.h"
 
 // IWYU pragma: no_forward_declare std::hash
 class Character;
@@ -1242,13 +1243,13 @@ class islot_milling
 
 struct memory_card_info {
     float data_chance;
-    itype_id on_read_convert_to;
+    itype_id on_read_convert_to;  // NOLINT(cata-serialize)
 
-    float photos_chance;
-    int photos_amount;
+    float photos_chance;  // NOLINT(cata-serialize)
+    int photos_amount;  // NOLINT(cata-serialize)
 
-    float songs_chance;
-    int songs_amount;
+    float songs_chance;  // NOLINT(cata-serialize)
+    int songs_amount; // NOLINT(cata-serialize)
 
     float recipes_chance;
     int recipes_amount;
@@ -1256,6 +1257,9 @@ struct memory_card_info {
     int recipes_level_max;
     std::set<crafting_category_id> recipes_categories;
     bool secret_recipes;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 struct item_melee_damage {
@@ -1415,7 +1419,16 @@ struct itype {
         std::set<itype_id> repair;
 
         /** What faults (if any) can occur */
-        std::set<fault_id> faults;
+        weighted_int_list<fault_id> faults;
+
+        /** used to store fault types on load, when we cannot populate `faults` just yet
+        `faults` is populated with values from this in finalize_post() down the road, and then this var is never used again
+        first int is weight if overriden
+        second int is weight added to original weight
+        third float is multiplier of original weight
+        fourth string is the fault group id
+        */
+        std::vector<std::tuple<int, int, float, std::string>> fault_groups;
 
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;
@@ -1543,9 +1556,6 @@ struct itype {
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        // used for generic_factory for copy-from
-        bool was_loaded = false;
-
         // Expand snippets in the description and save the description on the object
         bool expand_snippets = false;
 
@@ -1641,6 +1651,19 @@ struct itype {
 
         // returns true if it is one of the outcomes of cutting
         bool is_basic_component() const;
+
+        //TO-DO: remove all of these
+        void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
+        void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void relative_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void set_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void extend_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void delete_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+        void load( const JsonObject &jo, std::string_view src );
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );

@@ -3539,8 +3539,10 @@ talk_effect_fun_t::func f_mutate_category( const JsonObject &jo, std::string_vie
 {
     str_or_var mut_cat = get_str_or_var( jo.get_member( member ), member, true, "" );
     const bool use_vitamins = jo.get_bool( "use_vitamins", true );
-    return [is_npc, mut_cat, use_vitamins]( dialogue const & d ) {
-        d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins );
+    const bool true_random = jo.get_bool( "true_random", false );
+    return [is_npc, mut_cat, use_vitamins, true_random]( dialogue const & d ) {
+        d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins,
+                                            true_random );
     };
 }
 
@@ -4232,12 +4234,12 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         }
         const tripoint_abs_ms abs_ms( target_pos );
         map *here_ptr = &get_map();
-        map &here = *here_ptr;
         std::unique_ptr<map> distant_map = std::make_unique<map>();
-        if( !here.inbounds( abs_ms ) ) {
+        if( !here_ptr->inbounds( abs_ms ) ) {
             distant_map->load( project_to<coords::sm>( abs_ms ), false );
             here_ptr = distant_map.get();
         }
+        map &here = *here_ptr;
         if( search_target.has_value() ) {
             if( search_type.value() == "monster" && !here.inbounds( abs_ms ) ) {
                 here.spawn_monsters( true, true );

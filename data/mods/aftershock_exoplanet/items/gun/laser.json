@@ -129,6 +129,7 @@
     "description": "A common pulse-laser pistol cleared for civilian use.  Recoilless, energy-efficient, and easy to use, the av-22 is often carried as a defense weapon by those who lack the practice required to effectively use ballistic weaponry.  Due to its low power, it must be fired in sequence mode to stand a chance against hardened foes.",
     "price": "500 USD",
     "price_postapoc": "500 USD",
+    "volume": "750 ml",
     "ammo": [ "battery" ],
     "ranged_damage": { "damage_type": "afs_laser", "amount": 5 },
     "overheat_threshold": 150,

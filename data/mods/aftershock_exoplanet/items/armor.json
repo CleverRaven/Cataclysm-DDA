@@ -109,6 +109,7 @@
     "armor": [ { "encumbrance": 2, "coverage": 14, "covers": [ "arm_l", "arm_r" ] } ],
     "warmth": 10,
     "material_thickness": 2,
+    "etransfer_rate": "45 MB",
     "flags": [ "WATCH", "BELTED", "STURDY", "WATER_FRIENDLY" ],
     "charges_per_use": 1,
     "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "PORTABLE_GAME", { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" } ],

@@ -3829,7 +3829,7 @@ class jmapgen_variable : public jmapgen_piece
 {
     public:
         std::string name;
-        jmapgen_variable( const JsonObject &jsi, const std::string_view &/*context*/ ) {
+        jmapgen_variable( const JsonObject &jsi, std::string_view /*context*/ ) {
             name = jsi.get_string( "name" );
         }
         mapgen_phase phase() const override {
@@ -5473,7 +5473,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                             m.create_burnproducts( target_pos, *it, it->weight() );
                             it = stack.erase( it );
                         } else {
-                            it++;
+                            ++it;
                         }
                     }
                 }

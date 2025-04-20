@@ -967,7 +967,7 @@
     "time": "60 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ]
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ]
   },
   {
     "type": "recipe",
@@ -1693,7 +1693,7 @@
     "time": "1 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_chunk_any", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "rope_natural", 1, "LIST" ] ] ]

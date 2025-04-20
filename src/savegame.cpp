@@ -1656,7 +1656,7 @@ void global_variables::serialize( JsonOut &jsout ) const
     jsout.member( "global_vals", global_values );
 }
 
-void global_variables::load_migrations( const JsonObject &jo, const std::string_view & )
+void global_variables::load_migrations( const JsonObject &jo, std::string_view )
 {
     const std::string from( jo.get_string( "from" ) );
     const std::string to = jo.has_string( "to" )
