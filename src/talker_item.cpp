@@ -171,7 +171,7 @@ void talker_item::die( map * )
 
 void talker_item::set_fault( const fault_id &fault_id, const bool force, const bool message )
 {
-    me_it->set_fault( fault_id );
+    me_it->set_fault( fault_id, force, message );
 }
 
 void talker_item::set_random_fault_of_type( const std::string &fault_type, const bool force,

@@ -157,15 +157,15 @@ class item_location
         * `force` allow to bypass check and apply fault item do not define
         * `message` defines if fault message will be printed
         **/
-        void set_fault( const fault_id &fault_id, const bool force = false, const bool message = true );
+        void set_fault( const fault_id &fault_id, bool force = false, bool message = true );
 
         /**
         * Checks if item has any fault of type, and if so, applies it
         * `force` allow to bypass check and apply fault item do not define
         * `message` defines if fault message will be printed
         **/
-        void set_random_fault_of_type( const std::string &fault_type, const bool force = false,
-                                       const bool message = true );
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false,
+                                       bool message = true );
 
         ret_val<void> parents_can_contain_recursive( item *it ) const;
         ret_val<int> max_charges_by_parent_recursive( const item &it ) const;

@@ -220,7 +220,7 @@ void fault::load( const JsonObject &jo, std::string_view )
         for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) ) {
             melee_damage_mod_.emplace_back(
                 jo_f.get_int( "add", 0 ),
-                jo_f.get_float( "multiply", 1.0f ),
+                static_cast<float>( jo_f.get_float( "multiply", 1.0f ) ),
                 jo_f.get_string( "damage_id" ) );
         }
     }
@@ -229,7 +229,7 @@ void fault::load( const JsonObject &jo, std::string_view )
         for( JsonObject jo_f : jo.get_array( "armor_mod" ) ) {
             armor_mod_.emplace_back(
                 jo_f.get_int( "add", 0 ),
-                jo_f.get_float( "multiply", 1.0f ),
+                static_cast<float>( jo_f.get_float( "multiply", 1.0f ) ),
                 jo_f.get_string( "damage_id" ) );
         }
     }

@@ -1,5 +1,4 @@
 #include "item.h"
-#include "item.h"
 
 #include <algorithm>
 #include <array>
@@ -7701,7 +7700,7 @@ bool item::has_fault( const fault_id &fault ) const
 
 bool item::has_fault_of_type( const std::string fault_type ) const
 {
-    for( const fault_id f : faults ) {
+    for( const fault_id &f : faults ) {
         if( f.obj().type() == fault_type ) {
             return true;
         }

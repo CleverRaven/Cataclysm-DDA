@@ -2062,12 +2062,12 @@ class item : public visitable
         /** Check if item can have a fault, and if yes, applies it. This version do not print a message, use item_location version instead
          * `force`, if true, bypasses the check and applies the fault item do not define
          */
-        void set_fault( const fault_id &fault_id, const bool force = false );
+        void set_fault( const fault_id &fault_id, bool force = false );
 
         /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
         * `force`, if true, bypasses the check and applies the fault item do not define
         */
-        void set_random_fault_of_type( const std::string &fault_type, const bool force = false );
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false );
 
         /** Removes the fault from the item, if such is presented. */
         void remove_fault( const fault_id &fault_id );
@@ -2091,7 +2091,7 @@ class item : public visitable
         /** Does this item have the specified fault? */
         bool has_fault( const fault_id &fault ) const;
 
-        bool has_fault_of_type( const std::string fault_type ) const;
+        bool has_fault_of_type( std::string fault_type ) const;
 
         /** Does this item part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;
