@@ -29,6 +29,7 @@ Blood Arts is the term for vampires special abilities. With then, vampires can b
 Principles of Blood Arts:
 - Blood Arts cost blood. Any secondary costs (mana, stamina, sleepiness, etc) are unnecessary. Use of their powers should require vampires to drink more blood.
 - Blood Arts should be "vampire-y" in theme and scope, with some latitude for interpretation. Creating tactile illusionary beasts that can harm the vampire's enemies is out, but creating animate shadows that can harm the vampire's enemies but die in light, or clouding their enemy's mind so they perceive a group of wolves approaching them, would both be acceptable.
+- Blood Arts do not have levels, and are not subject to failure based on power or skill level.
 - Blood Arts that turn on and remain on until turned off should be implemented as activatable mutations, so that there's a easy screen where the player can see what all is active and turn them on and off. Blood Arts which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
 - It is currently possible for a player to eventually learn every single available Blood Art, so be careful of unexpected synergies. 
 
@@ -48,7 +49,7 @@ Some dhampir-exclusive abilities, and some vampire Blood Arts when used by dhamp
 
 ## Shapeshifters
 
-At the moment, no shapeshifters appear as monsters or NPC.  Werewolves are playable but barebones. Most aspects of werewolves, or shapeshifters in general, to TBD.
+At the moment, no shapeshifters appear as monsters or NPC.  Werewolves are playable but barebones. Most aspects of werewolves, or shapeshifters in general, are TBD.
 
 ### Werewolves
 
@@ -60,11 +61,38 @@ Werewolves are vulnerable to silver. This is currently unimplemented.
 
 Principles of Werewolf powers:
 - Werewolf powers are fueled by mana, but their mana is proportional to their physical prowess, not their intelligence.
+- Werewolf powers have a chance to fail based entirely on the pain the werewolf is suffering from. Since werewolves regenerate, this means that while they can be in a very difficult situation if they're at high pain, they merely need to wait a few minutes to return to 0 chance to fail. 
 - Werewolf powers revolve around changing form and hunting prey. They generally cannot bring their metaphysical might to bear in situations that require stealth or diplomacy, though some exceptions exist. 
 
 ## The Fair Folk
 
+The Fair Folk are a multidimensional power on the level of the triffids, in that they are capable of exerting power across many dimensions simultaneously and they have nothing to fear from the blod. Unlike the triffids, they are not expansionist. They have a home dimension variously called `Under the Hill`, `the Bright Lands`, `the Elflands`, and similar names. If they have their own name for their dimension, they don't use it with mortals.
 
+The Fair Folk are divided into the elemental fae, or Paraclesians, and more humanlike fae, or changelings. Note that despite being called changelings in XE, most changelings were born in the Elflands and not swapped for human babies.
+
+Almost all Fair Folk are vulnerable to iron to varying degrees (though see below)
+
+### Paraclesians
+
+Paraclesians are based on the elements: Sylphs for air, Ierde for earth, Undines for water, Salamanders for fire, and Arvore for wood. A sixth type, Homullus is effectively an "elemental" of humanity. Other elemental types might exist related to other species such as gracken, but they generally do not visit Earth.
+
+Paraclesians are the eldest and original Fair Folk, born from the "dreams" of natural features like mountains and rivers. They spring to life fully formed, but with little power, and their parents often place them outside the Bright Lands to grow up. Those Paraclesians who survive and manage to make it back home are considered adults. 
+
+Paralecian magick is heavily themed and also grows much stronger when in an appropriate place of power (in the wilderness away from cities for Arvore, underground for Ierde, and so on) and much weaker when in an opposite place (underground for Sylph, in the cold for Salamanders, etc). At the moment it has levels and requires practice, but this is undesirable--the Fair Folk are magical beings and should not need to practice their spells like human wizards. All Paraclesians can transform into the embodiment of their element, and all of them transform into more pure elemental forms as they grow in power.
+
+Each Paraclesian has their own design sensibilities:
+- Arvore: Arvore powers relate to plants, nature, and growing things. Their magic allows them to become more plantlike, encourage plant growth, draw sustenance from soil and sunlight, and so on. While Arvore do have damaging spells, they mostly only affect plants and zombies, and then not generally in a magical bolt instant-damage fashion, since damage-over-time is much more similar to how nature works. Arvore deliberately have no powers that affect animals. The mortal need Arvore can overcome is requiring food and drink.
+- Homullus: TBD
+- Ierde: Ierde powers relate to resilience, preservation, and the manipulation of earth and stone. They are designed less to destroy their enemies with magick and more to slow them, redirect them, and simply outlast them (though since only the player has stamina this works less well than it could). The mortal need Ierde can overcome is sensitivity to pain and tiredness (stamina, not sleepiness). 
+- Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associatons with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
+- Sylph: Sylph powers relate to wind, lightning, and the weather (weather currently unimplemented). The mortal need Sylphs can overcome is being tied down, in both the literal gravity sense and the metaphorical snares or entanglements sense.
+- Undine: Undine powers relate to water and acid, as well as the transformation of liquids.  Undines are slightly different because by default they do not need to drink water and heal when in water, but many of their powers have a thirst cost so they can become thirsty by using their magic. They can also regain thirst automatically when underwater, so the push-pull of Undine powers is making sure to never be so far from water that they can't top up when necessary.
+
+### Changelings
 
 ## Lilin
+
+## Gracken
+
+Gracken, called `Species XE843` by XEDRA, are the inhabitants of a dimension of shadows. Those encountered on Earth are the immature juveniles of the species. (more TBD)
 
