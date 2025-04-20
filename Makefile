@@ -252,12 +252,12 @@ endif
 
 # Windows sets the OS environment variable so we can cheaply test for it.
 ifneq (,$(findstring Windows_NT,$(OS)))
+  IS_WINDOWS_HOST = 1
   ifeq ($(MSYS2),1)
     OS = Msys
   else ifeq ($(MAKE_HOST),x86_64-pc-cygwin)
     OS = Cygwin
   else # MAKE_HOST=x86_64-w64-mingw32
-    IS_WINDOWS_HOST = 1
   endif
 else
   IS_WINDOWS_HOST = 0
