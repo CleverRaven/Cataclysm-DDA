@@ -1362,10 +1362,9 @@ struct itype {
 
         requirement_id template_requirements;
 
-    protected:
+    public:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
-    public:
         // The container it comes in
         std::optional<itype_id> default_container;
         std::optional<std::string> default_container_variant;
@@ -1664,6 +1663,7 @@ struct itype {
         // used for generic_factory for copy-from
         bool was_loaded = false;
         void load( const JsonObject &jo, std::string_view src );
+        void load_slots( const JsonObject &jo, bool was_loaded );
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );
