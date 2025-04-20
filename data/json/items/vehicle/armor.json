@@ -10,7 +10,7 @@
     "price": "7 USD 50 cent",
     "price_postapoc": "5 USD",
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "symbol": "]",
     "color": "light_cyan",
     "melee_damage": { "bash": 6 }
@@ -26,7 +26,7 @@
     "price": "13 USD",
     "price_postapoc": "7 USD 50 cent",
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ "hc_steel", "lc_steel" ],
     "symbol": "]",
     "color": "light_cyan",
     "melee_damage": { "bash": 6 }
