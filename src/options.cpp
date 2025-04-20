@@ -2763,12 +2763,8 @@ void options_manager::add_options_world_default()
          COPT_ALWAYS_HIDE, "%i%%"
        );
 
-    add_empty_line();
-
-    add( "EVOLUTION_INVERSE_MULTIPLIER", "world_default",
-         to_translation( "Monster evolution slowdown" ),
-         to_translation( "A multiplier for the time between monster upgrades.  For example a value of 2.00 would cause evolution to occur at half speed.  Set to 0.00 to turn off monster upgrades." ),
-         0.0, 100, 1.0, 0.01
+    add( "EVOLUTION_INVERSE_MULTIPLIER", "world_default", translation(), translation(),
+         0.0, 100, 1.0, 0.01, COPT_ALWAYS_HIDE
        );
 
     add_empty_line();
@@ -2844,50 +2840,9 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add_option_group( "debug", Group( "chargen_point_opts",
-                                      to_translation( "Character generation points options" ),
-                                      to_translation( "Options regarding character generation points." ) ),
-    [&]( const std::string & page_id ) {
-        add( "INITIAL_STAT_POINTS", page_id, to_translation( "Initial stat points" ),
-             to_translation( "Initial points available to spend on stats on character generation." ),
-             0, 1000, 6
-           );
-
-        add( "INITIAL_TRAIT_POINTS", page_id, to_translation( "Initial trait points" ),
-             to_translation( "Initial points available to spend on traits on character generation." ),
-             0, 1000, 0
-           );
-
-        add( "INITIAL_SKILL_POINTS", page_id, to_translation( "Initial skill points" ),
-             to_translation( "Initial points available to spend on skills on character generation." ),
-             0, 1000, 2
-           );
-
-        add( "MAX_TRAIT_POINTS", page_id, to_translation( "Maximum trait points" ),
-             to_translation( "Maximum trait points available for character generation." ),
-             0, 1000, 12
-           );
-    } );
-
-    add_empty_line();
-
     add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
          to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
          false
-       );
-
-    add_empty_line();
-
-    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
-         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
-       );
-
-    add_empty_line();
-
-    add( "PROFICIENCY_TRAINING_SPEED", "debug", to_translation( "Proficiency training speed" ),
-         to_translation( "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
        );
 
     add_empty_line();
