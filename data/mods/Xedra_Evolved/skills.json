@@ -13,7 +13,7 @@
       { "level": 1, "description": "You get the gist of playing a round of chess." },
       {
         "level": 3,
-        "description": "You realized that one weird tabloid paper you've read a long time ago might be correct all these time."
+        "description": "You realized that one weird tabloid paper you've read a long time ago might have been correct all this time."
       },
       { "level": 5, "description": "You probably know how to deduce an electronic lock's password." },
       { "level": 7, "description": "You can easily rule out non-magickal causes in a given situation." },
