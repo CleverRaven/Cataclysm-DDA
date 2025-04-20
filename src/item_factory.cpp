@@ -31,6 +31,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
+#include "fault.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
@@ -69,6 +70,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
+#include "weighted_list.h"
 
 template <typename T> struct enum_traits;
 
@@ -887,6 +889,25 @@ void Item_factory::finalize_post( itype &obj )
             if( !dtype.is_valid() ) {
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
+            }
+        }
+    }
+
+    // weight_override, weight_add, weight_mult, group_id
+    for( const std::tuple<int, int, float, std::string> &fault_groups : obj.fault_groups ) {
+        const int weight_override = std::get<0>( fault_groups );
+        fault_group_id fault_g = fault_group_id( std::get<3>( fault_groups ) );
+        if( weight_override == -1 ) {
+            // just add and multiply existing weight
+            const int weight_add = std::get<1>( fault_groups );
+            const float weight_mult = std::get<2>( fault_groups );
+            for( const auto &id_and_weight : fault_g.obj().get_weighted_list() ) {
+                obj.faults.add_or_replace( id_and_weight.obj, ( id_and_weight.weight + weight_add ) * weight_mult );
+            }
+        } else {
+            // weight_override is not -1, override the weight
+            for( const weighted_object<int, fault_id> &id_and_weight : fault_g.obj().get_weighted_list() ) {
+                obj.faults.add( id_and_weight.obj, std::get<0>( fault_groups ) );
             }
         }
     }
@@ -2437,8 +2458,15 @@ void Item_factory::check_definitions() const
         }
 
         for( const auto &f : type->faults ) {
-            if( !f.is_valid() ) {
-                msg += string_format( "invalid item fault %s\n", f.c_str() );
+            if( !f.obj.is_valid() ) {
+                msg += string_format( "invalid item fault %s\n", f.obj.c_str() );
+            }
+        }
+
+        for( const auto &f : type->fault_groups ) {
+            fault_group_id f_group = fault_group_id( std::get<3>( f ) );
+            if( !f_group.is_valid() ) {
+                msg += string_format( "invalid fault_group %s\n", f_group.c_str() );
             }
         }
 
@@ -4353,7 +4381,23 @@ void itype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "variables", item_variables );
     optional( jo, was_loaded, "flags", item_tags, auto_flags_reader<flag_id> {} );
     optional( jo, was_loaded, "source_monster", source_monster, mtype_id::NULL_ID() );
-    optional( jo, was_loaded, "faults", faults, auto_flags_reader<fault_id> {} );
+
+    if( jo.has_array( "faults" ) ) {
+        for( JsonObject jo_f : jo.get_array( "faults" ) ) {
+            if( jo_f.has_string( "fault" ) ) {
+                const int fault_weight = jo_f.has_float( "weight" ) ? jo_f.get_float( "weight" ) : 100;
+                faults.add( fault_id( jo_f.get_string( "fault" ) ), fault_weight );
+            } else if( jo_f.has_string( "fault_group" ) ) {
+                fault_groups.emplace_back(
+                    jo_f.get_int( "weight_override", -1 ),
+                    jo_f.get_int( "weight_add", 0 ),
+                    jo_f.get_float( "weight_mult", 1.0f ),
+                    jo_f.get_string( "fault_group" ) );
+            } else {
+                jo_f.throw_error( R"("faults" should specify either a "fault" or a "fault_group")" );
+            }
+        }
+    }
 
     //TO-DO: replace qualities/techniques loading once generic factory is used
     if( jo.has_member( "qualities" ) ) {

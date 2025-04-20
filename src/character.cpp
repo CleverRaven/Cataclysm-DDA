@@ -2563,7 +2563,7 @@ void Character::process_turn()
         auto it = overmap_time.begin();
         while( it != overmap_time.end() ) {
             if( it->first == ompos.xy() ) {
-                it++;
+                ++it;
                 continue;
             }
             // Find the amount of time passed since the player touched any of the overmap tile's submaps.
@@ -2584,7 +2584,7 @@ void Character::process_turn()
                     it->second = updated_value;
                 }
             }
-            it++;
+            ++it;
         }
     }
     effect_on_conditions::process_effect_on_conditions( *this );
@@ -6597,7 +6597,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             if( opts[menu.ret].second ) {
                 obj->faults.erase( opts[menu.ret].first );
             } else {
-                obj->faults.insert( opts[menu.ret].first );
+                obj->set_fault( opts[menu.ret].first );
             }
         }
         return;

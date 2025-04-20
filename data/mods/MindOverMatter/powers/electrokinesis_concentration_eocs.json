@@ -275,6 +275,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_nether_attunement_electrokinetic_power_drain" } },
+    "effect": [ { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE_REAL" } ],
+    "false_effect": [ { "u_message": "The power you channel vanishes into nothingness.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INITIATE_REAL",
     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
     "effect": [
       { "u_message": "The hair on your body stands up on end.", "type": "good" },

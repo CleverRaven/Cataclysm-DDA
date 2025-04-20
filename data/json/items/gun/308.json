@@ -104,7 +104,7 @@
     "energy_drain": "1 kJ",
     "reload": 400,
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ],
     "melee_damage": { "bash": 18 }

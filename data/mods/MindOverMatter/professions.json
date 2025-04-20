@@ -378,7 +378,7 @@
       "practice_teleport_stride",
       "practice_teleport_farstep"
     ],
-    "proficiencies": [ "prof_concentration_basic", "prof_contemplation_teleportation" ],
+    "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate", "prof_contemplation_teleportation" ],
     "items": {
       "both": {
         "entries": [
