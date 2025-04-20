@@ -1207,7 +1207,7 @@ bool item_location::protected_from_liquids() const
     return false;
 }
 
-void item_location::set_fault( const fault_id &fault_id, const bool force, const bool message )
+void item_location::set_fault( const fault_id fault_id, bool force, bool message )
 {
     map &here = get_map();
     item &it = *item_location::get_item();
@@ -1222,13 +1222,13 @@ void item_location::set_fault( const fault_id &fault_id, const bool force, const
     it.faults.insert( fault_id );
 }
 
-void item_location::set_random_fault_of_type( const std::string &fault_type, const bool force,
+void item_location::set_random_fault_of_type( const std::string fault_type, const bool force,
         const bool message )
 {
     map &here = get_map();
     item &it = *get_item();
     if( force ) {
-        item_location::set_fault( random_entry( faults::all_of_type( fault_type ) ), true, true );
+        set_fault( random_entry( faults::all_of_type( fault_type ) ), true, true );
         return;
     }
 

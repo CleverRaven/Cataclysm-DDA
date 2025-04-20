@@ -2062,7 +2062,7 @@ class item : public visitable
         /** Check if item can have a fault, and if yes, applies it. This version do not print a message, use item_location version instead
          * `force`, if true, bypasses the check and applies the fault item do not define
          */
-        void set_fault( const fault_id &fault_id, bool force = false );
+        void set_fault( const fault_id fault_id, bool force = false );
 
         /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
         * `force`, if true, bypasses the check and applies the fault item do not define

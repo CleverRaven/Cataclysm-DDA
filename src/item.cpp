@@ -7777,7 +7777,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-void item::set_fault( const fault_id &fault_id, const bool force )
+void item::set_fault( const fault_id fault_id, bool force )
 {
     if( !force && type->faults.get_specific_weight( fault_id ) == 0 ) {
         return;
@@ -7786,7 +7786,7 @@ void item::set_fault( const fault_id &fault_id, const bool force )
     faults.insert( fault_id );
 }
 
-void item::set_random_fault_of_type( const std::string &fault_type, const bool force )
+void item::set_random_fault_of_type( const std::string fault_type, const bool force )
 {
     if( force ) {
         set_fault( random_entry( faults::all_of_type( fault_type ) ), true );
