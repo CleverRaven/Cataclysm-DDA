@@ -111,6 +111,7 @@
     "apply_message": "You are bolstered and pushed along by the power of the wind",
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
+    "max_duration": 1200,
     "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "((u_spell_level('windrun') * 2) + 10)" ] } } ] } ],
     "base_mods": { "stamina_min": [ 10 ] }
   },
@@ -134,6 +135,7 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape.",
     "rating": "good",
+    "max_duration": 40000,
     "enchantments": [
       {
         "values": [
@@ -155,17 +157,10 @@
     "max_intensity": 4,
     "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
     "remove_message": "The ghostly arms fade away.",
+    "rating": "bad",
+    "max_duration": 200,
     "show_in_info": true,
-    "//": "FIXME--top enchant is due to bug #78597",
     "enchantments": [
-      {
-        "values": [
-          {
-            "value": "SPEED",
-            "add": { "math": [ "(-10 + (u_ethereal_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
-          }
-        ]
-      },
       {
         "condition": { "math": [ "u_val('size')<= 1" ] },
         "values": [
@@ -247,6 +242,7 @@
     "apply_message": "You are filled with energy that improves everything you do!",
     "remove_message": "Your energy fades.",
     "rating": "good",
+    "max_duration": 1200,
     "enchantments": [
       {
         "values": [
@@ -266,6 +262,7 @@
     "apply_message": "Your body ripples with writhing alien muscles, your limbs lengthen, and your eyes glow with a faint green.",
     "remove_message": "Your body rapidly returns to normal.",
     "rating": "good",
+    "max_duration": 2400,
     "max_intensity": 4,
     "enchantments": [
       {
