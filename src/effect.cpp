@@ -20,6 +20,7 @@
 #include "json.h"
 #include "magic_enchantment.h"
 #include "messages.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -993,7 +994,8 @@ std::string effect::disp_desc( bool reduced ) const
             ret += tmp_str;
         }
     }
-
+    ret +='\n';
+    ret += get_origin( eff_type->src );
     if( debug_mode ) {
         ret += string_format(
                    _( "\nDEBUG: ID: <color_white>%s</color> Intensity: <color_white>%d</color>" ),
@@ -1607,6 +1609,7 @@ void load_effect_type( const JsonObject &jo, const std::string_view src )
                                        enchant_num++ );
         new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
+    mod_tracker::assign_src(new_etype, src);
     effect_types[new_etype.id] = new_etype;
 }
 

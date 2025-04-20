@@ -105,6 +105,7 @@ class effect_type
 {
         friend void load_effect_type( const JsonObject &jo, std::string_view src );
         friend class effect;
+        friend struct mod_tracker;
     public:
         enum class memorial_gender : int {
             male,
@@ -246,6 +247,8 @@ class effect_type
         std::vector<effect_dur_mod> effect_dur_scaling;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
+
+        std::vector<std::pair<efftype_id, mod_id>> src;
 };
 
 class effect;
