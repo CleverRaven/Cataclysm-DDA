@@ -2,6 +2,10 @@
 
 These documents are for the lore basis and mechnical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
 
+## Timeline Differences from vanilla CDDA
+
+TBD
+
 ## Dream Magick
 
 TBD
@@ -42,7 +46,25 @@ Dhampirs can use tier 1, 2, and 3 Blood Arts, though they should not have any sh
 
 Some dhampir-exclusive abilities, and some vampire Blood Arts when used by dhampirs, only function when they have `empowered blood`, which is when the blood vitamins is at 1 or higher. When `enervated` (at blood vitamin 0 or lower), they suffer minor but slow scaling penalties to hunger, thirst, sleepiness, and stamina. Dhampir do not suffer from the `withering`, and while they can become `blood_quenched`, they can only do so by drinking blood. 
 
+## Shapeshifters
+
+At the moment, no shapeshifters appear as monsters or NPC.  Werewolves are playable but barebones. Most aspects of werewolves, or shapeshifters in general, to TBD.
+
+### Werewolves
+
+Werewolves, who call themselves "The People of the Moon", function as defenders of Earth and nature against extra-dimensional or spiritual threats, like beings from the Nether, possessing spirits, and so on. Their supernatural powers revolve around this concept. 
+
+Werewolves hjave three forms: their human form, their wolf form, and their hybrid war form, a three-meter-tall mass of muscle with enormous claws and teeth. The war form as a very high metabolism, so staying in it for long periods of time is discouraged.
+
+Werewolves are vulnerable to silver. This is currently unimplemented.
+
+Principles of Werewolf powers:
+- Werewolf powers are fueled by mana, but their mana is proportional to their physical prowess, not their intelligence.
+- Werewolf powers revolve around changing form and hunting prey. They generally cannot bring their metaphysical might to bear in situations that require stealth or diplomacy, though some exceptions exist. 
+
 ## The Fair Folk
+
+
 
 ## Lilin
 
