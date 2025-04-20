@@ -8,7 +8,7 @@
     "to_hit": -4,
     "color": "yellow",
     "symbol": "T",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "20 L",
     "category": "veh_parts",
     "price": "600 USD",
