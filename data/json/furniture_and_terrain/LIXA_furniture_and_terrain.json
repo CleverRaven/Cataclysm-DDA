@@ -78,9 +78,143 @@
     "color": "i_cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "examine_action": "ledge",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+    "type": "effect_on_condition",
+    "id": "false_ledge",
+    "//": "should be removed if any of #74335, #71814, #50277 and #28975 would be resolved",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_PEEK_DOWN_pseudo", "EOC_CLIMB_DOWN_pseudo", "EOC_JUMP_ACROSS_pseudo", "EOC_FALL_DOWN_pseudo" ],
+        "allow_cancel": true,
+        "names": [ "Peek down", "Climb down by lowering yourself from the ledge", "Can't jump across (need a small gap)", "Fall down" ],
+        "title": "There is a ledge here.  What do you want to do?",
+        "descriptions": [
+          "You look down as far as you can see.",
+          "You hang off the ledge to get closer to a bottom you cannot see.",
+          "Take a leap of faith.",
+          "End it all."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PEEK_DOWN_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_PEEK_DOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLIMB_DOWN_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_CLIMB_DOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_JUMP_ACROSS_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_JUMP_ACROSS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FALL_DOWN_pseudo",
+    "//": "for selector cannot pick EoCs that are failing",
+    "effect": [ { "run_eocs": "EOC_FALL_DOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PEEK_DOWN",
+    "condition": { "condition": { "math": [ "u_val('morale') < -50" ] } },
+    "false_effect": [ { "npc_add_var": "snippet_file", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_READ_LOCAL_FILES" } ],
+    "effect": [
+      {
+        "if": { "compare_string": [ "has", { "npc_val": "snippet_file" } ] },
+        "then": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
+      },
+      {
+        "if": { "compare_string": [ "lack", { "npc_val": "snippet_file" } ] },
+        "then": [ { "u_message": "You found nothing interesting." } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLIMB_DOWN",
+    "effect": [
+      {
+        "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
+        "then": [ { "u_message": "You already noted everything this map cache can offer." } ],
+        "else": [
+          { "location_variable_adjust": { "npc_val": "spawn_location" }, "z_adjust": 0, "z_override": true, "overmap_tile": true },
+          { "reveal_map": { "npc_val": "spawn_location" }, "radius": { "math": [ "rng(11, 36)" ] } },
+          { "npc_add_var": "map_cache", "value": "read" },
+          { "u_message": "You found some useful data in the map cache and noted it.", "type": "good" }
+        ]
+      }
+    ]
+  },
+    {
+    "type": "effect_on_condition",
+    "id": "EOC_JUMP_ACROSS",
+    "condition": { "compare_string": [ { "npc_val": "snippet_file" }, "has", "lack" ] },
+    "false_effect": [ { "npc_add_var": "snippet_file", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_READ_LOCAL_FILES" } ],
+    "effect": [
+      {
+        "if": { "compare_string": [ "has", { "npc_val": "snippet_file" } ] },
+        "then": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
+      },
+      {
+        "if": { "compare_string": [ "lack", { "npc_val": "snippet_file" } ] },
+        "then": [ { "u_message": "You found nothing interesting." } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FALL_DOWN",
+    "effect": [
+      {
+        "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
+        "then": [ { "u_message": "You already noted everything this map cache can offer." } ],
+        "else": [
+          { "location_variable_adjust": { "npc_val": "spawn_location" }, "z_adjust": 0, "z_override": true, "overmap_tile": true },
+          { "reveal_map": { "npc_val": "spawn_location" }, "radius": { "math": [ "rng(11, 36)" ] } },
+          { "npc_add_var": "map_cache", "value": "read" },
+          { "u_message": "You found some useful data in the map cache and noted it.", "type": "good" }
+        ]
+      }
+    ]
+  }
+      ]
+    },
     "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "EMPTY_SPACE", "FREE_TO_EXAMINE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FALL_TO_DEATH_LIXA",
+    "condition": { "and": [ "u_is_alive", "npc_is_avatar" ] },
+    "effect": [
+      {
+        "npc_location_variable": { "context_val": "Lixa_teleport" },
+        "target_params": {
+          "om_terrain": "LIXA_road",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 12,
+          "min_distance": 25,
+          "z": 0,
+          "random": true
+        }
+      },
+      {
+        "npc_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches… THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.  Your eyes open once more, gazing upon the road to the lab where you fell to your death.",
+        "popup": true
+      },
+      { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
+    ]
   },
   {
     "type": "terrain",

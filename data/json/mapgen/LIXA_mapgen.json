@@ -114,7 +114,6 @@
         { "monster": "GROUP_MIL_STRONG", "x": [ 3, 10 ], "y": [ 28, 41 ], "density": 0.1 },
         { "monster": "GROUP_CIVILIAN_NO_FERAL", "x": [ 14, 23 ], "y": [ 13, 21 ], "density": 0.1 }
       ],
-      "traps": { "_": "tr_fall_to_death" },
       "signs": { "P": { "signage": "LIXA" } },
       "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 14, "y": 36, "rotation": 270 } ]
     }
