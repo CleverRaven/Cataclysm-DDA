@@ -6539,7 +6539,7 @@ Unicode
 unitard
 unitards
 unjacketed
-unknownable
+unknowable
 unlife
 unlively
 unlockable
