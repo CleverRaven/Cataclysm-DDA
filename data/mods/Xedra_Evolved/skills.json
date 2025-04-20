@@ -30,7 +30,7 @@
       },
       { "level": 7, "description": "You're basically modern day Sherlock Holmes." },
       { "level": 9, "description": "No secret is safe from you." },
-      { "level": 10, "description": "Even the unknownable unknowns are known to you." }
+      { "level": 10, "description": "Even the unknowable unknowns are known to you." }
     ],
     "sort_rank": 26500,
     "companion_skill_practice": [ { "skill": "speech", "weight": 1 }, { "skill": "devices", "weight": 1 } ]
