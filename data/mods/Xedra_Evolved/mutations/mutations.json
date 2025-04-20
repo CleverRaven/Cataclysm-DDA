@@ -544,8 +544,7 @@
     "description": "This provides the school trait for vampire blood powers.  It should not be visible.",
     "valid": false,
     "purifiable": false,
-    "player_display": false,
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "player_display": false
   },
   {
     "type": "mutation",
