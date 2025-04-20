@@ -16,9 +16,9 @@ TBD
 
 ## Vampires
 
-Xedra Evolved vampires are not walking corpses who drink the blood of the living. At least, not at first. Vampirism is a progressive disease and many sufferers are more alive than they are dead. While they can drink blood and derive power from it, they still need to eat, drink, and sleep just like mortals do. Becoming an actual undead monster requires a conscious decision on the part of the nascent vampire and can only be accomplished by committing heinous crimes (at the time of this writing, murdering a dear and trusting friend). Actual vampires are monsters without exception. 
+Xedra Evolved vampires are not walking corpses who drink the blood of the living. At least, not at first. Vampirism is a progressive disease and many sufferers are more alive than they are dead. While they must drink blood and can derive power from it, they still need to eat, drink, and sleep just like mortals do. Becoming an actual undead monster requires a conscious decision on the part of the nascent vampire and can only be accomplished by committing heinous crimes (at the time of this writing, murdering a dear and trusting friend). Actual vampires are monsters without exception, predators who have extinguished all feeling from their hearts. 
 
-Vampires have existed for a long time on the Earth of Xedra Evolved, and on some--though not all--extradimensional Earths as well. It is possible that humanity's first steps into agriculture and gathering into stationary cities were encouraged by vampires, so that they would have an easier time maintaining their herds. They use their `renfields`, brainwashed mortal agents, to manipulate human society and keep them safe from those who would destroy them. 
+Vampires have existed for a long time on the Earth of Xedra Evolved, and on some--though not all--extradimensional Earths as well. It is possible that humanity's first steps into agriculture and gathering into stationary cities were encouraged by vampires, so that they would have an easier time maintaining their herds. They use their `renfields`, brainwashed mortal agents, to manipulate human society and keep themselves safe from those who would destroy them. 
 
 Vampires require human blood, or the blood of human-like species. They cannot survive on animal blood, so they are forced to prey on fellow sapients to survive. They also cannot drink vampire blood (though see below), becuase vampires have enough control over their own blood to prevent another from drinking it. A vampire who does not use any of their powers (called Blood Arts) is capable of surviving for quite a long time without needing to feed. 
 
@@ -49,13 +49,13 @@ Some dhampir-exclusive abilities, and some vampire Blood Arts when used by dhamp
 
 ## Shapeshifters
 
-At the moment, no shapeshifters appear as monsters or NPC.  Werewolves are playable but barebones. Most aspects of werewolves, or shapeshifters in general, are TBD.
+At the moment, no shapeshifters appear as monsters or NPCs.  Werewolves are playable but barebones. Most aspects of werewolves, or shapeshifters in general, are TBD.
 
 ### Werewolves
 
 Werewolves, who call themselves "The People of the Moon", function as defenders of Earth and nature against extra-dimensional or spiritual threats, like beings from the Nether, possessing spirits, and so on. Their supernatural powers revolve around this concept. 
 
-Werewolves hjave three forms: their human form, their wolf form, and their hybrid war form, a three-meter-tall mass of muscle with enormous claws and teeth. The war form as a very high metabolism, so staying in it for long periods of time is discouraged.
+Werewolves have three forms: their human form, their wolf form, and their hybrid war form, a three-meter-tall mass of muscle with enormous claws and teeth. The war form has a very high metabolism, so staying in it for long periods of time is discouraged.
 
 Werewolves are vulnerable to silver. This is currently unimplemented.
 
@@ -66,7 +66,7 @@ Principles of Werewolf powers:
 
 ## The Fair Folk
 
-The Fair Folk are a multidimensional power on the level of the triffids, in that they are capable of exerting power across many dimensions simultaneously and they have nothing to fear from the blod. Unlike the triffids, they are not expansionist. They have a home dimension variously called `Under the Hill`, `the Bright Lands`, `the Elflands`, and similar names. If they have their own name for their dimension, they don't use it with mortals.
+The Fair Folk are a multidimensional power on the level of the triffids, in that they are capable of exerting power across many dimensions simultaneously and they have nothing to fear from the blob. Unlike the triffids, they are not expansionist. They have a home dimension variously called `Under the Hill`, `the Bright Lands`, `the Elflands`, and similar names. If they have their own name for their dimension, they don't use it with mortals.
 
 The Fair Folk are divided into the elemental fae, or Paraclesians, and more humanlike fae, or changelings. Note that despite being called changelings in XE, most changelings were born in the Elflands and not swapped for human babies.
 
@@ -82,7 +82,7 @@ Paralecian magick is heavily themed and also grows much stronger when in an appr
 
 Each Paraclesian has their own design sensibilities:
 - Arvore: Arvore powers relate to plants, nature, and growing things. Their magic allows them to become more plantlike, encourage plant growth, draw sustenance from soil and sunlight, and so on. While Arvore do have damaging spells, they mostly only affect plants and zombies, and then not generally in a magical bolt instant-damage fashion, since damage-over-time is much more similar to how nature works. Arvore deliberately have no powers that affect animals. The mortal need Arvore can overcome is requiring food and drink.
-- Homullus: TBD
+- Homullus: Homullus powers relate to humanity, tools, cities and knowledge.  They have abilities related to managing humans and formerly human creatures such as ferals, renfields, etc.  Currently not implemented but they should be incredibly effective at dealing with cyborgs and some abilities related to interacting with robots (as tools created by humans).  They have the ability to install CBMs or even choose to limit their Paraclesian abilities by pursuing a mutation path created by humans.  The mortal need that Homullus can overcome is anything that limits their ability to make choices such as mind control.
 - Ierde: Ierde powers relate to resilience, preservation, and the manipulation of earth and stone. They are designed less to destroy their enemies with magick and more to slow them, redirect them, and simply outlast them (though since only the player has stamina this works less well than it could). The mortal need Ierde can overcome is sensitivity to pain and tiredness (stamina, not sleepiness). 
 - Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associatons with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
 - Sylph: Sylph powers relate to wind, lightning, and the weather (weather currently unimplemented). The mortal need Sylphs can overcome is being tied down, in both the literal gravity sense and the metaphorical snares or entanglements sense.
