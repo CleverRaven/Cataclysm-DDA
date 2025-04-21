@@ -306,9 +306,6 @@ Improves/adds missions, rewards and interactions with the New England Community 
 Military outposts have been revamped
 Adds a new nether monster
 Adds Grog recipe and drink
-Tweaks Grog item json
-Add MOLLE II sustainment pouch item
-Added 2 new houses
 Some scenarios have different distances revealed at the start
 
 
@@ -801,17 +798,9 @@ Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species
 [Xedra Evolved] Vampires can drink blood
 Aftershock: Merge aftershock and aftershock exoplanet.
 Aftershock: Heat Crashed Ship.
-Add NB flag to crazy cata
-[Xedra Evolved] Rescale blood vitamin 
-[Xedra Evolved] Add Dhampir Weakness: Nocturnal
-[Xedra  Evolved] Vampires/Dhampirs can use Hypnotic Gaze against muggers/steal-confronters
-Aftershock: Miscellaneous fixes for the early game.
-[Xedra Evolved] Add one vampire power and one dhampir weakness
 Shia LaBeouf Nemesis
 Mod Conflicts
 [MoM] Add more specific Nether Attunement backlash effects
-[MoM] Itzcuauhtli Corps Liaison has Expert Concentration Proficiency
-[Xedra Evolved] Vampires gain greater static bonuses from traits
 [Xedra Evolved] Add vampire magic type + update power/trait descriptions with blood costs
 
 
@@ -908,7 +897,6 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
-Fixed some inconsistencies with knives' jsons.
 Characters do not automatically try to clear `downed` if they have the `CANNOT_MOVE` flag
 Ban alcohol from camp larder
 
@@ -1262,7 +1250,6 @@ Fix 0.5 L I1 Diesel engine not consuming fuel
 [Sky Island] Fix possible painkiller death loop
 Suppressors noise reduction multiplicative instead of additive
 Fix location Variables targeting specific map features
-[Sky Island] Remove incorporeal immunity in death EoC
 Set owner faction of in-progress crafts
 [MoM] Fix Electron Overflow divide by zero
 Fix crash after deleting items in character_takeoff_item eoc
