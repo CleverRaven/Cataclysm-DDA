@@ -120,8 +120,12 @@
         },
         {
           "id": "EOC_PEEK_DOWN",
-          "condition":  { "math": [ "u_val('morale') < -75" ] },
-          "false_effect": [ { "u_message": "You look down and see the elevator shaft going deeper than you expected.  Much deeper to where you can no longer see beyond." } ],
+          "condition": { "math": [ "u_val('morale') < -75" ] },
+          "false_effect": [
+            {
+              "u_message": "You look down and see the elevator shaft going deeper than you expected.  Much deeper to where you can no longer see beyond."
+            }
+          ],
           "effect": [
             {
               "npc_location_variable": { "context_val": "Lixa_teleport" },
