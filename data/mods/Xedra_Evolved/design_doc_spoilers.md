@@ -84,7 +84,7 @@ Principles of Werewolf powers:
 - Werewolf powers have a chance to fail based entirely on the pain the werewolf is suffering from. Since werewolves regenerate, this means that while they can be in a very difficult situation if they're at high pain, they merely need to wait a few minutes to return to 0 chance to fail. 
 - Werewolf powers revolve around changing form and hunting prey. They generally cannot bring their metaphysical might to bear in situations that require stealth or diplomacy, though some exceptions exist. 
 
-Werewolves gain new powers by killing enemies in barehand combat. 
+Werewolves gain new powers by killing enemies in barehand combat. The wolf must hunt.
 
 ## The Fair Folk
 
@@ -92,11 +92,11 @@ The Fair Folk are a multidimensional power on the level of the triffids, in that
 
 The Fair Folk are divided into the elemental fae, or Paraclesians, and more humanlike fae, or changelings. Note that despite being called changelings in XE, most changelings were born in the Elflands and not swapped for human babies.
 
-Almost all Fair Folk are vulnerable to iron to varying degrees (though see below)
+Almost all Fair Folk are vulnerable to iron to varying degrees, with Arvore, Sylphs, and Undines being the most vulnerable. Homullus are, uniquely, not vulnerable to it at all.
 
 ### Paraclesians
 
-Paraclesians are based on the elements: Sylphs for air, Ierde for earth, Undines for water, Salamanders for fire, and Arvore for wood. A sixth type, Homullus is effectively an "elemental" of humanity. Other elemental types might exist related to other species such as gracken, but they generally do not visit Earth.
+Paraclesians are based on the elements: Sylphs for air, Ierde for earth, Undines for water, Salamanders for fire, and Arvore for wood. A sixth type, Homullus is effectively an "elemental" of humanity. Other elemental types might exist related to other species such as gracken, but if so, they generally do not visit Earth.
 
 Paraclesians are the eldest and original Fair Folk, born from the "dreams" of natural features like mountains and rivers. They spring to life fully formed, but with little power, and their parents often place them outside the Bright Lands to grow up. Those Paraclesians who survive and manage to make it back home are considered adults. 
 
@@ -107,16 +107,16 @@ Each Paraclesian has their own design sensibilities:
 - Homullus: Homullus powers relate to humanity, tools, cities and knowledge.  They have abilities related to managing humans and formerly human creatures such as ferals, renfields, etc.  Currently not implemented but they should be incredibly effective at dealing with cyborgs and some abilities related to interacting with robots (as tools created by humans).  They have the ability to install CBMs or even choose to limit their Paraclesian abilities by pursuing a mutation path created by humans.  The mortal need that Homullus can overcome is anything that limits their ability to make choices such as mind control. Homullus are also, uniquely, not bothered by iron.
 - Ierde: Ierde powers relate to resilience, preservation, and the manipulation of earth and stone. They are designed less to destroy their enemies with magick and more to slow them, redirect them, and simply outlast them (though since only the player has stamina this works less well than it could). The mortal need Ierde can overcome is sensitivity to pain and tiredness (stamina, not sleepiness). 
 - Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associatons with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
-- Sylph: Sylph powers relate to wind, lightning, and the weather (weather currently unimplemented). Their powers allow them to breathe without air, affect the morale of enemies and friends, and control the air around them. The mortal need Sylphs can overcome is being tied down, in both the literal gravity sense and the metaphorical snares or entanglements sense.
+- Sylph: Sylph powers relate to wind, lightning, and the weather (weather currently unimplemented). Their powers allow them to breathe without air, affect the morale of enemies and friends, conjure up blasts of lightning, and control the air around them. The mortal need Sylphs can overcome is being tied down, in both the literal gravity sense and the metaphorical snares or entanglements sense.
 - Undine: Undine powers relate to water and acid, as well as the transformation of liquids.  Undines are slightly different because by default they do not need to drink water and heal when in water, but many of their powers have a thirst cost so they can become thirsty by using their magic. They can also regain thirst automatically when underwater, so the push-pull of Undine powers is making sure to never be so far from water that they can't top up when necessary.
 
 Paraclesians gain their powers by spending time in their native environments, though this is very slow (up to a month to gain one power), or by hunting down other elemental fae and making `destiny draughts` that function like mutagen.
 
 ### Changelings
 
-Changelings are originally the offspring of couples between mortals and elemental fae in the unremembered past, which occurred often enough that their descendants formed a new stable population. While they do sometimes still swap mortal babies for fae babies, the name "changeling" as a collective is used for convenience and most changelings are born and grow up Under the Hill.
+Changelings are originally the offspring of pairings between mortals and elemental fae in the unremembered past, which occurred often enough that their descendants formed a new stable population. While they do sometimes still swap mortal babies for fae babies, the name "changeling" as a collective is used for convenience and most changelings are born and grow up Under the Hill.
 
-The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arragement varies based on the individual changeling but the temptation is always there.
+The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arragement varies based on the individual changeling but the temptation is always there. They will not bring anyone to the Elflands who has not sworn some sort of agreement with them, and for this reason the Exodii are wary to antagonistic towards them. 
 
 Changelings are divided into two great courts, the Summer (or Seelie) Court and the Winter (or Unseelie) Court. The Summer Court is more benevolent to mortals (Lady Boann is Summer Court), but that does not mean they are nice. Changelings are also divided into two broad types, nobles and commoners. Nobles are more magically powerful, but commoners have individual tricks that the nobles cannot copy with their magic, such as the selkies' facility with weather control or brownies' ability to speed crafting when unobserved.
 
