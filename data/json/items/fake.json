@@ -96,7 +96,7 @@
         "menu_text": "Turn off the radio",
         "msg": "You turn off the radio.",
         "type": "transform",
-        "active": true,
+        "active": false,
         "need_charges": 1,
         "need_charges_msg": "You're out of juice, recharge and you'll be hot to go."
       }
