@@ -57,6 +57,8 @@ There exists a way to push vampirism beyond its limits.  This isn't something th
 
 Once ago, a vampire hunter decided to fight fire with fire and sought a way to consume other vampires to gain the power to eradicate them all.  They succeeded, but won't ever share how they did to gain such power.  They relentlessly roam the world, searching for vampire-blooded to kill and drain.  Once the player reaches the final tier of vampirism, they too will eventually get a visit from the Anathema.
 
+The Vampiric Anathema is intended to be almost impossible to kill without a plan, for they are far stronger than regular vampires.  Proper planning, such as exploiting their vampire weaknesses, is the key to kill them.  They must always be nigh-invincible head-on, assuming a well-geared player with high skills and every single vampire power, but be challenging yet beatable in a well-prepared fight.
+
 Should the Anathema be slain, something incredibly easier said than done, their notes will allow the player to use the same method, pushing their own vampirism to levels previously only seen in the Anathema.  The player will then gain the ability to consume vampire blood to gain the Anathema-specific traits, in a way similar to a mutation path.  On average, three vampires contain enough blood to grant one such trait.
 
 If a trait should be given, but the player already have them all, it will increment an effect counting as a tier 1 power for power calculation purposes.  This is so the player never stops wanting vampire blood, the same way vampires never stop wanting regular blood.
