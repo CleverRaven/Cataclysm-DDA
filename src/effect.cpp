@@ -21,6 +21,7 @@
 #include "magic_enchantment.h"
 #include "messages.h"
 #include "mod_manager.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
