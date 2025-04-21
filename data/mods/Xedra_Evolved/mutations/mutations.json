@@ -694,8 +694,7 @@
     "valid": false,
     "name": { "str": "Learn from the Children of the Night" },
     "description": "You call out to the creatures that inhabit the night.  Wolves, bats, rats and more.  They tell you about what terrain surrounds you.",
-    "active": true,
-    "activated_eocs": [ "EOC_COMMUNE_NIGHT_MAP" ]
+    "spells_learned": [ [ "vampire_commune_with_night_spell", 1 ] ]
   },
   {
     "type": "mutation",

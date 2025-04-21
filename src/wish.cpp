@@ -232,7 +232,7 @@ class wish_mutate_callback: public uilist_callback
                              mdata.visibility,
                              mdata.ugliness );
                 ImGui::NewLine();
-                ImGui::TextWrapped( "%s", mdata.desc().c_str() );
+                ImGui::TextWrapped( "%s", you->mutation_desc( mdata.id ).c_str() );
             }
 
             float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();

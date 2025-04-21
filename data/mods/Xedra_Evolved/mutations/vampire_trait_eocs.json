@@ -945,13 +945,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COMMUNE_NIGHT_MAP",
-    "condition": { "and": [ { "math": [ "u_val('pos_z') >= 0" ] }, { "not": "is_day" }, "u_is_outside" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
     "effect": [
-      { "u_cast_spell": { "id": "vampire_map_real" } },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
-      { "u_message": "The children of the night tell you what features of the map are nearby." }
+      {
+        "if": { "and": [ { "math": [ "u_val('pos_z') >= 0" ] }, { "not": "is_day" }, "u_is_outside" ] },
+        "then": [
+          { "u_cast_spell": { "id": "vampire_map_real" } },
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
+          { "u_message": "The children of the night tell you what features of the map are nearby." }
+        ],
+        "else": [ { "u_message": "Without the ability to howl into the wilds of the night, there is no response." } ]
+      }
     ],
-    "false_effect": [ { "u_message": "Without the ability to howl into the wilds of the night, there is no response." } ]
+    "false_effect": [ { "u_message": "You don't have enough blood to summon the creatures of the night.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",

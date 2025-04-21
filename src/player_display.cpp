@@ -649,7 +649,7 @@ static void draw_traits_info( const catacurses::window &w_info, const Character 
     werase( w_info );
     if( line < traitslist.size() ) {
         const trait_and_var &cur = traitslist[line];
-        std::string trait_desc = cur.desc();
+        std::string trait_desc = you.mutation_desc( cur.trait );
         if( !you.purifiable( cur.trait ) ) {
             trait_desc +=
                 _( "\n<color_yellow>This trait is an intrinsic part of you now, purifier won't be able to remove it.</color>" );

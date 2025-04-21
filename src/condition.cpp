@@ -804,7 +804,7 @@ conditional_t::func f_has_item( const JsonObject &jo, std::string_view member, b
     };
 }
 
-conditional_t::func f_has_items( const JsonObject &jo, const std::string_view member,
+conditional_t::func f_has_items( const JsonObject &jo, std::string_view member,
                                  bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
@@ -835,7 +835,7 @@ conditional_t::func f_has_items( const JsonObject &jo, const std::string_view me
     }
 }
 
-conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_view member,
+conditional_t::func f_has_items_sum( const JsonObject &jo, std::string_view member,
                                      bool is_npc )
 {
     std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
@@ -1745,7 +1745,7 @@ conditional_t::func f_query( const JsonObject &jo, std::string_view member, bool
     };
 }
 
-conditional_t::func f_x_in_y_chance( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_x_in_y_chance( const JsonObject &jo, std::string_view member )
 {
     const JsonObject &var_obj = jo.get_object( member );
     dbl_or_var dovx = get_dbl_or_var( var_obj, "x" );
@@ -1921,7 +1921,7 @@ conditional_t::func f_has_ammo()
     };
 }
 
-conditional_t::func f_math( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_math( const JsonObject &jo, std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member, math_type_t::compare );
@@ -1968,7 +1968,7 @@ conditional_t::func f_has_reason()
     };
 }
 
-conditional_t::func f_roll_contested( const JsonObject &jo, const std::string_view member )
+conditional_t::func f_roll_contested( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var get_check = get_dbl_or_var( jo, member );
     dbl_or_var difficulty = get_dbl_or_var( jo, "difficulty", true );
@@ -2637,7 +2637,7 @@ conditional_t::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
     bool found_sub_member = false;
-    const auto parse_array = []( const JsonObject & jo, const std::string_view type ) {
+    const auto parse_array = []( const JsonObject & jo, std::string_view type ) {
         std::vector<conditional_t> conditionals;
         for( const JsonValue entry : jo.get_array( type ) ) {
             if( entry.test_string() ) {
