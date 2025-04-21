@@ -196,6 +196,10 @@
         "ench_effects": [ { "effect": "effect_dhampir_slow_blood_loss", "intensity": 1 } ]
       },
       {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "0" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_enervated_blood", "intensity": 1 } ]
+      },
+      {
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
         "ench_effects": [ { "effect": "effect_dhampir_empowered_blood_indicator", "intensity": 1 } ]
       },
@@ -603,6 +607,14 @@
     "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_deactivated" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
         "values": [ { "value": "STRENGTH", "add": { "math": [ "1 + u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER') * 2)" ] } } ]
       }
     ]
@@ -622,6 +634,14 @@
     "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
         "incoming_damage_mod": [
           { "type": "bash", "multiply": -0.05 },
           { "type": "stab", "multiply": -0.02 },
@@ -661,7 +681,19 @@
     "valid": false,
     "name": { "str": "Silent as Death" },
     "description": "Your movements don't make nearby as much noise as they used to.",
-    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ]
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -761,6 +793,14 @@
     "deactivated_eocs": [ "EOC_VAMPIRIC_DODGE_deactivate" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
         "values": [ { "value": "DEXTERITY", "add": { "math": [ "1 + u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER') * 2)" ] } } ]
       }
     ]
