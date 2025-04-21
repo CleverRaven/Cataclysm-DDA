@@ -120,8 +120,8 @@
         },
         {
           "id": "EOC_PEEK_DOWN",
-          "condition": { "condition": { "math": [ "u_val('morale') < -50" ] } },
-          "false_effect": [ { "u_message": "snippet_file" } ],
+          "condition":  { "math": [ "u_val('morale') < -75" ] },
+          "false_effect": [ { "u_message": "You look down and see the elevator shaft going deeper than you expected.  Much deeper to where you can no longer see beyond." } ],
           "effect": [
             {
               "npc_location_variable": { "context_val": "Lixa_teleport" },
@@ -135,7 +135,7 @@
               }
             },
             {
-              "npc_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles,  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
+              "npc_message": "You receive an uncontrollable compulsion to step forward into the open elevator shaft.  As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles,  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
               "popup": true
             },
             { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
