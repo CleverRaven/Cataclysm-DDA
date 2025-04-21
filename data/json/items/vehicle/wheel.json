@@ -25,6 +25,7 @@
     "longest_side": "102 mm",
     "price": "10 cent",
     "price_postapoc": "10 cent",
+    "//": "Wheel axles are commonly made out of 1040 steel (which is a medium steel) or similar: see https://www.iforgeiron.com/topic/4526-axles-what-metal/ and https://www.randysworldwide.com/blogs/common-steel-groups-for-axles-2",
     "material": [ "mc_steel" ],
     "symbol": ";",
     "color": "dark_gray"
@@ -89,6 +90,7 @@
     "longest_side": "432 mm",
     "price": "50 USD",
     "price_postapoc": "5 USD",
+    "//": "Steel grade is a guess: I couldn't find anything, so I chose the same material as wheel axles",
     "material": [ "mc_steel" ],
     "symbol": "]",
     "color": "dark_gray",

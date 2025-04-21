@@ -174,7 +174,7 @@
     "weight": "750 kg",
     "color": "dark_gray",
     "symbol": "]",
-    "material": [ "lc_steel" ],
+    "material": [ "iron" ],
     "volume": "330 L",
     "longest_side": "110 cm",
     "price": "120 USD",
