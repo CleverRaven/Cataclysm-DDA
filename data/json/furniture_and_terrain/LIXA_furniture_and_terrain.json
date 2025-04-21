@@ -139,7 +139,7 @@
               }
             },
             {
-              "npc_message": "You receive an uncontrollable compulsion to step forward into the open elevator shaft.  As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles,  You lose count repeatedly but slowly, finally, the floor approaches… THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
+              "npc_message": "You receive an uncontrollable compulsion to step forward into the open elevator shaft.  As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles.  You lose count repeatedly but slowly, finally, the floor approaches… THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
               "popup": true
             },
             { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
