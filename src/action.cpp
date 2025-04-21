@@ -534,25 +534,25 @@ action_id look_up_action( const std::string &ident )
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), _( "Press " ), "", _( "Try" ) );
 }
 std::string press_x( action_id act, const std::string &key_bound, const std::string &key_unbound )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound, "", key_unbound );
 }
 std::string press_x( action_id act, const std::string &key_bound_pre,
                      const std::string &key_bound_suf,
                      const std::string &key_unbound )
 {
-    input_context ctxt = get_default_mode_input_context();
+    const input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
 std::optional<std::string> press_x_if_bound( action_id act )
 {
-    input_context ctxt = get_default_mode_input_context();
-    std::string description = action_ident( act );
+    const input_context ctxt = get_default_mode_input_context();
+    const std::string description = action_ident( act );
     if( ctxt.keys_bound_to( description, /*maximum_modifier_count=*/ -1,
                             /*restrict_to_printable=*/false ).empty() ) {
         return std::nullopt;
@@ -633,12 +633,12 @@ std::optional<input_event> hotkey_for_action( const action_id action,
 
 bool can_butcher_at( map &here, const tripoint_bub_ms &p )
 {
-    map_stack items = here.i_at( p );
+    const map_stack items = here.i_at( p );
     // Early exit when there's definitely nothing to butcher
     if( items.empty() ) {
         return false;
     }
-    Character &player_character = get_player_character();
+    const Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
     const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
     const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
@@ -646,7 +646,7 @@ bool can_butcher_at( map &here, const tripoint_bub_ms &p )
     bool has_corpse = false;
 
     const inventory &crafting_inv = player_character.crafting_inventory();
-    for( item &items_it : items ) {
+    for( const item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
@@ -663,7 +663,7 @@ bool can_move_vertical_at( const map &here, const tripoint_bub_ms &p, int movez 
     if( p.z() + movez < -OVERMAP_DEPTH || p.z() + movez > OVERMAP_HEIGHT ) {
         return false;
     }
-    Character &player_character = get_player_character();
+    const Character &player_character = get_player_character();
     // TODO: unify this with game::move_vertical
     if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
@@ -706,7 +706,7 @@ bool can_examine_at( map &here, const tripoint_bub_ms &p, bool with_pickup )
         return true;
     }
 
-    Creature *c = get_creature_tracker().creature_at( p );
+    const Creature *c = get_creature_tracker().creature_at( p );
     if( c != nullptr && !c->is_avatar() ) {
         return true;
     }
@@ -731,7 +731,7 @@ bool can_interact_at( action_id action, map &here, const tripoint_bub_ms &p )
     if( here.impassable_field_at( p ) ) {
         return false;
     }
-    tripoint_bub_ms player_pos = get_player_character().pos_bub();
+    const tripoint_bub_ms player_pos = get_player_character().pos_bub();
     switch( action ) {
         case ACTION_OPEN:
             return here.open_door( get_avatar(), p, !here.is_outside( player_pos ), true );
@@ -778,7 +778,7 @@ action_id handle_action_menu( map &here )
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
 
-    Character &player_character = get_player_character();
+    const Character &player_character = get_player_character();
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
     if( !player_character.get_hostile_creatures( MAX_VIEW_DISTANCE ).empty() ) {
         // Only prioritize movement options if we're not driving.

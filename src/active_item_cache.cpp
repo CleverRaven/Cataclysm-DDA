@@ -13,7 +13,7 @@ float item_reference::spoil_multiplier() const
 {
     return std::accumulate(
                pocket_chain.begin(), pocket_chain.end(), 1.0F,
-    []( float a, item_pocket const * pk ) {
+    []( float a, const item_pocket * pk ) {
         return a * pk->spoil_multiplier();
     } );
 }
@@ -22,21 +22,21 @@ bool item_reference::has_watertight_container() const
 {
     return std::any_of(
                pocket_chain.begin(), pocket_chain.end(),
-    []( item_pocket const * pk ) {
+    []( const item_pocket * pk ) {
         return pk->can_contain_liquid( false );
     } );
 }
 
 bool active_item_cache::add( item &it, point_sm_ms location, item *parent,
-                             std::vector<item_pocket const *> const &pocket_chain )
+                             const std::vector<item_pocket const *> &pocket_chain )
 {
     return active_item_cache::add( it, rebase_rel( location ), parent, pocket_chain );
 }
 
 bool active_item_cache::add( item &it, point_rel_ms location, item *parent,
-                             std::vector<item_pocket const *> const &pocket_chain )
+                             const std::vector<item_pocket const *> &pocket_chain )
 {
-    std::vector<item_pocket const *> pockets = pocket_chain;
+    std::vector<const item_pocket *> pockets = pocket_chain;
     bool ret = false;
     for( item_pocket *pk : it.get_all_standard_pockets() ) {
         pockets.emplace_back( pk );
@@ -52,7 +52,7 @@ bool active_item_cache::add( item &it, point_rel_ms location, item *parent,
     std::list<item_reference> &target_list = active_items[speed];
     if( target_index.empty() && !target_index.empty() ) {
         // If the index has been cleared, rebuild it first.
-        for( item_reference &iter : target_list ) {
+        for( const item_reference &iter : target_list ) {
             // Omit those expired references
             if( iter.item_ref ) {
                 target_index.emplace( iter.item_ref.get(), iter.item_ref );

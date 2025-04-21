@@ -294,7 +294,7 @@ time_point achievement::time_bound::target() const
 
 achievement_completion achievement::time_bound::completed() const
 {
-    time_point now = calendar::turn;
+    const time_point now = calendar::turn;
     switch( comparison_ ) {
         case achievement_comparison::equal:
             if( now == target() ) {
@@ -343,10 +343,10 @@ bool achievement::time_bound::becomes_false() const
 
 std::string achievement::time_bound::ui_text( bool is_conduct ) const
 {
-    time_point now = calendar::turn;
-    achievement_completion comp = completed();
+    const time_point now = calendar::turn;
+    const achievement_completion comp = completed();
 
-    nc_color c = color_from_completion( is_conduct, comp, false );
+    const nc_color c = color_from_completion( is_conduct, comp, false );
 
     auto translate_epoch = []( epoch e ) {
         switch( e ) {
@@ -360,7 +360,7 @@ std::string achievement::time_bound::ui_text( bool is_conduct ) const
         cata_fatal( "Invalid epoch" );
     };
 
-    std::string message = [&]() {
+    const std::string message = [&]() {
         switch( comp ) {
             case achievement_completion::pending:
                 return string_format( _( "At least %s from %s (%s remaining)" ),
@@ -484,19 +484,19 @@ static std::optional<std::string> text_for_requirement(
     const cata_variant &current_value,
     achievement_completion ach_completed )
 {
-    bool is_satisfied = req.satisfied_by( current_value );
+    const bool is_satisfied = req.satisfied_by( current_value );
     if( !req.is_visible( ach_completed, is_satisfied ) ) {
         return std::nullopt;
     }
-    nc_color c = is_satisfied ? c_green : c_yellow;
+    const nc_color c = is_satisfied ? c_green : c_yellow;
     std::string result;
     if( req.description ) {
         result = req.description->translated();
     } else if( req.comparison == achievement_comparison::anything ) {
         result = string_format( _( "Triggered by %s" ), req.statistic->description().translated() );
     } else if( current_value.type() == cata_variant_type::int_ ) {
-        int current = current_value.get<int>();
-        int target = req.target.get<int>();
+        const int current = current_value.get<int>();
+        const int target = req.target.get<int>();
         result = string_format( _( "%s/%s %s" ), current, target,
                                 req.statistic->description().translated( target ) );
     } else {
@@ -592,8 +592,8 @@ std::string enum_to_string<achievement_completion>( achievement_completion data 
 std::string achievement_state::ui_text( const achievement *ach ) const
 {
     // First: the achievement name and description
-    nc_color c = color_from_completion( ach->is_conduct(), completion, false );
-    nc_color c_title = color_from_completion( ach->is_conduct(), completion, true );
+    const nc_color c = color_from_completion( ach->is_conduct(), completion, false );
+    const nc_color c_title = color_from_completion( ach->is_conduct(), completion, true );
     std::string result = colorize( ach->name(), c_title ) + "\n";
     if( !ach->description().empty() ) {
         result += "  " + colorize( ach->description(), c ) + "\n";
@@ -656,7 +656,7 @@ achievement_tracker::achievement_tracker( const achievement &a, achievements_tra
     }
 
     for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {
-        bool is_satisfied = watcher->is_satisfied( stats );
+        const bool is_satisfied = watcher->is_satisfied( stats );
         sorted_watchers_[is_satisfied].insert( watcher.get() );
     }
 }
@@ -669,7 +669,7 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
         cata_assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
     }
 
-    achievement_completion time_comp =
+    const achievement_completion time_comp =
         achievement_->time_constraint() ?
         achievement_->time_constraint()->completed() : achievement_completion::completed;
 
@@ -717,12 +717,12 @@ std::string achievement_tracker::ui_text() const
     }
 
     // First: the achievement name and description
-    nc_color c = color_from_completion( achievement_->is_conduct(),
-                                        achievement_completion::pending,
-                                        false );
-    nc_color c_title = color_from_completion( achievement_->is_conduct(),
+    const nc_color c = color_from_completion( achievement_->is_conduct(),
                        achievement_completion::pending,
-                       true );
+                       false );
+    const nc_color c_title = color_from_completion( achievement_->is_conduct(),
+                             achievement_completion::pending,
+                             true );
     std::string result = colorize( achievement_->name(), c_title ) + "\n";
     if( !achievement_->description().empty() ) {
         result += "  " + colorize( achievement_->description(), c ) + "\n";
@@ -790,7 +790,7 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
     cata_assert( comp != achievement_completion::pending );
     cata_assert( !achievements_status_.count( a->id ) );
 
-    auto tracker_it = trackers_.find( a->id );
+    const auto tracker_it = trackers_.find( a->id );
     achievements_status_.emplace(
         a->id,
     achievement_state{
@@ -809,10 +809,10 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
 
 achievement_completion achievements_tracker::is_completed( const achievement_id &id ) const
 {
-    auto it = achievements_status_.find( id );
+    const auto it = achievements_status_.find( id );
     if( it == achievements_status_.end() ) {
         // It might still have failed; check for time expiry
-        auto tracker_it = trackers_.find( id );
+        const auto tracker_it = trackers_.find( id );
         if( tracker_it != trackers_.end() && tracker_it->second.time_is_expired() ) {
             return achievement_completion::failed;
         }
@@ -828,7 +828,7 @@ bool achievements_tracker::is_hidden( const achievement *ach ) const
         return true;
     }
 
-    achievement_completion end_state =
+    const achievement_completion end_state =
         ach->is_conduct() ? achievement_completion::failed : achievement_completion::completed;
     if( is_completed( ach->id ) == end_state ) {
         return false;
@@ -850,7 +850,6 @@ void achievements_tracker::write_json_achievements(
     jsout.member( "achievement_version", 1 );
 
     std::vector<achievement_id> ach_ids;
-
     for( const auto &kv : achievements_status_ ) {
         if( kv.second.completion == achievement_completion::completed ) {
             ach_ids.push_back( kv.first );
@@ -868,11 +867,11 @@ void achievements_tracker::write_json_achievements(
 
 std::string achievements_tracker::ui_text_for( const achievement *ach ) const
 {
-    auto state_it = achievements_status_.find( ach->id );
+    const auto state_it = achievements_status_.find( ach->id );
     if( state_it != achievements_status_.end() ) {
         return state_it->second.ui_text( ach );
     }
-    auto tracker_it = trackers_.find( ach->id );
+    const auto tracker_it = trackers_.find( ach->id );
     if( tracker_it == trackers_.end() ) {
         return colorize( ach->description() + _( "\nInternal error: achievement lacks watcher." ),
                          c_red );
