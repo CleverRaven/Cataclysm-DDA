@@ -2,6 +2,12 @@
 
 These documents are for the lore basis and mechnical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
 
+## The Principle of Supernatural Exclusivity
+
+Xedra Evolved has more types of playable supernatural with their own magic than any other CDDA mod, and it's a general principle that these are all exclusive. You cannot have a werewolf chronomancer, or a changeling mad genius, or a a gracken lilit. Most magickal powers require starting as having that power to develop it, and those who start with non-human power sources cannot learn human dream magick.
+
+The exception to this is vampirism. Since vampirism is an infection, anyone can theoretically develop it (barring lilin or dhampirs who are immune), but becoming a vampire locks out previous supernatural powers. The lower tiers merely cannot learn new powers, but making the choice to become a full vampire removes all previous supernatural powers as the blood overwhelms everything.
+
 ## Timeline Differences from vanilla CDDA
 
 TBD
@@ -15,7 +21,11 @@ TBD
 Hedge Magick is designed to represent minor tricks and simple charms, things like starting a fire, calling a rainstorm to water crops, or putting luck more on your side.
 
 Principles of Hedge Magick:
-
+- Anyone can learn hedge magick. 
+- Hedge magick has no levels and does not fail. If you have the ingredients and appropriate conditions it succeeds, and if you don't it fails.
+- Hedge magick requires either components, particular conditions like a time of day or location, or (often) both.
+- Hedge magick requires extensive study to learn. Most hedge magick the survivor is likely to find developed from first principles by recluses and weirdos, and the survivor has to interpret those notes into a decipherable magickal formula.
+- Existing hedge magick was often developed by looking at real-world occultism, but this is less importan than keeping hedge magick's power level low--real-world occultists make some absolutely wild claims of their power.
 
 Alchemy: TBD
 
