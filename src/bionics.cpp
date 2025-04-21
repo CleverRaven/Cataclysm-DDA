@@ -2768,7 +2768,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
             if( !has_trait( spell_class ) ) {
                 set_mutation( spell_class );
                 on_mutation_gain( spell_class );
-                add_msg_if_player( spell_class->desc() );
+                add_msg_if_player( mutation_desc( spell_class ) );
             }
         }
         if( !magic->knows_spell( learned_spell ) ) {

@@ -2488,7 +2488,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             // resolve nest
             parse_tags( var, u, me, d, item_type );
             // attempt to cast as an item
-            phrase.replace( fa, l, trait_id( var )->desc() );
+            phrase.replace( fa, l, me_chr->mutation_desc( trait_id( var ) ) );
         } else if( tag.find( "<spell_name:" ) == 0 ) {
             //embedding an items name in the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
