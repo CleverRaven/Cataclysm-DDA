@@ -7777,7 +7777,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-void item::set_fault( const fault_id fault_id, bool force )
+void item::set_fault( const fault_id &fault_id, bool force )
 {
     if( !force && type->faults.get_specific_weight( fault_id ) == 0 ) {
         return;
@@ -7786,7 +7786,7 @@ void item::set_fault( const fault_id fault_id, bool force )
     faults.insert( fault_id );
 }
 
-void item::set_random_fault_of_type( const std::string fault_type, const bool force )
+void item::set_random_fault_of_type( const std::string &fault_type, bool force )
 {
     if( force ) {
         set_fault( random_entry( faults::all_of_type( fault_type ) ), true );
@@ -14857,9 +14857,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_random_fault_of_type( "wet" );
+            set_random_fault_of_type( "wet", true );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_random_fault_of_type( "shorted" );
+                set_random_fault_of_type( "shorted", true );
             }
         }
 
@@ -14968,7 +14968,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                     }
                 } else {
                     remove_fault( fault_emp_reboot );
-                    set_random_fault_of_type( "shorted" );
+                    set_random_fault_of_type( "shorted", true );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
                     }
