@@ -12,7 +12,12 @@ TBD
 
 ## Hedge Magick and Alchemy
 
-TBD
+Hedge Magick is designed to represent minor tricks and simple charms, things like starting a fire, calling a rainstorm to water crops, or putting luck more on your side.
+
+Principles of Hedge Magick:
+
+
+Alchemy: TBD
 
 ## Vampires
 
@@ -20,7 +25,7 @@ Xedra Evolved vampires are not walking corpses who drink the blood of the living
 
 Vampires have existed for a long time on the Earth of Xedra Evolved, and on some--though not all--extradimensional Earths as well. It is possible that humanity's first steps into agriculture and gathering into stationary cities were encouraged by vampires, so that they would have an easier time maintaining their herds. They use their `renfields`, brainwashed mortal agents, to manipulate human society and keep themselves safe from those who would destroy them. 
 
-Vampires require human blood, or the blood of human-like species. They cannot survive on animal blood, so they are forced to prey on fellow sapients to survive. They also cannot drink vampire blood (though see below), becuase vampires have enough control over their own blood to prevent another from drinking it. A vampire who does not use any of their powers (called Blood Arts) is capable of surviving for quite a long time without needing to feed. 
+Vampires require human blood, or the blood of human-like species. They cannot survive on animal blood, so they are forced to prey on fellow sapients to survive. They also cannot drink vampire blood (though see below), because vampires have enough control over their own blood to prevent another from drinking it. A vampire who does not use any of their powers (called Blood Arts) is capable of surviving for quite a long time without needing to feed. 
 
 Vampires gain new powers with time, intended to mimic the progression of a disease.
 
@@ -130,6 +135,7 @@ Seasonal magick requires mana, but it also requires dreamdross to research and t
 
 Principles of seasonal magick:
 - Seasonal magick can fail. The chance is highest in opposing seasons (in winter if a summer glamour etc), and is increased by the glamour's Difficulty. It is reduced by deduction skill and by the total number of glamours of that season the changeling knows.
+- Seasonal magic does not have levels. A glamour's power is determined by the changeling's deduction skill and the number of glamours of that season the changeling knows, like with the failure chance.
 - Direct damage should be very rare and usually the result of some natural process caused by the seasonal magic (calling a lightning bolt out of a thunderstorm, starting a wildfire, etc). Folklore has the Fair Folk cursing people and turning them into animals but rarely blowing them up and leaving nothing but smoking boots behind.
 - Seasonal magick needs to be added to the appropriate research system EoC (\Xedra_Evolved\mutations\playable_changeling_seasonal_magic_research_eocs.json) in order to allow it to be discovered. There is one for each season. 
 
@@ -138,6 +144,20 @@ Principles of seasonal magick:
 The Fair Folk (except Homullus) are all vulnerable to iron, suffering pain when they wear or wield items made of it. This can be merely problematic up to actively crippling, depending on the particular Fair Folk. This is intended to be a core balancing point of the Fair Folk and should not be easily worked around or suppressed.
 
 ## Lilin
+
+Lilin (singular lilit) are based on the lilin from Hebrew folklore, plague spirits who haunted the wilderness and abandoned buildings. Like vampires, lilin need to feed on others to survive, but unlike vampires they feed in a more metaphysical sense. They require their target's rauch (Heb רוח, "breath" or "spirit") to survive. This is much more subtle than a vampire's feeding because it requires only touch, or for more powerful lilin, merely close proximity. Being drained of ruach leaves the target listless and enervated, and can eventually kill them. Unlike vampires, lilin can feed on a wide variety of targets, though humans and human-adjacent beings provide the most ruach.
+
+Lilin powers are based around darkness, silence, owls, disease, and the moon. 
+
+Principles of lilin powers:
+
+- Lilin powers should, where possible, have their names taken from passages from the Hebrew Bible.
+- Lilin should not have any powers that make them physically tougher. Their strengths are in stealth and evasion. 
+- Lilin should not have any damaging power with big up-front damage. Like a disease, they rely on enervating their targets until they're so weak they are easy to kill. However, they can increase the severity of existing diseases. 
+- Lilin can use their ruach to weave beautiful illusions around themselves (at night), they need to use their own words to persuade.
+- Like Blood Arts, lilin powers that turn on and remain on until turned off should be implemented as activatable mutations, and powers which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
+
+Lilin gain new powers by dedicating some ruach to power reseach. They can only possibly gain new powers when outside under the moonlight (currently implemented as just outside at night), where periodic power-gaining rolls are made. 
 
 ## Gracken
 
