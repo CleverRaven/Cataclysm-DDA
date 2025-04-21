@@ -22,6 +22,8 @@ Vampires have existed for a long time on the Earth of Xedra Evolved, and on some
 
 Vampires require human blood, or the blood of human-like species. They cannot survive on animal blood, so they are forced to prey on fellow sapients to survive. They also cannot drink vampire blood (though see below), becuase vampires have enough control over their own blood to prevent another from drinking it. A vampire who does not use any of their powers (called Blood Arts) is capable of surviving for quite a long time without needing to feed. 
 
+Vampires gain new powers with time, intended to mimic the progression of a disease.
+
 ### Blood Arts
 
 Blood Arts is the term for vampires special abilities. With then, vampires can become stronger, faster, more resilient, have better senses, hypnotize or charm their prey, and eventually turn into wolf, bat, or mist.  More powerful vampires can also control darkness and shadows. The balance point for bLood arts is intentionally set so that a vampires who uses several of them will either have to feed soon after to avoid the `withering` (the status penalties that come from being low on blood), or will have to gorge beforehand and become `blood_quenched` in order to have enough blood to use all the Blood Arts they want during combat.
@@ -32,6 +34,7 @@ Principles of Blood Arts:
 - Blood Arts do not have levels, and are not subject to failure based on power or skill level.
 - Blood Arts that turn on and remain on until turned off should be implemented as activatable mutations, so that there's a easy screen where the player can see what all is active and turn them on and off. Blood Arts which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
 - It is currently possible for a player to eventually learn every single available Blood Art, so be careful of unexpected synergies. 
+- New vampire powers need to be added to the vampire virus EoC (\Xedra_Evolved\effects\vampvirus.json) in order for vampires to learn them. If it's a power that a dhampir could also learn, they should also be added to the dhampir learning EoC (\Xedra_Evolved\mutations\dhampir_eocs.json)
 
 ### Vampire Anathema
 
@@ -45,7 +48,9 @@ Dhampirs naturally regenerate the blood vitamin uses to power their Blood Arts, 
 
 Dhampirs can use tier 1, 2, and 3 Blood Arts, though they should not have any shapeshifting or Blood Arts that rely on the vampire being undead (such as falling off a ten-story building and taking no damage). 
 
-Some dhampir-exclusive abilities, and some vampire Blood Arts when used by dhampirs, only function when they have `empowered blood`, which is when the blood vitamins is at 1 or higher. When `enervated` (at blood vitamin 0 or lower), they suffer minor but slow scaling penalties to hunger, thirst, sleepiness, and stamina. Dhampir do not suffer from the `withering`, and while they can become `blood_quenched`, they can only do so by drinking blood. 
+Some dhampir-exclusive abilities, and some vampire Blood Arts when used by dhampirs, only function when they have `empowered blood`, which is when the blood vitamin is at 1 or higher. When `enervated` (at blood vitamin 0 or lower), they suffer minor but slow scaling penalties to hunger, thirst, sleepiness, and stamina. Dhampir do not suffer from the `withering`, and while they can become `blood_quenched`, they can only do so by drinking blood. 
+
+Dhampirs gain new powers by spending blood. Every point of blood vitamin they spend goes into a pool that is checked once an hour. This method is designed to further tempt them to drink blood; by drinking blood, they'll have more blood to spend, and thus will advance faster.
 
 ## Shapeshifters
 
@@ -63,6 +68,8 @@ Principles of Werewolf powers:
 - Werewolf powers are fueled by mana, but their mana is proportional to their physical prowess, not their intelligence.
 - Werewolf powers have a chance to fail based entirely on the pain the werewolf is suffering from. Since werewolves regenerate, this means that while they can be in a very difficult situation if they're at high pain, they merely need to wait a few minutes to return to 0 chance to fail. 
 - Werewolf powers revolve around changing form and hunting prey. They generally cannot bring their metaphysical might to bear in situations that require stealth or diplomacy, though some exceptions exist. 
+
+Werewolves gain new powers by killing enemies in barehand combat. 
 
 ## The Fair Folk
 
@@ -82,13 +89,53 @@ Paralecian magick is heavily themed and also grows much stronger when in an appr
 
 Each Paraclesian has their own design sensibilities:
 - Arvore: Arvore powers relate to plants, nature, and growing things. Their magic allows them to become more plantlike, encourage plant growth, draw sustenance from soil and sunlight, and so on. While Arvore do have damaging spells, they mostly only affect plants and zombies, and then not generally in a magical bolt instant-damage fashion, since damage-over-time is much more similar to how nature works. Arvore deliberately have no powers that affect animals. The mortal need Arvore can overcome is requiring food and drink.
-- Homullus: Homullus powers relate to humanity, tools, cities and knowledge.  They have abilities related to managing humans and formerly human creatures such as ferals, renfields, etc.  Currently not implemented but they should be incredibly effective at dealing with cyborgs and some abilities related to interacting with robots (as tools created by humans).  They have the ability to install CBMs or even choose to limit their Paraclesian abilities by pursuing a mutation path created by humans.  The mortal need that Homullus can overcome is anything that limits their ability to make choices such as mind control.
+- Homullus: Homullus powers relate to humanity, tools, cities and knowledge.  They have abilities related to managing humans and formerly human creatures such as ferals, renfields, etc.  Currently not implemented but they should be incredibly effective at dealing with cyborgs and some abilities related to interacting with robots (as tools created by humans).  They have the ability to install CBMs or even choose to limit their Paraclesian abilities by pursuing a mutation path created by humans.  The mortal need that Homullus can overcome is anything that limits their ability to make choices such as mind control. Homullus are also, uniquely, not bothered by iron.
 - Ierde: Ierde powers relate to resilience, preservation, and the manipulation of earth and stone. They are designed less to destroy their enemies with magick and more to slow them, redirect them, and simply outlast them (though since only the player has stamina this works less well than it could). The mortal need Ierde can overcome is sensitivity to pain and tiredness (stamina, not sleepiness). 
 - Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associatons with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
 - Sylph: Sylph powers relate to wind, lightning, and the weather (weather currently unimplemented). The mortal need Sylphs can overcome is being tied down, in both the literal gravity sense and the metaphorical snares or entanglements sense.
 - Undine: Undine powers relate to water and acid, as well as the transformation of liquids.  Undines are slightly different because by default they do not need to drink water and heal when in water, but many of their powers have a thirst cost so they can become thirsty by using their magic. They can also regain thirst automatically when underwater, so the push-pull of Undine powers is making sure to never be so far from water that they can't top up when necessary.
 
+Paraclesians gain their powers by spending time in their native environments, though this is very slow (up to a month to gain one power), or by hunting down other elemental fae and making `destiny draughts` that function like mutagen.
+
 ### Changelings
+
+Changelings are originally the offspring of couples between mortals and elemental fae in the unremembered past, which occurred often enough that their descendants formed a new stable population. While they do sometimes still swap mortal babies for fae babies, the name "changeling" as a collective is used for convenience and most changelings are born and grow up Under the Hill.
+
+The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arragement varies based on the individual changeling but the temptation is always there.
+
+Changelings are divided into two great courts, the Summer (or Seelie) Court and the Winter (or Unseelie) Court. The Summer Court is more benevolent to mortals (Lady Boann is Summer Court), but that does not mean they are nice. Changelings are also divided into two broad types, nobles and commoners. Nobles are more magically powerful, but commoners have individual tricks that the nobles cannot copy with their magic, such as the selkies' facility with weather control or brownies' ability to speed crafting when unobserved.
+
+The following types of changelings exist or are planned:
+
+- Brownies: Based on various kinds of helpful household spirits. Their abilities are based on crafting and remaining unseen.
+- Ghillie Dhu (currently unimplemented): Based on spirits of the forest. Their abilities are based on hiding in the forest and leading enemies astray.
+- Nobles: Based on various royal faeries like King Oberon or the Queen of the Fairies from Tamlin. They can command mortals and other faeries, but their main ability is that they can learn two seasons of seasonal magick (q.v.) instead of one. 
+- Pooka: Shapeshifters, based on legends of talking animals. They can assume various animal forms, either wholly or partially, and talk to animals.
+- Redcaps (currently unimplemented): Based on the legend of the predator fae who soaked his cap in his victims' blood. Their abilities are based mostly on combat and eating.
+- Selkies: Based on the seal-folk of Northern Europe. They can control the weather and exist without penalty in water, and are beguiling to mortals.
+- Trow: Based on coblyns and knockers. Their abilities relate to the earth and mining.
+
+Currently, changelings gain their powers in a stready drip of 1 per 5-7 days. It is intended that they accomplish various deeds to gain their powers, but it is currently unimplemeneted.
+
+#### Seasonal Magick
+
+Changeling magic is based on the seasons. Each changeling (except nobles) can pick one path, with their initial choice determined by their court (Spring or summer for the Summer Court, fall or autumn for the Winter Court). Each season has its own themes for its glamours:
+
+- Autumn: Fear, decay, the harvest, preservation, fog, colors, home and the hearth
+- Spring: Plants, growth, healing, rain, creativity, and love
+- Summer: Heat, light, athleticism, passionate/strong emotions, illusion, plenty
+- Winter: Darkness, silence, sleep, stasis, ice, snow, cold, wind, death
+
+Seasonal magick requires mana, but it also requires dreamdross to research and the higher-level glamours require dreamdross (refined into "dreamsparks") to weave. This is to provide some resource scarcity, since changelings will have a very large mana pool, and also reinforce that they require access to human dreams to weave their most powerful glamours. No glamour should cost more than 5 dreamsparks to weave, since the absolute maximum capacity is 50 dreamsparks. 
+
+Principles of seasonal magick:
+- Seasonal magick can fail. The chance is highest in opposing seasons (in winter if a summer glamour etc), and is increased by the glamour's Difficulty. It is reduced by deduction skill and by the total number of glamours of that season the changeling knows.
+- Direct damage should be very rare and usually the result of some natural process caused by the seasonal magic (calling a lightning bolt out of a thunderstorm, starting a wildfire, etc). Folklore has the Fair Folk cursing people and turning them into animals but rarely blowing them up and leaving nothing but smoking boots behind.
+- Seasonal magick needs to be added to the appropriate research system EoC (\Xedra_Evolved\mutations\playable_changeling_seasonal_magic_research_eocs.json) in order to allow it to be discovered. There is one for each season. 
+
+### Iron Vulnerability
+
+The Fair Folk (except Homullus) are all vulnerable to iron, suffering pain when they wear or wield items made of it. This can be merely problematic up to actively crippling, depending on the particular Fair Folk. This is intended to be a core balancing point of the Fair Folk and should not be easily worked around or suppressed.
 
 ## Lilin
 
