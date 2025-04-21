@@ -82,9 +82,7 @@
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "type": "effect_on_condition",
           "id": "false_ledge",
-          "//": "should be removed if any of #74335, #71814, #50277 and #28975 would be resolved",
           "effect": [
             {
               "run_eoc_selector": [ "EOC_PEEK_DOWN_pseudo", "EOC_CLIMB_DOWN_pseudo", "EOC_JUMP_ACROSS_pseudo", "EOC_FALL_DOWN_pseudo" ],
@@ -101,31 +99,26 @@
           ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_PEEK_DOWN_pseudo",
           "//": "for selector cannot pick EoCs that are failing",
           "effect": [ { "run_eocs": "EOC_PEEK_DOWN" } ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_CLIMB_DOWN_pseudo",
           "//": "for selector cannot pick EoCs that are failing",
           "effect": [ { "run_eocs": "EOC_CLIMB_DOWN" } ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_JUMP_ACROSS_pseudo",
           "//": "for selector cannot pick EoCs that are failing",
           "effect": [ { "run_eocs": "EOC_JUMP_ACROSS" } ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_FALL_DOWN_pseudo",
           "//": "for selector cannot pick EoCs that are failing",
           "effect": [ { "run_eocs": "EOC_FALL_DOWN" } ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_PEEK_DOWN",
           "condition": { "condition": { "math": [ "u_val('morale') < -50" ] } },
           "false_effect": [ { "u_message": "snippet_file" } ],
@@ -149,7 +142,6 @@
           ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_CLIMB_DOWN",
           "effect": [
             {
@@ -171,7 +163,6 @@
           ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_JUMP_ACROSS",
           "effect": [
             {
@@ -180,7 +171,6 @@
           ]
         },
         {
-          "type": "effect_on_condition",
           "id": "EOC_FALL_DOWN",
           "effect": [
             {
