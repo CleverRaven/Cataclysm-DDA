@@ -4083,7 +4083,8 @@ void options_manager::update_options_cache()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
-    enable_mouse = ::get_option<bool>( "ENABLE_MOUSE" );
+    cata::options::mouse.enabled = ::get_option<bool>( "ENABLE_MOUSE" );
+    cata::options::mouse.hidekb = ::get_option<std::string>("HIDE_CURSOR") == "hidekb";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 
     cata::options::damage_indicators.clear();

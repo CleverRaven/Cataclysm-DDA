@@ -1,7 +1,6 @@
 #include "cached_options.h"
 
 bool keycode_mode;
-bool enable_mouse;
 bool log_from_top;
 int message_ttl;
 int message_cooldown;
@@ -27,6 +26,7 @@ int pixel_minimap_a;
 namespace cata::options
 {
 std::vector<std::string> damage_indicators;
+mouse_t mouse;
 } // namespace cata::options
 
 #ifndef CATA_IN_TOOL

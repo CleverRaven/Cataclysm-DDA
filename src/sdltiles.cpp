@@ -2959,6 +2959,7 @@ static void CheckMessages()
 
     std::optional<point> resize_dims;
     bool render_target_reset = false;
+    using cata::options::mouse;
 
     while( SDL_PollEvent( &ev ) ) {
         imclient->process_input( &ev );
@@ -3214,7 +3215,7 @@ static void CheckMessages()
                 gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
-                if( ! enable_mouse ) {
+                if( ! mouse.enabled ) {
                     break;
                 }
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
@@ -3229,7 +3230,7 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                if( ! enable_mouse ) {
+                if( ! mouse.enabled ) {
                     break;
                 }
                 switch( ev.button.button ) {
@@ -3249,7 +3250,7 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                if( ! enable_mouse ) {
+                if( ! mouse.enabled ) {
                     break;
                 }
                 switch( ev.button.button ) {
@@ -3269,7 +3270,7 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEWHEEL:
-                if( ! enable_mouse ) {
+                if( ! mouse.enabled ) {
                     break;
                 }
                 if( ev.wheel.y > 0 ) {
