@@ -7698,7 +7698,7 @@ bool item::has_fault( const fault_id &fault ) const
     return faults.count( fault );
 }
 
-bool item::has_fault_of_type( const std::string fault_type ) const
+bool item::has_fault_of_type( const std::string &fault_type ) const
 {
     for( const fault_id &f : faults ) {
         if( f.obj().type() == fault_type ) {

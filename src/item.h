@@ -40,7 +40,6 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "weighted_list.h"
 
 class Character;
 class Creature;
@@ -2091,7 +2090,7 @@ class item : public visitable
         /** Does this item have the specified fault? */
         bool has_fault( const fault_id &fault ) const;
 
-        bool has_fault_of_type( std::string fault_type ) const;
+        bool has_fault_of_type( const std::string &fault_type ) const;
 
         /** Does this item part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;
