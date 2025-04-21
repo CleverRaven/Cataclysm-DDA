@@ -134,7 +134,7 @@ Currently, changelings gain their powers in a stready drip of 1 per 5-7 days. It
 
 #### Seasonal Magick
 
-Changeling magic is based on the seasons. Each changeling (except nobles) can pick one path, with their initial choice determined by their court (Spring or summer for the Summer Court, fall or autumn for the Winter Court). Each season has its own themes for its glamours:
+Changeling magic is based on the seasons. Each changeling (except nobles) can pick one path, with their initial choice determined by their court (Spring or summer for the Summer Court, fall or autumn for the Winter Court). Nobles can pick a second season after their first, and this second season does not have to respect their court choice. Each season has its own themes for its glamours:
 
 - Autumn: Fear, decay, the harvest, preservation, fog, colors, home and the hearth
 - Spring: Plants, growth, healing, rain, creativity, and love
