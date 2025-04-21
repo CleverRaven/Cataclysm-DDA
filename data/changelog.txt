@@ -305,8 +305,6 @@ Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster
-Adds Grog recipe and drink
-Some scenarios have different distances revealed at the start
 
 
 ## Interface:
@@ -798,10 +796,7 @@ Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species
 [Xedra Evolved] Vampires can drink blood
 Aftershock: Merge aftershock and aftershock exoplanet.
 Aftershock: Heat Crashed Ship.
-Shia LaBeouf Nemesis
 Mod Conflicts
-[MoM] Add more specific Nether Attunement backlash effects
-[Xedra Evolved] Add vampire magic type + update power/trait descriptions with blood costs
 
 
 ## Balance:
@@ -897,8 +892,6 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
-Characters do not automatically try to clear `downed` if they have the `CANNOT_MOVE` flag
-Ban alcohol from camp larder
 
 
 ## Bugfixes:
@@ -1248,12 +1241,6 @@ Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
-Suppressors noise reduction multiplicative instead of additive
-Fix location Variables targeting specific map features
-Set owner faction of in-progress crafts
-[MoM] Fix Electron Overflow divide by zero
-Fix crash after deleting items in character_takeoff_item eoc
-Mi-go pathfinding avoids fire
 
 
 ## Performance:
@@ -1411,10 +1398,7 @@ generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
-convert Item_factory::load_basic_info() to itype::load()
 Warn on load if files have been modified
-Refactor pathfind: allow multiple targets
-generic_factory composite for Item_factory
 
 
 ## Build:
@@ -1440,8 +1424,6 @@ Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
 Fix CMake Linux VCPKG build
 Initial support for GNU Make for Windows
-Add Catch2 CMake integration
-Fix different iterator types
 
 
 ## I18N and A11Y:
