@@ -2810,7 +2810,7 @@ static void load_legacy_craft_data( io::JsonObjectOutputArchive &, T & )
 
 static std::set<itype_id> charge_removal_blacklist;
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string_view/*src*/ )
+void load_charge_removal_blacklist( const JsonObject &jo, std::string_view/*src*/ )
 {
     jo.allow_omitted_members();
     std::set<itype_id> new_blacklist;
@@ -2820,7 +2820,7 @@ void load_charge_removal_blacklist( const JsonObject &jo, const std::string_view
 
 static std::set<itype_id> temperature_removal_blacklist;
 
-void load_temperature_removal_blacklist( const JsonObject &jo, const std::string_view/*src*/ )
+void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view/*src*/ )
 {
     jo.allow_omitted_members();
     std::set<itype_id> new_blacklist;
@@ -4666,7 +4666,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 namespace
 {
 
-void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
+void _write_rle_terrain( JsonOut &jsout, std::string_view ter, int num )
 {
     jsout.start_array();
     jsout.write( ter );

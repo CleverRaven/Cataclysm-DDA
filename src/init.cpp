@@ -246,7 +246,7 @@ void DynamicDataLoader::add( const std::string &type,
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
+    add( type, [f]( const JsonObject & obj, std::string_view,  const cata_path &,
     const cata_path & ) {
         f( obj );
     } );

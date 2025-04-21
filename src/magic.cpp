@@ -304,7 +304,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( const JsonObject &jo, const std::string_view src )
+void spell_type::load( const JsonObject &jo, std::string_view src )
 {
     src_mod = mod_id( src );
     mandatory( jo, was_loaded, "name", name );

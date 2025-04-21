@@ -105,7 +105,7 @@ const recipe &recipe_dictionary::get_craft( const itype_id &id )
 
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
-bool search_reqs( const group &gp, const std::string_view txt )
+bool search_reqs( const group &gp, std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const typename group::value_type & opts ) {
         return std::any_of( opts.begin(),
@@ -117,7 +117,7 @@ bool search_reqs( const group &gp, const std::string_view txt )
 // template specialization to make component searches easier
 template<>
 bool search_reqs( const std::vector<std::vector<item_comp> > &gp,
-                  const std::string_view txt )
+                  std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
         return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
@@ -229,7 +229,7 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
 }
 
 std::vector<const recipe *> recipe_subset::search(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -463,7 +463,7 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
 }
 
 recipe_subset recipe_subset::reduce(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     return recipe_subset( *this, search( txt, key, progress_callback ) );

@@ -3373,7 +3373,7 @@ static void get_optional( const JsonObject &jo, bool was_loaded, const std::stri
 }
 
 template<typename T>
-static void get_relative( const JsonObject &jo, const std::string_view member,
+static void get_relative( const JsonObject &jo, std::string_view member,
                           std::optional<T> &value,
                           T default_val )
 {
@@ -3383,7 +3383,7 @@ static void get_relative( const JsonObject &jo, const std::string_view member,
 }
 
 template<typename T>
-static void get_proportional( const JsonObject &jo, const std::string_view member,
+static void get_proportional( const JsonObject &jo, std::string_view member,
                               std::optional<T> &value, T default_val )
 {
     if( jo.has_member( member ) ) {
@@ -3505,7 +3505,7 @@ void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( relic &slot, const JsonObject &jo, const std::string_view )
+void Item_factory::load( relic &slot, const JsonObject &jo, std::string_view )
 {
     slot.load( jo );
 }
@@ -4298,7 +4298,7 @@ class melee_accuracy_reader : public generic_typed_reader<melee_accuracy_reader>
             val.throw_error( "melee_accuracy_reader element must be object or int" );
             return 0;
         }
-        bool do_relative( const JsonObject &jo, const std::string_view name, int &member ) const {
+        bool do_relative( const JsonObject &jo, std::string_view name, int &member ) const {
             if( jo.has_object( "relative" ) ) {
                 JsonObject relative = jo.get_object( "relative" );
                 relative.allow_omitted_members();
@@ -4373,7 +4373,7 @@ static void replace_materials( const JsonObject &jo, itype &def )
     }
 }
 
-void itype::load( const JsonObject &jo, const std::string_view src )
+void itype::load( const JsonObject &jo, std::string_view src )
 {
     units_bound_reader<units::mass> not_negative_mass{ 0_milligram };
     units_bound_reader<units::money> not_negative_money{ 0_cent };
@@ -4814,7 +4814,7 @@ void itype::set_qualities_from_json( const JsonObject &jo, const std::string &me
     }
 }
 
-void itype::extend_qualities_from_json( const JsonObject &jo, const std::string_view member,
+void itype::extend_qualities_from_json( const JsonObject &jo, std::string_view member,
                                         itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
@@ -4822,7 +4822,7 @@ void itype::extend_qualities_from_json( const JsonObject &jo, const std::string_
     }
 }
 
-void itype::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
+void itype::delete_qualities_from_json( const JsonObject &jo, std::string_view member,
                                         itype &def )
 {
     for( std::string curr : jo.get_array( member ) ) {
@@ -4834,7 +4834,7 @@ void itype::delete_qualities_from_json( const JsonObject &jo, const std::string_
 }
 
 void itype::relative_qualities_from_json( const JsonObject &jo,
-        const std::string_view member, itype &def )
+        std::string_view member, itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
         const quality_id key = quality_id( curr.get_string( 0 ) );
@@ -4864,7 +4864,7 @@ void itype::set_techniques_from_json( const JsonObject &jo, std::string_view mem
 }
 
 void itype::extend_techniques_from_json( const JsonObject &jo,
-        const std::string_view member,
+        std::string_view member,
         itype &def )
 {
     for( std::string curr : jo.get_array( member ) ) {
@@ -4873,7 +4873,7 @@ void itype::extend_techniques_from_json( const JsonObject &jo,
 }
 
 void itype::delete_techniques_from_json( const JsonObject &jo,
-        const std::string_view member,
+        std::string_view member,
         itype &def )
 {
     for( std::string curr : jo.get_array( member ) ) {
@@ -4944,7 +4944,7 @@ static Item_group *make_group_or_throw(
 }
 
 template<typename T>
-bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, const std::string_view name )
+bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, std::string_view name )
 {
     if( obj.has_array( name ) ) {
         for( const std::string str : obj.get_array( name ) ) {
@@ -5019,7 +5019,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
 }
 
 bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject &obj,
-                                const std::string_view name )
+                                std::string_view name )
 {
     bool result = false;
     std::string temp;

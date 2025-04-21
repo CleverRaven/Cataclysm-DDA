@@ -357,7 +357,7 @@ bool addiction::run_effect( Character &u )
     return ret;
 }
 
-void add_type::load( const JsonObject &jo, const std::string_view )
+void add_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "type_name", _type_name );
