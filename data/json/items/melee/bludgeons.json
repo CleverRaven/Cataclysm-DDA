@@ -2030,9 +2030,9 @@
     "longest_side": "146 cm",
     "volume": "2000 ml",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "charged_qualities": [ [ "DIG", 6 ], [ "SAW_M", 2 ] ],
+    "charged_qualities": [ [ "DIG", 6 ], [ "SAW_M", 2 ], [ "SAW_W", 2 ], [ "AXE", 3 ] ],
     "use_action": [ "JACKHAMMER" ],
-    "charges_per_use": 1,
+    "charges_per_use": 2080,
     "power_draw": "1200 W",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 40, "cut": 10 }
