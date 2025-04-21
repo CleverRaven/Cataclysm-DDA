@@ -90,6 +90,24 @@
     "difficulty": 5
   },
   {
+    "id": "vampire_commune_with_night_spell",
+    "type": "SPELL",
+    "name": "Learn from the Children of the Night",
+    "description": "Speak to nearby night-creatures; rats, bats, wolves, and so on.  They will tell you the layout of your surrounding area.\n\n<color_light_red>Blood Cost:</color> 100 ml (<u_val:blood_amount_for_graph> ml current).",
+    "message": "",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_COMMUNE_NIGHT_MAP",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_casting_time": 12000,
+    "difficulty": 5
+  },
+  {
     "id": "vampire_magic_for_blood_spell",
     "type": "SPELL",
     "name": "Blood-Fueled Magic",
