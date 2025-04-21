@@ -53,7 +53,27 @@ Principles of Blood Arts:
 
 ### Vampire Anathema
 
-TBD
+There exists a way to push vampirism beyond its limits.  This isn't something the mentors can teach, as almost none of them know about this method.  The few who know that this empowerment is possible keep it a complete secret, for its method is directly opposed to their plan of creating as many strong and willing vampires as possible.
+
+Once ago, a vampire hunter decided to fight fire with fire and sought a way to consume other vampires to gain the power to eradicate them all.  They succeeded, but won't ever share how they did to gain such power.  They relentlessly roam the world, searching for vampire-blooded to kill and drain.  Once the player reaches the final tier of vampirism, they too will eventually get a visit from the Anathema.
+
+Should the Anathema be slain, something incredibly easier said than done, their notes will allow the player to use the same method, pushing their own vampirism to levels previously only seen in the Anathema.  The player will then gain the ability to consume vampire blood to gain the Anathema-specific traits, in a way similar to a mutation path.  On average, three vampires contain enough blood to grant one such trait.
+
+If a trait should be given, but the player already have them all, it will increment an effect counting as a tier 1 power for power calculation purposes.  This is so the player never stops wanting vampire blood, the same way vampires never stop wanting regular blood.
+
+Powers guidelines:
+-Amplifying vampiric abilities (such as no-maintenance Gleaming Eyes, stronger Sanguine Ecstasy and lower-cost Master the Mortal Mind)
+-Becoming more of a vampire than vampires are (such as gaining nourishment from vampire blood and detecting nearby vampires)
+-Powers of the creatures of the night (such as being able to turn invisible in the dark or quickly healing while in the dark)
+
+If a power amplifies a base vampire trait, said trait is a prerequisite.  Gaining the boost before the boosted results in gaining the base vampire trait instead.
+
+Drawbacks guidelines:
+-The high blood drain is an integral part of being an Anathema.  Amplifying vampirism also amplifies the thirst for blood and drives them to kill and drain as many as they can as their self-devouring vampire blood causes heightened depletion.  
+-Player Anathema that has yet to reach the Anathema threshold have a total of six vampiric weaknesses.  A post-threshold player Anathema has a total of nine.  They can use the mentors' recipe to reshuffle them, but they cannot reduce how many weaknesses they have.
+-Gaining this threshold also grants one and only one of the Anathema-exclusive weaknesses.  If adding new ones, it is important that their gameplay impact is similar.  This weakness is permanent and cannot be reshuffled, so there mustn't be a weakness that is overall better or worse than the others.
+
+This path is incompatible with regular mutation thresholds.  The player cannot gain access to the anathema mutations if they already have a threshold, and the trait granting this access prevents gaining any other threshold.  Mutating is still possible, but the player will have to pick between regular thresholds and boosting their vampirism through this method.
 
 ### Dhampirs
 
