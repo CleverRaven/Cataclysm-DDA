@@ -587,7 +587,8 @@ void cataimgui::client::process_input( void *input )
 {
     if( any_window_shown() ) {
         const SDL_Event *evt = static_cast<const SDL_Event *>( input );
-        if( ! enable_mouse ) {
+        bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
+        if( no_mouse ) {
             switch( evt->type ) {
                 case SDL_MOUSEMOTION:
                 case SDL_MOUSEWHEEL:
