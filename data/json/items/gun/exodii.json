@@ -23,7 +23,7 @@
       }
     ],
     "to_hit": -3,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "symbol": "(",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
     "dispersion": 350,
@@ -66,7 +66,7 @@
       }
     ],
     "to_hit": 1,
-    "material": [ "steel", "wood" ],
+    "material": [ "qt_steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
     "dispersion": 250,
@@ -91,7 +91,7 @@
     "description": "An oddball in the Exodii's oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  It finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
     "weight": "8180 g",
     "volume": "10360 ml",
-    "material": [ "steel", "gold" ],
+    "material": [ "qt_steel", "gold" ],
     "longest_side": "1080 mm",
     "price_postapoc": "125 USD",
     "variant_type": "gun",
@@ -184,7 +184,7 @@
       }
     ],
     "to_hit": -1,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "273x44" ],
@@ -230,7 +230,7 @@
       }
     ],
     "to_hit": -3,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "123ln" ],
@@ -285,7 +285,7 @@
       }
     ],
     "to_hit": -1,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "qt_steel", "aluminum" ],
     "color": "light_gray",
     "ammo": [ "123ln" ],
     "dispersion": 100,
@@ -437,7 +437,7 @@
     "barrel_length": "2890 mm",
     "price_postapoc": "200 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "ammo": [ "33naval" ],
     "range": 100,
     "dispersion": 130,

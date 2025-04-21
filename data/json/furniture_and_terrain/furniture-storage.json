@@ -1724,7 +1724,7 @@
   {
     "type": "furniture",
     "id": "f_exodii_kiln",
-    "name": "exodii_kiln",
+    "name": "Exodii kiln",
     "looks_like": "f_heavy_duty_freezer",
     "description": "An imposing kiln produced by the Exodii, used to produce their ceramic armor",
     "symbol": "H",
