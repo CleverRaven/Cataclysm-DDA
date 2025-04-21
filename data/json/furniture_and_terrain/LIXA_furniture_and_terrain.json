@@ -128,16 +128,24 @@
     "type": "effect_on_condition",
     "id": "EOC_PEEK_DOWN",
     "condition": { "condition": { "math": [ "u_val('morale') < -50" ] } },
-    "false_effect": [ { "npc_add_var": "snippet_file", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_READ_LOCAL_FILES" } ],
+    "false_effect": [ { "u_message": "snippet_file" } ],
     "effect": [
       {
-        "if": { "compare_string": [ "has", { "npc_val": "snippet_file" } ] },
-        "then": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
+        "npc_location_variable": { "context_val": "Lixa_teleport" },
+        "target_params": {
+          "om_terrain": "LIXA_road",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 12,
+          "min_distance": 25,
+          "z": 0,
+          "random": true
+        }
       },
       {
-        "if": { "compare_string": [ "lack", { "npc_val": "snippet_file" } ] },
-        "then": [ { "u_message": "You found nothing interesting." } ]
-      }
+        "npc_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles,  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
+        "popup": true
+      },
+      { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
     ]
   },
   {
@@ -145,31 +153,28 @@
     "id": "EOC_CLIMB_DOWN",
     "effect": [
       {
-        "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
-        "then": [ { "u_message": "You already noted everything this map cache can offer." } ],
-        "else": [
-          { "location_variable_adjust": { "npc_val": "spawn_location" }, "z_adjust": 0, "z_override": true, "overmap_tile": true },
-          { "reveal_map": { "npc_val": "spawn_location" }, "radius": { "math": [ "rng(11, 36)" ] } },
-          { "npc_add_var": "map_cache", "value": "read" },
-          { "u_message": "You found some useful data in the map cache and noted it.", "type": "good" }
-        ]
-      }
+        "npc_location_variable": { "context_val": "Lixa_teleport" },
+        "target_params": {
+          "om_terrain": "LIXA_road",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 12,
+          "min_distance": 25,
+          "z": 0,
+          "random": true
+        }
+      },
+      {
+        "npc_message": "You climb down as far as you can and then you let go… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles,  You try to count but every so often you scrape up against the wall abrading the skin from your limbs, and bruising you to the bone.  You pass out long before you ever hit the bottom.",
+        "popup": true
+      },
+      { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
     ]
   },
     {
     "type": "effect_on_condition",
     "id": "EOC_JUMP_ACROSS",
-    "condition": { "compare_string": [ { "npc_val": "snippet_file" }, "has", "lack" ] },
-    "false_effect": [ { "npc_add_var": "snippet_file", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_READ_LOCAL_FILES" } ],
     "effect": [
-      {
-        "if": { "compare_string": [ "has", { "npc_val": "snippet_file" } ] },
-        "then": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
-      },
-      {
-        "if": { "compare_string": [ "lack", { "npc_val": "snippet_file" } ] },
-        "then": [ { "u_message": "You found nothing interesting." } ]
-      }
+      { "u_message": "Jump where?  There's nothing to jump to.  Just the other side of the elevator shaft.  There's no ledge over there or stairs, just flat wall." }
     ]
   },
   {
@@ -177,15 +182,21 @@
     "id": "EOC_FALL_DOWN",
     "effect": [
       {
-        "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
-        "then": [ { "u_message": "You already noted everything this map cache can offer." } ],
-        "else": [
-          { "location_variable_adjust": { "npc_val": "spawn_location" }, "z_adjust": 0, "z_override": true, "overmap_tile": true },
-          { "reveal_map": { "npc_val": "spawn_location" }, "radius": { "math": [ "rng(11, 36)" ] } },
-          { "npc_add_var": "map_cache", "value": "read" },
-          { "u_message": "You found some useful data in the map cache and noted it.", "type": "good" }
-        ]
-      }
+        "npc_location_variable": { "context_val": "Lixa_teleport" },
+        "target_params": {
+          "om_terrain": "LIXA_road",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 12,
+          "min_distance": 25,
+          "z": 0,
+          "random": true
+        }
+      },
+      {
+        "npc_message": "As you step into the open air… you fall.  Then you keep falling.  The shaft you thought was only a few stories in height must be miles,  You lose count repeatedly but slowly, finally, the floor approaches…  THUMP!  You feel searing final pain as every part of your body breaks as it hits the ground.",
+        "popup": true
+      },
+      { "npc_teleport": { "context_val": "Lixa_teleport" }, "force": true }
     ]
   }
       ]
