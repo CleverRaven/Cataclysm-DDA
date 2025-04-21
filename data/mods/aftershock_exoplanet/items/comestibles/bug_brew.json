@@ -45,6 +45,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_afs_mealgrub_broth",
     "name": { "str_sp": "mealgrub broth" },
     "description": "Growth medium seeded with mealgrub eggs.  Once placed in a growing vat, they should be ready for harvesting in around 76 hours.  The immature grub's metabolism can produce toxic by-products so caution is advisable.",
@@ -62,7 +63,8 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "76 hours", "brew_results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ] }
+    "brew_time": "76 hours",
+    "brew_results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ]
   },
   {
     "type": "COMESTIBLE",
