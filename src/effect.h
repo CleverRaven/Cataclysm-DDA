@@ -293,6 +293,9 @@ class effect
         std::string disp_desc( bool reduced = false ) const;
         /** Returns the short description as set in json. */
         std::string disp_short_desc( bool reduced = false ) const;
+        /** Returns the mod source info. */
+        std::string disp_mod_source_info() const;
+
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
         bool use_part_descs() const;
 
