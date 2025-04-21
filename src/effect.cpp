@@ -1611,7 +1611,7 @@ void load_effect_type( const JsonObject &jo, const std::string_view src )
                                        enchant_num++ );
         new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
-    mod_tracker::assign_src(new_etype, src);
+    mod_tracker::assign_src( new_etype, src );
     effect_types[new_etype.id] = new_etype;
 }
 
