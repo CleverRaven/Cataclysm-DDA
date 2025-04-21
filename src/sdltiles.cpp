@@ -3710,13 +3710,12 @@ void catacurses::init_interface()
     init_term_size_and_scaling_factor();
 
     WinCreate();
-
-    if( enable_mouse ) {
-        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
-    } else {
+    using cata::options::mouse;
+    if( mouse.enabled ) {
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    } else {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
     }
-
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     if( use_far_tiles ) {
