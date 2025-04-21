@@ -4996,6 +4996,10 @@ void avatar::character_to_template( const std::string &name )
 
 void Character::add_default_background()
 {
+    if( has_flag( flag_NONSTANDARD_BACKROUND ) ) {
+        return;
+    }
+
     for( const profession_group &prof_grp : profession_group::get_all() ) {
         if( prof_grp.get_id() == profession_group_adult_basic_background ) {
             for( const profession_id &hobb : prof_grp.get_professions() ) {
