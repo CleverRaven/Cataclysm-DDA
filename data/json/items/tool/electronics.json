@@ -6,6 +6,7 @@
     "material": [ "plastic", "steel" ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "e_port": "camera",
     "etransfer_rate": "20 MB",
     "melee_damage": { "bash": 1 },
@@ -21,6 +22,7 @@
     "etransfer_rate": "30 MB",
     "e_port": "laptop",
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "melee_damage": { "bash": 6 },
     "tool_ammo": [ "battery" ]
   },
@@ -44,6 +46,7 @@
     "e_port": "tablet",
     "e_ports_banned": [ "USB-A" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "variables": { "browsed": "false" },
     "tool_ammo": [ "battery" ]
   },
@@ -109,6 +112,7 @@
     "color": "yellow",
     "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "50 W" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC", "CAMERA_PRO", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "//": "swappable, but proprietary 160g Li-Ion battery",
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } },
@@ -148,6 +152,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "ALARMCLOCK", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17 } } ],
     "tool_ammo": [ "battery" ]
   },
@@ -168,6 +173,7 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -266,6 +272,7 @@
     ],
     "tick_action": [ "EPIC_MUSIC" ],
     "//": "LIGHT_10 is the bare minimum for reading without penalties",
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "LIGHT_10", "TRADER_AVOID" ]
   },
   {
@@ -410,6 +417,7 @@
     "symbol": ",",
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -605,6 +613,7 @@
       { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
     "tick_action": [ "EPIC_MUSIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -624,6 +633,7 @@
     "use_action": [ "MP3", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
     "tool_ammo": [ "battery" ]
   },
@@ -637,6 +647,7 @@
     "revert_to": "mp3",
     "tick_action": [ "MP3_ON" ],
     "use_action": [ "MP3_DEACTIVATE", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -714,6 +725,7 @@
       "need_charges_msg": "It's dead."
     },
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -742,6 +754,7 @@
       "menu_text": "Turn off"
     },
     "tick_action": [ "EMF_PASSIVE_ON" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -759,6 +772,7 @@
     "color": "light_gray",
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "use_action": [ "PORTABLE_GAME", { "type": "link_up", "cable_length": 4, "charge_rate": "39 W" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ],
     "tool_ammo": [ "battery" ]
@@ -797,6 +811,7 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } },
       {
@@ -876,6 +891,7 @@
       }
     ],
     "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } },
       {
@@ -1033,6 +1049,7 @@
     "charges_per_use": 1,
     "use_action": [ "VIBE", { "type": "link_up", "cable_length": 3, "charge_rate": "10 W" } ],
     "flags": [ "WATER_BREAK", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ],
     "tool_ammo": [ "battery" ]
   },
