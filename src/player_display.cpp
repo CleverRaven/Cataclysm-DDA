@@ -1548,7 +1548,8 @@ void Character::disp_info( bool customize_character )
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string name = _effect_it.second.disp_name();
-            effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
+            effect_name_and_text.emplace_back( name,
+                                               _effect_it.second.disp_desc() + '\n' + _effect_it.second.disp_mod_source_info() );
         }
     }
     if( get_perceived_pain() > 0 ) {

@@ -498,6 +498,7 @@ void debug_menu::wisheffect( Creature &p )
         {
             descstr << eff.disp_desc( false ) << '\n';
         }
+        descstr << eff.disp_mod_source_info() << '\n';
 
         return descstr.str();
     };
