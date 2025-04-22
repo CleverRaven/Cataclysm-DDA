@@ -1237,7 +1237,7 @@
             "id": "EOC_VAMPIRIC_STEALTH_BONUS_deactivate",
             "condition": { "u_has_effect": "effect_vampiric_stealth_bonus" },
             "effect": [
-              { "u_message": "As your cloak of shadows fades, your presence becomes more obvious", "type": "neutral" },
+              { "u_message": "As your cloak of shadows fades, your presence becomes more obvious.", "type": "neutral" },
               { "u_lose_effect": "effect_vampiric_stealth_bonus" }
             ]
           }
@@ -1263,10 +1263,7 @@
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "50" ] },
-              {
-                "u_message": "You feel a momentary warmth as you maintain your preternatural dodging.",
-                "type": "mixed"
-              },
+              { "u_message": "You feel a momentary warmth as you maintain your cloak of shadows.", "type": "mixed" },
               {
                 "run_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_maintenance" ],
                 "time_in_future": {
