@@ -967,7 +967,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] },
               { "u_add_effect": "blood_weave", "duration": "PERMANENT" },
-              { "u_message": "You hold tightly to your blood, preventing it from leaving your body.", "type": "good" },
               { "u_lose_effect": "bleed", "target_part": "ALL" },
               {
                 "run_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
@@ -1124,7 +1123,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
               { "u_add_effect": "effect_vampiric_dodge", "duration": "PERMANENT" },
-              { "u_message": "You begin dodging with preternatural agility.", "type": "good" },
               {
                 "run_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
@@ -1212,7 +1210,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
               { "u_add_effect": "effect_vampiric_stealth_bonus", "duration": "PERMANENT" },
-              { "u_message": "You fade slightly into the shadows.", "type": "good" },
               {
                 "run_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_maintenance" ],
                 "time_in_future": {
