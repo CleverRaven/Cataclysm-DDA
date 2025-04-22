@@ -238,7 +238,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
-    "techniques": [ "RAPID" ],
     "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "variant_type": "generic",
@@ -996,7 +995,7 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "stab": 19 }
   },
   {
@@ -1049,7 +1048,7 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "cut": 20 }
   },
   {

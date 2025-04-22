@@ -2826,6 +2826,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "test_brew_wine",
     "name": "tennis ball wine must",
     "description": "Unfermented tennis ball wine.  A rubbery, boiled juice made from mashed tennis balls.",
@@ -2844,7 +2845,8 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "12 hours", "brew_results": [ "test_wine", "yeast" ] }
+    "brew_time": "12 hours",
+    "brew_results": [ "test_wine", "yeast" ]
   },
   {
     "type": "COMESTIBLE",

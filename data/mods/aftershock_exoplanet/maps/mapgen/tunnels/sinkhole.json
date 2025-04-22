@@ -31,6 +31,7 @@
         "        b               ",
         "                        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "afs_tunnel" ],
       "terrain": { "n": "t_open_air", "R": "t_snowslope_down" },
       "furniture": { "b": "f_boulder_medium" }

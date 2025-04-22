@@ -2,7 +2,7 @@
 
 ## definition
 
-```JSON
+```jsonc
 {
   "id": "iron",
   "type": "vitamin",

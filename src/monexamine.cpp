@@ -30,6 +30,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "pathfinding.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -592,9 +593,7 @@ void insert_battery( monster &z )
 
 bool Character::can_mount( const monster &critter ) const
 {
-    const auto &avoid = get_path_avoid();
-    auto route = get_map().route( pos_bub(), critter.pos_bub(), get_pathfinding_settings(), avoid );
-
+    auto route = get_map().route( *this, pathfinding_target::point( critter.pos_bub() ) );
     if( route.empty() ) {
         return false;
     }

@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
@@ -45,6 +46,9 @@ class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
+/**
+* See OBSOLETION_AND_MIGRATION.md
+*/
 class migration
 {
     public:
@@ -90,9 +94,20 @@ struct item_blacklist_t {
  */
 class Item_factory
 {
+        friend class generic_factory<itype>;
+        friend struct itype;
     public:
+        generic_factory<itype> item_factory = generic_factory<itype>( "ITEM" );
+
         Item_factory();
         ~Item_factory();
+
+        generic_factory<itype> &get_generic_factory() {
+            return item_factory;
+        }
+
+        //initialize use_functions
+        void init();
         /**
          * Reset the item factory. All item type definitions and item groups are erased.
          */
@@ -297,10 +312,6 @@ class Item_factory
         /** Set at finalization and prevents alterations to the static item templates */
         bool frozen = false;
 
-        std::map<itype_id, itype> m_abstracts;
-
-        std::unordered_map<itype_id, itype> m_templates;
-
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
         /** Runtimes rarely change. Used for cache templates_all_cache for the all() method. */
         mutable bool m_runtimes_dirty = true;
@@ -343,18 +354,9 @@ class Item_factory
         void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                         const std::string &src );
 
-        /**
-        * Load ememory_size, which is automatically calculated for books
-        */
-        void load_ememory_size( const JsonObject &jo, itype &def );
-        /**
-         * Load item the item slot if present in json.
-         * Checks whether the json object has a member of the given name and if so, loads the item
-         * slot from that object. If the member does not exists, nothing is done.
-         */
         template<typename SlotType>
-        void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                 std::string_view member, const std::string &src );
+        static void load_slot( const JsonObject &jo, bool was_loaded,
+                               cata::value_ptr<SlotType> &slotptr );
 
         void load( relic &slot, const JsonObject &jo, std::string_view src );
 
@@ -380,21 +382,11 @@ class Item_factory
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, std::string_view name );
         void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
-        void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
-        void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
-        void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void relative_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void set_techniques_from_json( const JsonObject &jo, const std::string_view &member, itype &def );
-        void extend_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void delete_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
-
         // declared here to have friendship status with itype
         static void npc_implied_flags( itype &item_template );
         static void set_allergy_flags( itype &item_template );
 
         void clear();
-        void init();
 
         void finalize_item_blacklist();
 
@@ -420,4 +412,15 @@ class Item_factory
         std::set<itype_id> gun_tools;
 };
 
+namespace items
+{
+/** Load all items */
+void load( const JsonObject &jo, const std::string &src );
+/** Finalize all loaded items */
+void finalize_all();
+/** Clear all loaded items (invalidating any pointers) */
+void reset();
+/** Checks all loaded items are valid */
+void check_consistency();
+}  // namespace items
 #endif // CATA_SRC_ITEM_FACTORY_H

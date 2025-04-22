@@ -21,6 +21,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "roasted_cattail_rhizome",
     "name": { "str": "roasted cattail rhizome" },
     "copy-from": "cattail_rhizome",
@@ -30,14 +31,16 @@
     "calories": 280,
     "spoils_in": "5 days",
     "description": "A roasted root from a cattail plant.  Its fibrous outer core is charred black, so you can remove it and chew on the dry inside.",
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_2_15" },
     "fun": -1,
     "delete": { "flags": [ "RAW" ] },
     "//": "The flag below implies that part of root got burned and has to be removed",
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_2_15"
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "starch",
     "name": { "str_sp": "starch" },
     "weight": "180 g",
@@ -51,10 +54,11 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "milling": { "into": "flour", "recipe": "flour_mill_1_15" },
     "fun": -14,
     "vitamins": [ [ "veggy_allergen", 1 ] ],
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "into": "flour",
+    "recipe": "flour_mill_1_15"
   },
   {
     "type": "COMESTIBLE",
@@ -252,6 +256,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "buckwheat_cooked",
     "name": { "str_sp": "cooked buckwheat" },
     "copy-from": "buckwheat",
@@ -260,7 +265,8 @@
     "price": "1 USD 20 cent",
     "price_postapoc": "50 cent",
     "flags": [ "EATEN_HOT" ],
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
     "type": "COMESTIBLE",
@@ -381,6 +387,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "dry_rice",
     "name": { "str_sp": "dried rice" },
     "weight": "66 g",
@@ -398,14 +405,16 @@
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "83 ml",
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_4" },
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
-    "fun": -15
+    "fun": -15,
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_1_4"
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "dry_wild_rice",
     "name": { "str_sp": "dry wild rice" },
     "weight": "66 g",
@@ -422,14 +431,16 @@
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "83 ml",
-    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_4" },
     "cooks_like": "wild_rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
-    "fun": -15
+    "fun": -15,
+    "into": "flour_wheat_free",
+    "recipe": "flour_wheat_free_mill_1_4"
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "rice_cooked",
     "name": { "str_sp": "cooked rice" },
     "weight": "200g",
@@ -446,10 +457,12 @@
     "fun": 2,
     "vitamins": [ [ "iron", 11 ] ],
     "volume": "250 ml",
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "wild_rice_cooked",
     "name": { "str_sp": "cooked wild rice" },
     "weight": "200g",
@@ -466,7 +479,8 @@
     "fun": 2,
     "vitamins": [ [ "iron", 10 ] ],
     "volume": "250 ml",
-    "milling": { "into": "null", "recipe": "" }
+    "into": "null",
+    "recipe": ""
   },
   {
     "type": "COMESTIBLE",
@@ -1137,6 +1151,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "dry_chili",
     "name": { "str": "dehydrated chili pepper" },
     "weight": "40 g",
@@ -1150,14 +1165,16 @@
     "price": "15 cent",
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
-    "milling": { "into": "chilly-p", "recipe": "chilly-p_mill_1_50" },
     "volume": "55 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
-    "fun": -4
+    "fun": -4,
+    "into": "chilly-p",
+    "recipe": "chilly-p_mill_1_50"
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "dry_garlic",
     "name": { "str": "dehydrated garlic clove" },
     "weight": "2 g",
@@ -1171,14 +1188,16 @@
     "price": "5 cent",
     "price_postapoc": "3 cent",
     "material": [ "garlic" ],
-    "milling": { "into": "garlic_powder", "recipe": "garlic_powder_mill_1_50" },
     "volume": "17 ml",
     "fun": -6,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "into": "garlic_powder",
+    "recipe": "garlic_powder_mill_1_50"
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "SEED", "MILLING" ],
     "id": "dry_corn",
     "name": { "str_sp": "dehydrated corn kernels" },
     "weight": "45 g",
@@ -1191,12 +1210,17 @@
     "price": "60 cent",
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
-    "milling": { "into": "cornmeal", "recipe": "cornmeal_mill_1_3" },
     "volume": "83 ml",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
-    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
+    "plant_name": "corn",
+    "fruit": "corn",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "grow": "80 days",
+    "into": "cornmeal",
+    "recipe": "cornmeal_mill_1_3"
   },
   {
     "type": "COMESTIBLE",

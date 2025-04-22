@@ -387,6 +387,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "chitin_piece",
     "category": "spare_parts",
     "symbol": ",",
@@ -398,12 +399,14 @@
     "price_postapoc": "25 cent",
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "into": "meal_chitin_piece",
+    "recipe": "meal_chitin_piece_mill_1_4"
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "endochitin",
     "category": "spare_parts",
     "symbol": ",",
@@ -414,9 +417,10 @@
     "price": "0 cent",
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "300 ml"
+    "volume": "300 ml",
+    "into": "meal_chitin_piece",
+    "recipe": "meal_chitin_piece_mill_1_4"
   },
   {
     "type": "COMESTIBLE",

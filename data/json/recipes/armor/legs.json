@@ -741,7 +741,7 @@
       [ "bronzesmithing_tools", 1 ],
       [ "strap_small", 4 ],
       [ "clasps", 4 ],
-      [ "steel_tiny", 12 ]
+      [ "steel_chunk_any", 12 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -754,7 +754,13 @@
     "type": "recipe",
     "copy-from": "legguard_metal",
     "time": "8 h",
-    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 3 ], [ "clasps", 3 ], [ "steel_tiny", 9 ] ]
+    "using": [
+      [ "forging_standard", 4 ],
+      [ "bronzesmithing_tools", 1 ],
+      [ "strap_small", 3 ],
+      [ "clasps", 3 ],
+      [ "steel_chunk_any", 9 ]
+    ]
   },
   {
     "result": "xl_legguard_metal",
@@ -766,7 +772,7 @@
       [ "bronzesmithing_tools", 1 ],
       [ "strap_small", 4 ],
       [ "clasps", 4 ],
-      [ "steel_tiny", 16 ]
+      [ "steel_chunk_any", 16 ]
     ]
   },
   {

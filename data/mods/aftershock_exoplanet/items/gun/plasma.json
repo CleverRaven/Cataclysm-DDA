@@ -61,7 +61,7 @@
         "item_restriction": [ "afs_20g_plasma", "afs_4g_plasma" ]
       }
     ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_safety" ]
+    "faults": [ { "fault": "fault_overheat_explosion" }, { "fault": "fault_overheat_venting" }, { "fault": "fault_overheat_safety" } ]
   },
   {
     "id": "afs_pam-41",
@@ -140,7 +140,7 @@
         "item_restriction": [ "afs_40g_plasma_civ" ]
       }
     ],
-    "faults": [ "fault_overheat_melting" ],
+    "faults": [ { "fault": "fault_overheat_melting" } ],
     "tool_ammo": [ "afs_shydrogen" ]
   },
   {
@@ -181,6 +181,6 @@
         "item_restriction": [ "afs_40g_plasma_civ" ]
       }
     ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting" ]
+    "faults": [ { "fault": "fault_overheat_explosion" }, { "fault": "fault_overheat_venting" } ]
   }
 ]

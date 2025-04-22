@@ -1,6 +1,7 @@
 [
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_mycus_wine",
     "looks_like": "wine_mycus",
     "name": { "str_sp": "Mycus wine must" },
@@ -20,11 +21,13 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "wine_mycus", "yeast" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wine_mycus", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_marloss_wine",
     "looks_like": "wine_marloss",
     "name": { "str_sp": "Marloss wine must" },
@@ -44,11 +47,13 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "wine_marloss", "yeast" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wine_marloss", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_whiskey",
     "looks_like": "wash_whiskey",
     "name": { "str_sp": "whiskey wort" },
@@ -73,8 +78,9 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "wash_whiskey", "yeast" ] },
-    "vitamins": [ [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "wheat_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wash_whiskey", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
@@ -106,6 +112,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_gin",
     "looks_like": "gin_mash",
     "name": { "str_sp": "gin mash" },
@@ -125,7 +132,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "gin_mash" ] }
+    "brew_time": "7 days",
+    "brew_results": [ "gin_mash" ]
   },
   {
     "type": "COMESTIBLE",
@@ -157,6 +165,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_sake",
     "looks_like": "brew_vodka",
     "name": { "str_sp": "sake mash" },
@@ -180,11 +189,13 @@
     "volume": "36 ml",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "sake_unfiltered", "koji", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "sake_unfiltered", "koji", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_soy_sauce",
     "name": { "str_sp": "unfermented soy sauce" },
     "description": "Brine with mashed soybeans, wheat flour and koji mold added to it.  If you want to make soy sauce from this, the next step would be to let it ferment.",
@@ -209,8 +220,9 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "freezing_point": -30,
-    "brewable": { "brew_time": "21 days", "brew_results": [ "soy_sauce_unstrained" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "brew_time": "21 days",
+    "brew_results": [ "soy_sauce_unstrained" ]
   },
   {
     "type": "COMESTIBLE",
@@ -237,6 +249,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_vodka",
     "looks_like": "vodka",
     "name": { "str_sp": "vodka wort" },
@@ -256,8 +269,9 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "7 days", "brew_results": [ "wash_vodka", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "wash_vodka", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
@@ -289,6 +303,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_rum",
     "looks_like": "rum",
     "name": { "str_sp": "rum wort" },
@@ -308,7 +323,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "wash_rum", "yeast" ] }
+    "brew_time": "7 days",
+    "brew_results": [ "wash_rum", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
@@ -340,6 +356,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_fruit_wine",
     "looks_like": "fruit_wine",
     "name": { "str_sp": "fruit wine must" },
@@ -359,11 +376,13 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "fruit_wine", "yeast" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "fruit_wine", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_mead",
     "looks_like": "mead",
     "name": { "str_sp": "plain mead must" },
@@ -384,7 +403,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "14 days", "brew_results": [ "plain_mead", "yeast" ] }
+    "brew_time": "14 days",
+    "brew_results": [ "plain_mead", "yeast" ]
   },
   {
     "id": "brew_hopped_mead",
@@ -392,7 +412,9 @@
     "name": { "str_sp": "hopped mead must" },
     "description": "Unfermented hopped mead.  Diluted honey cooked with hops for a bitter note, then cooled down and infused with yeast.  You need to put it in a fermenting vat to brew it.",
     "type": "COMESTIBLE",
-    "brewable": { "brew_time": "14 days", "brew_results": [ "hopped_mead", "yeast" ] }
+    "subtypes": [ "BREWABLE" ],
+    "brew_time": "14 days",
+    "brew_results": [ "hopped_mead", "yeast" ]
   },
   {
     "id": "brew_spiced_mead",
@@ -400,10 +422,13 @@
     "name": { "str_sp": "spiced mead must" },
     "description": "Unfermented spiced mead.  Diluted honey infused with spices and yeast.  You need to put it in a fermenting vat to brew it.",
     "type": "COMESTIBLE",
-    "brewable": { "brew_time": "14 days", "brew_results": [ "spiced_mead", "yeast" ] }
+    "subtypes": [ "BREWABLE" ],
+    "brew_time": "14 days",
+    "brew_results": [ "spiced_mead", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_dandelion_wine",
     "looks_like": "dandelion_wine",
     "name": { "str_sp": "dandelion wine must" },
@@ -428,11 +453,13 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "7 days", "brew_results": [ "dandelion_wine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "dandelion_wine", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_burdock_wine",
     "looks_like": "burdock_wine",
     "name": { "str_sp": "burdock wine must" },
@@ -457,11 +484,13 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "7 days", "brew_results": [ "burdock_wine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "burdock_wine", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_pine_wine",
     "looks_like": "pine_wine",
     "name": { "str_sp": "pine wine must" },
@@ -486,11 +515,13 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "7 days", "brew_results": [ "pine_wine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "pine_wine", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_hb_beer",
     "looks_like": "beer",
     "name": { "str_sp": "beer wort" },
@@ -516,11 +547,13 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "hb_beer", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "hb_beer", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_hb_seltzer",
     "looks_like": "hb_seltzer",
     "name": { "str_sp": "seltzer wort" },
@@ -546,11 +579,13 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "7 days", "brew_results": [ "hb_seltzer", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "7 days",
+    "brew_results": [ "hb_seltzer", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_moonshine",
     "looks_like": "moonshine",
     "name": { "str_sp": "moonshine mash" },
@@ -570,8 +605,9 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "brew_time": "5 days", "brew_results": [ "wash_moonshine", "yeast" ] },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "brew_time": "5 days",
+    "brew_results": [ "wash_moonshine", "yeast" ]
   },
   {
     "type": "COMESTIBLE",
@@ -603,6 +639,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_milk_curdled",
     "looks_like": "milk",
     "name": { "str_sp": "curdling milk" },
@@ -623,11 +660,13 @@
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "4 hours", "brew_results": [ "milk_curdled" ] },
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "brew_time": "4 hours",
+    "brew_results": [ "milk_curdled" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_vinegar",
     "looks_like": "vinegar",
     "name": { "str_sp": "unfermented vinegar" },
@@ -648,11 +687,13 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "14 days", "brew_results": [ "vinegar" ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "brew_time": "14 days",
+    "brew_results": [ "vinegar" ]
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "young_yeast",
     "looks_like": "yeast",
     "name": { "str_sp": "growing wild yeast" },
@@ -673,7 +714,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "3 days", "brew_results": { "yeast": 25 } }
+    "brew_time": "3 days",
+    "brew_results": { "yeast": 25 }
   },
   {
     "type": "COMESTIBLE",
@@ -807,6 +849,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "BREWABLE" ],
     "id": "brew_rootbeer",
     "looks_like": "brew_mead",
     "name": { "str_sp": "unfermented root beer" },
@@ -825,6 +868,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "brew_time": "1 days", "brew_results": [ "rootbeer_brewed" ] }
+    "brew_time": "1 days",
+    "brew_results": [ "rootbeer_brewed" ]
   }
 ]

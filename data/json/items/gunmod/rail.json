@@ -6,18 +6,10 @@
     "name": { "str_sp": "offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
-    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher" ],
     "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
     "proportional": { "sight_dispersion": 1.25 },
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
-  },
-  {
-    "id": "offset_sights_mod",
-    "copy-from": "offset_sights",
-    "type": "GUNMOD",
-    "name": { "str_sp": "modified offset iron sights" },
-    "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "offset_sight_rail",
@@ -33,17 +25,9 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "rail",
-    "mod_targets": [ "shotgun", "smg", "rifle" ],
+    "mod_targets": [ "shotgun", "smg", "rifle", "launcher" ],
     "min_skills": [ [ "gun", 1 ] ],
     "add_mod": [ [ "sights", 1 ] ]
-  },
-  {
-    "id": "offset_sight_rail_mod",
-    "copy-from": "offset_sight_rail",
-    "type": "GUNMOD",
-    "name": { "str": "modified offset sight rail" },
-    "description": "An additional rail set at 45° for attaching a secondary optic.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "rail_laser_sight",

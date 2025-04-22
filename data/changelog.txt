@@ -131,6 +131,7 @@ Rebalance the chance for armor to be damaged by attacks.
 Allow event character_ranged_attacks_* catch throw attack, add context val is_throw to determine whether the event was triggered by a thrown attack.
 Underground Temperature now depends on Region Settings
 Modinfo Blacklist
+Add a dentist office map
 
 
 ## Content:
@@ -792,6 +793,10 @@ Isolation Protocol: Office Levels
 [XE] Adds a special boss encounter for tier 5 vampires.
 Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
 [Xedra Evolved] Add playable dhampirs
+[Xedra Evolved] Vampires can drink blood
+Aftershock: Merge aftershock and aftershock exoplanet.
+Aftershock: Heat Crashed Ship.
+Mod Conflicts
 
 
 ## Balance:
@@ -1393,6 +1398,7 @@ generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
+Warn on load if files have been modified
 
 
 ## Build:

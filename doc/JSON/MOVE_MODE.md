@@ -2,7 +2,7 @@
 
 ## definition
 
-```JSON
+```jsonc
 {
   "type": "movement_mode",
   "id": "fly",

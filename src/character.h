@@ -926,7 +926,9 @@ class Character : public Creature, public visitable
         stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
         int get_lift_str() const;
-        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
+        /** Takes off an item, returning false on fail. The taken off item is processed in the interact.
+         * Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
+         */
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 

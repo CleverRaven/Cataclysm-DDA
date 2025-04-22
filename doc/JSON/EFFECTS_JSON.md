@@ -3,7 +3,7 @@
 ## How to give effects in-game?
 ### Comestibles
 The first way to give a player an effect in-game is through the drug system. To do this your item must have a use_action of type "consume_drug".
-```C++
+```jsonc
     "use_action" : {
         "type" : "consume_drug",
         "activation_message" : "You take some oxycodone.",
@@ -20,14 +20,14 @@ The first way to give a player an effect in-game is through the drug system. To 
     },
 ```
 Notice the "effects" field. Each effect has four potential fields:
-```C++
-"id" - Required
-"duration" - Required
-"bp" - This will cause the effect to target this body part specifically
-"permanent" - This means the placed effect will be permanent, and will never decrease in duration
+```jsonc
+"id"        // Required
+"duration"  // Required
+"bp"        // This will cause the effect to target this body part specifically
+"permanent" // This means the placed effect will be permanent, and will never decrease in duration
 ```
 Valid "bp" entries are (no entry means the effect is untargeted):
-```C++
+```jsonc
 "TORSO"
 "HEAD"
 "EYES"
@@ -44,7 +44,7 @@ Valid "bp" entries are (no entry means the effect is untargeted):
 
 ### Creature attacks
 Creatures have an effect field similar to the "consume_drug" entry for items. You can make a creature's attacks apply effects by adding an "attack_effs" entry for the creature.
-```C++
+```jsonc
     "attack_effs": [
         {
             "//": "applying this multiple times makes intensity go up by 3 instead of 1",
@@ -62,25 +62,25 @@ Creatures have an effect field similar to the "consume_drug" entry for items. Yo
     ],
 ```
 The fields for "attack_effs" function identically to the ones for "consume_drug". However, creatures have an additional field:
-```C++
-"chance" - The percentage chance of the effect being applied on a good hit, defaults to 100%
+```jsonc
+"chance" // The percentage chance of the effect being applied on a good hit, defaults to 100%
 ```
 If a creature successfully damages the player and their chance roll succeeds they will apply
 all of the listed effects to the player. The effects are added one after another.
 
 ## Required fields
-```C++
-    "type": "effect_type",      - Required
-    "id": "xxxx"                - Must be unique
+```jsonc
+    "type": "effect_type", // Required
+    "id": "xxxx"           // Must be unique
 ```
 
 ## Optional fields
 
 ### Max intensity
-```C++
-    "max_intensity": 6,             - Used for many later fields, defaults to 1
-    "max_effective_intensity": 3    - Maximum intensity level that will accumulate effects.
-                                      Other intensity levels will only increase duration.
+```jsonc
+    "max_intensity": 6,          // Used for many later fields, defaults to 1
+    "max_effective_intensity": 3 // Maximum intensity level that will accumulate effects.
+                                 // Other intensity levels will only increase duration.
 ```
 
 Each effect has an intensity that describes how strong or severe the effect currently is.  Intensity
@@ -92,9 +92,9 @@ multipliers will be applied all the way up to "max_intensity".
 
 
 ### Name
-```C++
+```jsonc
     "name": ["XYZ"]
-    or
+    // or
     "name": [
         "ABC",
         "XYZ",
@@ -110,24 +110,24 @@ entry of "name" is the empty string ("") or "name" is missing then the effect wi
 in the status screen.
 
 Each entry in "name" can also have an optional context:
-```JSON
+```jsonc
     "name": [ { "ctxt": "ECIG", "str": "Smoke" } ]
 ```
 In this case, the game will translate the name with the given context "ECIG",
 which makes it possible to distinguish the verb "Smoke" from the noun "Smoke"
 in other languages.
 
-```C++
-    "speed_name" : "XYZ"        - Defaults to the first name value
+```jsonc
+    "speed_name" : "XYZ" // Defaults to the first name value
 ```
 This is the value used in the list of modifiers on a player's speed. It will default to the first entry in "name"
 if it doesn't exist, and if neither one exists or if "speed_name" is the empty string (""), then it will not
 appear in the list of modifiers on the players speed (though the effect might still have an effect).
 
 ### Descriptions
-```C++
+```jsonc
     "desc": ["XYZ"]
-    or
+    // or
     "desc": [
         "ABC",
         "XYZ",
@@ -140,16 +140,16 @@ from the other effect data. Should a description line be the empty string ("") i
 stat changes in the effect description.
 
 Descriptions also have a second field that can act as a modifier:
-```C++
-    "part_descs": true      - Defaults to false if not present
+```jsonc
+    "part_descs": true // Defaults to false if not present
 ```
 If "part_descs" == true then descriptions are preceded by "Your X", where X is the body part name, meaning
 the prior descriptions would appear as "Your left arm ABC".
 
 Descriptions can also have a reduced form:
-```C++
+```jsonc
     "reduced_desc": ["XYZ"]
-    or
+    // or
     "reduced_desc": [
         "ABC",
         "XYZ",
@@ -160,15 +160,15 @@ This is the description that will be used if an effect is reduced. By default th
 if it doesn't exist.
 
 ### Rating
-```C++
-    "rating": "good"        - Defaults to "neutral" if missing
+```jsonc
+    "rating": "good" // Defaults to "neutral" if missing
 ```
 This is used for how the messages when the effect is applied and removed are displayed. Also this affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored green, effects with any other rating will be colored red when character conducts a blood analysis through some means.
 
 If [apply_message](#advanced-apply_message) is an array you can't include this entry (it is handled with apply message).
 
 Valid entries are:
-```C++
+```jsonc
 "good"
 "neutral"
 "bad"
@@ -176,7 +176,7 @@ Valid entries are:
 ```
 
 ### Messages
-```C++
+```jsonc
     "apply_message": "message",
     "remove_message": "message"
 ```
@@ -185,7 +185,7 @@ displayed upon the addition or removal of the effect. Note: "apply_message" will
 if the effect is being added, not if it is simply incrementing a current effect (so only new bites, etc.).
 
 ### Advanced apply_message
-```C++
+```jsonc
     "apply_message": [
         ["Your effect is applied", "good"],
         ["You took way too much effect", "bad"],
@@ -197,13 +197,13 @@ When using an advanced apply_message you can not include a [rating: ""](#rating)
 
 ### Hiding the effect
 
-```C++
+```jsonc
     "show_in_info": true
 ```
 
 Default false; If true, the effect is shown when you inspect another NPC or monster. It doesn't hide the effect from the player's @ menu, for this effect should have empty string as a name and description:
 
-```C++
+```jsonc
   {
     "type": "effect_type",
     "id": "secret_effect",
@@ -214,7 +214,7 @@ Default false; If true, the effect is shown when you inspect another NPC or mons
 ```
 
 ### Memorial Log
-```C++
+```jsonc
     "apply_memorial_log": "log",
     "remove_memorial_log": "log"
 ```
@@ -223,7 +223,7 @@ respective message to the memorial log on addition or removal of the effect. Sim
 the message fields the "apply_memorial_log" will only be added to the log for new effect additions.
 
 ### Resistances
-```C++
+```jsonc
     "resist_traits": "NOPAIN",
     "resist_effects": [ "flumed" ]
 ```
@@ -231,21 +231,21 @@ These fields are used to determine if an effect is being resisted or not. If the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
 
 ### Immunity Flags
-```JSON
+```jsonc
 "immune_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
 ```
 Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
 
 ### Bodypart Immunity Flags
 
-```JSON
+```jsonc
 "immune_bp_flags": [ "LIMB_UPPER" ]
 ```
 
 When applying the effect to a bodypart directly the part in question having this JSON character flag will prevent the effect from applying.
 
 ### Removes effects
-```C++
+```jsonc
     "removes_effects": ["bite", "flu"]
 ```
 This field will cause an effect to automatically remove any other copies of the listed effects if they are present.
@@ -253,7 +253,7 @@ In the example above the placed effect would automatically cure any bite wounds 
 automatically count for "blocks_effects" as well, no need to duplicate them there.
 
 ### Blocks effects
-```C++
+```jsonc
     "blocks_effects": ["cold", "flu"]
 ```
 This field will cause an effect to prevent the placement of the listed effects. In the example above the effect would
@@ -261,7 +261,7 @@ prevent the player from catching the cold or the flu (BUT WOULD NOT CURE ANY ONG
 in "removes_effects" are automatically added to "blocks_effects", no need for manual duplication.
 
 ### Modifies effect-on-hit durations
-```C++
+```jsonc
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
 ```
 This field will cause an effect to modify the effect-on-hit durations of "effect_id", as defined in body_parts.json.
@@ -269,9 +269,9 @@ In the example above, this effect causes incoming bleeding duration to be increa
 If an effect with effect_dur_scaling is applied to a bodypart and same_bp is "true", then it will affect effect-on-hit durations on only that bodypart. If false, it will affect all bodyparts.
 
 ### Effect limiters
-```C++
-    "max_duration": 100,    - Time duration string, defaults to 365 days
-    "dur_add_perc": 150     - Defaults to 100(%)
+```jsonc
+    "max_duration": 100, // Time duration string, defaults to 365 days
+    "dur_add_perc": 150  // Defaults to 100(%)
 ```
 These are utilized when adding to currently existing effects. "max_duration" limits the overall duration of the effect.
 "dur_add_perc" is the percentage value of the normal duration for adding to an existing. An example:
@@ -283,13 +283,13 @@ future applications decreasing the overall time left.
 
 ### Intensities
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
-```JSON
-    "int_add_val": 2         - Int, defaults to 0 meaning future applications will not increase intensity
+```jsonc
+    "int_add_val": 2         // Int, defaults to 0 meaning future applications will not increase intensity
 
-    "int_decay_step": -2,    - Int, default -1, intensity levels removed every decay tick
-    "int_decay_tick": 10     - Int, seconds between intensity decay (no decay at the default of 0)
-    "int_decay_remove": true - Bool, default false, removes the intensity if decay would decrease it to zero
-    or
+    "int_decay_step": -2,    // Int, default -1, intensity levels removed every decay tick
+    "int_decay_tick": 10     // Int, seconds between intensity decay (no decay at the default of 0)
+    "int_decay_remove": true // Bool, default false, removes the intensity if decay would decrease it to zero
+    // or
     "int_dur_factor": 700
 ```
 The first value is the amount an intensity will be incremented if adding to an already existing effect. As an example:
@@ -306,15 +306,15 @@ This can be used to make effects automatically increase or decrease in intensity
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
 intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
 
-```C++
-    "show_intensity": false     - Defaults to true
+```jsonc
+    "show_intensity": false // Defaults to true
 ```
 This permits or forbids showing intensity value next to name of a given effect in EFFECTS tab. E.g. show "Weakness [142]" or simply "Weakness" text.
 
 ### Miss messages
-```C++
+```jsonc
     "miss_messages": [["Your blisters distract you", 1]]
-    or
+    // or
     "miss_messages": [
         ["Your blisters distract you", 1],
         ["Your blisters don't like you", 10],
@@ -323,9 +323,9 @@ This permits or forbids showing intensity value next to name of a given effect i
 This will add the following miss messages at the given chances while the effect is in effect.
 
 ### Decay messages
-```C++
+```jsonc
     "decay_messages": [["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"]]
-    or
+    // or
     "decay_messages": [
         ["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"],
         ["OOGA-BOOGA.  You feel AWFUL!", "bad"],
@@ -337,18 +337,18 @@ whether through decay ticks or through "int_dur_factor". So if it decayed to int
 "OOGA-BOOGA.  You feel AWFUL!" as a bad message to the player.
 
 ### Targeting modifiers
-```C++
-    "main_parts_only": true     - Defaults to false
+```jsonc
+    "main_parts_only": true // Defaults to false
 ```
 This automatically retargets any effect on a non-main part (hands, eyes, feet, etc.) to the matching
 main part (arms, head, legs, etc.).
 
 ### Effect modifiers
-```C++
-    "pkill_addict_reduces": true,   - Defaults to false
-    "pain_sizing": true,            - Defaults to false
-    "hurt_sizing": true,            - Defaults to false
-    "harmful_cough": true           - Defaults to false
+```jsonc
+    "pkill_addict_reduces": true, // Defaults to false
+    "pain_sizing": true,          // Defaults to false
+    "hurt_sizing": true,          // Defaults to false
+    "harmful_cough": true         // Defaults to false
 ```
 "pkill_addict_reduces" makes a player's addiction to painkillers reduce the chance of the effect giving
 them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
@@ -356,7 +356,7 @@ and hurt effects triggering. "harmful_cough" means that the coughs caused by thi
 
 ### Vitamin Mods
 
-```json
+```jsonc
     "vitamins": [
       {
         "vitamin": "foo",
@@ -381,7 +381,7 @@ As defined, this will cause non-resistant characters to gain between 1 and 2 of 
 
 ### Death
 
-```json
+```jsonc
     "chance_kill": [ [ 1, 25 ] ],
     "chance_kill_resist": [ [ 1, 250 ] ],
     "death_msg": "You died.",
@@ -397,7 +397,7 @@ For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the
 
 ### Limb score modifiers
 
-```JSON
+```jsonc
     "limb_score_mods": [
       {
         "limb_score": "lift",
@@ -420,12 +420,12 @@ Limb score modifiers work as multipliers in the limb score calculations.  The ex
 
 
 ### Effect effects
-```C++
+```jsonc
     "base_mods" : {
-        arguments
+        // arguments
     },
     "scaling_mods": {
-        arguments
+        // arguments
     }
 ```
 This is where the real meat of the effect JSON definition lies. Each one can take a variety of arguments.
@@ -433,185 +433,185 @@ Decimals are valid but must be formatted as "0.X" or "-0.X". The game will round
 when calculating actually applied values
 
 Basic definitions:
-```C++
-"X_amount"      - Amount applied of X when effect is placed. Like apply messages it will only trigger on new effects
-"X_min"         - Minimum amount of X applied when roll triggers
-"X_max"         - Maximum amount of X applied when roll triggers (no entry means it will give exactly X_min each time instead of rng(min, max)
-"X_min_val"     - Minimum value the effect will push you to, 0 means uncapped! Doesn't exist for some X's!
-"X_max_val"     - Maximum value the effect will push you to, 0 means uncapped! Doesn't exist for some X's!
-"X_chance"      - Basic chance of X triggering each time, depends on "X_chance_bot" for exact formula
-"X_chance_bot"  - If this doesn't exist then the trigger chance is (1 in "X_chance"). If this does exist then the chance is ("X_chance" in "X_chance_bot")
-"X_tick"        - Effect rolls for X triggering every Y ticks
+```jsonc
+"X_amount"     // Amount applied of X when effect is placed. Like apply messages it will only trigger on new effects
+"X_min"        // Minimum amount of X applied when roll triggers
+"X_max"        // Maximum amount of X applied when roll triggers (no entry means it will give exactly X_min each time instead of rng(min, max)
+"X_min_val"    // Minimum value the effect will push you to, 0 means uncapped! Doesn't exist for some X's!
+"X_max_val"    // Maximum value the effect will push you to, 0 means uncapped! Doesn't exist for some X's!
+"X_chance"     // Basic chance of X triggering each time, depends on "X_chance_bot" for exact formula
+"X_chance_bot" // If this doesn't exist then the trigger chance is (1 in "X_chance"). If this does exist then the chance is ("X_chance" in "X_chance_bot")
+"X_tick"       // Effect rolls for X triggering every Y ticks
 ```
 
 Valid arguments:
-```C++
-"str_mod"           - Positive values raises stat, negative values lowers stat
-"dex_mod"           - Positive values raises stat, negative values lowers stat
-"per_mod"           - Positive values raises stat, negative values lowers stat
-"int_mod"           - Positive values raises stat, negative values lowers stat
-"speed_mod"         - Positive values raises stat, negative values lowers stat
+```jsonc
+"str_mod"           // Positive values raises stat, negative values lowers stat
+"dex_mod"           // Positive values raises stat, negative values lowers stat
+"per_mod"           // Positive values raises stat, negative values lowers stat
+"int_mod"           // Positive values raises stat, negative values lowers stat
+"speed_mod"         // Positive values raises stat, negative values lowers stat
 
-"pain_amount"       - Positives raise pain, negatives don't make anything. Don't make it too high.
-"pain_min"          - Minimal amount of pain, certain effect will give/take
-"pain_max"          - if 0 or missing value will be exactly "pain_min"
-"pain_max_val"      - Defaults to 0, which means uncapped
-"pain_chance"       - Chance to get more pain
+"pain_amount"       // Positives raise pain, negatives don't make anything. Don't make it too high.
+"pain_min"          // Minimal amount of pain, certain effect will give/take
+"pain_max"          // if 0 or missing value will be exactly "pain_min"
+"pain_max_val"      // Defaults to 0, which means uncapped
+"pain_chance"       // Chance to get more pain
 "pain_chance_bot"
-"pain_tick"         - Defaults to every tick.
+"pain_tick"         // Defaults to every tick.
 
-"hurt_amount"       - Positives will give damage, negatives will heal instead. Don't make it too high.
-"hurt_min"          - Minimal amount of damage, certain effect will give/take
-"hurt_max"          - if 0 or missing value will be exactly "hurt_min"
-"hurt_chance"       - Chance to cause damage
+"hurt_amount"       // Positives will give damage, negatives will heal instead. Don't make it too high.
+"hurt_min"          // Minimal amount of damage, certain effect will give/take
+"hurt_max"          // if 0 or missing value will be exactly "hurt_min"
+"hurt_chance"       // Chance to cause damage
 "hurt_chance_bot"
-"hurt_tick"         - Defaults to every tick
+"hurt_tick"         // Defaults to every tick
 
-"sleep_amount"      - Amount of turns spent sleeping.
-"sleep_min"         - Minimal amount of sleep in turns, certain effect can give
-"sleep_max"         - if 0 or missing value will be exactly "sleep_min"
-"sleep_chance"      - Chance to fall asleep
+"sleep_amount"      // Amount of turns spent sleeping.
+"sleep_min"         // Minimal amount of sleep in turns, certain effect can give
+"sleep_max"         // if 0 or missing value will be exactly "sleep_min"
+"sleep_chance"      // Chance to fall asleep
 "sleep_chance_bot"
-"sleep_tick"        - Defaults to every tick
+"sleep_tick"        // Defaults to every tick
 
-"pkill_amount"      - Amount of painkiller effect. Don't go too high with it.
-"pkill_min"         - Minimal amount of painkiller, certain effect will give
-"pkill_max"         - if 0 or missing value will be exactly "pkill_min"
-"pkill_max_val"     - Defaults to 0, which means uncapped
-"pkill_chance"      - Chance to cause painkiller effect(lowers pain)
+"pkill_amount"      // Amount of painkiller effect. Don't go too high with it.
+"pkill_min"         // Minimal amount of painkiller, certain effect will give
+"pkill_max"         // if 0 or missing value will be exactly "pkill_min"
+"pkill_max_val"     // Defaults to 0, which means uncapped
+"pkill_chance"      // Chance to cause painkiller effect(lowers pain)
 "pkill_chance_bot"
-"pkill_tick"        - Defaults to every tick
+"pkill_tick"        // Defaults to every tick
 
-"stim_amount"       - Negatives cause depressants effect and positives cause stimulants effect.
-"stim_min"          - Minimal amount of stimulant, certain effect will give.
-"stim_max"          - if 0 or missing value will be exactly "stim_min"
-"stim_min_val"      - Defaults to 0, which means uncapped
-"stim_max_val"      - Defaults to 0, which means uncapped
-"stim_chance"       - Chance to cause one of two stimulant effects
+"stim_amount"       // Negatives cause depressants effect and positives cause stimulants effect.
+"stim_min"          // Minimal amount of stimulant, certain effect will give.
+"stim_max"          // if 0 or missing value will be exactly "stim_min"
+"stim_min_val"      // Defaults to 0, which means uncapped
+"stim_max_val"      // Defaults to 0, which means uncapped
+"stim_chance"       // Chance to cause one of two stimulant effects
 "stim_chance_bot"
-"stim_tick"         - Defaults to every tick
+"stim_tick"         // Defaults to every tick
 
-"health_amount"     - Negatives decrease health and positives increase it. It's semi-hidden stat, which affects healing.
-"health_min"        - Minimal amount of health, certain effect will give/take.
-"health_max"        - if 0 or missing value will be exactly "health_min"
-"health_min_val"    - Defaults to 0, which means uncapped
-"health_max_val"    - Defaults to 0, which means uncapped
-"health_chance"     - Chance to change health
+"health_amount"     // Negatives decrease health and positives increase it. It's semi-hidden stat, which affects healing.
+"health_min"        // Minimal amount of health, certain effect will give/take.
+"health_max"        // if 0 or missing value will be exactly "health_min"
+"health_min_val"    // Defaults to 0, which means uncapped
+"health_max_val"    // Defaults to 0, which means uncapped
+"health_chance"     // Chance to change health
 "health_chance_bot"
-"health_tick"       - Defaults to every tick
+"health_tick"       // Defaults to every tick
 
-"h_mod_amount"      - Affects health stat growth, positives increase it and negatives decrease it
-"h_mod_min"         - Minimal amount of health_modifier, certain effect will give/take
-"h_mod_max"         - if 0 or missing value will be exactly "h_mod_min"
-"h_mod_min_val"     - Defaults to 0, which means uncapped
-"h_mod_max_val"     - Defaults to 0, which means uncapped
-"h_mod_chance"      - Chance to change health_modifier
+"h_mod_amount"      // Affects health stat growth, positives increase it and negatives decrease it
+"h_mod_min"         // Minimal amount of health_modifier, certain effect will give/take
+"h_mod_max"         // if 0 or missing value will be exactly "h_mod_min"
+"h_mod_min_val"     // Defaults to 0, which means uncapped
+"h_mod_max_val"     // Defaults to 0, which means uncapped
+"h_mod_chance"      // Chance to change health_modifier
 "h_mod_chance_bot"
-"h_mod_tick"        - Defaults to every tick
+"h_mod_tick"        // Defaults to every tick
 
-"rad_amount"        - Amount of radiation it can give/take. Just be aware that anything above [50] is fatal.
-"rad_min"           - Minimal amount of radiation, certain effect will give/take
-"rad_max"           - if 0 or missing value will be exactly "rad_min"
-"rad_max_val"       - Defaults to 0, which means uncapped
-"rad_chance"        - Chance to get more radiation
+"rad_amount"        // Amount of radiation it can give/take. Just be aware that anything above [50] is fatal.
+"rad_min"           // Minimal amount of radiation, certain effect will give/take
+"rad_max"           // if 0 or missing value will be exactly "rad_min"
+"rad_max_val"       // Defaults to 0, which means uncapped
+"rad_chance"        // Chance to get more radiation
 "rad_chance_bot"
-"rad_tick"          - Defaults to every tick
+"rad_tick"          // Defaults to every tick
 
-"hunger_amount"     - Amount of hunger it can give/take.
-"hunger_min"        - Minimal amount of hunger, certain effect will give/take
-"hunger_max"        - if 0 or missing value will be exactly "hunger_min"
-"hunger_min_val"    - Defaults to 0, which means uncapped
-"hunger_max_val"    - Defaults to 0, which means uncapped
-"hunger_chance"     - Chance to become more hungry
+"hunger_amount"     // Amount of hunger it can give/take.
+"hunger_min"        // Minimal amount of hunger, certain effect will give/take
+"hunger_max"        // if 0 or missing value will be exactly "hunger_min"
+"hunger_min_val"    // Defaults to 0, which means uncapped
+"hunger_max_val"    // Defaults to 0, which means uncapped
+"hunger_chance"     // Chance to become more hungry
 "hunger_chance_bot"
-"hunger_tick"       - Defaults to every tick
+"hunger_tick"       // Defaults to every tick
 
-"thirst_amount"     - Amount of thirst it can give/take.
-"thirst_min"        - Minimal amount of thirst, certain effect will give/take
-"thirst_max"        - if 0 or missing value will be exactly "thirst_min"
-"thirst_min_val"    - Defaults to 0, which means uncapped
-"thirst_max_val"    - Defaults to 0, which means uncapped
-"thirst_chance"     - Chance to become more thirsty
+"thirst_amount"     // Amount of thirst it can give/take.
+"thirst_min"        // Minimal amount of thirst, certain effect will give/take
+"thirst_max"        // if 0 or missing value will be exactly "thirst_min"
+"thirst_min_val"    // Defaults to 0, which means uncapped
+"thirst_max_val"    // Defaults to 0, which means uncapped
+"thirst_chance"     // Chance to become more thirsty
 "thirst_chance_bot"
-"thirst_tick"       - Defaults to every tick
+"thirst_tick"       // Defaults to every tick
 
-"perspiration_amount"     - Amount of perspiration it can give/take.
-"perspiration_min"        - Minimal amount of perspiration, certain effect will give/take
-"perspiration_max"        - if 0 or missing value will be exactly "perspiration_min"
-"perspiration_min_val"    - Defaults to 0, which means uncapped
-"perspiration_max_val"    - Defaults to 0, which means uncapped
-"perspiration_chance"     - Chance to perspire
+"perspiration_amount"     // Amount of perspiration it can give/take.
+"perspiration_min"        // Minimal amount of perspiration, certain effect will give/take
+"perspiration_max"        // if 0 or missing value will be exactly "perspiration_min"
+"perspiration_min_val"    // Defaults to 0, which means uncapped
+"perspiration_max_val"    // Defaults to 0, which means uncapped
+"perspiration_chance"     // Chance to perspire
 "perspiration_chance_bot"
-"perspiration_tick"       - Defaults to every tick
+"perspiration_tick"       // Defaults to every tick
 
-"sleepiness_amount"    - Amount of sleepiness it can give/take. After certain amount character will need to sleep.
-"sleepiness_min"       - Minimal amount of sleepiness, certain effect will give/take
-"sleepiness_max"       - if 0 or missing value will be exactly "sleepiness_min"
-"sleepiness_min_val"   - Defaults to 0, which means uncapped
-"sleepiness_max_val"   - Defaults to 0, which means uncapped
-"sleepiness_chance"    - Chance to get more tired
+"sleepiness_amount"    // Amount of sleepiness it can give/take. After certain amount character will need to sleep.
+"sleepiness_min"       // Minimal amount of sleepiness, certain effect will give/take
+"sleepiness_max"       // if 0 or missing value will be exactly "sleepiness_min"
+"sleepiness_min_val"   // Defaults to 0, which means uncapped
+"sleepiness_max_val"   // Defaults to 0, which means uncapped
+"sleepiness_chance"    // Chance to get more tired
 "sleepiness_chance_bot"
-"sleepiness_tick"      - Defaults to every tick
+"sleepiness_tick"      // Defaults to every tick
 
-"stamina_amount"    - Amount of stamina it can give/take.
-"stamina_min"       - Minimal amount of stamina, certain effect will give/take
-"stamina_max"       - if 0 or missing value will be exactly "stamina_min"
-"stamina_min_val"   - Defaults to 0, which means uncapped
-"stamina_max_val"   - Defaults to 0, which means uncapped
-"stamina_chance"    - Chance to get stamina changes
+"stamina_amount"    // Amount of stamina it can give/take.
+"stamina_min"       // Minimal amount of stamina, certain effect will give/take
+"stamina_max"       // if 0 or missing value will be exactly "stamina_min"
+"stamina_min_val"   // Defaults to 0, which means uncapped
+"stamina_max_val"   // Defaults to 0, which means uncapped
+"stamina_chance"    // Chance to get stamina changes
 "stamina_chance_bot"
-"stamina_tick"      - Defaults to every tick
+"stamina_tick"      // Defaults to every tick
 
-"heart_rate_amount"        - Amount of heart rate changes it can give/take.
-"heart_rate_min"           - Minimal amount of heart rate, certain effect will give/take
-"heart_rate_max"           - if 0 or missing value will be exactly "heart_rate_min"
-"heart_rate_min_val"       - Defaults to 0, which means uncapped
-"heart_rate_max_val"       - Defaults to 0, which means uncapped
-"heart_rate_chance"        - Chance to change heart rate
+"heart_rate_amount"        // Amount of heart rate changes it can give/take.
+"heart_rate_min"           // Minimal amount of heart rate, certain effect will give/take
+"heart_rate_max"           // if 0 or missing value will be exactly "heart_rate_min"
+"heart_rate_min_val"       // Defaults to 0, which means uncapped
+"heart_rate_max_val"       // Defaults to 0, which means uncapped
+"heart_rate_chance"        // Chance to change heart rate
 "heart_rate_chance_bot"
-"heart_rate_tick"          - Defaults to every tick
+"heart_rate_tick"          // Defaults to every tick
 
-"blood_pressure_amount"    - Amount of blood pressure changes it can give/take.
-"blood_pressure_min"       - Minimal amount of blood pressure, certain effect will give/take
-"blood_pressure_max"       - if 0 or missing value will be exactly "blood_pressure_min"
-"blood_pressure_min_val"   - Defaults to 0, which means uncapped
-"blood_pressure_max_val"   - Defaults to 0, which means uncapped
-"blood_pressure_chance"    - Chance to change blood pressure
+"blood_pressure_amount"    // Amount of blood pressure changes it can give/take.
+"blood_pressure_min"       // Minimal amount of blood pressure, certain effect will give/take
+"blood_pressure_max"       // if 0 or missing value will be exactly "blood_pressure_min"
+"blood_pressure_min_val"   // Defaults to 0, which means uncapped
+"blood_pressure_max_val"   // Defaults to 0, which means uncapped
+"blood_pressure_chance"    // Chance to change blood pressure
 "blood_pressure_chance_bot"
-"blood_pressure_tick"      - Defaults to every tick
+"blood_pressure_tick"      // Defaults to every tick
 
-"respiratory_rate_amount"  - Amount of respiratory rate changes it can give/take.
-"respiratory_rate_min"     - Minimal amount of respiratory rate, certain effect will give/take
-"respiratory_rate_max"     - if 0 or missing value will be exactly "respiratory_rate_min"
-"respiratory_rate_min_val" - Defaults to 0, which means uncapped
-"respiratory_rate_max_val" - Defaults to 0, which means uncapped
-"respiratory_rate_chance"  - Chance to change respiratory rate
+"respiratory_rate_amount"  // Amount of respiratory rate changes it can give/take.
+"respiratory_rate_min"     // Minimal amount of respiratory rate, certain effect will give/take
+"respiratory_rate_max"     // if 0 or missing value will be exactly "respiratory_rate_min"
+"respiratory_rate_min_val" // Defaults to 0, which means uncapped
+"respiratory_rate_max_val" // Defaults to 0, which means uncapped
+"respiratory_rate_chance"  // Chance to change respiratory rate
 "respiratory_rate_chance_bot"
-"respiratory_rate_tick"    - Defaults to every tick
+"respiratory_rate_tick"    // Defaults to every tick
 
-"cough_chance"      - Chance to cause cough
+"cough_chance"      // Chance to cause cough
 "cough_chance_bot"
-"cough_tick"        - Defaults to every tick
+"cough_tick"        // Defaults to every tick
 
 // It is important to not vomit_chance interacts with vomit_multiplier in mutations, and as such is hardcoded. Base vomit chance is intensity/(base vomit chance + scaling vomit chance).
-"vomit_chance"      - Chance to cause vomiting
+"vomit_chance"      // Chance to cause vomiting
 "vomit_chance_bot"
-"vomit_tick"        - Defaults to every tick
+"vomit_tick"        // Defaults to every tick
 
-"healing_rate"      - Healed rate per day
-"healing_head"      - Percentage of healing value for head
-"healing_torso"     - Percentage of healing value for torso
-"enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
+"healing_rate"      // Healed rate per day
+"healing_head"      // Percentage of healing value for head
+"healing_torso"     // Percentage of healing value for torso
+"enchantments" // (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
 
-"dodge_mod"         - Effective dodge chance
-"hit_mod"           - Effective melee skill
-"bash_mod"          - Additional bash bonus/penalty
+"dodge_mod"         // Effective dodge chance
+"hit_mod"           // Effective melee skill
+"bash_mod"          // Additional bash bonus/penalty
 
 ```
 Each argument can also take either one or two values.
-```C++
+```jsonc
     "thirst_min": [1]
-    or
+    // or
     "thirst_min": [1, 2]
 ```
 If an effect is "resisted" (either through "resist_effect" or "resist_trait") then it will use the second
@@ -620,7 +620,7 @@ value. If there is only one value given it will always use that amount.
 Base mods and Scaling mods:
 While on intensity = 1 an effect will only have the basic effects of its "base_mods". However for each
 additional intensity it gains it adds the value of each of its "scaling_mods" to the calculations. So:
-```C++
+```
 Intensity 1 values = base_mods values
 Intensity 2 values = base_mods values + scaling_mods values
 Intensity 3 values = base_mods values + 2 * scaling_mods values
@@ -633,7 +633,7 @@ The only special case is if base_mods' "X_chance_bot" + intensity * scaling_mods
 as if it were equal to 1 (i.e. trigger every time)
 
 ## Example Effect
-```C++
+```jsonc
     "type": "effect_type",
     "id": "drunk",
     "name": [
@@ -670,7 +670,7 @@ As it moves up through the different intensities, its name will change. Its desc
 changes, with no additional description added.
 
 As it moves up through the intensity levels its effects will be:
-```C++
+```
 Intensity 1
     +1 STR
     No other effects (since both "X_chance"s are negative)
@@ -698,7 +698,7 @@ Intensity 4
 ```
 
 ### Blood analysis description
-```C++
+```jsonc
     "blood_analysis_description": "Minor Painkiller"
 ```
 This description will be displayed for every effect which has this field when character conducts a blood analysis (for example, through Blood Analysis CBM).

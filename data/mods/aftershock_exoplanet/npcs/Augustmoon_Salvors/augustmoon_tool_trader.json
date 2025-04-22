@@ -109,7 +109,7 @@
     "type": "talk_topic",
     "dynamic_line": "&The store is full of high tech gadgets, both new and salvaged.  The clerk behind the counter looks up as you enter, and gives you a nod.",
     "responses": [
-      { "text": "I'm want to buy some gear.", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "I want to buy some gear.", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
     ]
   }

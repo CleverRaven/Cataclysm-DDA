@@ -605,6 +605,37 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_enervated_blood",
+    "name": [ "Enervated Blood" ],
+    "desc": [
+      "You have used up much of the power in your blood, and are slightly listless as a result.  In addition, some of your vampiric powers will not function as well, or at all, until the power returns to your blood."
+    ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "SLEEPINESS",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "math": [ "-0.025 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * -0.00025), -0.5, 0)" ] }
+          }
+        ]
+      }
+    ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_fall_one_story",
     "//": "Hidden--tied to a conditional enchantment",
     "name": [ "" ],
@@ -828,13 +859,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_feign_death",
+    "name": [ "Corpse's Countenance" ],
+    "desc": [ "Nothing here but a corpse." ],
+    "remove_message": "You end your imitation of death.",
+    "rating": "mixed",
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ], "ench_effects": [ { "effect": "downed", "intensity": 1 } ] } ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_feign_death_ended",
+    "name": [ "Feigned Death" ],
+    "desc": [ "You've been caught, and they know you aren't dead" ],
+    "rating": "bad",
+    "removes_effects": [ "effect_vampire_feign_death" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_hypnotism",
     "name": [ "Mesmerized" ],
     "desc": [ "You just can't seem to move or think." ],
     "remove_message": "You snap out of your fugue.",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "MUTE" ]
   },
   {
     "type": "effect_type",
@@ -2114,6 +2163,31 @@
             "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
             "distance": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] },
             "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sense_vampire",
+    "name": [ "Sense the Night Hunters" ],
+    "desc": [ "You can sense nearby vampires." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "npc_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+                { "npc_has_species": "VAMPIRE" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
           }
         ]
       }

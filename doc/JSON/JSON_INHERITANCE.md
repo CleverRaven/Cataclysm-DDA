@@ -8,7 +8,7 @@ Additionally, there is more than a single implementation of inheritance for diff
 
 In the following condensed example, `556` ammo is derived from `223` ammo via `copy-from`:
 
-```json
+```jsonc
   {
     "id": "223",
     "type": "AMMO",
@@ -58,7 +58,7 @@ For `"type": "AMMO"`, the following rules apply:
 
 Another example.  Reloaded ammo is derived from the factory equivalent but with a 10% penalty to `damage` and `dispersion` and a chance to misfire.  Additional rules apply:
 
-```json
+```jsonc
   {
     "id": "reloaded_556",
     "copy-from": "556",
@@ -77,7 +77,7 @@ Another example.  Reloaded ammo is derived from the factory equivalent but with 
 
 Not all `type`s work the same.  For `"type": "MONSTER"`, `relative` would look slightly different and can be defined in two ways:
 
-```json
+```jsonc
     "//": "base monster",
     "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2 },
 
@@ -89,7 +89,7 @@ Not all `type`s work the same.  For `"type": "MONSTER"`, `relative` would look s
 
 Same as above, now with `proportional`:
 
-```json
+```jsonc
     "//": "base monster",
     "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5, "melee_damage": 0.8 },
 
@@ -102,7 +102,7 @@ Same as above, now with `proportional`:
 
 It is possible to define an `abstract` ID that exists only for other `type`s to inherit from and cannot itself be used in game.  This is done to facilitate maintenance and reduce line count.  In the following condensed example `magazine_belt` provides values common to all implemented ammo belts:
 
-```json
+```jsonc
   {
     "abstract": "magazine_belt",
     "type": "MAGAZINE",

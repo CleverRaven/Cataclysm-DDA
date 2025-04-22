@@ -152,7 +152,7 @@ void zone_type::reset()
     zone_type_factory.reset();
 }
 
-void zone_type::load( const JsonObject &jo, const std::string_view )
+void zone_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
@@ -1651,7 +1651,7 @@ void zone_manager::deserialize( const JsonValue &jv )
         } else  if( it->get_faction() != faction_your_followers ) {
             it = zones.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 }

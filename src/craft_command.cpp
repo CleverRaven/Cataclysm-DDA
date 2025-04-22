@@ -490,6 +490,7 @@ item craft_command::create_in_progress_craft()
     // Pass true to indicate that we are starting the craft and the remainder should be consumed as well
     crafter->craft_consume_tools( new_craft, 1, true );
     new_craft.set_next_failure_point( *crafter );
+    new_craft.set_owner( *crafter );
 
     return new_craft;
 }

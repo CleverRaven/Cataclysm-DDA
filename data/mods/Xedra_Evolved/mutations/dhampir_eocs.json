@@ -75,7 +75,7 @@
               "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
               "effect": [
                 {
-                  "if": { "math": [ "vampire_total_tier_two_traits() + rand(8) > 14" ] },
+                  "if": { "math": [ "vampire_total_tier_two_traits() + rand(8) > 15" ] },
                   "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER_TIER_3" },
                   "else": {
                     "u_roll_remainder": [
@@ -83,6 +83,7 @@
                       "COAGULANTWEAVE",
                       "VAMPIRIC_DODGE",
                       "VAMPIRE_FEAR_GAZE",
+                      "VAMPIRE_FEIGN_DEATH",
                       "VAMPIRE_SEE_HEAT",
                       "VAMPIRE_BLOOD_TEMPORARY_BOOST",
                       "DHAMPIR_FANGS",
@@ -156,6 +157,7 @@
       {
         "u_roll_remainder": [
           "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEAKNESS_SUN_SLEEPINESS",
           "DHAMPIR_WEAKNESS_SLOW_HEALING",
           "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
           "DHAMPIR_WEAKNESS_WATER_PAIN",
@@ -170,13 +172,15 @@
       {
         "u_roll_remainder": [
           "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
+          "DHAMPIR_WEAKNESS_SUN_SLEEPINESS",
           "DHAMPIR_WEAKNESS_SLOW_HEALING",
           "DHAMPIR_WEAKNESS_ANIMAL_DISCORD",
           "DHAMPIR_WEAKNESS_WATER_PAIN",
           "DHAMPIR_WEAKNESS_CORPSELIKE_PALLOR",
           "DHAMPIR_WEAKNESS_BLOODTHIRST",
           "DHAMPIR_WEAKNESS_OVERWHELMING_ARROGANCE",
-          "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN"
+          "DHAMPIR_WEAKNESS_SLOWER_BLOOD_GAIN",
+          "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_DHAMPIR_GAIN_NEW_WEAKNESS_MESSAGE" ],

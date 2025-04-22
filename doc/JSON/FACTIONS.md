@@ -2,7 +2,7 @@
 
 An NPC faction looks like this:
 
-```json
+```jsonc
   {
     "type": "faction",
     "id": "free_merchants",

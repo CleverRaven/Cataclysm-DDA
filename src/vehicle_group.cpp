@@ -90,7 +90,7 @@ void VehicleGroup::reset()
     vgroups.clear();
 }
 
-VehicleFacings::VehicleFacings( const JsonObject &jo, const std::string_view key )
+VehicleFacings::VehicleFacings( const JsonObject &jo, std::string_view key )
 {
     if( jo.has_array( key ) ) {
         for( const int i : jo.get_array( key ) ) {
@@ -223,10 +223,10 @@ void VehicleSpawn::apply( const vspawn_id &id, map &m, const std::string &terrai
 namespace VehicleSpawnFunction
 {
 
-static void builtin_no_vehicles( map &, const std::string_view )
+static void builtin_no_vehicles( map &, std::string_view )
 {}
 
-static void builtin_parkinglot( map &m, const std::string_view )
+static void builtin_parkinglot( map &m, std::string_view )
 {
     for( int v = 0; v < rng( 1, 4 ); v++ ) {
         tripoint_bub_ms pos_p;
