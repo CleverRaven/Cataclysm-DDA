@@ -767,6 +767,20 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRIC_STEALTH_BONUS",
+    "points": 4,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Cloak of Shadows" },
+    "description": "When indoors or at night, you can cloud the minds of nearby enemies, making it harder for them to spot you.  This does not make you invisible.\n\n<color_light_red>Initial Blood Cost:</color> 100 (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 50 ml",
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_deactivate" ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_FEAR_GAZE",
     "points": 3,
     "starting_trait": false,
