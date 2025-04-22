@@ -16,12 +16,12 @@
           { "math": [ "u_nether_attunement_paralysis_scaling = n_nether_attunement_power_scaling" ] },
           {
             "math": [
-              "_minimum_duration = ( ( ( (u_paralysis_electrokin_power_level * 0.25 ) * 6 ) / ( (u_paralysis_electrokin_power_level * 0.25 ) + 3) )  * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling)"
+              "_minimum_duration = min( ( ( (u_paralysis_electrokin_power_level * 0.2) + 1) * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling),5 )"
             ]
           },
           {
             "math": [
-              "_maximum_duration = ( ( ( (u_paralysis_electrokin_power_level * 0.25 ) * 10 ) /  ( (u_paralysis_electrokin_power_level * 0.25 ) + 3) )  * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling)"
+              "_maximum_duration = min( ( ( (u_paralysis_electrokin_power_level * 0.35) + 3) * u_paralysis_electrokin_intelligence * u_nether_attunement_paralysis_scaling),5 )"
             ]
           },
           { "math": [ "_duration = rng(_minimum_duration, _maximum_duration)" ] },

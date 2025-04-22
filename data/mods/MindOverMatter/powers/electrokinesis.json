@@ -253,15 +253,14 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_PARALYSIS",
     "shape": "blast",
-    "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.15 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 6 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( ( ( (u_spell_level('electrokinetic_paralysis') * 20) + 100) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling),500 )"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) * 10 ) /  ( (u_spell_level('electrokinetic_paralysis') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( ( ( (u_spell_level('electrokinetic_paralysis') * 35) + 300) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling),1000 )"
       ]
     },
     "min_range": {

@@ -1462,7 +1462,8 @@
     "desc": [ "Your muscles are twitching and won't obey you!" ],
     "remove_message": "Your spasms stop.",
     "rating": "bad",
-    "flags": [ "CANNOT_MOVE" ]
+    "show_in_info": true,
+    "flags": [ "CANNOT_MOVE", "NO_PSIONICS", "NO_SPELLCASTING" ]
   },
   {
     "type": "effect_type",
