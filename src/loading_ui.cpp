@@ -2,8 +2,10 @@
 
 #include "cached_options.h"
 #include "options.h"
+#include "cata_imgui.h"
 #include "input.h"
 #include "output.h"
+#include "text_snippets.h"
 #include "ui_manager.h"
 
 #if defined(TILES)
@@ -34,6 +36,7 @@ struct ui_state {
 #endif
     std::string context;
     std::string step;
+    std::string snippet;
 };
 
 static ui_state *gLUI = nullptr;
@@ -54,6 +57,10 @@ static void redraw()
                   ImGui::CalcTextSize( gLUI->step.c_str() ).x;
         ImGui::SetCursorPosX( ( ( ImGui::GetWindowWidth() - w ) * 0.5f ) );
         ImGui::Text( "%s %s", gLUI->context.c_str(), gLUI->step.c_str() );
+        // terrible
+        ImGui::SetCursorPosX( std::max( 0.0f, ( ( ImGui::GetWindowWidth() - ImGui::CalcTextSize(
+                gLUI->snippet.c_str() ).x ) * 0.5f ) ) );
+        cataimgui::draw_colored_text( gLUI->snippet, c_light_cyan, gLUI->splash_size.x );
     }
     ImGui::End();
     ImGui::PopStyleColor();
@@ -93,6 +100,9 @@ static void update_state( const std::string &context, const std::string &step )
             resize();
         } );
 
+        static const std::string snippet = string_format( _( "Tip of the day: %s" ),
+                                           SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated() );
+        gLUI->snippet = snippet;
 #ifdef TILES
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
@@ -129,7 +139,9 @@ static void update_state( const std::string &context, const std::string &step )
                               static_cast<float>( surf->h ) / longest_side_ratio
                             };
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
-        gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
+        const int snip_size = foldstring( snippet,
+                                          gLUI->splash_size.x / ImGui::CalcTextSize( " " ).x ).size();
+        gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, ( 2.0f + ( snip_size * 2 ) ) *ImGui::GetTextLineHeightWithSpacing() };
 #else
         std::string splash = PATH_INFO::title( get_holiday_from_time() );
         if( get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
