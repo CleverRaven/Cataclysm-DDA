@@ -595,7 +595,7 @@
   {
     "id": "biokin_combat_dance",
     "type": "SPELL",
-    "name": "[Ψ]Combat Dance",
+    "name": "[Ψ]Combat Dance (C)",
     "description": "You can flood your body with psionic power to enhance your combat prowess.",
     "message": "",
     "teachable": false,
