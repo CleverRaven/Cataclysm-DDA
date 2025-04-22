@@ -2405,7 +2405,7 @@ bool monster::move_effects( bool )
         return true;
     }
 
-    // If the monster has the CANNOT_MOVE flag, they can't 
+    // If the monster has the CANNOT_MOVE flag, they can't
     // perform any move effects, so skip this step
     if( has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
         return false;
