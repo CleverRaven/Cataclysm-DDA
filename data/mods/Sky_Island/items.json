@@ -1,7 +1,8 @@
 [
   {
     "id": "quickheal",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "consumption_effect_on_conditions": [ "EOC_healall" ],
     "name": { "str": "quickheal pill" },
@@ -244,7 +245,8 @@
   },
   {
     "id": "warpextender",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "consumption_effect_on_conditions": [ "EOC_warpextender" ],
     "name": { "str": "earthbound pill" },

@@ -1,7 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "bone",
     "name": { "str": "bone" },
     "description": "A bone from some creature or other.  Could be used in cooking and crafting.",
@@ -25,7 +25,8 @@
     "recipe": "meal_bone_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "large_bone",
     "name": { "str": "large bone" },
     "description": "A huge bone of a large creature.",
@@ -47,8 +48,8 @@
     "flags": [ "RAW", "INEDIBLE", "NO_TEMP" ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "bone_tainted",
     "name": { "str": "tainted bone" },
     "description": "A rotten, brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal or glue.  You could eat it, but it will poison you.",
@@ -62,7 +63,8 @@
     "recipe": "meal_bone_tainted_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bone_human",
     "copy-from": "bone",
     "name": { "str": "human bone" },
@@ -79,7 +81,8 @@
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meal_bone",
     "name": { "str_sp": "bone meal" },
     "weight": "60 g",
@@ -97,7 +100,8 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meal_bone_tainted",
     "name": { "str_sp": "tainted bone meal" },
     "copy-from": "meal_bone",

@@ -49,7 +49,8 @@
   },
   {
     "id": "water",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "water" },
     "copy-from": "water",
@@ -396,7 +397,8 @@
   },
   {
     "id": "concentrated_underhill_essence",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "concentrated underhill essence" },
     "description": "The distilled essence of the Fae.  Can be used as part of rituals.",

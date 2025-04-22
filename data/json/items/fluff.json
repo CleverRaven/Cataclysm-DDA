@@ -1461,7 +1461,8 @@
   },
   {
     "id": "trade_writ",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "writ of trade", "str_pl": "writs of trade" },
     "description": "A short writ featuring the signed agreement of establishing a trade route.",
     "weight": "1 g",

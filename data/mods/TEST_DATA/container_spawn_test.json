@@ -93,7 +93,8 @@
   },
   {
     "id": "test_item_with_charges",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "charges": 4,
     "stackable": true,
@@ -105,7 +106,8 @@
   },
   {
     "id": "test_item_with_charges_and_container",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "charges": 4,
     "stackable": true,

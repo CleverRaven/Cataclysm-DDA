@@ -34,7 +34,8 @@
   },
   {
     "id": "salt",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "salt",
     "name": { "str_sp": "salt" },
     "use_action": {

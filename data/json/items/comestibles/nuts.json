@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pine_nuts",
     "name": { "str_sp": "pine nuts" },
     "weight": "15 g",
@@ -21,7 +22,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "juniper",
     "name": { "str_sp": "junipers" },
     "weight": "122 g",
@@ -39,8 +41,8 @@
     "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pistachio_shelled",
     "name": { "str_sp": "shelled pistachios" },
     "weight": "30 g",
@@ -64,8 +66,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pistachio_roasted",
     "name": { "str_sp": "roasted pistachios" },
     "copy-from": "pistachio_shelled",
@@ -77,8 +79,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "almond_shelled",
     "name": { "str_sp": "shelled almonds" },
     "weight": "30 g",
@@ -102,7 +104,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "almond_pulp",
     "name": { "str_sp": "almond pulp" },
     "looks_like": "granola",
@@ -122,8 +125,8 @@
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "almond_roasted",
     "name": { "str_sp": "roasted almonds" },
     "copy-from": "almond_shelled",
@@ -136,8 +139,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "cashews",
     "name": { "str_sp": "cashews" },
     "weight": "30 g",
@@ -160,8 +163,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pecan_shelled",
     "name": { "str_sp": "shelled pecans" },
     "weight": "30 g",
@@ -185,8 +188,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "pecan_roasted",
     "name": { "str_sp": "roasted pecans" },
     "copy-from": "pecan_shelled",
@@ -198,8 +201,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "peanut_shelled",
     "name": { "str_sp": "shelled peanuts" },
     "weight": "30 g",
@@ -222,8 +225,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "beech_nuts",
     "name": { "str_sp": "beechnuts" },
     "weight": "30 g",
@@ -244,8 +247,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "walnut_shelled",
     "name": { "str_sp": "shelled walnuts" },
     "weight": "30 g",
@@ -268,7 +271,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "walnut_pulp",
     "name": { "str_sp": "walnut pulp" },
     "looks_like": "granola",
@@ -288,7 +292,8 @@
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "butternut_shelled",
     "name": { "str_sp": "shelled butternuts" },
     "weight": "30 g",
@@ -309,8 +314,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "walnut_roasted",
     "name": { "str_sp": "roasted walnuts" },
     "copy-from": "walnut_shelled",
@@ -322,7 +327,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "butternut_roasted",
     "name": { "str_sp": "roasted butternuts" },
     "copy-from": "butternut_shelled",
@@ -332,8 +338,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "chestnut_shelled",
     "name": { "str_sp": "shelled chestnuts" },
     "weight": "30 g",
@@ -356,8 +362,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "chestnut_roasted",
     "name": { "str_sp": "roasted chestnuts" },
     "copy-from": "chestnut_shelled",
@@ -369,8 +375,8 @@
     "recipe": "flour_wheat_free_mill_4_5"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hazelnut_shelled",
     "name": { "str_sp": "shelled hazelnuts" },
     "weight": "30 g",
@@ -393,7 +399,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "edamame_roasted",
     "name": { "str_sp": "roasted edamame" },
     "weight": "30 g",
@@ -413,7 +420,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soy_nuts",
     "name": { "str_sp": "roasted soy nuts" },
     "weight": "30 g",
@@ -433,8 +441,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hazelnut_roasted",
     "name": { "str_sp": "roasted hazelnuts" },
     "copy-from": "hazelnut_shelled",
@@ -446,7 +454,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hazelnut_pulp",
     "name": { "str_sp": "hazelnut pulp" },
     "looks_like": "granola",
@@ -466,8 +475,8 @@
     "fun": -8
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hickory_nut_shelled",
     "name": { "str_sp": "shelled hickory nuts" },
     "weight": "30 g",
@@ -490,8 +499,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "hickory_nut_roasted",
     "name": { "str_sp": "roasted hickory nuts" },
     "copy-from": "hickory_nut_shelled",
@@ -504,7 +513,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hickory_nut_ambrosia",
     "name": { "str_sp": "hickory nut ambrosia" },
     "weight": "64 g",
@@ -530,7 +540,8 @@
   },
   {
     "id": "peanutbutter",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
@@ -580,7 +591,8 @@
   },
   {
     "id": "spread_peanutbutter",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "%",
     "name": { "str": "peanut butter spread" },
     "description": "Processed peanut butter spread.",
@@ -604,7 +616,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorns",
     "name": { "str_sp": "acorns" },
     "weight": "30 g",
@@ -624,8 +637,8 @@
     "fun": -20
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "acorns_cooked",
     "name": { "str_sp": "cooked acorns" },
     "copy-from": "acorns",
@@ -642,7 +655,8 @@
     "recipe": "flour_wheat_free_mill_2_3"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorn_roasted",
     "name": { "str_sp": "roasted acorns" },
     "copy-from": "acorns",
@@ -656,8 +670,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "acorns_blanched",
     "name": { "str_sp": "blanched acorns" },
     "copy-from": "acorns",
@@ -672,7 +686,8 @@
     "recipe": "paste_nut_mill_10_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "acorns_blanching",
     "name": { "str_sp": "blanching acorns" },
     "copy-from": "acorns",
@@ -697,7 +712,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "vegan_butter",
     "name": { "str_sp": "vegan butter" },
     "weight": "14180 mg",

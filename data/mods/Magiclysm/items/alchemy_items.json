@@ -87,14 +87,16 @@
   {
     "id": "potion_starter",
     "copy-from": "mixed_alcohol_strong",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "potion starter" },
     "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
     "id": "potion_starter_superior",
     "copy-from": "chem_ethanol",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "superior potion starter" },
     "charges": 1,
@@ -103,7 +105,8 @@
   {
     "id": "adrenal_gland_large",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large adrenal gland" },
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
     "delete": { "flags": [ "SMOKABLE" ] },
@@ -182,7 +185,8 @@
   },
   {
     "id": "dragon_essence",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "light_red",
     "name": { "str_sp": "dragon essence" },

@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_bottle_gourd",
     "name": { "str": "dried bottle gourd" },
     "copy-from": "dry_lentils",
@@ -14,7 +15,8 @@
   },
   {
     "id": "gum",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "chewing gum" },
     "description": "Sugar-free chewing gum.",
@@ -141,7 +143,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "slime_scrap",
     "category": "other",
     "name": { "str": "slime glob" },
@@ -158,7 +161,8 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "honeycomb",
     "name": { "str": "honey comb" },
     "weight": "150 g",
@@ -191,7 +195,8 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "royal_jelly",
     "name": { "str_sp": "royal jelly" },
     "category": "food",
@@ -208,7 +213,8 @@
     "fun": -5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "honeydew",
     "name": { "str_sp": "honeydew" },
     "description": "A sugar-rich sticky substance, produced by aphids from plant sap.  Ants and bees love it.",
@@ -226,7 +232,8 @@
     "volume": "16 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "marloss_berry",
     "name": { "str": "Marloss berry", "str_pl": "Marloss berries" },
     "weight": "177 g",
@@ -249,7 +256,8 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "marloss_gel",
     "name": { "str_sp": "Marloss gelatin" },
     "weight": "177 g",
@@ -271,7 +279,8 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mycus_fruit",
     "name": { "str": "Mycus fruit" },
     "weight": "354 g",
@@ -291,7 +300,8 @@
     "fun": 30
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "yeast",
     "name": { "str_sp": "yeast" },
     "weight": "11 g",
@@ -310,7 +320,8 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "yogurt_starter_culture",
     "name": { "str_sp": "yogurt starter culture" },
     "weight": "11 g",
@@ -329,7 +340,8 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "koji",
     "looks_like": "yeast",
     "name": { "str_sp": "koji" },
@@ -349,7 +361,8 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_powder",
     "name": { "str_sp": "powdered gelatin" },
     "weight": "11 g",
@@ -369,7 +382,8 @@
     "vitamins": [ [ "iron", "100 μg" ], [ "calcium", "6 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_fresh",
     "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
@@ -393,7 +407,8 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "meal_chitin_piece",
     "name": { "str_sp": "chitin powder" },
     "weight": "62 g",
@@ -443,7 +458,8 @@
     "volume": "25 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_beans",
     "name": { "str_sp": "canned beans" },
     "weight": "256 g",
@@ -464,8 +480,8 @@
     "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "dry_beans",
     "name": { "str_sp": "dried beans" },
     "weight": "56 g",
@@ -491,7 +507,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "beans_cooked",
     "name": { "str_sp": "cooked beans" },
     "weight": "270 g",
@@ -511,7 +528,8 @@
     "vitamins": [ [ "calcium", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tofu",
     "name": { "str_sp": "tofu" },
     "weight": "85 g",
@@ -531,7 +549,8 @@
     "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tofu_fried",
     "name": { "str_sp": "fried tofu" },
     "weight": "85 g",
@@ -550,7 +569,8 @@
     "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_tofu",
     "name": { "str_sp": "dehydrated tofu" },
     "weight": "65 g",
@@ -567,8 +587,8 @@
     "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "soybean",
     "name": { "str_sp": "raw soybeans" },
@@ -597,8 +617,8 @@
     "recipe": "paste_nut_mill_5_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "dry_soybean",
     "name": { "str_sp": "dried soybeans" },
@@ -626,7 +646,8 @@
     "recipe": "flour_wheat_free_mill_1_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "raw_edamame",
     "name": { "str_sp": "raw edamame" },
@@ -647,7 +668,8 @@
     "smoking_result": "edamame_roasted"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_rice_pudding",
     "name": { "str_sp": "blood rice pudding" },
     "weight": "60 g",
@@ -666,7 +688,8 @@
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "foodplace_food",
     "name": { "str_sp": "Foodplace's delicious food™" },
     "weight": "500 g",
@@ -685,7 +708,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "foodplace_snack_bar",
     "name": { "str_sp": "Foodplace's appropriate snack™" },
     "weight": "12g",
@@ -704,7 +728,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lentils_cooked",
     "name": { "str_sp": "cooked lentils" },
     "weight": "198 g",
@@ -719,7 +744,8 @@
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "coffee_raw",
     "name": { "str_sp": "coffee powder" },
     "weight": "14 g",
@@ -742,7 +768,8 @@
     "freezing_point": -274
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "coffee_raw_kentucky",
     "copy-from": "coffee_raw",
     "name": { "str_sp": "Kentucky coffee grounds" },
@@ -752,7 +779,8 @@
   },
   {
     "id": "honey_glassed",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "candied honey" },
@@ -770,7 +798,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_tomato",
     "name": { "str_sp": "canned tomato" },
     "weight": "120 g",
@@ -791,7 +820,8 @@
     "flags": [ "RAW" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "human_brain_embalmed",
     "name": { "str": "embalmed human brain" },
     "weight": "56 g",
@@ -813,7 +843,8 @@
   },
   {
     "id": "cattlefodder",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "cattle fodder" },
     "description": "What cattle eat.  Mainly made of grass, silage or legumes.  It's perfect for ruminants.",
@@ -835,7 +866,8 @@
   },
   {
     "id": "cattlefodder_medium",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str": "cattle fodder bundle" },
     "description": "A pile of cattle fodder, about enough to feed a goat or a sheep for a day.",
@@ -857,7 +889,8 @@
   },
   {
     "id": "cattlefodder_large",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str": "large cattle fodder bundle" },
     "description": "A big heap of cattle fodder, enough to feed a cow for a day.",
@@ -879,7 +912,8 @@
   },
   {
     "id": "birdfood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "bird food" },
     "description": "What birds eat.  Mainly made of seeds, silage or legumes.  It's perfect for small birds.",
@@ -900,7 +934,8 @@
   },
   {
     "id": "dogfood_raw",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "raw dog food" },
     "description": "Minced meat mixed with some greens to be presented to a dog or something with a omnivorous diet.",
@@ -922,7 +957,8 @@
   },
   {
     "id": "dogfood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "wet dog food" },
     "description": "This is wet food for dogs, made from canned fresh meats.  It smells strange, but dogs seem to love it.",
@@ -945,7 +981,8 @@
   },
   {
     "id": "dogfood_dry",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "dry dog food" },
     "description": "Dry morsels of dog food with a long shelf life.  Made from dried processed meats and grains, and enriched with vitamins and minerals.",
@@ -969,7 +1006,8 @@
   },
   {
     "id": "catfood_raw",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "raw cat food" },
     "description": "Minced meat to be presented to a cat or something with a strict meat diet.",
@@ -991,7 +1029,8 @@
   },
   {
     "id": "catfood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "wet cat food" },
     "description": "This is wet food for cats, made from canned fresh meats.  It has a pungent aroma that cats seem to love.",
@@ -1014,7 +1053,8 @@
   },
   {
     "id": "catfood_dry",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "dry cat food" },
     "description": "Dry kibbles of cat food with a long shelf life.  Made from dried processed meats and grains, and enriched with vitamins and minerals.",
@@ -1038,7 +1078,8 @@
     "petfood": [ "CATFOOD" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grass",
     "name": { "str_sp": "grass" },
     "weight": "100 g",
@@ -1055,7 +1096,8 @@
     "volume": "250 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "small_plant",
     "name": { "str": "small plant" },
     "weight": "100 g",
@@ -1075,7 +1117,8 @@
     "volume": "250 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "underbrush",
     "name": { "str": "underbrush", "str_pl": "underbrushes" },
     "weight": "100 g",
@@ -1092,7 +1135,8 @@
     "volume": "250 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nectar",
     "name": { "str_sp": "nectar" },
     "weight": "100 g",
@@ -1109,7 +1153,8 @@
   },
   {
     "id": "tea_bag",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str": "black tea bag" },
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
@@ -1127,42 +1172,48 @@
   },
   {
     "id": "tea_green_bag",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "green tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with tea leaves inside.  Put it into boiling water to make a cup of green tea."
   },
   {
     "id": "tea_fruit_bag",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "fruit tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with leaves and fruit parts inside.  Put it into boiling water to make a cup of fruit tea."
   },
   {
     "id": "herbal_tea_bag",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with dried wild herbs inside.  Put it into boiling water to make a cup of herbal tea."
   },
   {
     "id": "tea_bag_dandelion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "dandelion tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
   },
   {
     "id": "tea_bag_chamomile",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chamomile tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with dried chamomile inside.  Put it into boiling water to make a cup of chamomile tea."
   },
   {
     "id": "instant_coffee",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "instant coffee mix" },
     "looks_like": "coffee_raw",
@@ -1179,7 +1230,8 @@
   },
   {
     "id": "cocoa_powder",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "cocoa powder" },
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
@@ -1199,7 +1251,8 @@
   },
   {
     "id": "cocoa_powder_milk",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "instant cocoa" },
     "weight": "30 g",
@@ -1218,8 +1271,8 @@
     "description": "A сocoa powder, with some milk powder and sugar added.  Sweet with a bitter aftertaste, water or milk will made it very tasty."
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "BREWABLE" ],
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "acid_soaked_hide",
     "name": { "str_sp": "acid soaked hide" },
     "description": "Raw hide soaking in a dilute acid solution to extract collagen.  After 24 hours the solution can be strained to extract fresh gelatin.",
@@ -1242,7 +1295,8 @@
     "brew_results": [ "gelatin_extracted" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "gelatin_extracted",
     "name": { "str_sp": "extracted gelatin" },
     "description": "Freshly extracted gelatin in a dilute acid solution.  It needs to be strained to separate the gelatin from the acid.",
@@ -1262,7 +1316,8 @@
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "camp_meal_small",
     "name": { "str": "prepared meal (small)", "str_pl": "prepared meals (small)" },
@@ -1279,7 +1334,8 @@
     "flags": [ "DEBUG_ONLY" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "camp_meal_medium",
     "name": { "str": "prepared meal (medium)", "str_pl": "prepared meals (medium)" },
@@ -1288,7 +1344,8 @@
     "copy-from": "camp_meal_small"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "camp_meal_large",
     "name": { "str": "prepared meal (large)", "str_pl": "prepared meals (large)" },
@@ -1297,7 +1354,8 @@
     "copy-from": "camp_meal_small"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "press_cake",
     "name": { "str": "press cake" },
@@ -1317,7 +1375,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "earthworm",
     "name": { "str": "earthworm" },
@@ -1340,7 +1399,8 @@
     "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ], [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "earthworm_handful",
     "copy-from": "earthworm",
     "name": { "str": "handful of earthworms", "str_pl": "handfuls of earthworms" },
@@ -1354,7 +1414,8 @@
     "vitamins": [ [ "calcium", 3 ], [ "iron", 8 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "earthworm_dried",
     "copy-from": "earthworm_boiled",
     "name": { "str_sp": "dried earthworms" },
@@ -1369,7 +1430,8 @@
     "volume": "3 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "earthworm_fried",
     "copy-from": "earthworm_boiled",
     "name": { "str_sp": "fried earthworms" },
@@ -1378,7 +1440,8 @@
     "fun": 0
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "earthworm_boiled",
     "copy-from": "earthworm_handful",
     "name": { "str_sp": "boiled earthworms" },
@@ -1391,7 +1454,8 @@
     "smoking_result": "earthworm_dried"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "snail_garden",
     "category": "food",
     "name": { "str": "snail" },
@@ -1412,7 +1476,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "paste_seed",
     "name": { "str_sp": "seed paste" },
@@ -1432,7 +1497,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "paste_nut",
     "name": { "str_sp": "nut paste" },
@@ -1453,7 +1519,8 @@
   },
   {
     "id": "swarm_bees",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "INVALID",
     "name": { "str": "swarm of bees", "str_pl": "swarms of bees" },
     "description": "A swarm of honey bees, displaced from the hive.  Without the support and nutrients of an apiary, or taking root somewhere, they will die in a few days.",

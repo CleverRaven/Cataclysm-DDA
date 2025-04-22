@@ -1,7 +1,8 @@
 [
   {
     "id": "manual_meditation",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Meditation and You", "str_pl": "copies of Meditation and You" },
     "description": "A description of simple meditation and breathing techniques, intended for a beginner.",
@@ -58,7 +59,8 @@
   },
   {
     "id": "manual_meditation_int",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Secrets of the Zen Masters", "str_pl": "copies of Secrets of the Zen Masters" },
     "description": "This book purports to contain hidden tips that will make you serene and calm in the face of the most grievous calamities.  Cataclysms, one might say.",
@@ -101,7 +103,8 @@
   },
   {
     "id": "manual_psionics_advan",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Lab Journal-Otomo", "str_pl": "copies of Lab Journal-Otomo" },
     "description": "This notebook is mostly a series of fanciful speculations about something the author alternately calls \"Matrix Mechanics,\", \"Dimensional Metaphysics,\" or \"Netherium Mathematics,\" sometimes using more than one in the same sentence.  Most of it is incoherent, but there is some experimental data about \"Conscious redirection of nether energy\" that catches your eye.",
@@ -115,7 +118,8 @@
   },
   {
     "id": "phavian_report_psionic_drain",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Report: Channeling Protocol PGS38", "str_pl": "copies of Report: Channeling Protocol PGS38" },
     "description": "A formal report on a process to reduce the unpredictable effects of long-term psionic use.  It describes a special meditation technique, performed with the aid of a matrix crystal, though it does warn that the process: \"puts extreme stress on the focus object.  Further refinement is required.\"",
@@ -129,7 +133,8 @@
   },
   {
     "id": "manual_psionic_ritual",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Training Manual: Method of Loci and Dimensional Metaphysics",
@@ -146,7 +151,8 @@
   },
   {
     "id": "phavian_psionic_martial_power_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Training Manual: VERDANT HAND Combat Protocols",
@@ -163,7 +169,8 @@
   },
   {
     "id": "phavian_psionic_teleportation_combat_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Proposal: TURQUOISE KEYSTONE", "str_pl": "copies of Proposal: TURQUOISE KEYSTONE" },
     "description": "A formal report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"TURQUOISE KEYSTONE - EYES ONLY\" centered underneath.  Skimming through it, you see a lot of very worrying phrases in light of recent events, like \"…the sudden but so-far unexplained increase in our mathematicians' prowess…\" or \"…E71 is now capable of passing through two meters of solid matter.\"  The main topic of the document seems to be using teleportation (\"LOST RAIN\", as the report calls it) in combat.  By lengthening the space between the teleporter and their target to build up momentum on their strikes, warping space to make near-misses turn into hits, or teleporting fractions of a meter to avoid incoming attacks or put themselves in a better position to make strikes, the TURQUOISE KEYSTONE practitioner can vastly increase their prowess in close-quarters combat.  Written at the bottom of the last page is, \"We had better test this soon--I think we're going to need it.\"",
@@ -177,7 +184,8 @@
   },
   {
     "id": "phavian_psionic_telepathic_mental_engineering_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Lab Report: PATIENT MOSAIC process", "str_pl": "copies of Lab Report: PATIENT MOSAIC process" },
     "description": "A thick lab report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"PATIENT MOSAIC - EYES ONLY\" centered underneath.  According to the summary, the report details how a powerful GRAY DAWN participant may use a specifically attuned focusing tool to allow themselves to induce permanent changes in their personality and other segments of their brain.  The report details little success in GRAY DAWN participant applying this process to others.",

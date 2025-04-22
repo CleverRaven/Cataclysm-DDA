@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_synth_blood",
     "name": { "str_sp": "synthetic blood" },
     "weight": "262 g",
@@ -31,7 +32,8 @@
   },
   {
     "id": "afs_painkiller",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "serendipnol" },
     "description": "A very strong, synthetic narcotic built from alien biochemistry and used to treat intense pain while in the field.  You'll need to inject it, and it's very addictive, so be careful.",
@@ -55,7 +57,8 @@
   },
   {
     "id": "afs_medigel",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "copy-from": "disinfectant",
     "name": { "str": "MediGel" },
@@ -77,7 +80,8 @@
   },
   {
     "id": "afs_stimpack",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "combat stim" },
     "description": "A small, disposable injector filled with a cocktail of stimulants and painkillers.  Will kick you from death's door into awareness, but it's not a long-term solution.",

@@ -353,7 +353,8 @@
   },
   {
     "id": "biomancer_booster_sludge",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "biomancer booster sludge" },
     "description": "A thick purple liquid that is filled to the brim with arcane energy.  With the right tool, it can be used to boost your biomancer caster level.",

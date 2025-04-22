@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corn",
     "name": { "str": "corn cob" },
     "weight": "140 g",
@@ -20,8 +21,8 @@
     "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "corn_kernels",
     "name": { "str_sp": "corn kernels" },
     "weight": "60 g",
@@ -46,7 +47,8 @@
     "grow": "80 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "empty_corn_cob",
     "name": { "str": "empty corn cob" },
     "weight": "80 g",
@@ -64,7 +66,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn_cob",
     "name": { "str": "popcorn cob" },
     "comestible_type": "FOOD",
@@ -74,8 +77,8 @@
     "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "popcorn_raw",
     "name": { "str_sp": "raw popcorn" },
     "copy-from": "corn_kernels",
@@ -95,8 +98,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "kernels",
     "name": { "str_sp": "popcorn kernels" },
     "weight": "45 g",
@@ -121,7 +124,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn",
     "name": { "str_sp": "popcorn" },
     "weight": "11 g",
@@ -142,7 +146,8 @@
     "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn2",
     "name": { "str_sp": "salted popcorn" },
     "copy-from": "popcorn",
@@ -154,7 +159,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "popcorn3",
     "name": { "str_sp": "buttered popcorn" },
     "copy-from": "popcorn",
@@ -166,7 +172,8 @@
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wheat_stalks",
     "name": { "str_sp": "wheat stalks" },
     "comestible_type": "FOOD",
@@ -187,7 +194,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_wheat_stalks",
     "name": { "str_sp": "dried wheat stalks" },
     "comestible_type": "FOOD",
@@ -207,7 +215,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_wheat",
     "name": { "str_sp": "threshed wheat" },
     "comestible_type": "FOOD",
@@ -226,7 +235,8 @@
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chaff",
     "name": { "str_sp": "chaff" },
     "comestible_type": "FOOD",
@@ -246,8 +256,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "wheat",
     "name": { "str_sp": "wheat" },
     "weight": "203 g",
@@ -273,7 +283,8 @@
     "recipe": "flour_mill_1_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "barley_stalks",
     "name": { "str_sp": "barley stalks" },
     "copy-from": "wheat_stalks",
@@ -282,7 +293,8 @@
     "smoking_result": "dry_barley_stalks"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_barley_stalks",
     "name": { "str_sp": "dried barley stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -290,7 +302,8 @@
     "description": "A sheaf of dried barley stalks.  These will require threshing before anything can be done with them."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_barley",
     "name": { "str_sp": "threshed barley" },
     "copy-from": "threshed_wheat",
@@ -298,8 +311,8 @@
     "description": "Barley with the chaff still mixed in.  It will have to be winnowed before it's usable."
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "barley",
     "name": { "str_sp": "barley" },
     "weight": "211 g",
@@ -324,7 +337,8 @@
     "recipe": "flour_mill_1_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "oat_stalks",
     "name": { "str_sp": "oat stalks" },
     "copy-from": "wheat_stalks",
@@ -335,7 +349,8 @@
     "smoking_result": "dry_oat_stalks"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_oat_stalks",
     "name": { "str_sp": "dried oat stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -346,7 +361,8 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_oats",
     "name": { "str_sp": "threshed oats" },
     "copy-from": "threshed_wheat",
@@ -357,8 +373,8 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "oats",
     "name": { "str_sp": "oats" },
     "weight": "203 g",
@@ -394,7 +410,8 @@
     "recipe": "flour_wheat_free_mill_4_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "wild_rice_stalks",
     "name": { "str_sp": "wild rice stalks" },
     "copy-from": "buckwheat_stalks",
@@ -406,7 +423,8 @@
     "smoking_result": "dry_wild_rice_stalks"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_wild_rice_stalks",
     "name": { "str_sp": "dried wild rice stalks" },
     "copy-from": "dry_buckwheat_stalks",
@@ -417,8 +435,8 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "wild_rice",
     "name": { "str_sp": "wild rice" },
     "copy-from": "oats",
@@ -436,8 +454,8 @@
     "recipe": "dry_wild_rice_mill_1_5"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "buckwheat",
     "name": { "str_sp": "buckwheat" },
     "weight": "180 g",
@@ -462,7 +480,8 @@
     "recipe": "flour_wheat_free_mill_1_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "canola_stalks",
     "name": { "str_sp": "canola stalks" },
     "copy-from": "wheat_stalks",
@@ -476,7 +495,8 @@
     "volume": "315 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_canola_stalks",
     "name": { "str_sp": "dried canola stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -489,7 +509,8 @@
     "volume": "315 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_canola",
     "name": { "str_sp": "threshed canola" },
     "copy-from": "threshed_wheat",
@@ -502,8 +523,8 @@
     "volume": "252 ml"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_canola",
     "name": { "str_sp": "canola seeds" },
     "weight": "132 g",
@@ -540,7 +561,8 @@
     "recipe": "paste_seed_mill_1_1"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_lentil_stalks",
     "name": { "str_sp": "dried lentil stalks" },
     "copy-from": "dry_wheat_stalks",
@@ -553,7 +575,8 @@
     "volume": "315 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_lentils",
     "name": { "str_sp": "threshed lentils" },
     "copy-from": "threshed_wheat",
@@ -566,8 +589,8 @@
     "volume": "252 ml"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "dry_lentils",
     "name": { "str_sp": "dried lentils" },
     "weight": "132 g",
@@ -591,7 +614,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "buckwheat_stalks",
     "name": { "str_sp": "buckwheat stalks" },
     "comestible_type": "FOOD",
@@ -611,7 +635,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_buckwheat_stalks",
     "name": { "str_sp": "dried buckwheat stalks" },
     "comestible_type": "FOOD",
@@ -631,7 +656,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_buckwheat",
     "name": { "str_sp": "threshed buckwheat" },
     "comestible_type": "FOOD",

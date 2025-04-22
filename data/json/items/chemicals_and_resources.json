@@ -19,7 +19,8 @@
     "looks_like": "ether"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fert_supplement",
     "name": { "str_sp": "fertility supplement" },
     "//": "Right now, it's just used in a quest, and should not spawn naturally.",
@@ -263,7 +264,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bleach",
     "name": { "str_sp": "bleach" },
     "weight": "138 g",
@@ -304,7 +306,8 @@
     "ammo_type": "ammonia_liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "ammonia_hydroxide",
     "name": { "str_sp": "ammonia solution" },
     "weight": "124 g",
@@ -325,7 +328,8 @@
     "freezing_point": -78
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fertilizer_liquid",
     "name": { "str_sp": "liquid fertilizer" },
     "weight": "67 g",
@@ -349,8 +353,8 @@
     "fun": -30
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "COMPOSTABLE" ],
+    "type": "ITEM",
+    "subtypes": [ "COMPOSTABLE", "COMESTIBLE" ],
     "id": "fermentable_liquid_mixture",
     "name": { "str_sp": "fermentable liquid mixture" },
     "volume": "500 ml",
@@ -365,7 +369,8 @@
     "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fermentable_fish_mixture",
     "name": { "str_sp": "fermentable fish mixture" },
     "description": "A mixture of fish, sugars, and water.  Wait about two months for them to be fermented in an open tank.",
@@ -378,7 +383,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fermented_fertilizer_liquid",
     "name": { "str_sp": "fermented fertilizer liquid" },
     "volume": "500 ml",
@@ -391,7 +397,8 @@
     "charges": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fertilizer_commercial",
     "name": { "str_sp": "commercial fertilizer" },
     "weight": "27 g",
@@ -414,7 +421,8 @@
     "fun": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fungicide",
     "category": "chems",
     "name": { "str_sp": "fungicide" },
@@ -453,7 +461,8 @@
     "volume": "50 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "salt_water",
     "name": { "str_sp": "salt water" },
     "material": [ { "type": "water", "portion": 877 }, { "type": "salt", "portion": 123 } ],
@@ -477,7 +486,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soapy_water",
     "name": { "str_sp": "soapy water" },
     "material": [ "water" ],
@@ -500,7 +510,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sewage",
     "name": { "str_sp": "sewage sample" },
     "weight": "280 g",
@@ -694,7 +705,8 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_sulphuric_acid",
     "category": "chems",
     "price": "2 USD 50 cent",
@@ -715,7 +727,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_muriatic_acid",
     "category": "chems",
     "price": "2 USD 50 cent",
@@ -752,7 +765,8 @@
     "container": "bottle_glass"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_nitric_acid",
     "category": "chems",
     "price": "3 USD",
@@ -1174,7 +1188,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pur_tablets",
     "name": { "str": "water purification tablet" },
     "category": "chems",
@@ -1351,7 +1366,8 @@
     "volume": "250 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "water_sewage",
     "name": { "str_sp": "sewage water" },
     "material": [ "water", "feces" ],
@@ -1403,7 +1419,8 @@
     "count": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lye",
     "name": { "str_sp": "lye" },
     "weight": "125 g",
@@ -1424,7 +1441,8 @@
     "fun": -20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lye_potassium",
     "name": { "str_sp": "potassium lye" },
     "weight": "125 g",
@@ -1496,7 +1514,8 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "ether",
     "category": "chems",
     "price": "10 cent",
@@ -1517,7 +1536,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_DMSO",
     "category": "chems",
     "price": "10 cent",
@@ -1538,7 +1558,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_chloroform",
     "category": "chems",
     "price": "20 cent",
@@ -1559,7 +1580,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_phenol",
     "category": "chems",
     "price": "10 cent",
@@ -1580,7 +1602,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_benzene",
     "category": "chems",
     "price": "10 cent",
@@ -1600,7 +1623,8 @@
     "flags": [ "INEDIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_toluene",
     "category": "chems",
     "price": "10 cent",
@@ -1620,7 +1644,8 @@
     "flags": [ "INEDIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_glycerol",
     "category": "chems",
     "price": "10 cent",
@@ -1755,7 +1780,8 @@
   },
   {
     "id": "acetylene",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "acetylene" },
     "category": "chems",
     "description": "A flammable gas that explodes under pressure.  Combined with oxygen, acetylene makes a great welding gas.",
@@ -1776,7 +1802,8 @@
   },
   {
     "id": "formic_acid",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "formic acid" },
     "description": "Common in nature as an insect venom, this substance has a number of industrial uses such as preservation and manufacturing.",
     "comestible_type": "INVALID",
@@ -1796,7 +1823,8 @@
   },
   {
     "id": "latex",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "latex" },
     "description": "A liquid precursor to rubber found in some plants.",
     "comestible_type": "INVALID",
@@ -1828,7 +1856,8 @@
     "weight": "1 g"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "abstract": "venom_gland",
     "name": { "str": "venom gland", "//~": "NO_I18N" },
     "category": "chems",
@@ -1842,7 +1871,8 @@
   },
   {
     "id": "venom_wasp",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "wasp venom gland" },
     "description": "A fragile, slightly quivering organ for the production and storage of wasp venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
@@ -1852,7 +1882,8 @@
   },
   {
     "id": "venom_bee",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "bee venom gland" },
     "description": "A fragile, slightly quivering organ for the production and storage of honeybee venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
@@ -1862,7 +1893,8 @@
   },
   {
     "id": "venom_paralytic",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "sac of paralytic venom", "str_pl": "sacs of paralytic venom" },
     "description": "A grayish, flexible vesicle filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
@@ -1873,7 +1905,8 @@
   },
   {
     "id": "triffid_fungicide",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "sac of triffid fungicide", "str_pl": "sacs of triffid fungicide" },
     "description": "A triffid sac filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
@@ -1976,7 +2009,8 @@
   },
   {
     "id": "acetic_anhydride",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "chems",
     "name": { "str_sp": "acetic anhydride" },
     "description": "A colorless liquid that smells strongly of vinegar.  If you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
@@ -2018,7 +2052,8 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
     "category": "chems",
@@ -2039,7 +2074,8 @@
   },
   {
     "id": "pine_resin",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "pine resin" },
     "category": "chems",
     "description": "A sticky, sludgy mass of sap harvested from a pine tree.",
@@ -2073,7 +2109,8 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid",
     "//": "depending on the lore as what acid these enemies use this could change, muriatic acid is stomach acid",
     "copy-from": "chem_muriatic_acid",
@@ -2085,7 +2122,8 @@
     "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid_insect",
     "copy-from": "formic_acid",
     "category": "chems",
@@ -2101,7 +2139,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid_plant",
     "copy-from": "chem_acetic_acid",
     "price": "0 cent",
@@ -2116,7 +2155,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid_underground",
     "copy-from": "chem_sulphuric_acid",
     "price": "0 cent",

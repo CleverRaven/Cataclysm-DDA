@@ -84,7 +84,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "item_hedge_make_plants_grow",
     "name": { "str_sp": "life of the crops" },
     "weight": "0 g",
@@ -225,7 +226,8 @@
     "id": "item_hedge_nether_eye_paste",
     "name": { "str_sp": "Blood-and-Ash Paste" },
     "description": "A disgusting mixture of blood, ashes, and certain herbs.  Using it will allow you to see otherworldly creatures even through walls or in darkness.",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "weight": "265 g",
     "volume": "250 ml",
@@ -240,7 +242,8 @@
     "consumption_effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "item_hedge_cure_cold_or_flu",
     "copy-from": "tea",
     "name": { "str": "Curative tea" },
@@ -294,7 +297,8 @@
     "extend": { "flags": [ "SKINCHANGED", "HEDGE_ENCHANTED" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_walk_on_water_magic_square",
     "copy-from": "magic_square_base",
     "name": { "str": "magic square (To Walk Upon the Water)", "str_pl": "magic squares (To Walk Upon the Water)" },
@@ -315,7 +319,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_breathe_water_magic_square",
     "copy-from": "magic_square_base",
     "name": { "str": "magic square (To Operate Under the Water)", "str_pl": "magic squares (To Operate Under the Water)" },
@@ -336,7 +341,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_bash_terrain_magic_square",
     "copy-from": "magic_square_base",
     "name": {
@@ -360,7 +366,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_armed_men_magic_square",
     "copy-from": "magic_square_base",
     "name": { "str": "magic square (To Cause Armed Men to Appear)", "str_pl": "magic squares (To Cause Armed Men to Appear)" },
@@ -390,7 +397,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_food_or_drink_magic_square",
     "copy-from": "magic_square_base",
     "name": {
@@ -411,7 +419,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_invisibility_magic_square",
     "copy-from": "magic_square_base",
     "name": {

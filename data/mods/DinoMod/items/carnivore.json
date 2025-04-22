@@ -2,13 +2,15 @@
   {
     "id": "stomach_sauropod",
     "copy-from": "stomach_large",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "sauropod stomach" },
     "description": "The stomach of an enormous sauropod dinosaur.  It is surprisingly durable and very roomy.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sauropod_stomach_boiled",
     "copy-from": "stomach_boiled",
     "name": { "str": "boiled sauropod stomach" },

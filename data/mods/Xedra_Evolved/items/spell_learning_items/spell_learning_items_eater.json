@@ -210,7 +210,8 @@
   },
   {
     "id": "eater_book_artifact",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Enemy of the World", "str_pl": "copies of Enemy of the World" },
     "description": "A small Korean novel that describes the journey of an incredibly strong protagonist attempting to save the world.",
     "weight": "460 g",

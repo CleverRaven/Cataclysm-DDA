@@ -14,7 +14,8 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corpse_yugg_mutflesh",
     "name": { "str": "massive fleshy tube" },
     "description": "An oversized tube of faintly green raw flesh of nondescript origin.  It is vaguely shaped like a yugg.",

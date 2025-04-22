@@ -1234,7 +1234,8 @@
   {
     "id": "hide_bag",
     "copy-from": "raw_leather",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "clothing",
     "name": { "str": "hide bag" },
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
@@ -1268,7 +1269,8 @@
   {
     "id": "hide_tainted_bag",
     "copy-from": "raw_tainted_leather",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "clothing",
     "name": { "str": "tainted hide bag" },
     "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
