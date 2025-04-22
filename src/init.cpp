@@ -246,7 +246,7 @@ void DynamicDataLoader::add( const std::string &type,
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
+    add( type, [f]( const JsonObject & obj, std::string_view,  const cata_path &,
     const cata_path & ) {
         f( obj );
     } );
@@ -398,6 +398,7 @@ void DynamicDataLoader::initialize()
         item_controller->load_bionic( jo, src );
     } );
 
+    add( "ITEM", &items::load );
     add( "ITEM_CATEGORY", &item_category::load_item_cat );
 
     add( "MIGRATION", []( const JsonObject & jo ) {
@@ -683,7 +684,7 @@ void DynamicDataLoader::unload_data()
     harvest_drop_type::reset();
     harvest_list::reset();
     item_category::reset();
-    item_controller->reset();
+    items::reset();
     jmath_func::reset();
     json_flag::reset();
     connect_group::reset();
@@ -801,12 +802,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Emissions" ), &emit::finalize },
             { _( "Materials" ), &material_type::finalize_all },
             { _( "Faults" ), &faults::finalize },
-            {
-                _( "Items" ), []()
-                {
-                    item_controller->finalize();
-                }
-            },
+            { _( "Items" ), &items::finalize_all },
             {
                 _( "Crafting requirements" ), []()
                 {
@@ -897,12 +893,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             { _( "Addiction types" ), &add_type::check_add_types },
-            {
-                _( "Items" ), []()
-                {
-                    item_controller->check_definitions();
-                }
-            },
+            { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },

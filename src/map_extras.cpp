@@ -2116,7 +2116,7 @@ bool map_extra::is_valid_for( const mapgendata &md ) const
     return true;
 }
 
-void map_extra::load( const JsonObject &jo, const std::string_view )
+void map_extra::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "description", description_ );

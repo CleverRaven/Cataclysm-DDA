@@ -694,7 +694,7 @@ void weakpoints::remove( const JsonArray &ja )
     }
 }
 
-void weakpoints::load( const JsonObject &jo, const std::string_view )
+void weakpoints::load( const JsonObject &jo, std::string_view )
 {
     load( jo.get_array( "weakpoints" ) );
 }

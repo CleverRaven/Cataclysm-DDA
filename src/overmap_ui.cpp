@@ -124,7 +124,7 @@ static bool create_note( const tripoint_abs_omt &curs,
                          std::optional<std::string> context = std::nullopt );
 
 // {note symbol, note color, offset to text}
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view note )
+std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -189,7 +189,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
     return map_around;
 }
 
-static void update_note_preview( const std::string_view note,
+static void update_note_preview( std::string_view note,
                                  const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                                  const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                                  &preview_windows )

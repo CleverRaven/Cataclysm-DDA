@@ -667,7 +667,7 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
-static void PushOrPopColor( const std::string_view seg, int minimumColorStackSize )
+static void PushOrPopColor( std::string_view seg, int minimumColorStackSize )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, report_color_error::yes );
     switch( tag.type ) {
