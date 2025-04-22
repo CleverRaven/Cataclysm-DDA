@@ -136,7 +136,7 @@ bool player_activity::is_multi_type() const
     return type->multi_activity();
 }
 
-std::string player_activity::get_str_value( size_t index, const std::string_view def ) const
+std::string player_activity::get_str_value( size_t index, std::string_view def ) const
 {
     return std::string( index < str_values.size() ? str_values[index] : def );
 }

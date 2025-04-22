@@ -1,6 +1,7 @@
 [
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "bone",
     "name": { "str": "bone" },
     "description": "A bone from some creature or other.  Could be used in cooking and crafting.",
@@ -15,12 +16,13 @@
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "calories": 171,
     "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ] ],
     "melee_damage": { "bash": 3 },
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
-    "flags": [ "RAW", "INEDIBLE", "LUPINE", "NO_TEMP" ]
+    "flags": [ "RAW", "INEDIBLE", "LUPINE", "NO_TEMP" ],
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_1_4"
   },
   {
     "type": "COMESTIBLE",
@@ -46,6 +48,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "MILLING" ],
     "id": "bone_tainted",
     "name": { "str": "tainted bone" },
     "description": "A rotten, brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal or glue.  You could eat it, but it will poison you.",
@@ -53,9 +56,10 @@
     "color": "light_gray",
     "use_action": [ "POISON" ],
     "price_postapoc": "5 cent",
-    "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_1_4" },
     "fun": -10,
-    "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal."
+    "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
+    "into": "meal_bone_tainted",
+    "recipe": "meal_bone_tainted_mill_1_4"
   },
   {
     "type": "COMESTIBLE",
@@ -104,6 +108,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skewer_bone",
     "symbol": ",",
     "color": "white",
@@ -114,9 +119,10 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "10 g",
     "volume": "25 ml",
-    "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ]
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "into": "meal_bone_tainted",
+    "recipe": "meal_bone_tainted_mill_6_1"
   },
   {
     "type": "GENERIC",
@@ -151,6 +157,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_canis_small",
     "name": { "str": "tiny canine skull" },
     "description": "The skull of a tiny canine, likely a Chihuahua or another similarly sized dog breed.",
@@ -158,10 +165,12 @@
     "weight": "35 g",
     "volume": "270 ml",
     "longest_side": "7 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_2_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_2_1"
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_canis_medium",
     "name": { "str": "small canine skull" },
     "description": "The skull of a small canine, likely a small dog breed.",
@@ -169,7 +178,8 @@
     "weight": "65 g",
     "volume": "500 ml",
     "longest_side": "12 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_1_1"
   },
   {
     "type": "GENERIC",
@@ -190,6 +200,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_feline_small",
     "name": { "str": "small feline skull" },
     "description": "The skull of a small feline, likely a house cat.",
@@ -197,10 +208,12 @@
     "weight": "40 g",
     "volume": "300 ml",
     "longest_side": "10 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_2_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_2_1"
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_feline_medium",
     "name": { "str": "medium feline skull" },
     "description": "The skull of a medium-sized feline, likely a bobcat.",
@@ -208,7 +221,8 @@
     "weight": "65 g",
     "volume": "500 ml",
     "longest_side": "13 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_1_1"
   },
   {
     "type": "GENERIC",
@@ -222,6 +236,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_raccoon",
     "name": { "str": "raccoon skull" },
     "description": "The skull of a raccoon.",
@@ -229,7 +244,8 @@
     "weight": "75 g",
     "volume": "575 ml",
     "longest_side": "12 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_1_1"
   },
   {
     "type": "GENERIC",
@@ -243,6 +259,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_opossum",
     "name": { "str": "opossum skull" },
     "description": "The skull of an opossum.",
@@ -250,10 +267,12 @@
     "weight": "45 g",
     "volume": "275 ml",
     "longest_side": "11 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_2_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_2_1"
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_skunk",
     "name": { "str": "skunk skull" },
     "description": "The skull of a skunk.",
@@ -261,10 +280,12 @@
     "weight": "56 g",
     "volume": "300 ml",
     "longest_side": "8 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_2_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_2_1"
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_rodent",
     "name": { "str": "rodent skull" },
     "description": "The skull of a small rodent, most likely a rat.",
@@ -272,10 +293,12 @@
     "weight": "3 g",
     "volume": "20 ml",
     "longest_side": "5 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_20_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_20_1"
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "skull_rabbit",
     "name": { "str": "rabbit skull" },
     "description": "The skull of a rabbit or a hare.",
@@ -283,7 +306,8 @@
     "weight": "90 g",
     "volume": "450 ml",
     "longest_side": "10 cm",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_1" }
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_1_1"
   },
   {
     "type": "GENERIC",

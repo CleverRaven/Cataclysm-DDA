@@ -377,7 +377,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS_DISTRIBUTION",
@@ -430,7 +430,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_GET_ITEM_COUNT_2",

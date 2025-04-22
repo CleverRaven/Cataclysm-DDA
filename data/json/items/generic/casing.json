@@ -93,7 +93,12 @@
   {
     "id": "caotel_cell_spent",
     "type": "GENERIC",
-    "copy-from": "caotel_cell",
+    "copy-from": "casing",
+    "looks_like": "caotel_cell",
+    "//": "weight reduced due to description.",
+    "weight": "20 g",
+    "volume": "190 ml",
+    "material": [ "qt_steel" ],
     "name": { "str": "spent Caotel cell" },
     "description": "This is a small metallic cube of inscrutable construction.  You think it might feel slightly lighter when compared to the fresh ones."
   },

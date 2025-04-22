@@ -196,6 +196,10 @@
         "ench_effects": [ { "effect": "effect_dhampir_slow_blood_loss", "intensity": 1 } ]
       },
       {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<", "0" ] },
+        "ench_effects": [ { "effect": "effect_dhampir_enervated_blood", "intensity": 1 } ]
+      },
+      {
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
         "ench_effects": [ { "effect": "effect_dhampir_empowered_blood_indicator", "intensity": 1 } ]
       },
@@ -538,13 +542,23 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_BLOOD_ARTS",
+    "name": { "str": "Blood Arts" },
+    "points": 1,
+    "description": "This provides the school trait for vampire blood powers.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
     "id": "EYEGLEAM",
     "points": 2,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "name": { "str": "Gleaming Eyes" },
-    "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.",
+    "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.\n\n<color_light_red>Initial Blood Cost:</color> 100 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 50 ml",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_EYEGLEAM_activated" ],
@@ -586,13 +600,21 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Vigor Mortis" },
-    "description": "Your stolen blood reinforces your muscles, making your grip crack bone and your punches dent steel.",
+    "description": "Your stolen blood reinforces your muscles, making your grip crack bone and your punches dent steel.\n\n<color_light_red>Initial Blood Cost:</color> 150 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 75 ml",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_STRENGTH_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_deactivated" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
         "values": [ { "value": "STRENGTH", "add": { "math": [ "1 + u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER') * 2)" ] } } ]
       }
     ]
@@ -605,13 +627,21 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Sanguine Resilience" },
-    "description": "Your cold flesh is not as vulnerable as it once was.  Activate to render it even more resistant to physical damage.",
+    "description": "Your cold flesh is not as vulnerable as it once was.  Activate to render it even more resistant to physical damage.\n\n<color_light_red>Initial Blood Cost:</color> 150 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 75 ml",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
         "incoming_damage_mod": [
           { "type": "bash", "multiply": -0.05 },
           { "type": "stab", "multiply": -0.02 },
@@ -651,7 +681,19 @@
     "valid": false,
     "name": { "str": "Silent as Death" },
     "description": "Your movements don't make nearby as much noise as they used to.",
-    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ]
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -684,8 +726,7 @@
     "valid": false,
     "name": { "str": "Learn from the Children of the Night" },
     "description": "You call out to the creatures that inhabit the night.  Wolves, bats, rats and more.  They tell you about what terrain surrounds you.",
-    "active": true,
-    "activated_eocs": [ "EOC_COMMUNE_NIGHT_MAP" ]
+    "spells_learned": [ [ "vampire_commune_with_night_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -719,7 +760,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Coagulant Weave" },
-    "description": "Your body prepares to prevent the loss of any blood to combat damage.",
+    "description": "Your body prepares to prevent the loss of any blood to combat damage.\n\n<color_light_red>Initial Blood Cost:</color> 500 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 250 ml",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ],
@@ -744,13 +785,21 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Flow Like Blood" },
-    "description": "You can move faster than the eye can see, avoiding the claws and teeth and weapons of your enemies.",
+    "description": "You can move faster than the eye can see, avoiding the claws and teeth and weapons of your enemies.\n\n<color_light_red>Initial Blood Cost:</color> 250 (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 125 ml",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_DODGE_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_DODGE_deactivate" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "not": { "u_has_effect": "effect_dhampir_enervated_blood" } } ]
+            }
+          ]
+        },
         "values": [ { "value": "DEXTERITY", "add": { "math": [ "1 + u_has_trait('VAMPIRE4') + (u_has_trait('BLOOD_DRINKER') * 2)" ] } } ]
       }
     ]
@@ -800,7 +849,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Claws of the Beast" },
-    "description": "You can twist your fingernails into sharp claws, allowing you to inflict extra damage in unarmed combat.",
+    "description": "You can twist your fingernails into sharp claws, allowing you to inflict extra damage in unarmed combat.\n\n<color_light_red>Initial Blood Cost:</color> 125 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 62 ml",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_activated" ],
@@ -881,7 +930,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Blood-Driven Speed" },
-    "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.",
+    "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.\n\n<color_light_red>Initial Blood Cost:</color> 750 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 375 ml",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_BLOODHASTE_activated" ],
@@ -1283,7 +1332,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Blind the Sun" },
-    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to blot out the sun for a few dozen minutes.",
+    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to blot out the sun for a few dozen minutes.\n\n<color_light_red>Initial Blood Cost:</color> 3000 ml (<u_val:blood_amount_for_graph> ml current)",
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_VAMPIRE_BLIND_THE_SUN" ]

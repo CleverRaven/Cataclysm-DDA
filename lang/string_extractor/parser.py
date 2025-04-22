@@ -157,6 +157,7 @@ parsers = {
     "harvest_drop_type": dummy_parser,
     "help": parse_help,
     "hit_range": dummy_parser,
+    "item": parse_generic,
     "item_action": parse_item_action,
     "item_category": parse_item_category,
     "item_blacklist": dummy_parser,

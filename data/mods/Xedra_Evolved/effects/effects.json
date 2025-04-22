@@ -605,6 +605,37 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_dhampir_enervated_blood",
+    "name": [ "Enervated Blood" ],
+    "desc": [
+      "You have used up much of the power in your blood, and are slightly listless as a result.  In addition, some of your vampiric powers will not function as well, or at all, until the power returns to your blood."
+    ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "SLEEPINESS",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "math": [ "-0.025 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * -0.00025), -0.5, 0)" ] }
+          }
+        ]
+      }
+    ],
+    "removes_effects": [ "withering" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dhampir_fall_one_story",
     "//": "Hidden--tied to a conditional enchantment",
     "name": [ "" ],

@@ -350,6 +350,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "subtypes": [ "COMPOSTABLE" ],
     "id": "fermentable_liquid_mixture",
     "name": { "str_sp": "fermentable liquid mixture" },
     "volume": "500 ml",
@@ -359,8 +360,9 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
-    "compostable": { "compost_time": "60 days", "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
-    "charges": 1
+    "charges": 1,
+    "compost_time": "60 days",
+    "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 }
   },
   {
     "type": "COMESTIBLE",

@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
@@ -45,6 +46,9 @@ class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
+/**
+* See OBSOLETION_AND_MIGRATION.md
+*/
 class migration
 {
     public:
@@ -90,9 +94,20 @@ struct item_blacklist_t {
  */
 class Item_factory
 {
+        friend class generic_factory<itype>;
+        friend struct itype;
     public:
+        generic_factory<itype> item_factory = generic_factory<itype>( "ITEM" );
+
         Item_factory();
         ~Item_factory();
+
+        generic_factory<itype> &get_generic_factory() {
+            return item_factory;
+        }
+
+        //initialize use_functions
+        void init();
         /**
          * Reset the item factory. All item type definitions and item groups are erased.
          */
@@ -293,10 +308,6 @@ class Item_factory
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
-        //TO-DO: remove
-        std::map<itype_id, itype> m_abstracts;
-        std::unordered_map<itype_id, itype> m_templates;
-
     private:
         /** Set at finalization and prevents alterations to the static item templates */
         bool frozen = false;
@@ -343,6 +354,10 @@ class Item_factory
         void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                         const std::string &src );
 
+        template<typename SlotType>
+        static void load_slot( const JsonObject &jo, bool was_loaded,
+                               cata::value_ptr<SlotType> &slotptr );
+
         void load( relic &slot, const JsonObject &jo, std::string_view src );
 
         //json data handlers
@@ -372,7 +387,6 @@ class Item_factory
         static void set_allergy_flags( itype &item_template );
 
         void clear();
-        void init();
 
         void finalize_item_blacklist();
 
@@ -398,4 +412,15 @@ class Item_factory
         std::set<itype_id> gun_tools;
 };
 
+namespace items
+{
+/** Load all items */
+void load( const JsonObject &jo, const std::string &src );
+/** Finalize all loaded items */
+void finalize_all();
+/** Clear all loaded items (invalidating any pointers) */
+void reset();
+/** Checks all loaded items are valid */
+void check_consistency();
+}  // namespace items
 #endif // CATA_SRC_ITEM_FACTORY_H

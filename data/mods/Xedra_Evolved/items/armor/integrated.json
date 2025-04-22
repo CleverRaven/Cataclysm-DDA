@@ -966,7 +966,7 @@
     "charges_per_use": 0,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
     "power_draw": "0 W",
-    "revert_to": "internal_mp3",
+    "revert_to": "corpse_ash",
     "tick_action": [ "MP3_ON" ]
   },
   {

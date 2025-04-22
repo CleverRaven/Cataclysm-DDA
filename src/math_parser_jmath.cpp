@@ -49,7 +49,7 @@ void jmath_func::load_func( const JsonObject &jo, std::string const &src )
     get_all_jmath_func().load( jo, src );
 }
 
-void jmath_func::load( JsonObject const &jo, const std::string_view /*src*/ )
+void jmath_func::load( JsonObject const &jo, std::string_view /*src*/ )
 {
     optional( jo, was_loaded, "num_args", num_params );
     optional( jo, was_loaded, "return", _str );

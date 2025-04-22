@@ -216,6 +216,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 10 } ],
     "flags": [ "NONCONDUCTIVE", "JAVELIN", "NPC_THROWN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "price": "0 cent",
     "price_postapoc": "50 cent",
     "melee_damage": { "bash": 5, "stab": 10 }
   }

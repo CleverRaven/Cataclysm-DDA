@@ -796,6 +796,7 @@ Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species
 [Xedra Evolved] Vampires can drink blood
 Aftershock: Merge aftershock and aftershock exoplanet.
 Aftershock: Heat Crashed Ship.
+Mod Conflicts
 
 
 ## Balance:
@@ -1397,6 +1398,7 @@ generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
+Warn on load if files have been modified
 
 
 ## Build:
