@@ -198,7 +198,7 @@
       ]
     },
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "EMPTY_SPACE", "FREE_TO_EXAMINE" ]
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "FREE_TO_EXAMINE" ]
   },
   {
     "type": "terrain",
