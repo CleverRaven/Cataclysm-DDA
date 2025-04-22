@@ -4,14 +4,14 @@
 
 #include <algorithm>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -19,55 +19,57 @@
 #include "calendar.h"
 #include "cata_lazy.h"
 #include "cata_utility.h"
-#include "compatibility.h"
+#include "coordinates.h"
+#include "craft_command.h"
 #include "enums.h"
+#include "global_vars.h"
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_tname.h"
 #include "material.h"
+#include "math_parser_diag_value.h"
+#include "point.h"
 #include "requirements.h"
+#include "rng.h"
 #include "safe_reference.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "vpart_position.h"
-#include "rng.h"
+#include "weighted_list.h"
+
 class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
 class book_proficiency_bonuses;
-class enchantment;
 class enchant_cache;
-class faction;
+class enchantment;
 class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
+class map;
 class monster;
 class nc_color;
-enum class pocket_type;
+class optional_vpart_position;
 class recipe;
 class relic;
-struct part_material;
+class vehicle;
+enum class pocket_type;
 struct armor_portion_data;
-struct itype_variant_data;
 struct islot_comestible;
 struct itype;
-struct item_comp;
-template<typename CompType>
-struct comp_selection;
-struct tool_comp;
+struct itype_variant_data;
 struct mtype;
-struct tripoint;
+struct part_material;
 template<typename T>
 class ret_val;
 template <typename T> struct enum_traits;
-class vehicle;
 
 namespace enchant_vals
 {
@@ -75,20 +77,15 @@ enum class mod : int;
 } // namespace enchant_vals
 
 using bodytype_id = std::string;
-class item_category;
-struct islot_armor;
-struct use_function;
-
-enum art_effect_passive : int;
-enum class side : int;
 class body_part_set;
-class map;
+class item_category;
+enum class side : int;
+enum clothing_mod_type : int;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
-enum class link_state : int;
-
-enum clothing_mod_type : int;
+struct islot_armor;
+struct use_function;
 
 struct light_emission {
     unsigned short luminance;
@@ -376,8 +373,6 @@ class item : public visitable
         units::ememory occupied_ememory() const;
         /** @return remaining electronic memory on this e-device */
         units::ememory remaining_ememory() const;
-        /** Returns whether the given item location is inside an e-device) */
-        static bool is_efile( const item_location &loc );
         /** Returns the recipe catalog for this item if it exists, otherwise returns nullptr */
         item *get_recipe_catalog();
         const item *get_recipe_catalog() const;
@@ -917,6 +912,11 @@ class item : public visitable
          * Fill item with an item up to @amount number of items. This works for any item with container pockets.
          * @param contained item to fill the container with.
          * @param amount Amount to fill item with, capped by remaining capacity
+         * @param unseal_pockets If true, unseal the final pocket thar contained fill with if it is sealed
+         * @param allow_sealed Allow filling contained into a sealed pocket
+         * @param ignore_settings Ignore each pocket's setting
+         * @param into_bottom Insert item to pocket content list end
+         * @param allow_nested Allow fill contained nested pocket in item's pockets
          * @returns amount of contained that was put into it
          */
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
@@ -924,6 +924,7 @@ class item : public visitable
                        bool allow_sealed = false,
                        bool ignore_settings = false,
                        bool into_bottom = false,
+                       bool allow_nested = true,
                        Character *carrier = nullptr );
 
         /**
@@ -962,6 +963,13 @@ class item : public visitable
 
         units::mass get_total_holster_weight() const;
         units::mass get_used_holster_weight() const;
+
+        /**
+         * Return capacity of the biggest pocket. Ignore blacklist restrictions etc.
+         *
+         * Useful for quick can_contain rejection.
+         */
+        units::volume get_biggest_pocket_capacity() const;
 
         /** Recursive function checking pockets for remaining free space. */
         units::volume check_for_free_space() const;
@@ -1394,11 +1402,11 @@ class item : public visitable
         int damage_level( bool precise = false ) const;
 
         /** Modifiy melee weapon damage to account for item's damage. */
-        float damage_adjusted_melee_weapon_damage( float value ) const;
+        float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
         /** Modifiy gun damage to account for item's damage. */
         float damage_adjusted_gun_damage( float value ) const;
         /** Modifiy armor resist to account for item's damage. */
-        float damage_adjusted_armor_resist( float value ) const;
+        float damage_adjusted_armor_resist( float value, const damage_type_id &dmg_type ) const;
 
         /** @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ ). */
         int max_damage() const;
@@ -1692,6 +1700,9 @@ class item : public visitable
 
         bool is_irremovable() const;
 
+        /** Returns true if the item is identifiable */
+        bool is_identifiable() const;
+
         /** Returns true if the item is broken and can't be activated or used in crafting */
         bool is_broken() const;
 
@@ -1726,6 +1737,8 @@ class item : public visitable
         bool can_have_fault_type( const std::string &fault_type ) const;
 
         std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
+
+        void apply_fault();
 
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
@@ -1772,12 +1785,27 @@ class item : public visitable
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const itype &tp ) const;
         ret_val<void> can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain_partial( const item &it, int &copies_remaining,
+                                           bool nested = false ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
         ret_val<void> can_contain_partial_directly( const item &it ) const;
         /*@}*/
+        /**
+         * Return an item_location and a pointer to the best pocket that can contain the item @it.
+         * if param allow_nested=true, Check all items contained in every pocket of CONTAINER pocket type,
+         * otherwise, only check this item's pockets.
+         * @param it the item that function wil find the best pocket that can contain it
+         * @param this_loc location of it
+         * @param avoid item that will be avoided in recursive lookup item pocket
+         * @param allow_sealed allow use sealed pocket
+         * @param ignore_settings ignore pocket setting
+         * @param nested whether the current call is nested (used recursively).
+         * @param ignore_rigidity ignore pocket rigid
+         * @param allow_nested whether nested pockets should be checked
+         */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false, bool ignore_rigidity = false );
+                bool nested = false, bool ignore_rigidity = false, bool allow_nested = true );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -1876,7 +1904,8 @@ class item : public visitable
         bool spill_contents( map *here, const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         /** Spill items that don't fit in the container. */
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc = item_location::nowhere );
+        void overflow( map &here, const tripoint_bub_ms &pos,
+                       const item_location &loc = item_location::nowhere );
 
         /**
          * Check if item is a holster and currently capable of storing obj.
@@ -1951,36 +1980,21 @@ class item : public visitable
          * it remains through saving & loading, it is copied when the item is moved etc.
          * Each item variable is referred to by its name, so make sure you use a name that is not
          * already used somewhere.
-         * You can directly store integer, floating point and string values. Data of other types
-         * must be converted to one of those to be stored.
-         * The set_var functions override the existing value.
-         * The get_var function return the value (if the variable exists), or the default value
-         * otherwise.  The type of the default value determines which get_var function is used.
-         * All numeric values are returned as doubles and may be cast to the desired type.
-         * <code>
-         * int v = itm.get_var("v", 0); // v will be an int
-         * double d = itm.get_var("v", 0.0); // d will be a double
-         * std::string s = itm.get_var("v", ""); // s will be a std::string
-         * // no default means empty string as default:
-         * auto n = itm.get_var("v"); // v will be a std::string
-         * </code>
          */
         /*@{*/
-        void set_var( const std::string &name, int value );
-        void set_var( const std::string &name, long long value );
-        // Acceptable to use long as part of overload set
-        // NOLINTNEXTLINE(cata-no-long)
-        void set_var( const std::string &name, long value );
-        void set_var( const std::string &name, double value );
-        double get_var( const std::string &name, double default_value ) const;
-        void set_var( const std::string &name, const tripoint_abs_omt &value );
-        tripoint_abs_omt get_var( const std::string &name, const tripoint_abs_omt &default_value ) const;
-        //TODO: Add cata_variant overload for value here and for get_var rather than using raw strings where appropriate?
-        void set_var( const std::string &name, const std::string &value );
-        std::string get_var( const std::string &name, const std::string &default_value ) const;
-        /** Get the variable, if it does not exists, returns an empty string. */
-        std::string get_var( const std::string &name ) const;
-        std::optional<std::string> maybe_get_var( const std::string &name ) const;
+        double get_var( const std::string &key, double default_value ) const;
+        std::string get_var( const std::string &key, std::string default_value = {} ) const;
+        tripoint_abs_ms get_var( const std::string &key, tripoint_abs_ms default_value ) const;
+
+        void set_var( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_var( const std::string &key, Args... args ) {
+            set_var( key, diag_value{ std::forward<Args>( args )... } );
+        }
+
+        void remove_var( const std::string &key );
+        diag_value const &get_value( const std::string &name ) const;
+        diag_value const *maybe_get_value( const std::string &name ) const;
         /** Whether the variable is defined at all. */
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */
@@ -2050,7 +2064,16 @@ class item : public visitable
         item &set_flag( const flag_id &flag );
 
         /** Idempotent filter setting an item specific fault. */
-        item &set_fault( const fault_id &fault_id );
+        void set_fault( const fault_id &fault_id );
+
+        void set_random_fault_of_type( const std::string &fault_type, const bool &force = false );
+
+        weighted_int_list<fault_id> all_potential_faults() const;
+
+        weighted_int_list<fault_id> all_potential_faults_of_type( const std::string
+                &fault_type ) const;
+
+        const fault_id &random_potential_fault_of_type( const std::string &fault_type ) const;
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
@@ -2350,6 +2373,11 @@ class item : public visitable
          * or similar.
          */
         bool is_power_armor() const;
+
+        /**
+         * The maximum amount of this item that can be worn at the same time.  Defaults to MAX_WORN_PER_TYPE if not defined for the item.
+         */
+        int max_worn() const;
         /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.
@@ -2474,18 +2502,18 @@ class item : public visitable
         bool is_gun() const;
 
         /**
-         * Does this item have a gun variant associated with it
-         * If check_option, the return of this is dependent on the SHOW_GUN_VARIANTS option
+         * Does this item have a variant associated with it
+         * If check_option, the return of this is dependent on the SHOW_x_VARIANTS option
          */
         bool has_itype_variant( bool check_option = true ) const;
 
         /**
-         * The gun variant associated with this item
+         * The variant associated with this item
          */
         const itype_variant_data &itype_variant() const;
 
         /**
-         * Set the gun variant of this item
+         * Set the variant of this item
          */
         void set_itype_variant( const std::string &variant );
 
@@ -2498,7 +2526,7 @@ class item : public visitable
          * Quantity of shots in the gun. Looks at both ammo and available energy.
          * @param carrier is used for UPS and bionic power
          */
-        int shots_remaining( const Character *carrier ) const;
+        int shots_remaining( const map &here, const Character *carrier ) const;
 
         /** Return true if this uses electrical or a different kind of energy. */
         bool uses_energy() const;
@@ -2513,17 +2541,26 @@ class item : public visitable
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
+         * @param here is the map used, which is used to determine linked power (e.g. electricity)
          * @param carrier is used for UPS and bionic power for tools
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
-        int ammo_remaining( bool include_linked ) const;
-
+        int ammo_remaining_linked( const map &here, const Character *carrier ) const;
+        // Similar to the operation above, but doesn't look for external sources.
+        int ammo_remaining( const Character *carrier ) const;
+        // Looking for "ammo" via links (e.g. electricity).
+        int ammo_remaining_linked( const map &here ) const;
+        // Only looking for ammo locally.
+        int ammo_remaining() const;
 
     private:
         units::energy energy_per_second() const;
-        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
-                            bool include_linked = false ) const;
+        // The map parameter is only used if include_linked is true. Somewhat stupid
+        // parameter profile, but the operation is only used internally in order not
+        // to duplicate most of the code.
+        int ammo_remaining( const map &here, const std::set<ammotype> &ammo,
+                            const Character *carrier,
+                            bool include_linked ) const;
     public:
 
         /**
@@ -2581,6 +2618,7 @@ class item : public visitable
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
+        int ammo_consume( int qty, map &here, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
          * Consume energy (if available) and return the amount of energy that was consumed
@@ -2592,6 +2630,9 @@ class item : public visitable
          * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
          */
         units::energy energy_consume( units::energy qty, const tripoint_bub_ms &pos, Character *carrier,
+                                      float fuel_efficiency = -1.0 );
+        units::energy energy_consume( units::energy qty, map *here, const tripoint_bub_ms &pos,
+                                      Character *carrier,
                                       float fuel_efficiency = -1.0 );
 
         /**
@@ -3029,14 +3070,18 @@ class item : public visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<item *> all_items_top();
-        /** returns a list of pointers to all top-level items */
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<const item *> all_items_container_top() const;
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<item *> all_items_container_top();
+        /** returns a list of pointers to all top-level items in pk_type pockets only */
         std::list<const item *> all_items_top( pocket_type pk_type ) const;
         /**
-         * Return a list of pointers to all top-level items.
+         * Return a list of pointers to all top-level items in pk_type pockets only
          * If unloading is true ignore items in pockets flagged not to be unloaded.
          */
         std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );
@@ -3218,7 +3263,7 @@ class item : public visitable
         cata::heap<FlagsSetType> prefix_tags_cache; // flags that will add prefixes to this item
         cata::heap<FlagsSetType> suffix_tags_cache; // flags that will add suffixes to this item
         lazy<safe_reference_anchor> anchor;
-        cata::heap<std::map<std::string, std::string>> item_vars;
+        cata::heap<global_variables::impl_t> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         cata::heap<std::set<matec_id>> techniques; // item specific techniques

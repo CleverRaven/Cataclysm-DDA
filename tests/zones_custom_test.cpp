@@ -1,7 +1,17 @@
+#include <string>
+#include <unordered_set>
+
 #include "cata_catch.h"
 #include "clzones.h"
+#include "coordinates.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
 
 static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_bow_saw( "bow_saw" );

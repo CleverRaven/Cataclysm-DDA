@@ -126,9 +126,9 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "gods_community", "x": [ 48, 71 ], "y": [ 48, 71 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "bus", "x": 33, "y": [ 18, 18 ], "chance": 100, "status": 1, "rotation": 90 },
-        { "vehicle": "wheelchair", "x": 8, "y": 35, "chance": 100, "status": 0, "rotation": 90 },
-        { "vehicle": "wheelbarrow", "x": [ 39, 40 ], "y": [ 48, 49 ], "chance": 100, "status": 0, "rotation": 90 }
+        { "vehicle": "bus", "x": 33, "y": [ 18, 18 ], "status": 1, "rotation": 90 },
+        { "vehicle": "wheelchair", "x": 8, "y": 35, "status": 0, "rotation": 90 },
+        { "vehicle": "wheelbarrow", "x": [ 39, 40 ], "y": [ 48, 49 ], "status": 0, "rotation": 90 }
       ],
       "place_loot": [
         { "item": "mess_tray", "repeat": [ 15, 20 ], "x": 52, "y": 14 },

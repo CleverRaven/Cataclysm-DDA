@@ -1,9 +1,11 @@
 #include "units.h"
 
+#include <cstdint>
+
 #include "calendar.h"
 #include "json.h"
 #include "string_formatter.h"
-#include "units_utility.h"
+#include "translations.h"
 
 namespace units
 {
@@ -33,6 +35,18 @@ void mass::serialize( JsonOut &jsout ) const
     } else {
         jsout.write( string_format( "%d mg", value_ ) );
     }
+}
+
+template<>
+void mass::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::mass_units );
+}
+
+template<>
+void money::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::money_units );
 }
 
 template<>

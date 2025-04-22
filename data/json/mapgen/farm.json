@@ -196,7 +196,7 @@
         "~": "t_dirtmoundfloor"
       },
       "items": {
-        " ": { "item": "trash", "chance": 7 },
+        " ": { "item": "SUS_trash_floor", "chance": 7 },
         "F": { "item": "SUS_fridge_survivor", "chance": 100 },
         "q": [
           { "item": "tools_earthworking", "chance": 65 },

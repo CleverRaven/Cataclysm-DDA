@@ -49,6 +49,7 @@
         "u": "t_region_groundcover_urban",
         "4": "t_gutter_downspout"
       },
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "&": {  } },
       "furniture": {
         "u": "f_hedge_short",

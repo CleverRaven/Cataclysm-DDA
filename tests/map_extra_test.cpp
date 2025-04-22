@@ -1,6 +1,6 @@
 ﻿#include <algorithm>
 #include <array>
-#include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 

@@ -1,9 +1,11 @@
 #include <algorithm>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -13,33 +15,35 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
+#include "faction.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "magic.h"
 #include "make_static.h"
-#include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
-#include "proficiency.h"
 #include "ret_val.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_npc.h"
+#include "translation.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
+#include "value_ptr.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );

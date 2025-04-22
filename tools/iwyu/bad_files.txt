@@ -1,0 +1,44 @@
+# This file is fed to `grep -v -f` to select the files that should be skipped
+# Comments like this one happen to be okay, but inline comments can't work
+# empty lines are also not allowable
+#
+# These files are just scary or load-bearing in some way
+flexbuffer
+json
+translation
+# iwyu mangles these
+lightmap
+color
+tests/generic_factory_test.cpp
+# (mildly) scary conditional compilation in these
+src/cata_imgui.cpp
+src/catacharset.cpp
+src/debug.cpp
+src/editmap.cpp
+src/filesystem.cpp
+src/font_loader.cpp
+src/game.cpp
+src/input_context.cpp
+src/loading_ui.cpp
+src/localized_comparator.cpp
+src/main.cpp
+src/map.cpp
+src/mutation_ui.cpp
+src/ncurses_def.cpp
+src/options.cpp
+src/output.cpp
+src/path_info.cpp
+src/savegame.cpp
+src/sounds.cpp
+src/sdltiles.cpp
+src/system_locale.cpp
+src/uilist.cpp
+src/veh_appliance.cpp
+# misc files deferred til better days
+src/stats_tracker.cpp
+src/mapsharing
+src/worldfactory.cpp
+src/mmap_file.cpp
+src/mmap_file.cpp
+# iwyu requests an invalid forward declaration https://github.com/include-what-you-use/include-what-you-use/issues/1707
+src/math_parser_diag_value

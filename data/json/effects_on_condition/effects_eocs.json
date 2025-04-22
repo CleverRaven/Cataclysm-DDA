@@ -84,7 +84,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
     "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
-    "effect": [ { "set_string_var": { "context_val": "bodypart" }, "target_var": { "global_val": "IMPREGNATED_BODYPART" } } ]
+    "effect": [ { "copy_var": { "context_val": "bodypart" }, "target_var": { "global_val": "IMPREGNATED_BODYPART" } } ]
   },
   {
     "type": "effect_on_condition",

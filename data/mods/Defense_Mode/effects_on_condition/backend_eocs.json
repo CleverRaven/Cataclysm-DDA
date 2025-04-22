@@ -2,7 +2,6 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_defense_mode",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "deactivate_condition": { "math": [ "wave_number >= 1" ] },
     "effect": [
       { "math": [ "diffulty_modifier = 1" ] },

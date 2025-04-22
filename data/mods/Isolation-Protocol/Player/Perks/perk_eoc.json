@@ -24,7 +24,7 @@
       ]
     },
     "effect": [
-      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "heal_part" } },
+      { "copy_var": { "context_val": "bodypart" }, "target_var": { "u_val": "heal_part" } },
       { "u_add_effect": "iso_heal", "duration": 1, "target_part": { "u_val": "heal_part" } }
     ]
   },

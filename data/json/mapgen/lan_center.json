@@ -70,9 +70,10 @@
       "items": {
         "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 },
         "I": { "item": "office", "chance": 30 },
-        "S": { "item": "office_paper", "chance": 30 },
+        "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "R": { "item": "softdrugs", "chance": 30 },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 },
+        "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] },
         "{": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] }
       }
     }
@@ -110,7 +111,7 @@
         "      ----------------- "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "nested": {
         "U": { "chunks": [ "roof_2x2_infrastructure" ] },
         "R": { "chunks": [ "roof_2x2_infrastructure_1" ] },
@@ -189,7 +190,7 @@
       "items": { "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 } },
       "place_items": [
         { "chance": 45, "item": "fridge", "x": 20, "y": 20 },
-        { "chance": 15, "repeat": [ 1, 3 ], "item": "trash", "x": 19, "y": 15 },
+        { "chance": 15, "repeat": [ 1, 3 ], "item": "SUS_trash_trashcan", "x": 19, "y": 15 },
         { "chance": 50, "item": "vending_drink_items", "x": 15, "y": 20 },
         { "chance": 50, "item": "vending_drink_items", "x": 16, "y": 20 }
       ],

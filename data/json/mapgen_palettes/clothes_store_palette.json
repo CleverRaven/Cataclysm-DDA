@@ -49,7 +49,7 @@
       ],
       "B": { "item": "bags", "chance": 50, "repeat": 3 },
       "$": { "item": "SUS_office_filing_cabinet", "chance": 100 },
-      "D": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "D": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] },
       "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
       "&": { "item": "SUS_mannequin_general", "chance": 70 },
       "d": { "item": "SUS_office_desk", "chance": 100 },

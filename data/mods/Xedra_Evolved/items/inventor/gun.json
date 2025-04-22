@@ -13,7 +13,7 @@
     "symbol": "(",
     "color": "blue",
     "skill": "pistol",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "ammo_to_fire": 5,
     "range": 7,
     "ranged_damage": { "damage_type": "heat", "amount": 15 },
@@ -36,7 +36,12 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "faults": [
+      { "fault": "fault_overheat_explosion" },
+      { "fault": "fault_overheat_venting" },
+      { "fault": "fault_overheat_melting" },
+      { "fault": "fault_overheat_safety" }
+    ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",
@@ -72,7 +77,7 @@
     "symbol": "(",
     "color": "light_blue",
     "skill": "smg",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "ammo_to_fire": 15,
     "range": 16,
     "ranged_damage": { "damage_type": "heat", "amount": 25 },
@@ -98,7 +103,12 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "IGNITE" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "faults": [
+      { "fault": "fault_overheat_explosion" },
+      { "fault": "fault_overheat_venting" },
+      { "fault": "fault_overheat_melting" },
+      { "fault": "fault_overheat_safety" }
+    ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",
@@ -134,7 +144,7 @@
     "symbol": "(",
     "color": "light_blue",
     "skill": "rifle",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "ammo_to_fire": 30,
     "range": 32,
     "ranged_damage": { "damage_type": "heat", "amount": 35 },
@@ -160,7 +170,12 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "IGNITE" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "faults": [
+      { "fault": "fault_overheat_explosion" },
+      { "fault": "fault_overheat_venting" },
+      { "fault": "fault_overheat_melting" },
+      { "fault": "fault_overheat_safety" }
+    ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",
@@ -195,7 +210,7 @@
     "symbol": "(",
     "color": "magenta",
     "skill": "rifle",
-    "ammo": "aetheric_charge",
+    "ammo": [ "aetheric_charge" ],
     "ammo_to_fire": 10,
     "range": 30,
     "ranged_damage": { "damage_type": "pure", "amount": 35 },
@@ -219,7 +234,12 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "IGNITE" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
+    "faults": [
+      { "fault": "fault_overheat_explosion" },
+      { "fault": "fault_overheat_venting" },
+      { "fault": "fault_overheat_melting" },
+      { "fault": "fault_overheat_safety" }
+    ],
     "flags": [
       "NEVER_JAMS",
       "NO_SALVAGE",
@@ -251,12 +271,12 @@
     "color": "black",
     "charges_per_use": 1,
     "use_action": { "type": "cast_spell", "spell_id": "bio_explosion", "no_fail": true, "level": 0, "need_wielding": true },
-    "ammo": [ "bio_warhead" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bio_warhead": 1 } } ],
     "armor": [
       { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "tool_ammo": [ "bio_warhead" ]
   },
   {
     "id": "bio_warhead",
@@ -293,7 +313,6 @@
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 30,
-    "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
@@ -303,7 +322,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "inventor_sniper",
@@ -365,7 +385,7 @@
     "color": "magenta",
     "skill": "rifle",
     "ammo_to_fire": 25,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "range": 30,
     "ranged_damage": { "damage_type": "stab", "amount": 14, "armor_penetration": 100 },
     "dispersion": 15,
@@ -402,7 +422,7 @@
     "color": "blue",
     "ammo_to_fire": 500,
     "range": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ] },
     "modes": [  ],
@@ -681,7 +701,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "skill": "pistol",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "range": 16,
     "ranged_damage": { "damage_type": "pure", "amount": 11 },
     "ammo_to_fire": 15,
@@ -722,7 +742,6 @@
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 50,
-    "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "heat_expl_gun", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
@@ -732,7 +751,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "inventor_pistol",

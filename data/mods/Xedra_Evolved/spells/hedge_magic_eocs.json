@@ -279,6 +279,49 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_UNWEAR_ITEM",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "compare_string": [ "item_hedge_turn_into_bear", { "context_val": "itype" } ] },
+    "effect": [
+      { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_TURN_INTO_BEAR_UNWEAR_ITEM_FOLLOWUP",
+            "effect": [
+              {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "id": "item_hedge_turn_into_bear" } ],
+                "true_eocs": [
+                  {
+                    "id": "EOC_HEDGE_TURN_INTO_BEAR_UNWEAR_ITEM_FOLLOWUP_2",
+                    "effect": [
+                      { "u_consume_item": "item_hedge_turn_into_bear", "count": 1 },
+                      { "u_spawn_item": "item_hedge_turn_into_bear_off", "suppress_message": true }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "time_in_future": 1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS",
     "condition": { "u_has_worn_with_flag": "SKINCHANGED" },
     "effect": [

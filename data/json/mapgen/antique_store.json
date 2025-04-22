@@ -90,7 +90,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 8, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 16 ], "y": [ 8, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         { "chunks": [ [ "roof_2x2_golf", 5 ], [ "null", 85 ], [ "roof_3x3_wine", 10 ] ], "x": [ 13, 20 ], "y": 15 },
         {

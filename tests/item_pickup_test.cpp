@@ -1,10 +1,22 @@
+#include <list>
+#include <optional>
+#include <string>
+#include <utility>
+
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "type_id.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );

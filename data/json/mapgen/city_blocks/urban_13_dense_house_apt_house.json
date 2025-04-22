@@ -62,7 +62,7 @@
       "furniture": { "!": "f_counter" },
       "place_item": [ { "item": "television", "x": 17, "y": 5 } ],
       "items": { "!": [ { "item": "laundry", "chance": 20, "repeat": [ 1, 3 ] }, { "item": "cleaning", "chance": 10 } ] },
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 19, 20 ], "y": [ 13, 18 ], "chance": 100, "repeat": 2 } ]
+      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 19, 20 ], "y": [ 13, 18 ], "repeat": 2 } ]
     }
   },
   {

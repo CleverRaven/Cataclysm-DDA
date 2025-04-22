@@ -76,12 +76,12 @@
         { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 2, 8 ], "x": [ 19, 19 ], "y": [ 13, 13 ] },
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 19, 19 ], "y": [ 15, 17 ] },
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 14, 18 ], "y": [ 17, 17 ] },
-        { "group": "trash", "chance": 100, "repeat": [ 1, 2 ], "x": [ 14, 17 ], "y": [ 19, 20 ] },
-        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 13, 13 ], "y": [ 17, 17 ] },
-        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 13, 13 ], "y": [ 19, 19 ] },
+        { "group": "SUS_trash_dumpster", "chance": 100, "repeat": [ 1, 2 ], "x": [ 14, 17 ], "y": [ 19, 20 ] },
+        { "group": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ], "x": [ 13, 13 ], "y": [ 17, 17 ] },
+        { "group": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ], "x": [ 13, 13 ], "y": [ 19, 19 ] },
         { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 6, 6 ], "y": [ 6, 12 ] },
         { "group": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 4, 4 ], "y": [ 6, 10 ] },
-        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 18 ], "y": [ 14, 16 ] },
+        { "group": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 18 ], "y": [ 14, 16 ] },
         { "group": "cash_register_random", "x": 10, "y": 5 }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT_BASE", "chance": 1, "x": [ 4, 9 ], "y": [ 5, 13 ] } ],
@@ -244,6 +244,7 @@
         "p": "f_metal_butcher_rack",
         "S": "f_sink"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_loot": [
         { "group": "butcher_meat", "chance": 80, "x": [ 4, 5 ], "y": 3, "repeat": [ 1, 3 ] },
@@ -261,9 +262,9 @@
         { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 8 ], "x": 6, "y": 16 },
         { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 8 ], "x": 7, "y": 16 },
         { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 1, 8 ], "x": 8, "y": 16 },
-        { "group": "trash", "chance": 80, "x": 11, "y": 16 },
-        { "group": "trash", "chance": 80, "x": 15, "y": 16 },
-        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
+        { "group": "SUS_trash_trashcan", "chance": 80, "x": 11, "y": 16 },
+        { "group": "SUS_trash_trashcan", "chance": 80, "x": 15, "y": 16 },
+        { "group": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
         { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 8, 9 ], "y": [ 13, 14 ] },
         { "group": "clothing_glasses", "chance": 80, "x": 16, "y": 13 },
         { "group": "cleaning", "chance": 80, "x": 19, "y": 13, "repeat": [ 1, 2 ] },
@@ -310,7 +311,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "#": "t_wall_y", "+": "t_door_locked" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 13 ], "y": [ 4, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 13 ], "y": [ 4, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -443,12 +444,13 @@
       "items": {
         "F": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
         "k": { "item": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ] },
-        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] }
+        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
-        { "group": "trash", "chance": 80, "x": 11, "y": 16 },
-        { "group": "trash", "chance": 80, "x": 15, "y": 16 },
-        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
+        { "group": "SUS_trash_trashcan", "chance": 80, "x": 11, "y": 16 },
+        { "group": "SUS_trash_trashcan", "chance": 80, "x": 15, "y": 16 },
+        { "group": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
         { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 8, 9 ], "y": [ 13, 14 ] },
         { "group": "clothing_glasses", "chance": 80, "x": 18, "y": 13 },
         { "group": "cash_register_random", "x": [ 4, 8 ], "y": 9 }
@@ -493,7 +495,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 13 ], "y": [ 4, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 13 ], "y": [ 4, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [

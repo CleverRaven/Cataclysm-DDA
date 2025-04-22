@@ -1,8 +1,10 @@
+#include <cstdio>
 #include <filesystem>
+#include <fstream>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
-#include "filesystem.h"
 #include "monfaction.h"
 #include "type_id.h"
 

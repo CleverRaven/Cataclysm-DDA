@@ -1,24 +1,26 @@
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "options_helpers.h"
 #include "player_helpers.h"
-#include "test_statistics.h"
+#include "point.h"
 #include "type_id.h"
+#include "weather_type.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
 

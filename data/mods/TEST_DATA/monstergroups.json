@@ -106,14 +106,14 @@
   {
     "id": "test_upgrades_multi_null",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null" }, { "monster": "mon_test_zombie_cop", "pack_size": [ 4, 6 ], "starts": "2 days" } ]
+    "monsters": [ { "monster": "mon_null" }, { "monster": "mon_test_zombie_cop", "pack_size": [ 4, 6 ], "starts": "8 days" } ]
   },
   {
     "id": "test_upgrades_multi_late",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ], "starts": "7 days" },
-      { "monster": "mon_test_CBM", "pack_size": [ 4, 6 ], "ends": "2 days" },
+      { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ], "starts": "28 days" },
+      { "monster": "mon_test_CBM", "pack_size": [ 4, 6 ], "ends": "8 days" },
       { "monster": "mon_test_zombie_cop", "pack_size": [ 4, 6 ], "conditions": [ "DAY" ] }
     ]
   }

@@ -3,11 +3,13 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
+#include <exception>
 #include <iterator>
 #include <limits>
 #include <list>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
@@ -16,19 +18,23 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "enum_traits.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "output.h"
-#include "point.h"
+#include "pocket_type.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "value_ptr.h"
@@ -104,7 +110,7 @@ void quality::load_static( const JsonObject &jo, const std::string &src )
     quality_factory.load( jo, src );
 }
 
-void quality::load( const JsonObject &jo, const std::string_view )
+void quality::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
 
@@ -748,7 +754,7 @@ void requirement_data::reset()
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
-        const std::string_view hilite, requirement_display_flags flags ) const
+        std::string_view hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -766,7 +772,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, const std::string_view hilite,
+        const std::vector< std::vector<T> > &objs, int batch, std::string_view hilite,
         requirement_display_flags flags ) const
 {
     // hack: ensure 'cached' availability is up to date

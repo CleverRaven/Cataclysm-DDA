@@ -25,7 +25,7 @@
     "purifiable": false,
     "valid": false,
     "spells_learned": [
-      [ "clair_night_vision", 2 ],
+      [ "clair_better_senses", 2 ],
       [ "clair_speed_reading", 2 ],
       [ "classless_toggleable_concentration_end", 1 ],
       [ "classless_specific_concentration_end", 1 ]

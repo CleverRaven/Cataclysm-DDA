@@ -99,8 +99,7 @@
     "volume": "500 ml",
     "charges": 2,
     "quench": 20,
-    "relative": { "vitamins": [ [ "vitC", "20 mg" ] ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "extend": { "vitamins": [ [ "vitC", "20 mg" ], [ "fruit_allergen", 1 ] ] }
   },
   {
     "id": "protein_shake_fortified",
@@ -113,7 +112,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
-    "relative": { "vitamins": [ [ "calcium", "52 mg" ], [ "iron", "940 μg" ], [ "vitC", "5 mg" ] ] }
+    "vitamins": [ [ "calcium", "175 mg" ], [ "iron", "940 μg" ], [ "vitC", "20 mg" ] ]
   },
   {
     "id": "milk_fortified",
@@ -160,8 +159,6 @@
     "fun": 5,
     "volume": "500 ml",
     "charges": 2,
-    "quench": 18,
-    "relative": { "vitamins": [ [ "vitC", 20 ] ] },
-    "vitamins": [ [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "quench": 18
   }
 ]

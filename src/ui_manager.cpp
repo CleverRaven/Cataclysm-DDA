@@ -7,16 +7,18 @@
 
 #include "cached_options.h"
 #include "cata_assert.h"
-#include "cata_scope_helpers.h"
-#include "cata_utility.h"
-#include "cursesdef.h"
-#include "game_ui.h"
-#include "point.h"
-#include "sdltiles.h" // IWYU pragma: keep
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
+#include "cursesdef.h"
+#include "point.h"
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
+#endif
+
+#if defined(TILES)
+#include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;

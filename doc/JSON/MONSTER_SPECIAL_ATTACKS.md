@@ -36,7 +36,7 @@ Monster special attacks can be defined either as old style arrays, new style obj
 
 Generally [hardcoded special attacks](#hardcoded-special-attacks) are declared this way, although it can also be used for [JSON-declared attacks](/data/json/monster_special_attacks) too.  It contains 2 elements, the `id` of the attack and the cooldown:
 
-```JSON
+```jsonc
 "special_attacks": [ [ "ACID", 10 ] ]
 ```
 
@@ -49,14 +49,14 @@ It contains either:
 
 Depending on the kind of attack, it may contain additional required members.  Example:
 
-```JSON
+```jsonc
 "special_attacks": [
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 In the case of separately defined attacks the object has to contain at least an `id` member.  In this case the attack will use the default attack data defined in `monster_attacks.json`, if a field is additionally defined it will overwrite those defaults.  These attacks have the common type `monster_attack`.  Example:
 
-```JSON
+```jsonc
 "special_attacks": [
     { "id": "impale" }
 ]
@@ -67,7 +67,7 @@ In the case of separately defined attacks the object has to contain at least an 
 
 `special_attacks` may contain a mixture of the old and new style:
 
-```JSON
+```jsonc
 "special_attacks": [
     [ "ACID", 10 ],
     { "type": "leap", "cooldown": 8, "max_range": 4 },
@@ -308,7 +308,7 @@ Makes the monster leap a few tiles over passable terrain as long as it can see i
 
 A special defense attack, triggered when the monster is attacked.  It should contain an array with the `id` of the defense (see a full list below) and the chance for that defense to be actually triggered.  Example:
 
-```JSON
+```jsonc
 "special_when_hit": [ "ZAPBACK", 100 ]
 ```
 

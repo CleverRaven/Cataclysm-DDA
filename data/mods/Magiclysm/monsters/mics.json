@@ -21,7 +21,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "COPY_SUMMONER_LOOK" ]
   },
   {
     "id": "mon_mirror_image_rad_mage",
@@ -79,7 +79,6 @@
     "type": "MONSTER",
     "name": "hologram",
     "description": "Hologram copy of you.",
-    "looks_like": "player",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
     "volume": "62500 ml",
@@ -96,7 +95,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "DISAPPEAR", 2000 ] ],
     "death_function": { "message": "", "corpse_type": "NO_CORPSE" },
-    "flags": [ "FLIES", "SEES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "flags": [ "FLIES", "SEES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "COPY_SUMMONER_LOOK" ]
   },
   {
     "id": "mon_watcher_spirit",

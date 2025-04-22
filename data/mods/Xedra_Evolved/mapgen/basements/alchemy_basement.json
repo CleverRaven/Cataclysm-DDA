@@ -1,0 +1,94 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_sewing_open",
+    "weight": 250,
+    "//": "Alchemical basement",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "bb..CC",
+        "b.....",
+        "..ff..",
+        ".hffT.",
+        "...a..",
+        "......"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "f": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "a": "t_thconc_floor",
+        "T": "t_thconc_floor",
+        "b": "t_thconc_floor"
+      },
+      "furniture": {
+        "a": "f_alembic",
+        "h": "f_stool",
+        "b": "f_bookcase",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "f": "f_table",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "place_item": [ { "item": "chemistry_set", "x": 2, "y": 2, "chance": 50 } ],
+      "items": {
+        "f": [ { "item": "alchemical_materials", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "C": [ { "item": "alchemical_materials", "chance": 60, "repeat": [ 3, 6 ] } ],
+        "b": [ { "item": "alchemical_recipes", "chance": 75 }, { "item": "hedge_magic_books", "chance": 2 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_electronics_open",
+    "weight": 250,
+    "//": "Alchemical basement",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "bb..CC",
+        "b.....",
+        "..ff..",
+        ".hffT.",
+        "...a..",
+        "......"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "f": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "a": "t_thconc_floor",
+        "T": "t_thconc_floor",
+        "b": "t_thconc_floor"
+      },
+      "furniture": {
+        "a": "f_alembic",
+        "h": "f_stool",
+        "b": "f_bookcase",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "f": "f_table",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "place_item": [ { "item": "chemistry_set", "x": 2, "y": 2, "chance": 50 } ],
+      "items": {
+        "f": [ { "item": "alchemical_materials", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "C": [ { "item": "alchemical_materials", "chance": 60, "repeat": [ 3, 6 ] } ],
+        "b": [ { "item": "alchemical_recipes", "chance": 75 }, { "item": "hedge_magic_books", "chance": 2 } ]
+      }
+    }
+  }
+]

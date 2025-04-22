@@ -75,13 +75,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "mop",
@@ -179,10 +179,10 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] }
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] },
+    "tool_ammo": [ "soap" ]
   },
   {
     "id": "sponge",
@@ -240,11 +240,11 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
     "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "soap" ]
   },
   {
     "id": "washboard",

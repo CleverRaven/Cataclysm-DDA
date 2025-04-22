@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <exception>
+#include <list>
 #include <memory>
 #include <numeric>
 #include <optional>
@@ -15,11 +16,12 @@
 #include <vector>
 
 #include "all_enum_values.h"
+#include "assign.h"
 #include "auto_note.h"
 #include "avatar.h"
-#include "assign.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "cata_views.h"
 #include "catacharset.h"
@@ -27,18 +29,24 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "distribution.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "line.h"
+#include "map.h"
+#include "map_extras.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
+#include "math_defines.h"
 #include "messages.h"
+#include "mod_tracker.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
@@ -57,8 +65,10 @@
 #include "sets_intersect.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "weighted_list.h"
 
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 static const mongroup_id GROUP_OCEAN_DEEP( "GROUP_OCEAN_DEEP" );
@@ -128,8 +138,6 @@ static const overmap_location_id overmap_location_land( "land" );
 static const overmap_location_id overmap_location_swamp( "swamp" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -729,6 +737,7 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::ocean_shore: return "OCEAN_SHORE";
         case oter_flags::ravine: return "RAVINE";
         case oter_flags::ravine_edge: return "RAVINE_EDGE";
+        case oter_flags::pp_generate_riot_damage: return "PP_GENERATE_RIOT_DAMAGE";
         case oter_flags::generic_loot: return "GENERIC_LOOT";
         case oter_flags::risk_extreme: return "RISK_EXTREME";
         case oter_flags::risk_high: return "RISK_HIGH";
@@ -4082,7 +4091,7 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
     }
 }
 
-std::vector<point_abs_omt> overmap::find_terrain( const std::string_view term, int zlevel ) const
+std::vector<point_abs_omt> overmap::find_terrain( std::string_view term, int zlevel ) const
 {
     std::vector<point_abs_omt> found;
     for( int x = 0; x < OMAPX; x++ ) {
@@ -4479,7 +4488,7 @@ void overmap::move_hordes()
 
             // Only zombies on z-level 0 may join hordes.
             if( p.z() != 0 ) {
-                monster_map_it++;
+                ++monster_map_it;
                 continue;
             }
 
@@ -4492,21 +4501,18 @@ void overmap::move_hordes()
                 !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
-                monster_map_it++;
+                ++monster_map_it;
                 continue;
             }
 
             // Only monsters in the open (fields, forests, roads) are eligible to wander
             const oter_id &om_here = ter( project_to<coords::omt>( p ) );
-            if( !is_ot_match( "field", om_here, ot_match_type::contains ) ) {
-                if( !is_ot_match( "road", om_here, ot_match_type::contains ) ) {
-                    if( !is_ot_match( "forest", om_here, ot_match_type::prefix ) ) {
-                        if( !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
-                            monster_map_it++;
-                            continue;
-                        }
-                    }
-                }
+            if( !is_ot_match( "field", om_here, ot_match_type::contains ) &&
+                !is_ot_match( "road", om_here, ot_match_type::contains ) &&
+                !is_ot_match( "forest", om_here, ot_match_type::prefix ) &&
+                !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
+                ++monster_map_it;
+                continue;
             }
 
             // Scan for compatible hordes in this area, selecting the largest.
@@ -4540,7 +4546,7 @@ void overmap::move_hordes()
                 }
             } else { // Bad luck--the zombie would have joined a larger horde, but not this one.  Skip.
                 // Don't delete the monster, just increment the iterator.
-                monster_map_it++;
+                ++monster_map_it;
                 continue;
             }
 
@@ -4637,7 +4643,7 @@ bool overmap::remove_nemesis()
             zg.erase( it++ );
             return true;
         }
-        it++;
+        ++it;
     }
     return false;
 }
@@ -7152,7 +7158,7 @@ void overmap::place_specials_pass(
         }
 
         if( !placed ) {
-            it++;
+            ++it;
         }
     }
 }
@@ -7319,7 +7325,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             if( it->instances_placed >= it->special_details->get_constraints().occurrences.max ) {
                 it = enabled_specials.erase( it );
             } else {
-                it++;
+                ++it;
             }
         } else {
             // This special is no longer in our callee's list, which means it was completely
@@ -7340,7 +7346,7 @@ void overmap::place_mongroups()
         float spawn_density = get_option<float>( "SPAWN_DENSITY" );
 
         for( city &elem : cities ) {
-            if( elem.size > city_spawn_threshold || !one_in( city_spawn_chance ) ) {
+            if( elem.size > city_spawn_threshold || one_in( city_spawn_chance ) ) {
 
                 // with the default numbers (80 scalar, 1 density), a size 16 city
                 // will produce 1280 zombies.
@@ -7903,7 +7909,7 @@ void overmap_special_migration::reset()
     migrations.reset();
 }
 
-void overmap_special_migration::load( const JsonObject &jo, const std::string_view )
+void overmap_special_migration::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "new_id", new_id, overmap_special_id() );

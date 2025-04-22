@@ -1,5 +1,43 @@
 [
   {
+    "id": "changeling_research_new_seasonal_spells",
+    "type": "SPELL",
+    "name": "Develop New Glamours",
+    "description": "Using the power of human dreams, unlock the secrets of new seasonal magicks.  It requires a large amount of dreamdross and time to perform this research.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 1000,
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_gain_dreamsparks",
+    "type": "SPELL",
+    "name": "Extract Dreamsparks",
+    "description": "Pull the power of creativity and enchantment from dreamdross and condense it into dreamsparks, so you can use them to power fae magicks.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 0,
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_disguise_as_nature_spell",
     "type": "SPELL",
     "name": "None Here But the Stones",
@@ -216,6 +254,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 5,
+    "skill": "deduction",
     "max_level": 1,
     "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 4.5) + (u_skill('deduction') * 20) + 10" ] },
     "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 9) + (u_skill('deduction') * 30) + 30" ] },
@@ -245,6 +284,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
+    "skill": "deduction",
     "max_level": 1,
     "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) + (u_skill('deduction') * 20) + 10" ] },
     "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 7) + (u_skill('deduction') * 30) + 30" ] },
@@ -326,6 +366,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
+    "skill": "deduction",
     "max_level": 1,
     "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 3) + (u_skill('deduction') * 10) + 15" ] },
     "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 7) + (u_skill('deduction') * 25) + 60" ] },
@@ -352,7 +393,7 @@
     "id": "selkie_beguilement_spell",
     "type": "SPELL",
     "name": "Beguilement",
-    "description": "With a wink and a bit of fae glamour, you can .",
+    "description": "With a wink and a bit of fae glamour, you can enchant a target to defend you for a brief time.  This glamour only <color_yellow>only works</color> on humans.",
     "message": "You cast your glamour over your target.",
     "valid_targets": [ "ally", "hostile" ],
     "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
@@ -360,6 +401,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
+    "skill": "deduction",
     "max_level": 1,
     "min_damage": {
       "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) + (u_skill('deduction') * 10) + 10" ]
@@ -401,6 +443,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 3,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -435,6 +478,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 5,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -471,6 +515,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 6,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -507,6 +552,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
+    "skill": "deduction",
     "max_level": 1,
     "min_duration": {
       "math": [
@@ -543,6 +589,7 @@
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 9,
+    "skill": "deduction",
     "max_level": 1,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": {

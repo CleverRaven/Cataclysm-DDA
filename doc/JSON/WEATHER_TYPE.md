@@ -18,6 +18,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `dangerous`          | If true, our activity gets interrupted.                                                          |
 | `precip`             | Amount of associated precipitation. Valid values are: none, very_light, light and heavy          |
 | `rains`              | Whether said precipitation falls as rain.                                                        |
+| `light_multiplier`   | Optional, multiplication to ambient light. Multiplication occurs before `light_modifier`.        |
 | `tiles_animation`    | Optional, name of the tiles animation to use                                                     |
 | `debug_cause_eoc`    | Optional, id of effect_on_condition to be run when the debug menu selects this weather.          |
 | `debug_leave_eoc`    | Optional, id of effect_on_condition to be run when the debug menu is used to leave this weather. |
@@ -32,7 +33,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 
 #### `weather_type` example
 
-```json
+```jsonc
 [
   {
     "id": "lightning",

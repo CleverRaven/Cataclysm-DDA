@@ -4,48 +4,48 @@
     "type": "TOOL",
     "name": { "str": "camera" },
     "material": [ "plastic", "steel" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "e_port": "camera",
     "etransfer_rate": "20 MB",
     "melee_damage": { "bash": 1 },
-    "variables": { "browsed": "true" }
+    "variables": { "browsed": "true" },
+    "tool_ammo": [ "battery" ]
   },
   {
     "abstract": "abstract_laptop",
     "type": "TOOL",
     "name": { "str": "laptop" },
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "etransfer_rate": "30 MB",
     "e_port": "laptop",
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "abstract": "abstract_smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone" },
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "etransfer_rate": "30 MB",
     "e_port": "phone",
-    "e_ports_banned": [ "USB-A" ]
+    "e_ports_banned": [ "USB-A" ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "abstract": "abstract_tablet",
     "type": "TOOL",
     "name": { "str": "e-ink tablet" },
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "etransfer_rate": "30 MB",
     "e_port": "tablet",
     "e_ports_banned": [ "USB-A" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC" ],
-    "variables": { "browsed": "false" }
+    "variables": { "browsed": "false" },
+    "tool_ammo": [ "battery" ]
   },
   {
     "abstract": "abstract_usb_drive",
@@ -135,7 +135,6 @@
     "price_postapoc": "15 cent",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -149,7 +148,8 @@
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "ALARMCLOCK", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17 } } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "cell_phone_flashlight",
@@ -209,13 +209,13 @@
     "copy-from": "abstract_tablet",
     "type": "TOOL",
     "name": { "str": "e-ink tablet PC" },
-    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, they are extremely useful tools.  Runs on conventional batteries.",
     "//": "amazon kindle, LIONX 6300mAh battery 42 ml",
     "weight": "158 g",
     "volume": "137 ml",
     "longest_side": "158 mm",
     "price": "85 USD",
-    "price_postapoc": "10 cent",
+    "price_postapoc": "10 USD",
     "material": [ { "type": "aluminum", "portion": 3 }, { "type": "plastic", "portion": 1 } ],
     "symbol": ";",
     "color": "blue",
@@ -300,6 +300,23 @@
     "//": "Based on https://www.amazon.com/dp/B015CH1PJU"
   },
   {
+    "id": "usb_drive_older",
+    "copy-from": "usb_drive",
+    "type": "TOOL",
+    "name": { "str": "older USB drive" },
+    "description": "A USB thumb drive.  Maybe a decade out of date, but still useful for holding electronic data.",
+    "pocket_data": [
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "32 GB"
+      }
+    ]
+  },
+  {
     "id": "portable_hard_drive",
     "copy-from": "abstract_usb_drive",
     "type": "TOOL",
@@ -347,6 +364,23 @@
     ]
   },
   {
+    "id": "memory_card_older",
+    "copy-from": "memory_card",
+    "type": "TOOL",
+    "name": { "str": "older memory card" },
+    "description": "A memory card.  Maybe a decade out of date, but can still be used to store data.",
+    "pocket_data": [
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "16 GB"
+      }
+    ]
+  },
+  {
     "type": "GENERIC",
     "id": "memory_card_unread",
     "copy-from": "memory_card",
@@ -375,7 +409,6 @@
     "ascii_picture": "electrohack",
     "symbol": ",",
     "color": "green",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -386,7 +419,8 @@
       }
     ],
     "charges_per_use": 1,
-    "qualities": [ [ "HACK", 2 ] ]
+    "qualities": [ [ "HACK", 2 ] ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "geiger_off",
@@ -401,7 +435,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "use_action": [ "GEIGER" ],
@@ -413,7 +446,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "geiger_on",
@@ -445,13 +479,13 @@
     "material": [ "plastic", "aluminum", "cotton" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 2400,
     "use_action": [ "MEASURE_RESONANCE" ],
     "//": "Battery only, intentionally. Meant for field expeditions to other dimensions where grid power is unavailable. Too advanced for the player to make grid-useable.",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "nre_recorder",
@@ -465,12 +499,11 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 10,
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate the recorder's printer",
+      "description": "Activate the recorder's printer.",
       "effect_on_conditions": [ "print_nre_data" ]
     },
     "pocket_data": [
@@ -481,7 +514,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "hand_crank_charger",
@@ -496,7 +530,6 @@
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "use_action": [ "HAND_CRANK" ],
     "pocket_data": [
@@ -506,7 +539,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "laptop",
@@ -587,11 +621,11 @@
     "ascii_picture": "mp3",
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "use_action": [ "MP3", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "mp3_on",
@@ -618,7 +652,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "noise_emitter_on",
@@ -636,7 +669,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "noise_emitter_on",
@@ -671,7 +705,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -689,7 +722,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "emf_detector_on",
@@ -723,11 +757,11 @@
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ "PORTABLE_GAME", { "type": "link_up", "cable_length": 4, "charge_rate": "39 W" } ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "smart_phone",
@@ -816,6 +850,66 @@
     "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
+    "id": "smart_phone_locked",
+    "copy-from": "smart_phone",
+    "type": "TOOL",
+    "name": { "str": "smartphone (locked)", "str_pl": "smartphones (locked)" },
+    "description": "A popular, fancy smartphone.  Sadly for you, its previous user used its security features, rendering you unable to use most of its qualities.  You are still able to check the time and use a flashlight.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
+    "etransfer_rate": "0 MB",
+    "e_port": "",
+    "use_action": [
+      {
+        "target": "smart_phone_locked_flashlight",
+        "msg": "You activate the flashlight app.",
+        "menu_text": "Turn on flashlight",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The smartphone's charge is too low.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Recover",
+        "description": "You can reset the smartphone to be able to use all its functions.",
+        "effect_on_conditions": [ "EOC_SMARTPHONE_RECOVERY" ]
+      }
+    ],
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } },
+      {
+        "forbidden": true,
+        "//": "forbidden, so items still can spawn inside, but are not accessible by default.",
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "256 GB"
+      }
+    ]
+  },
+  {
+    "id": "smart_phone_locked_flashlight",
+    "copy-from": "smart_phone_locked",
+    "type": "TOOL",
+    "name": { "str": "smartphone (locked) - Flashlight", "str_pl": "smartphones (locked) - Flashlight" },
+    "power_draw": "1500 mW",
+    "revert_to": "smart_phone_locked",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "smart_phone_locked",
+        "msg": "You deactivate the flashlight app.",
+        "menu_text": "Turn off flashlight",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
+    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
+  },
+  {
     "id": "UPS_off",
     "type": "TOOL",
     "name": { "str": "UPS", "str_pl": "UPSes" },
@@ -828,7 +922,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "IS_UPS" ],
     "pocket_data": [
       {
@@ -837,7 +930,8 @@
         "default_magazine": "heavy_plus_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "UPS_ON",
@@ -853,7 +947,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "flags": [ "IS_UPS" ],
     "pocket_data": [
       {
@@ -870,7 +963,8 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "UPS_OFF",
@@ -886,7 +980,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -904,7 +997,8 @@
       "need_charges_msg": "The charger's battery is empty.",
       "type": "transform"
     },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "methanol_fuel_cell",
@@ -919,9 +1013,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "methanol_fuelcell" ],
     "flags": [ "IS_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "METHANOL_TANK" ], "default_magazine": "5l_methanol_tank" } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "METHANOL_TANK" ], "default_magazine": "5l_methanol_tank" } ],
+    "tool_ammo": [ "methanol_fuelcell" ]
   },
   {
     "id": "vibrator",
@@ -936,11 +1030,11 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [ "VIBE", { "type": "link_up", "cable_length": 3, "charge_rate": "10 W" } ],
     "flags": [ "WATER_BREAK", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "gas_charger",
@@ -955,7 +1049,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "propane" ],
     "flags": [ "IS_UPS", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
@@ -974,7 +1067,8 @@
       "need_charges_msg": "The charger's tank is empty.",
       "type": "transform"
     },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "propane" ]
   },
   {
     "id": "gas_charger_on",
@@ -1008,7 +1102,6 @@
     "material": [ "plastic", "aluminum", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "noise_emitter_super_on",
@@ -1026,7 +1119,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "noise_emitter_super_on",

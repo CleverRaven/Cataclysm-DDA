@@ -1,3 +1,6 @@
+#include <cstddef>
+#include <initializer_list>
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
@@ -14,16 +17,16 @@ static uint32_t u32_from_color( nc_color color )
 namespace cataimgui
 {
 Segment::Segment( ) = default;
-Segment::Segment( const std::string_view( sv ), uint32_t c )
+Segment::Segment( std::string_view( sv ), uint32_t c )
     : str( sv )
     , color( c )
 {}
-Segment::Segment( const std::string_view( sv ), nc_color c )
+Segment::Segment( std::string_view( sv ), nc_color c )
     : str( sv )
     , color( u32_from_color( c ) )
 {}
 
-std::shared_ptr<Paragraph> parse_colored_text( const std::string_view str, nc_color default_color )
+std::shared_ptr<Paragraph> parse_colored_text( std::string_view str, nc_color default_color )
 {
     std::shared_ptr<Paragraph> p = std::make_shared<Paragraph>();
     p->append_colored_text( str, default_color );
@@ -36,7 +39,7 @@ Paragraph::Paragraph( )
 Paragraph::Paragraph( std::vector<Segment> &s )
     : segs( s )
 {}
-Paragraph::Paragraph( const std::string_view str )
+Paragraph::Paragraph( std::string_view str )
 {
     append_colored_text( str, 0 );
 }
@@ -203,7 +206,7 @@ Paragraph *Paragraph::separated()
     return this;
 }
 
-static void TextEx( const std::string_view str, float wrap_width, uint32_t color )
+static void TextEx( std::string_view str, float wrap_width, uint32_t color )
 {
     if( str.empty() ) {
         return;
@@ -279,12 +282,12 @@ void TextUnstyled( std::shared_ptr<Paragraph> para, float wrap_width )
     TextParagraphEx( para, wrap_width, false );
 }
 
-void TextParagraph( nc_color color, const std::string_view para, float wrap_width )
+void TextParagraph( nc_color color, std::string_view para, float wrap_width )
 {
     TextEx( para, wrap_width, u32_from_color( color ) );
 }
 
-void TextColoredParagraph( nc_color default_color, const std::string_view str,
+void TextColoredParagraph( nc_color default_color, std::string_view str,
                            std::optional<Segment> value, float wrap_width )
 {
     if( str.empty() ) {

@@ -9,6 +9,7 @@
     "price": "2 kUSD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "aluminum" ],
+    "etransfer_rate": "45 MB",
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_green",
@@ -50,7 +51,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 50,
     "pocket_data": [
       {
@@ -62,7 +62,8 @@
     ],
     "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "afs_motion_sensor",
@@ -76,7 +77,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -107,7 +107,8 @@
       "active": true,
       "msg": "The %s screen flashes on."
     },
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "afs_motion_sensor_on",
@@ -136,7 +137,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "afs_shydrogen" ],
     "charges_per_use": 1,
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
@@ -150,7 +150,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_40g_plasma_civ" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "afs_shydrogen" ]
   },
   {
     "id": "afs_atomic_smartphone_music",
@@ -295,12 +296,12 @@
     "symbol": "/",
     "looks_like": "circsaw_off",
     "color": "light_red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 7, "cut": 3 }
+    "melee_damage": { "bash": 7, "cut": 3 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "afs_power_cutter_on",
@@ -335,12 +336,12 @@
     "symbol": "/",
     "looks_like": "circsaw_off",
     "color": "yellow",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 6, "cut": 3 }
+    "melee_damage": { "bash": 6, "cut": 3 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "afs_murdersaw_on",
@@ -380,7 +381,6 @@
     "copy-from": "UPS_OFF",
     "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
-    "ammo": [ "battery" ],
     "sided": true,
     "price": "1300 USD",
     "price_postapoc": "1300 USD",
@@ -394,7 +394,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "UPS_ON",
@@ -402,7 +403,6 @@
     "copy-from": "UPS_ON",
     "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
-    "ammo": [ "battery" ],
     "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "BELTED", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
@@ -414,7 +414,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "bionic_maintenance_toolkit",
@@ -439,7 +440,7 @@
     "category": "spare_parts",
     "name": "cybernetic power port mod",
     "description": "This device replaces standard power connections and battery ports for electronic devices with a carefully-shaped port that hooks into bionic implants.  When applied, it will convert an item to run directly off of bionic power.",
-    "ammo_modifier": "battery",
+    "ammo_modifier": [ "battery" ],
     "flags": [ "USES_BIONIC_POWER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -454,7 +455,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 2,
     "use_action": [
       "ROBOTCONTROL",
@@ -487,7 +487,8 @@
         "weight_multiplier": 0.0,
         "ememory_max": "1 TB"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "control_laptop_screen_lit",
@@ -515,8 +516,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "glass", "titanium" ],
-    "copy-from": "fancy_sunglasses",
-    "ammo": [ "battery" ],
+    "copy-from": "sunglasses",
     "charges_per_use": 2,
     "use_action": [
       "E_FILE_DEVICE",
@@ -549,7 +549,8 @@
         "ememory_max": "1 TB"
       }
     ],
-    "armor": [ { "covers": [ "eyes", "torso" ] } ]
+    "armor": [ { "covers": [ "eyes", "torso" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
@@ -572,8 +573,8 @@
       "effect_on_conditions": [ "EOC_AFS_CALL_AUGUSTMOON_SHUTTLE" ]
     },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "afs_shuttle_beacon": 1 }, "rigid": true } ],
-    "ammo": "afs_shuttle_beacon",
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "tool_ammo": "afs_shuttle_beacon"
   },
   {
     "id": "vr_laptop_holosuite",
@@ -686,7 +687,6 @@
     "price": "1 USD",
     "symbol": ",",
     "color": "green",
-    "ammo": [ "battery" ],
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
@@ -699,7 +699,8 @@
       "USES_BIONIC_POWER"
     ],
     "charges_per_use": 1,
-    "qualities": [ [ "HACK", 2 ] ]
+    "qualities": [ [ "HACK", 4 ] ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "afs_internal_battery_compartment",
@@ -722,7 +723,6 @@
       "SOFT",
       "TRADER_AVOID"
     ],
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -731,7 +731,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "diamond_press",
@@ -781,8 +782,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "battery" ],
-    "flags": [ "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ELECTRONIC", "ALLOWS_REMOTE_USE", "BELT_CLIP" ],
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "tick_action": "MULTICOOKER_TICK",
@@ -803,7 +803,8 @@
         "max_item_length": "35 cm",
         "moves": 50
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "multi_cooker_filled",
@@ -827,7 +828,6 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "battery" ],
     "sub": "hotplate_induction",
     "charges_per_use": 25,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -840,7 +840,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",

@@ -2,12 +2,9 @@
 
 #include <algorithm>
 #include <cmath>
-#include <new>
-#include <set>
 #include <string>
 
 #include "generic_factory.h"
-#include "json.h"
 
 namespace
 {
@@ -34,7 +31,7 @@ void skill_boost::load_boost( const JsonObject &jo, const std::string &src )
     all_skill_boosts.load( jo, src );
 }
 
-void skill_boost::load( const JsonObject &jo, const std::string_view )
+void skill_boost::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "skills", _skills );
     mandatory( jo, was_loaded, "skill_offset", _offset );

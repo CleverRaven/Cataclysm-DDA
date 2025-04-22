@@ -9,11 +9,36 @@
   },
   {
     "type": "mutation",
+    "id": "MELEE_PERK_COMBAT_TEMPO_2",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Perfect Tempo" },
+    "description": "You gain +15 quickness as long as you have the maximum number of combat tempo stacks.",
+    "flags": "MELEE_PERK_PERFECT_TEMPO",
+    "enchantments": [ "melee_perk_ench_perfect_tempo" ]
+  },
+  {
+    "type": "mutation",
     "id": "MELEE_PERK_TEMPO_SHIFT",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Tempo Shift" },
     "description": "Gain a stack of combat tempo whenever you successfully block an attack.",
     "flags": "MELEE_PERK_TEMPO_SHIFT"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_TEMPO_ASSAULT",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Unrelenting Assault" },
+    "description": "Whenever you kill an enemy in melee, you'll advance into their position and automatically attack an adjacent enemy.  You'll gain a momentum stack if you can normally gain them.",
+    "flags": "MELEE_PERK_TEMPO_ASSAULT"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_TEMPO_ZONING",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Zoning" },
+    "description": "If you have the maximum number of combat tempo stacks, killing an enemy will move you away from any other adjacent enemies.  This movement action will consume all of your combat tempo stacks, and grant you a momentum stack if can normally gain them.",
+    "flags": "MELEE_PERK_TEMPO_ZONING"
   },
   {
     "type": "mutation",

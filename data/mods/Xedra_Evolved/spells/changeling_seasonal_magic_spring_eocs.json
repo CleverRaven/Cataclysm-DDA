@@ -1,0 +1,230 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_MINOR_RESTORE_STAMINA_AND_PAIN",
+    "condition": { "or": [ { "u_is_on_terrain_with_flag": "PLOWABLE" }, { "u_is_on_terrain": "t_forestfloor" } ] },
+    "effect": [
+      { "math": [ "u_pain()", "-=", "rand(2) + 1" ] },
+      {
+        "math": [
+          "u_val('stamina')",
+          "+=",
+          "1000 + ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 30) - (u_skill('deduction') * 25))"
+        ]
+      },
+      { "u_transform_radius": 0, "ter_furn_transform": "ter_changeling_spring_verdant_vitality" }
+    ],
+    "false_effect": [ { "u_message": "You need to be standing on vegetation to drawn on its vitality.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_SUMMON_FLOWER_WARRIORS",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( 30.51 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 5.10) + (u_skill('deduction') * 9.52) ) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( 75.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12.04) + (u_skill('deduction') * 21.85) ) )"
+        ]
+      },
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "changeling_spring_summon_flower_warriors_location" },
+        "range": {
+          "math": [
+            "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.35) + (u_skill('deduction') * 0.65) ) ), 12)"
+          ]
+        },
+        "z_level": true,
+        "message": "Select foliage."
+      },
+      {
+        "if": { "math": [ "has_var(_changeling_spring_summon_flower_warriors_location)" ] },
+        "then": {
+          "if": {
+            "or": [
+              { "map_terrain_with_flag": "PLOWABLE", "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" } },
+              {
+                "map_terrain_with_flag": "TREE",
+                "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" }
+              },
+              {
+                "map_terrain_with_flag": "SHRUB",
+                "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" }
+              },
+              {
+                "map_terrain_with_flag": "YOUNG",
+                "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" }
+              }
+            ]
+          },
+          "then": [
+            {
+              "u_spawn_monster": "mon_fetch_daffodil_warrior_player",
+              "real_count": {
+                "math": [
+                  "min( ( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.3) ) ), 16)"
+                ]
+              },
+              "min_radius": 1,
+              "max_radius": 4,
+              "lifespan": { "math": [ "rng(u_spell_low_duration,u_spell_high_duration) * (global_what_is_the_season == 3 ? 0.6 : 1)" ] },
+              "spawn_message": "The foliage grows and sprouts in a flash and a daffodil warrior steps forth.",
+              "spawn_message_plural": "The foliage grows and sprouts in a flash and a group of daffodil warriors step forth."
+            }
+          ],
+          "else": { "u_message": "You must spin the daffodil warriors out of greenery.", "type": "bad" }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_INITIATE",
+    "condition": "u_is_avatar",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( 846.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 129.52) + (u_skill('deduction') * 185.42) ) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( 1685.24 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 348.15) + (u_skill('deduction') * 498.51) ) )"
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_APPLY_EFFECT",
+            "effect": [
+              {
+                "u_add_effect": "effect_changeling_spring_healing_increase_while_outside",
+                "duration": { "math": [ "rng(u_spell_low_duration,u_spell_high_duration)" ] }
+              },
+              {
+                "if": "u_is_outside",
+                "then": { "u_message": "You feel a warm sensation spread over your entire body.", "type": "good" }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "math": [ "u_spring_magic_spell_count = n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING')" ] },
+      { "math": [ "u_spring_magic_deduction_level = n_skill('deduction')" ] },
+      {
+        "math": [
+          "u_spell_low_duration = ( ( 846.12 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 129.52) + (n_skill('deduction') * 185.42) ) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( 1685.24 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 348.15) + (n_skill('deduction') * 498.51) ) )"
+        ]
+      },
+      { "run_eocs": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_APPLY_EFFECT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE",
+    "condition": { "not": { "is_season": "autumn" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE_REMOVAL",
+            "effect": [
+              {
+                "if": { "math": [ "u_val('sleepiness') >= 1" ] },
+                "then": [
+                  {
+                    "math": [
+                      "u_val('sleepiness')",
+                      "-=",
+                      "(50 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12) ) * rng(0.5,1.5)"
+                    ]
+                  },
+                  { "u_message": "Your tiredness just seems to fall away.", "type": "good" }
+                ]
+              },
+              {
+                "if": { "math": [ "u_val('sleep_deprivation') >= 1" ] },
+                "then": [
+                  {
+                    "math": [
+                      "u_val('sleep_deprivation')",
+                      "-=",
+                      "(100 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 24) ) * rng(0.5,1.5)"
+                    ]
+                  }
+                ]
+              },
+              {
+                "if": { "math": [ "u_val('sleepiness') < 0 " ] },
+                "then": [ { "math": [ "u_val('sleepiness') = 0" ] } ]
+              },
+              {
+                "if": { "math": [ "u_val('sleep_deprivation') < 0 " ] },
+                "then": [ { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": {
+      "if": { "and": [ "u_is_outside", "is_day" ] },
+      "then": { "run_eocs": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE_REMOVAL" },
+      "else": { "u_message": "During the autumn, you must be outdoors and in sunlight to shed your tiredness", "type": "bad" }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_SUMMON_RAIN_SHOWER",
+    "condition": { "and": [ "u_is_outside", { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] } ] },
+    "effect": [
+      {
+        "if": { "math": [ "u_weather_change_limit == 3" ] },
+        "then": [
+          { "u_message": "You unweave the glamour controlling the weather.", "type": "good" },
+          { "math": [ "u_weather_change_limit = 0" ] },
+          { "u_lose_effect": [ "effect_controlling_weather", "effect_controlling_weather_lightningstorm" ] }
+        ],
+        "else": [
+          { "u_lose_effect": "effect_controlling_weather" },
+          { "u_message": "You spin some glamour into the skies.", "type": "good" },
+          { "math": [ "u_weather_change_limit = 3" ] },
+          { "math": [ "u_weather_stage_up_lower_bound = 45 / selkie_has_weather_mastery()" ] },
+          { "math": [ "u_weather_stage_up_upper_bound = 150 / selkie_has_weather_mastery()" ] },
+          { "u_add_effect": "effect_controlling_weather_rains", "duration": "6 hours" },
+          {
+            "math": [
+              "u_spell_low_duration = ( ( 556.53 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 146.77) + (u_skill('deduction') * 267.49) ) ) * selkie_has_weather_mastery()"
+            ]
+          },
+          {
+            "math": [
+              "u_spell_high_duration = ( ( 1256.50 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 205.48) + (u_skill('deduction') * 687.40) ) ) * selkie_has_weather_mastery()"
+            ]
+          },
+          {
+            "u_add_effect": "effect_controlling_weather",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          },
+          {
+            "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+            "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be outside and the temperature must be above freezing to call the rains.", "type": "bad" } ]
+  }
+]

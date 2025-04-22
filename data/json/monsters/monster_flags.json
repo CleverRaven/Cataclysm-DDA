@@ -565,6 +565,16 @@
     "//": "This monster can inflict the vampire_virus effect"
   },
   {
+    "id": "COPY_SUMMONER_LOOK",
+    "type": "monster_flag",
+    "//": "If was summoned by someone, copies the texture of it's summoner."
+  },
+  {
+    "id": "COPY_AVATAR_LOOK",
+    "type": "monster_flag",
+    "//": "Always looks like an avatar (character you play right now)."
+  },
+  {
     "id": "ALWAYS_VISIBLE",
     "type": "monster_flag",
     "//": "This monster can always be seen regardless of los or light or anything"
@@ -643,5 +653,11 @@
     "id": "TEEP_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to telepathic damage/detection"
+  },
+  {
+    "id": "PULP_PRYING",
+    "type": "monster_flag",
+    "//": "This monster has significant armor, and it is much harder to pulp it without a proper tool",
+    "//2": "Rule of thumb: if monster has something like a spine character wants to break, and it is covered by any armor, use this flag"
   }
 ]

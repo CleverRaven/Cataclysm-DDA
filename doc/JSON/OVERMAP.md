@@ -95,7 +95,7 @@ F^^|^^^.^..F.FFF
 
 So for example, the `F` is a forest which has a definition like this:
 
-```json
+```jsonc
 {
     "type": "overmap_terrain",
     "id": "forest",
@@ -107,7 +107,7 @@ So for example, the `F` is a forest which has a definition like this:
 
 and the `^` is a house which has a definition like this:
 
-```json
+```jsonc
 {
     "type": "overmap_terrain",
     "id": "house",
@@ -137,7 +137,7 @@ be placed in a forest/field/river, etc).
 When retiring or migrating an overmap special, the id should be defined in a new `overmap_special_migration`,
 usually defined in `data/json/overmap/overmap_special/overmap_special_migration.json` as follows:
 
-```json
+```jsonc
 {
   "type": "overmap_special_migration",
   "id": "Military Bunker",
@@ -175,7 +175,7 @@ Simply put, an **overmap_location** is just a named collection of **overmap_terr
 
 For example, here are two simple definitions.
 
-```json
+```jsonc
 {
     "type": "overmap_location",
     "id": "forest",
@@ -197,7 +197,7 @@ groups.
 For example, with the addition of a new forest overmap terrain `forest_thick`, we only have to
 update these definitions as follows:
 
-```json
+```jsonc
 {
     "type": "overmap_location",
     "id": "forest",
@@ -283,7 +283,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 A real `overmap_terrain` wouldn't have all these defined at the same time, but in the interest of
 an exhaustive example...
 
-```json
+```jsonc
 {
     "type": "overmap_terrain",
     "id": "field",
@@ -341,7 +341,7 @@ replaced by one of `vague`, `outlines`, or `details`.
 
 ### Example
 
-```json
+```jsonc
 {
   "type": "oter_vision",
   "id": "example_vision",
@@ -486,7 +486,7 @@ Depending on the subtype, there are further relevant fields:
 
 ### Example fixed special
 
-```json
+```jsonc
 [
   {
     "type": "overmap_special",
@@ -530,7 +530,7 @@ Depending on the subtype, there are further relevant fields:
 
 ### Example mutable special
 
-```json
+```jsonc
 [
   {
     "type": "overmap_special",
@@ -625,7 +625,7 @@ consistent with the `north` join for the generated map to make sense.
 Overmaps can also specify connections.  For example, an overmap might be
 defined as:
 
-```json
+```jsonc
 "where_road_connects": {
   "overmap": "road_end_north",
   "west": "parking_lot_to_road",
@@ -704,7 +704,7 @@ A placement rule in the phases can specify multiple overmaps to be placed in a
 particular configuration.  This is useful if you want to place some feature
 that's larger than a single OMT.  Here is an example from the microlab:
 
-```json
+```jsonc
 {
   "name": "subway_chunk_at_-2",
   "chunk": [
@@ -753,14 +753,14 @@ to be considered in addition to the `check_for_locations` constraints. It is an 
 of objects that define a singular location, as well as a `from` and `to` tripoint that
 define the square region of constraints, like this:
 
-```json
+```jsonc
 "check_for_locations_area": [
   { "type": [ "subterranean_empty" ], "from": [ -1, -1, -1 ], "to": [ 1, 1, -1 ] }
 ],
 ```
 For the above, the `check_for_locations_area` field is equivalent to manually adding
 the following constraints to the `check_for_locations` array:
-```json
+```jsonc
 [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
 [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
 [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
@@ -784,7 +784,7 @@ Each join also has an associated list of locations.  This defaults to
 the locations for the special, but it can be overridden for a particular join
 like this:
 
-```json
+```jsonc
 "joins": [
   { "id": "surface_to_surface", "into_locations": [ "land" ] },
   "tunnel_to_tunnel"
@@ -833,7 +833,7 @@ joins.  This feature can also be used in other phases.
 When specifying the joins associated with an overmap in a mutable special, you
 can elaborate with a type, like this example from the [`homeless_camp_mutable`](../data/json/overmap/overmap_mutable/homeless_camp_mutable.json) overmap special:
 
-```json
+```jsonc
 "overmaps": {
       "camp_core": {
         "overmap": "homelesscamp_north",
@@ -879,7 +879,7 @@ subterranean components need different locations.  We could improve the
 definition of its joins by making the join between surface and tunnels
 asymmetric, like this:
 
-```json
+```jsonc
 "joins": [
   { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
   { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
@@ -910,7 +910,7 @@ type of join?  Alternative joins can help us here.
 
 The definition of the `microlab` overmap might look like this:
 
-```json
+```jsonc
 "microlab": {
   "overmap": "microlab_generic",
   "north": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },
@@ -1012,7 +1012,7 @@ by the frequency assigned to the city building within the `region_settings`. Con
 
 ### Example
 
-```json
+```jsonc
 [
   {
     "type": "city_building",
@@ -1048,7 +1048,7 @@ by the frequency assigned to the city building within the `region_settings`. Con
 
 ### Example
 
-```json
+```jsonc
 [
   {
     "type": "overmap_connection",
@@ -1092,7 +1092,7 @@ by the frequency assigned to the city building within the `region_settings`. Con
 
 ### Example
 
-```json
+```jsonc
 [
   {
     "type": "overmap_location",
@@ -1122,7 +1122,7 @@ Note that no random cities would be spawned if there is at least one city define
 
 ### Example
 
-```json
+```jsonc
 {
   {
     "type": "city",

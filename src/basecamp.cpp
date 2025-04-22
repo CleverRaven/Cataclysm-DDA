@@ -19,6 +19,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -28,13 +29,13 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -79,7 +80,7 @@ std::string base_camps::faction_encode_abs( const expansion_data &e, int number 
     return faction_encode_short( e.type ) + std::to_string( number );
 }
 
-std::string base_camps::faction_decode( const std::string_view full_type )
+std::string base_camps::faction_decode( std::string_view full_type )
 {
     if( full_type.size() < ( prefix_len + 2 ) ) {
         return "camp";
@@ -154,7 +155,7 @@ void basecamp::set_by_radio( bool access_by_radio )
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
 // This is legacy support for existing camps; future camps don't use cur_level at all
-expansion_data basecamp::parse_expansion( const std::string_view terrain,
+expansion_data basecamp::parse_expansion( std::string_view terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
@@ -190,7 +191,7 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
     update_resources( bldg );
 }
 
-void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type,
+void basecamp::define_camp( const tripoint_abs_omt &p, std::string_view camp_type,
                             bool player_founded )
 {
     if( player_founded ) {

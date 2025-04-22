@@ -30,7 +30,7 @@ Note that for the default region, all attributes and sections are required.
 
 
 ### Example
-```json
+```jsonc
 {
 	"type": "region_settings",
 	"id": "default",
@@ -57,7 +57,7 @@ regional entry to an actual entry.
 | `furniture` | List of regional furniture and their corresponding weighted lists. |
 
 ### Example
-```json
+```jsonc
 {
 	"region_terrain_and_furniture": {
 		"terrain": {
@@ -103,7 +103,7 @@ cover the `field` overmap terrain.
 | `boosted_other_percent`    | % of `boosted_percent_coverage` that will be covered by `boosted_other`.     |
 
 ### Example
-```json
+```jsonc
 {
 	"field_coverage": {
 		"percent_coverage": 0.9333,
@@ -143,7 +143,7 @@ are interpreted.
 
 ### Example
 
-```json
+```jsonc
 {
 	"overmap_lake_settings": {
 		"noise_threshold_lake": 0.25,
@@ -177,7 +177,7 @@ features are interpreted.
 
 ### Example
 
-```json
+```jsonc
 {
 	"overmap_forest_settings": {
 		"noise_threshold_forest": 0.25,
@@ -203,7 +203,7 @@ At the top level, the `forest_mapgen_settings` is a collection of named configur
 that are not rendered by the forest mapgen, but will be used when blending forest terrains with
 other terrain types.
 
-```json
+```jsonc
 {
 	"forest_mapgen_settings": {
 		"forest": {},
@@ -233,7 +233,7 @@ Each terrain then has an independent set of configuration values that control th
 
 ### Example
 
-```json
+```jsonc
 {
 	"forest": {
 		"terrains" : [ "forest" ],
@@ -271,7 +271,7 @@ for the components are only relevant for the purposes of overriding them in regi
 
 ### Example
 
-```json
+```jsonc
 {
 	"trees": {
 		"sequence": 0,
@@ -337,7 +337,7 @@ water only, while this does.
 
 ### Example
 
-```json
+```jsonc
 {
 	"t_water_sh" : {
 		"chance": 2,
@@ -371,7 +371,7 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 
 ### Example
 
-```json
+```jsonc
 {
 	"forest_trail_settings": {
 		"chance": 2,
@@ -406,7 +406,7 @@ The **overmap_connection_settings** section defines the `overmap_connection_id`s
 
 ### Example
 
-```json
+```jsonc
 {
 	"overmap_connection_settings": {
 		"intra_city_road_connection": "cobbled_road",
@@ -441,7 +441,7 @@ place the shop or park are based on the formula `rng( 0, 99 ) > X_radius * dista
 / city size`.
 
 ### Example
-```json
+```jsonc
 {
 	"city": {
 		"type": "town",
@@ -481,7 +481,7 @@ terrain. This includes both the chance of an extra occurring as well as the weig
 
 ### Example
 
-```json
+```jsonc
 {
 	"map_extras": {
 		"field": {
@@ -514,7 +514,7 @@ The **weather** section defines the base weather attributes used for the region.
 
 ### Example
 
-```json
+```jsonc
 {
 	"weather": {
 		"base_temperature": 6.5,
@@ -546,7 +546,7 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
 
 ### Example
 
-```json
+```jsonc
 {
 	"overmap_feature_flag_settings": {
 		"clear_blacklist": false,
@@ -574,7 +574,7 @@ those values which should be changed.
 All additional fields and sections are as defined for a `region_overlay`.
 
 ### Example
-```json
+```jsonc
 [
 	{
 		"type": "region_overlay",

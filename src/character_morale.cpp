@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -18,6 +19,7 @@
 #include "messages.h"
 #include "morale.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 

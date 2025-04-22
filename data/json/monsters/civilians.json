@@ -31,7 +31,7 @@
     "dissect": "dissect_human_sample_single",
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
+    "upgrades": { "half_life": 4, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
     "zombify_into": "mon_zombie",
@@ -167,7 +167,7 @@
   {
     "id": "mon_civilian_zombiegunner",
     "type": "MONSTER",
-    "name": { "str": "firearmed fighter" },
+    "name": { "str": "armed fighter" },
     "description": "Handgun in hand, this person is determined to make a last stand against the horde.",
     "copy-from": "mon_civilian_panic",
     "chat_topics": [ "TALK_CIVILIAN_GUNNER" ],
@@ -204,7 +204,7 @@
   {
     "id": "mon_civilian_icu",
     "type": "MONSTER",
-    "name": { "str": "hospitalized human" },
+    "name": { "str": "hospitalized person" },
     "description": "This person is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
     "chat_topics": [ "TALK_CIVILIAN_ICU" ],
     "speed": 0,
@@ -218,7 +218,7 @@
   {
     "id": "mon_civilian_parent",
     "type": "MONSTER",
-    "name": { "str": "gawky guardian" },
+    "name": { "str": "terrified parent" },
     "special_attacks": [ [ "PARROT", 0 ] ],
     "description": "Obsessed with finding their offspring, they scour the environment for certain death.",
     "chat_topics": [ "TALK_CIVILIAN_PARENT" ],
@@ -241,29 +241,29 @@
     "//": "Used for deduplication only, so one does not have to repeat the same standard ratio over and over again",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_zombiegunner", "weight": 12, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_police_rifle", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
-      { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
+      { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_zombiegunner", "weight": 12, "cost_multiplier": 0, "ends": "12 days" },
+      { "monster": "mon_civilian_police_rifle", "weight": 4, "cost_multiplier": 3, "ends": "12 days" },
+      { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "12 days" },
       {
         "monster": "mon_civilian_parent",
         "weight": 20,
         "cost_multiplier": 0,
-        "ends": "2 days",
+        "ends": "8 days",
         "pack_size": [ 1, 2 ]
       },
-      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days", "ends": "4 days" },
-      { "monster": "mon_civilian_panic", "weight": 40, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
+      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "8 days", "ends": "16 days" },
+      { "monster": "mon_civilian_panic", "weight": 40, "cost_multiplier": 0, "ends": "8 days", "pack_size": [ 1, 5 ] },
       {
         "monster": "mon_civilian_panic",
         "weight": 60,
         "cost_multiplier": 0,
-        "starts": "2 days",
-        "ends": "4 days",
+        "starts": "8 days",
+        "ends": "16 days",
         "pack_size": [ 1, 2 ]
       },
-      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "starts": "4 days", "ends": "6 days" }
+      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "starts": "16 days", "ends": "24 days" }
     ]
   }
 ]

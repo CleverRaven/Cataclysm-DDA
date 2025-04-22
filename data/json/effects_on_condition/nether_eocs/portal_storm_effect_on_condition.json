@@ -2,19 +2,16 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_strong_portal_storm_base",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": { "math": [ "ps_base_str = 10" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_strong_portal_storm",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "math": [ "ps_base_str = 15" ] }, { "run_eocs": "EOC_CAUSE_PORTAL_STORM" }, { "math": [ "ps_base_str = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_quick_portal_storm",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "math": [ "ps_min_woc = time(' 1 d')" ] }, { "math": [ "ps_max_woc = time(' 2 d')" ] } ]
   },
   {
@@ -894,7 +891,7 @@
         "i18n": true
       },
       {
-        "place_override": { "global_val": "place_name", "default_str": "Error" },
+        "place_override": { "global_val": "place_name", "default": "Error" },
         "key": "portal_dungeon",
         "length": "infinite"
       },
@@ -911,7 +908,7 @@
       { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
-      { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
+      { "u_message": { "global_val": "portal_storm_voice_mood", "default": "none" }, "snippet": true }
     ]
   },
   {
@@ -924,7 +921,7 @@
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "capture_generic_nre_anomaly" ] },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_message": "Weren't you just here?  It feels thicker somehow though." },
-      { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
+      { "u_message": { "global_val": "portal_storm_voice_mood", "default": "none" }, "snippet": true }
     ]
   },
   {
@@ -953,7 +950,7 @@
       ]
     },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength", "default": 0 },
+      "switch": { "global_val": "portal_dungeon_reflect_strength", "default": 0 },
       "cases": [
         {
           "case": 0,
@@ -1035,7 +1032,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD",
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "switch": { "global_val": "portal_dungeon_level" },
       "cases": [
         {
           "case": 2,

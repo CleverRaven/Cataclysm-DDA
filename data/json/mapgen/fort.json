@@ -327,7 +327,7 @@
         }
       },
       "nested": { ".": { "chunks": [ [ "fort_zombie", 8 ], [ "null", 1058 ] ] } },
-      "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 }, "Q": { "vehicle": "cannon_3in_plugged", "chance": 100 } }
+      "vehicles": { "U": { "vehicle": "cannon_3in" }, "Q": { "vehicle": "cannon_3in_plugged" } }
     }
   }
 ]

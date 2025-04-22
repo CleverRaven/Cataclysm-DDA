@@ -90,6 +90,7 @@
     "type": "MAGAZINE",
     "name": { "str": "rifle clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten rifle rounds into a magazine.",
+    "ammo_type": [ "ammo_rifle" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle": 10 } } ]
   }
 ]

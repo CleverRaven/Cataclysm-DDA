@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -30,7 +30,7 @@
 #include "item_location.h"
 #include "localized_comparator.h"
 #include "make_static.h"
-#include "npc.h"
+#include "map.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -39,8 +39,8 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
@@ -212,6 +212,8 @@ char get_free_invlet( Character &p )
 static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
                                    bionic_menu_mode mode )
 {
+    map &here = get_map();
+
     input_context ctxt( "BIONICS", keyboard_mode::keychar );
 
     werase( window );
@@ -221,7 +223,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const item *fuel_source : p->get_bionic_fuels( bio.id ) ) {
             const item *fuel;
-            if( fuel_source->ammo_remaining() ) {
+            if( fuel_source->ammo_remaining( ) ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = *fuel_source->all_items_top().begin();
@@ -236,7 +238,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
     }
     for( vehicle *veh : p->get_cable_vehicle() ) {
-        int64_t charges = veh->connected_battery_power_level().first;
+        int64_t charges = veh->connected_battery_power_level( here ).first;
         if( charges > 0 ) {
             found_fuel = true;
             fuel_string += item( itype_battery ).tname() + ": " + colorize( std::to_string( charges ),
@@ -572,6 +574,9 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
 
 void avatar::power_bionics()
 {
+    // Required because available power includes electricity via cables.
+    const map &here = get_map();
+
     sorted_bionics passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
     sorted_bionics active = filtered_bionics( *my_bionics, TAB_ACTIVE );
     bionic *bio_last = nullptr;
@@ -988,7 +993,7 @@ void avatar::power_bionics()
                             } else {
                                 activate_bionic( bio, false, &close_ui );
                                 // Exit this ui if we are firing a complex bionic
-                                if( close_ui && tmp->get_weapon().shots_remaining( this ) > 0 ) {
+                                if( close_ui && tmp->get_weapon().shots_remaining( here, this ) > 0 ) {
                                     break;
                                 }
                             }

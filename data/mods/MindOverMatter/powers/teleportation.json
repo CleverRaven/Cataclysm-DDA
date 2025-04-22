@@ -3,8 +3,32 @@
     "id": "teleport_blink",
     "type": "SPELL",
     "name": "[Ψ]Blink",
-    "description": "Step briefly into the void between dimensions and emerge at a random nearby location.",
-    "message": "You vanish and reappear nearby.",
+    "description": "Step briefly into the void between dimensions and emerge at a random nearby location.\n\nThe power <color_red>will fail</color> if the volume of your carried gear is too great.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_BLINK_INITIATE",
+    "shape": "blast",
+    "base_energy_cost": 900,
+    "final_energy_cost": 350,
+    "energy_increment": -55,
+    "base_casting_time": 50,
+    "final_casting_time": 5,
+    "casting_time_increment": -3.5
+  },
+  {
+    "id": "teleport_blink_real",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Blink", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that blinks you.  You should not see this", "//~": "NO_I18N" },
+    "message": "",
     "teachable": false,
     "valid_targets": [ "none" ],
     "spell_class": "TELEPORTER",
@@ -17,16 +41,9 @@
     "shape": "blast",
     "min_aoe": 1,
     "max_aoe": 5,
-    "aoe_increment": 0.25,
     "min_range": 5,
     "max_range": 15,
-    "range_increment": 1,
-    "base_energy_cost": 900,
-    "final_energy_cost": 350,
-    "energy_increment": -55,
-    "base_casting_time": 50,
-    "final_casting_time": 5,
-    "casting_time_increment": -3.5
+    "range_increment": 1
   },
   {
     "id": "teleport_slow",
@@ -102,41 +119,34 @@
     "casting_time_increment": -3
   },
   {
-    "id": "teleport_ephemeral_walk",
+    "id": "teleport_item_apport",
     "type": "SPELL",
-    "name": "[Ψ]Ephemeral Walk (C)",
-    "description": "By moving slightly into the void between dimensions, you can exist in a state that allows effortless travel through obstacles.",
+    "name": "[Ψ]Apportation",
+    "description": "Rather than teleporting yourself, you could teleport an item you're holding somewhere nearby without having to follow it to its destination.\n\nItems that are <color_yellow>too large</color> cannot be apported.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "difficulty": 6,
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
+    "effect_str": "EOC_TELEPORT_ITEM_APPORT",
     "shape": "blast",
-    "min_duration": {
+    "min_range": {
       "math": [
-        "( (u_spell_level('teleport_ephemeral_walk') * 1000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( (( (u_spell_level('teleport_item_appport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
       ]
     },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "base_energy_cost": {
-      "math": [
-        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
-      ]
-    },
-    "base_casting_time": {
-      "math": [
-        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 10 : max((85 -(u_spell_level('teleport_ephemeral_walk') * 7)), 25)"
-      ]
-    }
+    "max_range": 80,
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1250,
+    "energy_increment": -65,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -7.5
   },
   {
     "id": "teleport_stride",
@@ -208,8 +218,8 @@
     "id": "teleport_displacement",
     "type": "SPELL",
     "name": "[Ψ]Displacement",
-    "description": "With a touch, you can send your target through the void to re-emerge somewhere nearby, further away from you.",
-    "message": "You touch your target and they are suddenly somewhere else.",
+    "description": "With a touch, you can send your target through the void to re-emerge somewhere nearby, further away from you.  Targets that are <color_yellow>too large</color> cannot be displaced.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "spell_class": "TELEPORTER",
@@ -218,11 +228,9 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_DISPLACEMENT_CHECK",
     "shape": "blast",
-    "damage_type": "psi_teleporter_teleporting_damage",
-    "min_damage": 1,
-    "max_damage": 1,
     "min_range": 1,
     "base_energy_cost": 4000,
     "final_energy_cost": 1750,
@@ -281,9 +289,9 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 0,
     "max_level": 0,
-    "effect": "attack",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_DISPLACEMENT_CHECK",
     "shape": "blast",
-    "damage_type": "psi_teleporter_teleporting_damage",
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 1,
@@ -594,36 +602,155 @@
     }
   },
   {
+    "id": "teleport_relocation",
+    "type": "SPELL",
+    "name": "[Ψ]Relocation",
+    "description": "Transport items in your hands through the Nether to an attuned location.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_RELOCATION_PRE_CHECK",
+    "shape": "blast",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 3500,
+    "energy_increment": -100,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_warped_strikes",
+    "type": "SPELL",
+    "name": "[Ψ]Warped Strikes (C)",
+    "description": "By warping space as you attack, you can allow your melee attacks to reach much further than normal.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_WARPED_STRIKES_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_warped_strikes') * 1000 ) + 3000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_warped_strikes') * 3000 ) + 30000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 0 : max( 4000 - ( u_spell_level('teleport_warped_strikes') * 100 ), 2000 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 10 : max( 80 - ( u_spell_level('teleport_warped_strikes') * 3 ), 20 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_ephemeral_walk",
+    "type": "SPELL",
+    "name": "[Ψ]Ephemeral Walk (C)",
+    "description": "By moving slightly into the void between dimensions, you can exist in a state that allows effortless travel through obstacles.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 1000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 10 : max((85 -(u_spell_level('teleport_ephemeral_walk') * 7)), 25)"
+      ]
+    }
+  },
+  {
     "id": "teleport_farstep",
     "type": "SPELL",
     "name": "[Ψ]Farstep",
-    "description": "Skating along the void between dimensions, move to a specific place nearby.",
-    "message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
+    "description": "Skating along the void between dimensions, move to a specific place nearby.\n\nThe power <color_red>will fail</color> if the volume of your carried gear is too great.",
+    "message": "",
     "teachable": false,
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "short_range_teleport",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_FARSTEP_INITIATE",
     "shape": "blast",
-    "min_aoe": 4,
-    "max_aoe": 1,
-    "aoe_increment": -0.2,
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('teleport_farstep') * 2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
-      ]
-    },
-    "max_range": 80,
     "base_energy_cost": 6500,
     "final_energy_cost": 2750,
     "energy_increment": -105,
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -3
+  },
+  {
+    "id": "teleport_farstep_real",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Farstep Real", "//": "NO_I18N" },
+    "description": {
+      "str": "The actual farstep power, after checking the volume of your goods.  You shouldn't see this.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": { "math": [ "min( ( (u_spell_level('teleport_farstep') * -0.2) + 4), 1)" ] },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_farstep') * 2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80
   },
   {
     "id": "teleport_banish",
@@ -664,24 +791,6 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "ignored_monster_species": [ "PSI_NULL" ]
-  },
-  {
-    "id": "teleport_banish_self_target",
-    "type": "SPELL",
-    "name": { "str": "Oubliette Self", "//~": "NO_I18N" },
-    "description": { "str": "This is the banishment that the target casts on themselves.", "//~": "NO_I18N" },
-    "valid_targets": [ "self" ],
-    "skill": "metaphysics",
-    "flags": [ "PSIONC", "SILENT", "RANDOM_DAMAGE" ],
-    "effect": "banishment",
-    "shape": "blast",
-    "spell_class": "TELEPORTER",
-    "teachable": false,
-    "min_damage": { "math": [ "u_psi_teleporter_damage" ] },
-    "max_damage": { "math": [ "u_psi_teleporter_damage" ] },
-    "min_range": 0,
-    "max_range": 0,
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
@@ -749,7 +858,7 @@
     "id": "teleport_gateway",
     "type": "SPELL",
     "name": "[Ψ]Gateway",
-    "description": "Transport yourself through the Nether to an attuned location.  You must attune yourself to the place you wish to travel to.",
+    "description": "Transport yourself through the Nether to an attuned location.  You must attune yourself to the place you wish to travel to.\n\nThe power <color_red>will fail</color> if the volume of your carried gear is too great.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -861,6 +970,79 @@
     "final_casting_time": 125,
     "ignored_monster_species": [ "PSI_NULL" ],
     "casting_time_increment": -6.5
+  },
+  {
+    "id": "teleport_warper_combat",
+    "type": "SPELL",
+    "name": "[Ψ]Flickerflash Stance",
+    "description": "Through constant contraction and expansion of nearby space, as well as near-constant micro-teleports less than decimeter in distance, you can increase the effective momentum behind your strikes, make your exact position nearly impossible to determine, and your blows nearly impossible to stop.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_WARPER_COMBAT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_warper_combat') * 350) + 2300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_warper_combat') * 1400) + 9700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_warper_combat') > -1 ? 0 : max( ( 7500 - ( u_spell_level('teleport_warper_combat') * 225 ) ), 4500 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_warper_combat') > -1 ? 10 : max( ( 75 - ( u_spell_level('teleport_warper_combat') * 4 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_warper_combat_warp_chance_attacker",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Flickerflash Stance Attacker Warp Chance", "//~": "NO_I18N" },
+    "description": { "str": "Chance to teleport when attacking a target", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": { "math": [ "1 + u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 2 : 0" ] },
+    "max_aoe": { "math": [ "1 + u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 2 : 0" ] },
+    "min_range": 4
+  },
+  {
+    "id": "teleport_warper_combat_warp_chance_attacked",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Flickerflash Stance Attacked Warp Chance", "//~": "NO_I18N" },
+    "description": { "str": "Chance to teleport when being attacked by a target", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": 2
   },
   {
     "id": "teleport_reality_tear",

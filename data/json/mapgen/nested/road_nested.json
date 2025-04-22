@@ -176,6 +176,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_stop_signs",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "//": "Could merge with crosswalks so they're not independant, places traffic light on right of joining roads",
+      "place_nested": [
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 3,
+          "y": 3,
+          "neighbors": { "north": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 20,
+          "y": 3,
+          "neighbors": { "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 20,
+          "y": 20,
+          "neighbors": { "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "chunks": [ "1x1_stop_sign" ],
+          "x": 3,
+          "y": 20,
+          "neighbors": { "west": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_traffic_lights_rotary",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -271,6 +306,17 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "T" ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_stop_sign",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "S" ],
       "palettes": [ "road_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -795,8 +841,8 @@
       "palettes": [ "road_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_vehicles": [
-        { "vehicle": "food_carts", "x": 5, "y": 5, "fuel": -1, "status": -1, "chance": 100, "rotation": 0 },
-        { "vehicle": "food_carts", "x": 5, "y": 7, "fuel": -1, "status": -1, "chance": 100, "rotation": 0 }
+        { "vehicle": "food_carts", "x": 5, "y": 5, "fuel": -1, "status": -1, "rotation": 0 },
+        { "vehicle": "food_carts", "x": 5, "y": 7, "fuel": -1, "status": -1, "rotation": 0 }
       ]
     }
   },

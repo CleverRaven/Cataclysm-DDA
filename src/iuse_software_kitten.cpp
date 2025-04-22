@@ -11,9 +11,11 @@
 #include "cuboid_rectangle.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
 #include "rng.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui_manager.h"
 

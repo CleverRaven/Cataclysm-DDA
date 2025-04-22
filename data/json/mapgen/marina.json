@@ -170,9 +170,10 @@
         "f": { "item": "SUS_fridge", "chance": 80 },
         "e": { "item": "novels", "chance": 70, "repeat": [ 2, 4 ] },
         "o": { "item": "SUS_oven", "chance": 100 },
-        "d": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
-        "q": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
-        "Q": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] }
+        "d": { "item": "SUS_trash_floor_light", "chance": 50, "repeat": [ 2, 3 ] },
+        "q": { "item": "SUS_trash_floor_light", "chance": 50, "repeat": [ 2, 3 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 },
+        "Q": { "item": "SUS_trash_floor_light", "chance": 50, "repeat": [ 2, 3 ] }
       },
       "place_item": [ { "item": "laptop", "x": 18, "y": 61, "chance": 80 } ],
       "place_loot": [

@@ -1,25 +1,27 @@
 #include "weather_gen.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
+#include <memory>
 #include <ostream>
 #include <random>
 #include <string>
-#include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
-#include "condition.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "math_defines.h"
+#include "pimpl.h"
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
-#include "translations.h"
+#include "talker.h"
+#include "translation.h"
 #include "weather.h"
 #include "weather_type.h"
 
@@ -194,10 +196,10 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
     const weather_manager &game_weather = get_weather_const();
     w_point original_weather_precise = *game_weather.weather_precise;
     *game_weather.weather_precise = w;
-    std::unordered_map<std::string, std::string> context;
-    context["weather_location"] = w.location.to_string();
     weather_type_id current_conditions = WEATHER_CLEAR;
-    dialogue d( get_talker_for( get_avatar() ), nullptr, {}, context );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    d.set_value( "weather_location", w.location );
+
     for( const weather_type_id &type : sorted_weather ) {
         bool required_weather = type->required_weathers.empty();
         if( !required_weather ) {

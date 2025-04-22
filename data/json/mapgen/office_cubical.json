@@ -65,12 +65,13 @@
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 20 },
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "R": { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
-        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] }
+        "a": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
+        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } }
     }
   },
   {
@@ -194,12 +195,13 @@
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 20 },
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
-        "R": { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
-        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] }
+        "a": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
+        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } }
     }
   },
   {

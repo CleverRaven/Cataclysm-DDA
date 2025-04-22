@@ -36,7 +36,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_dusted",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -110,7 +110,7 @@
       { "id": "scratch_humanoid", "attack_upper": false }
     ],
     "fungalize_into": "mon_zombie_crawler_dusted",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "extend": { "flags": [ "ATTACK_LOWER", "GEN_DORMANT" ] },
     "delete": { "flags": [ "PUSH_MON" ] }
   },
@@ -127,7 +127,7 @@
     "melee_skill": 3,
     "melee_dice_sides": 4,
     "fungalize_into": "mon_zombie_fat_dusted",
-    "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_FAT" },
+    "upgrades": { "half_life": 128, "into_group": "GROUP_ZOMBIE_FAT" },
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ], "flags": [ "GEN_DORMANT" ] }
   },
@@ -143,7 +143,7 @@
     "//grab": "Slightly stronger, but can't bite because of the gear.",
     "grab_strength": 30,
     "death_drops": "mon_zombie_fireman_death_drops",
-    "upgrades": { "half_life": 32, "into": "mon_zombie_nomex" },
+    "upgrades": { "half_life": 128, "into": "mon_zombie_nomex" },
     "armor": { "bash": 6, "cut": 6, "acid": 3, "heat": 10, "bullet": 5, "electric": 4 },
     "extend": {
       "weakpoint_sets": [ "wps_humanoid_turnout_gear", "wps_humanoid_full_helmet" ],
@@ -187,7 +187,7 @@
     "melee_dice_sides": 2,
     "grab_strength": 15,
     "fungalize_into": "mon_zombie_rot_dusted",
-    "upgrades": { "half_life": 43, "into": "mon_devourer" },
+    "upgrades": { "half_life": 172, "into": "mon_devourer" },
     "extend": { "flags": [ "GEN_DORMANT" ] }
   },
   {
@@ -201,7 +201,7 @@
     "melee_dice_sides": 5,
     "grab_strength": 30,
     "death_drops": "mon_zombie_swat_death_drops",
-    "upgrades": { "half_life": 38, "into": "mon_zombie_kevlar_0" },
+    "upgrades": { "half_life": 152, "into": "mon_zombie_kevlar_0" },
     "armor": { "bash": 10, "cut": 16, "bullet": 18, "electric": 3 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] },
     "delete": { "special_attacks": [ "bite_humanoid" ] }
@@ -235,7 +235,7 @@
     "description": "This zombie is rather sleek and scantily clothed.",
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_dancer_death_drops"
   },
   {

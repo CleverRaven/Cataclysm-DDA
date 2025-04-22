@@ -1,11 +1,22 @@
-#include "cata_assert.h"
+#include <algorithm>
+#include <cstddef>
+#include <exception>
+#include <functional>
+#include <limits>
+#include <memory>
+#include <ostream>
+#include <tuple>
+#include <utility>
+
 #include "cached_options.h"
+#include "cata_assert.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "line.h"
+#include "game_constants.h"
 #include "map_memory.h"
 #include "path_info.h"
 #include "string_formatter.h"
@@ -101,12 +112,12 @@ const std::string &memorized_tile::get_dec_id() const
     return dec_id;
 }
 
-void memorized_tile::set_ter_id( const std::string_view id )
+void memorized_tile::set_ter_id( std::string_view id )
 {
     ter_id = ter_str_id( id );
 }
 
-void memorized_tile::set_dec_id( const std::string_view id )
+void memorized_tile::set_dec_id( std::string_view id )
 {
     dec_id = id;
 }
@@ -199,7 +210,7 @@ const memorized_tile &map_memory::get_tile( const tripoint_abs_ms &pos ) const
     return sm.get_tile( p.loc );
 }
 
-void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, const std::string_view id,
+void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, std::string_view id,
                                    int subtile, int rotation )
 {
     const coord_pair p( pos );
@@ -214,7 +225,7 @@ void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, const std::string
     sm.set_tile( p.loc, mt );
 }
 
-void map_memory::set_tile_decoration( const tripoint_abs_ms &pos, const std::string_view id,
+void map_memory::set_tile_decoration( const tripoint_abs_ms &pos, std::string_view id,
                                       int subtile, int rotation )
 {
     const coord_pair p( pos );

@@ -13,7 +13,7 @@
     "decay": "zombie_decay_bone_human_skull_rust",
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_FERROUS_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_FERROUS_UPGRADE" },
     "armor": { "bash": 1, "cut": 2, "stab": 1 }
   },
   {
@@ -33,9 +33,9 @@
     "decay": "zombie_decay_bone_human_skull_rust",
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched_rust",
-    "upgrades": { "half_life": 30, "into": "mon_zombie_plated" },
+    "upgrades": { "half_life": 120, "into": "mon_zombie_plated" },
     "armor": { "bash": 14, "cut": 14, "stab": 14, "bullet": 14 },
-    "extend": { "weakpoint_sets": [ "wps_metal_shell_armor" ], "families": [ "prof_wp_nat_armored" ] }
+    "extend": { "weakpoint_sets": [ "wps_metal_shell_armor" ], "families": [ "prof_wp_nat_armored" ], "flags": [ "PULP_PRYING" ] }
   },
   {
     "id": "mon_zombie_plated",
@@ -59,7 +59,11 @@
     "burn_into": "mon_zombie_scorched_rust",
     "upgrades": false,
     "armor": { "bash": 18, "cut": 18, "stab": 18, "bullet": 18 },
-    "extend": { "flags": [ "SMELLS" ], "weakpoint_sets": [ "wps_metal_shell_armor" ], "families": [ "prof_wp_nat_armored" ] }
+    "extend": {
+      "flags": [ "SMELLS", "PULP_PRYING" ],
+      "weakpoint_sets": [ "wps_metal_shell_armor" ],
+      "families": [ "prof_wp_nat_armored" ]
+    }
   },
   {
     "id": "mon_zombie_urchin",

@@ -421,7 +421,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road2" ],
       "place_vehicles": [
-        { "vehicle": "farm_horse_vehicles", "x": [ 8, 9 ], "y": [ 9, 14 ], "rotation": 270, "status": 0, "chance": 100 },
+        { "vehicle": "farm_horse_vehicles", "x": [ 8, 9 ], "y": [ 9, 14 ], "rotation": 270, "status": 0 },
         {
           "vehicle": "farm_horse_vehicles",
           "x": [ 14, 15 ],

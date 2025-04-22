@@ -61,7 +61,8 @@
           { "item": "homebooks", "chance": 2, "repeat": [ 1, 2 ] },
           { "item": "softdrugs", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "home_hw", "chance": 5, "repeat": [ 1, 2 ] }
-        ]
+        ],
+        "4": { "item": "SUS_toilet", "chance": 50 }
       },
       "toilets": { "4": {  } },
       "place_items": [

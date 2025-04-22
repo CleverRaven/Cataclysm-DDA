@@ -2,9 +2,12 @@
 #ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 #define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "martialarts.h"
 #include "type_id.h"
 

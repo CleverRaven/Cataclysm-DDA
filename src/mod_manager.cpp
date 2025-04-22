@@ -1,18 +1,19 @@
 #include "mod_manager.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <functional>
 #include <iterator>
 #include <memory>
 #include <ostream>
 #include <queue>
-#include <type_traits>
 
 #include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "path_info.h"
@@ -283,6 +284,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     assign( jo, "description", modfile.description );
     assign( jo, "version", modfile.version );
     assign( jo, "dependencies", modfile.dependencies );
+    assign( jo, "conflicts", modfile.conflicts );
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
     assign( jo, "loading_images", modfile.loading_images );
@@ -303,6 +305,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         json.start_object();
         json.member( "type", "MOD_INFO" );
         json.member( "id", "user:default" );
+        json.member( "conflicts", std::vector<std::string>() );
         json.member( "dependencies" );
         json.write( mods );
         json.end_object();

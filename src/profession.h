@@ -2,27 +2,27 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
-#include <iosfwd>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "addiction.h"
+#include "mutation.h"
 #include "ret_val.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
+class Character;
 class JsonObject;
-class addiction;
 class avatar;
 class item;
-class Character;
 template<typename T>
 class generic_factory;
-
-struct trait_and_var;
 
 class profession
 {
@@ -54,6 +54,7 @@ class profession
         translation _description_male;
         translation _description_female;
         signed int _point_cost = 0;
+        std::optional<signed int> _starting_cash = std::nullopt;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
         itypedecvec legacy_starting_items;
@@ -117,6 +118,7 @@ class profession
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
+        std::optional<signed int> starting_cash() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         vproto_id vehicle() const;

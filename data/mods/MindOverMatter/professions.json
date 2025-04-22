@@ -364,6 +364,7 @@
     "spells": [
       { "id": "teleport_blink", "level": 7 },
       { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_item_apport", "level": 7 },
       { "id": "teleport_displacement", "level": 5 },
       { "id": "teleport_stride", "level": 8 },
       { "id": "teleport_phase", "level": 11 },
@@ -377,11 +378,10 @@
       "practice_teleport_stride",
       "practice_teleport_farstep"
     ],
-    "proficiencies": [ "prof_concentration_basic", "prof_contemplation_teleportation" ],
+    "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate", "prof_contemplation_teleportation" ],
     "items": {
       "both": {
         "entries": [
-          { "item": "wristwatch" },
           { "item": "itzcuauhtli_pants" },
           { "item": "itzcuauhtli_tunic" },
           { "item": "socks" },
@@ -389,6 +389,7 @@
           { "item": "itzcuauhtli_cape" },
           { "item": "itzcuauhtli_hat" },
           { "item": "itzcuauhtli_holster" },
+          { "item": "itzcuauhtli_wrist_computer", "charges": [ 7000, 10000 ] },
           { "item": "matrix_crystal_teleportation" },
           { "item": "mom_fusion_pistol" },
           { "item": "mom_fusion_mag", "ammo-item": "mom_fusion_ammo", "charges": 40 }

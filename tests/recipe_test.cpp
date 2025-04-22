@@ -1,10 +1,13 @@
 #include <sstream>
 #include <string>
+#include <unordered_map>
+#include <utility>
 
+#include "build_reqs.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "character.h"
 #include "json.h"
+#include "mapgendata.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "type_id.h"

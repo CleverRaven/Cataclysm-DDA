@@ -1,24 +1,36 @@
 #include "itype.h"
 
-#include <cstdlib>
+#include <algorithm>
+#include <cmath>
+#include <iterator>
 #include <utility>
 
 #include "ammo.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "make_static.h"
+#include "map.h"
+#include "material.h"
 #include "recipe.h"
+#include "requirements.h"
 #include "ret_val.h"
+#include "subbodypart.h"
 #include "translations.h"
-
-struct tripoint;
 
 std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.
     return _( _id );
+}
+
+void gun_modifier_data::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "name", name_ );
+    mandatory( jo, false, "amount", qty_ );
+    optional( jo, false, "flags", flags_ );
 }
 
 std::string islot_book::recipe_with_description_t::name() const
@@ -113,7 +125,7 @@ int itype::damage_level( int damage ) const
     return std::clamp( 1 + 4 * damage / damage_max(), 0, 5 );
 }
 
-bool itype::has_any_quality( const std::string_view quality ) const
+bool itype::has_any_quality( std::string_view quality ) const
 {
     return std::any_of( qualities.begin(),
     qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
@@ -194,17 +206,29 @@ int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
 
 std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
+    return itype::invoke( p, it, &get_map(), pos );
+}
+
+std::optional<int> itype::invoke( Character *p, item &it, map *here,
+                                  const tripoint_bub_ms &pos ) const
+{
     if( !has_use() ) {
         return 0;
     }
     if( use_methods.find( "transform" ) != use_methods.end() ) {
-        return invoke( p, it, pos, "transform" );
+        return invoke( p, it, here, pos, "transform" );
     } else {
-        return invoke( p, it, pos, use_methods.begin()->first );
+        return invoke( p, it, here, pos, use_methods.begin()->first );
     }
 }
 
 std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos,
+                                  const std::string &iuse_name ) const
+{
+    return itype::invoke( p, it, &get_map(), pos, iuse_name );
+}
+
+std::optional<int> itype::invoke( Character *p, item &it, map *here, const tripoint_bub_ms &pos,
                                   const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
@@ -214,7 +238,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms 
         return 0;
     }
     if( p ) {
-        const auto ret = use->can_call( *p, it, pos );
+        const auto ret = use->can_call( *p, it, here, pos );
 
         if( !ret.success() ) {
             p->add_msg_if_player( m_info, ret.str() );
@@ -222,7 +246,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms 
         }
     }
 
-    return use->call( p, it, pos );
+    return use->call( p, it, here, pos );
 }
 
 std::string gun_type_type::name() const
@@ -436,4 +460,49 @@ int islot_ammo::dispersion_considering_length( units::length barrel_length ) con
                                   static_cast<float>( b.dispersion_modifier ) );
     }
     return multi_lerp( lerp_points, barrel_length.value() ) + dispersion;
+}
+
+bool item_melee_damage::handle_proportional( const JsonValue &jval )
+{
+    if( jval.test_object() ) {
+        item_melee_damage rhs;
+        rhs.default_value = 1.0f;
+        rhs.deserialize( jval.get_object() );
+        for( const std::pair<const damage_type_id, float> &dt : rhs.damage_map ) {
+            const auto iter = damage_map.find( dt.first );
+            if( iter != damage_map.end() ) {
+                iter->second *= dt.second;
+                // For maintaining legacy behaviour (when melee damage used ints)
+                iter->second = std::floor( iter->second );
+            }
+        }
+        return true;
+    }
+    jval.throw_error( "invalid damage map for item melee damage" );
+    return false;
+}
+
+item_melee_damage &item_melee_damage::operator+=( const item_melee_damage &rhs )
+{
+    for( const std::pair<const damage_type_id, float> &dt : rhs.damage_map ) {
+        const auto iter = damage_map.find( dt.first );
+        if( iter != damage_map.end() ) {
+            iter->second += dt.second;
+            // For maintaining legacy behaviour (when melee damage used ints)
+            iter->second = std::floor( iter->second );
+        }
+    }
+    return *this;
+}
+
+void item_melee_damage::finalize()
+{
+    finalize_damage_map( damage_map, false, default_value );
+}
+
+void item_melee_damage::deserialize( const JsonObject &jo )
+{
+    damage_map = load_damage_map( jo );
+    //we can do this because items are always loaded after damage types
+    finalize();
 }

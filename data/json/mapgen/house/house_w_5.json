@@ -6,39 +6,46 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...$....ssG......ss.ss..",
-        ".$...MCssssCM..$.ss.ss..",
-        "....MssssssssM...ss.ssu.",
-        "..##oo##*####o###xxxxx##",
-        "..#5      |y7  #~~~~~~u#",
+        "...[....``G......``.``..",
+        ".[...%µ````µ%..[.``.``..",
+        "....%````````%...``.``u.",
+        "..##oo##*####o###£££££##",
+        "..#è      |yà  #~~~~~~u#",
         "..#            #~~~~~~U#",
         "..#        Y   #~~~~~~~o",
         "..#       |||||#~~~~~~U#",
         "..#       +w|>w#~~~~~~~o",
         "..#|||||  |||+|#~~~~~~U#",
-        "..#4           *~~~~~UU#",
-        ".Mo      ||||||##~#o####",
-        ".po      | 1   #sssssss.",
-        ".Mo      |     oMsp$pss.",
-        ".^#      |     opssssss.",
+        "..#é           *~~~~~UU#",
+        ".%o      ||||||##~#o####",
+        ".po      | &   #```````.",
+        ".%o      |     o%`p[p``.",
+        ".^#      |     op``````.",
         "### |||  |     #........",
-        "#lK      |+|||+#........",
-        "oK   J|    |O|O#........",
-        "on   i||+|+|+||#........",
-        "#K Jy |t |6    #........",
-        "#| || |T |   3 o........",
-        "#QLQ| |Tj|     #........",
+        "#F1      |+|||+#........",
+        "o2   1|    |D|D#........",
+        "o5   O||+|+|+||#........",
+        "#3 4y |t |ç    #........",
+        "#| || |B |   § o........",
+        "#6s6| |Bi|     #........",
         "##o##*##o###o###........",
-        "..M.ssss................"
+        "..%.````................"
       ],
-      "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "U": "t_thconc_floor" },
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
+      "terrain": {
+        "µ": "t_column",
+        "£": "t_door_metal_locked",
+        "U": "t_thconc_floor",
+        "~": "t_thconc_floor",
+        "ù": "t_region_groundcover_urban"
+      },
+      "furniture": { "ù": "f_region_weed" },
       "place_vehicles": [
         { "vehicle": "showroom_small_vehicles", "x": 17, "y": 7, "rotation": 270, "chance": 20, "status": 0 },
         { "vehicle": "showroom_small_vehicles", "x": 19, "y": 7, "rotation": 270, "chance": 20, "status": 0 }
       ],
       "nested": {
-        "1": {
+        "&": {
           "chunks": [
             [ "bedroom_4x4_adult_1_E", 20 ],
             [ "bedroom_4x4_adult_1_N", 20 ],
@@ -46,11 +53,11 @@
             [ "bedroom_4x4_adult_2_N", 20 ]
           ]
         },
-        "4": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
-        "3": {
+        "é": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
+        "§": {
           "chunks": [ [ "bonus_room_2x2_2", 50 ], [ "bonus_room_2x2_3", 50 ], [ "bonus_room_2x2_4_S", 50 ], [ "bonus_room_2x2_4_E", 50 ] ]
         },
-        "5": {
+        "è": {
           "chunks": [
             [ "livingroom_5x5_N_1", 20 ],
             [ "livingroom_5x5_S_1", 20 ],
@@ -58,10 +65,10 @@
             [ "livingroom_5x5_W_1", 20 ]
           ]
         },
-        "6": {
+        "ç": {
           "chunks": [ [ "bonus_room_3x3_1", 40 ], [ "bonus_room_3x3_S_5", 20 ], [ "bonus_room_3x3_E_7", 40 ], [ "bonus_room_3x3_S_7", 40 ] ]
         },
-        "7": {
+        "à": {
           "chunks": [
             [ "bonus_room_3x3_4", 20 ],
             [ "bonus_room_3x3_E_6", 20 ],
@@ -136,13 +143,13 @@
         "                        ",
         "                        ",
         "  ||||||||||||||||||||||",
-        "  |2..............%8S89|",
-        "  |.............z.%t...|",
-        "  |...............%%+%%|",
+        "  |2..............|8S89|",
+        "  |.............z.|t...|",
+        "  |...............||+|||",
         "  |....................|",
         "  |..........<.....A..J|",
         "  |...................Z|",
-        "  |1............F.g..WU|",
+        "  |1............â.g..WU|",
         "  |............|||||||||",
         "  |............|        ",
         "  |............|        ",
@@ -157,7 +164,7 @@
         "||||||||||||||||        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 70 ], [ "recroom_12x12", 30 ], [ "tvroom_12x12", 30 ], [ "workoutroom_12x12", 30 ] ] },
         "2": {

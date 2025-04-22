@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_UPGRADE_WARP_SALVE",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "islandrank >= 2" ] },
+    "effect": [ { "u_learn_recipe": "warp_healing_salve" } ]
+  }
+]

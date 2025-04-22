@@ -1,21 +1,23 @@
 #include "mutation.h"
 
 #include <algorithm>
+#include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <memory>
+#include <unordered_map>
 #include <unordered_set>
 
-#include "activity_type.h"
 #include "avatar_action.h"
-#include "avatar.h"
 #include "bionics.h"
-#include "character_attire.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "condition.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
@@ -24,27 +26,31 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
-#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
 #include "omdata.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "relic.h"
 #include "rng.h"
+#include "subbodypart.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "uilist.h"
 #include "uistate.h"
-#include "units.h"
+#include "weighted_list.h"
 
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
@@ -322,17 +328,14 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
     } else {
         update_cached_mutations();
     }
+    reset();
+    enchantment_cache->activate_passive( *this );
 }
 
 void Character::do_mutation_updates()
 {
     recalc_sight_limits();
     calc_encumbrance();
-
-    // If the stamina is higher than the max (Languorous), set it back to max
-    if( get_stamina() > get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
 }
 
 void Character::set_mutations( const std::vector<trait_id> &traits )
@@ -380,8 +383,12 @@ void Character::unset_mutation( const trait_id &trait_ )
         cached_mutations.erase( trait_ );
         if( !mut.enchantments.empty() ) {
             recalculate_enchantment_cache();
+        } else {
+            update_cached_mutations();
         }
         mutation_loss_effect( trait );
+        reset();
+        enchantment_cache->activate_passive( *this );
     }
 }
 
@@ -561,13 +568,14 @@ void Character::recalculate_size()
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
+    map &here = get_map();
+
     if( mut.obj().vanity ) {
         return;
     }
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
-    reset();
     trait_flag_cache.clear();
     recalculate_size();
 
@@ -592,7 +600,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos_bub(), armor );
+            here.add_item_or_charges( pos_bub(), armor );
             return true;
         }
         if( !branch.conflicts_with_item( armor ) ) {
@@ -626,7 +634,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos_bub(), armor );
+            here.add_item_or_charges( pos_bub(), armor );
         }
         return true;
     } );
@@ -653,7 +661,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
-    reset();
     trait_flag_cache.clear();
     recalculate_size();
 
@@ -813,6 +820,8 @@ void Character::activate_mutation( const trait_id &mut )
 
 void Character::activate_cached_mutation( const trait_id &mut )
 {
+    map &here = get_map();
+
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = cached_mutations[mut];
     int cost = mdata.cost;
@@ -881,7 +890,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos_bub(), fd_web, 1 );
+        here.add_field( pos_bub(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_LONG_TONGUE2 ||
                mut == trait_GASTROPOD_EXTREMITY2 ||
@@ -890,7 +899,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
         assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
-        get_map().add_field( pos_bub(), fd_sludge, 1 );
+        here.add_field( pos_bub(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;
@@ -939,7 +948,6 @@ void Character::activate_cached_mutation( const trait_id &mut )
             return;
         }        // Check for adjacent trees.
         bool adjacent_tree = false;
-        map &here = get_map();
         for( const tripoint_bub_ms &p2 : here.points_in_radius( pos_bub(), 1 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_TREE, p2 ) ) {
                 adjacent_tree = true;
@@ -1133,7 +1141,8 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     mutation_category_id cat;
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
 
-    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
+    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ||
+                                            calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
 
     bool allow_good = false;
     bool allow_bad = false;
@@ -1327,7 +1336,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         } else {
             if( mut_vit != vitamin_id::NULL_ID() &&
                 vitamin_get( mut_vit ) >= mutation_category_trait::get_category( cat ).threshold_min ) {
-                test_crossing_threshold( cat );
+                try_crossing_threshold( cat );
             }
             if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
@@ -1353,7 +1362,8 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
+    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ||
+                                            calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
 
     bool allow_good = false;
     bool allow_bad = false;
@@ -1470,13 +1480,95 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
             traits.push_back( trait );
         }
     }
+
+    if( can_cross_threshold( cat ) ) {
+        const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                    cat );
+        const trait_id &mutation_thresh = m_category.threshold_mut;
+        traits.push_back( mutation_thresh );
+
+    }
+
+    // positive traits at start of list, negative traits at end.  Required for additional options if block.
+    std::sort( traits.begin(), traits.end(), []( const trait_id a, const trait_id b ) {
+        return a.obj().points > b.obj().points;
+    } );
+
+    int additional_options = calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS );
+    int traits_size = traits.size();
+
+    if( !get_option<bool>( "SHOW_MUTATION_SELECTOR" ) && additional_options >= 1 &&
+        additional_options < traits_size ) {
+        size_t primary_index = 0;
+        // Logic REQUIRES that traits are sorted by points
+        size_t end_index = traits.size() - 1;
+        size_t negative_edge = end_index;
+        size_t positive_edge = 0;
+        for( size_t index = end_index + 1; index -- > 0 ; ) {
+            if( traits[index].obj().points >= 0 ) {
+                break;
+            } else {
+                negative_edge = index;
+            }
+        }
+        for( size_t index = 0; index <= end_index; index++ ) {
+            if( traits[index].obj().points <= 0 ) {
+                break;
+            } else {
+                positive_edge = index;
+            }
+        }
+
+        if( roll_bad_mutation( cat ) ) {
+            if( positive_edge == end_index ) {
+                primary_index = end_index;
+            } else {
+                // choose trait that is either neutral or negative
+                primary_index = rng( positive_edge + 1, end_index );
+            }
+        } else {
+            if( negative_edge == 0 ) {
+                primary_index = 0;
+            } else {
+                // choose trait that is either positive or neutral
+                primary_index = rng( 0, negative_edge - 1 );
+            }
+        }
+        size_t below_index = primary_index;
+        size_t above_index = primary_index + 1;
+        int added_traits = 0;
+        std::vector<trait_id> selectable_traits = { traits[primary_index] };
+        while( added_traits < additional_options ) {
+            // Cannot check < 0 since size_t is unsigned.  Resolve by adding 1 to the stored value and making check off of that, and subtracting 1 when using it.
+            if( below_index >= 1 && added_traits < additional_options ) {
+                selectable_traits.insert( selectable_traits.begin(), traits[below_index - 1] );
+                below_index--;
+                added_traits++;
+            }
+            if( above_index <= end_index && added_traits < additional_options ) {
+                selectable_traits.insert( selectable_traits.end(), traits[above_index] );
+                above_index++;
+                added_traits++;
+            }
+            if( below_index < 1 && above_index > end_index ) {
+                break;
+            }
+        }
+        traits = selectable_traits;
+    }
+
+
     make_entries( traits );
 
     // Display menu and handle selection
     mmenu.query();
     if( mmenu.ret >= 0 ) {
-        if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
-            add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+        if( traits[mmenu.ret]->threshold ) {
+            cross_threshold( cat );
+        } else {
+            if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
+                add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+            }
         }
         return true;
     }
@@ -2292,12 +2384,28 @@ void Character::remove_child_flag( const trait_id &flag )
     }
 }
 
-void Character::test_crossing_threshold( const mutation_category_id &mutation_category )
+void Character::try_crossing_threshold( const mutation_category_id &mutation_category )
+{
+    if( can_cross_threshold( mutation_category ) ) {
+        int breach_power = mutation_category_level[mutation_category];
+        if( breach_power >= 100 || x_in_y( breach_power, 100 ) ) {
+            cross_threshold( mutation_category );
+        }
+    }
+}
+
+bool Character::can_cross_threshold( const mutation_category_id &mutation_category )
 {
     // Threshold-check.  You only get to cross once!
     if( crossed_threshold() ) {
-        add_msg_debug( debugmode::DF_MUTATION, "test_crossing_treshold failed: already post-threshold" );
-        return;
+        add_msg_debug( debugmode::DF_MUTATION, "can_cross_threshold failed: already post-threshold" );
+        return false;
+    }
+
+    if( mutation_category == mutation_category_ANY ) {
+        add_msg_debug( debugmode::DF_MUTATION,
+                       "can_cross_threshold failed: cannot cross threshold of the ANY category" );
+        return false;
     }
 
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
@@ -2307,31 +2415,41 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
     const trait_id &mutation_thresh = m_category.threshold_mut;
     if( mutation_thresh.is_empty() ) {
         add_msg_debug( debugmode::DF_MUTATION,
-                       "test_crossing_treshold failed: category %s has no threshold defined", m_category.id.c_str() );
-        return;
+                       "can_cross_threshold failed: category %s has no threshold defined", m_category.id.c_str() );
+        return false;
     }
 
     // Threshold-breaching
     int breach_power = mutation_category_level[mutation_category];
     add_msg_debug( debugmode::DF_MUTATION, "test_crossing_treshold: breach power %d", breach_power );
     // You're required to have hit third-stage dreams first.
-    if( breach_power >= 30 ) {
-        if( breach_power >= 100 || x_in_y( breach_power, 100 ) ) {
-            const mutation_branch &thrdata = mutation_thresh.obj();
-            if( vitamin_get( m_category.vitamin ) >= thrdata.vitamin_cost ) {
-                vitamin_mod( m_category.vitamin, -thrdata.vitamin_cost );
-                add_msg_if_player( m_good,
-                                   _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
-                // Thresholds can cancel unpurifiable traits
-                for( const trait_id &canceled : thrdata.cancels ) {
-                    get_event_bus().send<event_type::loses_mutation>( getID(), canceled );
-                    unset_mutation( canceled );
-                }
-                set_mutation( mutation_thresh );
-                get_event_bus().send<event_type::crosses_mutation_threshold>( getID(), m_category.id );
-            }
-        }
+    if( breach_power >= 30 &&
+        vitamin_get( m_category.vitamin ) >= mutation_thresh.obj().vitamin_cost ) {
+        return true;
     }
+    return false;
+}
+
+void Character::cross_threshold( const mutation_category_id &mutation_category )
+{
+    if( !can_cross_threshold( mutation_category ) ) {
+        return;
+    }
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                mutation_category );
+    const trait_id &mutation_thresh = m_category.threshold_mut;
+
+    const mutation_branch &thrdata = mutation_thresh.obj();
+    vitamin_mod( m_category.vitamin, -thrdata.vitamin_cost );
+    add_msg_if_player( m_good,
+                       _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
+    // Thresholds can cancel unpurifiable traits
+    for( const trait_id &canceled : thrdata.cancels ) {
+        get_event_bus().send<event_type::loses_mutation>( getID(), canceled );
+        unset_mutation( canceled );
+    }
+    set_mutation( mutation_thresh );
+    get_event_bus().send<event_type::crosses_mutation_threshold>( getID(), m_category.id );
 }
 
 static void fail_mutation_wounds( Character &guy, const bionic_id &bio, bool catastrophic )
@@ -2469,12 +2587,17 @@ std::string Character::mutation_name( const trait_id &mut ) const
 
 std::string Character::mutation_desc( const trait_id &mut ) const
 {
+    std::string description;
     auto it = cached_mutations.find( mut );
     if( it != cached_mutations.end() && it->second.variant != nullptr ) {
-        return mut->desc( it->second.variant->id );
+        description = mut->desc( it->second.variant->id );
+    } else {
+        description = mut->desc();
     }
 
-    return mut->desc();
+    parse_tags( description, *this, *this );
+
+    return description;
 }
 
 void Character::customize_appearance( customize_appearance_choice choice )

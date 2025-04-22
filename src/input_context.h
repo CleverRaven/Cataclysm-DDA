@@ -11,6 +11,7 @@
 #include <list>
 
 #include "action.h"
+#include "coords_fwd.h"
 #include "input_enums.h"
 #include "point.h"
 #include "translation.h"

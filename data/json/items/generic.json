@@ -383,7 +383,7 @@
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "uneven" },
-    "melee_damage": { "bash": 26 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -2120,7 +2120,6 @@
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
     "flags": [ "WATER_BREAK", "FRAGILE_MELEE" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 4,
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
@@ -2128,7 +2127,8 @@
     "volume": "19265 ml",
     "//": "Based on https://www.amazon.com/dp/B000U9WXEC, although the volume calculated from package dimensions has been multiplied by 0.5 because there really is not a reasonable way to calculate fan volume without the numbers going into extremes",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",
@@ -2604,7 +2604,7 @@
     "type": "GENERIC",
     "id": "tanbark",
     "name": { "str": "piece of tanbark", "str_pl": "pieces of tanbark" },
-    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
+    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather.",
     "copy-from": "bark_abstract"
   },
   {
@@ -3179,7 +3179,7 @@
     "price": "10 USD",
     "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
-    "ammo": [ "money" ]
+    "tool_ammo": [ "money" ]
   },
   {
     "id": "robofac_test_data",
@@ -3577,6 +3577,16 @@
     "color": "green",
     "name": { "str": "broken laser turret" },
     "weight": "40 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_searchlight",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken milspec searchlight" },
+    "weight": "117 kg",
+    "volume": "108500 ml",
     "copy-from": "broken_turret"
   },
   {

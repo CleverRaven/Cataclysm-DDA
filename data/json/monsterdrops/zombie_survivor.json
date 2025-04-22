@@ -19,8 +19,7 @@
       },
       { "group": "survivor_grenades", "prob": 10 },
       { "group": "stash_food", "prob": 20 },
-      { "group": "ammo_common", "prob": 25 },
-      { "group": "ammo_rare", "prob": 10 },
+      { "group": "ammo_common_boxed_used", "prob": 35 },
       { "group": "stash_drugs", "prob": 25 },
       { "group": "gear_survival", "prob": 15 },
       { "group": "mil_food", "prob": 10 },
@@ -172,8 +171,8 @@
           },
           { "group": "grenades", "prob": 10 },
           { "group": "launchers", "prob": 1 },
-          { "group": "stash_food", "prob": 40 },
-          { "group": "ammo_common", "prob": 26 },
+          { "group": "stash_food", "prob": 10 },
+          { "group": "ammo_common_boxed_used", "prob": 26 },
           { "group": "stash_drugs", "prob": 28 },
           { "group": "gear_survival", "prob": 18 },
           { "group": "mil_food", "prob": 22 },
@@ -354,6 +353,7 @@
       { "item": "mask_gas_half", "prob": 60, "charges": [ 0, 100 ] },
       [ "mask_hockey", 10 ],
       [ "mask_bal", 1 ],
+      [ "balaclava_cut_resistant", 1 ],
       [ "mask_rioter", 5 ]
     ]
   },
@@ -377,6 +377,7 @@
       [ "carpet_armguards", 8 ],
       [ "improvised_armguard_tire", 4 ],
       [ "elbow_pads", 20 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "chainmail_junk_arms", 1 ]
     ]
   },
@@ -402,6 +403,7 @@
       [ "vest_jean_mod", 2 ],
       [ "soft_3a_vest", 3 ],
       [ "level_3_vest", 3 ],
+      [ "apron_cut_resistant", 3 ],
       [ "lame_foil", 1 ],
       [ "sleeveless_trenchcoat_leather", 12 ],
       [ "sleeveless_trenchcoat", 12 ]
@@ -503,7 +505,6 @@
       [ "technician_pants_gray", 15 ],
       [ "jeans", 20 ],
       [ "jeans_mod", 10 ],
-      [ "jeans_red", 5 ],
       [ "motorbike_pants", 10 ],
       [ "survivor_adhoc_leather_pants", 15 ],
       [ "pants_faux_fur", 5 ],

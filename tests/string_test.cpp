@@ -1,7 +1,14 @@
-#include <iosfwd>
+#include <functional>
+#include <iostream>
 #include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
 
 #include "cata_catch.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "debug.h"
 #include "output.h"
 
 static void test_remove_color_tags( const std::string_view original, const std::string &expected )

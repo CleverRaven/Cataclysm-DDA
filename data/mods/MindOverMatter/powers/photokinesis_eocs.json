@@ -188,5 +188,11 @@
     "required_event": "character_melee_attacks_monster",
     "condition": { "u_has_effect": "effect_photokin_invisibility" },
     "effect": [ { "u_lose_effect": "effect_photokin_invisibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_ARMY_DISAPPEAR_MONSTERS",
+    "condition": "has_alpha",
+    "effect": [ { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } } ]
   }
 ]

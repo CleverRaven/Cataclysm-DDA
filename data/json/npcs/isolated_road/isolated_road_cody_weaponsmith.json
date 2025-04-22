@@ -16,10 +16,7 @@
     "condition": { "expects_vars": [ "name", "cost", "wait" ] },
     "effect": [
       { "run_eocs": [ "EOC_blacksmith_weapon_cleanup" ] },
-      {
-        "set_string_var": { "context_val": "name" },
-        "target_var": { "u_val": "general_artisans_blacksmith_weapon_type" }
-      },
+      { "copy_var": { "context_val": "name" }, "target_var": { "u_val": "general_artisans_blacksmith_weapon_type" } },
       { "math": [ "u_number_artisans_blacksmith_weapon_cost = _cost" ] },
       { "math": [ "u_number_artisans_blacksmith_weapon_wait = _wait" ] }
     ]

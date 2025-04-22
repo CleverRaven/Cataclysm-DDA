@@ -1,6 +1,7 @@
 #include "bodypart.h"
 
 #include <algorithm>
+#include <memory>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
@@ -9,15 +10,15 @@
 
 #include "assign.h"
 #include "body_part_set.h"
+#include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "json.h"
-#include "json_error.h"
 #include "localized_comparator.h"
+#include "magic_enchantment.h"
+#include "pimpl.h"
 #include "rng.h"
 #include "subbodypart.h"
 
@@ -157,7 +158,7 @@ const std::vector<limb_score> &limb_score::get_all()
     return limb_score_factory.get_all();
 }
 
-void limb_score::load( const JsonObject &jo, const std::string_view )
+void limb_score::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", _name );
@@ -284,7 +285,7 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
-void body_part_type::load( const JsonObject &jo, const std::string_view )
+void body_part_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
 
@@ -401,7 +402,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "feels_discomfort", feels_discomfort, true );
 
-    optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
@@ -448,11 +448,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
         temp_max = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 1 ) );
     }
 
-    if( jo.has_array( "unarmed_damage" ) ) {
-        unarmed_bonus = true;
-        damage = damage_instance();
-        damage = load_damage_instance( jo.get_array( "unarmed_damage" ) );
-    }
+    optional( jo, was_loaded, "unarmed_damage", damage );
 
     if( jo.has_object( "armor" ) ) {
         armor = resistances();
@@ -506,6 +502,9 @@ void body_part_type::finalize_all()
 
 void body_part_type::finalize()
 {
+    if( !damage.empty() ) {
+        unarmed_bonus = true;
+    }
     finalize_damage_map( armor.resist_vals );
 }
 
@@ -913,26 +912,41 @@ efftype_id bodypart::get_windage_effect() const
     return id->windage_effect;
 }
 
+bool bodypart::compare_encumbrance_data( const bodypart &bp ) const
+{
+    return encumb_data == bp.encumb_data;
+}
+
+int bodypart::get_layer_penalty() const
+{
+    return encumb_data.layer_penalty;
+}
+
+int bodypart::get_final_encumbrance( const Creature &mon ) const
+{
+    return std::max( 0.0, mon.enchantment_cache->modify_encumbrance( id, encumb_data.encumbrance ) );
+}
+
 int bodypart::get_encumbrance_threshold() const
 {
     return id->encumbrance_threshold;
 }
 
-bool bodypart::is_limb_overencumbered() const
+bool bodypart::is_limb_overencumbered( const Creature &mon ) const
 {
-    return get_encumbrance_data().encumbrance >= id->encumbrance_limit;
+    return get_final_encumbrance( mon ) >= id->encumbrance_limit;
 }
 
-bool bodypart::has_conditional_flag( const json_character_flag &flag ) const
+bool bodypart::has_conditional_flag( const Creature &mon, const json_character_flag &flag ) const
 {
     return id->conditional_flags.count( flag ) > 0 && hp_cur > id->health_limit &&
-           !is_limb_overencumbered();
+           !is_limb_overencumbered( mon );
 }
 
-std::set<matec_id> bodypart::get_limb_techs() const
+std::set<matec_id> bodypart::get_limb_techs( const Creature &mon ) const
 {
     std::set<matec_id> result;
-    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) &&
+    if( !x_in_y( get_final_encumbrance( mon ), id->technique_enc_limit ) &&
         hp_cur > id->health_limit ) {
         result.insert( id->techniques.begin(), id->techniques.end() );
     }
@@ -961,11 +975,11 @@ float bodypart::wound_adjusted_limb_value( const float val ) const
     return val * static_cast<float>( percent );
 }
 
-float bodypart::encumb_adjusted_limb_value( const float val ) const
+float bodypart::encumb_adjusted_limb_value( const Creature &mon, const float val ) const
 {
-    int enc = get_encumbrance_data().encumbrance;
+    int enc = get_final_encumbrance( mon );
     // Check if we're over our encumbrance limit, return 0 if so
-    if( is_limb_overencumbered() ) {
+    if( is_limb_overencumbered( mon ) ) {
         return 0;
     }
     // Reduce encumbrance by the limb's encumbrance threshold, limiting to 0
@@ -981,7 +995,8 @@ float bodypart::skill_adjusted_limb_value( float val, int skill ) const
     return std::min( val, mitigated_score );
 }
 
-float bodypart::get_limb_score( const limb_score_id &score, int skill, int override_encumb,
+float bodypart::get_limb_score( const Creature &mon, const limb_score_id &score, int skill,
+                                int override_encumb,
                                 int override_wounds ) const
 {
     bool process_wounds = override_wounds == 1 || ( override_wounds == -1 &&
@@ -994,7 +1009,7 @@ float bodypart::get_limb_score( const limb_score_id &score, int skill, int overr
         sc = wound_adjusted_limb_value( sc );
     }
     if( process_encumb ) {
-        sc = encumb_adjusted_limb_value( sc );
+        sc = encumb_adjusted_limb_value( mon, sc );
     }
     if( skill >= 0 ) {
         sc = skill_adjusted_limb_value( sc, skill );
@@ -1030,11 +1045,6 @@ int bodypart::get_damage_bandaged() const
 int bodypart::get_damage_disinfected() const
 {
     return damage_disinfected;
-}
-
-const encumbrance_data &bodypart::get_encumbrance_data() const
-{
-    return encumb_data;
 }
 
 int bodypart::get_drench_capacity() const

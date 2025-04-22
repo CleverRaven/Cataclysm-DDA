@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -15,11 +14,10 @@
 #include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "activity_actor.h"
-#include "activity_type.h"
-#include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -32,7 +30,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
@@ -40,13 +37,13 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "fault.h"
-#include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -58,44 +55,46 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "math_parser_diag_value.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "omdata.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
@@ -103,8 +102,6 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 #include "weather.h"
-
-enum class creature_size : int;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -191,7 +188,12 @@ static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
@@ -208,6 +210,7 @@ static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
+static const json_character_flag json_flag_INSTANT_BLEED( "INSTANT_BLEED" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
@@ -233,9 +236,6 @@ static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
-
-static const species_id species_FERAL( "FERAL" );
-static const species_id species_HUMAN( "HUMAN" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_tree( "t_tree" );
@@ -476,20 +476,46 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
-static bool do_cannibalism_piss_people_off( Character &you )
+static bool check_anger_empathetic_npcs_with_cannibalism( const Character &you,
+        const mtype_id &monster )
 {
+    const map &here = get_map();
+
     if( !you.is_avatar() ) {
         return true; // NPCs dont accidentally cause player hate
     }
 
-    if( !query_yn(
-            _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
-        return false; // player cancels
-    }
+    bool you_empathize = you.empathizes_with_monster( monster );
+    bool nearby_empathetic_npc = false;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_active() && guy.sees( you ) && !guy.okay_with_eating_humans() ) {
-            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
+        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with_monster( monster ) ) {
+            nearby_empathetic_npc = true;
+            break;
+        }
+    }
+
+    if( you_empathize && nearby_empathetic_npc ) {
+        if( !query_yn(
+                _( "Really desecrate the mortal remains of this being by butchering them for meat?  You feel others may take issue with your action." ) ) ) {
+            return false; // player cancels
+        }
+    } else if( you_empathize && !nearby_empathetic_npc ) {
+        if( !query_yn(
+                _( "Really desecrate the mortal remains of this being by butchering them for meat?" ) ) ) {
+            return false; // player cancels
+        }
+    } else if( !you_empathize && nearby_empathetic_npc ) {
+        if( !query_yn(
+                _( "Really take this thing apart?  You feel others may take issue with your action." ) ) ) {
+            return false; // player cancels
+        }
+    }
+    // !you_empathize && !nearby_empathetic_npc means no check.  Will likely happen for most combinations.
+
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_active() && guy.sees( here, you ) && guy.empathizes_with_monster( monster ) ) {
+            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <name_b>." ) );
             // massive opinion penalty
             guy.op_of_u.trust -= 5;
             guy.op_of_u.value -= 5;
@@ -499,6 +525,7 @@ static bool do_cannibalism_piss_people_off( Character &you )
             }
         }
     }
+
     return true;
 }
 
@@ -620,79 +647,11 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    // TODO: Extract this bool into a function
-    const bool is_human = corpse.id == mtype_id::NULL_ID() ||
-                          corpse.in_species( species_HUMAN ) ||
-                          corpse.in_species( species_FERAL );
-
-    // applies to all butchery actions except for dissections
-    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
-        //first determine if the butcherer has the dissect_humans proficiency.
+    // Dissections are slightly less angering than other butcher types
+    if( action == butcher_type::DISSECT ) {
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
-            //if it's player doing the butchery, ask them first.
-            if( you.is_avatar() ) {
-                if( do_cannibalism_piss_people_off( you ) ) {
-                    //give the player a random message showing their disgust and cause morale penalty.
-                    switch( rng( 1, 3 ) ) {
-                        case 1:
-                            you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
-                            break;
-                        case 2:
-                            you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
-                            break;
-                        case 3:
-                            you.add_msg_if_player( m_bad,
-                                                   _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
-                            break;
-                    }
-                    get_player_character().add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
-                } else {
-                    //player has the dissect_humans prof, so they're familiar with dissection. reference this in their refusal to butcher
-                    you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
-                    act.targets.pop_back();
-                    return;
-                }
-            } else {
-                //if not the avatar, don't ask, just do it and suffer without comment
-                you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
-            }
-        } else {
-            //this runs if the butcherer does NOT have prof_dissect_humans
-            if( you.is_avatar() ) {
-                if( do_cannibalism_piss_people_off( you ) ) {
-                    //random message and morale penalty
-                    switch( rng( 1, 3 ) ) {
-                        case 1:
-                            you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
-                            break;
-                        case 2:
-                            you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
-                            break;
-                        case 3:
-                            you.add_msg_if_player( m_bad,
-                                                   _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
-                            break;
-                    }
-                    get_player_character().add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
-                } else {
-                    //player doesn't have dissect_humans, so just give a regular refusal to mess with the corpse
-                    you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-                    act.targets.pop_back();
-                    return;
-                }
-            } else {
-                //again, don't complain about it, or inform about it, just do it
-                you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
-            }
-        }
-    }
-
-    // applies to only dissections, so that dissect_humans training makes a difference.
-    if( is_human && action == butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
-        if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
-            //you're either trained for this, densensitized, or both. doesn't bother you.
-            if( you.is_avatar() ) {
-                //this is a dissection, and we are trained for dissection, so no morale penalty, and lighter flavor text.
+            if( you.empathizes_with_monster( corpse.id ) ) {
+                // this is a dissection, and we are trained for dissection, so no morale penalty, anger, and lighter flavor text.
                 switch( rng( 1, 3 ) ) {
                     case 1:
                         you.add_msg_if_player( m_good, _( "You grit your teeth and get to work." ) );
@@ -707,12 +666,10 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                         break;
                 }
             }
-            //if we're not the avatar, we aren't getting a morale penalty as usual, and no message, so nothing happens
         } else {
-            //we don't have dissect_humans but are trying to dissect anyways.
-            if( you.is_avatar() ) {
-                if( query_yn( _( "Really dissect the remains of a fellow human being?" ) ) ) {
-                    //give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
+            if( check_anger_empathetic_npcs_with_cannibalism( you, corpse.id ) ) {
+                if( you.empathizes_with_monster( corpse.id ) ) {
+                    // give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
                             you.add_msg_if_player( m_bad,
@@ -726,19 +683,48 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "The grim nature of your task deeply upsets you, leaving you feeling disgusted with yourself." ) );
                             break;
                     }
-                    get_player_character().add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
-                } else {
-                    //standard refusal to butcher
-                    you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-                    act.targets.pop_back();
-                    return;
+                    you.add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
                 }
             } else {
-                //if we're not player and don't have dissect_humans, just add morale penalty.
-                you.add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
+                // standard refusal to butcher
+                you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                act.targets.pop_back();
+                return;
+            }
+        }
+    } else if( action != butcher_type::DISMEMBER ) {
+        if( check_anger_empathetic_npcs_with_cannibalism( you, corpse.id ) ) {
+            if( you.empathizes_with_monster( corpse.id ) ) {
+                // give the player a random message showing their disgust and cause morale penalty.
+                switch( rng( 1, 3 ) ) {
+                    case 1:
+                        you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
+                        break;
+                    case 2:
+                        you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
+                        break;
+                    case 3:
+                        you.add_msg_if_player( m_bad,
+                                               _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                        break;
+                }
+                you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
+            }
+        } else {
+            if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
+                // player has the dissect_humans prof, so they're familiar with dissection. reference this in their refusal to butcher
+                you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
+                act.targets.pop_back();
+                return;
+            } else {
+                // player doesn't have dissect_humans, so just give a regular refusal to mess with the corpse
+                you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                act.targets.pop_back();
+                return;
             }
         }
     }
+
     const double progress = butcher_get_progress( corpse_item, action );
     act.moves_total = butcher_time_to_cut( you, corpse_item, action ) * butchery_requirements.first;
     act.moves_left = act.moves_total - static_cast<int>( act.moves_total * progress );
@@ -783,7 +769,11 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, const butcher_
 
     switch( action ) {
         case butcher_type::QUICK:
+            break;
         case butcher_type::BLEED:
+            if( you.has_flag( json_flag_INSTANT_BLEED ) ) {
+                time_to_cut = 1;
+            }
             break;
         case butcher_type::FULL:
             if( !corpse_item.has_flag( flag_FIELD_DRESS ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) {
@@ -1128,11 +1118,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
-            if( entry.type == harvest_drop_flesh ) {
-                roll /= 6;
-            } else {
-                continue;
-            }
+            roll = 0;
         }
         // field dressing ignores skin, flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
@@ -1239,7 +1225,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 // TODO: smarter NPC liquid handling
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( you.is_npc() || action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, you.pos_bub() );
+                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, you.pos_bub( here ) );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
@@ -1395,7 +1381,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // therefore operations on this activity's targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-        action != butcher_type::BLEED ) {
+        action != butcher_type::BLEED && action != butcher_type:: DISMEMBER ) {
         for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
@@ -1430,6 +1416,8 @@ static void butchery_quarter( item *corpse_item, const Character &you )
 
 void activity_handlers::butcher_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     // No targets means we are done
     if( act->targets.empty() ) {
         act->set_to_null();
@@ -1461,7 +1449,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     // Dump items from the "container" before destroying it.
     // Presumably, the character would be doing this while setting up for butchering.
-    corpse_item.spill_contents( target.pos_bub() );
+    corpse_item.spill_contents( &here, target.pos_bub( here ) );
     corpse_item.erase_var( butcher_progress_var( action ) );
 
     if( action == butcher_type::QUARTER ) {
@@ -1470,7 +1458,6 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         return;
     }
 
-    map &here = get_map();
     if( action == butcher_type::DISMEMBER ) {
         here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
     }
@@ -1667,11 +1654,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     veh = &vp->vehicle();
                     part = act_ref.values[4];
                     if( source_veh &&
-                        source_veh->fuel_left( liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
+                        source_veh->fuel_left( here, liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
                     return &veh->part( part ) != &pa;
                     }
-                                                                                                                    } : return_true<const vehicle_part &> ) ) <= 0 ) {
+                                                                                                                          } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
                         return;
                     }
@@ -1711,11 +1698,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
                     const vehicle_part &pt = source_veh->part( part_num );
-                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                    if( pt.is_leaking() && !pt.ammo_remaining( ) ) {
                         act_ref.set_to_null(); // leaky tank spilled while we were transferring
                         return;
                     }
-                    source_veh->drain( part_num, removed_charges );
+                    source_veh->drain( here, part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
                     // we need to update our liquid serialization to reflect how
@@ -1730,11 +1717,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                         act_ref.str_values[0] = serialize( liquid );
                     }
                 } else {
-                    source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
+                    source_veh->drain( here, liquid.typeId(), removed_charges,
+                                       ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
                     {
                         return &veh->part( part ) != &pa;
                     }
-                                                                                                                       } : return_true<vehicle_part &> ) );
+                                                                                     } : return_true<vehicle_part &> ) );
                 }
                 break;
             case liquid_source_type::MAP_ITEM:
@@ -1905,6 +1893,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
 
 void activity_handlers::start_fire_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     static const std::string iuse_name_string( "firestarter" );
 
     item &it = *act->targets.front();
@@ -1924,11 +1914,27 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         return;
     }
 
-    it.activation_consume( 1, you->pos_bub(), you );
-
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( you, get_map().get_bub( act->placement ) );
+    const furn_id &f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
+
+    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
+
+    if( is_smoking_rack ) {
+        st = firestarter_actor::start_type::SMOKER;
+    } else if( is_kiln ) {
+        st = firestarter_actor::start_type::KILN;
+    }
+
+    it.activation_consume( 1, you->pos_bub(), you );
+
+    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
+            st );
+
     act->set_to_null();
 }
 
@@ -1963,7 +1969,12 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
     }
 
     item &firestarter = *act->targets.front();
-    if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+
+    const furn_id f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoker = f_id == furn_f_smoking_rack ||
+                           f_id == furn_f_metal_smoking_rack;
+
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
         if( !here.tinder_at( where ) ) {
             inventory_filter_preset preset( []( const item_location & loc ) {
                 return loc->has_flag( flag_TINDER );
@@ -2003,7 +2014,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
 
     you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-    const float light = actor->light_mod( you->pos_bub() );
+    const float light = actor->light_mod( &here, you->pos_bub( here ) );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
         add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
@@ -2145,7 +2156,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
     const optional_vpart_position vp = here.veh_at( here.get_bub( tripoint_abs_ms( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
-    veh_interact::complete_vehicle( *you );
+    veh_interact::complete_vehicle( here, *you );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
@@ -2197,8 +2208,8 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
     // Modify for weariness
     time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining() ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( ) ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( ) + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2275,7 +2286,7 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
                 !veh->is_engine_type( vp, itype_animal ) ) {
                 non_muscle_attempted++;
             }
-            if( veh->start_engine( vp ) ) {
+            if( veh->start_engine( here, vp ) ) {
                 started++;
                 if( !veh->is_engine_type( vp, itype_muscle ) &&
                     !veh->is_engine_type( vp, itype_animal ) ) {
@@ -2392,11 +2403,11 @@ struct weldrig_hack {
     weldrig_hack() : part( std::nullopt ) { }
 
     bool init( const player_activity &act ) {
+        map &here = get_map();
         if( act.coords.empty() || act.str_values.size() < 2 ) {
             return false;
         }
 
-        const map &here = get_map();
         const optional_vpart_position vp = here.veh_at( here.get_bub( act.coords[0] ) );
         if( !vp ) {
             return false;
@@ -2404,11 +2415,13 @@ struct weldrig_hack {
 
         itype_id tool_id( act.get_str_value( 1, "" ) );
         pseudo = item( tool_id, calendar::turn );
-        part = vp->part_with_tool( tool_id );
+        part = vp->part_with_tool( here, tool_id );
         return part.has_value();
     }
 
     item &get_item() {
+        map &here = get_map();
+
         if( !part ) {
             // null item should be handled just fine
             return null_item_reference();
@@ -2433,7 +2446,7 @@ struct weldrig_hack {
                       mag.typeId().str(), pseudo.typeId().str() );
             return null_item_reference();
         }
-        pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
+        pseudo.ammo_set( itype_battery, part->vehicle().drain( here,  itype_battery,
                          pseudo.ammo_capacity( ammo_battery ),
                          return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
         return pseudo;
@@ -2444,7 +2457,9 @@ struct weldrig_hack {
             return;
         }
 
-        part->vehicle().charge_battery( pseudo.ammo_remaining(),
+        map &here = get_map();
+
+        part->vehicle().charge_battery( here, pseudo.ammo_remaining( ),
                                         false ); // return unused charges without cable loss
     }
 
@@ -2460,6 +2475,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
 
 void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 {
+    map &here = get_map();
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2525,7 +2541,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
-                used_tool->ammo_consume( used_tool->ammo_required(), ploc->pos_bub(), you );
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->pos_bub( here ), you );
             } else {
                 you->consume_charges( *used_tool, used_tool->ammo_required() );
             }
@@ -2627,7 +2643,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
-        int ammo_remaining = used_tool->ammo_remaining( you, true );
+        int ammo_remaining = used_tool->ammo_remaining_linked( here, you );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
         const inventory &crafting_inv = you->crafting_inventory();
@@ -2776,7 +2792,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         target.faults.erase( id );
     }
     for( const ::fault_id &id : fix.faults_added ) {
-        target.faults.insert( id );
+        target.set_fault( id );
     }
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
@@ -2887,18 +2903,8 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
         }
         map &here = get_map();
         tripoint_bub_ms centre_sub = here.get_bub( waypoint );
-        if( !here.passable( centre_sub ) ) {
-            tripoint_range<tripoint_bub_ms> candidates = here.points_in_radius( centre_sub, 2 );
-            for( const tripoint_bub_ms &elem : candidates ) {
-                if( here.passable( elem ) ) {
-                    centre_sub = elem;
-                    break;
-                }
-            }
-        }
         const std::vector<tripoint_bub_ms> route_to =
-            here.route( you->pos_bub(), centre_sub, you->get_pathfinding_settings(),
-                        you->get_path_avoid() );
+            here.route( *you, pathfinding_target::radius( centre_sub, 2 ) );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
             you->set_destination( route_to, player_activity( act_travel ) );
@@ -3097,6 +3103,8 @@ void activity_handlers::socialize_finish( player_activity *act, Character *you )
 
 void activity_handlers::operation_do_turn( player_activity *act, Character *you )
 {
+    const map &here = get_map();
+
     /**
     - values[0]: Difficulty
     - values[1]: success
@@ -3116,7 +3124,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const bionic_id bid( act->str_values[cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
     Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( you->pos_bub() ) &&
+    const bool u_see = player_character.sees( here, you->pos_bub( here ) ) &&
                        ( !player_character.has_effect( effect_narcosis ) ||
                          player_character.has_bionic( bio_painkiller ) ||
                          player_character.has_flag( json_flag_PAIN_IMMUNE ) );
@@ -3129,8 +3137,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const time_duration message_freq = difficulty * 2_minutes;
     time_duration time_left = time_duration::from_moves( act->moves_left );
 
-    map &here = get_map();
-    if( autodoc && here.inbounds( you->pos_bub() ) ) {
+    if( autodoc && here.inbounds( you->pos_bub( here ) ) ) {
         const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
                     you->pos_bub(), 1,
                     ter_furn_flag::TFLAG_AUTODOC );
@@ -3554,8 +3561,7 @@ static void perform_zone_activity_turn(
         const tripoint_bub_ms &tile_loc = here.get_bub( tile );
 
         std::vector<tripoint_bub_ms> route =
-            here.route( you->pos_bub(), tile_loc, you->get_pathfinding_settings(),
-                        you->get_path_avoid() );
+            here.route( *you, pathfinding_target::point( tile_loc ) );
         if( route.size() > 1 ) {
             route.pop_back();
 
@@ -3852,11 +3858,19 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
-            spell_being_cast.cast_all_effects( *you, *target );
-
             if( act->get_value( 2 ) != 0 ) {
                 spell_being_cast.consume_spell_cost( *you, true );
             }
+
+            if( !act->targets.empty() ) {
+                item *it = act->targets.front().get_item();
+                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                    you->consume_charges( *it, it->type->charges_to_use() );
+                }
+            }
+
+            spell_being_cast.cast_all_effects( *you, *target );
+
             if( level_override == -1 ) {
                 if( !spell_being_cast.is_max_level( *you ) ) {
                     // reap the reward
@@ -3876,12 +3890,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
                         }
                     }
-                }
-            }
-            if( !act->targets.empty() ) {
-                item *it = act->targets.front().get_item();
-                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
-                    you->consume_charges( *it, it->type->charges_to_use() );
                 }
             }
             get_event_bus().send<event_type::spellcasting_finish>( you->getID(), true, sp,

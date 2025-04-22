@@ -1,17 +1,15 @@
-#include "cata_catch.h"
-#include "stats_tracker.h"
-
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <memory>
 #include <optional>
-#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "achievement.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "cata_variant.h"
 #include "character.h"
 #include "character_id.h"
@@ -19,12 +17,13 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "event_subscriber.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
-#include "json.h"
 #include "json_loader.h"
+#include "map_scale_constants.h"
 #include "options_helpers.h"
 #include "point.h"
+#include "stats_tracker.h"
 #include "type_id.h"
 
 static const event_statistic_id event_statistic_avatar_damage_taken( "avatar_damage_taken" );

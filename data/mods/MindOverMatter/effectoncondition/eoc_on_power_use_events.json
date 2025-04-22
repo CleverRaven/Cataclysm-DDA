@@ -590,6 +590,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
+    "//": "x-in_y event prevents divide-by-0 but makes concentration breaking much more likely the more negative your concentration limit is",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
@@ -597,7 +598,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "((u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5) + (clamp(concentration_calculations(), -10, 0) * -10)"
+                "((u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5) + (clamp(concentration_calculations(), -20, 0) * -10)"
               ]
             },
             "y": 100
@@ -763,7 +764,12 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
-        { "compare_string": [ "teleport_gateway", { "context_val": "spell" } ] },
+        {
+          "or": [
+            { "compare_string": [ "teleport_gateway", { "context_val": "spell" } ] },
+            { "compare_string": [ "teleport_dilated_gateway", { "context_val": "spell" } ] }
+          ]
+        },
         { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50) > 0" ] },
         { "not": { "u_has_flag": "TEEPSHIELD" } }
       ]
@@ -779,7 +785,13 @@
         "u_message": "As you come out of the darkness and the cold of the teleport, you feel the prickling sensation of watching eyes and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
         "type": "bad"
       },
-      { "u_add_effect": "tindrift", "duration": "1 day" }
+      { "u_add_effect": "tindrift", "duration": "1 day" },
+      { "u_run_npc_eocs": [ "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_3" ], "npc_range": 1, "local": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_3",
+    "effect": [ { "u_add_effect": "tindrift", "duration": "1 day" } ]
   }
 ]

@@ -15,7 +15,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MAGICLYSM_LOST_FAITH",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_spawn_item": "priest_beginner", "suppress_message": true },
       { "u_spawn_item": "priest_advanced", "suppress_message": true }

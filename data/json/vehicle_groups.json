@@ -1298,6 +1298,19 @@
   },
   {
     "type": "vehicle_group",
+    "id": "industrial_transport_no_truck",
+    "//": "Industrial transport vehicles for transporting goods.  No vehicles longer than 8 tiles",
+    "vehicles": [
+      [ "cube_van", 400 ],
+      [ "cube_van_cheap", 500 ],
+      [ "fridge_van", 400 ],
+      [ "van_cargo", 300 ],
+      [ "tatra_truck", 200 ],
+      [ "pickup", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "oa_vg_cd_vehicles",
     "//": "for cs_car_dealership",
     "vehicles": [

@@ -303,7 +303,7 @@
         "condition": {
           "and": [ { "math": [ "isherwood_barry_rescued != 1" ] }, { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } } ]
         },
-        "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        "effect": { "add_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },

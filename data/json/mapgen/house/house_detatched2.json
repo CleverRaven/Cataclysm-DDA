@@ -32,7 +32,7 @@
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
       "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 3, "y": 16, "rotation": 270, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 3, "y": 16, "rotation": 270 } ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 1 } ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
@@ -116,11 +116,11 @@
         "                        ",
         "                        ",
         "      ||||||||||||||||  ",
-        "      |1.........<%ZJ|  ",
+        "      |1.........<|ZJ|  ",
         "      |...........+.W|  ",
-        "      |...........%%%|  ",
+        "      |...........||||  ",
         "      |...........U.g|  ",
-        "      |.............F|  ",
+        "      |.............â|  ",
         "      |..............|  ",
         "      |..............|  ",
         "      |..............|  ",
@@ -138,7 +138,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": { "1": { "chunks": [ [ "null", 60 ], [ "8x8_gym_E", 10 ], [ "room_8x8_hobby_E", 30 ] ] } }
     }
   }

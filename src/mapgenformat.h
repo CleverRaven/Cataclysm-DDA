@@ -3,15 +3,14 @@
 #define CATA_SRC_MAPGENFORMAT_H
 
 #include <cstddef>
-#include <iosfwd>
-#include <type_traits>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
 #include "type_id.h"
 
 class map;
-struct point;
 
 namespace mapf
 {

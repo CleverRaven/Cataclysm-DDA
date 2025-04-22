@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_FIELD_TYPE_H
 #define CATA_SRC_FIELD_TYPE_H
 
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <unordered_map>
 #include <utility>
@@ -20,16 +20,15 @@
 #include "effect.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "mapdata.h"
 #include "map_field.h"
-#include "translations.h"
+#include "mapdata.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
+struct field_type;
 template <typename E> struct enum_traits;
-
-class field_entry;
-struct field_proc_data;
+template <typename T> class generic_factory;
 
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
@@ -176,8 +175,6 @@ extern const field_type_str_id fd_tear_gas;
 extern const field_type_str_id fd_tindalos_rift;
 extern const field_type_str_id fd_toxic_gas;
 extern const field_type_str_id fd_web;
-
-struct field_type;
 
 struct field_type {
     public:

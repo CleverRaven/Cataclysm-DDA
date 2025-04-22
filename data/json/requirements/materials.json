@@ -402,6 +402,8 @@
     "components": [
       [
         [ "steel_chunk", 1 ],
+        [ "budget_steel_chunk", 1 ],
+        [ "chunk_cast_iron", 1 ],
         [ "lc_steel_chunk", 1 ],
         [ "mc_steel_chunk", 1 ],
         [ "hc_steel_chunk", 1 ],
@@ -411,40 +413,32 @@
     ]
   },
   {
+    "id": "steel_lump_any",
+    "type": "requirement",
+    "components": [
+      [
+        [ "steel_lump", 1 ],
+        [ "budget_steel_lump", 1 ],
+        [ "lump_cast_iron", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_lump", 1 ],
+        [ "hc_steel_lump", 1 ],
+        [ "ch_steel_lump", 1 ],
+        [ "qt_steel_lump", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "steel_standard",
     "type": "requirement",
     "//": "Materials for use when forging items from steel",
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] ] ]
+    "components": [ [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ] ] ]
   },
   {
     "id": "mixed_steel",
     "type": "requirement",
     "//": "Materials for use in scrap armor",
-    "components": [
-      [
-        [ "scrap", 50 ],
-        [ "budget_steel_chunk", 4 ],
-        [ "budget_steel_lump", 1 ],
-        [ "lc_steel_chunk", 4 ],
-        [ "lc_steel_lump", 1 ],
-        [ "mc_steel_chunk", 4 ],
-        [ "mc_steel_lump", 1 ],
-        [ "hc_steel_chunk", 4 ],
-        [ "hc_steel_lump", 1 ]
-      ]
-    ]
-  },
-  {
-    "id": "steel_tiny",
-    "type": "requirement",
-    "//": "Materials for use when forging atypically small items from steel",
-    "components": [ [ [ "steel_chunk", 1 ] ] ]
-  },
-  {
-    "id": "lc_steel_tiny",
-    "type": "requirement",
-    "//": "Materials for use when forging atypically small items from mild steel",
-    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "scrap", 50 ], [ "steel_standard", 1, "LIST" ] ] ]
   },
   {
     "id": "bronze_tiny",

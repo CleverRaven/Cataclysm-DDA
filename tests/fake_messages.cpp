@@ -1,17 +1,20 @@
 #include <cstddef>
-#include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
-#include "enums.h"
+#include "coords_fwd.h"
 #include "messages.h"
 
 class Creature;
 class JsonObject;
 class JsonOut;
-struct tripoint;
+namespace debugmode
+{
+enum debug_filter : int;
+}  // namespace debugmode
+struct game_message_params;
 
 namespace catacurses
 {

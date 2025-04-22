@@ -30,7 +30,7 @@
         "....."
       ],
       "terrain": { ".": "t_region_groundcover_urban", "=": "t_railroad_track_small" },
-      "place_vehicles": [ { "vehicle": "miniature_train_loco", "x": 2, "y": 0, "chance": 100, "fuel": 20, "status": 0, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "miniature_train_loco", "x": 2, "y": 0, "fuel": 20, "status": 0, "rotation": 0 } ]
     }
   }
 ]

@@ -104,8 +104,8 @@
       "toilets": { "t": {  } },
       "items": {
         "n": { "item": "sugar_house_items", "chance": 20, "repeat": [ 1, 2 ] },
-        "D": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
-        "d": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
+        "d": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
         "r": { "item": "sugar_house_furnace", "chance": 100 },
         "R": { "item": "sugar_house_tools", "chance": 50, "repeat": [ 1, 2 ] },
         "F": { "item": "fireplace_fill", "chance": 66, "repeat": [ 1, 3 ] },
@@ -115,7 +115,8 @@
         "2": { "item": "SUS_silverware", "chance": 100 },
         "3": { "item": "SUS_utensils", "chance": 100 },
         "C": { "item": "SUS_cookware", "chance": 100 },
-        "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] }
+        "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "item": { "M": [ { "item": "bucket", "chance": 100 }, { "item": "tree_spile", "chance": 100 } ] },
       "place_loot": [

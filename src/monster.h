@@ -2,26 +2,27 @@
 #ifndef CATA_SRC_MONSTER_H
 #define CATA_SRC_MONSTER_H
 
+#include <algorithm>
 #include <bitset>
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "color.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "value_ptr.h"
@@ -30,20 +31,13 @@
 class Character;
 class JsonObject;
 class JsonOut;
-class effect;
 class effect_source;
 class item;
 class map;
-struct monster_plan;
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
-struct dealt_projectile_attack;
-struct pathfinding_settings;
-struct trap;
-
 enum class mon_trigger : int;
+enum class phase_id : int;
+struct monster_plan;
+struct mtype;
 
 class mon_special_attack
 {

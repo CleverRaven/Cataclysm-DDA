@@ -82,7 +82,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
 
 ### Example
 
-```json
+```jsonc
 {
   "id": "LIGHTEATER",                         // Unique ID.
   "name": "Optimist",                         // In-game name displayed.
@@ -94,7 +94,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
-  "description": "Nothing gets you down!",    // In-game description.
+  "description": "Nothing gets you down!",    // In-game description. Supports snippets and u/global variables
   "starting_trait": true,                     // Can be selected at character creation (default: false).
   "random_at_chargen": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that (default: true).
   "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
@@ -205,6 +205,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ],              // List of glowing bodypart and the intensity of the glow as a float (default: empty).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
+  "empathize_with": [ "ZOMBIE" ], // Characters with this mutation will not empathize with the given species.  Largely applies to butchering / dissection.
+  "no_empathize_with": [ "HUMAN" ], // Characters with this mutation will not empathize with the given species.  Largely applies to butchering / dissection.  Takes precedence over "empathizes_with".
   "transform": {
     "target": "BIOLUM1",                      // Trait_id of the mutation this one will transform into.
     "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.
@@ -350,7 +352,7 @@ Mutations support EOC on activate, deactivate and for processing. As well for ea
 
 ### Sample trait: Example Sleep
 
-```json
+```jsonc
   {
     "type": "mutation",
     "id": "EXAMPLE_SLEEP",
@@ -386,7 +388,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 
 A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without any fuss.
 
-```json
+```jsonc
 [
   {
     "type": "TRAIT_MIGRATION",

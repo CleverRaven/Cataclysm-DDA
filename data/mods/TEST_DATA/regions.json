@@ -131,9 +131,9 @@
       "houses": { "house_w_1": 1, "duplex": 1 },
       "parks": { "park": 2, "pool": 1 },
       "shops": {
-        "s_gas": 5,
+        "Gas Station": 5,
         "s_liquor": 5,
-        "s_gun": 5,
+        "s_gun_a": 5,
         "s_restaurant_deserted_test": 5,
         "abstorefront": 15,
         "station_radio": 5,

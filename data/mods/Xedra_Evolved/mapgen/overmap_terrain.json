@@ -45,7 +45,7 @@
   {
     "type": "overmap_terrain",
     "id": "boann_sidhe_island",
-    "name": "forest?",
+    "name": "ancient building",
     "sym": "F",
     "color": "c_light_green",
     "looks_like": "forest",

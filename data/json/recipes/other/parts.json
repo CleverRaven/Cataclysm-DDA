@@ -10,7 +10,7 @@
     "reversible": { "time": "1 s" },
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -148,7 +148,7 @@
     "autolearn": [ [ "electronics", 3 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 1 ], [ "advanced_electronics", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
@@ -196,7 +196,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -229,7 +229,7 @@
     "difficulty": 6,
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -314,9 +314,10 @@
     "difficulty": 5,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "lc_steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   },
   {
     "result": "xlframe",
@@ -383,7 +384,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ], [ "welding_standard", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_chunk_any", 1 ], [ "welding_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 28 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 1 ] ], [ [ "bearing", 4 ] ] ]
@@ -699,7 +700,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "frame", 4 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "components": [ [ [ "frame", 4 ] ], [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -838,7 +839,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "pipe", 6 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "any_wire", 3, "LIST" ] ],
       [ [ "cable", 10 ] ],
       [ [ "pipe_fittings", 4 ] ]
@@ -950,7 +951,7 @@
     "time": "3 h",
     "batch_time_factors": [ 25, 2 ],
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 2 ] ],
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [

@@ -1,14 +1,28 @@
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
 #include <tuple>
+#include <vector>
 
-#include "catch/catch.hpp"
-#include "player_helpers.h"
-
-#include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character_martial_arts.h"
-#include "martialarts.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "item.h"
+#include "magic_enchantment.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "martialarts.h"
+#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const bodypart_str_id body_part_debug_tail( "debug_tail" );
 static const efftype_id effect_downed( "downed" );

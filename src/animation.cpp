@@ -1,8 +1,21 @@
 #include "animation.h"
 
+
+#include <algorithm>
+#include <chrono>
+#include <cstdint>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <thread>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
 #include "cached_options.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -18,6 +31,7 @@
 #include "output.h"
 #include "point.h"
 #include "popup.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -28,20 +42,8 @@
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 #include "sdltiles.h"
+#include "weather_type.h"
 #endif
-
-#include <algorithm>
-#include <chrono>
-#include <functional>
-#include <iosfwd>
-#include <iterator>
-#include <list>
-#include <map>
-#include <memory>
-#include <thread>
-#include <type_traits>
-#include <utility>
-#include <vector>
 
 namespace
 {
@@ -102,7 +104,9 @@ class bullet_animation : public basic_animation
 
 bool is_point_visible( const tripoint_bub_ms &p, int margin = 0 )
 {
-    return g->is_in_viewport( p, margin ) && get_player_view().sees( p );
+    const map &here = get_map();
+
+    return g->is_in_viewport( p, margin ) && get_player_view().sees( here, p );
 }
 
 bool is_radius_visible( const tripoint_bub_ms &center, int radius )
@@ -494,7 +498,7 @@ void game::draw_bullet( const tripoint_bub_ms &t, const int /*i*/,
         return;
     }
     if( !use_tiles ) {
-        draw_bullet_curses( m, t, bullet, nullptr );
+        draw_bullet_curses( get_map(), t, bullet, nullptr );
         return;
     }
 
@@ -655,9 +659,9 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
         const Creature *critter = creatures.creature_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
-        if( critter && player_character.sees( *critter ) ) {
+        if( critter && player_character.sees( here, *critter ) ) {
             critter->draw( g.w_terrain, center, true );
-        } else if( noreveal && !player_character.sees( p ) ) {
+        } else if( noreveal && !player_character.sees( here,  p ) ) {
             // Draw a meaningless symbol. Avoids revealing tile, but keeps feedback
             const char sym = '?';
             const nc_color col = c_dark_gray;
@@ -677,7 +681,9 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
 {
-    if( !u.sees( p ) ) {
+    const map &here = get_map();
+
+    if( !u.sees( here, p ) ) {
         return;
     }
 
@@ -693,7 +699,9 @@ void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
 {
-    if( !u.sees( p ) ) {
+    const map &here = get_map();
+
+    if( !u.sees( here, p ) ) {
         return;
     }
 
@@ -883,6 +891,8 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
                             const std::string &ncstr,
                             const nc_color &nccol )
 {
+    const map &here = get_map();
+
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
         return;
@@ -892,7 +902,7 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
         return;
     }
 
-    if( !u.sees( p ) ) {
+    if( !u.sees( here, p ) ) {
         return;
     }
 
@@ -907,7 +917,8 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
     g->invalidate_main_ui_adaptor();
 }
 #else
-void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &, const std::string &ncstr,
+void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &,
+                            const std::string &ncstr,
                             const nc_color &nccol )
 {
     if( !ncstr.empty() ) {

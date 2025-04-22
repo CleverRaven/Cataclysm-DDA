@@ -1,0 +1,727 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "basement_bionic" ],
+    "copy-from": "generic_city_house_basement",
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 }
+  },
+  {
+    "id": "municipal_reactor",
+    "type": "overmap_terrain",
+    "name": "municipal reactor",
+    "sym": "O",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "prepnet_orchard",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "PrepNet orchard",
+    "sym": "#",
+    "color": "i_green",
+    "flags": [ "SOURCE_FOOD" ]
+  },
+  {
+    "id": "afs_crashed_escape_pod",
+    "type": "overmap_terrain",
+    "name": "crashed escape pod",
+    "sym": "+",
+    "color": "i_red",
+    "see_cost": "medium",
+    "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
+    "id": "afs_landed_shuttle",
+    "type": "overmap_terrain",
+    "name": "drone shuttle landing site",
+    "sym": "^",
+    "color": "yellow",
+    "see_cost": "low",
+    "flags": [ "SOURCE_SAFETY", "NO_ROTATE" ]
+  },
+  {
+    "id": "municipal_reactor_ware",
+    "type": "overmap_terrain",
+    "name": "warehouse",
+    "sym": "w",
+    "color": "pink",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "municipal_reactor_ware_b",
+    "type": "overmap_terrain",
+    "name": "waste storage",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "id": "municipal_reactor_b",
+    "type": "overmap_terrain",
+    "name": "waste storage",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "id": "municipal_reactor_b2",
+    "type": "overmap_terrain",
+    "name": "reactor control",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "id": "municipal_reactor_b3",
+    "type": "overmap_terrain",
+    "name": "reactor room",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sieged_fungal_tower",
+    "name": "fungal tower",
+    "sym": "T",
+    "color": "pink",
+    "see_cost": "spaced_high",
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "id": "afs_crashed_cargo_shuttle",
+    "type": "overmap_terrain",
+    "name": "crashed cargo droneship",
+    "sym": "s",
+    "color": "i_red",
+    "see_cost": "medium",
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "id": "afs_crashed_cargo_shuttle_wraitheon",
+    "type": "overmap_terrain",
+    "name": "crashed military droneship",
+    "sym": "s",
+    "color": "light_green",
+    "see_cost": "medium",
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_formless_ruins_dynamic" ],
+    "name": "formless ruins",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
+    "sym": "r",
+    "color": "light_gray",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "afs_augmentation_clinic_n1",
+      "afs_augmentation_clinic_n2",
+      "afs_augmentation_clinic_n3",
+      "afs_augmentation_clinic_n4"
+    ],
+    "name": "augmentation clinic",
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "sym": "P",
+    "color": "yellow",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "maintenance_outpost_a1",
+      "maintenance_outpost_a2",
+      "maintenance_outpost_b1",
+      "maintenance_outpost_b2",
+      "maintenance_outpost_a1_roof",
+      "maintenance_outpost_a2_roof",
+      "maintenance_outpost_b1_roof",
+      "maintenance_outpost_b2_roof"
+    ],
+    "name": "maintenance outpost",
+    "sym": "i",
+    "color": "cyan",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_ELECTRONICS", "SOURCE_CONSTRUCTION" ],
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_urban_aquaponicsw_n1", "afs_urban_aquaponicsw_n2", "afs_urban_aquaponicsw_n3" ],
+    "name": "aquacultural farm",
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "sym": "Q",
+    "color": "cyan",
+    "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_stratoscomm_relay_s1", "afs_stratoscomm_relay_n1", "afs_stratoscomm_relay_n2" ],
+    "name": "stratoscomm relay station",
+    "sym": "t",
+    "color": "yellow",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_astrobiology_lab_n1", "afs_astrobiology_lab_n2" ],
+    "name": "astrobiology lab",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "sym": "L",
+    "color": "light_green",
+    "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
+    "see_cost": "high",
+    "mondensity": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story",
+    "name": "county mortuary",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": "high",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_basement",
+    "name": "county mortuary basement",
+    "sym": "M",
+    "color": "white",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story_second",
+    "name": "county mortuary second floor",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mortuary_2story_roof",
+    "name": "county mortuary roof",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "spaced_high",
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_roof",
+    "name": "LMOE shelter",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": "none",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_under_first_floor",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "full_high",
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "whately_lmoe_under_second_floor",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "full_high",
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robot_dispatch_first",
+    "name": "robot dispatch center",
+    "sym": "R",
+    "color": "i_pink",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robot_dispatch_second", "robot_dispatch_roof" ],
+    "name": "robot dispatch center",
+    "sym": "R",
+    "color": "i_pink",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "land_pad_outpost_a1", "land_pad_outpost_a2", "land_pad_outpost_a1_roof", "land_pad_outpost_a2_roof" ],
+    "name": "landing pad outpost",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "low",
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "land_pad_outpost_basement_a1",
+      "land_pad_outpost_basement_a2",
+      "land_pad_tunnel_a1",
+      "land_pad_tunnel_a2",
+      "land_pad_a1_above",
+      "land_pad_a2_above",
+      "land_pad_a1",
+      "land_pad_a2",
+      "land_pad_b1",
+      "land_pad_b2",
+      "land_pad_b1_above",
+      "land_pad_b2_above"
+    ],
+    "name": "landing pad",
+    "sym": "#",
+    "color": "light_gray",
+    "see_cost": "high",
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_shelter_1" ],
+    "name": "house",
+    "sym": "<",
+    "color": "green",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
+    "flags": [ "SIDEWALK" ],
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_shelter_1_roof" ],
+    "name": "house roof",
+    "sym": "<",
+    "color": "green",
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "arcology_interior_center_robots",
+      "arcology_interior_w_side_robots",
+      "arcology_interior_e_side_robots",
+      "arcology_interior_n_side_robots",
+      "arcology_interior_s_side_robots",
+      "arcology_interior_ne_corner_robots",
+      "arcology_interior_nw_corner_robots",
+      "arcology_interior_se_corner_robots",
+      "arcology_interior_sw_corner_robots",
+      "arcology_exterior_e_side_robots",
+      "arcology_exterior_n_side_robots",
+      "arcology_exterior_s_side_robots",
+      "arcology_exterior_w_side_robots",
+      "arcology_exterior_ne_corner_robots",
+      "arcology_exterior_nw_corner_robots",
+      "arcology_exterior_se_corner_robots",
+      "arcology_exterior_sw_corner_robots",
+      "arcology_exterior_n_entrance_robots",
+      "arcology_exterior_s_entrance_robots",
+      "arcology_exterior_e_entrance_robots",
+      "arcology_exterior_w_entrance_robots"
+    ],
+    "name": "Desolate Arcology - Ground Level",
+    "sym": "A",
+    "color": "light_blue",
+    "see_cost": "full_high",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "arcology_interior_center_uplifts",
+      "arcology_interior_w_side_uplifts",
+      "arcology_interior_e_side_uplifts",
+      "arcology_interior_n_side_uplifts",
+      "arcology_interior_s_side_uplifts",
+      "arcology_interior_ne_corner_uplifts",
+      "arcology_interior_nw_corner_uplifts",
+      "arcology_interior_se_corner_uplifts",
+      "arcology_interior_sw_corner_uplifts",
+      "arcology_exterior_e_side_uplifts",
+      "arcology_exterior_n_side_uplifts",
+      "arcology_exterior_s_side_uplifts",
+      "arcology_exterior_w_side_uplifts",
+      "arcology_exterior_ne_corner_uplifts",
+      "arcology_exterior_nw_corner_uplifts",
+      "arcology_exterior_se_corner_uplifts",
+      "arcology_exterior_sw_corner_uplifts",
+      "arcology_exterior_n_entrance_uplifts",
+      "arcology_exterior_s_entrance_uplifts",
+      "arcology_exterior_e_entrance_uplifts",
+      "arcology_exterior_w_entrance_uplifts"
+    ],
+    "name": "Arcology - Ground Level",
+    "sym": "A",
+    "color": "light_blue",
+    "see_cost": "full_high",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Crashing Ship",
+    "id": [
+      "crashing_ship_3",
+      "crashing_ship_2",
+      "crashing_ship_1",
+      "crashing_ship_6",
+      "crashing_ship_5",
+      "crashing_ship_4",
+      "crashing_ship_9",
+      "crashing_ship_8",
+      "crashing_ship_7"
+    ],
+    "sym": "+",
+    "color": "i_red",
+    "see_cost": "high",
+    "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Shuttle Landing Pad",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [ "afs_shuttle_pad_a1", "afs_shuttle_pad_a2", "afs_shuttle_pad_a1_roof", "afs_shuttle_pad_a2_roof" ],
+    "sym": "-",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Solar Array",
+    "id": [ "afs_solar_arrary_a1", "afs_solar_array_a2", "afs_solar_arrary_a1_roof", "afs_solar_array_a2_roof" ],
+    "sym": "S",
+    "color": "light_blue",
+    "see_cost": "medium",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Malamute Transport Wreck",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [
+      "afs_freight_transport_a1",
+      "afs_freight_transport_a2",
+      "afs_freight_transport_roof_a1",
+      "afs_freight_transport_roof_a2"
+    ],
+    "sym": "M",
+    "color": "light_gray",
+    "see_cost": "medium",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Habitat Block",
+    "id": [
+      "afs_habblock_1_a1",
+      "afs_hablock_1_a2",
+      "afs_habblock_1_floor2_a1",
+      "afs_hablock_1_floor2_a2",
+      "afs_habblock_1_roof_a1",
+      "afs_hablock_1_roof_a2",
+      "afs_habblock_2_a1",
+      "afs_hablock_2_a2",
+      "afs_habblock_2_a3",
+      "afs_habblock_2_a4",
+      "afs_habblock_2_floor2_a1",
+      "afs_hablock_2_floor2_a2",
+      "afs_habblock_2_floor2_a3",
+      "afs_habblock_2_floor2_a4",
+      "afs_habblock_2_floor3_a1",
+      "afs_hablock_2_floor3_a2",
+      "afs_habblock_2_floor3_a3",
+      "afs_habblock_2_floor3_a4",
+      "afs_habblock_2_floor4_a1",
+      "afs_hablock_2_floor4_a2",
+      "afs_habblock_2_floor4_a3",
+      "afs_habblock_2_floor4_a4",
+      "afs_habblock_2_floor5_a1",
+      "afs_hablock_2_floor5_a2",
+      "afs_habblock_2_floor5_a3",
+      "afs_habblock_2_floor5_a4",
+      "afs_habblock_2_roof_a1",
+      "afs_habblock_2_roof_a2",
+      "afs_habblock_3_ground",
+      "afs_habblock_3_floor_2",
+      "afs_habblock_3_floor_3",
+      "afs_habblock_3_floor_4",
+      "afs_habblock_3_roof"
+    ],
+    "sym": "H",
+    "color": "light_green",
+    "see_cost": "full_high",
+    "mondensity": 3,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "General Store",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [ "afs_general_store_n1", "afs_general_store_n2", "afs_general_store_n3" ],
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Enclosed Park",
+    "id": [ "afs_park_dome_ground_floor", "afs_park_dome_2nd_floor", "afs_park_dome_roof" ],
+    "sym": "P",
+    "color": "green",
+    "see_cost": "spaced_high",
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Enforcer Station",
+    "id": [ "afs_enforcer_station_a1", "afs_enforcer_station_a1_floor2", "afs_enforcer_station_a1_roof" ],
+    "sym": "E",
+    "color": "blue",
+    "see_cost": "high",
+    "mondensity": 3,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_pwr_sub_s", "afs_pwr_sub_s_roof" ],
+    "name": "small power substation",
+    "sym": "H",
+    "color": "light_cyan",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "afs_pwr_large_entrance",
+      "afs_pwr_large_2",
+      "afs_pwr_large_3",
+      "afs_pwr_large_4",
+      "afs_pwr_large_entrance_roof",
+      "afs_pwr_large_2_roof"
+    ],
+    "name": "large power substation",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Exosuit Garage",
+    "id": [ "afs_exosuit_garage_a1", "afs_exosuit_garage_a1_roof", "afs_exosuit_garage_2_a1", "afs_exosuit_garage_2_a1_roof" ],
+    "sym": "e",
+    "color": "yellow",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "UICA Shuttle Base",
+    "id": [
+      "afs_uica_shuttle_base_x0y0z0",
+      "afs_uica_shuttle_base_x1y0z0",
+      "afs_uica_shuttle_base_x0y1z0",
+      "afs_uica_shuttle_base_x1y1z0",
+      "afs_uica_shuttle_base_x0y0z1",
+      "afs_uica_shuttle_base_x1y0z1",
+      "afs_uica_shuttle_base_x0y1z1",
+      "afs_uica_shuttle_base_x1y1z1",
+      "afs_uica_shuttle_base_x0y0z2",
+      "afs_uica_shuttle_base_x1y0z2",
+      "afs_uica_shuttle_base_x0y1z2",
+      "afs_uica_shuttle_base_x1y1z2"
+    ],
+    "sym": "U",
+    "color": "blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Salvor Encampment",
+    "id": [
+      "afs_shuttlepad_salvors_a1_1",
+      "afs_shuttlepad_salvors_a2_1",
+      "afs_shuttlepad_salvors_b1_1",
+      "afs_shuttlepad_salvors_b2_1",
+      "afs_shuttlepad_salvors_a1_2",
+      "afs_shuttlepad_salvors_a2_2",
+      "afs_shuttlepad_salvors_b1_2",
+      "afs_shuttlepad_salvors_b2_2",
+      "afs_shuttlepad_salvors_a1_3",
+      "afs_shuttlepad_salvors_a2_3",
+      "afs_shuttlepad_salvors_b1_3",
+      "afs_shuttlepad_salvors_b2_3",
+      "afs_shuttlepad_salvors_a1_4",
+      "afs_shuttlepad_salvors_a2_4",
+      "afs_shuttlepad_salvors_b1_4",
+      "afs_shuttlepad_salvors_b2_4"
+    ],
+    "sym": "S",
+    "color": "red",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Mercurial Gene Clinic",
+    "id": [ "afs_gene_clinic_1_a1", "afs_gene_clinic_1_a2", "afs_gene_clinic_1_a3", "afs_gene_clinic_1_a4" ],
+    "sym": "G",
+    "color": "green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Cafe",
+    "id": [ "afs_cafe_a1_floor_1", "afs_cafe_a1_floor_2" ],
+    "sym": "c",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Saloon",
+    "id": [ "afs_saloon_1_floor_1", "afs_saloon_1_floor_2" ],
+    "sym": "s",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Garage",
+    "id": [ "afs_garage_a1_floor_1", "afs_garage_a1_floor_2", "afs_garage_2_a1_floor_1", "afs_garage_2_a1_floor_2" ],
+    "sym": "g",
+    "color": "yellow",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "EV Charging Station",
+    "id": [ "afs_ev_station_a1_floor_1", "afs_ev_station_a1_floor_2" ],
+    "sym": "e",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Aerodrone Landing Pad",
+    "id": [ "afs_aerodrone_landing_pad_a1_floor_1", "afs_aerodrone_landing_pad_a1_floor_2" ],
+    "sym": "H",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clothing Store",
+    "id": [ "afs_clothing_store_a1_floor_1", "afs_clothing_store_a1_floor_2" ],
+    "sym": "c",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Sporting Goods",
+    "id": [ "afs_sporting_goods_store_a1_floor_1", "afs_sporting_goods_store_a1_floor_2" ],
+    "sym": "S",
+    "color": "cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Urban Farm",
+    "id": [ "afs_small_urban_farm_a1_floor_1", "afs_small_urban_farm_a1_floor_2", "afs_small_urban_farm_a1_floor_3" ],
+    "sym": "F",
+    "color": "green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Office",
+    "id": [ "afs_small_office_a1_floor_1", "afs_small_office_a1_floor_2", "afs_small_office_a1_floor_3" ],
+    "sym": "o",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Grocer",
+    "id": [ "afs_grocer_a1_floor_1", "afs_grocer_a1_floor_2", "afs_grocer_a1_floor_3" ],
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clinic",
+    "id": [ "afs_clinic_a1_floor_1", "afs_clinic_a1_floor_2" ],
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  }
+]

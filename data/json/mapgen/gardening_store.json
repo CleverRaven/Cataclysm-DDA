@@ -84,13 +84,14 @@
       },
       "items": {
         "I": { "item": "office", "chance": 30 },
-        "S": { "item": "office_paper", "chance": 30 },
+        "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "r": { "item": "farming_tools", "chance": 60, "repeat": [ 1, 2 ] },
         "#": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
-        "U": { "item": "trash", "chance": 20 },
+        "U": { "item": "SUS_trash_dumpster", "chance": 20 },
         "@": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
         "s": { "item": "softdrugs", "chance": 20 },
-        "t": { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] }
+        "t": { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 6, "y": [ 9, 11 ] } ]
     }

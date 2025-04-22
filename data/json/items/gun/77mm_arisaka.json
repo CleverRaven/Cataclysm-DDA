@@ -1,7 +1,7 @@
 [
   {
     "id": "type99",
-    "copy-from": "rifle_manual",
+    "copy-from": "gun_base_rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "7.7mm battle rifle" },
@@ -26,27 +26,19 @@
     "barrel_length": "657 mm",
     "price": "650 USD",
     "price_postapoc": "18 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "color": "brown",
     "ammo": [ "77mm_arisaka" ],
     "dispersion": 150,
-    "durability": 10,
-    "blackpowder_tolerance": 24,
     "clip_size": 5,
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
-      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       {
@@ -55,8 +47,7 @@
         "ammo_restriction": { "77mm_arisaka": 5 },
         "allowed_speedloaders": [ "clip_77mm_arisaka" ]
       }
-    ],
-    "melee_damage": { "bash": 12 }
+    ]
   },
   {
     "id": "type99_sniper",
@@ -74,6 +65,6 @@
         "weight": 1
       }
     ],
-    "default_mods": [ "rail_mount", "offset_sight_rail", "type99_scope" ]
+    "built_in_mods": [ "type99_scope" ]
   }
 ]

@@ -37,7 +37,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER", "EATS" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
     "armor": { "bash": 20, "cut": 30, "bullet": 24 }
   },
   {
@@ -974,7 +974,7 @@
     "id": "mon_fry_crayfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_crayfish" },
+    "upgrades": { "half_life": 56, "into": "mon_fish_crayfish" },
     "name": { "str": "crustacean larva", "str_pl": "crustacean larvae" },
     "description": "A minuscule half-translucent crustacean larva.  Impossible to identify which species it belongs to.",
     "bodytype": "crab"
@@ -1053,7 +1053,7 @@
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "age_grow": 42, "into": "mon_crayfish_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "PULP_PRYING", "ARTHROPOD_BLOOD" ],
     "armor": { "cut": 8, "bullet": 6 }
   },
   {
@@ -1132,7 +1132,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER", "EATS" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
     "armor": { "bash": 10, "cut": 18, "bullet": 14 }
   },
   {

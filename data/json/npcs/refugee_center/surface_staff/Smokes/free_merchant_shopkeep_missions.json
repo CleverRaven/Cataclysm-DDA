@@ -142,7 +142,7 @@
         "place_loot": [
           { "group": "cannedfood", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 100 },
           { "group": "alcohol_bottled_canned", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
-          { "group": "trash_forest", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
+          { "group": "SUS_trash_forest_manmade", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
           { "group": "stash_drugs", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 75 },
           { "group": "dresser", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 75 },
           { "group": "softdrugs", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 50 },

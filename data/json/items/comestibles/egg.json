@@ -1013,6 +1013,7 @@
     "price": "95 cent",
     "price_postapoc": "50 cent",
     "material": [ "egg" ],
+    "spoils_in": "2 hours",
     "fun": 4,
     "flags": [ "FREEZERBURN" ],
     "vitamins": [ [ "egg_allergen", 1 ] ]
@@ -1151,6 +1152,7 @@
     "price_postapoc": "3 USD",
     "material": [ "bread", "egg" ],
     "primary_material": "bread",
+    "spoils_in": "4 hours",
     "volume": "649 ml",
     "fun": 10,
     "vitamins": [ [ "egg_allergen", 1 ], [ "bread_allergen", 1 ] ]

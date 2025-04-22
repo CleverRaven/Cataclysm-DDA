@@ -61,6 +61,7 @@
         "X": "f_rack",
         "x": "f_region_flower_decorative"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "gi", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 5, 8 ] },
@@ -111,7 +112,6 @@
         "S": "f_filing_cabinet",
         "x": [ "f_machinery_light", "f_machinery_heavy", "f_machinery_old", "f_machinery_electronic" ]
       },
-      "items": { "t": { "item": "office_paper", "chance": 25, "repeat": [ 2, 4 ] } },
       "place_nested": [
         {
           "chunks": [
@@ -248,7 +248,8 @@
         "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "E": { "item": "oven", "chance": 75, "repeat": [ 1, 2 ] },
         "@": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
-        "c": { "item": "cannedfood", "chance": 40, "repeat": [ 1, 2 ] }
+        "c": { "item": "cannedfood", "chance": 40, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [ { "group": "GROUP_DOJO", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 3, 8 ] } ]
     }

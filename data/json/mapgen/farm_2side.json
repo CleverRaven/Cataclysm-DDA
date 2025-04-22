@@ -101,7 +101,7 @@
         "i": { "item": "cattlefodder", "chance": 40, "repeat": 10 }
       },
       "place_monsters": [ { "monster": "GROUP_DOMESTIC", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": [ 1, 2 ], "density": 0.2 } ],
-      "place_vehicles": [ { "vehicle": "farm_vehicles", "x": 36, "y": 18, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "farm_vehicles", "x": 36, "y": 18, "rotation": 270 } ]
     }
   },
   {
@@ -450,7 +450,7 @@
       "nested": { "]": { "chunks": [ "garden_3x3_1" ] } },
       "place_loot": [ { "item": "television", "x": 44, "y": 10, "chance": 100 }, { "item": "stereo", "x": 44, "y": 9, "chance": 50 } ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 2, 21 ], "repeat": [ 2, 4 ] } ],
-      "place_vehicles": [ { "vehicle": "pickup", "x": 36, "y": 4, "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "pickup", "x": 36, "y": 4, "rotation": 90 } ]
     }
   },
   {
