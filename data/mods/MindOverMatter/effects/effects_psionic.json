@@ -1463,7 +1463,7 @@
     "remove_message": "Your spasms stop.",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "CANNOT_MOVE", "NO_PSIONICS", "NO_SPELLCASTING" ]
+    "flags": [ "CANNOT_MOVE", "CANNOT_ATTACK", "NO_PSIONICS", "NO_SPELLCASTING" ]
   },
   {
     "type": "effect_type",
