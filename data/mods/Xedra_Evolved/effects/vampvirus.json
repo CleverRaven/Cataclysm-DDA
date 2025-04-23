@@ -196,7 +196,8 @@
                           "VAMPIRIC_STRENGTH",
                           "VAMPIRIC_RESILIENCE",
                           "VAMPIRE_HEIGHTENED_SENSES",
-                          "VAMPIRE_SILENT_MOVE"
+                          "VAMPIRE_SILENT_MOVE",
+                          "VAMPIRE_HEALTH_BONUS"
                         ],
                         "type": "mutation",
                         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
@@ -276,7 +277,16 @@
                   "condition": { "u_has_trait": "VAMPIRE3" },
                   "effect": [
                     {
-                      "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
+                      "u_roll_remainder": [
+                        "BLOODHASTE",
+                        "MAGICFORBLOOD",
+                        "HYPNOTIC_GAZE",
+                        "BLOODBANK",
+                        "VAMPIRE_COMMAND_BEAST",
+                        "VAMPIRE_EARTH_SLUMBER",
+                        "VAMPIRE_CARDIO_BONUS",
+                        "VAMPIRE_MOTION_ALARM"
+                      ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                       "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]

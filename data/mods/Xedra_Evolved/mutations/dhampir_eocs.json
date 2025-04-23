@@ -65,6 +65,7 @@
             "VAMPIRIC_RESILIENCE",
             "VAMPIRE_HEIGHTENED_SENSES",
             "VAMPIRE_SILENT_MOVE",
+            "VAMPIRE_HEALTH_BONUS",
             "DHAMPIR_REDUCED_COLD_TEMPS"
           ],
           "type": "mutation",
@@ -104,6 +105,8 @@
                               "MAGICFORBLOOD",
                               "HYPNOTIC_GAZE",
                               "VAMPIRE_COMMAND_BEAST",
+                              "VAMPIRE_CARDIO_BONUS",
+                              "VAMPIRE_MOTION_ALARM",
                               "DHAMPIR_REDUCED_PAIN",
                               "DHAMPIR_MEND_WOUNDS_FASTER"
                             ],

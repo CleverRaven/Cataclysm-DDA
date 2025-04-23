@@ -674,6 +674,22 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_HEALTH_BONUS",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Blush of Health" },
+    "description": "The power of stolen blood keeps you feel amazing.  As long as you are not suffering from the Withering, you gain a bonus to your health.",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_any_effect": [ "effect_dhampir_enervated_blood", "withering" ] } },
+        "ench_effects": [ { "effect": "effect_vampire_health_bonus", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_SILENT_MOVE",
     "points": 1,
     "starting_trait": false,
@@ -985,6 +1001,30 @@
     "name": { "str": "Earthen Slumber" },
     "description": "You can sleep within the earth itself, avoiding the hateful light of the sun.",
     "spells_learned": [ [ "vampire_earth_slumber_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_CARDIO_BONUS",
+    "name": { "str": "Incarnadine Energy" },
+    "points": 0,
+    "description": "The stolen blood within your body provides you with a fountain of energy.  You gain a bonus to your Cardio rating.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MOTION_ALARM",
+    "name": { "str": "Wakeful Slumber" },
+    "points": 0,
+    "description": "Your senses are so fine they can alert you to danger even while you slumber.  Activate to cause yourself to wake up if danger approaches while you sleep.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
