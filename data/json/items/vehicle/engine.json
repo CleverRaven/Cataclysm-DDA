@@ -370,7 +370,7 @@
     "description": "A gas turbine engine.  Used primarily for small helicopters.",
     "//": "Based on Allison 250-C30R.  Doubled the published weight to account for a transmission.",
     "//2": "The real materials used to make gas turbines are real-life superalloys and high-end stainless steels, but superalloy is reserved for sci-fi things.",
-    "//3": "I chose a tempered steel as it's a highest-end mundane steel in game.",
+    "//3": "I chose a tempered steel as it's a highest-end mundane steel in game. New material (aerospace_steel?) can be added later.",
     "material": [ "qt_steel" ],
     "weight": "250 kg",
     "volume": "260 L",
