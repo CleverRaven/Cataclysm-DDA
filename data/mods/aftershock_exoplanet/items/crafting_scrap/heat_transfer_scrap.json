@@ -8,7 +8,8 @@
     "looks_like": "scrap"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_heat_2",
     "category": "chems",
     "name": { "str_sp": "supercritical coolant" },

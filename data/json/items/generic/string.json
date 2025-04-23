@@ -200,7 +200,8 @@
   },
   {
     "id": "stick_fiber",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "spare_parts",
     "name": { "str": "fibrous stalk" },
     "symbol": "=",

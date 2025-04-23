@@ -101,7 +101,8 @@
     "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_zombie",
     "//": "obsoleted",
@@ -110,7 +111,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_skeleton",
     "//": "obsoleted",
@@ -119,7 +121,8 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_decayed_pouncer",
     "//": "obsoleted",

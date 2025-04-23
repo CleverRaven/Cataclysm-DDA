@@ -1661,7 +1661,8 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_pine_nuts",
     "name": { "str_sp": "TEST pine nuts" },
     "weight": "30 g",
@@ -1686,7 +1687,8 @@
   },
   {
     "id": "test_bitter_almond",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "category": "food",
     "name": { "str_sp": "test bitter almonds" },
@@ -1703,7 +1705,8 @@
   },
   {
     "id": "test_hallu_nutmeg",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "category": "food",
     "name": { "str_sp": "test hallucinogenic nutmeg" },
@@ -1719,7 +1722,8 @@
   },
   {
     "id": "test_apple",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "category": "food",
     "name": { "str": "test apple" },
@@ -1742,7 +1746,8 @@
   },
   {
     "id": "test_egg",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "category": "food",
     "name": { "str": "test egg" },
@@ -1763,7 +1768,8 @@
     "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ], [ "egg_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_whiskey_caffenated",
     "name": { "str_sp": "caffenated whiskey" },
     "weight": "36 g",
@@ -2591,7 +2597,8 @@
   },
   {
     "id": "test_liquid",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "category": "food",
     "name": { "str_sp": "test liquid" },
@@ -2802,7 +2809,8 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_milk",
     "name": { "str_sp": "intolerant milk" },
     "weight": "258 g",
@@ -2825,8 +2833,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "BREWABLE" ],
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "test_brew_wine",
     "name": "tennis ball wine must",
     "description": "Unfermented tennis ball wine.  A rubbery, boiled juice made from mashed tennis balls.",
@@ -2849,7 +2857,8 @@
     "brew_results": [ "test_wine", "yeast" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_wine",
     "name": { "str_sp": "test tennis ball wine" },
     "weight": "36 g",
@@ -2893,7 +2902,8 @@
   },
   {
     "id": "test_gum",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "test chewing gum" },
     "description": "Curiously stimulating and thirst-quenching blueberry-flavored chewing gum.",
@@ -2917,7 +2927,8 @@
     "use_action": [ "CHEW" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_tallow",
     "name": { "str": "tallow" },
     "weight": "55 g",
@@ -2941,14 +2952,16 @@
     "fun": -18
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_tallow2",
     "copy-from": "test_tallow",
     "name": { "str": "tallow" },
     "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_cracklins",
     "name": { "str_sp": "cracklins" },
     "weight": "42 g",
@@ -2972,7 +2985,8 @@
   },
   {
     "id": "test_cmdline_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "In the Beginning… Was the Command Line", "str_pl": "copies of In the Beginning… Was the Command Line" },
     "description": "Humorous 1999 essay by Neal Stephenson comparing computer operating system vendors to car dealerships.",
     "weight": "300 g",
@@ -2987,7 +3001,8 @@
   },
   {
     "id": "test_dragon_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Principles of Compiler Design", "str_pl": "copies of Principles of Compiler Design" },
     "description": "Alfred Aho and Jeffrey Ullman's classic 1977 computer science textbook.  Features a cover drawing of a knight wielding an LALR parser generation and syntax directed translation against the metaphorical green dragon, The Complexity of Compiler Design.",
     "weight": "1587 g",
@@ -3112,7 +3127,8 @@
   },
   {
     "id": "test_thumb",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "other",
     "material": [ "hflesh" ],
     "name": { "str": "test mutated thumb" },
@@ -3438,7 +3454,8 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "debug_orange",
     "name": { "str": "orange" },
     "weight": "140 g",
@@ -3460,7 +3477,8 @@
   },
   {
     "id": "debug_vitamins",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "multivitamin" },
     "description": "Essential dietary nutrients conveniently packaged in pill form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
@@ -3632,7 +3650,8 @@
     "flags": [ "BELTED" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "test_vitfood",
     "name": { "str": "Vitamin Food" },
     "weight": "250 g",
@@ -4916,7 +4935,8 @@
   },
   {
     "id": "test_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Unit Testing Principles", "str_pl": "copies of Unit Testing Principles" },
     "description": "Book about testing to test plural form.",
     "weight": "1587 g",
@@ -4930,7 +4950,8 @@
   },
   {
     "id": "test_mag",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Journal of Testing", "str_pl": "issues of Journal of Testing" },
     "description": "Issue about testing to test plural form.",
     "weight": "60 g",
@@ -5121,7 +5142,8 @@
     "revert_to": "cheese_hard"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "test_100_kcal",
     "category": "spare_parts",
@@ -5138,7 +5160,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "test_200_kcal",
     "category": "spare_parts",
@@ -5156,7 +5179,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "test_500_kcal",
     "category": "spare_parts",
@@ -5174,7 +5198,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "toastem_test",
     "name": { "str": "toast-em" },
     "copy-from": "toastem",

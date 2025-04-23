@@ -50,7 +50,8 @@
     "color": "light_gray"
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "book_nonf_magic_origin_of_species",
     "name": {
       "str": "On the Origin of Species by Means of Natural and Supernatural Selection",
@@ -75,7 +76,8 @@
     "read_fun": 2
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "book_nonf_empty_social_history_no_magic",
     "name": {
       "str": "Running on Empty: A Social History of those Born Without Magic",
@@ -99,7 +101,8 @@
     "read_fun": 1
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "book_nonf_history_antimagic_restraints",
     "name": {
       "str": "Prisons and Magic: The History of Past and Present Antimagic Restraints",
@@ -123,7 +126,8 @@
     "read_fun": 1
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "magazine_augmentative_review",
     "copy-from": "mag_news",
     "name": { "str": "Augmentative Technomancy Review", "str_pl": "issues of Augmentative Technomancy Review" },

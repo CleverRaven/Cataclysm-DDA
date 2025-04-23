@@ -1,7 +1,8 @@
 [
   {
     "id": "purity_crackers",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "purity crackers" },
     "description": "An incredibly hard cracker.  Squeezing it in your hand it feels as though your teeth might break before the cracker does.  The packaging on the side shows a tall being feeding these crackers to a horned and four legged creature.",

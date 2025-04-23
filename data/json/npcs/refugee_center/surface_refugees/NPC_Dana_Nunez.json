@@ -578,7 +578,8 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "Dana_sourdough_bread",
     "name": { "str_sp": "Dana's sourdough bread" },
     "copy-from": "sourdough_bread",

@@ -1,7 +1,8 @@
 [
   {
     "id": "yum_lichen",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "clump of lichen", "str_pl": "clumps of lichen" },
     "weight": "120 g",
     "color": "red",
@@ -21,7 +22,8 @@
   },
   {
     "id": "yum_lichen_extra",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "clump of processed lichen", "str_pl": "clumps of processed lichen" },
     "weight": "115 g",
     "color": "red",
@@ -40,7 +42,8 @@
   {
     "id": "frost_human_flesh",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of frostbitten human meat", "str_pl": "chunks of frostbitten human meat" },
     "description": "Freshly butchered meat from a frozen human carcass, not the most appetizing.",
     "weight": "296 g",
@@ -59,7 +62,8 @@
   {
     "id": "frost_human_cooked",
     "copy-from": "frost_human_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked freezerburned human meat" },
     "description": "A freshly cooked slice of human meat, it has severe frostburn.",
     "proportional": { "price": 1.5 },
@@ -71,7 +75,8 @@
   {
     "id": "frost_hstomach",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "frostbitten human stomach",
     "description": "A shriveled gray stomach, it hasn't seen use in a very long time.",
     "weight": "72 g",
@@ -86,8 +91,8 @@
     "fun": -15
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "frost_bone_human",
     "category": "spare_parts",
     "name": { "str": "frostbitten human bone" },
@@ -105,7 +110,8 @@
     "recipe": "meal_bone_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frost_human_fat",
     "name": { "str": "chunk of frostbitten human fat", "str_pl": "chunks of frostbitten human fat" },
     "weight": "220 g",
@@ -126,7 +132,8 @@
     "fun": -20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frost_human_tallow",
     "name": { "str_sp": "freezerburned human tallow" },
     "weight": "220 g",
@@ -147,14 +154,16 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frost_human_lard",
     "name": { "str_sp": "freezerburned human lard" },
     "copy-from": "frost_human_tallow",
     "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt, and while it will remain edible for a very long time, it's not the most appetizing."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frost_raw_hleather",
     "category": "spare_parts",
     "name": { "str_sp": "raw frostbitten human skin" },
@@ -178,7 +187,8 @@
   {
     "id": "alien_flesh",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of alien flesh", "str_pl": "chunks of alien flesh" },
     "description": "Freshly butchered meat from an alien corpse.  You could eat it raw or cooked, but this is a completely alien biosphere.",
     "weight": "296 g",
@@ -200,7 +210,8 @@
     "weight": "296 g",
     "volume": "250 ml",
     "spoils_in": "1 day",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked alien flesh" },
     "description": "This is a chunk of freshly cooked alien meat.  It could be either filling and nutritious, or poisonous and lethal.",
     "price": "7 USD 50 cent",
@@ -213,7 +224,8 @@
   {
     "id": "alien_meat_scrap",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "scrap of alien flesh", "str_pl": "scraps of alien flesh" },
     "description": "This is a tiny scrap of dubiously edible alien meat.  It's not much, but it might be better than starving.",
     "cooks_like": "meat_scrap_cooked",
@@ -224,7 +236,8 @@
   {
     "id": "alien_meat_scrap_cooked",
     "copy-from": "alien_meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "cooked scrap of alien flesh", "str_pl": "cooked scraps of alien flesh" },
     "parasites": 0,
     "fun": 0,
@@ -235,7 +248,8 @@
   {
     "id": "alien_stomach",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "alien stomach",
     "description": "A balloon-like organ you can only guess is a stomach.  It is surprisingly durable.",
     "weight": "72 g",
@@ -253,14 +267,16 @@
   {
     "id": "alien_stomach_large",
     "copy-from": "alien_stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "large alien stomach",
     "description": "A balloon-like organ of a large alien you can only guess is a stomach.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
     "id": "alien_lung",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "flesh",
     "looks_like": "offal",
     "name": { "str": "piece of raw alien lung", "str_pl": "pieces of raw alien lung" },
@@ -279,7 +295,8 @@
   },
   {
     "id": "alien_lung_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_lung",
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of alien lung", "str_pl": "cooked pieces of alien lung" },
@@ -289,7 +306,8 @@
   },
   {
     "id": "alien_liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien liver" },
@@ -301,7 +319,8 @@
   },
   {
     "id": "alien_liver_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_liver",
     "looks_like": "meat_cooked",
     "name": { "str_sp": "cooked alien liver" },
@@ -314,7 +333,8 @@
   },
   {
     "id": "alien_brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien brains" },
@@ -330,7 +350,8 @@
   },
   {
     "id": "alien_brain_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_brain",
     "looks_like": "offal_cooked",
     "name": { "str_sp": "cooked alien brains" },
@@ -343,7 +364,8 @@
   },
   {
     "id": "alien_kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien kidney" },
@@ -357,7 +379,8 @@
   },
   {
     "id": "alien_kidney_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_kidney",
     "looks_like": "offal_cooked",
     "name": { "str_sp": "cooked alien kidney" },
@@ -371,7 +394,8 @@
   },
   {
     "id": "alien_sweetbread",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien sweetbread" },
@@ -385,7 +409,8 @@
   },
   {
     "id": "alien_sweetbread_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "alien_sweetbread",
     "looks_like": "meat_cooked",
     "name": { "str_sp": "cooked alien sweetbread" },
@@ -396,8 +421,8 @@
     "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "alien_bone",
     "category": "spare_parts",
     "name": { "str": "alien bone" },
@@ -415,7 +440,8 @@
     "recipe": "meal_bone_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "alien_fat",
     "name": { "str": "chunk of alien fat", "str_pl": "chunks of alien fat" },
     "weight": "220 g",
@@ -436,7 +462,8 @@
     "fun": -20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "alien_tallow",
     "name": { "str_sp": "alien tallow" },
     "weight": "55 g",
@@ -457,14 +484,16 @@
     "fun": -18
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "alien_lard",
     "name": { "str_sp": "alien lard" },
     "copy-from": "alien_tallow",
     "description": "A smooth white block of dry-rendered animal fat.  It'll last for a very long time, but you are unsure of its edibility.  Can be used as an ingredient in many foods and projects."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "alien_organs",
     "symbol": "¨",
@@ -483,7 +512,8 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "alien_cracklins",
     "name": { "str_sp": "alien cracklins" },
     "weight": "42 g",
@@ -505,7 +535,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "frost_human_cracklins",
     "name": { "str_sp": "freezerburned human cracklins" },
     "weight": "42 g",
@@ -527,7 +558,8 @@
     "fun": -4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_alien_leather",
     "category": "spare_parts",
     "name": { "str_sp": "raw alien hide" },
@@ -549,7 +581,8 @@
     "fun": -12
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "raw_alien_fur",
     "category": "spare_parts",
     "name": { "str_sp": "raw alien pelt" },

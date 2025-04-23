@@ -25,7 +25,8 @@
     "description": "Scales from a black dragon, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "black_dragon_hide_raw",
     "category": "spare_parts",
     "name": { "str_sp": "raw black dragon hide" },

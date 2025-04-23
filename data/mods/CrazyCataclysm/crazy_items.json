@@ -361,7 +361,8 @@
   {
     "id": "flu_shot_fun",
     "copy-from": "flu_shot",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "flu shot" },
     "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_batrachian", 2300 ] ],

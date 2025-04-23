@@ -423,7 +423,8 @@
     "recipe": "meal_chitin_piece_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_bug_hydrogen_sacs",
     "comestible_type": "FOOD",
     "symbol": "o",
@@ -2793,7 +2794,8 @@
     "description": "A beautiful black onyx."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "straw_pile",
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },

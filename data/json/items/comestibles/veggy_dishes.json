@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cooked_cattail_stalk",
     "name": { "str": "cooked cattail stalk" },
     "copy-from": "cattail_stalk",
@@ -13,15 +14,16 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cooked_burdock_stalk",
     "name": { "str": "cooked plant stalk" },
     "copy-from": "cooked_cattail_stalk",
     "description": "A cooked stalk from a plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "roasted_cattail_rhizome",
     "name": { "str": "roasted cattail rhizome" },
     "copy-from": "cattail_rhizome",
@@ -39,8 +41,8 @@
     "recipe": "flour_wheat_free_mill_2_15"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "starch",
     "name": { "str_sp": "starch" },
     "weight": "180 g",
@@ -61,7 +63,8 @@
     "recipe": "flour_mill_1_15"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "garlic_roasted",
     "looks_like": "garlic_clove",
     "name": { "str_sp": "roasted garlic" },
@@ -82,7 +85,8 @@
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chili_pepper_roasted",
     "looks_like": "chili_pepper",
     "name": { "str": "roasted chili pepper" },
@@ -102,7 +106,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dandelion_cooked",
     "name": { "str_sp": "cooked dandelion greens" },
     "copy-from": "raw_dandelion",
@@ -114,7 +119,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dandelion_fried",
     "name": { "str_sp": "fried dandelions" },
     "color": "yellow",
@@ -133,7 +139,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "burdock_cooked",
     "name": { "str_sp": "cooked burdock greens" },
     "copy-from": "raw_burdock",
@@ -145,7 +152,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "burdock_fried",
     "name": { "str_sp": "fried burdocks" },
     "color": "green",
@@ -164,7 +172,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dandelionburdock_fried",
     "name": { "str_sp": "fried dandelions and burdocks" },
     "color": "green",
@@ -183,7 +192,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bamboo_cooked",
     "name": { "str_sp": "cooked bamboo shoots" },
     "copy-from": "raw_bamboo",
@@ -195,7 +205,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bamboo_fried",
     "name": { "str_sp": "fried bamboo shoots" },
     "color": "green",
@@ -214,7 +225,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_cooked",
     "name": { "str_sp": "cooked plant marrow" },
     "copy-from": "veggy",
@@ -225,7 +237,8 @@
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_wild_cooked",
     "name": { "str_sp": "cooked wild vegetables" },
     "copy-from": "veggy",
@@ -236,7 +249,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_aspic",
     "name": { "str_sp": "vegetable aspic" },
     "weight": "120 g",
@@ -255,8 +269,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "buckwheat_cooked",
     "name": { "str_sp": "cooked buckwheat" },
     "copy-from": "buckwheat",
@@ -269,7 +283,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_corn",
     "name": { "str_sp": "canned corn" },
     "comestible_type": "FOOD",
@@ -289,7 +304,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "corn_on_cob",
     "name": { "str_sp": "corn on the cob" },
     "comestible_type": "FOOD",
@@ -308,7 +324,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pan_roasted_corn",
     "name": { "str_sp": "pan roasted corn" },
     "comestible_type": "FOOD",
@@ -327,7 +344,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hominy",
     "name": { "str_sp": "hominy" },
     "comestible_type": "FOOD",
@@ -345,7 +363,8 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cornmeal",
     "name": { "str_sp": "cornmeal" },
     "weight": "12500 mg",
@@ -366,7 +385,8 @@
     "fun": -5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_veggy_beans",
     "name": { "str_sp": "vegetarian baked beans" },
     "weight": "350 g",
@@ -386,8 +406,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "dry_rice",
     "name": { "str_sp": "dried rice" },
     "weight": "66 g",
@@ -413,8 +433,8 @@
     "recipe": "flour_wheat_free_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "dry_wild_rice",
     "name": { "str_sp": "dry wild rice" },
     "weight": "66 g",
@@ -439,8 +459,8 @@
     "recipe": "flour_wheat_free_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "rice_cooked",
     "name": { "str_sp": "cooked rice" },
     "weight": "200g",
@@ -461,8 +481,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "wild_rice_cooked",
     "name": { "str_sp": "cooked wild rice" },
     "weight": "200g",
@@ -483,7 +503,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_veggy_rice",
     "name": { "str_sp": "fried rice" },
     "weight": "300 g",
@@ -503,7 +524,8 @@
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "beansnrice",
     "name": { "str_sp": "beans and rice" },
     "weight": "440 g",
@@ -523,7 +545,8 @@
     "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "succotash",
     "name": { "str_sp": "succotash" },
     "weight": "440 g",
@@ -543,7 +566,8 @@
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "succotash_deluxe",
     "name": { "str_sp": "succotash deluxe" },
     "weight": "440 g",
@@ -563,7 +587,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tofu_rice",
     "name": { "str_sp": "tofu fried rice" },
     "weight": "135 g",
@@ -582,7 +607,8 @@
     "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "tofu_stirfry",
     "name": { "str_sp": "tofu stirfry" },
     "weight": "135 g",
@@ -601,7 +627,8 @@
     "vitamins": [ [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "deluxe_veggy_beansnrice",
     "name": { "str_sp": "deluxe vegetarian beans and rice" },
     "weight": "540 g",
@@ -621,7 +648,8 @@
     "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potato_baked",
     "name": { "str": "baked potato", "str_pl": "baked potatoes" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "baked ground nuts" } } ],
@@ -642,7 +670,8 @@
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potato_boiled",
     "name": { "str": "boiled potato", "str_pl": "boiled potatoes" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "boiled ground nuts" } } ],
@@ -662,7 +691,8 @@
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lotus_rhizome_boiled",
     "name": { "str": "boiled lotus root" },
     "weight": "200 g",
@@ -681,7 +711,8 @@
     "vitamins": [ [ "vitC", 58 ], [ "calcium", 5 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "plantain_cooked",
     "name": { "str": "roasted cooking banana" },
     "weight": "118 g",
@@ -699,7 +730,8 @@
     "vitamins": [ [ "vitC", 26 ], [ "iron", 6 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "carrot_roasted",
     "name": { "str": "roasted carrot" },
     "copy-from": "carrot",
@@ -716,7 +748,8 @@
     "vitamins": [ [ "vitC", "11 mg" ], [ "iron", "1 mg" ], [ "calcium", "63 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "carrot_glazed",
     "name": { "str": "glazed carrot" },
     "copy-from": "carrot",
@@ -733,7 +766,8 @@
     "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "400 μg" ], [ "calcium", "39 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cooked_pumpkin",
     "name": { "str_sp": "mashed pumpkin" },
     "copy-from": "pumpkin_cut",
@@ -753,7 +787,8 @@
     "delete": { "flags": [ "RAW" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pie_veggy",
     "name": { "str": "vegetable pie" },
     "weight": "240 g",
@@ -774,7 +809,8 @@
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "samosa_veggy",
     "name": { "str": "vegetable samosa" },
     "weight": "100 g",
@@ -796,7 +832,8 @@
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 6 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pizza_veggy",
     "name": { "str": "vegetable pizza" },
     "weight": "230 g",
@@ -816,7 +853,8 @@
     "vitamins": [ [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sauce_pesto",
     "name": { "str_sp": "pesto" },
     "weight": "65 g",
@@ -837,7 +875,8 @@
     "fun": 4
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_canned",
     "name": { "str_sp": "canned veggy" },
     "conditional_names": [
@@ -902,7 +941,8 @@
     "vitamins": [ [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_salted",
     "name": { "str": "salted veggy chunk" },
     "conditional_names": [
@@ -966,7 +1006,8 @@
     "vitamins": [ [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "spaghetti_pesto",
     "name": { "str_sp": "spaghetti al pesto" },
     "weight": "80 g",
@@ -985,7 +1026,8 @@
     "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ], [ "nut_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pickle",
     "name": { "str": "pickle" },
     "copy-from": "gherkin",
@@ -998,7 +1040,8 @@
     "fun": 5
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sauerkraut_onions",
     "name": { "str_sp": "sauerkraut w/ sauteed onions" },
     "weight": "424 g",
@@ -1019,7 +1062,8 @@
     "vitamins": [ [ "vitC", 99 ], [ "calcium", 21 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_pickled",
     "name": { "str_sp": "pickled veggy" },
     "conditional_names": [
@@ -1047,7 +1091,8 @@
     "fun": 7
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_pickled_fried",
     "copy-from": "veggy_pickled",
     "name": { "str": "fried pickled veggy", "str_pl": "fried pickled veggies" },
@@ -1087,7 +1132,8 @@
     "spoils_in": "7 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_veggy",
     "name": { "str_sp": "dehydrated vegetable" },
     "conditional_names": [
@@ -1150,8 +1196,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "dry_chili",
     "name": { "str": "dehydrated chili pepper" },
     "weight": "40 g",
@@ -1173,8 +1219,8 @@
     "recipe": "chilly-p_mill_1_50"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "dry_garlic",
     "name": { "str": "dehydrated garlic clove" },
     "weight": "2 g",
@@ -1196,8 +1242,8 @@
     "recipe": "garlic_powder_mill_1_50"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "dry_corn",
     "name": { "str_sp": "dehydrated corn kernels" },
     "weight": "45 g",
@@ -1223,7 +1269,8 @@
     "recipe": "cornmeal_mill_1_3"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_veggy",
     "name": { "str_sp": "rehydrated vegetable" },
     "conditional_names": [
@@ -1279,7 +1326,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_chili",
     "name": { "str": "rehydrated chili pepper" },
     "weight": "48 g",
@@ -1299,7 +1347,8 @@
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_garlic",
     "name": { "str": "rehydrated garlic clove" },
     "weight": "2 g",
@@ -1319,7 +1368,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_corn_kernels",
     "name": { "str_sp": "rehydrated corn kernels" },
     "copy-from": "veggy",
@@ -1336,7 +1386,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "veggy_salad",
     "name": { "str_sp": "vegetable salad" },
     "weight": "227 g",
@@ -1357,7 +1408,8 @@
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dried_salad",
     "name": { "str_sp": "dried salad" },
     "copy-from": "veggy_salad",
@@ -1374,7 +1426,8 @@
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "insta_salad",
     "name": { "str_sp": "insta-salad" },
     "copy-from": "veggy_salad",
@@ -1384,7 +1437,8 @@
     "price_postapoc": "50 cent"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dahlia_baked",
     "name": { "str": "baked dahlia root" },
     "copy-from": "dahlia_root",
@@ -1396,7 +1450,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "salsify_baked",
     "name": { "str": "roasted salsify", "str_pl": "roasted salsifies" },
     "copy-from": "salsify_raw",
@@ -1409,7 +1464,8 @@
     "//": "From Oregon Trail. Be prepared to lose it as soon as your wagon tips over."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sushi_rice",
     "name": { "str_sp": "sushi rice" },
     "weight": "55 g",
@@ -1428,7 +1484,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "onigiri",
     "name": { "str_sp": "onigiri" },
     "weight": "99 g",
@@ -1447,7 +1504,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sushi_veggyroll",
     "name": { "str_sp": "vegetable hosomaki" },
     "weight": "275 g",
@@ -1466,7 +1524,8 @@
     "vitamins": [ [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_veggy_tainted",
     "category": "other",
     "name": { "str": "dehydrated alien fungus chunk" },
@@ -1479,7 +1538,8 @@
     "flags": [ "EDIBLE_FROZEN", "FUNGAL_VECTOR" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sauerkraut",
     "name": { "str_sp": "sauerkraut" },
     "weight": "255 g",
@@ -1499,7 +1559,8 @@
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "nopalitos",
     "name": { "str": "nopalito" },
     "weight": "100 g",
@@ -1518,7 +1579,8 @@
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fiddlehead_boiled",
     "name": { "str_sp": "boiled fiddleheads" },
     "weight": "50 g",
@@ -1537,7 +1599,8 @@
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fiddlehead_sauteed",
     "name": { "str_sp": "sauteed fiddleheads" },
     "weight": "100 g",
@@ -1556,7 +1619,8 @@
     "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "jerusalem_artichoke_sauteed",
     "name": { "str": "sauteed Jerusalem artichoke" },
     "copy-from": "jerusalem_artichoke",
@@ -1573,7 +1637,8 @@
     "vitamins": [ [ "calcium", 1 ], [ "iron", 11 ], [ "vitC", 2 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "jerusalem_artichoke_boiled",
     "name": { "str": "boiled Jerusalem artichoke" },
     "copy-from": "jerusalem_artichoke_sauteed",
@@ -1583,7 +1648,8 @@
     "calories": 120
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cooked_bell_pepper",
     "name": { "str": "cooked bell pepper" },
     "copy-from": "bell_pepper",
@@ -1596,7 +1662,8 @@
     "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "groundnut_prepared",
     "name": { "str_sp": "prepared ground nuts" },
     "copy-from": "groundnut",
@@ -1609,7 +1676,8 @@
     "fun": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "groundnut_boiled",
     "name": { "str_sp": "boiled ground nuts" },
     "copy-from": "groundnut_prepared",
@@ -1617,7 +1685,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "salsa",
     "name": { "str_sp": "salsa" },
     "weight": "67 g",
@@ -1640,7 +1709,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "melitzanosalata",
     "name": { "str_sp": "Melitzanosalata" },
     "weight": "260 g",
@@ -1660,7 +1730,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "onion_sauteed",
     "name": { "str_sp": "sauteed onions" },
     "weight": "129 g",
@@ -1679,7 +1750,8 @@
     "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "kombu",
     "name": { "str_sp": "kombu" },
     "weight": "10 g",
@@ -1698,7 +1770,8 @@
     "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mashed_potato",
     "name": { "str_sp": "mashed potato" },
     "copy-from": "potato_baked",

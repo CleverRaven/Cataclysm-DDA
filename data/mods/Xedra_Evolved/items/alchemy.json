@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blackout_rage_drink",
     "looks_like": "cola",
     "name": { "str_sp": "Bored, the blackout rage drink" },
@@ -50,7 +51,8 @@
   },
   {
     "id": "small_blessing_brigit",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "small blessing of Brigit" },
     "description": "A small pill made from royal jelly, ash, and poppies.  Blessed with prayers to Brigit over several hours.  Will end any cold or flu instantaneously.",
@@ -72,7 +74,8 @@
   },
   {
     "id": "prophets_lsd",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "prophet's LSD" },
     "description": "A windowpane worth of Rainbow Skull LSD tabs.  These tabs are said to grant the consumer the ability to see several seconds into the future.",
@@ -89,7 +92,8 @@
   },
   {
     "id": "truckers_stamina_pills",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "alchemically altered trucker pill" },
     "description": "When you began the sinister path into occultism, you never imagined you'd be alchemically altering truckstop viagra into combat drugs.  But here you are, no sleep til Boston.",
@@ -143,7 +147,8 @@
     "name": { "str_sp": "spirit show dust" },
     "description": "A key ingredient for Victorian seances led by actual occultists.  This dust summons spirits from beyond to walk the earth again for a short time.  The spirits it summons are mindless and disappear upon being touched.",
     "use_action": { "type": "cast_spell", "spell_id": "ghost_inflatable", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "weight": "265 g",
     "quench": -1,
     "calories": 0,
@@ -277,7 +282,8 @@
   },
   {
     "id": "life_extension_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "life extension potion" },
     "description": "A source of considerable wealth for the few alchemists talented enough to distill them, these potions are capable of adding decades to the lifespan of those who can afford the price of the rare and expensive ingredients they require.  They are however not able to prolong a life indefinitely beyond its natural years, and you will need to find other means to achieve immortality, if that is your goal.",
@@ -312,7 +318,8 @@
   },
   {
     "id": "potion_dex",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "potion of wicked quick hands", "str_pl": "potions of wicked quick hands" },
     "description": "This is a potion of wicked quick hands.  It will increase your dexterity for 50 minutes.",
     "copy-from": "life_extension_potion",
@@ -326,7 +333,8 @@
     "name": { "str": "potion of terrible strength", "str_pl": "potions of terrible strength" },
     "description": "This is a potion of terrible strength.  It will increase your strength for 50 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "terrible_strength", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "color": "red",
     "calories": 50,
     "copy-from": "life_extension_potion"
@@ -336,7 +344,8 @@
     "name": { "str": "potion of hare's leap", "str_pl": "potions of hare's leap" },
     "description": "This is a potion of hare's leap.  It allows you to jump afar from danger.",
     "use_action": { "type": "cast_spell", "spell_id": "spell_hare_leap", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "color": "green_yellow",
     "calories": 50,
     "copy-from": "life_extension_potion"
@@ -346,7 +355,8 @@
     "name": { "str_sp": "Hyde Formula" },
     "description": "This is a transmutation potion that will bring your best attributes to the forefront.",
     "consumption_effect_on_conditions": [ "hyde_formula" ],
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "color": "green_yellow",
     "calories": 50,
     "copy-from": "life_extension_potion"
@@ -365,7 +375,8 @@
   },
   {
     "id": "plant_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Trees" },
     "description": "In a wooden bowl, Faewild and Dreamdross are mixed together along with ground-up leaves.  The mixture has fae and human blood added to it and parts from the plant fae and then all mixed again until it's a uniform blend.  The resulting mixture will eventually dissolve into a deep green liquid.",
@@ -385,7 +396,8 @@
   },
   {
     "id": "earth_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Earth" },
     "description": ".",
@@ -405,7 +417,8 @@
   },
   {
     "id": "water_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Waters" },
     "description": ".",
@@ -425,7 +438,8 @@
   },
   {
     "id": "air_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Winds" },
     "description": ".",
@@ -445,7 +459,8 @@
   },
   {
     "id": "fire_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Flames" },
     "description": "Heat Faewild and Dreamdross over a roaring fire and the mix in the ashes until you have a thick paste.  That paste is mixed with parts taken from the Fair Folk and united with a dollop of fae, and human blood.  The resulting mixture will eventually dissolve into a scarlet liquid that shines with its own light.",
@@ -465,7 +480,8 @@
   },
   {
     "id": "doll_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of Parchment" },
     "description": "While looking in a mirror, Faewild and Dreamdross are ground to dust.  That dust is mixed with parts taken from the Fair Folk and united with a dollop of fae, and human blood.  The resulting mixture will eventually dissolve into what almost looks like liquid porcelain.",

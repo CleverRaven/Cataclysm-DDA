@@ -1,7 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_melon",
     "copy-from": "seed",
     "name": { "str_sp": "melon seeds" },
@@ -18,8 +18,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_banana",
     "copy-from": "seed",
     "name": { "str_sp": "banana seeds" },
@@ -35,8 +35,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_kiwi",
     "copy-from": "seed",
     "name": { "str_sp": "kiwi seeds" },
