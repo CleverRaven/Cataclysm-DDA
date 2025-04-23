@@ -285,7 +285,8 @@
                         "VAMPIRE_COMMAND_BEAST",
                         "VAMPIRE_EARTH_SLUMBER",
                         "VAMPIRE_CARDIO_BONUS",
-                        "VAMPIRE_MOTION_ALARM"
+                        "VAMPIRE_MOTION_ALARM",
+                        "VAMPIRE_BONUS_HP"
                       ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],

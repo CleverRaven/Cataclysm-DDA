@@ -603,6 +603,7 @@
     "description": "Your stolen blood reinforces your muscles, making your grip crack bone and your punches dent steel.\n\n<color_light_red>Initial Blood Cost:</color> 150 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 75 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "You feel a surge of power as blood floods your muscles.",
     "activated_eocs": [ "EOC_VAMPIRIC_STRENGTH_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_deactivated" ],
     "enchantments": [
@@ -885,6 +886,7 @@
     "description": "You can twist your fingernails into sharp claws, allowing you to inflict extra damage in unarmed combat.\n\n<color_light_red>Initial Blood Cost:</color> 125 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 62 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Your fingers twist into sharp claws.",
     "activated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_activated" ],
     "deactivated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_deactivate" ]
   },
@@ -966,6 +968,7 @@
     "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.\n\n<color_light_red>Initial Blood Cost:</color> 750 ml (<u_val:blood_amount_for_graph> ml current)\n<color_light_red>Periodic Blood Cost:</color> 375 ml",
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Warmth floods your limbs as you move with inhuman speed.",
     "activated_eocs": [ "EOC_BLOODHASTE_activated" ],
     "deactivated_eocs": [ "EOC_BLOODHASTE_deactivated" ]
   },
@@ -1011,7 +1014,16 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.25 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "CARDIO_MULTIPLIER",
+            "multiply": { "math": [ "0.25 + (u_has_trait('VAMPIRE4') * 0.25)  + (u_has_trait('BLOOD_DRINKER') * 0.25)" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1025,6 +1037,28 @@
     "active": true,
     "activated_is_setup": true,
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BONUS_HP",
+    "name": { "str": "Fortitude of the Damned" },
+    "points": 0,
+    "description": "Your senses are so fine they can alert you to danger even while you slumber.  Activate to cause yourself to wake up if danger approaches while you sleep.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "VAMPIRE" },
+        "values": [
+          {
+            "value": "MAX_HP",
+            "multiply": { "math": [ "0.2 + (u_has_trait('VAMPIRE4') * 0.25)  + (u_has_trait('BLOOD_DRINKER') * 0.25)" ] }
+          }
+        ]
+      },
+      { "condition": { "u_has_trait": "DHAMPIR_TRAIT" }, "values": [ { "value": "MAX_HP", "multiply": 0.15 } ] }
+    ]
   },
   {
     "type": "mutation",
