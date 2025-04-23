@@ -973,7 +973,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] },
               { "u_add_effect": "blood_weave", "duration": "PERMANENT" },
-              { "u_message": "You hold tightly to your blood, preventing it from leaving your body.", "type": "good" },
               { "u_lose_effect": "bleed", "target_part": "ALL" },
               {
                 "run_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
@@ -1130,7 +1129,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
               { "u_add_effect": "effect_vampiric_dodge", "duration": "PERMANENT" },
-              { "u_message": "You begin dodging with preternatural agility.", "type": "good" },
               {
                 "run_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
                 "time_in_future": {
@@ -1198,6 +1196,90 @@
               { "u_message": "You don't have enough blood to maintain your flow like blood.", "type": "bad" },
               { "u_lose_effect": "effect_vampiric_dodge" },
               { "u_deactivate_trait": "VAMPIRIC_DODGE" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_STEALTH_BONUS_activated",
+    "condition": { "not": { "u_has_effect": "effect_vampiric_stealth_bonus" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_STEALTH_BONUS_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
+              { "u_add_effect": "effect_vampiric_stealth_bonus", "duration": "PERMANENT" },
+              {
+                "run_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 15) + (vampire_total_tier_two_traits() * 20) + (vampire_total_tier_three_traits() * 35) + (vampire_total_tier_four_traits_plus_potence() * 55) + (vampire_total_tier_five_traits_plus_cauldron() * 80))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate cloak of shadows.", "type": "bad" },
+              { "run_eocs": "EOC_VAMPIRIC_STEALTH_BONUS_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_STEALTH_BONUS_deactivate",
+            "condition": { "u_has_effect": "effect_vampiric_stealth_bonus" },
+            "effect": [
+              { "u_message": "As your cloak of shadows fades, your presence becomes more obvious.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_stealth_bonus" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_STEALTH_BONUS_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRIC_STEALTH_BONUS" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_STEALTH_BONUS_maintenance",
+    "condition": { "u_has_effect": "effect_vampiric_stealth_bonus" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_STEALTH_BONUS_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "50" ] },
+              { "u_message": "You feel a momentary warmth as you maintain your cloak of shadows.", "type": "mixed" },
+              {
+                "run_eocs": [ "EOC_VAMPIRIC_STEALTH_BONUS_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits_plus_potency() * 15) + (vampire_total_tier_two_traits() * 20) + (vampire_total_tier_three_traits() * 35) + (vampire_total_tier_four_traits_plus_potence() * 55) + (vampire_total_tier_five_traits_plus_cauldron() * 80))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your cloak of shadows.", "type": "bad" },
+              { "u_lose_effect": "effect_vampiric_stealth_bonus" },
+              { "u_deactivate_trait": "VAMPIRIC_STEALTH_BONUS" }
             ]
           }
         ]

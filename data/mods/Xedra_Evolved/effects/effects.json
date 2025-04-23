@@ -852,6 +852,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampiric_stealth_bonus",
+    "name": [ "Cloak of Shadows" ],
+    "desc": [ "You are clouding nearby minds and are harder to spot in dim light or darkness." ],
+    "enchantments": [
+      {
+        "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min(30 + ((vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.4) + (vampire_total_tier_three_traits() * 0.55) + (vampire_total_tier_four_traits_plus_potence() * 0.75) + (vampire_total_tier_five_traits_plus_cauldron() * 1)), 60)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_fear_gazed",
     "//": "Hidden effect, used to prevent spamming fear gaze repeatedly.",
     "name": [ "" ],
