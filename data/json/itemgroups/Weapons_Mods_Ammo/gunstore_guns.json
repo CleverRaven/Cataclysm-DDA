@@ -109,21 +109,21 @@
     "subtype": "collection",
     "id": "boxed_glock_43",
     "container-item": "box_pistol",
-    "items": [ { "item": "glock_43" }, { "group": "firearm_box_extras" }, { "item": "glock43_6", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "glock_43" }, { "group": "firearm_box_extras" }, { "item": "glock43_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_glock_43x",
     "container-item": "box_pistol",
-    "items": [ { "item": "glock_43x" }, { "group": "firearm_box_extras" }, { "item": "glock43/48x_10", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "glock_43x" }, { "group": "firearm_box_extras" }, { "item": "glock43x/48_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_glock_48",
     "container-item": "box_pistol",
-    "items": [ { "item": "glock_48" }, { "group": "firearm_box_extras" }, { "item": "glock43/48x_10", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "glock_48" }, { "group": "firearm_box_extras" }, { "item": "glock43x/48_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -456,7 +456,7 @@
       { "group": "boxed_rugerlcp", "prob": 231 },
       { "group": "boxed_hptcf380", "prob": 100 },
       { "group": "boxed_swbodyguard", "prob": 1673 },
-      { "group": "boxed_glock42", "prob": 439 },
+      { "group": "boxed_glock_42", "prob": 439 },
     ]
   },
   {
@@ -487,9 +487,9 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "boxed_glock42",
+    "id": "boxed_glock_42",
     "container-item": "box_pistol",
-    "items": [ { "item": "glock42" }, { "group": "firearm_box_extras" }, { "item": "glock42_mag", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "glock_42" }, { "group": "firearm_box_extras" }, { "item": "glock42_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
