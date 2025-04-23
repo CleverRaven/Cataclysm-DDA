@@ -3356,6 +3356,7 @@ static void CheckMessages()
                 dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
                 dbg( D_INFO ) << "ev.tfinger.touchId: " << ev.tfinger.touchId;
                 numfingers = SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                dbg( D_INFO ) << "numfingers: " << numfingers;
                 if( numfingers == 1 ) {
                     if( !is_quick_shortcut_touch ) {
                         dbg( D_INFO ) << "Not quick shortcut touch";
@@ -3392,6 +3393,7 @@ static void CheckMessages()
                 dbg( D_INFO ) << "Fingerdown triggered.";
                 dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
                 numfingers = SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                dbg( D_INFO ) << "numfingers: " << numfingers;
                 if( numfingers == 1 ) {
                     finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
@@ -3423,6 +3425,7 @@ static void CheckMessages()
                 dbg( D_INFO ) << "Fingerup triggered.";
                 dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
                 numfingers = SDL_GetNumTouchFingers( ev.tfinger.touchId );
+                dbg( D_INFO ) << "numfingers: " << numfingers;
                 if( numfingers == 1 ) {
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
