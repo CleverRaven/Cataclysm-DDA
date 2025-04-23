@@ -764,14 +764,13 @@
           {
             "condition": { "npc_has_species": "NIGHT_CREATURE" },
             "distance": { "math": [ "u_val('perception') * 3" ] },
-            "precise": true,
             "ignores_aiming_cone": true,
             "descriptions": [
               {
-                "id": "moving_creature",
+                "id": "infrared_creature_medium",
                 "text": "You sense one of the creatures of the night.",
                 "symbol": "N",
-                "color": "light_gray"
+                "color": "white"
               }
             ]
           }
