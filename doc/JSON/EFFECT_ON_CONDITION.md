@@ -4082,10 +4082,6 @@ adds [ your strength stat ] amount of faction trust
 { "u_add_faction_trust": { "math": [ "u_val('strength')" ] } }
 ```
 
-
-#### `u_lose_faction_trust`
-same as `u_add_faction_trust`, not used in favor of `u_add_faction_trust` with negative number
-
 #### `u_message`, `npc_message`, `message`
 Display a text message in the log. `u_message` and `npc_message` display a message only if you or NPC is avatar. `message` always displays a message.
 

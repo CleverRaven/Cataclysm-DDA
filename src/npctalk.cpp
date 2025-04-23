@@ -7001,15 +7001,6 @@ talk_effect_fun_t::func f_add_faction_trust( const JsonObject &jo, std::string_v
     };
 }
 
-talk_effect_fun_t::func f_lose_faction_trust( const JsonObject &jo,
-        std::string_view member, std::string_view )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    return [dov]( dialogue & d ) {
-        d.actor( true )->get_faction()->trusts_u -= dov.evaluate( d );
-    };
-}
-
 talk_effect_fun_t::func f_custom_light_level( const JsonObject &jo,
         std::string_view member, std::string_view )
 {
@@ -7888,7 +7879,6 @@ parsers = {
     { "location_variable_adjust", jarg::member, &talk_effect_fun::f_location_variable_adjust },
     { "u_buy_monster", jarg::member, &talk_effect_fun::f_u_buy_monster },
     { "u_add_faction_trust", jarg::member | jarg::array, &talk_effect_fun::f_add_faction_trust },
-    { "u_lose_faction_trust", jarg::member | jarg::array, &talk_effect_fun::f_lose_faction_trust },
     { "npc_first_topic", jarg::member, &talk_effect_fun::f_npc_first_topic },
     { "sound_effect", jarg::member, &talk_effect_fun::f_sound_effect },
     { "give_achievement", jarg::member, &talk_effect_fun::f_give_achievment },
