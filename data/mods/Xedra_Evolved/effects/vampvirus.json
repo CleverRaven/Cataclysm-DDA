@@ -197,7 +197,8 @@
                           "VAMPIRIC_RESILIENCE",
                           "VAMPIRE_HEIGHTENED_SENSES",
                           "VAMPIRE_SILENT_MOVE",
-                          "VAMPIRE_HEALTH_BONUS"
+                          "VAMPIRE_HEALTH_BONUS",
+                          "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT"
                         ],
                         "type": "mutation",
                         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],

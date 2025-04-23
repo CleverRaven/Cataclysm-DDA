@@ -747,6 +747,40 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Sense the Children of the Night" },
+    "description": "You can sense the presence of nearby predatory night creatures.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You open your sense to the children of the night.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "npc_has_species": "NIGHT_CREATURE" },
+            "distance": { "math": [ "u_val('perception') * 3" ] },
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [
+              {
+                "id": "moving_creature",
+                "text": "You sense one of the creatures of the night.",
+                "symbol": "N",
+                "color": "light_gray"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE2",
     "name": { "str": "Walking the shadowed path of blood" },
     "points": 0,
