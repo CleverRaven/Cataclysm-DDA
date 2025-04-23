@@ -1,4 +1,3 @@
-
 [
   {
     "id": "nested_glock_17",
@@ -73,8 +72,8 @@
     "ammo": 100,
     "entries": [
       { "item": "glock_43", "charges": [ 0, 6 ] },
-      { "item": "glock43_6" },
-      { "item": "glock43_6", "prob": 50 },
+      { "item": "glock43_mag" },
+      { "item": "glock43_mag", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -86,8 +85,8 @@
     "ammo": 100,
     "entries": [
       { "item": "glock43x", "charges": [ 0, 10 ] },
-      { "item": "glock43/48x_10" },
-      { "item": "glock43/48x_10", "prob": 50 },
+      { "item": "glock43x/48_mag" },
+      { "item": "glock43x/48_mag", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -99,8 +98,8 @@
     "ammo": 100,
     "entries": [
       { "item": "glock48", "charges": [ 0, 10 ] },
-      { "item": "glock43/48x_10" },
-      { "item": "glock43/48x_10", "prob": 50 },
+      { "item": "glock43x/48_mag" },
+      { "item": "glock43x/48_mag", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
@@ -3050,4 +3049,3 @@
     "entries": [ { "item": "taurus_judge", "charges": [ 0, 5 ] }, { "group": "on_hand_410shot" } ]
   }
 ]
-
