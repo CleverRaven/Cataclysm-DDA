@@ -1,0 +1,34 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "s_sports",
+    "copy-from": "s_sports",
+    "name": "sporting goods store",
+    "sym": "s",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
+    "copy-from": "s_clothes",
+    "name": "clothing store",
+    "sym": "c",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ],
+    "copy-from": "pawn",
+    "name": "pawn shop",
+    "sym": "p",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
+    "copy-from": "mil_surplus",
+    "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
+    "sym": "m",
+    "color": "magenta"
+  }
+]

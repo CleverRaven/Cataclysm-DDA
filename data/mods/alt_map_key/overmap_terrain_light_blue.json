@@ -1,0 +1,66 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "s_lot",
+    "copy-from": "s_lot",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof",
+    "copy-from": "pool_roof",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_1",
+    "copy-from": "pool_roof_1",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_2",
+    "copy-from": "pool_roof_2",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_3",
+    "copy-from": "pool_roof_3",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_4",
+    "copy-from": "pool_roof_4",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_0_0", "s_gas_1_0", "s_gas_0_1", "s_gas_1_1", "s_gas_g1" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "gas station",
+    "sym": "g",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_garage",
+    "copy-from": "s_garage",
+    "name": "mechanics garage",
+    "sym": "m",
+    "color": "light_blue"
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "church",
+    "copy-from": "church",
+    "name": "church",
+    "sym": "c",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_1_NW",
+    "copy-from": "cathedral_1_NW",
+    "name": "cathedral",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_1_NE",
+    "copy-from": "cathedral_1_NE",
+    "name": "cathedral",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_1_SW",
+    "copy-from": "cathedral_1_SW",
+    "name": "cathedral",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_1_SE",
+    "copy-from": "cathedral_1_SE",
+    "name": "cathedral",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_b_NW",
+    "copy-from": "cathedral_b_NW",
+    "name": "cathedral basement",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_b_NE",
+    "copy-from": "cathedral_b_NE",
+    "name": "cathedral basement",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_b_SW",
+    "copy-from": "cathedral_b_SW",
+    "name": "cathedral basement",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cathedral_b_SE",
+    "copy-from": "cathedral_b_SE",
+    "name": "cathedral basement",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ],
+    "copy-from": "s_library",
+    "name": "library",
+    "sym": "l",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ],
+    "copy-from": "s_bookstore",
+    "name": "bookstore",
+    "sym": "b",
+    "color": "white"
+  }
+]

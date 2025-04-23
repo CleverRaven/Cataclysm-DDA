@@ -1,0 +1,18 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gun_a", "s_gun_b_store" ],
+    "copy-from": "s_gun_a",
+    "name": "gun store",
+    "sym": "g",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police",
+    "copy-from": "police",
+    "name": "police station",
+    "sym": "p",
+    "color": "red"
+  }
+]
