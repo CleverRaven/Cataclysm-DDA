@@ -95,7 +95,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 6 } } ]
   },
   {
-    "id": "glock43/48x_mag",
+    "id": "glock43x/48_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock 43X/48 magazine" },
