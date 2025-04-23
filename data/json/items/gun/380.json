@@ -1,4 +1,3 @@
-
 [
   {
     "id": "mac_11",
@@ -149,7 +148,7 @@
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ]
   },
   {
-    "id": "glock42",
+    "id": "glock_42",
     "copy-from": "gun_base_380_semi_pistol",
     "looks_like": "glock_19",
     "type": "GUN",
@@ -166,4 +165,3 @@
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock42_mag" ] } ]
   }
 ]
-
