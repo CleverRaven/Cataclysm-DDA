@@ -1,0 +1,24 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_cracked_handle",
+    "name": "Duct-tape the cracked handle.",
+    "success_msg": "You duct-tape the handle of your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_cracked_handle" ],
+    "mod_damage": -1000,
+    "mod_degradation": 10,
+    "requirements": [ { "components": [ [ [ "duct_tape", 20 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "replace_handle",
+    "name": "Replace a handle with a brand new one.",
+    "success_msg": "You duct-tape the handle of your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_cracked_handle", "fault_broken_handle" ],
+    "mod_damage": -1000,
+    "mod_degradation": -1000,
+    "requirements": [ { "components": [ [ [ "stick", 1 ] ] ] } ]
+  }
+]

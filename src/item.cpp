@@ -893,7 +893,11 @@ int item::damage() const
 
 int item::degradation() const
 {
-    return degradation_;
+    int ret = degradation_;
+    for( fault_id f : faults ) {
+        ret += f.obj().degradation_mod();
+    }
+    return ret;
 }
 
 void item::rand_degradation()
@@ -9375,6 +9379,10 @@ bool item::mod_damage( int qty )
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
+
+        // TODO: think about better way to telling the game what faults should be applied when
+        const std::vector<std::string> foo = { "handle", "handle_long", "spearhead" };
+        set_fault( random_potential_fault_of_type( random_entry( foo ) ) );
 
         return destroy;
     }

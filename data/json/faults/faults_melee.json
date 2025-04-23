@@ -1,0 +1,95 @@
+[
+  {
+    "type": "fault",
+    "id": "fault_blade_rolled_edge",
+    "fault_type": "blade",
+    "name": { "str": "Rolled edge" },
+    "description": "Edge of the blade got rolled, making it harder to cut.",
+    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_bent",
+    "fault_type": "blade",
+    "name": { "str": "Warped blade" },
+    "description": "Edge of the blade got bent, making it harder to cut.",
+    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_chipped",
+    "fault_type": "blade",
+    "name": { "str": "Chipped edge" },
+    "description": "The small piece of blade edge was broken off, making it much duller.",
+    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_cracked",
+    "fault_type": "blade",
+    "name": { "str": "Crack" },
+    "degradation_mod": 50,
+    "description": "There is a deep crack on the blade.  Better to fix it before the entire blade snaps in half."
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_broken",
+    "fault_type": "blade",
+    "name": { "str": "Broken blade" },
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.1 },
+      { "damage_id": "stab", "multiply": 0.1 },
+      { "damage_id": "bash", "multiply": 0.2 }
+    ],
+    "description": "The blade shattered completely, making it just a stub.  The only way to repair such damage to make a new weapon.",
+    "affected_by_degradation": true
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_broken_tip",
+    "fault_type": "blade",
+    "name": { "str": "Broken tip" },
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.6 } ],
+    "description": "The tip of the blade you could use to thrust is no more."
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_bent_tip",
+    "fault_type": "blade",
+    "name": { "str": "Bent tip" },
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.4 } ],
+    "description": "The tip of the blade you could use to thrust rolled into a spiral."
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_fracture",
+    "fault_type": "spearhead",
+    "name": { "str": "Spearhead fracture" },
+    "description": "The tip of the spearhead snapped off, making the thrusts weaker.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_warped",
+    "fault_type": "spearhead",
+    "name": { "str": "Spearhead warp" },
+    "description": "The tip of the spearhead started to warp, making the thrusts weaker.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_chipping",
+    "fault_type": "spearhead",
+    "name": { "str": "Spearhead chipping" },
+    "description": "Small pieces of the spearhead started to chip off, making the thrusts less damaging.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.9 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_bent",
+    "fault_type": "spearhead",
+    "name": { "str": "Spearhead chipping" },
+    "description": "The spear socket was bent off, making the spear tip not lined with a shaft, and making the weapon very hard to thrust properly.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.7 } ]
+  }
+]

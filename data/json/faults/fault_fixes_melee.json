@@ -1,0 +1,13 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_cracked_handle",
+    "name": "Duct-tape the cracked handle.",
+    "success_msg": "You duct-tape the handle of your %s.",
+    "time": "40 m",
+    "faults_removed": [ "fault_blade_rolled_edge" ],
+    "mod_damage": -1000,
+    "mod_degradation": 5,
+    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 2 } ] } ]
+  }
+]

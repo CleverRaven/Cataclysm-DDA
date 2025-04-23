@@ -1,0 +1,51 @@
+[
+  {
+    "type": "fault_group",
+    "id": "handle_short",
+    "//": "Mechanical damage of a short handle (60 cm or less)",
+    "group": [
+      { "fault": "fault_handle_chipping", "weight": 100 },
+      { "fault": "fault_handle_cracked", "weight": 50 },
+      { "fault": "fault_handle_broken", "weight": 5 },
+      { "fault": "fault_handle_off", "weight": 5 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "handle_long",
+    "//": "Mechanical damage of a short handle (60 cm or less)",
+    "group": [
+      { "fault": "fault_handle_long_chipping", "weight": 100 },
+      { "fault": "fault_handle_long_cracked", "weight": 50 },
+      { "fault": "fault_handle_long_broken_half", "weight": 25 },
+      { "fault": "fault_handle_long_broken", "weight": 5 },
+      { "fault": "fault_handle_long_off", "weight": 5 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "blade_general",
+    "//": "Mechanical damage of any blade, from a sword to a knife",
+    "group": [
+      { "fault": "fault_blade_rolled_edge", "weight": 100 },
+      { "fault": "fault_blade_bent", "weight": 100 },
+      { "fault": "fault_blade_chipped", "weight": 100 },
+      { "fault": "fault_blade_cracked", "weight": 100 },
+      { "fault": "fault_blade_broken", "weight": 10 },
+      { "fault": "fault_blade_broken_tip", "weight": 50 },
+      { "fault": "fault_blade_bent_tip", "weight": 80 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "blade_general_no_tip",
+    "//": "Mechanical damage of a blade that do not have a tip, like cleaver",
+    "group": [
+      { "fault": "fault_blade_rolled_edge", "weight": 100 },
+      { "fault": "fault_blade_bent", "weight": 100 },
+      { "fault": "fault_blade_chipped", "weight": 100 },
+      { "fault": "fault_blade_cracked", "weight": 100 },
+      { "fault": "fault_blade_broken", "weight": 10 }
+    ]
+  }
+]
