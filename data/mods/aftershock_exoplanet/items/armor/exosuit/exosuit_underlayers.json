@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_exo_standard_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit underlayer" },
@@ -32,7 +33,8 @@
   },
   {
     "id": "afs_exo_combat_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit combat underlayer" },
@@ -71,7 +73,8 @@
   },
   {
     "id": "afs_exo_eva_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit EVA underlayer" },
@@ -102,7 +105,8 @@
   },
   {
     "id": "afs_exo_hazard_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit utility underlayer" },

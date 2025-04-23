@@ -3,6 +3,7 @@
     "id": "rune_druid_weapon",
     "copy-from": "compositebow",
     "type": "GUN",
+    "subtypes": [ "ARMOR" ],
     "color": "yellow",
     "name": { "str": "Druid composite bow" },
     "//": "Equivalent to composite bow for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
@@ -22,23 +23,21 @@
       "SHEATH_BOW"
     ],
     "min_strength": 9,
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 13,
-          "coverage": 5,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ] ],
     "ranged_damage": { "damage_type": "stab", "amount": 9 },
     "range": 13,
-    "dispersion": 855
+    "dispersion": 855,
+    "armor": [
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 13,
+        "coverage": 5,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "m47a1",
@@ -227,6 +226,7 @@
     "id": "bow_of_elvenkind",
     "looks_like": "longbow",
     "type": "GUN",
+    "subtypes": [ "ARMOR" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "bow of elvenkind", "str_pl": "bows of elvenkind" },
@@ -253,17 +253,6 @@
     "volume": "1500 ml",
     "longest_side": "183 cm",
     "price_postapoc": "300 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
-          "encumbrance": 14,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 8 },
@@ -276,6 +265,15 @@
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 12 },
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 14,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   }
 ]

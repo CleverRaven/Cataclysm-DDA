@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_torso_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "steel torso plate (exosuit)", "str_pl": "steel torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of steel.",
@@ -32,7 +33,8 @@
   },
   {
     "id": "damaged_exo_torso_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_torso_steel",
     "name": { "str": "damaged steel helmet plate (exosuit)", "str_pl": "damaged steel helmet plates (exosuit)" },
     "description": "The remains of a steel torso plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
@@ -56,7 +58,8 @@
   },
   {
     "id": "destroyed_exo_torso_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_torso_steel",
     "name": { "str": "shattered steel torso plate (exosuit)", "str_pl": "shattered steel torso plates (exosuit)" },
     "description": "The remains of a steel torso plate after taking a strong impact.  No longer provides functional protection, just weight.",
@@ -65,7 +68,8 @@
   },
   {
     "id": "exo_torso_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "exosuit",
     "copy-from": "exo_torso_steel",
     "name": { "str": "plastic torso plate (exosuit)", "str_pl": "plastic torso plates (exosuit)" },
@@ -91,7 +95,8 @@
   },
   {
     "id": "damaged_exo_torso_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_torso_plastic",
     "name": { "str": "damaged plastic helmet plate (exosuit)", "str_pl": "damaged plastic helmet plates (exosuit)" },
     "description": "The remains of a plastic torso plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
@@ -115,7 +120,8 @@
   },
   {
     "id": "destroyed_exo_torso_plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_torso_plastic",
     "name": { "str": "shattered plastic torso plate (exosuit)", "str_pl": "shattered plastic torso plates (exosuit)" },
     "description": "The remains of a plastic torso plate after taking a strong impact.  No longer provides functional protection, just weight.",
@@ -124,7 +130,8 @@
   },
   {
     "id": "exo_torso_vcc",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "exosuit",
     "copy-from": "exo_torso_steel",
     "name": { "str": "carbide torso plate (exosuit)", "str_pl": "carbide torso plates (exosuit)" },
@@ -150,7 +157,8 @@
   },
   {
     "id": "damaged_exo_torso_vcc",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "exosuit",
     "copy-from": "exo_torso_vcc",
     "name": { "str": "damaged carbide torso plate (exosuit)", "str_pl": "damaged carbide torso plates (exosuit)" },
@@ -176,7 +184,8 @@
   },
   {
     "id": "destroyed_exo_torso_vcc",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "exo_torso_vcc",
     "name": { "str": "shattered carbide torso plate (exosuit)", "str_pl": "shattered carbide torso plates (exosuit)" },
     "description": "The remains of a vacuum-cast carbide torso plate after taking a strong impact.  No longer provides functional protection, just weight.",

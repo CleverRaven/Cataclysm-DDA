@@ -62,19 +62,9 @@
     "id": "rope_6",
     "copy-from": "string_36",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "short rope" },
     "description": "A 6-foot (or about 180 cm) long piece of rope.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 3,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
     "pocket_data": [
       {
@@ -91,24 +81,24 @@
       "holster_prompt": "Tie what to the rope?",
       "holster_msg": "You use an elaborate knot to tie your %s to your %s"
     },
-    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
+    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] },
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 3,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "rope_30",
     "copy-from": "rope_6",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "long rope" },
     "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 } ],
-          "encumbrance": 12,
-          "coverage": 10,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "qualities": [ [ "ROPE", 2 ] ],
     "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "pocket_data": [
@@ -120,6 +110,14 @@
         "max_item_length": "110 cm",
         "moves": 3000,
         "holster": true
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 } ],
+        "encumbrance": 12,
+        "coverage": 10,
+        "covers": [ "torso" ]
       }
     ]
   },
@@ -165,22 +163,12 @@
     "id": "seatbelt",
     "copy-from": "rope_6",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "seat belt" },
     "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
     "material": "nylon",
     "weight": "800 g",
     "volume": "696 ml",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 3,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "//": "Universal pocket, can store almost anything sans liquid, at the price of high move and encumbrance cost.",
@@ -196,7 +184,16 @@
       "holster_prompt": "Tie what to the rope?",
       "holster_msg": "You use an elaborate knot to tie your %s to your %s"
     },
-    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
+    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] },
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 3,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "stick_fiber",

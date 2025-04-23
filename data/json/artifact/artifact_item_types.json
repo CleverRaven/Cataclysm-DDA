@@ -214,28 +214,32 @@
   },
   {
     "id": "art_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robe",
     "name": { "str": "royal robe" },
     "description": "An ornately decorated robe with an unfamiliar royal symbol on it.  The humanoid figure on the seal has two pairs of eyes.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cloak",
     "name": { "str": "ancient burial shroud" },
     "description": "A cloak of thin, faded cloth.  The faint silhouette of a long-dead humanoid is barely visible on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_coat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "coat_fur",
     "name": { "str": "ornate fur coat" },
     "description": "A heavy, finely crafted coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ancient stone mask" },
     "description": "A sinister mask made of a smooth green stone.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
@@ -255,28 +259,32 @@
   },
   {
     "id": "art_helm",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "helmet_bronze",
     "name": { "str": "ancient bronze helmet" },
     "description": "A helmet with an imposing face plate.  Though the corrosion has completely defaced the symbols written on the sides, it seems sturdy.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_leather",
     "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves" },
     "description": "A set of worn leather gloves embossed with gold.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_boots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots",
     "name": { "str": "pair of ancient leather boots", "str_pl": "pairs of ancient leather boots" },
     "description": "A pair of ancient leather boots.  Though the flaps of leather are crudely sewn together, the red hue it is dyed with is striking.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_ring",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gold_ring",
     "name": { "str": "amber ring" },
     "description": "A band of gold with a smooth piece of amber set into it.  A strange worm is encased in the amber, making a perfect spiral with its sealed body.  It is the only one of its kind.\nIt may have unknown powers; try activating them."

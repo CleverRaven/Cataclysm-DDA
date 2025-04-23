@@ -1,7 +1,8 @@
 [
   {
     "abstract": "mbelt_leather",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "magic leather belt", "//~": "NO_I18N" },
     "description": { "str": "A leather belt.  Useful for making your pair of pants fit.", "//~": "NO_I18N" },
     "weight": "102 g",
@@ -28,7 +29,8 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mbelt_leather",
     "id": "mbelt_haste",
     "name": { "str": "Belt of Haste", "str_pl": "Belts of Haste" },
@@ -37,7 +39,8 @@
     }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mbelt_leather",
     "id": "mbelt_thor",
     "name": { "str_sp": "Megingjörð" },
@@ -58,7 +61,8 @@
     }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_lesser",
     "name": { "str": "lesser dimensional toolbelt" },
@@ -105,7 +109,8 @@
     "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_greater",
     "name": { "str": "greater dimensional toolbelt" },
@@ -152,7 +157,8 @@
     "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mbelt_leather",
     "id": "mbelt_weaponry",
     "name": { "str": "Belt of Weaponry", "str_pl": "Belts of Weaponry" },
@@ -196,7 +202,8 @@
     "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "mbelt_technomancer_toolbelt",
     "name": { "str": "technomancer's toolbelt" },
     "weight": "2000 g",
@@ -235,7 +242,8 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mbelt_leather",
     "id": "mbelt_iron_whip",
     "name": { "str": "Belt of The Iron Whip", "str_pl": "Belts of the Iron Whip" },

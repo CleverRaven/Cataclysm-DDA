@@ -16,7 +16,8 @@
   },
   {
     "id": "aura_ward_off_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Rain Ward",
     "description": "Thanks to the words of the charm you spoke, you won't get wet.",
     "weight": "0 g",
@@ -49,7 +50,8 @@
   },
   {
     "id": "item_hedge_witchlight",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Witchlight",
     "description": "A bobbing ball of blueish-green light, just bright enough to read by.",
     "weight": "0 g",
@@ -115,7 +117,8 @@
   },
   {
     "id": "item_hedge_see_fae_necklace",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
     "turns_per_charge": 25,
@@ -155,7 +158,8 @@
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
@@ -187,7 +191,8 @@
   },
   {
     "id": "item_hedge_see_fae_necklace_done",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
     "weight": "100 g",
@@ -251,7 +256,8 @@
   },
   {
     "id": "item_hedge_turn_into_bear_off",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "drained bearskin talisman" },
     "description": "A heavy fur mantle attached to the skull of a bear.  The charm worked into it has been expended.",
     "weight": "2368 g",
@@ -290,7 +296,8 @@
   },
   {
     "id": "item_hedge_turn_into_bear",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bearskin talisman" },
     "copy-from": "item_hedge_turn_into_bear_off",
     "description": "A heavy fur mantle attached to the skull of a bear.  When you put it on, the charm will take effect and grant you the bear's power.",

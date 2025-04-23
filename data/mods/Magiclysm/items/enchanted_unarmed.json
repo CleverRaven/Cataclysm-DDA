@@ -18,7 +18,8 @@
     "relative": { "to_hit": 2 }
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "flaming_fist",
     "symbol": "3",
     "color": "red",
@@ -73,6 +74,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "gauntlet_pounding",
     "symbol": "3",
     "color": "light_gray",
@@ -86,11 +88,12 @@
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ],
-    "armor_data": { "armor": [ { "encumbrance": 8, "coverage": 20, "covers": [ "hand_r" ] } ] },
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 16 },
+    "armor": [ { "encumbrance": 8, "coverage": 20, "covers": [ "hand_r" ] } ]
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "rune_earthshaper_weapon",
     "symbol": "3",
     "color": "light_gray",
@@ -103,7 +106,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS", "NONCONDUCTIVE" ],
-    "armor_data": { "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ] },
-    "melee_damage": { "bash": 13 }
+    "melee_damage": { "bash": 13 },
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
   }
 ]

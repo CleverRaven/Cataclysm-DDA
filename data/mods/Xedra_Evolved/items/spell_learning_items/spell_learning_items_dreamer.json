@@ -70,7 +70,8 @@
   {
     "id": "artifact_dreamer_clairvoyance",
     "looks_like": "glasses_eye",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "artifacts",
     "name": { "str": "pair of glasses", "str_pl": "pairs of glasses" },
     "description": "A pair of a common glasses.  They have no lens or glass inside, only casing.  There is a strange engraving of vines, snakes, and foxes covering every surface of the frames.  You think that maybe the engravings are moving when you aren't looking at them.",

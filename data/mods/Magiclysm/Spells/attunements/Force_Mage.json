@@ -26,7 +26,8 @@
   },
   {
     "id": "force_magical_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Force Shield" },
     "description": "A shield of pure force that protects you from most types of physical damage.",
     "weight": "1 g",

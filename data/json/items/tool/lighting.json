@@ -633,6 +633,7 @@
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "heavy-duty flashlight (off)", "str_pl": "heavy-duty flashlights (off)" },
     "description": "A heavy-duty LED flashlight with a durable polymer housing.  It's impact-resistant, chemical-resistant, waterproof and certified for use in hazardous environments.  Designed for firefighters, rescue personnel and miners but it can also be used for smacking hooligans.  It has a spring-loaded clip that can be attached to your torso.",
     "//1": "https://www.nightstick.com/collections/fire/products/xpp-5564rxa",
@@ -646,9 +647,6 @@
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
-    "armor_data": {
-      "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
-    },
     "flags": [ "BELT_CLIP", "BELTED" ],
     "use_action": [
       {
@@ -670,7 +668,8 @@
       }
     ],
     "melee_damage": { "bash": 8 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "heavy_flashlight_on",

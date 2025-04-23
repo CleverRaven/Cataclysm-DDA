@@ -2,6 +2,7 @@
   {
     "id": "2lcanteen",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "2.5 L canteen" },
     "looks_like": "bottle_plastic",
@@ -24,18 +25,16 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "30gal_barrel",
@@ -1806,6 +1805,7 @@
   {
     "id": "camelbak",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "hydration pack" },
     "looks_like": "runner_bag",
@@ -1828,20 +1828,18 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "coverage": 30,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 30,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "can_drink",
@@ -2038,6 +2036,7 @@
   {
     "id": "canteen",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "plastic canteen" },
     "looks_like": "2lcanteen",
@@ -2061,19 +2060,17 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "encumbrance": 2,
-          "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
-          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
+      }
+    ]
   },
   {
     "id": "thermos",
@@ -2474,6 +2471,7 @@
   {
     "id": "flask_hip",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "hip flask" },
     "looks_like": "2lcanteen",
@@ -2498,21 +2496,19 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "coverage": 2,
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
-        }
-      ]
-    },
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 2,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -2886,6 +2882,7 @@
   {
     "id": "canteen_wood",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "wooden canteen" },
     "looks_like": "canteen",
@@ -2908,18 +2905,16 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 5,
-          "coverage": 5,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 5,
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "stomach_sealed",
@@ -3176,6 +3171,7 @@
   {
     "id": "waterskin",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "small waterskin" },
     "looks_like": "canvas_bag",
@@ -3197,22 +3193,21 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "waterskin2",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "waterskin" },
     "looks_like": "waterskin",
@@ -3234,21 +3229,20 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "waterskin3",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "large waterskin" },
     "looks_like": "waterskin2",
@@ -3270,17 +3264,15 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "coverage": 40,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "wooden_barrel",
@@ -4626,6 +4618,7 @@
   {
     "id": "bottle_gourd",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "clothing",
     "name": { "str": "bottle gourd" },
     "looks_like": "clay_canister",
@@ -4649,18 +4642,16 @@
         "sealed_data": { "spoil_multiplier": 0.9 }
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 3,
-          "coverage": 8,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 3,
+        "coverage": 8,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "paint_can_steel",

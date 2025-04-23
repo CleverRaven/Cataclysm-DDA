@@ -1,7 +1,8 @@
 [
   {
     "id": "stonefist",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
@@ -12,23 +13,21 @@
     "symbol": "[",
     "color": "light_gray",
     "looks_like": "gauntlets_chitin",
-    "armor_data": {
-      "warmth": 20,
-      "environmental_protection": 10,
-      "armor": [
-        {
-          "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 3 } ],
-          "encumbrance": 0,
-          "coverage": 100,
-          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
-        }
-      ]
-    },
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "UNRESTRICTED" ],
     "max_worn": 1,
     "techniques": [ "WBLOCK_3" ],
-    "melee_damage": { "bash": 20 }
+    "melee_damage": { "bash": 20 },
+    "warmth": 20,
+    "environmental_protection": 10,
+    "armor": [
+      {
+        "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 3 } ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+      }
+    ]
   },
   {
     "id": "finger_firelighter",
@@ -60,7 +59,8 @@
   },
   {
     "id": "magic_lamp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "tools",
     "name": "magic lamp",
     "description": "A magical light source that will light up a small area.",
@@ -76,7 +76,8 @@
   },
   {
     "id": "magic_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "tools",
     "name": "magic light",
     "description": "A small magical light that you can read by.",
@@ -91,7 +92,8 @@
   },
   {
     "id": "shield_ice",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "large shield of magical ice", "str_pl": "large shields of magical ice" },
     "category": "armor",
     "description": "A lightweight but tough shield crafted entirely of magical ice.",
@@ -113,7 +115,8 @@
   },
   {
     "id": "ice_gliders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "slick icy coatings" },
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
@@ -161,7 +164,8 @@
     "melee_damage": { "bash": 30 }
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "stormglove",
     "symbol": "3",
     "color": "light_gray",
@@ -262,7 +266,8 @@
   },
   {
     "id": "fleshpouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
     "weight": "0 kg",
@@ -350,7 +355,8 @@
   },
   {
     "id": "druid_quiver",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Woodquiver" },
     "description": "A magically conjured quiver, marvelously light and easy to wear despite the arrows it holds.",
     "weight": "260 g",
@@ -385,7 +391,8 @@
   },
   {
     "id": "druid_quiver_plus",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Woodquiver" },
     "description": "A magically conjured quiver, marvelously light and easy to wear despite the arrows it holds.  This is an enhanced version, created by your increased mastery of the spell.",
     "weight": "260 g",
@@ -493,7 +500,8 @@
   },
   {
     "id": "armor_frost",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "frost armor" },
     "description": "A thin layer of magical ice, covering the entire body.  It doesn't provide much armor, instead dealing significant damage to enemies that try to attack you.",
@@ -528,7 +536,8 @@
   },
   {
     "id": "aura_stoneskin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "stoneskin coating" },
     "description": "A thin layer of shifting, almost fluid living rock, covering the entire body.",
@@ -565,7 +574,8 @@
   },
   {
     "id": "overcharge_burn_scar",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "overcharge burn" },
     "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
     "weight": "1 g",
@@ -579,7 +589,8 @@
   },
   {
     "id": "protect_env",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "aura of protection", "str_pl": "auras of protection" },
     "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
     "weight": "1 g",
@@ -609,7 +620,8 @@
   },
   {
     "id": "aura_feral",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
@@ -625,7 +637,8 @@
   },
   {
     "id": "aura_feral_plus",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "enhanced feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
@@ -723,7 +736,8 @@
   },
   {
     "id": "aura_werewolf",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "werewolf aura",
     "description": "You have become the werewolf.  Boys becoming men, men becoming wolves.",
     "weight": "1 g",
@@ -772,7 +786,8 @@
   },
   {
     "id": "dragon_shell_black",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Black Dragon Shell",
     "description": "An aura of black and green draconic energy, swirling around your body protecting you and punishing those who strike you.",
     "weight": "1 g",
@@ -804,7 +819,8 @@
   },
   {
     "id": "subzero_talons",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "subzero talons" },
     "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
     "weight": "100 g",
@@ -841,7 +857,8 @@
   },
   {
     "id": "armor_spirit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "copy-from": "armor_lc_lightplate",
     "name": { "str_sp": "mage armor" },
@@ -903,7 +920,8 @@
   },
   {
     "id": "aura_auroral_guard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "auroral shell" },
     "description": "A sturdy shell that wraps your body, granting a sturdy defense.",
@@ -973,7 +991,8 @@
   },
   {
     "id": "alchemist_pocket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ethereal pocket" },
     "description": "A small ethereal pocket located under your left arm.  You can store your potions here, but it seems it has no real limitations.",
@@ -1152,7 +1171,8 @@
     "id": "flask_ethereal_rebreather",
     "name": { "str_sp": "air bubble" },
     "description": "Now you can breath under water, like a fish.",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "weight": "0 g",
     "material": [ "concentrated_mana" ],
@@ -1180,7 +1200,8 @@
     "id": "thought_shield_item",
     "name": { "str_sp": "thought shields" },
     "description": "These two tiny shields on your temples should protect your mind from outside influences",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "weight": "0 g",
     "material": [ "concentrated_mana" ],
@@ -1209,7 +1230,8 @@
     "id": "thought_shield_plus_item",
     "name": { "str_sp": "thought suit" },
     "description": "The tiny shields all over your body should protect your mind from outside influences and your body from being moved by outside magic",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "weight": "0 g",
     "material": [ "concentrated_mana" ],
@@ -1374,7 +1396,8 @@
   {
     "id": "druid_thorn_skin_item",
     "//": " 'Tornskin' but working right.  Values copied from the Bark mutation.",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Thornskin",
     "description": "Your skin is bark-like and covered in thorns.",
     "weight": "6 kg",
@@ -1422,7 +1445,8 @@
   },
   {
     "id": "item_biomancer_scalpel_fingers",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "flensing fingers" },
     "description": "Your fingers are a series of knives made of bone and flesh.  Enemies beware.",
@@ -1444,7 +1468,8 @@
   },
   {
     "id": "aura_druid_breathing_water",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Aquatic Mantle",
     "description": "Covered in magical seaweed, you can travel and breathe underwater as long as this spell is in effect.",
     "weight": "0 g",
@@ -1668,7 +1693,8 @@
   },
   {
     "id": "item_kelvinist_frozen_heart",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Rime-Frozen Heart",
     "description": "You don't feel anything.",
     "weight": "0 g",
@@ -1693,7 +1719,8 @@
   },
   {
     "id": "aura_bearmantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "bearmantle",
     "description": "Think as the bear.  Move as the bear.  Sleep as the bear.",
     "weight": "0 g",

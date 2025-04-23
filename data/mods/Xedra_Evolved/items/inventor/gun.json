@@ -257,7 +257,8 @@
   },
   {
     "id": "bio_launcher",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "bio detonator" },
     "description": "A long, huge barrel drum mortar with a small device in the very end.  It is collapsible, and you can comfortably wear it using a strap.",
     "looks_like": "m3_carlgustav",

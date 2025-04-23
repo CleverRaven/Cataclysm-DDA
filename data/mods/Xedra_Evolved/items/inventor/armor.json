@@ -1,7 +1,8 @@
 [
   {
     "id": "helmet_inventor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "helmet of creative juices", "str_pl": "helmets of creative juices" },
     "description": "The helmet of creative juices may look like a child's homemade toy, but its effects when turned on are real enough.  While wearing it, your thoughts are buffered from the outside world by a soft white noise that varies from person to person as to what they actually hear.  Some hear the ocean, a fan blowing or paper crumpling.  Whatever the sound, it helps you to think faster and more creatively than before.",
@@ -56,7 +57,8 @@
   },
   {
     "id": "helmet_inventor_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "helmet_inventor",
     "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
     "power_draw": "7 W",
@@ -66,7 +68,8 @@
   {
     "id": "inventor_backpack",
     "copy-from": "molle_medium_rucksack",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "vacuum backpack" },
     "description": "A backpack with lot of light aluminum bars inside that hold a perfect vacuum, making the backpack much lighter than it should be.",
     "material": [ "nylon", "aluminum", "plastic" ],
@@ -155,7 +158,8 @@
   },
   {
     "id": "inventor_leg_weight",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "leg weight suspension system" },
     "description": "Compact leg attachments that distribute your weight onto the ground nearby using some kind of force.  It makes you leave giant spherical footprints, but makes carrying heavy weight much easier.",
@@ -210,14 +214,16 @@
     "id": "inventor_leg_weight_on",
     "copy-from": "inventor_leg_weight",
     "name": { "str": "leg weight suspension system" },
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "power_draw": "5 W",
     "revert_to": "inventor_leg_weight",
     "use_action": { "target": "inventor_leg_weight", "msg": "You turn off the weight suspension system.", "type": "transform" }
   },
   {
     "id": "inventor_jump_boots",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "jump driver" },
     "description": "Heavily mechanized boots with small integrated battery slot inside.  Upon activation make you jump higher and farther.",
@@ -275,7 +281,8 @@
   },
   {
     "id": "aura_force",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "force shield" },
     "description": "A small, thin torus with a huge battery case, and a belt.  You can activate it to emit a field that covers your whole body which will decelerate all objects it touches.",
@@ -343,7 +350,8 @@
   },
   {
     "id": "aura_force_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "aura_force",
     "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
     "power_draw": "250 W",
@@ -352,7 +360,8 @@
   },
   {
     "id": "vision_halo",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "electronic halo" },
     "description": "A compact crown boasting a built-in processor and several tiny projectors that beam information directly onto your eye.  It's equipped with enough internal storage and RAM to support a basic AI.  Along with multiple cameras providing 360-degree coverage, this setup enables you to tackle tasks far more efficiently than before.  Plus, there's a battle mode that activates an energy-intensive radiation detector.",
@@ -442,7 +451,8 @@
   },
   {
     "id": "vision_halo_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "electronic halo (on)", "str_pl": "electronic halos (on)" },
     "copy-from": "vision_halo",
@@ -464,7 +474,8 @@
     "tick_action": [ "EPIC_MUSIC" ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "inventor_fists",
     "symbol": "3",
     "color": "light_gray",
@@ -519,7 +530,8 @@
     "melee_damage": { "bash": 28 }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "inventor_fists_plus",
     "copy-from": "inventor_fists",
     "symbol": "3",
@@ -536,7 +548,8 @@
     }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "inventor_electric_fist",
     "symbol": "3",
     "color": "light_gray",
@@ -583,7 +596,8 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "inventor_electric_fist_act",
     "copy-from": "inventor_electric_fist",
     "symbol": "3",
@@ -595,7 +609,8 @@
   },
   {
     "id": "wolf_mask",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "name": { "str": "wolf's mask" },
     "description": "A huge, respirator-like mask covering the whole head except for the right eye.  Upon activation it protects you lungs from toxic gases as well as improving your breathing and stamina.",
@@ -642,7 +657,8 @@
   },
   {
     "id": "wolf_mask_act",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "wolf_mask",
     "name": { "str": "wolf's mask (on)", "str_pl": "wolf's masks (on)" },
     "power_draw": "5 W",
@@ -652,7 +668,8 @@
   },
   {
     "id": "magnetic_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "magnetic holster" },
     "looks_like": "shoulder_strap",
     "description": "A long strap with small, powerful gravity field emitters on the surface.  Allows one to strap and carry almost anything.",
@@ -680,7 +697,8 @@
   },
   {
     "id": "xedra_inventor_damage_reversal_device",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "Injury Reset Device" },
     "description": "A bulky wristwatch that attaches to your arm.  Using it will revert the last injury that you have suffered.  Also tells the time.",

@@ -2,6 +2,7 @@
   {
     "id": "ichaival",
     "type": "GUN",
+    "subtypes": [ "ARMOR" ],
     "looks_like": "reflexrecurvebow",
     "symbol": "(",
     "color": "white",
@@ -27,21 +28,6 @@
     "weight": "740 g",
     "volume": "2 L",
     "longest_side": "150 cm",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 14,
-          "coverage": 5,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 2,
     "loudness": 5,
     "ranged_damage": { "damage_type": "stab", "amount": 15 },
@@ -52,7 +38,20 @@
     "reload": 40,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow_orichalcum": 1, "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "armor": [
+      {
+        "material": [
+          { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 14,
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "type": "AMMO",
@@ -175,7 +174,8 @@
   },
   {
     "id": "quiver_of_holding_plus_one",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver of holding +1", "str_pl": "quivers of holding +1" },
     "description": "A quiver enchanted to hold 40 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
     "copy-from": "quiver",
@@ -194,7 +194,8 @@
   },
   {
     "id": "quiver_of_holding_plus_two",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "quiver of holding +2", "str_pl": "quivers of holding +2" },
     "description": "A quiver enchanted to hold 80 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
     "copy-from": "quiver_of_holding_plus_one",

@@ -33,7 +33,8 @@
   {
     "id": "copper_infuser",
     "copy-from": "copper_bracelet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "qualities": [ [ "MANA_INFUSE", 1 ] ],
     "name": { "str": "copper infusion bracelet" },
     "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
@@ -41,14 +42,16 @@
   {
     "id": "silver_infuser",
     "copy-from": "silver_bracelet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "qualities": [ [ "MANA_INFUSE", 2 ] ],
     "name": { "str": "silver infusion bracelet" },
     "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
     "id": "copper_circlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "copper circlet" },
     "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
@@ -67,7 +70,8 @@
   },
   {
     "id": "silver_circlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "silver circlet" },
     "description": "A wooden band with silver trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",

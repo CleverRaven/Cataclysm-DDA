@@ -2986,6 +2986,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "cigar_lit",
     "name": { "str": "cigar" },
     "color": "brown",
@@ -3007,18 +3008,16 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 6,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 25,
-          "coverage": 70,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 6,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 25,
+        "coverage": 70,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -3034,6 +3033,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "cig_lit",
     "name": { "str": "cigarette" },
     "color": "white",
@@ -3055,18 +3055,16 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 3,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 15,
-          "coverage": 25,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 3,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 15,
+        "coverage": 25,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -3082,6 +3080,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "joint_lit",
     "name": { "str": "joint" },
     "color": "light_green",
@@ -3103,18 +3102,16 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 3,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 15,
-          "coverage": 25,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 3,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 15,
+        "coverage": 25,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -3762,7 +3759,8 @@
   },
   {
     "id": "wallet_travel",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": ";",
     "color": "dark_gray",
@@ -3789,7 +3787,8 @@
   },
   {
     "id": "lanyard",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "white",

@@ -197,7 +197,8 @@
   },
   {
     "id": "red_jeans",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "red jeans" },
     "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
     "weight": "600 g",
@@ -678,7 +679,8 @@
   {
     "id": "ceramic_plate",
     "copy-from": "ceramic_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ceramic plate" },
     "longest_side": "20 cm",
@@ -693,7 +695,8 @@
   },
   {
     "id": "destroyed_ceramic_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ceramic_plate",
     "name": { "str": "compromised ceramic plate" },
     "description": "A ceramic dinner plate that's been shattered.",
@@ -711,7 +714,8 @@
   {
     "id": "pride_flag",
     "copy-from": "pride_flag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pride flag" },
     "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
     "variant_type": "generic",

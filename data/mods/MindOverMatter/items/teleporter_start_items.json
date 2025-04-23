@@ -66,7 +66,8 @@
   {
     "id": "itzcuauhtli_cape",
     "copy-from": "cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuauhtli Corps tilmàtli" },
     "description": "A formal dress cape for the Itzcuauhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Excan Tlahtoloyan.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac.",
     "delete": { "flags": [ "HOOD" ] }
@@ -74,14 +75,16 @@
   {
     "id": "itzcuauhtli_hat",
     "copy-from": "beret",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial navy cap" },
     "description": "A flat crimson hat worn by members of the Imperial navy at formal events.  This one has the black circle of the Yohualli Èhecatl on it."
   },
   {
     "id": "itzcuauhtli_holster",
     "copy-from": "holster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Ch47 holster" },
     "description": "A holster for the Ch47.  You could put one of the primitive local ranged weapons in here too, if you had to.",
     "pocket_data": [
@@ -100,27 +103,31 @@
   {
     "id": "itzcuauhtli_tunic",
     "copy-from": "dress_shirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Yohualli Ehēcatl division tunic" },
     "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again."
   },
   {
     "id": "itzcuauhtli_pants",
     "copy-from": "pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuauhtli Corps pants" },
     "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it."
   },
   {
     "id": "itzcuauhtli_boots",
     "copy-from": "boots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "naval boots" },
     "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot."
   },
   {
     "id": "itzcuauhtli_wrist_computer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "name": { "str": "māchīuhpōhualhuaztli", "str_pl": "māchīuhpōhualhuaztimeh" },
     "description": "Your trustworthy connection to the local mātlatzālantli, the māchīuhpōhualhuaztli allows you to store and read texts through tonaltēzcatl projection, look up info, keep track of your biometrics, play games, record visuals or sound, connect with far-distant friends and family, act as a calendar and event planner, and even identify you to agents of the government or, gods forbid, the Tlamachchiuhqueh, should that become necessary.  There's nothing to connect to on this blighted world, but the other functions should still work.",

@@ -377,7 +377,8 @@
   },
   {
     "id": "UPS_OFF",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "UPS_OFF",
     "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
@@ -399,7 +400,8 @@
   },
   {
     "id": "UPS_ON",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "UPS_ON",
     "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
@@ -509,7 +511,8 @@
   },
   {
     "id": "vr_laptop",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "tools",
     "name": "portable virtual reality rig",
     "description": "A portable virtual reality rig with glasses for the HUD and the computing functions wrapped around the torso.  When powered on it will provide an overlay on everything you experience.",
@@ -579,7 +582,8 @@
   {
     "id": "vr_laptop_holosuite",
     "copy-from": "vr_laptop",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "VR rig - holosuite deployed", "str_pl": "VR rigs - holosuite deployed" },
     "power_draw": "1 W",
     "revert_to": "vr_laptop",
@@ -704,7 +708,8 @@
   },
   {
     "id": "afs_internal_battery_compartment",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "high-voltage battery compartment" },
     "description": "A battery slot installed in your upper torso, designed to power bionic implants.  Compatible with the power cartridges used by laser weaponry.",
     "volume": "750 ml",

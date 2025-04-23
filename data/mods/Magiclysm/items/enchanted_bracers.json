@@ -1,7 +1,8 @@
 [
   {
     "id": "mbracer_steel_pair",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of steel bracers", "str_pl": "pairs of steel bracers" },
     "description": "A full assembly of medieval arm protection.",
@@ -19,7 +20,8 @@
   },
   {
     "copy-from": "mbracer_steel_pair",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mbracer_steel_single",
     "name": { "str": "steel bracer" },
     "weight": "770 g",
@@ -28,7 +30,8 @@
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mbracer_defense_lesser",
     "name": { "str": "bracer of lesser defense", "str_pl": "bracers of lesser defense" },
     "price_postapoc": "950 USD",
@@ -52,7 +55,8 @@
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mbracer_defense_greater",
     "price_postapoc": "1850 USD",
     "name": { "str": "bracer of greater defense", "str_pl": "bracers of greater defense" },
@@ -76,7 +80,8 @@
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mbracer_lightning_lesser",
     "name": { "str": "lesser bracer of lightning", "str_pl": "lesser bracers of lightning" },
     "price_postapoc": "750 USD",
@@ -92,7 +97,8 @@
   },
   {
     "copy-from": "mbracer_steel_single",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mbracer_lightning_greater",
     "name": { "str": "greater bracer of lightning", "str_pl": "greater bracers of lightning" },
     "price_postapoc": "1750 USD",
@@ -108,7 +114,8 @@
   },
   {
     "copy-from": "armguard_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "mbracer_archery",
     "name": { "str": "pair of bracers of archery", "str_pl": "pairs of bracers of archery" },
     "price_postapoc": "750 USD",
@@ -126,7 +133,8 @@
   },
   {
     "copy-from": "armguard_larmor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mbracer_blinding_strike",
     "price_postapoc": "1850 USD",
     "name": { "str_sp": "bracers of the blinding strike" },

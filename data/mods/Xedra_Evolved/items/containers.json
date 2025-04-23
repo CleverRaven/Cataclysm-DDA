@@ -10,6 +10,7 @@
   {
     "id": "blood_bank",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "blood bank" },
     "looks_like": "canteen",
@@ -35,22 +36,21 @@
         "spoil_multiplier": 0
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   },
   {
     "id": "blood_camel",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "blood camel" },
     "looks_like": "runner_bag",
@@ -76,16 +76,14 @@
         "spoil_multiplier": 0
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "coverage": 30,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 30,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   }
 ]

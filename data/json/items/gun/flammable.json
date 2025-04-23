@@ -4,6 +4,7 @@
     "copy-from": "flamethrower_base",
     "looks_like": "m79",
     "type": "GUN",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "M9-7 flamethrower" },
     "description": "A large flamethrower with substantial gas reserves.  The steel frame, with canvas accoutrements and aluminum cylinders, are all colored olive drab, like so many other pieces of equipment from the Vietnam War era.",
     "//": "This thing, like so many others, needs multimag, for the pyrotechnic igniter cartridges AND for the nitrogen propellant gas.  But flamethrowers are fun, so we're glossing over that for now.",
@@ -18,21 +19,6 @@
     "modes": [ [ "DEFAULT", "Jet", 1 ], [ "AUTO", "Gout", 4 ] ],
     "extend": { "flags": [ "BELTED", "PRIMITIVE_RANGED_WEAPON", "IS_ARMOR" ] },
     "max_worn": 1,
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "steel", "covered_by_mat": 40, "thickness": 2 },
-            { "type": "aluminum", "covered_by_mat": 100, "thickness": 2 }
-          ],
-          "volume_encumber_modifier": 0.2307,
-          "encumbrance": [ 0, 60 ],
-          "coverage": 80,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "valid_mod_locations": [ [ "rail mount", 1 ], [ "grip", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
@@ -42,7 +28,20 @@
         "item_restriction": [ "pressurized_tank", "pressurized_tank_modern" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 40, "thickness": 2 },
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "volume_encumber_modifier": 0.2307,
+        "encumbrance": [ 0, 60 ],
+        "coverage": 80,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "rm451_flamethrower",
