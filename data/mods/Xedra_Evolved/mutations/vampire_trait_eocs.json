@@ -746,7 +746,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
               { "u_add_effect": "effect_vampiric_strength", "duration": "PERMANENT" },
-              { "u_message": "You feel a surge of power as blood floods your muscles.", "type": "good" },
               {
                 "run_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
                 "time_in_future": {
@@ -1364,7 +1363,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "125" ] },
               { "u_add_trait": "VAMPIRE_BEAST_CLAWS_active" },
-              { "u_message": "Your fingers twist into sharp claws.", "type": "good" },
               {
                 "run_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
                 "time_in_future": {
@@ -1503,7 +1501,6 @@
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2 },
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
               { "u_add_effect": "haste_vampire", "duration": "PERMANENT" },
-              { "u_message": "Warmth floods your limbs as you move with inhuman speed.", "type": "good" },
               {
                 "run_eocs": [ "EOC_BLOODHASTE_maintenance" ],
                 "time_in_future": {

@@ -226,25 +226,7 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "targeted_monster_ids": [
-      "mon_wolf",
-      "mon_wolf_pup",
-      "mon_coyote",
-      "mon_coyote_mutant_shark",
-      "mon_coyote_mutant_venom",
-      "mon_bear",
-      "mon_bear_cub",
-      "mon_bear_mutant_3headed",
-      "mon_big_rat",
-      "mon_pack_rat",
-      "mon_sewer_rat",
-      "mon_black_ratkin",
-      "mon_black_rat",
-      "mon_bat",
-      "xe_mon_bat",
-      "mon_vampire_bat",
-      "mon_bat_giant"
-    ]
+    "targeted_monster_species": [ "NIGHT_CREATURE" ]
   },
   {
     "id": "vampire_command_beast_spell_real",
