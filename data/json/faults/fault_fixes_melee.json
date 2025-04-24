@@ -1,13 +1,34 @@
 [
   {
     "type": "fault_fix",
-    "id": "mend_cracked_handle",
-    "name": "Duct-tape the cracked handle.",
-    "success_msg": "You duct-tape the handle of your %s.",
+    "id": "mend_blade_grind",
+    "name": "Grind the edge.",
+    "success_msg": "You grind and polish the edge of %s till it's nice and sharp.",
     "time": "40 m",
-    "faults_removed": [ "fault_blade_rolled_edge" ],
+    "faults_removed": [ "fault_blade_rolled_edge", "fault_blade_chipped", "fault_blade_broken_tip", "fault_blade_bent_tip" ],
     "mod_damage": -1000,
     "mod_degradation": 5,
     "requirements": [ { "qualities": [ { "id": "GRIND", "level": 2 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_spearhead_grind",
+    "name": "Grind the spearhead.",
+    "success_msg": "You grind and polish the head of %s till it's nice and sharp.",
+    "time": "30 m",
+    "faults_removed": [ "fault_spearhead_fracture", "fault_spearhead_warped", "fault_spearhead_chipping" ],
+    "mod_damage": -1000,
+    "mod_degradation": 5,
+    "requirements": [ { "qualities": [ { "id": "GRIND", "level": 2 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_spearhead_straighten",
+    "name": "Straighten the spear socket.",
+    "success_msg": "You spend some time straightening the socket of a %s until it is straight and can be used again.",
+    "time": "20 m",
+    "faults_removed": [ "fault_spearhead_bent_socket" ],
+    "mod_damage": -1000,
+    "mod_degradation": 5
   }
 ]

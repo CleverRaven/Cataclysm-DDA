@@ -9,14 +9,6 @@
   },
   {
     "type": "fault",
-    "id": "fault_blade_bent",
-    "fault_type": "blade",
-    "name": { "str": "Warped blade" },
-    "description": "Edge of the blade got bent, making it harder to cut.",
-    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.8 } ]
-  },
-  {
-    "type": "fault",
     "id": "fault_blade_chipped",
     "fault_type": "blade",
     "name": { "str": "Chipped edge" },
@@ -29,7 +21,20 @@
     "fault_type": "blade",
     "name": { "str": "Crack" },
     "degradation_mod": 50,
-    "description": "There is a deep crack on the blade.  Better to fix it before the entire blade snaps in half."
+    "description": "There is a deep crack on the blade.  A sure sign that the entire sword will break apart sooner or later."
+  },
+  {
+    "type": "fault",
+    "id": "fault_blade_broken_half",
+    "fault_type": "blade",
+    "name": { "str": "Broken blade" },
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.65 },
+      { "damage_id": "stab", "multiply": 0.3 },
+      { "damage_id": "bash", "multiply": 0.8 }
+    ],
+    "description": "The small part of this blade broke away.  You still can use it, but it's much less effective.",
+    "affected_by_degradation": true
   },
   {
     "type": "fault",
@@ -86,10 +91,19 @@
   },
   {
     "type": "fault",
-    "id": "fault_spearhead_bent",
+    "id": "fault_spearhead_bent_socket",
     "fault_type": "spearhead",
-    "name": { "str": "Spearhead chipping" },
+    "name": { "str": "Bent spear socket" },
     "description": "The spear socket was bent off, making the spear tip not lined with a shaft, and making the weapon very hard to thrust properly.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.7 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_spearhead_broken",
+    "fault_type": "spearhead",
+    "name": { "str": "Broken spearhead" },
+    "description": "The spear head of this spear is comppletely broken.  The only way to repair such damage to make a new spear.",
+    "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.1 } ],
+    "affected_by_degradation": true
   }
 ]

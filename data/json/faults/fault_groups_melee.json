@@ -31,7 +31,8 @@
       { "fault": "fault_blade_bent", "weight": 100 },
       { "fault": "fault_blade_chipped", "weight": 100 },
       { "fault": "fault_blade_cracked", "weight": 100 },
-      { "fault": "fault_blade_broken", "weight": 10 },
+      { "fault": "fault_blade_broken", "weight": 3 },
+      { "fault": "fault_blade_broken_half", "weight": 8 },
       { "fault": "fault_blade_broken_tip", "weight": 50 },
       { "fault": "fault_blade_bent_tip", "weight": 80 }
     ]
@@ -45,7 +46,20 @@
       { "fault": "fault_blade_bent", "weight": 100 },
       { "fault": "fault_blade_chipped", "weight": 100 },
       { "fault": "fault_blade_cracked", "weight": 100 },
-      { "fault": "fault_blade_broken", "weight": 10 }
+      { "fault": "fault_blade_broken", "weight": 3 },
+      { "fault": "fault_blade_broken_half", "weight": 8 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "blade_spearhead",
+    "//": "Mechanical damage of a bespoke spearhead",
+    "group": [
+      { "fault": "fault_spearhead_fracture", "weight": 100 },
+      { "fault": "fault_spearhead_warped", "weight": 100 },
+      { "fault": "fault_spearhead_chipping", "weight": 100 },
+      { "fault": "fault_spearhead_bent_socket", "weight": 100 },
+      { "fault": "fault_spearhead_broken", "weight": 2 }
     ]
   }
 ]
