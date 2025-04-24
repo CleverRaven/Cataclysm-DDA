@@ -32,7 +32,7 @@
     "price": "600 USD",
     "price_postapoc": "10 USD",
     "to_hit": -4,
-    "material": [ "leather", "steel" ],
+    "material": [ "leather", "lc_steel" ],
     "symbol": "H",
     "color": "light_gray",
     "diameter": 8,
