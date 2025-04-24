@@ -163,7 +163,8 @@
   },
   {
     "id": "magnet",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "magnet" },
     "description": "A small but strong permanent magnet made from alnico alloy, which produces a magnetic field that attracts ferromagnetic materials such as steel.  Useful for crafting.",

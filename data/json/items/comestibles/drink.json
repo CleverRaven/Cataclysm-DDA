@@ -1627,7 +1627,7 @@
   {
     "id": "water_clean",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "category": "food",
     "material": [ "water" ],
@@ -1639,7 +1639,6 @@
     "symbol": "~",
     "phase": "liquid",
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
@@ -1648,7 +1647,8 @@
     "color": "light_cyan",
     "//": "Clean water becomes regular water in about 4 weeks if exposed to air (1 week if outdoors).",
     "properties": { "max_air_exposure_hours": "720" },
-    "revert_to": "water"
+    "revert_to": "water",
+    "ammo_type": "water"
   },
   {
     "id": "water_spring",
@@ -2008,7 +2008,7 @@
   {
     "id": "water_purifying",
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "DRINK",
     "category": "food",
     "name": { "str_sp": "water (purifying)" },
@@ -2025,7 +2025,6 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD" ],
     "use_action": {
       "target": "water_clean",
@@ -2034,6 +2033,7 @@
       "type": "delayed_transform",
       "transform_age": 2400,
       "not_ready_msg": "The chlorine released by the tablets is still working.  You still need to wait a bit before you can drink it."
-    }
+    },
+    "ammo_type": "water"
   }
 ]

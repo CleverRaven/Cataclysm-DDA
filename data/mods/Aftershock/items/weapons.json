@@ -124,7 +124,7 @@
   {
     "id": "afs_freeze_gauntlet",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "psychrophile handling gloves" },
     "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
@@ -135,23 +135,21 @@
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_cyan",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
-          "name": { "str": "Ice Fists" },
-          "description": "Strikes from this weapon can freeze targets solid."
-        }
-      ]
-    },
     "to_hit": 0,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_1" ],
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
+        "name": { "str": "Ice Fists" },
+        "description": "Strikes from this weapon can freeze targets solid."
+      }
+    ]
   },
   {
     "type": "ITEM",

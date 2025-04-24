@@ -22,7 +22,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_treesung",
     "copy-from": "arrow_fire_hardened_fletched",
     "name": { "str": "treesung arrow" },

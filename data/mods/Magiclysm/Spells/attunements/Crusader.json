@@ -2,7 +2,7 @@
   {
     "id": "holy_shield",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Holy Shield" },
     "description": "A Crusader's magical shield, enhanced to protect the Crusader from all that stands in their way.",
     "weight": "1905 g",
@@ -33,21 +33,19 @@
       "TRADER_AVOID"
     ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -6 },
-            { "type": "stab", "add": -6 },
-            { "type": "cut", "add": -6 },
-            { "type": "bullet", "add": -3 }
-          ]
-        }
-      ]
-    },
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -6 },
+          { "type": "stab", "add": -6 },
+          { "type": "cut", "add": -6 },
+          { "type": "bullet", "add": -3 }
+        ]
+      }
+    ]
   },
   {
     "id": "holy_shield",

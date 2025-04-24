@@ -26,7 +26,8 @@
   },
   {
     "id": "mom_fusion_mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Ch47 power pack" },
     "description": "A power pack for the Ch47.",
     "weight": "40 g",
@@ -41,7 +42,8 @@
   },
   {
     "id": "mom_fusion_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Ch47 power cartridge" },
     "description": "Power cartridges for the Ch47.  You had better make every shot count, because there's no way you're finding any more of these.",
     "weight": "1 g",

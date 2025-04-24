@@ -99,7 +99,8 @@
     "color": "white"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
@@ -138,7 +139,8 @@
     "melee_damage": { "bash": 18 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "baseball",
     "symbol": "*",
     "color": "white",

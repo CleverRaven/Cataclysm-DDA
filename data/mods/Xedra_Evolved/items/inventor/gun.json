@@ -200,6 +200,7 @@
   {
     "id": "death_ray",
     "type": "GUN",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "death ray" },
     "description": "The Aetheric Death Ray, glowing a menacing green.  It hums with a barely controlled hatred of organic life.  It must recharge on its own, as there are no ports or battery slots on it.  It's sleek and smooth and evil.",
     "weight": "2792 g",
@@ -252,8 +253,8 @@
       "NO_RELOAD",
       "INVENTOR_CRAFTED"
     ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 4800 }, "airtight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 4800 }, "airtight": true } ],
+    "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true }
   },
   {
     "id": "bio_launcher",
@@ -281,7 +282,8 @@
   },
   {
     "id": "bio_warhead",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "bio-warhead" },
     "description": "So you decided to become an inventor and instead of inventing something good for mankind, you invented this?  You should be ashamed.",
     "weight": "1340 g",

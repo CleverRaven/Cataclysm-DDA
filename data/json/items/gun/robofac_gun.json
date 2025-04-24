@@ -409,7 +409,8 @@
   },
   {
     "id": "robofac40",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 40-round 5.56 magazine" },
     "description": "A high-capacity 40-round box magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "265 g",
@@ -426,7 +427,8 @@
   },
   {
     "id": "xedra40",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "prototype 40-round 5.56 magazine" },
     "description": "A high-capacity 40-round box magazine.",
     "copy-from": "robofac40",
@@ -434,7 +436,8 @@
   },
   {
     "id": "robofacmultimag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 40/50-round 4.6/5.7 magazine" },
     "description": "A high-capacity box magazine for use with the Hub 01 Hybrid Weapons Platform.  This magazine has plates on the back that can be shifted inwards to accommodate either 4.6x30mm or 5.7x28mm.",
     "weight": "250 g",
@@ -452,7 +455,8 @@
   {
     "id": "robofac60",
     "looks_like": "calicomag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 60-round 9mm helical magazine" },
     "description": "A surprisingly compact 60-round helical magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "360 g",
@@ -472,7 +476,8 @@
   {
     "id": "robofac10",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 10-round shotgun magazine" },
     "description": "A 10-round shotgun magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "400 g",
@@ -490,7 +495,8 @@
   {
     "id": "xedra10",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "prototype 10-round shotgun magazine" },
     "description": "A 10-round shotgun magazine.",
     "copy-from": "robofac10",
@@ -499,7 +505,8 @@
   {
     "id": "robofac30",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 30-round shotgun drum magazine" },
     "description": "A plastic 30-round drum magazine, for use with the Hub 01 Hybrid Weapons Platform.",
     "variant_type": "gun",
@@ -519,7 +526,8 @@
   {
     "id": "robofac20",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 20-round 7.62 magazine" },
     "description": "A 20-round stick magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "180 g",
@@ -537,7 +545,8 @@
   {
     "id": "robofac50",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 50-round 7.62 drum magazine" },
     "description": "A 50-round drum magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "400 g",
@@ -556,7 +565,8 @@
   {
     "id": "robofac100",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 100-round 5.56 double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "1700 g",
@@ -575,7 +585,8 @@
   {
     "id": "robofac60_123ln",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "HWP 60-round 12.3 magazine" },
     "description": "A box magazine for use with the Hub 01 Hybrid Weapons Platform, developed for the 12.3 ln round.  Physically speaking, this diverges from its Exodii counterpart with a more ergonomic design afforded by the Hub's use of modern materials.  It resembles a coffin somewhat in profile, with 4 columns of ammunition tapering down to just 2.",
     "weight": "500 g",
@@ -592,7 +603,8 @@
   },
   {
     "id": "robofac_gun_40mm_3rd",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "FSP 3-round 40x46 magazine" },
     "description": "A large three round box magazine for use with the Hub 01 Fire Support Platform.",
     "weight": "565 g",
@@ -609,7 +621,8 @@
   },
   {
     "id": "robofac_gun_40mm_5rd",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "FSP 5-round 40x46 magazine" },
     "description": "A large five round box magazine for use with the Hub 01 Fire Support Platform.  There's no way you're going to find a mag pouch for this.",
     "weight": "744 g",
@@ -626,7 +639,8 @@
   },
   {
     "id": "robofac_gun_40mm_10rd",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "FSP 10-round 40x46 magazine" },
     "description": "A huge 10 round box magazine for use with the Hub 01 Fire Support Platform.  It resembles a coffin somewhat in profile, with 4 columns of ammunition tapering down to just 1.  There's no way you're going to find a mag pouch for this.",
     "weight": "1302 g",

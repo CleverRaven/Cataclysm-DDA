@@ -355,7 +355,7 @@
   {
     "id": "armor_star_samurai",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "ryūsei battle kit" },
     "description": "A strange belt wrapped with circuitry and hundreds of banded metal discs.  When you touch it, it seems to vibrate slightly.",
@@ -449,12 +449,12 @@
       }
     ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "relic_data": { "passive_effects": [ { "id": "ench_meteor_armor" } ] }
+    "passive_effects": [ { "id": "ench_meteor_armor" } ]
   },
   {
     "id": "armor_star_samurai_mask",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "filtering menpo" },
     "category": "armor",
     "description": "A sealed mask with strange filtering components on the front turned up in the shape of horns.  Inscriptions mark the glass of the lenses creating spiral patterns that blur the vision.",
@@ -473,7 +473,7 @@
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 16,
-    "relic_data": { "passive_effects": [ { "id": "ench_meteor_mask" } ] }
+    "passive_effects": [ { "id": "ench_meteor_mask" } ]
   },
   {
     "id": "armor_star_samurai_torso",

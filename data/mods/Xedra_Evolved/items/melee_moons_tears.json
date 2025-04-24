@@ -1,23 +1,21 @@
 [
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "id": "boann_unique_weapon_sword",
     "copy-from": "moons_tears_estoc",
     "looks_like": "ch_estoc",
     "name": { "str_sp": "Sidereal Eclipse" },
     "description": "Shimmering like a beam of moonlight, this sword seems to minutely shift its position when not looked at directly.  It exerts a slight pull on your hand when you hold it, moving your body to the proper position.",
     "extend": { "flags": [ "RELIC_PINK" ] },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "condition": "ALWAYS",
-          "hit_you_effect": [ { "id": "boann_unique_weapon_sword_onhit_blind", "once_in": 3 } ],
-          "values": [ { "value": "ATTACK_SPEED", "add": -25 }, { "value": "MELEE_DAMAGE", "multiply": 0.15 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "condition": "ALWAYS",
+        "hit_you_effect": [ { "id": "boann_unique_weapon_sword_onhit_blind", "once_in": 3 } ],
+        "values": [ { "value": "ATTACK_SPEED", "add": -25 }, { "value": "MELEE_DAMAGE", "multiply": 0.15 } ]
+      }
+    ]
   },
   {
     "type": "ITEM",

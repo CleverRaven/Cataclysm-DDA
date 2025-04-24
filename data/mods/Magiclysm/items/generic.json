@@ -16,7 +16,8 @@
     "to_hit": -1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "parabolan_yarn",
     "category": "spare_parts",
     "price": "0 cent",

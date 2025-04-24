@@ -9,7 +9,7 @@
   {
     "id": "wildshape_cloak_fish",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
     "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.  You should probably stand in water before you put it on.",
     "looks_like": "cloak_leather",
@@ -20,8 +20,8 @@
     "color": "blue",
     "material": [ "magical_material" ],
     "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "passive_effects": [ { "id": "ench_fishform" } ]
   },
   {
     "type": "effect_on_condition",
@@ -77,7 +77,7 @@
   {
     "id": "wildshape_cloak_bear",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Wildshape Cloak: Bear",
     "description": "A magical cloak that smells of the forest.  It can be worn to morph your body to a form that is strong and resilient in melee combat.  However, you feel as if you would lose a part of yourself.",
     "looks_like": "cloak_leather",
@@ -88,8 +88,8 @@
     "color": "brown",
     "material": [ "magical_material" ],
     "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_bearform" } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "passive_effects": [ { "id": "ench_bearform" } ]
   },
   {
     "type": "effect_on_condition",
@@ -145,7 +145,7 @@
   {
     "id": "wildshape_cloak_deer",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Wildshape Cloak: Deer",
     "description": "A magical cloak that feels soft to the touch.  It can be worn to morph your body to a form well-suited to escaping difficult situations.  However, it is not suited for combat.",
     "looks_like": "cloak_leather",
@@ -156,8 +156,8 @@
     "color": "green",
     "material": [ "magical_material" ],
     "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_deerform" } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "passive_effects": [ { "id": "ench_deerform" } ]
   },
   {
     "type": "effect_on_condition",
@@ -206,7 +206,7 @@
   {
     "id": "cloak_of_elvenkind",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "cloak of elvenkind", "str_pl": "cloaks of elvenkind" },
     "description": "One of the traditional items of the ancient elven warrior societies, this cloth cloak woven with still-living leaves makes its wearer much harder to spot in forests or dense vegetation.  Infamous for their use during the Vietnam War by elves on both sides of the conflict.",
     "looks_like": "cloak",
@@ -229,24 +229,22 @@
     "warmth": 30,
     "material_thickness": 0.4,
     "environmental_protection": 3,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": {
-            "or": [
-              { "u_is_on_terrain_with_flag": "SHRUB" },
-              { "u_is_on_terrain": "t_tree_young" },
-              { "u_is_on_terrain": "t_bamboo_tall" },
-              { "u_is_on_terrain": "t_grass_long" },
-              { "u_at_om_location": "forest" },
-              { "u_at_om_location": "forest_thick" }
-            ]
-          },
-          "values": [ { "value": "STEALTH_MODIFIER", "add": 60 } ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ]
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 60 } ]
+      }
+    ]
   }
 ]

@@ -1,7 +1,8 @@
 [
   {
     "id": "anesthetic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "anesthetic" },
     "category": "chems",
     "description": "A variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthesia kit with it.",
@@ -36,7 +37,8 @@
     "volume": "10 ml"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_sulphur",
     "ammo_type": "components",
     "category": "chems",
@@ -55,7 +57,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chunk_sulfur",
     "category": "chems",
     "price": "50 cent",
@@ -72,7 +75,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_cement",
     "category": "spare_parts",
     "price": "2 USD",
@@ -88,7 +92,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_gravel",
     "category": "spare_parts",
     "price": "0 cent",
@@ -106,7 +111,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "shredded_rubber",
     "category": "spare_parts",
     "price": "0 cent",
@@ -122,7 +128,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_limestone",
     "category": "chems",
     "price": "50 cent",
@@ -139,7 +146,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_quicklime",
     "category": "chems",
     "price": "1 USD",
@@ -155,7 +163,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_slaked_lime",
     "category": "chems",
     "price": "5 USD",
@@ -171,7 +180,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_sand",
     "category": "spare_parts",
     "price": "0 cent",
@@ -187,7 +197,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_soil",
     "category": "spare_parts",
     "price": "0 cent",
@@ -287,7 +298,8 @@
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "ammonia_liquid",
     "name": { "str_sp": "liquid ammonia" },
     "weight": "124 g",
@@ -531,7 +543,8 @@
     "fun": -20
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_aluminium_powder",
     "category": "chems",
     "price": "5 USD",
@@ -548,7 +561,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_nickel_powder",
     "category": "chems",
     "price": "12 cent",
@@ -565,7 +579,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_zinc_powder",
     "category": "chems",
     "price": "6 USD",
@@ -584,7 +599,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_zinc_oxide",
     "category": "chems",
     "price": "2 USD",
@@ -602,7 +618,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_manganese_dioxide",
     "category": "chems",
     "price": "6 USD",
@@ -620,7 +637,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "cathod_mix",
     "category": "chems",
     "price_postapoc": "1 USD",
@@ -635,7 +653,8 @@
     "count": 1000
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_ferric_chloride",
     "category": "chems",
     "price": "30 USD",
@@ -652,7 +671,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_antimony_trichloride",
     "category": "chems",
     "price": "30 USD",
@@ -669,7 +689,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_potassium_chloride",
     "category": "chems",
     "price": "6 USD",
@@ -687,7 +708,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_potassium_hydroxide",
     "category": "chems",
     "price": "6 USD",
@@ -748,7 +770,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_acetone",
     "category": "chems",
     "price": "50 cent",
@@ -787,7 +810,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_chromium_oxide",
     "category": "chems",
     "price": "5 USD",
@@ -805,7 +829,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "cac2powder",
     "category": "chems",
     "price": "2 USD",
@@ -826,7 +851,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_carbide",
     "category": "chems",
     "price": "75 cent",
@@ -844,7 +870,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_caco3",
     "category": "chems",
     "price": "75 cent",
@@ -862,7 +889,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_hexamine",
     "category": "chems",
     "price": "20 USD",
@@ -882,7 +910,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_hydrogen_peroxide_conc",
     "category": "chems",
     "price": "10 USD",
@@ -930,7 +959,8 @@
     "weight": "953 g"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_ammonium_nitrate",
     "category": "chems",
     "price": "1 USD",
@@ -947,7 +977,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_ammonium_nitrate_pellets",
     "looks_like": "fertilizer_commercial",
     "category": "chems",
@@ -965,7 +996,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_saltpetre",
     "category": "chems",
     "price": "2 USD",
@@ -982,7 +1014,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_niter",
     "category": "spare_parts",
     "price": "75 cent",
@@ -998,7 +1031,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_aluminium_sulphate",
     "category": "chems",
     "price": "3 USD",
@@ -1015,7 +1049,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_acetic_acid",
     "category": "chems",
     "price": "2 USD",
@@ -1032,7 +1067,8 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_formaldehyde",
     "category": "chems",
     "price": "2 USD",
@@ -1048,7 +1084,8 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_thermite",
     "category": "chems",
     "price": "25 USD",
@@ -1066,7 +1103,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_anfo",
     "category": "chems",
     "price": "50 USD",
@@ -1083,7 +1121,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_black_powder",
     "category": "chems",
     "price": "20 USD",
@@ -1100,7 +1139,8 @@
     "count": 1000
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_rdx",
     "category": "chems",
     "price": "75 USD",
@@ -1117,7 +1157,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_compositionb",
     "category": "chems",
     "price": "75 USD",
@@ -1134,7 +1175,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_hmtd",
     "category": "chems",
     "price": "50 USD",
@@ -1152,7 +1194,8 @@
     "count": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_apex",
     "category": "chems",
     "price": "50 USD",
@@ -1170,7 +1213,8 @@
     "count": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_rocket_fuel",
     "category": "chems",
     "price": "5 USD",
@@ -1384,7 +1428,8 @@
     "category": "chems"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "detergent",
     "category": "chems",
     "price": "10 USD",
@@ -1402,7 +1447,8 @@
     "count": 20
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "soap_flakes",
     "category": "chems",
     "price": "5 USD",
@@ -1463,7 +1509,8 @@
     "fun": -20
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "nanomaterial",
     "category": "tool_magazine",
     "price": "2 kUSD 500 USD",
@@ -1480,7 +1527,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "ash",
     "category": "chems",
     "price": "0 cent",
@@ -1497,7 +1545,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "corpse_ash",
     "category": "chems",
     "price": "0 cent",
@@ -1746,7 +1795,8 @@
   },
   {
     "id": "wooden_bead",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "wooden bead" },
     "description": "A wooden bead.  It can be used to craft inscribable jewelry or create a beaded curtain door.",
@@ -1764,7 +1814,8 @@
   },
   {
     "id": "rosin",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "rosin" },
     "description": "A chunk of yellowish rosin, usable as a flux for soldering.",
@@ -1917,7 +1968,8 @@
   },
   {
     "id": "conc_venom",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "concentrated venom" },
     "description": "A transparent, lightly greenish liquid, refined from the venom of bees and wasps.  Active ingredients include (nor-)adrenaline, dopamine, histamine, and protein toxins.  It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
@@ -1933,7 +1985,8 @@
   },
   {
     "id": "conc_paralytic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "concentrated paralytic" },
     "description": "A concentrated paralytic agent, originally from a triffid.  Given your experience with its effects (chiefly gathered while sourcing this batch) and their striking similarity to earthly flora, you figure it's related to curarines.  Might come in handy in crafting more useful things.",
     "copy-from": "conc_venom",
@@ -1941,7 +1994,8 @@
   },
   {
     "id": "rocuronium",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "rocuronium" },
@@ -1959,7 +2013,8 @@
   },
   {
     "id": "red_phosphorous",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "red phosphorous" },
@@ -1976,7 +2031,8 @@
   },
   {
     "id": "red_phosphorous_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "small portion of red phosphorous" },
@@ -1992,7 +2048,8 @@
   },
   {
     "id": "white_phosphorous",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "white phosphorous" },
@@ -2036,7 +2093,8 @@
   },
   {
     "id": "iodine_crystal",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "iodine crystals" },
@@ -2090,7 +2148,8 @@
   },
   {
     "id": "silicone",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "silicone caulk" },
     "category": "chems",
     "description": "A thick gray paste used as a sealant in many construction projects.",

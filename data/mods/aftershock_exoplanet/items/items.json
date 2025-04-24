@@ -76,7 +76,8 @@
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "clearcrete_chunk",
     "copy-from": "rock",
     "name": { "str": "clearcrete chunk" },
@@ -148,7 +149,8 @@
   },
   {
     "id": "afs_titanium_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "titanium" },
     "description": "A strong, durable metal.  Highly valued for its weight to strength ratio and an excellent upgrade to aluminum for those properties - albeit a lot more expensive due to rarity.  More commonly used in jewelry and medical implants.",

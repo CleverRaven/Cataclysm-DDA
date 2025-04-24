@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_fire_hardened_fletched",
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": 100 },
@@ -15,7 +16,8 @@
     "recovery_chance": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_field_point_fletched",
     "name": { "str": "wooden bodkin arrow" },
     "symbol": "=",
@@ -39,7 +41,8 @@
   },
   {
     "id": "arrow_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "symbol": "=",
     "color": "green",
     "name": { "str": "wooden rubber blunt arrow" },
@@ -55,7 +58,8 @@
     "effects": [ "BEANBAG" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_small_game_fletched",
     "name": { "str": "simple wooden small game arrow" },
     "symbol": "=",
@@ -69,7 +73,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_wood",
     "name": { "str": "wooden broadhead arrow" },
     "symbol": "=",
@@ -83,7 +88,8 @@
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_heavy_fire_hardened_fletched",
     "price": "3 USD",
     "name": { "str": "simple wooden arrow" },
@@ -96,7 +102,8 @@
     "recovery_chance": 83
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_heavy_field_point_fletched",
     "price": "10 USD",
     "name": { "str": "wooden small game arrow" },
@@ -110,7 +117,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_wood_heavy",
     "name": { "str": "makeshift wooden arrow" },
     "symbol": "=",
@@ -125,7 +133,8 @@
     "recovery_chance": 87
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal_sharpened_fletched",
     "name": { "str": "makeshift metal arrow" },
     "symbol": "=",
@@ -140,7 +149,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal",
     "name": { "str": "aluminum broadhead arrow" },
     "symbol": "=",
@@ -157,7 +167,8 @@
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal_bodkin",
     "name": { "str": "aluminum field point arrow" },
     "symbol": "=",
@@ -174,7 +185,8 @@
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal_target",
     "price": "12 USD",
     "name": { "str": "aluminum small game arrow" },
@@ -192,7 +204,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_cf",
     "name": { "str": "carbon fiber hunting arrow" },
     "symbol": "=",
@@ -210,7 +223,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_meteor",
     "price": "20 USD",
     "name": { "str": "emerald arrow" },
@@ -235,7 +249,8 @@
     "melee_damage": { "bash": 10, "stab": 26 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "flamable_arrow",
     "name": { "str": "flammable arrow" },
     "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
@@ -268,7 +283,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_flamming",
     "copy-from": "flamable_arrow",
     "name": { "str": "flaming arrow" },

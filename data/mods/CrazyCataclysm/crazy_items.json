@@ -458,7 +458,8 @@
     "color": "light_gray"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "party_rock",
     "symbol": "*",
     "color": "pink",
@@ -481,7 +482,8 @@
   {
     "id": "akmag90",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "AK 90-round magazine" },
     "description": "A homemade AK magazine made out of welding magazines together.  Looks really stupid, and doesn't work.",
     "weight": "978 g",

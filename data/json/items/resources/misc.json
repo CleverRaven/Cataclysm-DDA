@@ -70,7 +70,8 @@
   },
   {
     "id": "incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "incendiary" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
@@ -138,7 +139,8 @@
   },
   {
     "id": "fuse",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "fuse" },
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
@@ -173,7 +175,8 @@
   },
   {
     "id": "sole_rubber",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "rubber sole" },
     "description": "A sole made from rubber, usually found on the bottoms of boots.  Can be used for making actual boots.",

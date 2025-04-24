@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "rock_flaking",
     "symbol": "*",
     "color": "light_gray",
@@ -23,7 +24,8 @@
     "melee_damage": { "bash": 7 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "flint",
     "copy-from": "rock_flaking",
     "name": { "str": "flint" },

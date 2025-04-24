@@ -50,7 +50,8 @@
     ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_dreamforged",
     "name": { "str": "dreamforged arrow" },
     "symbol": "=",
@@ -110,7 +111,8 @@
     "melee_damage": { "bash": 11 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_dreamforged",
     "price": "20 USD",
     "name": { "str": "dreamforged bolt" },

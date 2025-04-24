@@ -308,7 +308,8 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "super_glue",
     "category": "spare_parts",
     "symbol": ",",
@@ -1632,7 +1633,8 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "paper",
     "name": { "str_sp": "paper" },
     "category": "spare_parts",
@@ -2972,7 +2974,8 @@
   },
   {
     "id": "pouch_autoclave",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "NULL",
     "category": "other",
     "name": { "str": "autoclave pouch", "str_pl": "autoclave pouches" },
@@ -3277,7 +3280,8 @@
   },
   {
     "id": "shrapnel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",

@@ -746,7 +746,7 @@
     "id": "rune_technomancer_weapon_adept",
     "looks_like": "halligan",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "Technomancer mana-toolbar" },
     "//": "Pretty much the same as the other, but now with a cool touchscreen that casts mirror image and does some minor things",
     "description": "This staff incorporates a sturdy crescent wrench on top of a prybar and a hammer on the other in a convenient package.  There are electronic components in the staff connected to a touchscreen embedded in the staff, you only had time to cram one spell in the prototype software.  There is a Technomancer rune embedded in the hammerhead.",
@@ -763,13 +763,13 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "WATCH", "ALARMCLOCK", "NO_RELOAD", "NO_UNLOAD" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "charges_per_use": 1,
     "use_action": [
       [ "CROWBAR", 0 ],
       { "type": "cast_spell", "spell_id": "mirror_image", "no_fail": true, "level": 10, "need_wielding": true }
     ],
-    "melee_damage": { "bash": 27, "cut": 1 }
+    "melee_damage": { "bash": 27, "cut": 1 },
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   },
   {
     "id": "rune_magus_weapon",
@@ -793,6 +793,7 @@
   {
     "id": "rune_magus_weapon_adept",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "copy-from": "q_staff",
     "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
     "//": "It will be based on the Q +2 weapon but slightly worse, slightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
@@ -804,13 +805,11 @@
     "to_hit": 4,
     "material": [ "wood", "diamond" ],
     "symbol": "/",
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.75 } ] } ]
-    },
     "color": "brown",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
-    "melee_damage": { "bash": 34 }
+    "melee_damage": { "bash": 34 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.75 } ] } ]
   },
   {
     "id": "rune_kelvinist_weapon",
@@ -835,7 +834,7 @@
     "id": "rune_kelvinist_ice_adept_weapon",
     "looks_like": "scimitar",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "copy-from": "qt_scimitar",
     "symbol": "/",
     "color": "light_gray",
@@ -856,11 +855,9 @@
     ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "THERMOMETER", "MAGIC_FOCUS", "NO_UNLOAD", "NO_RELOAD" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
-    "relic_data": {
-      "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "chilling_touch" } ] } ]
-    },
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "chilling_touch" } ] } ]
   },
   {
     "id": "rune_stormshaper_weapon",
@@ -886,7 +883,7 @@
   {
     "id": "rune_stormshaper_weapon_adept",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "Stormshaper hammer-axe" },
     "//": "There isn't an equivalent, so the damage has been multiplied by 1.2 to cutting and bashing",
     "description": "A forged copper hammer-axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye and a Nordic rune reminiscent of Thor, the thunder god, in the hammer side.",
@@ -908,9 +905,9 @@
     ],
     "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "NO_RELOAD", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "charges_per_use": 1,
-    "melee_damage": { "bash": 40, "cut": 27 }
+    "melee_damage": { "bash": 40, "cut": 27 },
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   },
   {
     "id": "rune_animist_weapon",
@@ -935,6 +932,7 @@
   {
     "id": "rune_animist_weapon_adept",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "Animist life-athame" },
     "//": "Tool qualities equivalent to combat knife with some saw capability, to represent sharpness, combat equiv.  to combat knife + 2 w/ RAPID and BLOCK1 with no to hit, size/weight off combat knife +1",
     "description": "A steel ritual knife used by Animists to draw blood for summoning.  The knife has seen so much bloodshed that the rune at the crossguard seemingly is constantly drenched in blood and gives you preternatural resistance to pain.",
@@ -949,11 +947,9 @@
     "weapon_category": [ "KNIVES" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
-    },
     "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ],
-    "melee_damage": { "bash": 7, "stab": 30 }
+    "melee_damage": { "bash": 7, "stab": 30 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
   },
   {
     "type": "ITEM",
@@ -1013,7 +1009,7 @@
     "looks_like": "scythe_toy",
     "repairs_like": "rune_animist_weapon_adept",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "grim reaper's scythe" },
     "//": "Pretty similar to the war scythe, but with less weight, more cutting damage and capable of casting a strong offensive spell.",
     "description": "This is a long and crooked tool used to reap souls, with a skull engraved in its blade.  Magically treated to reduce weight and enhance sharpness, this enchanted weapon is even capable of delivering a strong rupture attack.  Let the harvest begin.",
@@ -1041,9 +1037,9 @@
     ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "charges_per_use": 1,
     "use_action": [ { "type": "cast_spell", "spell_id": "rupture", "no_fail": true, "level": 10, "need_wielding": true } ],
-    "melee_damage": { "bash": 17, "cut": 45 }
+    "melee_damage": { "bash": 17, "cut": 45 },
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   }
 ]

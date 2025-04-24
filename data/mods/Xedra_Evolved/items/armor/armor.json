@@ -1041,33 +1041,32 @@
     "id": "dreamforged_helmet_berserker",
     "copy-from": "dreamforged_helmet",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "berserk helmet" },
     "description": "Thin, smooth helmet, that cover your head, with a wide, sharp two-teeth blade from the forehead.  Fueled by damage of berserk knuckles, your feel the helmet pump the tension right into your veins.",
     "warmth": 5,
     "material_thickness": 0.7,
-    "relic_data": { "passive_effects": [ { "id": "BERSERKER_REGEN_STAMINA" } ] },
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
+    "passive_effects": [ { "id": "BERSERKER_REGEN_STAMINA" } ]
   },
   {
     "id": "dreamforged_armguard_plate_berserk",
     "copy-from": "dreamforged_armguard_plate",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "pair of dreamforged berserk guards", "str_pl": "pairs of dreamforged berserk guards" },
     "description": "Pair of fiery red armguards, they glow red the more damage you deal, using berserk knuckles, and your physical strength grows respectively.",
-    "relic_data": { "passive_effects": [ { "id": "BERSERKER_STR" } ] },
-    "material_thickness": 0.6
+    "material_thickness": 0.6,
+    "passive_effects": [ { "id": "BERSERKER_STR" } ]
   },
   {
     "id": "dreamforged_boots_berserk",
     "copy-from": "dreamforged_boots",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "pair of berserker boots", "str_pl": "pairs of berserker boots" },
     "description": "Pair of fiery red boots, they are fueled by damage you deal with berserk knuckles, and increase your speed respectively.",
-    "relic_data": { "passive_effects": [ { "id": "BERSERKER_SPEED" } ] },
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1091,48 +1090,47 @@
         "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 1 } ],
         "coverage": 100
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "BERSERKER_SPEED" } ]
   },
   {
     "id": "dreamforged_fullhelmet_arcane",
     "copy-from": "dreamforged_fullhelmet",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "arcane helmet" },
     "description": "Dreamforged helmet with side protection, and carved runes outside.  It grant you an ability to understand more, and with better world investigation your mana regeneration grows.  Runes are just decorations actually.",
     "weight": "581 g",
     "color": "dark_gray",
-    "relic_data": { "passive_effects": [ { "id": "DEDUCTION_REGEN_MANA" } ] },
     "armor": [ { "covers": [ "head" ], "coverage": 80, "encumbrance_modifiers": [ "WELL_SUPPORTED", "RESTRICTS_NECK" ] } ],
     "warmth": 5,
     "material_thickness": 0.7,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED" ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED" ],
+    "passive_effects": [ { "id": "DEDUCTION_REGEN_MANA" } ]
   },
   {
     "id": "dreamforged_armguard_plate_gunslinger",
     "copy-from": "dreamforged_armguard_plate",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "\"Gunslinger\"" },
     "description": "Pair of flat armguards, fully carved with numbers and crosses.  Inside the left guard there is a text, cut with something sharp, that starts from \"Sent onto those that escaped limbo's clutches, and unleash the rage of all hell…\".",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.4 }, { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ]
-        }
-      ]
-    },
-    "material_thickness": 0.1
+    "material_thickness": 0.1,
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.4 }, { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ]
+      }
+    ]
   },
   {
     "id": "helmet_verdant",
     "//": "Derived from chitinous helmet",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "verdant helmet" },
     "description": "A helmet made from the of living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1187,13 +1185,13 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 60, "encumbrance": 5 }
     ],
     "melee_damage": { "bash": 1 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_helmet" } ] }
+    "passive_effects": [ { "id": "ench_verdant_helmet" } ]
   },
   {
     "id": "armor_verdant_cuirass",
     "//": "Derived from chitinous armor",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "//2": "The idea for this is that it's basically plate-and-mail, but with bark and a kind of mossy, viney connective tissue",
     "name": { "str": "verdant cuirass", "str_pl": "verdant cuirasses" },
     "description": "A cuirass made of living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1245,13 +1243,13 @@
       }
     ],
     "melee_damage": { "bash": 2 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_body" } ] }
+    "passive_effects": [ { "id": "ench_verdant_body" } ]
   },
   {
     "id": "gauntlets_verdant",
     "//": "Derived from chitinous gauntlets",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pair of verdant gauntlets", "str_pl": "pairs of verdant gauntlets" },
     "description": "A pair of fingerless gauntlets made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1312,13 +1310,13 @@
       }
     ],
     "melee_damage": { "bash": 2 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_gauntlets" } ] }
+    "passive_effects": [ { "id": "ench_verdant_gauntlets" } ]
   },
   {
     "id": "leg_guards_verdant",
     "//": "Derived from chitin leg guards",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pair of verdant leg guards", "str_pl": "pairs of verdant leg guards" },
     "description": "A pair of leg guards made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1347,13 +1345,13 @@
         "encumbrance": 3
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_legs" } ] }
+    "passive_effects": [ { "id": "ench_verdant_legs" } ]
   },
   {
     "id": "boots_verdant",
     "//": "Derived from chitinous boots",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pair of verdant boots", "str_pl": "pairs of verdant boots" },
     "description": "Boots made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
@@ -1403,12 +1401,12 @@
       }
     ],
     "melee_damage": { "bash": 4 },
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_boots" } ] }
+    "passive_effects": [ { "id": "ench_verdant_boots" } ]
   },
   {
     "id": "sevenoclock_coat",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "coat of the timely sleeper" },
     "description": "A old-fashioned padded coat with deep pockets.  As you touch it, you feel that this coat could allow you to fall asleep whenever and wherever you want.",
     "weight": "1340 g",
@@ -1457,6 +1455,6 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "COLLAR", "ALARMCLOCK", "OUTER" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_sevenoclock_coat" } ] }
+    "passive_effects": [ { "id": "ench_sevenoclock_coat" } ]
   }
 ]

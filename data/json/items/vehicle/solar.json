@@ -53,7 +53,8 @@
     "price_postapoc": "5 USD"
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "copy-from": "folding_solar_panel",
     "id": "folding_solar_panel_deployed",
     "name": { "str": "deployed folding solar panel" },
@@ -85,7 +86,8 @@
     "price_postapoc": "20 USD"
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "copy-from": "folding_solar_panel_v2",
     "id": "folding_solar_panel_v2_deployed",
     "name": { "str": "deployed solar suitcase" },

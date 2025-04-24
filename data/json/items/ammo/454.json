@@ -1,7 +1,8 @@
 [
   {
     "id": "454_Casull",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".454 Casull" },
     "description": ".454 Casull ammunition with a 300gr jacketed soft point bullet.  The .454 Casull round is derived from .45 Long Colt with a stronger, lengthened case.  It is an exceptionally powerful cartridge with higher stopping power than many rifle rounds, although its extreme recoil makes it unsuitable for most purposes.",
     "ascii_picture": "454_Casull",
@@ -27,7 +28,8 @@
   {
     "id": "reloaded_454_Casull",
     "copy-from": "454_Casull",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".454 Casull, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -36,7 +38,8 @@
   {
     "id": "bp_454_Casull",
     "copy-from": "454_Casull",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".454 Casull, black powder" },
     "proportional": {
       "price": 0.3,

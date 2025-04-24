@@ -31,7 +31,8 @@
   },
   {
     "id": "sixdust",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "sixdust" },
     "description": "Sixdust, for when you must scorch the earth.  A sprayable anti-fungal/anti-insecticidal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
@@ -167,95 +168,95 @@
     "id": "charm_of_marzanna",
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "charm of Marzanna", "str_pl": "charms of Marzanna" },
     "description": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
     "color": "light_blue",
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_marzanna" } ] }
+    "passive_effects": [ { "id": "ench_climate_control_marzanna" } ]
   },
   {
     "id": "feline_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "feline periapta" },
     "description": "A shiny, gold necklace adorned with an image of a cat with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_feline" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_feline" } ]
   },
   {
     "id": "lupine_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "lupine periapta" },
     "description": "A shiny, gold necklace adorned with an image of a wolf with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_lupine" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_lupine" } ]
   },
   {
     "id": "cephalopod_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "cephalopod periapta" },
     "description": "A shiny, gold necklace adorned with an image of an octopus with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_cephalopod" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_cephalopod" } ]
   },
   {
     "id": "plant_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "tree periapta" },
     "description": "A shiny, gold necklace adorned with an image of a tree with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_plant" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_plant" } ]
   },
   {
     "id": "scorpion_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "scorpion periapta" },
     "description": "A shiny, gold necklace adorned with an image of a scorpion with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_scorpion" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_scorpion" } ]
   },
   {
     "id": "butterfly_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "butterfly periapta" },
     "description": "A shiny, gold necklace adorned with an image of a butterfly with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_butterfly" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_butterfly" } ]
   },
   {
     "id": "spider_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "spider periapta" },
     "description": "A shiny, gold necklace adorned with an image of a spider with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_spider" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_spider" } ]
   },
   {
     "id": "väinämöinens_kantele_imitation",

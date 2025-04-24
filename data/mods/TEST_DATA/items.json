@@ -66,7 +66,8 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "test_rock",
     "symbol": "*",
     "color": "light_gray",
@@ -99,7 +100,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "test_ring_strength_1",
     "weight": "4 g",
     "volume": "1 ml",
@@ -113,8 +114,8 @@
     "max_worn": 1,
     "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
     "description": "A copper ring that makes you a little stronger when you wear it.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] },
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "id": "test_rollerskates",
@@ -769,7 +770,8 @@
   },
   {
     "id": "test_sheet_metal_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": "TEST small metal sheet",
     "description": "A small sheet of metal.",
@@ -1005,7 +1007,8 @@
   },
   {
     "id": "test_battery_disposable",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "spare_parts",
     "name": { "str": "test disposable battery", "str_pl": "test disposable batteries" },
     "description": "This is a test disposable battery.",
@@ -1025,7 +1028,8 @@
   },
   {
     "id": "test_battery_rechargable",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "spare_parts",
     "name": { "str": "test rechargeable battery", "str_pl": "test rechargeable batteries" },
     "description": "This is a test battery that may be recharged.",
@@ -2303,7 +2307,8 @@
   },
   {
     "id": "test_arrow_wood",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "price": "10 USD",
     "name": { "str": "test wooden broadhead arrow" },
     "symbol": "=",
@@ -2518,7 +2523,8 @@
   {
     "id": "test_glockmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Test Glock magazine" },
     "description": "Magazine exclusively designed for Test Glocks.",
     "weight": "105 g",
@@ -2536,7 +2542,8 @@
   {
     "id": "test_glockbigmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Test Glock extended magazine" },
     "description": "30-round magazine exclusively for use with the Test Glock.",
     "weight": "210 g",
@@ -2554,7 +2561,8 @@
   },
   {
     "id": "test_9mm_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test 9mm ammo" },
     "description": "Generic 9mm ammo based on JHP.",
     "weight": "7 g",
@@ -2577,7 +2585,8 @@
   },
   {
     "id": "test_100mm_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test 100mm ammo" },
     "description": "Generic 100mm ammo.",
     "weight": "7 g",
@@ -2604,14 +2613,16 @@
   },
   {
     "id": "test_100mm_ammo_relative",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test 100mm ammo prop" },
     "copy-from": "test_100mm_ammo",
     "relative": { "damage": { "damage_type": "bullet", "amount": 1 } }
   },
   {
     "id": "test_45_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Test .45 ammo" },
     "description": "Test ammo based on the .45 JHP.",
     "weight": "10 g",
@@ -2635,7 +2646,8 @@
   {
     "id": "test_shot_00_fire_damage",
     "copy-from": "shotshell_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "00 shot" },
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "price": "5 USD",
@@ -2676,7 +2688,8 @@
   },
   {
     "id": "test_gas",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "test_gas",
     "category": "chems",
     "name": { "str_sp": "test gas" },
@@ -2715,7 +2728,8 @@
     ]
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "id": "test_weldtank",
     "name": { "str": "welding tank" },
     "description": "A test welding tank full of oxyacetylene.",
@@ -3084,7 +3098,7 @@
   {
     "id": "test_power_armor",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "test power armor" },
     "description": "This is a prototype power armor just for testing.",
@@ -3096,15 +3110,6 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -3127,7 +3132,14 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+      }
+    ]
   },
   {
     "id": "test_power_armor_on",
@@ -3466,7 +3478,8 @@
   },
   {
     "id": "test_liquid_1ml",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "fuel",
     "ammo_type": "gasoline",
     "phase": "liquid",
@@ -3480,7 +3493,8 @@
   },
   {
     "id": "test_solid_1ml",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "ammo_type": "components",
     "name": { "str": "test solid" },
@@ -3849,7 +3863,7 @@
   {
     "id": "test_modular_exosuit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
     "weight": "45 kg",
@@ -3993,8 +4007,8 @@
       }
     ],
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ]
   },
   {
     "id": "test_knife_combat",
@@ -4648,7 +4662,7 @@
   {
     "id": "test_complex_phase",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -4692,7 +4706,6 @@
       "COMBAT_TOGGLEABLE",
       "UNBREAKABLE_MELEE"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "armor": [
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -4764,7 +4777,8 @@
         "volume_encumber_modifier": 0
       }
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "test_ghost_vest",
@@ -5102,50 +5116,53 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_SPEED_ench_item",
     "copy-from": "test_item_ench",
     "name": "test_SPEED_ench_item",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_ATTACK_NOISE_ench_item",
     "copy-from": "test_item_ench",
     "name": "test_ATTACK_NOISE_ench_item",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_NOISE", "add": 9999 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "ATTACK_NOISE", "add": 9999 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_ATTACK_SPEED_ench_item",
     "copy-from": "test_item_ench",
     "name": "test_ATTACK_SPEED_ench_item",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_ATTACK_SPEED_ench_item_2",
     "copy-from": "test_item_ench",
     "name": "test_ATTACK_SPEED_ench_item_2",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 62 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 62 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_PAIN_PENALTY_MOD_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_PAIN_PENALTY_MOD_ench_item_1",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "values": [
-            { "value": "PAIN_PENALTY_MOD_STR", "add": 2 },
-            { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -3 },
-            { "value": "PAIN_PENALTY_MOD_INT", "add": -3 },
-            { "value": "PAIN_PENALTY_MOD_PER", "multiply": 1 },
-            { "value": "PAIN_PENALTY_MOD_SPEED", "add": -10, "multiply": 1.2 }
-          ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "values": [
+          { "value": "PAIN_PENALTY_MOD_STR", "add": 2 },
+          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -3 },
+          { "value": "PAIN_PENALTY_MOD_INT", "add": -3 },
+          { "value": "PAIN_PENALTY_MOD_PER", "multiply": 1 },
+          { "value": "PAIN_PENALTY_MOD_SPEED", "add": -10, "multiply": 1.2 }
+        ]
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -5158,74 +5175,80 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
     "copy-from": "test_item_ench",
     "weight": "2000 g",
     "volume": "2000 ml",
     "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "add": 100 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "add": 100 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
     "copy-from": "test_item_ench",
     "weight": "2000 g",
     "volume": "2000 ml",
     "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": 1 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": 1 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_TO_HIT_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_MELEE_TO_HIT_ench_item_1",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": 100 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": 100 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_MELEE_TO_HIT_ench_item_2",
     "copy-from": "test_item_ench",
     "name": "test_MELEE_TO_HIT_ench_item_2",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": -100 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": -100 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_BONUS_DODGE_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_BONUS_DODGE_ench_item_1",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_BONUS_DODGE_ench_item_2",
     "name": "test_BONUS_DODGE_ench_item_2",
     "copy-from": "test_item_ench",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 4, "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 4, "multiply": -0.5 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_SPEED_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_item_ench",
-    "relic_data": { "passive_effects": [ { "has": "HELD", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+    "passive_effects": [ { "has": "HELD", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "test_STAT_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_STAT_ench_item_1",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "values": [
-            { "value": "STRENGTH", "add": 3, "multiply": 1 },
-            { "value": "DEXTERITY", "add": -2 },
-            { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
-            { "value": "PERCEPTION", "add": -7 }
-          ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 3, "multiply": 1 },
+          { "value": "DEXTERITY", "add": -2 },
+          { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
+          { "value": "PERCEPTION", "add": -7 }
+        ]
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -5311,7 +5334,8 @@
     "monotony_penalty": 4
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "rock_volume_test",
     "name": { "str": "10L rock" },
     "copy-from": "rock",
@@ -5319,7 +5343,8 @@
   },
   {
     "id": "acidbomb_test",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "acid bomb" },
     "description": "A fragile container filled with acid.  Throw it to spill out a pool of potent acid.  It could also be used in a staff sling with a modified cradle.",

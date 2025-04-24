@@ -1,7 +1,8 @@
 [
   {
     "id": "762_54R",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x54mmR" },
     "description": "7.62x54mmR ammunition with a 150gr FMJ bullet.  The 7.62x54mmR round is one of the oldest still in common use, primarily due to the popularity of the Mosin-Nagant rifle.  It is a powerful cartridge capable of killing most targets with one shot.",
     "ascii_picture": "762_54R",
@@ -27,7 +28,8 @@
   {
     "id": "reloaded_762_54R",
     "copy-from": "762_54R",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x54mmR, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -36,7 +38,8 @@
   {
     "id": "bp_762_54R",
     "copy-from": "762_54R",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "7.62x54mmR, black powder" },
     "proportional": {
       "price": 0.3,

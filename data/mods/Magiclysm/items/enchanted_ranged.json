@@ -203,7 +203,8 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "sharped_bone",
     "category": "spare_parts",
     "price": "10 USD",
@@ -226,7 +227,7 @@
     "id": "bow_of_elvenkind",
     "looks_like": "longbow",
     "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "bow of elvenkind", "str_pl": "bows of elvenkind" },
@@ -265,7 +266,6 @@
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 12 },
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
@@ -274,6 +274,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   }
 ]

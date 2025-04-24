@@ -1445,7 +1445,8 @@
   },
   {
     "id": "incense",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "incense",
     "category": "other",
     "name": { "str_sp": "incense" },

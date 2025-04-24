@@ -90,14 +90,15 @@
     "id": "wolfsbane",
     "copy-from": "pike",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "Wolfsbane" },
     "description": "Wolfsbane pikes are generally antiques brought over from Europe.  Forged during the days when the Black Forest went from France to Transylvania, these spears targeted the Loup Garou that were weak against fire.",
     "weight": "1854 g",
     "material": [ "orichalcum_metal", "wood" ],
     "volume": "3250 ml",
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] } ] },
     "price": "2 kUSD",
-    "melee_damage": { "bash": 10, "cut": 35 }
+    "melee_damage": { "bash": 10, "cut": 35 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] } ]
   },
   {
     "id": "longsword_mithril",

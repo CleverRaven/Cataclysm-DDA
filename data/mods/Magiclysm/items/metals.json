@@ -1,7 +1,8 @@
 [
   {
     "id": "orichalcum_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of orichalcum", "str_pl": "lumps of orichalcum" },
     "description": "A lump of raw orichalcum.  Needs to be reformed into an ingot to be useful.",
@@ -20,7 +21,8 @@
   },
   {
     "id": "orichalcum_sliver",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "sliver of orichalcum", "str_pl": "slivers of orichalcum" },
     "description": "A sliver of orichalcum broken from a larger piece.  Needs to be reformed into an ingot to be useful.",
@@ -54,7 +56,8 @@
   },
   {
     "id": "mithril_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of mithril", "str_pl": "lumps of mithril" },
     "description": "A lump of raw mithril.  Needs to be reformed into an ingot to be useful.",

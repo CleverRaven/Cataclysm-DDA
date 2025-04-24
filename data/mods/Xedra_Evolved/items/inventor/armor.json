@@ -2,7 +2,7 @@
   {
     "id": "helmet_inventor",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "helmet of creative juices", "str_pl": "helmets of creative juices" },
     "description": "The helmet of creative juices may look like a child's homemade toy, but its effects when turned on are real enough.  While wearing it, your thoughts are buffered from the outside world by a soft white noise that varies from person to person as to what they actually hear.  Some hear the ocean, a fan blowing or paper crumpling.  Whatever the sound, it helps you to think faster and more creatively than before.",
@@ -29,7 +29,6 @@
       }
     ],
     "charges_per_use": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -53,7 +52,8 @@
     ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ]
   },
   {
     "id": "helmet_inventor_on",
@@ -159,7 +159,7 @@
   {
     "id": "inventor_leg_weight",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "leg weight suspension system" },
     "description": "Compact leg attachments that distribute your weight onto the ground nearby using some kind of force.  It makes you leave giant spherical footprints, but makes carrying heavy weight much easier.",
@@ -205,10 +205,8 @@
         "encumbrance": 7
       }
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 35000 } ] } ]
-    },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 35000 } ] } ]
   },
   {
     "id": "inventor_leg_weight_on",
@@ -282,7 +280,7 @@
   {
     "id": "aura_force",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "force shield" },
     "description": "A small, thin torus with a huge battery case, and a belt.  You can activate it to emit a field that covers your whole body which will decelerate all objects it touches.",
@@ -309,20 +307,6 @@
         "encumbrance": 7
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "incoming_damage_mod": [
-            { "type": "bash", "multiply": -0.5 },
-            { "type": "stab", "multiply": -0.5 },
-            { "type": "cut", "multiply": -0.5 },
-            { "type": "bullet", "multiply": -0.5 }
-          ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -346,7 +330,19 @@
     ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.5 },
+          { "type": "stab", "multiply": -0.5 },
+          { "type": "cut", "multiply": -0.5 },
+          { "type": "bullet", "multiply": -0.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "aura_force_on",
@@ -361,7 +357,7 @@
   {
     "id": "vision_halo",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "electronic halo" },
     "description": "A compact crown boasting a built-in processor and several tiny projectors that beam information directly onto your eye.  It's equipped with enough internal storage and RAM to support a basic AI.  Along with multiple cameras providing 360-degree coverage, this setup enables you to tackle tasks far more efficiently than before.  Plus, there's a battle mode that activates an energy-intensive radiation detector.",
@@ -420,35 +416,33 @@
         "ememory_max": "2 TB"
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "special_vision": [
-            {
-              "distance": 30,
-              "descriptions": [
-                {
-                  "id": "moving_creature",
-                  "symbol": "?",
-                  "color": "c_white",
-                  "text": "Your halo register potential hazard from this direction."
-                }
-              ]
-            }
-          ],
-          "values": [
-            { "value": "BONUS_DODGE", "add": 1 },
-            { "value": "PERCEPTION", "add": 2 },
-            { "value": "RANGED_DAMAGE", "multiply": 0.33 },
-            { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
-          ]
-        }
-      ]
-    },
     "armor": [ { "coverage": 10, "encumbrance": 1, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "distance": 30,
+            "descriptions": [
+              {
+                "id": "moving_creature",
+                "symbol": "?",
+                "color": "c_white",
+                "text": "Your halo register potential hazard from this direction."
+              }
+            ]
+          }
+        ],
+        "values": [
+          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "PERCEPTION", "add": 2 },
+          { "value": "RANGED_DAMAGE", "multiply": 0.33 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
+        ]
+      }
+    ]
   },
   {
     "id": "vision_halo_on",
@@ -532,25 +526,25 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "inventor_fists_plus",
     "copy-from": "inventor_fists",
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "advanced heavy CQC system" },
     "description": "An advanced version of the heavy CQC system.  It contain a self-recharging pneumatic tank that slowly builds pressure that you can use in a fight.",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 m", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "oxygen": 3 }, "airtight": true } ],
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP", "CQB_BRUTAL" ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Activate to read the file",
       "effect_on_conditions": [ { "id": "EOC_CQC_ATTACK", "effect": [ { "u_attack": "CQB_BRUTAL" } ] } ]
-    }
+    },
+    "charge_info": { "recharge_type": "periodic", "time": "1 m", "regenerate_ammo": true }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "id": "inventor_electric_fist",
     "symbol": "3",
     "color": "light_gray",
@@ -587,14 +581,12 @@
         "default_magazine": "light_minus_disposable_cell"
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ] }
-      ]
-    },
     "material_thickness": 0.3,
     "armor": [ { "encumbrance": 4, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      { "has": "WORN", "condition": "ACTIVE", "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ] }
+    ]
   },
   {
     "type": "ITEM",
@@ -611,7 +603,7 @@
   {
     "id": "wolf_mask",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "name": { "str": "wolf's mask" },
     "description": "A huge, respirator-like mask covering the whole head except for the right eye.  Upon activation it protects you lungs from toxic gases as well as improving your breathing and stamina.",
@@ -624,9 +616,6 @@
     "material_thickness": 0.4,
     "environmental_protection": 4,
     "flags": [ "MORPHIC", "MUNDANE", "INVENTOR_CRAFTED" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
-    },
     "armor": [
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 3 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 7 }
@@ -654,7 +643,8 @@
         "type": "transform"
       }
     ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
   },
   {
     "id": "wolf_mask_act",

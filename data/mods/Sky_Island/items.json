@@ -347,7 +347,8 @@
   },
   {
     "id": "warp_grassbag",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "warped grass seeds" },
     "description": "While these are certainly imbued with warp, they don't seem to have any supernatural powers beyond just growing quickly.  A nice option if you want to re-plant grass on your island, for decoration's sake.",
@@ -364,7 +365,8 @@
   },
   {
     "id": "warp_wood_floor_tokens",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "wood-floor tokens" },
     "description": "A group of small squares of wood, smooth and polished.  You can use them to transform a section of flooring into interlocking wooden planks.",
@@ -381,7 +383,8 @@
   },
   {
     "id": "warp_flagstone_floor_tokens",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "flagstone tokens" },
     "description": "A group of small stone stones, rough to the touch.  You can use them to transform a section of flooring into mortared flagstones.",
@@ -398,7 +401,8 @@
   },
   {
     "id": "warp_sand_floor_tokens",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "sand tokens" },
     "description": "A group of small yellow stones, gritty to the touch yet seemingly nothing ever rubs off.  You can use them to transform a section of flooring into fine sand.",
@@ -415,7 +419,8 @@
   },
   {
     "id": "warp_vortex_token",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "vortex token" },
     "description": "This irregular purplish lump seems to slowly pull in air even while you hold it in your hand.  If you have one with you when you activate the return obelisk and the obelisk is correctly configured, it will drag the entire contents of the room with you back up to your island.",
@@ -432,7 +437,8 @@
   },
   {
     "id": "warp_skyward_beacon",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "skyward beacon" },
     "description": "This smooth purplish sphere seems like it wants to rise right out of your hand.  If you activate it, you will return directly to the island with everything you are carrying.",
@@ -470,7 +476,8 @@
   },
   {
     "id": "warp_waterwalking_stone",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "flotation stone" },
     "description": "This smooth, whorled stone seems cool and wet to the touch, but when you take your hand off it your skin is perfectly dry.  If you activate it, you will be able to walk on the surface of water for three minutes.",
@@ -492,7 +499,8 @@
   },
   {
     "id": "warptoken",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "warp shards" },
     "description": "A small quantity of airy-thin material that resembles flaked obsidian.  It glints with a purplish shimmer that seems to stretch off the bounds of itself and into the air itself.  Offered to the powers that be, one could exchange it for valuable artifacts.",
@@ -510,7 +518,8 @@
   {
     "id": "warptoken_material",
     "name": { "str_sp": "material token" },
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "warptoken",
     "description": "A very tiny disc-shaped blue wafer.  It seems to shift in your grasp, feeling one moment like a grain of sand, then a sharp metal fragment, then a wooden splinter.  These miniature tokens are rewarded for surviving a raid, and can be crafted on your island for a large supply of common resources by using infinity nodes as a catalyst."
   },

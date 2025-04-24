@@ -114,6 +114,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "W1011 Silvergram" },
     "description": "A finely sculpted white and silver pistol entrusted to Wraitheon's corporate elite.  It employs advanced targeting and precision guiding capabilities to deliver devastating bursts of guided 10mm microjet darts.  Firing is as expensive as it looks.",
     "weight": "780 g",
@@ -155,8 +156,8 @@
     ],
     "valid_mod_locations": [  ],
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
     "melee_damage": { "bash": 8 },
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "passive_effects": [ { "id": "ench_smart_gun" } ]
   }
 ]

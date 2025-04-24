@@ -2,7 +2,8 @@
   {
     "id": "inventor_light_minus_cell",
     "copy-from": "light_minus_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "ultra-light modified battery", "str_pl": "ultra-light modified batteries" },
     "description": "A light battery cell that was modified and replaced with much more effective cells inside.",
@@ -14,7 +15,8 @@
   {
     "id": "inventor_light_cell",
     "copy-from": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "light modified battery", "str_pl": "light modified batteries" },
     "description": "A light battery cell that was modified and replaced with much more effective cells inside.",
@@ -26,7 +28,8 @@
   {
     "id": "inventor_medium_cell",
     "copy-from": "medium_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "medium modified battery", "str_pl": "medium modified batteries" },
     "description": "A medium battery cell that was modified and replaced with much more effective cells inside.",
@@ -38,7 +41,8 @@
   {
     "id": "inventor_heavy_cell",
     "copy-from": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "modified tool battery", "str_pl": "modified tool batteries" },
     "description": "A tool battery cell that was modified and replaced with much more effective cells inside.",

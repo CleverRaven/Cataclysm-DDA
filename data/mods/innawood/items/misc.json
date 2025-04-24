@@ -56,7 +56,8 @@
   },
   {
     "id": "super_glue",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "super_glue",
     "name": { "str": "glue" },
     "description": "A thick, goopy glue that cures fast."
