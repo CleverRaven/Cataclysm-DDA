@@ -1,7 +1,8 @@
 [
   {
     "id": "mboots_sevenleague",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots_hiking",
     "name": { "str": "seven league boots", "str_pl": "pairs of seven league boots" },
     "looks_like": "boots_hiking",
@@ -43,7 +44,8 @@
   },
   {
     "id": "mboots_haste",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots_hiking",
     "name": { "str": "boots of haste", "str_pl": "pairs of boots of haste" },
     "looks_like": "boots_hiking",
@@ -90,7 +92,8 @@
   },
   {
     "id": "mboots_escape",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "boots_hiking",
     "name": { "str_sp": "escape boots" },
     "looks_like": "boots_hiking",
@@ -135,7 +138,8 @@
   },
   {
     "id": "mboots_freerunner",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots_hiking",
     "name": { "str_sp": "freerunner's boots" },
     "looks_like": "boots_hiking",
@@ -177,7 +181,8 @@
   },
   {
     "id": "mboots_grounding",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots_hiking",
     "name": { "str": "boots of grounding", "str_pl": "pairs of boots of grounding" },
     "looks_like": "boots_hiking",
@@ -221,7 +226,8 @@
   },
   {
     "id": "boots_of_elvenkind",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of boots of elvenkind", "str_pl": "pairs of boots of elvenkind" },
     "description": "One of the traditional items of the ancient elven warrior societies, these soft leather boots are worked with silver inlays in the shape of vines and leaves.  They allow the wearer to walk in complete silence and move faster when in the wilderness.",

@@ -9,7 +9,8 @@
   {
     "id": "mana_wheel",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": "mana wheel",
     "description": "A column of mana energy that enables a floating disk to move.",
     "weight": "500 g",

@@ -1,7 +1,8 @@
 [
   {
     "abstract": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "copper magic ring", "//~": "NO_I18N" },
     "description": { "str": "A generic copper magic ring.", "//~": "NO_I18N" },
     "weight": "4 g",
@@ -27,7 +28,8 @@
   },
   {
     "abstract": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "silver magic ring", "//~": "NO_I18N" },
     "description": { "str": "A generic silver magic ring.", "//~": "NO_I18N" },
     "weight": "5 g",
@@ -53,7 +55,8 @@
   },
   {
     "abstract": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "gold magic ring", "//~": "NO_I18N" },
     "description": { "str": "A generic gold magic ring.", "//~": "NO_I18N" },
     "weight": "9 g",
@@ -79,7 +82,8 @@
   },
   {
     "abstract": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "platinum magic ring", "//~": "NO_I18N" },
     "description": { "str": "A generic platinum magic ring", "//~": "NO_I18N" },
     "weight": "11 g",
@@ -105,7 +109,8 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_wizardry_minor",
     "name": { "str": "minor ring of wizardry", "str_pl": "minor rings of wizardry" },
     "description": "A thin copper band ring, engraved with a single sealed scroll.  Increases mana capacity slightly.",
@@ -114,7 +119,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_wizardry_lesser",
     "price_postapoc": "2000 USD",
     "name": { "str": "lesser ring of wizardry", "str_pl": "lesser rings of wizardry" },
@@ -123,7 +129,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_wizardry_moderate",
     "name": { "str": "ring of wizardry", "str_pl": "rings of wizardry" },
     "price_postapoc": "4000 USD",
@@ -132,7 +139,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_wizardry_greater",
     "name": { "str": "greater ring of wizardry", "str_pl": "greater rings of wizardry" },
     "price_postapoc": "8000 USD",
@@ -141,7 +149,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_blades_lesser",
     "name": { "str": "ring of blades", "str_pl": "rings of blades" },
     "price_postapoc": "300 USD",
@@ -154,7 +163,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_dodge_bonus_1",
     "name": "eel ring",
     "price_postapoc": "1500 USD",
@@ -163,7 +173,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_dodge_bonus_2",
     "price_postapoc": "3000 USD",
     "name": { "str": "bicephalous eel ring" },
@@ -172,7 +183,8 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_strength_1",
     "price_postapoc": "1000 USD",
     "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
@@ -181,7 +193,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_strength_2",
     "price_postapoc": "2000 USD",
     "name": { "str": "ring of strength +2", "str_pl": "rings of strength +2" },
@@ -190,7 +203,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_strength_3",
     "price_postapoc": "4000 USD",
     "name": { "str": "ring of strength +3", "str_pl": "rings of strength +3" },
@@ -199,7 +213,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_strength_4",
     "price_postapoc": "6000 USD",
     "name": { "str": "ring of strength +4", "str_pl": "rings of strength +4" },
@@ -208,7 +223,8 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_dexterity_1",
     "price_postapoc": "1000 USD",
     "name": { "str": "ring of dexterity +1", "str_pl": "rings of dexterity +1" },
@@ -217,7 +233,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_dexterity_2",
     "price_postapoc": "2000 USD",
     "name": { "str": "ring of dexterity +2", "str_pl": "rings of dexterity +2" },
@@ -226,7 +243,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_dexterity_3",
     "price_postapoc": "4000 USD",
     "name": { "str": "ring of dexterity +3", "str_pl": "rings of dexterity +3" },
@@ -235,7 +253,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_dexterity_4",
     "price_postapoc": "6000 USD",
     "name": { "str": "ring of dexterity +4", "str_pl": "rings of dexterity +4" },
@@ -244,7 +263,8 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_intelligence_1",
     "price_postapoc": "1000 USD",
     "name": { "str": "ring of intelligence +1", "str_pl": "rings of intelligence +1" },
@@ -253,7 +273,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_intelligence_2",
     "price_postapoc": "2000 USD",
     "name": { "str": "ring of intelligence +2", "str_pl": "rings of intelligence +2" },
@@ -262,7 +283,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_intelligence_3",
     "price_postapoc": "4000 USD",
     "name": { "str": "ring of intelligence +3", "str_pl": "rings of intelligence +3" },
@@ -271,7 +293,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_intelligence_4",
     "price_postapoc": "6000 USD",
     "name": { "str": "ring of intelligence +4", "str_pl": "rings of intelligence +4" },
@@ -280,7 +303,8 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_perception_1",
     "price_postapoc": "1000 USD",
     "name": { "str": "ring of perception +1", "str_pl": "rings of perception +1" },
@@ -289,7 +313,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_perception_2",
     "price_postapoc": "2000 USD",
     "name": { "str": "ring of perception +2", "str_pl": "rings of perception +2" },
@@ -298,7 +323,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_perception_3",
     "price_postapoc": "4000 USD",
     "name": { "str": "ring of perception +3", "str_pl": "rings of perception +3" },
@@ -307,7 +333,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_perception_4",
     "price_postapoc": "6000 USD",
     "name": { "str": "ring of perception +4", "str_pl": "rings of perception +4" },
@@ -316,7 +343,8 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_speed_3",
     "price_postapoc": "1700 USD",
     "name": { "str": "ring of speed +3", "str_pl": "rings of speed +3" },
@@ -325,7 +353,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_speed_5",
     "price_postapoc": "2500 USD",
     "name": { "str": "ring of speed +5", "str_pl": "rings of speed +5" },
@@ -334,7 +363,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_speed_7",
     "price_postapoc": "5000 USD",
     "name": { "str": "ring of speed +7", "str_pl": "rings of speed +7" },
@@ -343,7 +373,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_speed_10",
     "price_postapoc": "8000 USD",
     "name": { "str": "ring of speed +10", "str_pl": "rings of speed +10" },
@@ -352,7 +383,8 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_protection_2",
     "price_postapoc": "1000 USD",
     "name": { "str": "ring of protection +2", "str_pl": "rings of protection +2" },
@@ -374,7 +406,8 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_protection_4",
     "price_postapoc": "2000 USD",
     "name": { "str": "ring of protection +4", "str_pl": "rings of protection +4" },
@@ -396,7 +429,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_protection_6",
     "price_postapoc": "4000 USD",
     "name": { "str": "ring of protection +6", "str_pl": "rings of protection +6" },
@@ -418,7 +452,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_protection_8",
     "price_postapoc": "8000 USD",
     "name": { "str": "ring of protection +8", "str_pl": "rings of protection +8" },
@@ -439,7 +474,8 @@
     }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mring_platinum",
     "id": "storage_ring_lesser",
     "name": { "str": "lesser storage ring" },
@@ -463,7 +499,8 @@
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mring_platinum",
     "id": "storage_ring_greater",
     "name": { "str": "greater storage ring" },
@@ -488,7 +525,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_fire_protection",
     "price_postapoc": "6000 USD",
     "name": { "str": "ring of fire protection", "str_pl": "rings of fire protection" },
@@ -507,7 +545,8 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_flying",
     "price_postapoc": "10000 USD",
     "name": { "str": "ring of flying", "str_pl": "rings of flying" },
@@ -522,7 +561,8 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "mring_sustenance",
     "price_postapoc": "25000 USD",
     "//": "Extremely valuable in the apocalypse.",

@@ -10,7 +10,8 @@
   },
   {
     "id": "iso_armor_anchor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "robofac_armor_rig",
     "name": { "str": "remediator defense anchor" },
     "description": "A combined harness and armor system designed to protect the wearer from the effects of normality decay.  It mounts a 5-point anchor, attachment points for a kinetic mantle and several pockets and straps for the rest of your gear.",
@@ -115,7 +116,8 @@
   {
     "//": "Tier 2 mantle",
     "id": "xedra_rubber_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_mantle",
     "name": "remediator kinetic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model incorporates a rubber coating that diffuses impacts and provides excellent protection from blunt trauma, even if it does feel a bit like a rain coat.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -234,7 +236,8 @@
   },
   {
     "id": "iso_crossbow_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "crossbow sling" },
     "description": "A complex sling designed to carry a repeating crossbow while keeping it ready for use.  The sling is designed to be worn across the torso and can be quickly adjusted to bring the crossbow to bear.",
     "weight": "320 g",
@@ -277,7 +280,8 @@
   },
   {
     "id": "iso_old_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cape_sci_fi",
     "name": { "str": "tattered cloak" },
     "description": "The cloak of an imperial envoy, depicting a star chart in gold thread.  It's terribly worn and frayed.",
@@ -293,7 +297,8 @@
   },
   {
     "id": "iso_old_armor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "name": { "str": "envoy's armor" },
     "description": "A suit of armor worn down by an endless journey.  Only its sturdiest parts remain now.",
@@ -344,7 +349,8 @@
   },
   {
     "id": "iso_sorcerers_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "robe of the gloaming tower" },
     "copy-from": "robe_wizard",
     "looks_like": "robe_wizard",

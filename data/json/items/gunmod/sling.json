@@ -2,6 +2,7 @@
   {
     "id": "shoulder_strap_simple",
     "type": "GUNMOD",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "two point sling" },
     "description": "A shoulder strap allows the rifle to be worn over a shoulder like a piece of clothing.  However, it offers no protection.",
     "weight": "100 g",
@@ -16,17 +17,15 @@
     "location": "sling",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "pistol" ],
     "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor_data": {
-      "armor": [
-        {
-          "covers": [ "torso" ],
-          "coverage": 5,
-          "encumbrance": 0,
-          "volume_encumber_modifier": 0.33,
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 5,
+        "encumbrance": 0,
+        "volume_encumber_modifier": 0.33,
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "shoulder_strap",
@@ -48,6 +47,7 @@
   {
     "id": "shoulder_strap_front",
     "type": "GUNMOD",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "adjustable sling (front)", "str_pl": "adjustable slings (front)" },
     "description": "A shoulder strap allows the rifle to be worn over your shoulders like a piece of clothing.  Currently adjusted so the weapon hangs off your front.",
     "copy-from": "shoulder_strap",
@@ -58,16 +58,14 @@
       "target": "shoulder_strap",
       "moves": 120
     },
-    "armor_data": {
-      "armor": [
-        {
-          "covers": [ "torso" ],
-          "coverage": 5,
-          "encumbrance": 0,
-          "volume_encumber_modifier": 0.33,
-          "specifically_covers": [ "torso_hanging_front" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 5,
+        "encumbrance": 0,
+        "volume_encumber_modifier": 0.33,
+        "specifically_covers": [ "torso_hanging_front" ]
+      }
+    ]
   }
 ]

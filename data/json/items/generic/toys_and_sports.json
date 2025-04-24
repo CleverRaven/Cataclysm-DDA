@@ -13,6 +13,7 @@
     "symbol": "|",
     "color": "pink",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": [ "DOLLCHAT" ],
@@ -292,6 +293,7 @@
     "volume": "62500 ml",
     "longest_side": "180 cm",
     "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

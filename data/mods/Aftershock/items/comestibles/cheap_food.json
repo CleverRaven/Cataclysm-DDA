@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_calorie_pill",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": "nutriment",
     "weight": "10 g",
     "color": "white",
@@ -20,7 +21,8 @@
   },
   {
     "id": "afs_calorie_water",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "nutriment water" },
     "copy-from": "water_clean",
     "comestible_type": "DRINK",
@@ -35,7 +37,8 @@
   },
   {
     "id": "afs_sundew",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "Spite Soda" },
     "weight": "10 g",
     "color": "yellow",
@@ -67,7 +70,8 @@
   },
   {
     "id": "afs_h2o",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "H₂O™" },
     "copy-from": "water_clean",
     "container": "can_drink",
@@ -75,7 +79,8 @@
   },
   {
     "id": "afs_food_cube",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "food cubes" },
     "symbol": "f",
     "container": "bag_plastic_small",
@@ -91,7 +96,8 @@
   },
   {
     "id": "afs_food_to_go",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "Foodplace's Food-to-go™" },
     "container": "bag_plastic_small",
     "symbol": "f",
@@ -106,7 +112,8 @@
   },
   {
     "id": "afs_loop_fruit",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "loop 'fruit'" },
     "container": "bag_plastic_small",
     "copy-from": "protein_bar_evac",
@@ -120,7 +127,8 @@
   },
   {
     "id": "afs_cee_wafers",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cee wafers" },
     "container": "can_food",
     "copy-from": "protein_bar_evac",
@@ -136,7 +144,8 @@
   },
   {
     "id": "afs_beefsim",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "beefsim" },
     "container": "can_food",
     "copy-from": "protein_bar_evac",
@@ -152,7 +161,8 @@
   },
   {
     "id": "afs_soup_27",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "soup, flavor 27" },
     "copy-from": "soup_cullenskink",
     "container": "can_food",
@@ -167,7 +177,8 @@
   },
   {
     "id": "afs_escapepod_ration",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "landfall survival rations" },
     "symbol": "o",
     "container": "bag_plastic_small",
@@ -183,7 +194,8 @@
   },
   {
     "id": "afs_caffex",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "caffex" },
     "copy-from": "coffee",
     "container": "can_drink",
@@ -195,7 +207,8 @@
     "vitamins": [ [ "bad_food", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "afs_ruined_food",
     "copy-from": "ruined_chunks",

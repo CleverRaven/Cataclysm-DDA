@@ -42,6 +42,7 @@
       }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -81,6 +82,7 @@
         "charge_rate": "140 W"
       }
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   }
 ]

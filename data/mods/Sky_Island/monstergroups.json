@@ -155,7 +155,7 @@
       { "monster": "mon_zombie_hulk", "weight": 100 },
       { "monster": "mon_skeleton_hulk", "weight": 75 },
       { "monster": "mon_zombie_kevlar_2", "weight": 50 },
-      { "monster": "mon_jabberwock", "weight": 25 },
+      { "monster": "mon_si_jabberwock", "weight": 25 },
       { "monster": "mon_zombie_brute_shocker", "weight": 10 },
       { "monster": "mon_zoose_brute", "weight": 20 },
       { "monster": "mon_zombie_nemesis", "weight": 5 }

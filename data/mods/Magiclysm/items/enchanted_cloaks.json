@@ -8,7 +8,8 @@
   },
   {
     "id": "wildshape_cloak_fish",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
     "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.  You should probably stand in water before you put it on.",
     "looks_like": "cloak_leather",
@@ -75,7 +76,8 @@
   },
   {
     "id": "wildshape_cloak_bear",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Wildshape Cloak: Bear",
     "description": "A magical cloak that smells of the forest.  It can be worn to morph your body to a form that is strong and resilient in melee combat.  However, you feel as if you would lose a part of yourself.",
     "looks_like": "cloak_leather",
@@ -142,7 +144,8 @@
   },
   {
     "id": "wildshape_cloak_deer",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Wildshape Cloak: Deer",
     "description": "A magical cloak that feels soft to the touch.  It can be worn to morph your body to a form well-suited to escaping difficult situations.  However, it is not suited for combat.",
     "looks_like": "cloak_leather",
@@ -202,7 +205,8 @@
   },
   {
     "id": "cloak_of_elvenkind",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cloak of elvenkind", "str_pl": "cloaks of elvenkind" },
     "description": "One of the traditional items of the ancient elven warrior societies, this cloth cloak woven with still-living leaves makes its wearer much harder to spot in forests or dense vegetation.  Infamous for their use during the Vietnam War by elves on both sides of the conflict.",
     "looks_like": "cloak",

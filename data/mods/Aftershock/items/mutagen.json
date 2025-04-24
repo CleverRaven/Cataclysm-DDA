@@ -2,7 +2,8 @@
   {
     "id": "iv_mutagen_migo",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "mi-go mutagenic primer" },
     "description": "A super-concentrated mutagen strongly resembling a lava lamp.",
     "price": "10 kUSD",
@@ -18,7 +19,8 @@
   {
     "id": "mutagen_migo",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "mi-go mutagen" },
     "description": "An extremely rare mutagen cocktail, it smells of sulfur and glows orange.",
     "price": "5 kUSD",
@@ -31,7 +33,8 @@
   {
     "id": "iv_mutagen_mastodon",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "mastodon mutagenic primer" },
     "description": "A processed mutagenic primer not for those frightened of this thing they have become.",
     "price": "10 kUSD",
@@ -47,7 +50,8 @@
   {
     "id": "mutagen_mastodon",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "mastodon mutagen" },
     "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
     "price": "5 kUSD",

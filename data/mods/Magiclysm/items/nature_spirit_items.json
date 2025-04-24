@@ -11,7 +11,8 @@
     "flags": [ "TRADER_AVOID", "LIGHT_3" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mossling_fur",
     "copy-from": "grass",
     "name": { "str": "tuft of mossling fur", "str_pl": "tufts of mossling fur" },

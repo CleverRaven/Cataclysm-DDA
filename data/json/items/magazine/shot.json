@@ -60,6 +60,7 @@
     "//": "Tileset whitelist for shotgun magazines and speedloaders",
     "//2": "Not sure what this is supposed to represent, audited volume and weight for loose cloth.",
     "type": "MAGAZINE",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "20-round shotshell belt" },
     "description": "A non-disintegrating cloth ammo belt which can hold up to 20 shotgun shells.  Notably less reliable than metal ammo belts.",
     "weight": "41 g",
@@ -70,19 +71,17 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "shot" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 2,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_upper" ]
-        }
-      ]
-    },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ],
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 2,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "shot_speedloader6",

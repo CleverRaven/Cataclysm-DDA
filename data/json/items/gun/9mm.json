@@ -217,6 +217,7 @@
     "copy-from": "hk_mp5k",
     "looks_like": "hk_briefcase",
     "type": "GUN",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "MP5 operational briefcase" },
     "description": "A hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the hole is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered by the shape of the briefcase, but if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open, the MP5 may be reloaded or dismounted.",
     "variant_type": "gun",
@@ -234,20 +235,6 @@
     "price_postapoc": "50 USD",
     "dispersion": 520,
     "sight_dispersion": 520,
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [
-            { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
-          ],
-          "encumbrance": 30,
-          "coverage": 10,
-          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
-        }
-      ]
-    },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS", "NO_TURRET" ],
     "valid_mod_locations": [  ],
     "pocket_data": [
@@ -257,7 +244,19 @@
         "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd" ]
       }
     ],
-    "melee_damage": { "bash": 15 }
+    "melee_damage": { "bash": 15 },
+    "sided": true,
+    "armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 30,
+        "coverage": 10,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+      }
+    ]
   },
   {
     "id": "p08",

@@ -41,7 +41,8 @@
   },
   {
     "id": "mana_infused_blood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "mana infused blood" },
     "description": "Blood that is filled to the brim with arcane energy.  It releases a faint blue glow.",

@@ -1,7 +1,8 @@
 [
   {
     "id": "right_leg_prosthetic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "prosthetic right leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  This one is for the right leg.",
     "weight": "3629 g",
@@ -22,7 +23,8 @@
   },
   {
     "id": "left_leg_prosthetic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "prosthetic left leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  This one is for the left leg.",
     "weight": "3629 g",
@@ -43,7 +45,8 @@
   },
   {
     "id": "right_peg_leg_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "right peg leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  A primitive peg leg, often remembered for pirate movies and such, this was a go-to replacement for decades for those who couldn't afford an iron or steel one.  This comes up above the knee and is fastened on with straps or rope, with the interior cushioned by stuffing.  This one is for the right leg.",
     "weight": "3629 g",
@@ -64,7 +67,8 @@
   },
   {
     "id": "left_peg_leg_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "left peg leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  A primitive peg leg, often remembered for pirate movies and such, this was a go-to replacement for decades for those who couldn't afford an iron or steel one.  This comes up above the knee and is fastened on with straps or rope, with the interior cushioned by stuffing.  This one is for the left leg.",
     "weight": "3629 g",
@@ -85,7 +89,8 @@
   },
   {
     "id": "right_leg_prosthetic_steel_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "steel prosthetic right leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Dating back to the Middle Ages and the Renaissance, this prosthetic is made of iron placed over a framework, and is attached with leather straps to the leg, padding placed inside for comfort.  Made in a better fashion than more common prosthetics at the time, this limb is incredibly durable, with many noble warriors wearing these into battle.  However, they were incredibly expensive, time-consuming to make, and quite heavy, leaving them out of the hands of poorer individuals.  This one is for the right leg.",
     "weight": "8164 g",
@@ -106,7 +111,8 @@
   },
   {
     "id": "left_leg_prosthetic_steel_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "steel prosthetic left leg" },
     "description": "A prosthetic leg, used as a replacement limb for those missing one.  Dating back to the Middle Ages and the Renaissance, this prosthetic is made of iron placed over a framework, and is attached with leather straps to the leg, padding placed inside for comfort.  Made in a better fashion than more common prosthetics at the time, this limb is incredibly durable, with many noble warriors wearing these into battle.  However, they were incredibly expensive, time-consuming to make, and quite heavy, leaving them out of the hands of poorer individuals.  This one is for the left leg.",
     "weight": "8164 g",

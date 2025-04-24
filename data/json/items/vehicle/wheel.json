@@ -362,7 +362,8 @@
   },
   {
     "id": "wheel",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "wheel" },
     "description": "A car wheel.",
@@ -381,7 +382,8 @@
   },
   {
     "id": "wheel_slick",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "racing wheel" },
     "description": "A wide, smooth wheel intended for racing.  The slick surface provides better speed on pavement but penalizes off-road speed.",
@@ -399,7 +401,8 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "id": "wheel_armor",
     "category": "veh_parts",
     "name": { "str": "armored wheel" },
@@ -419,7 +422,8 @@
   },
   {
     "id": "wheel_barrow",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "wheelbarrow wheel" },
     "description": "A small wheel from a common garden wheelbarrow.",
@@ -438,7 +442,8 @@
   },
   {
     "id": "wheel_bicycle",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "bicycle wheel" },
     "description": "A bicycle wheel.",
@@ -458,14 +463,16 @@
   {
     "id": "wheel_bicycle_or",
     "copy-from": "wheel_bicycle",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "off-road bicycle wheel" },
     "description": "A wide, studded bicycle wheel intended for off-road biking."
   },
   {
     "id": "wheel_caster",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "set of small casters", "str_pl": "sets of small casters" },
     "description": "A set of small wheels mounted on pivots, like you'd find on a rolling office chair.",
     "weight": "1150 g",
@@ -484,7 +491,8 @@
   {
     "id": "wheel_caster_large",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "set of medium casters", "str_pl": "sets of medium casters" },
     "description": "A set of medium wheels mounted on pivots, like you'd find on a shopping cart.",
     "weight": "2700 g",
@@ -503,7 +511,8 @@
   {
     "id": "wheel_10",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "set of large casters", "str_pl": "sets of large casters" },
     "description": "A set of large rubber wheels mounted on pivots, like you'd find on small industrial equipment.",
     "weight": "4 kg",
@@ -522,7 +531,8 @@
   {
     "id": "wheel_metal",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "metal wheel" },
     "description": "A simple metal wheel.",
     "weight": "18239 g",
@@ -541,7 +551,8 @@
   {
     "id": "wheel_rail",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "rail wheel" },
     "description": "A strong rail wheel.  A flange helps keep it on a rail, but makes it perform terribly when not on a rail.",
     "weight": "18239 g",
@@ -560,7 +571,8 @@
   {
     "id": "wheel_rail_small_pair",
     "name": { "str": "pair of small rail wheels", "str_pl": "pairs of small rail wheels" },
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "description": "A pair of small rail wheels.  It fits small railroad rails found in places like amusement parks.  Mostly for hobby purposes rather than transportation.",
     "copy-from": "wheel_rail",
     "price": "9 USD",
@@ -573,7 +585,8 @@
   },
   {
     "id": "wheel_motorbike",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "motorbike wheel" },
     "description": "A motorbike wheel.",
@@ -593,7 +606,8 @@
   {
     "id": "wheel_motorbike_or",
     "copy-from": "wheel_motorbike",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "off-road motorbike wheel" },
     "diameter": 20,
     "longest_side": "508 mm",
@@ -601,7 +615,8 @@
   },
   {
     "id": "hd_steel_drum",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "large steel drum" },
     "description": "A large cylinder fashioned out of thick plates of hardened steel, normally found on road rollers.  Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
@@ -619,7 +634,8 @@
   },
   {
     "id": "wheel_small",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "small wheel" },
     "description": "A pretty small wheel.  Probably from one of those Segway things.  It is not very menacing.",
@@ -638,7 +654,8 @@
   },
   {
     "id": "wheel_skate",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "skate wheel" },
     "description": "A very small plastic wheel with a punk attitude.  This wheel was made for skating.",
@@ -656,7 +673,8 @@
   },
   {
     "id": "wheel_skateboard",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "set of skateboard wheels", "str_pl": "sets of skateboard wheels" },
     "description": "A set of four small wheels, for a skateboard.",
@@ -674,7 +692,8 @@
   {
     "id": "wheel_tricycle",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "set of tricycle wheels", "str_pl": "sets of tricycle wheels" },
     "description": "A set of hard plastic wheels with one larger than the other two.  Proudly made in the USA by Double Dango Productions.",
     "weight": "750 g",
@@ -691,7 +710,8 @@
   },
   {
     "id": "wheel_wheelchair",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "pair of wheelchair wheels", "str_pl": "pairs of wheelchair wheels" },
     "description": "A pair of wheels for a wheelchair.",
@@ -710,7 +730,8 @@
   },
   {
     "id": "wheel_wide",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "wide wheel" },
     "description": "A wide wheel.  \\o/ This wide.",
@@ -730,13 +751,15 @@
   {
     "id": "wheel_wide_or",
     "copy-from": "wheel_wide",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "off-road wide wheel" },
     "description": "A wide wheel.  \\o/ This wide.  It's studded to provide better grip off-road at the cost of some performance on pavement."
   },
   {
     "id": "wheel_wood",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "category": "veh_parts",
     "name": { "str": "wooden cart wheel" },
     "description": "A handmade wooden cart wheel.",
@@ -755,7 +778,8 @@
   {
     "id": "wheel_wood_b",
     "copy-from": "wheel_wood",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str": "banded wooden cart wheel" },
     "description": "A handmade wooden cart wheel with metal bands for durability.",
     "relative": { "weight": "500 g" }
@@ -771,7 +795,8 @@
   },
   {
     "id": "wheel_set_concrete_mix",
-    "type": "WHEEL",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
     "name": { "str_sp": "concrete mixer wheels" },
     "description": "A set of two small wheels from a concrete mixer.",
     "copy-from": "wheel_small",

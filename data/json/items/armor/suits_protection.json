@@ -1,7 +1,8 @@
 [
   {
     "id": "armor_blarmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "boiled leather armor" },
     "description": "Thick leather body armor that has been hardened via chemical treatment.  Light and strong.",
@@ -31,7 +32,8 @@
   },
   {
     "id": "armor_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "chitinous armor" },
     "description": "Leg and body armor made from the exoskeletons of insects.",
@@ -60,7 +62,8 @@
   },
   {
     "id": "xl_armor_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chitinous armor" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -68,7 +71,8 @@
   },
   {
     "id": "armor_chitin_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_chitin",
     "looks_like": "armor_chitin",
     "name": { "str": "chitinous armor" },
@@ -79,7 +83,8 @@
     "id": "armor_acidchitin",
     "copy-from": "armor_chitin",
     "looks_like": "armor_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "biosilicified chitin armor" },
     "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
@@ -89,7 +94,8 @@
   },
   {
     "id": "xl_armor_acidchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "biosilicified chitin armor" },
     "copy-from": "armor_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -97,7 +103,8 @@
   },
   {
     "id": "armor_acidchitin_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_acidchitin",
     "looks_like": "armor_acidchitin",
     "name": { "str": "biosilicified chitin armor" },
@@ -106,7 +113,8 @@
   },
   {
     "id": "armor_farmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "fur body armor" },
     "description": "Thick body armor made from furs.",
@@ -147,7 +155,8 @@
   },
   {
     "id": "xl_armor_farmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur body armor" },
     "copy-from": "armor_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -155,7 +164,8 @@
   },
   {
     "id": "armor_farmor_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_farmor",
     "looks_like": "armor_farmor",
     "name": { "str": "fur body armor" },
@@ -164,7 +174,8 @@
   },
   {
     "id": "armor_faux_farmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "faux fur body armor" },
     "description": "Thick body armor made from faux furs.",
@@ -204,7 +215,8 @@
   },
   {
     "id": "xl_armor_faux_farmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "faux fur body armor" },
     "copy-from": "armor_faux_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -212,7 +224,8 @@
   },
   {
     "id": "armor_faux_farmor_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_faux_farmor",
     "name": { "str": "faux fur body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -220,7 +233,8 @@
   },
   {
     "id": "armor_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "leather body armor" },
     "description": "A full suit of thick leather body armor.  Light and comfortable.",
@@ -250,7 +264,8 @@
   },
   {
     "id": "xl_armor_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather body armor" },
     "copy-from": "armor_larmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -258,7 +273,8 @@
   },
   {
     "id": "armor_larmor_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_larmor",
     "looks_like": "armor_larmor",
     "name": { "str": "leather body armor" },
@@ -267,7 +283,8 @@
   },
   {
     "id": "armor_junk_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "junk plate armor" },
     "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
@@ -289,7 +306,8 @@
   },
   {
     "id": "armor_metal_sheets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "sheet metal armor" },
     "description": "A full set of armor hammered out from sheet metal and tied in place with leather straps and belts.  It's crude, heavy, and uncomfortable, but damn protective.  Now, you're a true Post-Apocalyptic Warrior.",
@@ -315,7 +333,8 @@
   },
   {
     "id": "armor_ch_metal_sheets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_metal_sheets",
     "name": { "str": "hardened sheet metal armor" },
     "description": "A full set of armor hammered out from sheet metal and hardened for added protection.  Perfect for keeping all your fleshy bits safe from zombie teeth.",
@@ -324,7 +343,8 @@
   },
   {
     "id": "armor_metal_sheets_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "heavy sheet metal armor" },
     "description": "A full set of armor hammered out from sheet metal and tied in place with leather straps and belts, with a doubly-thick chest guard to keep all your important organs safe.  You might be as mobile as a refrigerator wearing all this, but that's the price to pay to keep your flesh attached.",
@@ -365,7 +385,8 @@
   },
   {
     "id": "armor_ch_metal_sheets_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_metal_sheets_heavy",
     "name": { "str": "heavy hardened sheet metal armor" },
     "description": "A full set of armor hammered out from sheet metal and hardened for extra protection, with a doubly-thick chest guard.  The Ned Kelly gang would be proud.",
@@ -393,7 +414,8 @@
   },
   {
     "id": "armor_metal_sheets_chain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps.  For the modern knight on a budget.",
@@ -443,7 +465,8 @@
   },
   {
     "id": "armor_metal_sheets_chain_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "heavy junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps, with an extra-thick chestpiece.  About as heavy as a car but nowhere near as mobile, this suit is nonetheless quite protective.",
@@ -493,7 +516,8 @@
   },
   {
     "id": "armor_ch_metal_sheets_chain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_metal_sheets_chain",
     "name": { "str": "hardened junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, and case-hardened for extra strength.  It might be crude and uncomfortably heavy, but it was clearly made by a skilled metalworker and offers excellent protection.",
@@ -531,7 +555,8 @@
   },
   {
     "id": "armor_ch_metal_sheets_chain_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_metal_sheets_chain_heavy",
     "name": { "str": "heavy hardened junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, with a double-thick chestpiece, and case-hardened for extra strength.  Top-of-the-line in armor that looks like it was made from banged-up lockers, for the skilled metalworker that values protection over being able to move.",
@@ -568,7 +593,8 @@
   },
   {
     "id": "armor_lc_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
@@ -622,7 +648,8 @@
   },
   {
     "id": "xl_armor_lc_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel light plate armor" },
     "copy-from": "armor_lc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -630,7 +657,8 @@
   },
   {
     "id": "armor_mc_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "medium steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
@@ -638,7 +666,8 @@
   },
   {
     "id": "xl_armor_mc_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel light plate armor" },
     "copy-from": "armor_mc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -646,7 +675,8 @@
   },
   {
     "id": "armor_hc_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "high steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high steel, offering excellent protection.",
@@ -654,7 +684,8 @@
   },
   {
     "id": "xl_armor_hc_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel light plate armor" },
     "copy-from": "armor_hc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -662,7 +693,8 @@
   },
   {
     "id": "armor_ch_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "hardened steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
@@ -670,7 +702,8 @@
   },
   {
     "id": "xl_armor_ch_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel light plate armor" },
     "copy-from": "armor_ch_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -678,7 +711,8 @@
   },
   {
     "id": "armor_qt_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "tempered steel light plate armor" },
     "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
@@ -686,7 +720,8 @@
   },
   {
     "id": "xl_armor_qt_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel light plate armor" },
     "copy-from": "armor_qt_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -694,7 +729,8 @@
   },
   {
     "id": "armor_lc_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  This one has been made with mild steel.",
@@ -748,7 +784,8 @@
   },
   {
     "id": "xl_armor_lc_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel plate armor" },
     "copy-from": "armor_lc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -756,7 +793,8 @@
   },
   {
     "id": "armor_mc_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "name": { "str": "medium steel plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
@@ -764,7 +802,8 @@
   },
   {
     "id": "xl_armor_mc_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel plate armor" },
     "copy-from": "armor_mc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -772,7 +811,8 @@
   },
   {
     "id": "armor_hc_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel plate armor" },
@@ -781,7 +821,8 @@
   },
   {
     "id": "xl_armor_hc_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel plate armor" },
     "copy-from": "armor_hc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -789,7 +830,8 @@
   },
   {
     "id": "armor_ch_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened steel plate armor" },
@@ -798,7 +840,8 @@
   },
   {
     "id": "xl_armor_ch_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel plate armor" },
     "copy-from": "armor_ch_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -806,7 +849,8 @@
   },
   {
     "id": "armor_qt_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered steel plate armor" },
@@ -815,7 +859,8 @@
   },
   {
     "id": "xl_armor_qt_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel plate armor" },
     "copy-from": "armor_qt_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -823,7 +868,8 @@
   },
   {
     "id": "armor_lc_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
@@ -877,7 +923,8 @@
   },
   {
     "id": "xl_armor_lc_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel heavy plate armor" },
     "copy-from": "armor_lc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -885,7 +932,8 @@
   },
   {
     "id": "armor_mc_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "medium steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
@@ -893,7 +941,8 @@
   },
   {
     "id": "xl_armor_mc_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel heavy plate armor" },
     "copy-from": "armor_mc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -901,7 +950,8 @@
   },
   {
     "id": "armor_hc_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "high steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with high steel, offering excellent protection.",
@@ -909,7 +959,8 @@
   },
   {
     "id": "xl_armor_hc_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel heavy plate armor" },
     "copy-from": "armor_hc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -917,7 +968,8 @@
   },
   {
     "id": "armor_ch_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "hardened steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
@@ -925,7 +977,8 @@
   },
   {
     "id": "xl_armor_ch_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel heavy plate armor" },
     "copy-from": "armor_ch_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -933,7 +986,8 @@
   },
   {
     "id": "armor_qt_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "tempered steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
@@ -941,7 +995,8 @@
   },
   {
     "id": "xl_armor_qt_heavyplate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel heavy plate armor" },
     "copy-from": "armor_qt_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -949,7 +1004,8 @@
   },
   {
     "id": "armor_plarmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "plated leather armor" },
     "description": "Thick leather body armor that has been reinforced with strategically-placed metal plates.",
@@ -1015,7 +1071,8 @@
   },
   {
     "id": "xl_armor_plarmor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "plated leather armor" },
     "copy-from": "armor_plarmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1023,7 +1080,8 @@
   },
   {
     "id": "armor_plarmor_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_plarmor",
     "looks_like": "armor_plarmor",
     "name": { "str": "plated leather armor" },
@@ -1032,7 +1090,8 @@
   },
   {
     "id": "armor_junk_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "junk ornamental plate armor" },
     "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
@@ -1054,7 +1113,8 @@
   },
   {
     "id": "armor_riot",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "riot armor suit" },
     "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance than its constituent parts.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
@@ -1121,7 +1181,8 @@
   },
   {
     "id": "armor_samurai",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "ō-yoroi" },
     "description": "An ornamental suit of Japanese samurai armor.",
@@ -1142,7 +1203,8 @@
   },
   {
     "id": "armor_scrapsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "scrap suit" },
     "description": "A suit of armor made from scraps of metal secured by simple strings to cloth wraps; the loose collection of plates provides decent but uncomfortable protection.",
@@ -1191,7 +1253,8 @@
   },
   {
     "id": "armor_xl_scrapsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_scrapsuit",
     "name": { "str": "scrap suit" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -1199,7 +1262,8 @@
   },
   {
     "id": "armor_xs_scrapsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "armor_scrapsuit",
     "name": { "str": "scrap suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1207,7 +1271,8 @@
   },
   {
     "id": "armor_tiresuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "tire suit" },
     "description": "A suit of armor made from thick chunks of rubber tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
@@ -1227,7 +1292,8 @@
   },
   {
     "id": "beekeeping_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "beekeeping suit" },
     "description": "A white suit commonly worn by professional beekeepers with straps on your ankles and wrists to prevent bees from flying in.  It's not a very tough fabric, but it's lightweight and has plenty of storage thanks to a chest pocket.",
     "weight": "1587 g",
@@ -1261,7 +1327,8 @@
   {
     "abstract": "base_chainmail_hauberk",
     "copy-from": "base_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "9356 g",
@@ -1324,7 +1391,8 @@
   },
   {
     "abstract": "xl_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1367,7 +1435,8 @@
   },
   {
     "abstract": "xs_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_hauberk",
     "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1410,7 +1479,8 @@
   },
   {
     "id": "chainmail_junk_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "budget_steel_chain" },
     "name": { "str": "chainmail hauberk" },
@@ -1432,105 +1502,120 @@
   },
   {
     "id": "lc_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "xl_lc_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "lc_chainmail_hauberk_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "xl_mc_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "xl_hc_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "xl_ch_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail hauberk" }
   },
   {
     "id": "xl_qt_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail hauberk" }
@@ -1538,7 +1623,8 @@
   {
     "abstract": "base_chainmail_sjumpsuit",
     "copy-from": "base_chainmail_hauberk",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "10669 g",
@@ -1595,7 +1681,8 @@
   },
   {
     "abstract": "xl_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_sjumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1638,7 +1725,8 @@
   },
   {
     "abstract": "xs_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_sjumpsuit",
     "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1681,105 +1769,120 @@
   },
   {
     "id": "lc_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_lc_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "lc_chainmail_sjumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "mc_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_mc_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "mc_chainmail_sjumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "hc_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_hc_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "hc_chainmail_sjumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "ch_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_ch_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "ch_chainmail_sjumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "qt_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "xl_qt_chainmail_sjumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "qt_chainmail_sjumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
@@ -1787,7 +1890,8 @@
   {
     "abstract": "base_chainmail_jumpsuit",
     "copy-from": "base_chainmail_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "13131 g",
@@ -1864,7 +1968,8 @@
   },
   {
     "abstract": "xl_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1929,7 +2034,8 @@
   },
   {
     "abstract": "xs_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_jumpsuit",
     "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1994,105 +2100,120 @@
   },
   {
     "id": "lc_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail jumpsuit" }
   },
   {
     "id": "xl_lc_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail jumpsuit" }
   },
   {
     "id": "lc_chainmail_jumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail jumpsuit" }
   },
   {
     "id": "mc_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail jumpsuit" }
   },
   {
     "id": "xl_mc_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail jumpsuit" }
   },
   {
     "id": "mc_chainmail_jumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail jumpsuit" }
   },
   {
     "id": "hc_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail jumpsuit" }
   },
   {
     "id": "xl_hc_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail jumpsuit" }
   },
   {
     "id": "hc_chainmail_jumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail jumpsuit" }
   },
   {
     "id": "ch_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail jumpsuit" }
   },
   {
     "id": "xl_ch_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail jumpsuit" }
   },
   {
     "id": "ch_chainmail_jumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail jumpsuit" }
   },
   {
     "id": "qt_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail jumpsuit" }
   },
   {
     "id": "xl_qt_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail jumpsuit" }
   },
   {
     "id": "qt_chainmail_jumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail jumpsuit" }
@@ -2100,7 +2221,8 @@
   {
     "abstract": "base_chainmail_suit",
     "copy-from": "base_chainmail_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "14446 g",
@@ -2172,7 +2294,8 @@
   },
   {
     "abstract": "xl_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2237,7 +2360,8 @@
   },
   {
     "abstract": "xs_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_suit",
     "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -2302,7 +2426,8 @@
   },
   {
     "id": "chainmail_junk_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "budget_steel_chain" },
     "name": { "str": "chainmail armor" },
@@ -2318,112 +2443,128 @@
   },
   {
     "id": "lc_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "xl_lc_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "lc_chainmail_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
     "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "xl_mc_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "xl_hc_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
     "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "xl_ch_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
     "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "base_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "xl_qt_chainmail_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
     "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "chainmail_suit_faraday",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "qt_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
     "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected with a cage covering the face, protecting against electricity.",
@@ -2483,7 +2624,8 @@
   },
   {
     "id": "xl_chainmail_suit_faraday",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "chainmail_suit_faraday",
     "name": { "str": "faraday chainmail suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2538,7 +2680,8 @@
   },
   {
     "id": "chainmail_suit_faraday_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "chainmail_suit_faraday",
     "looks_like": "chainmail_suit_faraday",
     "name": { "str": "faraday chainmail suit" },
@@ -2596,7 +2739,8 @@
     "id": "cleansuit",
     "repairs_like": "bunker_coat",
     "//": "Should be somewhat more difficult to repair than ordinary plastic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cleansuit" },
     "description": "A simple hazardous materials handling suit.  Though somewhat restrictive and fragile, wearing it will provide excellent protection against ambient radiation.",
     "weight": "2100 g",
@@ -2622,7 +2766,8 @@
   },
   {
     "id": "entry_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "entry suit" },
     "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  It requires a separate gas mask for full protection against smoke.",
     "weight": "2900 g",
@@ -2648,7 +2793,8 @@
   },
   {
     "id": "xl_entry_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "entry suit" },
     "copy-from": "entry_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2656,7 +2802,8 @@
   },
   {
     "id": "entry_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "entry_suit",
     "looks_like": "entry_suit",
     "name": { "str": "entry suit" },
@@ -2665,7 +2812,8 @@
   },
   {
     "id": "bite_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "canine bite suit" },
     "description": "Designed to stop the injuries of dog bites, this thick, one piece suit is often used in the rehabilitation of abused animals and in training dogs by the police and military.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting, and to soften the blunt of animals jumping, slashing, or pouncing on the wearer.",
     "weight": "11556 g",
@@ -2727,7 +2875,8 @@
     "id": "hazmat_suit",
     "//": "Should be substantially more difficult to repair than ordinary plastic - ch_steel is difficulty 7",
     "repairs_like": "ch_steel_lump",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hazmat suit" },
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
@@ -2762,7 +2911,8 @@
   },
   {
     "id": "nomex_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "flame-resistant suit" },
     "description": "A snug body suit made from thin and lightweight Nomex fire-resistant fabric.  Tough yet breathable, it is light and comfortable to wear under clothing.",
     "weight": "688 g",
@@ -2781,7 +2931,8 @@
   },
   {
     "id": "xl_nomex_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "flame-resistant suit" },
     "copy-from": "nomex_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -2789,7 +2940,8 @@
   },
   {
     "id": "nomex_suit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "nomex_suit",
     "looks_like": "nomex_suit",
     "name": { "str": "flame-resistant suit" },
@@ -2798,7 +2950,8 @@
   },
   {
     "id": "robofac_enviro_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Hub 01 environmental suit" },
     "description": "A lightweight environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
     "weight": "4000 g",
@@ -2959,7 +3112,8 @@
   },
   {
     "id": "robofac_enviro_suit_casual",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_enviro_suit",
     "name": { "str": "Hub 01 environmental suit (casual)", "str_pl": "Hub 01 environmental suits (casual)" },
     "description": "A lightweight environmental suit incorporating Kevlar-lined boots, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the upper portion has been tied around the waist casually.",
@@ -3050,7 +3204,8 @@
   {
     "id": "xedra_enviro_suit",
     "copy-from": "robofac_enviro_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "activity suit" },
     "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The letters \"X.E.D.R.A\" are inscribed on its back, and a white shoulder patch on the right arm shows an arrow reaching within rings of concentric circles.  It requires a separate gas mask for full protection.",
     "use_action": {
@@ -3063,7 +3218,8 @@
   {
     "id": "xedra_enviro_suit_casual",
     "copy-from": "robofac_enviro_suit_casual",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "activity suit (casual)", "str_pl": "activity suits (casual)" },
     "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The upper portion has been tied around the waist casually.",
     "use_action": {
@@ -3075,7 +3231,8 @@
   },
   {
     "id": "suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "suit" },
     "description": "A full-body cotton suit.  Makes the apocalypse a truly gentlemanly experience.",
     "weight": "1587 g",
@@ -3155,7 +3312,8 @@
   },
   {
     "id": "touring_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "track touring suit" },
     "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  The leather is stiff but makes the armor much sturdier and more protective than lighter counterparts.",
     "weight": "4700 g",
@@ -3221,7 +3379,8 @@
   },
   {
     "id": "officer_uniform",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dress uniform" },
     "description": "A military officer's dress uniform from before the Cataclysm, complete with rank and ribbons.  Just looking at it gives you an air of authority.  Perhaps not the most practical military wear, but a very stylish option.",
     "weight": "1653 g",
@@ -3254,7 +3413,8 @@
   },
   {
     "id": "mil_flight_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "military flight suit" },
     "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
     "weight": "1315 g",
@@ -3282,7 +3442,8 @@
   },
   {
     "id": "armor_nomad_plate",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
     "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
@@ -3337,7 +3498,8 @@
   {
     "id": "armor_nomad_plate_on",
     "copy-from": "armor_nomad_plate",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
     "power_draw": "100 W",
@@ -3351,7 +3513,8 @@
   },
   {
     "id": "armor_nomad_lightplate",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
     "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
@@ -3406,7 +3569,8 @@
   {
     "id": "armor_nomad_lightplate_on",
     "copy-from": "armor_nomad_lightplate",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
     "power_draw": "100 W",
@@ -3420,7 +3584,8 @@
   },
   {
     "id": "armor_nomad_heavyplate",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
     "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
@@ -3475,7 +3640,8 @@
   {
     "id": "armor_nomad_heavyplate_on",
     "copy-from": "armor_nomad_heavyplate",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
     "power_draw": "100 W",
@@ -3489,7 +3655,8 @@
   },
   {
     "id": "armor_nomad_chainmail",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "qt_chainmail_jumpsuit",
     "name": { "str": "nomad chainmail", "str_pl": "suits of nomad chainmail" },
     "weight": "17200 g",
@@ -3542,7 +3709,8 @@
   {
     "id": "armor_nomad_chainmail_on",
     "copy-from": "armor_nomad_chainmail",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "nomad chainmail (on)", "str_pl": "suits of nomad chainmail (on)" },
     "revert_to": "armor_nomad_chainmail",
     "power_draw": "100 W",

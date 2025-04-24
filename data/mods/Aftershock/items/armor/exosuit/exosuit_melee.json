@@ -50,7 +50,8 @@
   },
   {
     "id": "heavy_drill",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "symbol": "=",
     "color": "yellow",
     "name": "heavy mining drill",
@@ -89,7 +90,8 @@
   },
   {
     "id": "heavy_drill_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "heavy_drill",
     "name": { "str": "heavy mining drill (on)", "str_pl": "heavy mining drills (on)" },
     "description": "This is a portable roadheader, designed to chew through the toughest rock.  Currently active, the drill heads are a blur.",
@@ -103,7 +105,8 @@
   },
   {
     "id": "exosuit_claw",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "exosuit claws" },
     "description": "A pair of oversized and articulated hydraulic gauntlets with fingertips ending in cruel talons.",
     "weight": "3 kg",
@@ -132,7 +135,8 @@
   },
   {
     "id": "exosuit_plasma_torch",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "392-UASTA plasma torch", "str_pl": "392-UASTA plasma torches" },
     "description": "One of the many versions of UASTA certified plasma torches, essentially a civilian plasma railgun used to deliver focused waves of plasma for precision welding or metal cutting.  This is a larger, more powerful model meant to be used by an exosuit for heavy engineering tasks.  Heavy cables run from the module to a handheld trigger mechanism.",
     "weight": "8 kg",
@@ -172,7 +176,8 @@
   },
   {
     "id": "exosuit_power_cutter",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "exosuit power cutter (off)", "str_pl": "exosuit power cutters (off)" },
     "description": "A huge, multi-fuel powered saw with a diamond blade, mounted on an exosuit.  If it has fuel, it can be turned on to turn it into a powerful metal cutting tool.  Heavy cables run from the module to a handheld trigger mechanism.",
     "weight": "10 kg",

@@ -26,7 +26,8 @@
   },
   {
     "id": "demon_possession_aura",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Ixythyug the Destroyer's soul",
     "description": "RIP AND TEAR",
     "weight": "1 g",

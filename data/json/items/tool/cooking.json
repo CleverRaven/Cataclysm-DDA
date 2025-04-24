@@ -339,6 +339,7 @@
     "symbol": ";",
     "color": "blue",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
     "melee_damage": { "bash": 8 },
     "tool_ammo": [ "battery" ]
@@ -432,6 +433,7 @@
     "symbol": "%",
     "color": "white",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "450 W" },
     "melee_damage": { "bash": 10 },
     "tool_ammo": [ "battery" ]
@@ -522,6 +524,7 @@
     "symbol": ";",
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "NO_SALVAGE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 25,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "link_up", "cable_length": 3, "charge_rate": "1500 W" } ],
@@ -641,6 +644,7 @@
     "symbol": ";",
     "color": "red",
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "tick_action": "MULTICOOKER_TICK",
@@ -865,6 +869,7 @@
     "charges_per_use": 8,
     "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "55 W" } ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "melee_damage": { "bash": 2 },
     "tool_ammo": [ "battery" ]
   },

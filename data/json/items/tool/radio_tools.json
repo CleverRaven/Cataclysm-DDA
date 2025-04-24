@@ -7,6 +7,7 @@
     "symbol": "#",
     "color": "yellow",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "material": [ "plastic" ],
     "charges_per_use": 1,
     "turns_per_charge": 5,
@@ -40,6 +41,7 @@
     "price_postapoc": "2 USD 50 cent",
     "use_action": [ "RADIOCAR" ],
     "flags": [ "RADIO_CONTAINER", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -75,6 +77,7 @@
         "sound_variant": "rc_car_drives"
       }
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -91,6 +94,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "use_action": [ "RADIO_MOD" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "SINGLE_USE", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -106,6 +110,7 @@
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "use_action": [ "RADIO_OFF", { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
     "pocket_data": [
@@ -132,6 +137,7 @@
       { "type": "transform", "target": "radio", "ammo_scale": 0, "menu_text": "Turn off" }
     ],
     "tick_action": [ "RADIO_TICK" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -148,6 +154,7 @@
     "color": "green",
     "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
     "pocket_data": [
       {
@@ -173,6 +180,7 @@
     "symbol": "#",
     "color": "yellow",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "use_action": [ "REMOTEVEH" ],

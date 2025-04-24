@@ -16,7 +16,8 @@
   },
   {
     "id": "aura_ward_off_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Rain Ward",
     "description": "Thanks to the words of the charm you spoke, you won't get wet.",
     "weight": "0 g",
@@ -49,7 +50,8 @@
   },
   {
     "id": "item_hedge_witchlight",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Witchlight",
     "description": "A bobbing ball of blueish-green light, just bright enough to read by.",
     "weight": "0 g",
@@ -84,7 +86,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "item_hedge_make_plants_grow",
     "name": { "str_sp": "life of the crops" },
     "weight": "0 g",
@@ -114,7 +117,8 @@
   },
   {
     "id": "item_hedge_see_fae_necklace",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
     "turns_per_charge": 25,
@@ -154,7 +158,8 @@
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
@@ -186,7 +191,8 @@
   },
   {
     "id": "item_hedge_see_fae_necklace_done",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
     "weight": "100 g",
@@ -225,7 +231,8 @@
     "id": "item_hedge_nether_eye_paste",
     "name": { "str_sp": "Blood-and-Ash Paste" },
     "description": "A disgusting mixture of blood, ashes, and certain herbs.  Using it will allow you to see otherworldly creatures even through walls or in darkness.",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "weight": "265 g",
     "volume": "250 ml",
@@ -240,7 +247,8 @@
     "consumption_effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "item_hedge_cure_cold_or_flu",
     "copy-from": "tea",
     "name": { "str": "Curative tea" },
@@ -248,7 +256,8 @@
   },
   {
     "id": "item_hedge_turn_into_bear_off",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "drained bearskin talisman" },
     "description": "A heavy fur mantle attached to the skull of a bear.  The charm worked into it has been expended.",
     "weight": "2368 g",
@@ -287,14 +296,16 @@
   },
   {
     "id": "item_hedge_turn_into_bear",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bearskin talisman" },
     "copy-from": "item_hedge_turn_into_bear_off",
     "description": "A heavy fur mantle attached to the skull of a bear.  When you put it on, the charm will take effect and grant you the bear's power.",
     "extend": { "flags": [ "SKINCHANGED", "HEDGE_ENCHANTED" ] }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_walk_on_water_magic_square",
     "copy-from": "magic_square_base",
     "name": { "str": "magic square (To Walk Upon the Water)", "str_pl": "magic squares (To Walk Upon the Water)" },
@@ -315,7 +326,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_breathe_water_magic_square",
     "copy-from": "magic_square_base",
     "name": { "str": "magic square (To Operate Under the Water)", "str_pl": "magic squares (To Operate Under the Water)" },
@@ -336,7 +348,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_bash_terrain_magic_square",
     "copy-from": "magic_square_base",
     "name": {
@@ -360,7 +373,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_armed_men_magic_square",
     "copy-from": "magic_square_base",
     "name": { "str": "magic square (To Cause Armed Men to Appear)", "str_pl": "magic squares (To Cause Armed Men to Appear)" },
@@ -390,7 +404,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_food_or_drink_magic_square",
     "copy-from": "magic_square_base",
     "name": {
@@ -411,7 +426,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "item_invisibility_magic_square",
     "copy-from": "magic_square_base",
     "name": {

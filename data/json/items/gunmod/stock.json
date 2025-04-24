@@ -159,6 +159,7 @@
   {
     "id": "stock_mauser",
     "type": "GUNMOD",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Mauser C96 stock" },
     "description": "The hollow removable wooden pistol stock of the C96 Mauser pistol, which doubles as a holster.  It fits both the original clip-loaded C96 and later magazine-fed reproductions, but a gun with an extended magazine won't fit without modification.",
     "copy-from": "pistol_stock",
@@ -186,16 +187,14 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "thickness": 5 } ],
-          "encumbrance": [ 3, 4 ],
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [ { "type": "wood", "thickness": 5 } ],
+        "encumbrance": [ 3, 4 ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
   },
   {
     "id": "stock_none",
