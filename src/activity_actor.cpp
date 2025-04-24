@@ -4274,11 +4274,12 @@ if( craft.item_counter >= 10000000 ) {
     crafter.cancel_activity();
     crafter.complete_craft( craft_copy, location );
 
-    // For NPCs: stop if skill increased
-    if( crafter.is_npc() && rec.is_practice() ) {
-        const skill_id &skill = rec.skill_used;
-        if( crafter.get_skill_level( skill ) > original_skill_level ) {
-            return; // Skill increased, do not continue practicing
+        // For NPCs: stop if skill increased
+        if( crafter.is_npc() && rec.is_practice() ) {
+            const skill_id &skill = rec.skill_used;
+            if( crafter.get_skill_level( skill ) > original_skill_level ) {
+                return; // Skill increased, do not continue practicing
+            }
         }
     }
 
