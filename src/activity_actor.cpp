@@ -4268,11 +4268,11 @@ if( craft.item_counter >= 10000000 ) {
         original_skill_level = crafter.get_skill_level( rec.skill_used );
     }
 
-    item craft_copy = craft;
-    craft_item.remove_item();
-    const bool will_continue = is_long;
-    crafter.cancel_activity();
-    crafter.complete_craft( craft_copy, location );
+        item craft_copy = craft;
+        craft_item.remove_item();
+        const bool will_continue = is_long;
+        crafter.cancel_activity();
+        crafter.complete_craft( craft_copy, location );
 
         // For NPCs: stop if skill increased
         if( crafter.is_npc() && rec.is_practice() ) {
