@@ -4288,20 +4288,21 @@ if( craft.item_counter >= 10000000 ) {
         }
     }
 
-} else {
-    if( level_up && craft.get_making().is_practice() ) {
-        if( crafter.is_avatar() && query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
-            crafter.cancel_activity();
-        } else if( crafter.is_npc() ) {
-            crafter.cancel_activity();
-        }
-    } else if( craft.item_counter >= craft.get_next_failure_point() ) {
-        bool destroy = craft.handle_craft_failure( crafter );
-        if( destroy ) {
-            crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
-                                           _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
-            craft_item.remove_item();
-            crafter.cancel_activity();
+    } else {
+        if( level_up && craft.get_making().is_practice() ) {
+            if( crafter.is_avatar() && query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
+                crafter.cancel_activity();
+            } else if( crafter.is_npc() ) {
+                crafter.cancel_activity();
+            }
+        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+            bool destroy = craft.handle_craft_failure( crafter );
+            if( destroy ) {
+                crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                               _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
+                craft_item.remove_item();
+                crafter.cancel_activity();
+            }
         }
     }
 }
