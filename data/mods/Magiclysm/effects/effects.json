@@ -1213,7 +1213,7 @@
               "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
             },
             "distance": { "math": [ "( u_spell_level('animist_detect_wizards') * 2) + 3" ] },
-            "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You see the ley lines of a wielder of magic." } ]
+            "descriptions": [ { "id": "wizard_sense", "symbol": "?", "color": "cyan", "text": "You see the ley lines of a wielder of magic." } ]
           }
         ]
       }
