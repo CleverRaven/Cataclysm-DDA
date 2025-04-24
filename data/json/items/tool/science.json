@@ -131,6 +131,7 @@
     "symbol": "^",
     "color": "dark_gray",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -170,6 +171,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -240,6 +242,7 @@
     "material": [ "steel" ],
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "color": "dark_gray",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "melee_damage": { "bash": 10 },
@@ -279,6 +282,7 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "qualities": [ [ "EXTRACT", 1 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "tool_ammo": [ "battery" ]
@@ -442,6 +446,7 @@
     "color": "light_gray",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "tool_ammo": [ "battery" ]
   },
@@ -462,6 +467,7 @@
     "color": "light_gray",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "350 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "tool_ammo": [ "battery" ]
   },
@@ -483,6 +489,7 @@
     "color": "light_gray",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -750,6 +757,7 @@
     "charges_per_use": 5,
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -772,6 +780,7 @@
     "price": "250 USD",
     "price_postapoc": "10 USD",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": ";",
@@ -808,6 +817,7 @@
     "price": "80 USD",
     "price_postapoc": "5 USD",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": ";",
@@ -894,6 +904,7 @@
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -952,6 +963,7 @@
     "price_postapoc": "2 USD 50 cent",
     "looks_like": "e_scrap",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray"
@@ -1070,6 +1082,7 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "glass" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "symbol": "R",
     "color": "white",
     "charges_per_use": 5,
@@ -1128,6 +1141,7 @@
     "symbol": "n",
     "color": "white",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
@@ -1254,6 +1268,7 @@
     "color": "light_gray",
     "use_action": [ "LUX_METER" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 10,
     "pocket_data": [
       {

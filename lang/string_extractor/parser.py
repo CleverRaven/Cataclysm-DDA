@@ -147,6 +147,7 @@ parsers = {
     "faction": parse_faction,
     "fault": parse_fault,
     "fault_fix": parse_fault_fix,
+    "fault_group": dummy_parser,
     "field_type": parse_field_type,
     "furniture": parse_furniture,
     "gate": parse_gate,

@@ -719,6 +719,7 @@
       "ELECTRONIC",
       "INVENTOR_CRAFTED"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

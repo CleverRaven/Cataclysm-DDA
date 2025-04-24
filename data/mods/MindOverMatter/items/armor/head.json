@@ -75,6 +75,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OUTER", "FRAGILE", "SUN_GLASSES", "WATER_BREAK", "PADDED", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "relic_data": {
       "passive_effects": [
         {

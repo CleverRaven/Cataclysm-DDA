@@ -237,6 +237,7 @@
     "symbol": "%",
     "color": "white",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -273,6 +274,7 @@
     "symbol": "%",
     "color": "white",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

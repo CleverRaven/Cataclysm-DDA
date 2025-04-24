@@ -788,6 +788,7 @@
     "symbol": ";",
     "color": "red",
     "flags": [ "ELECTRONIC", "ALLOWS_REMOTE_USE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "tick_action": "MULTICOOKER_TICK",

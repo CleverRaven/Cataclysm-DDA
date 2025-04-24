@@ -62,6 +62,7 @@
       "PADDED",
       "ELECTRONIC"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "revert_to": "afs_combat_headset_off",
     "use_action": [
       {

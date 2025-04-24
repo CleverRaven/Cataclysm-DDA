@@ -532,6 +532,7 @@
       "CALORIE_BURN",
       "ELECTRONIC"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "symbol": "[",
     "charges_per_use": 1,
     "use_action": [ "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
@@ -994,6 +995,7 @@
     "price_postapoc": "50 cent",
     "material": [ "plastic", "steel" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "weight": "520 g",
     "volume": "500 ml",
     "charges_per_use": 1,
@@ -1026,6 +1028,7 @@
       "WATER_BREAK",
       "ELECTRONIC"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "weight": "520 g",
     "volume": "500 ml",
     "charges_per_use": 1,
@@ -1192,6 +1195,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATCH", "ALARMCLOCK", "FRAGILE", "WATER_BREAK", "PADDED", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "tool_ammo": "battery"
   },
   {
@@ -1243,6 +1247,7 @@
       "PADDED",
       "ELECTRONIC"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "tool_ammo": "battery"
   },
   {
@@ -2448,6 +2453,7 @@
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
     "description": "A pair of battery-powered goggles that use a infrared LED in conjunction with a IR camera, allowing you to see in the dark.  Use it to turn them on.",
     "flags": [ "FRAGILE", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "price": "300 USD",
     "price_postapoc": "30 USD",
     "material": [ "plastic", "steel" ],
@@ -2503,6 +2509,7 @@
     "name": { "str": "pair of infrared goggles", "str_pl": "pairs of infrared goggles" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
     "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "price": "920 USD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
@@ -2541,6 +2548,7 @@
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
     "flags": [ "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "power_draw": "1 W",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
@@ -3146,6 +3154,7 @@
     "name": { "str_sp": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  Without batteries or when turned off, they function like normal earmuffs and block all sound.  They will only block sounds over a certain decibel amount when turned on, to protect your ears from injury while otherwise allowing you to hear normally.  The earmuffs are currently off.",
     "flags": [ "DEAF", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "price": "125 USD",
     "price_postapoc": "7 USD 50 cent",
     "material": [ "plastic" ],
@@ -3183,6 +3192,7 @@
     "name": { "str_sp": "shooter's earmuffs" },
     "description": "A pair of earmuffs favored by shooters.  The earmuffs are turned on, and will block sounds over a certain decibel amount while otherwise allowing you to hear normally.",
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "price": "125 USD",
     "price_postapoc": "7 USD 50 cent",
     "material": [ "plastic" ],
@@ -3222,6 +3232,7 @@
     "name": { "str_sp": "shooter's ear plugs" },
     "description": "A pair of in-ear drivers designed to dampen loud sounds and amplify quiet sounds.  Without batteries or when turned off, they function like normal earplugs and block most sound.  They will only block sounds over a certain decibel amount when turned on, to protect your ears from injury while otherwise allowing you to hear normally.  The earplugs are currently off.",
     "flags": [ "DEAF", "OVERSIZE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "price": "125 USD",
     "price_postapoc": "12 USD 50 cent",
     "material": [ "plastic" ],
@@ -3309,6 +3320,7 @@
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
     "flags": [ "BELTED", "FRAGILE", "SOLARPACK", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 10 }
@@ -3330,6 +3342,7 @@
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.05,
     "flags": [ "BELTED", "FRAGILE", "SOLARPACK_ON", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 4 }
@@ -3973,6 +3986,7 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "relic_data": {
       "passive_effects": [
         { "id": "ench_exo_strength" },
@@ -4034,6 +4048,7 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "relic_data": {
       "passive_effects": [
         { "id": "ench_exo_strength" },

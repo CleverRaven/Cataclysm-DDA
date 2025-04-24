@@ -399,6 +399,7 @@
       "MUNDANE",
       "INVENTOR_CRAFTED"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -741,6 +742,7 @@
       "STURDY",
       "PADDED"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
     "tool_ammo": [ "battery" ]
   }

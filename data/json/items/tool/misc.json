@@ -367,6 +367,7 @@
     "symbol": ";",
     "color": "brown",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "use_action": [
       {
         "target": "large_space_heater_on",

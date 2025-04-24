@@ -251,6 +251,7 @@
     ],
     "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] }
@@ -311,6 +312,7 @@
     ],
     "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       {
@@ -379,6 +381,7 @@
     ],
     "relic_data": { "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       {
