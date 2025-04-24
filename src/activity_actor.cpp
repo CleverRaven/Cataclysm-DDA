@@ -4249,7 +4249,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10000000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
+            if( crafter.is_avatar() && query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
                 *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
@@ -4266,10 +4266,19 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
         }
     } else {
-        if( level_up && craft.get_making().is_practice() &&
-            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
-            crafter.cancel_activity();
-        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+        if( level_up && craft.get_making().is_practice() ) {
+            if( crafter.is_avatar() ) {
+                if( query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
+                    crafter.cancel_activity();
+                    return;
+                }
+            } else if( crafter.is_npc() ) {
+                crafter.cancel_activity();
+                return;
+            }
+        }
+
+        if( craft.item_counter >= craft.get_next_failure_point() ) {
             bool destroy = craft.handle_craft_failure( crafter );
             // If the craft needs to be destroyed, do it and stop crafting.
             if( destroy ) {
