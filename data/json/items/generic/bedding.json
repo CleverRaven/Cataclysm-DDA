@@ -1,7 +1,7 @@
 [
   {
     "id": "pillowcase",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "pillowcase" },
     "looks_like": "pillow",
@@ -18,7 +18,7 @@
     "//": "Based on https://www.amazon.com/dp/B01MUDQUN9"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammock",
     "name": { "str": "hammock" },
     "category": "tools",
@@ -32,7 +32,7 @@
     "volume": "2 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hammock_net",
     "name": { "str": "net hammock" },
     "category": "tools",

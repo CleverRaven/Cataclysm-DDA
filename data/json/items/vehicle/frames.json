@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foldframe",
     "name": { "str": "foldable light frame" },
     "description": "A small, foldable lightweight frame made from pipework.",
@@ -17,7 +17,7 @@
     "melee_damage": { "bash": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xlframe",
     "name": { "str": "extra-light frame" },
     "description": "A small, lightweight frame made from pipework.  Useful for crafting.",
@@ -26,14 +26,14 @@
     "copy-from": "foldframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foldxlframe",
     "name": { "str": "foldable extra-light frame" },
     "description": "A small, foldable lightweight frame made from aluminum.",
     "copy-from": "xlframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame",
     "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
@@ -48,7 +48,7 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hdframe",
     "name": { "str": "heavy-duty frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.",
@@ -64,7 +64,7 @@
     "melee_damage": { "bash": 25 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_wood",
     "name": { "str": "wooden frame" },
     "description": "A large frame made of wood.  Useful for crafting.",
@@ -79,7 +79,7 @@
     "melee_damage": { "bash": 16, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foldwoodframe",
     "name": { "str": "foldable wooden frame" },
     "description": "A small, foldable frame made from scrap wood.",
@@ -90,7 +90,7 @@
     "copy-from": "foldframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_wood_light",
     "name": { "str": "light wooden frame" },
     "description": "A small frame made of a few pieces of wood, held together by rope.  Useful for crafting.",
@@ -105,7 +105,7 @@
     "melee_damage": { "bash": 8, "cut": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_wood_deck",
     "name": { "str": "skateboard deck" },
     "description": "A small skateboard frame made of thin layers of wood glued together.",
@@ -121,7 +121,7 @@
     "copy-from": "foldframe"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "frame_concrete_mix",
     "name": { "str_sp": "concrete mixer chassis" },
     "description": "The chassis of a concrete mixer.",

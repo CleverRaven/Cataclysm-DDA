@@ -106,7 +106,7 @@
   },
   {
     "id": "electro_robot_interface",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "[Ψ]Robotic Interface" },
     "description": "Interface with robots remotely",
     "weight": "0 g",
@@ -385,7 +385,8 @@
   },
   {
     "id": "telekinetic_container_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -413,7 +414,8 @@
   },
   {
     "id": "telekinetic_container_2",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -441,7 +443,8 @@
   },
   {
     "id": "telekinetic_container_3",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -469,7 +472,8 @@
   },
   {
     "id": "telekinetic_container_4",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -497,7 +501,8 @@
   },
   {
     "id": "telekinetic_container_5",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -525,7 +530,8 @@
   },
   {
     "id": "telekinetic_container_6",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -553,7 +559,8 @@
   },
   {
     "id": "telekinetic_container_7",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -581,7 +588,8 @@
   },
   {
     "id": "telekinetic_container_8",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -609,7 +617,8 @@
   },
   {
     "id": "telekinetic_container_9",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -637,7 +646,8 @@
   },
   {
     "id": "telekinetic_container_10",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -665,7 +675,8 @@
   },
   {
     "id": "telekinetic_container_11",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -693,7 +704,8 @@
   },
   {
     "id": "telekinetic_container_12",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -721,7 +733,8 @@
   },
   {
     "id": "telekinetic_container_13",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -749,7 +762,8 @@
   },
   {
     "id": "telekinetic_container_14",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -777,7 +791,8 @@
   },
   {
     "id": "telekinetic_container_15",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -805,7 +820,8 @@
   },
   {
     "id": "telekinetic_container_16",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -833,7 +849,8 @@
   },
   {
     "id": "telekinetic_container_17",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -861,7 +878,8 @@
   },
   {
     "id": "telekinetic_container_18",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -889,7 +907,8 @@
   },
   {
     "id": "telekinetic_container_19",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -917,7 +936,8 @@
   },
   {
     "id": "telekinetic_container_20",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -945,7 +965,8 @@
   },
   {
     "id": "telekinetic_container_21",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -973,7 +994,8 @@
   },
   {
     "id": "telekinetic_container_22",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1001,7 +1023,8 @@
   },
   {
     "id": "telekinetic_container_23",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1029,7 +1052,8 @@
   },
   {
     "id": "telekinetic_container_24",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1057,7 +1081,8 @@
   },
   {
     "id": "telekinetic_container_25",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1085,7 +1110,8 @@
   },
   {
     "id": "telekinetic_container_26",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1113,7 +1139,8 @@
   },
   {
     "id": "telekinetic_container_27",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1141,7 +1168,8 @@
   },
   {
     "id": "telekinetic_container_28",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1169,7 +1197,8 @@
   },
   {
     "id": "telekinetic_container_29",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1197,7 +1226,8 @@
   },
   {
     "id": "telekinetic_container_30",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]lifting field" },
     "description": "You can lift one thing with your powers, removing its effect on your encumbrance.",
     "weight": "0 g",
@@ -1226,7 +1256,8 @@
   {
     "id": "telekin_lifting_jack_1",
     "looks_like": "jack_makeshift",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "description": "Using your powers, you can lift up a vehicle just enough to allow you to change the wheels.",
     "material": [ "telekinetic_force" ],
@@ -1241,7 +1272,8 @@
     "id": "telekin_lifting_jack_2",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 2 ], [ "LIFT", 2 ] ]
   },
@@ -1249,7 +1281,8 @@
     "id": "telekin_lifting_jack_3",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 3 ], [ "LIFT", 3 ] ]
   },
@@ -1257,7 +1290,8 @@
     "id": "telekin_lifting_jack_4",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 4 ], [ "LIFT", 4 ] ]
   },
@@ -1265,7 +1299,8 @@
     "id": "telekin_lifting_jack_5",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 5 ], [ "LIFT", 5 ] ]
   },
@@ -1273,7 +1308,8 @@
     "id": "telekin_lifting_jack_6",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 6 ], [ "LIFT", 6 ] ]
   },
@@ -1281,7 +1317,8 @@
     "id": "telekin_lifting_jack_7",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 7 ], [ "LIFT", 7 ] ]
   },
@@ -1289,7 +1326,8 @@
     "id": "telekin_lifting_jack_8",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 8 ], [ "LIFT", 8 ] ]
   },
@@ -1297,7 +1335,8 @@
     "id": "telekin_lifting_jack_9",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 9 ], [ "LIFT", 9 ] ]
   },
@@ -1305,7 +1344,8 @@
     "id": "telekin_lifting_jack_10",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 10 ], [ "LIFT", 10 ] ]
   },
@@ -1313,7 +1353,8 @@
     "id": "telekin_lifting_jack_11",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 11 ], [ "LIFT", 11 ] ]
   },
@@ -1321,7 +1362,8 @@
     "id": "telekin_lifting_jack_12",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 12 ], [ "LIFT", 12 ] ]
   },
@@ -1329,7 +1371,8 @@
     "id": "telekin_lifting_jack_13",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 13 ], [ "LIFT", 13 ] ]
   },
@@ -1337,7 +1380,8 @@
     "id": "telekin_lifting_jack_14",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 14 ], [ "LIFT", 14 ] ]
   },
@@ -1345,7 +1389,8 @@
     "id": "telekin_lifting_jack_15",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 15 ], [ "LIFT", 15 ] ]
   },
@@ -1353,7 +1398,8 @@
     "id": "telekin_lifting_jack_16",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 16 ], [ "LIFT", 16 ] ]
   },
@@ -1361,7 +1407,8 @@
     "id": "telekin_lifting_jack_17",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 17 ], [ "LIFT", 17 ] ]
   },
@@ -1369,7 +1416,8 @@
     "id": "telekin_lifting_jack_18",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 18 ], [ "LIFT", 18 ] ]
   },
@@ -1377,7 +1425,8 @@
     "id": "telekin_lifting_jack_19",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 19 ], [ "LIFT", 19 ] ]
   },
@@ -1385,13 +1434,14 @@
     "id": "telekin_lifting_jack_20",
     "looks_like": "jack_makeshift",
     "copy-from": "telekin_lifting_jack_1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "[Ψ]telekinetic jack" },
     "qualities": [ [ "JACK", 20 ], [ "LIFT", 20 ] ]
   },
   {
     "id": "vita_bandage_01",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "[Ψ]Vitakinetic Wound Staunching" },
     "looks_like": "bandage",
     "description": "The power to stop bleeding",
@@ -1407,7 +1457,7 @@
   },
   {
     "id": "vita_bandages_02",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "[Ψ]Vitakinetic Wound Staunching" },
     "looks_like": "bandage",
     "description": "The power to stop bleeding",
@@ -1423,7 +1473,7 @@
   },
   {
     "id": "vita_bandages_03",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "[Ψ]Vitakinetic Wound Staunching" },
     "looks_like": "bandage",
     "description": "The power to stop bleeding",
@@ -1439,7 +1489,7 @@
   },
   {
     "id": "vita_disinfectant_01",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "[Ψ]Vitakinetic Disinfectant" },
     "looks_like": "bandage",
     "description": "The power to stop infections",
@@ -1455,7 +1505,7 @@
   },
   {
     "id": "vita_disinfectant_02",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "[Ψ]Vitakinetic Disinfectant" },
     "looks_like": "bandage",
     "description": "The power to stop infections",
@@ -1471,7 +1521,7 @@
   },
   {
     "id": "vita_disinfectant_03",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "[Ψ]Vitakinetic Disinfectant" },
     "looks_like": "bandage",
     "description": "The power to stop infections",

@@ -2,7 +2,7 @@
   {
     "id": "spy_map",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": "strategic points of interest tourist map",
     "description": "A tourist brochure that has markings on it in places that clearly aren't the advertised tourist 'zebras?'.",
@@ -15,7 +15,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spy_note",
     "category": "books",
     "symbol": ",",
@@ -131,7 +131,8 @@
   },
   {
     "id": "vampire_mentor_book",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Walking the shadowed path of Blood", "str_pl": "copies of Walking the shadowed path of Blood" },
     "description": "This handwritten book contains a very thorough detailing of all what a vampire needs to reach their full potential.  You already know most of it, but some parts have yet to be read.",
     "weight": "830 g",
@@ -172,7 +173,7 @@
   {
     "id": "deathworm_map",
     "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "books",
     "name": "map to the cryptid",
     "description": "The map on which you wrote the cryptid's location.",
@@ -205,7 +206,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "deathworm_note",
     "//": "The notes are intended to be basic but telling some info, as they are the closest to a consensus reached on creatures defined by being nigh-impossible to find.",
     "category": "books",
@@ -223,7 +224,7 @@
   {
     "id": "sevenoclock_map",
     "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "books",
     "name": "map to the cryptid",
     "description": "The map on which you wrote the cryptid's location.",
@@ -256,7 +257,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sevenoclock_note",
     "category": "books",
     "symbol": ",",
@@ -272,7 +273,8 @@
   },
   {
     "id": "vampire_anathema_book",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "old leather-bound journal" },
     "description": "This handwritten book contains the detailed yet disorganized notes of a vampire who found how to consume other vampires for power.  Reading it might tell you how to do it, if it is what you want.",
     "//": "As it is a unique item acquired in violent circumstances, I made it fireproof so the player can use fire without fearing the lost of this item.",

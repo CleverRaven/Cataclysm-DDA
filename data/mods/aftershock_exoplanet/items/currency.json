@@ -15,7 +15,8 @@
   },
   {
     "id": "cash_card",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "currency",
     "copy-from": "card_plastic_abstract",
     "symbol": "$",
@@ -28,7 +29,7 @@
     "tool_ammo": [ "money" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_1d",
     "name": { "str": "$1 chit" },
@@ -44,7 +45,7 @@
     "material": [ "steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_10d",
     "copy-from": "UICA_1d",
@@ -55,7 +56,7 @@
     "price_postapoc": "10 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_50d",
     "copy-from": "UICA_1d",
@@ -66,7 +67,7 @@
     "price_postapoc": "50 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_100d",
     "copy-from": "UICA_1d",
@@ -77,7 +78,7 @@
     "price_postapoc": "100 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_1000d",
     "copy-from": "UICA_1d",
@@ -88,7 +89,7 @@
     "price_postapoc": "1 kUSD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "id": "UICA_10000d",
     "copy-from": "UICA_1d",

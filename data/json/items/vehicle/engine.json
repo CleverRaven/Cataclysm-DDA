@@ -304,7 +304,7 @@
   {
     "id": "engine_block_massive",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "massive engine block" },
     "description": "The beginnings of a massive gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -316,7 +316,7 @@
   {
     "id": "engine_block_large",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "large engine block" },
     "description": "The beginnings of a large gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -328,7 +328,7 @@
   {
     "id": "engine_block_medium",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "medium engine block" },
     "description": "The beginnings of a medium gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -340,7 +340,7 @@
   {
     "id": "engine_block_small",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "small engine block" },
     "description": "The beginnings of a small gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -352,7 +352,7 @@
   {
     "id": "engine_block_tiny",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tiny engine block" },
     "description": "The beginnings of a tiny gas or diesel engine.  It's not good for much of anything on its own.",
     "material": [ "iron" ],

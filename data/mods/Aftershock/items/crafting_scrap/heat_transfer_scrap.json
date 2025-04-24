@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_heat_1",
     "copy-from": "afs_scrap_1",
     "name": { "str": "conductive thermoplastic" },
@@ -30,7 +30,7 @@
     "fun": -40
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_heat_3",
     "copy-from": "afs_scrap_3",
     "name": { "str": "carbon-lattice heatsink" },
@@ -38,7 +38,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_heat_4",
     "copy-from": "afs_scrap_4",
     "name": { "str": "fermionic nanoribbon" },
@@ -46,7 +46,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_heat_5",
     "copy-from": "afs_scrap_5",
     "name": { "str": "Maxwellian entropic chirality generator" },
@@ -54,7 +54,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_heat_2_salvage",
     "copy-from": "afs_scrap_2",
     "//": "This item drops from disassembly instead of afs_heat_2 because that is a liquid. Intended as a QOL detail in case player forgot/didn't know to bring watertight containers when disassembling a relevant object. DO NOT use in crafting recipes, use afs_heat_2 instead.",

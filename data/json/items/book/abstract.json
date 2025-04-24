@@ -488,7 +488,7 @@
     "abstract": "abstractmap",
     "//": "Match type options in iuse_actor.cpp",
     "//1": "Add maps/brochures/pamphlets as appropriate to itemgroups/books.json 's groups",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "abstract map" },
     "description": "seeing this is a bug.",

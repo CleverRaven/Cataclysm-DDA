@@ -148,7 +148,7 @@
   },
   {
     "abstract": "AID_XE_abstract",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "abstract Autodoc installation data", "//~": "NO_I18N" },
     "material": [ "plastic" ],
     "symbol": "#",
@@ -162,146 +162,146 @@
   {
     "id": "AID_XE_bio_alarm",
     "copy-from": "AID_XE_abstract",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "Alarm System CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an Alarm System CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_tattoo_led",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "LED Tattoo CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an LED Tattoo CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_power_storage",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Power Storage CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Power Storage CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_power_storage_mkII",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Power Storage CBM Mk. II installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Power Storage CBM Mk. II, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_watch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Internal Chronometer CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an Internal Chronometer CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_syringe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Intravenous Needletip CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an Intravenous Needletip CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_blood_anal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Blood Analysis CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Blood Analysis CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_flashlight",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Cranial Flashlight CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Cranial Flashlight CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_magnet",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Electromagnetic Unit CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an Electromagnetic Unit CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_soporific",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Soporific Induction CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Soporific Induction CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_armor_arms",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Arms Alloy Plating CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an Arms Alloy Plating CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_armor_legs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Legs Alloy Plating CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Legs Alloy Plating CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_shotgun",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Shotgun Arm CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Shotgun Arm CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_blood_filter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Blood Filter CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Blood Filter CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_climate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Internal Climate Control CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an Internal Climate Control CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_geiger",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Integrated Dosimeter CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an Integrated Dosimeter CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_heatsink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Thermal Dissipation CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Thermal Dissipation CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_meteorologist",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Weather Reader CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Weather Reader CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_ups",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Unified Power System CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Unified Power System CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_weight",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Titanium Skeletal Bracing CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Titanium Skeletal Bracing CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_XE_bio_pitch_perfect",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "AID_XE_abstract",
     "name": { "str_sp": "Throwing Assist CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of a Throwing Assist CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."

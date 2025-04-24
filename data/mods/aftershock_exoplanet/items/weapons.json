@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_energy_saber_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "CE-4 \"The Claw\" (Non-Lethal)", "str_pl": "CE-4 \"The Claws\" (Non-Lethal)" },
     "description": "The CE-4, commonly known as \"The Claw\", is a popular self-defense weapon used by corporate enforcers everywhere, especially on dangerous frontier worlds.  Made from a cylinder of heat activated memory-alloy, the flick of a switch allows it to morph between a less-lethal bludgeon form and a sharpened, super heated blade.  Currently, it is in its less-lethal configuration, and looks like a sleek side-handle metal baton.",
     "weight": "760 g",
@@ -40,7 +41,8 @@
   },
   {
     "id": "afs_energy_saber_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "afs_energy_saber_off",
     "name": { "str": "CE-4 \"The Claw\" (Lethal)", "str_pl": "CE-4 \"The Claws\" (Lethal)" },
     "description": "The CE-4, commonly known as \"The Claw\", is a popular self-defense weapon used by corporate enforcers everywhere, especially on dangerous frontier planets.  Made from a cylinder of heat activated memory-alloy, the flick of a switch allows it to morph between a less-lethal bludgeon form and a sharpened, super heated blade.  Currently, it is in its lethal configuration, and looks like a sleek sword, humming softly as its blade glows from heat.",
@@ -152,7 +154,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "golf_club",
     "name": { "str": "golf club" },
     "copy-from": "golf_club",
@@ -203,7 +205,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_titanium_bat",
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
@@ -220,7 +222,8 @@
   },
   {
     "id": "ceramic_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "bodyguard knife", "str_pl": "bodyguard knives" },
     "description": "Designed to evade security measures, this knife is a must have for any Cataclysm dinner party.",
@@ -238,7 +241,8 @@
   },
   {
     "id": "afs_toxic_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "neurotoxic knife", "str_pl": "neurotoxic knives" },
     "description": "A broad white-ceramic knife that is constantly kept coated in neurotoxic oil by a handle mounted reservoir.  Don't cut yourself.",
@@ -256,7 +260,7 @@
     "melee_damage": { "afs_toxin_pierce": 21 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "trident",
     "looks_like": "pitchfork",
     "name": { "str": "trident" },
@@ -335,7 +339,8 @@
   },
   {
     "id": "aza_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "/",
     "color": "white",
     "name": { "str": "Aztlani hunting sword" },
@@ -431,7 +436,7 @@
   },
   {
     "id": "afs_bio_whip_weapon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "red",
     "name": { "str": "monofilament whip" },

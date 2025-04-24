@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor",
     "name": { "str": "electric motor" },
     "description": "A standard electric motor.  Suitable for use in ultra-light vehicles.",
@@ -17,7 +17,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_enhanced",
     "name": { "str": "enhanced electric motor" },
     "description": "A powerful electric motor, as found in those consumer electric sports cars with ridiculous or ludicrous acceleration options.",
@@ -29,7 +29,7 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_super",
     "name": { "str": "super electric motor" },
     "description": "An extremely powerful electric motor.  This delivers massive torque and would be well suited to an electric racing car.",
@@ -41,7 +41,7 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_large",
     "name": { "str": "large electric motor" },
     "description": "A large electric motor.  Could be used to power a full-size car or SUV.",
@@ -55,7 +55,7 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_small",
     "name": { "str": "small electric motor" },
     "description": "A light-duty electric motor.  Strong enough for an electric moped or golf cart.",
@@ -67,7 +67,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_tiny",
     "name": { "str": "tiny electric motor" },
     "description": "A small electric motor, suitable for powering a bicycle or a hedge trimmer.",
@@ -81,7 +81,7 @@
     "price_postapoc": "1 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_train1300",
     "name": { "str": "1,300 HP electric train engine" },
     "description": "A 1,300 horsepower 3-phase 60 Hz electric engine.  Normally used in trains.",

@@ -31,7 +31,8 @@
   },
   {
     "id": "finger_firelighter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "finger firelighter",
     "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire, or you can throw it to ignite something flammable.",
     "weight": "1 g",
@@ -45,7 +46,8 @@
   },
   {
     "id": "electric_lighter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "stable spark",
     "description": "Small electric spark, that does not disappear under your force.  With a thought, you can cause it to light something on fire, or you can throw it to ignite something flammable.",
     "weight": "1 g",
@@ -136,7 +138,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stormhammer",
     "name": { "str": "The Stormhammer" },
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, to smash things to bits!",
@@ -217,7 +219,7 @@
   },
   {
     "id": "tentacle_whip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": "vicious tentacle whip",
@@ -234,7 +236,7 @@
   },
   {
     "id": "flarewhip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_blue",
     "name": "flarewhip",
@@ -296,7 +298,7 @@
   },
   {
     "id": "bonespear",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Wicked Bonespear" },
@@ -449,7 +451,8 @@
     "effects": [ "TANGLE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "druid_seed",
     "name": { "str": "seed of purification", "str_pl": "seeds of purification" },
     "weight": "1 g",
@@ -468,7 +471,8 @@
   },
   {
     "id": "druid_dust",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "faintly glowing dust" },
     "description": "This handful of fine dust glows with a growing intensity.",
     "weight": "1 g",
@@ -654,7 +658,7 @@
   },
   {
     "id": "flamesword",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "sword_wood",
@@ -681,7 +685,7 @@
   },
   {
     "id": "decaying_boneclub",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "bone",
@@ -880,7 +884,7 @@
   },
   {
     "id": "jar_3l_force",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "jar of force", "str_pl": "jars of force" },
     "looks_like": "jar_glass_sealed",
@@ -909,7 +913,7 @@
   },
   {
     "id": "longsword_holy",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "longsword",
     "name": { "str": "mage blade" },
     "description": "This is a summoned mana sword, between the lighter arming sword and later two-handed swords in size.  It glows shiny, and its edge is sharper the more spell level and intelligence you have.",
@@ -944,7 +948,8 @@
   },
   {
     "id": "pocket_sun",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "Pocket Sun" },
     "description": "A small, capsule-shaped field containing a stable portal to the sun.  You can feel solar energy radiating from it, and it saturates your body.",
@@ -968,7 +973,8 @@
   },
   {
     "id": "pocket_sun_cover",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Covered Pocket Sun" },
     "description": "A small, capsule-shaped field containing a stable portal to the sun.  It is currently covered.",
@@ -1015,7 +1021,7 @@
     "armor": [ { "covers": [ "arm_l" ], "coverage": 0, "encumbrance": 0 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "magical_throwing_knife",
     "copy-from": "throwing_knife",
     "price": "0 cent",
@@ -1027,7 +1033,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 5 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "magical_throwing_knife_fire",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
@@ -1035,7 +1041,7 @@
     "thrown_damage": [ { "damage_type": "heat", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "magical_throwing_knife_cold",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
@@ -1043,7 +1049,7 @@
     "thrown_damage": [ { "damage_type": "cold", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "magical_throwing_knife_cut",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
@@ -1051,7 +1057,7 @@
     "thrown_damage": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.2 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "magical_throwing_knife_biological",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
@@ -1059,7 +1065,7 @@
     "thrown_damage": [ { "damage_type": "biological", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "magical_throwing_knife_pure_special",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
@@ -1070,7 +1076,8 @@
     "id": "eshaper_hammer",
     "copy-from": "hammer",
     "looks_like": "hammer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "earthshaper's hammer" },
     "description": "Shaped with your own magic, this tool has the same abilities as the common hammer.",
     "material": [ "stone" ],
@@ -1089,7 +1096,8 @@
     "id": "eshaper_pickaxe",
     "copy-from": "pickaxe",
     "looks_like": "pickaxe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "earthshaper's pickaxe" },
     "description": "Shaped with your own magic, this tool has the same abilities as the common pickaxe.",
     "material": [ "stone" ],
@@ -1111,7 +1119,8 @@
     "id": "eshaper_ax",
     "copy-from": "ax",
     "looks_like": "ax",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "earthshaper's axe" },
     "description": "Shaped with your own magic, this tool has the same abilities as the common axe.",
     "material": [ "stone" ],
@@ -1131,7 +1140,8 @@
     "id": "eshaper_knife",
     "copy-from": "knife_hunting",
     "looks_like": "knife_hunting",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "earthshaper's knife", "str_pl": "earthshaper's knives" },
     "description": "Shaped with your own magic, this tool has the same abilities as the common knife.",
@@ -1152,7 +1162,8 @@
     "id": "eshaper_shovel",
     "copy-from": "shovel",
     "looks_like": "shovel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "earthshaper's shovel" },
     "description": "Shaped with your own magic, this tool has the same abilities as the common shovel.",
     "material": [ "stone" ],
@@ -1282,7 +1293,7 @@
   },
   {
     "id": "druid_bandages",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str": "Vegetative Poultice" },
     "looks_like": "leaves",
@@ -1299,7 +1310,8 @@
   },
   {
     "id": "technomancer_summoned_radio",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "aetherspeaker (speaking)", "str_pl": "aetherspeakers (speaking)" },
     "description": "A magically-summoned aetherspeaker, capable of communicating long-distance with other aetherspeakers or conventional radios.  With a command word, it may instead scan for radio signals.",
     "weight": "295 g",
@@ -1316,7 +1328,8 @@
   {
     "id": "technomancer_summoned_radio_on",
     "copy-from": "technomancer_summoned_radio",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "aetherspeaker (scanning)", "str_pl": "aetherspeakers (scanning)" },
     "description": "An aetherspeaker tuned to listen for radio signals from the surrounding area.  With a command word, it may change frequency or switch to communicating with other aetherspeakers or radios.",
     "use_action": [ "RADIO_ON", { "type": "transform", "target": "technomancer_summoned_radio", "menu_text": "Turn to speaking mode" } ],
@@ -1346,7 +1359,8 @@
   },
   {
     "id": "technomancer_welder",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "voltaic touch" },
     "description": "Your hands can spark with electricity powerful enough to heat metal to searing temperatures and weld it together.  You can also zap the undead with it.",
     "weight": "0 g",
@@ -1372,7 +1386,7 @@
     "melee_damage": { "bash": 2, "electric": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "druid_bramble_spear_item",
     "name": { "str": "spear of brambles", "str_pl": "spears of brambles" },
     "looks_like": "spear_wood",
@@ -1516,7 +1530,7 @@
   {
     "id": "item_earthshaper_map_01",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "earthshaper map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -1538,7 +1552,7 @@
   {
     "id": "item_earthshaper_map_02",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "earthshaper map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -1560,7 +1574,7 @@
   {
     "id": "item_earthshaper_map_03",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "earthshaper map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -1582,7 +1596,7 @@
   {
     "id": "item_earthshaper_map_04",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "earthshaper map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -1604,7 +1618,7 @@
   {
     "id": "item_earthshaper_map_05",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "earthshaper map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -1627,7 +1641,7 @@
   {
     "id": "item_earthshaper_map_06",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "earthshaper map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -1648,7 +1662,7 @@
   },
   {
     "id": "item_druid_disinfectant",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "druid antiseptic", "//~": "NO_I18N" },
     "description": { "str": "A magical disinfectant.  You should never actually see this.", "//~": "NO_I18N" },
     "weight": "0 g",
@@ -1662,7 +1676,7 @@
   },
   {
     "id": "item_kelvinist_icy_freezing_container",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "freezer field" },
     "looks_like": "art_sphere",
@@ -1744,7 +1758,7 @@
   {
     "id": "item_animist_luck_bone",
     "copy-from": "bone",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "luck-bone" },
     "description": "A bone from some creature or other, inhabited by benevolent spirits.",
     "color": "white",
@@ -1758,7 +1772,7 @@
   },
   {
     "id": "technomancer_far_sight_lens",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lens",
     "name": { "str": "enchanted lens", "str_pl": "enchanted lenses" },
     "description": "This lens has been etched with small symbols and infused with mana.  Holding it up to your eye allows you to see further than any mundane binoculars allow.",

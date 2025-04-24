@@ -1,7 +1,8 @@
 [
   {
     "id": "architect_cube",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "The Architect's Cube" },
     "description": "This is a solid cube that is much heavier than its size suggests.  When you look at it, it pulls your gaze inward until you fall through the sky, showing you a top-down view of your position with the surroundings revealed.",
     "weight": "2 kg",
@@ -14,7 +15,7 @@
   },
   {
     "id": "DEBUG_stabbing",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "stone of stabbing", "str_pl": "stones of stabbing" },
     "description": "A debug item to make sure that skills can be modified by enchantments.",
     "weight": "1 kg",

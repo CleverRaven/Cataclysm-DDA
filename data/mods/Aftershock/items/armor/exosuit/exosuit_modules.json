@@ -241,7 +241,8 @@
   },
   {
     "id": "exo_lense_module",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit multi-lens zoom module" },
     "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
@@ -280,7 +281,8 @@
   {
     "id": "exo_flashlight_low",
     "copy-from": "exo_flashlight",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mounted lamp (low)", "str_pl": "mounted lamps (low)" },
     "power_draw": "1 W",
     "revert_to": "exo_flashlight",
@@ -296,7 +298,8 @@
   {
     "id": "exo_flashlight_high",
     "copy-from": "exo_flashlight",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mounted lamp (high)", "str_pl": "mounted lamps (high)" },
     "power_draw": "2 W",
     "revert_to": "exo_flashlight",
@@ -338,7 +341,8 @@
   {
     "id": "exo_recoil_on",
     "copy-from": "exo_recoil",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "recoil mitigation system (on)", "str_pl": "recoil mitigation systems (on)" },
     "power_draw": "2 W",
     "revert_to": "exo_recoil",
@@ -427,7 +431,8 @@
   },
   {
     "id": "exo_imager",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit structural imager module" },
     "description": "A compact imaging tool, capable of scanning and visualizing objects hiding behind walls, maintenance panels and all other sort of visual barriers.  While normally used to diagnostic potential faults within the internal systems of spaceships, the ability to peer between obstacles grant it obvious surveillance applications.  It can be mounted to an exosuit helmet.  It can be activated to reveal a small conical area around you.",
     "weight": "500 g",
@@ -470,7 +475,8 @@
   },
   {
     "id": "exo_jetpack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit dynamic maneuvering unit" },
     "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across rough terrain and gaps.  The thrust is insufficient for sustained flight in a gravity well, but can still launch you forward at extreme speed and deliver a powerful blow on landing.",
     "weight": "8750 g",
@@ -496,7 +502,8 @@
   },
   {
     "id": "exosuit_med_injector",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit medical injector" },
     "description": "A combination medical monitor and drug injection system, this module is intended to keep the pilot in the field longer.",
     "weight": "475 g",
@@ -555,7 +562,7 @@
   },
   {
     "id": "collapsed_boarding_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "%",
     "color": "light_gray",
     "name": "collapsed boarding axe",
@@ -573,7 +580,8 @@
   },
   {
     "id": "exo_AR_module",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit AR research module" },
     "description": "An augmented reality module interfaces with the exosuit's HUD, assisting you with research and study.",
     "weight": "500 g",
@@ -596,7 +604,8 @@
   },
   {
     "id": "exo_AR_module_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "exo_AR_module",
     "name": { "str": "exosuit AR research module (on)", "str_pl": "exosuit AR research modules (on)" },
     "power_draw": "250 mW",

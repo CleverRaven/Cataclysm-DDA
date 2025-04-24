@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "iso_science_security_black",
     "symbol": ",",
     "copy-from": "id_science",
@@ -289,7 +289,8 @@
   },
   {
     "id": "iso_old_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "mc_longsword",
     "name": { "str": "ancient sword" },
     "description": "A longsword worn down by countless battles.  It was once finely engraved.",
@@ -331,7 +332,7 @@
   },
   {
     "id": "iso_sorcerers_staff",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "q_staff",
     "looks_like": "q_staff",
     "name": { "str_sp": "Blackstaff" },

@@ -1,7 +1,7 @@
 [
   {
     "id": "living_brain_jar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "living brain in a jar", "str_pl": "jars full of living brains" },
     "description": "This jar contains a human brain kept alive by mi-go technology.  It has metal veined tendrils that appear to allow it to connect to various devices.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "humming_heart",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "humming heart" },
     "description": "This heartlike organ has multiple valves and upon its proper removal from the bioweapons corpse each valve sealed itself.  It hums gently in your hands, as if waiting for an appropriate receptacle.",
@@ -33,7 +33,7 @@
   },
   {
     "id": "sensory_cluster",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "sensory cluster" },
     "description": "This lump of flesh has various lobes protruding from it that at intervals will emit toned sounds.  Perhaps it works via echolocation.  Like all mi-go bioparts the openings on this piece closed up after it was cut free and it seems to have gone into a form of hibernation with the pulses occurring slower and slower as it conserves energy.",
@@ -49,7 +49,7 @@
   },
   {
     "id": "bioweapon_chassis",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str_sp": "bioweapon chassis" },
     "description": "This cross between a sea anemone and what you imagine a dragon's mouth would look like is the core body of the bioweapon.  You cannot imagine what you could make out of this but maybe someone somewhere does.",
@@ -64,7 +64,7 @@
     "melee_damage": { "bash": 7 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_afs_mon_migoturret",
     "symbol": ",",
     "color": "green",

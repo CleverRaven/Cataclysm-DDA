@@ -1213,7 +1213,7 @@
   {
     "id": "makeshift_bayonet",
     "copy-from": "spike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "makeshift bayonet" },
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
     "longest_side": "12 cm",

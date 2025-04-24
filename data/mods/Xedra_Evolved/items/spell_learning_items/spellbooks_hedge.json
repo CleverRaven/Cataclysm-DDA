@@ -1,7 +1,7 @@
 [
   {
     "id": "spellbook_hedge_farm",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Goody Osborne's Booke of Remedies", "str_pl": "copies of Goody Osborne's Booke of Remedies" },
     "description": "This purports to be the 'Reale and True Acounting of the Works and Devices of Sarah Osbourne, a Most Puissant Wiche', but you're pretty sure it's all a front and it was actually written within the last couple decades.  There are some pretty detailed descriptions of rituals in here, mixed among diary entries and accounts of fanciful meetings in the woods.",
     "weight": "1200 g",
@@ -96,7 +96,7 @@
   },
   {
     "id": "spellbook_hedge_ward_demons",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Malleus Maleficarum", "str_pl": "copies of Malleus Maleficarum" },
     "description": "A hardcover translation of the infamous 15th century book used as a reference work for witchcraft trials for centuries.  This translation seems to have some handwritten notes in some of the margins.",
     "weight": "721 g",
@@ -191,7 +191,7 @@
   },
   {
     "id": "spellbook_hedge_doctor_book",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "The Cunning Book of Home and Hearth", "str_pl": "copies of The Cunning Book of Home and Hearth" },
     "description": "This mass-market paperback purports to pass down the ancient traditional secrets of English cunning folk, though if that were true, they probably could have gotten more than $12.95 for it.  There are a lot of descriptions of rituals and procedures in here, though--maybe some of them deserve further investigation.",
     "weight": "537 g",
@@ -286,7 +286,7 @@
   },
   {
     "id": "spellbook_hedge_blood_book",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula",
       "str_pl": "copies of Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula"
@@ -384,7 +384,7 @@
   },
   {
     "id": "spellbook_hedge_ward_dreams",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "Ward your Dreams for a Good Night's Sleep!",
       "str_pl": "copies of Ward your Dreams for a Good Night's Sleep!"
@@ -482,7 +482,7 @@
   },
   {
     "id": "spellbook_hedge_snare_changelings",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Monas Hieroglyphica", "str_pl": "copies of Monas Hieroglyphica" },
     "description": "This is a thin reproduction of John Dee's Monas Hieroglyphica.  A complicated work whose meaning has long been lost without access to the occult oral tradition of it's time.  It's possible that some remnants of that oral tradition still exist today, but it is unknown if they would be able to fully interpret this spellbook.",
     "weight": "83 g",
@@ -595,7 +595,7 @@
   {
     "id": "spellbook_hedge_bathhouse_midnight",
     "//": "divination spells are appropriate here too",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia",
       "str_pl": "copies of The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia"
@@ -695,7 +695,7 @@
   },
   {
     "id": "spellbook_hedge_abramelin_the_mage",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "The Book of the Sacred Magic of Abramelin the Mage",
       "str_pl": "copies of The Book of the Sacred Magic of Abramelin the Mage"

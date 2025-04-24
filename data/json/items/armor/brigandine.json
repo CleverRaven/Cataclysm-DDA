@@ -1823,7 +1823,7 @@
   },
   {
     "id": "lc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
     "description": "A pair of thin shoulder guards, made of steel.  Designed to be attached to brigandine.",
@@ -1837,7 +1837,7 @@
   },
   {
     "id": "xl_lc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1845,7 +1845,7 @@
   },
   {
     "id": "lc_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of mild steel shoulder guards", "str_pl": "pairs of mild steel shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1853,14 +1853,14 @@
   },
   {
     "id": "mc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "mc_shoulder_guards",
     "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1868,7 +1868,7 @@
   },
   {
     "id": "mc_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "mc_shoulder_guards",
     "name": { "str": "pair of medium steel shoulder guards", "str_pl": "pairs of medium steel shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1876,14 +1876,14 @@
   },
   {
     "id": "hc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "hc_shoulder_guards",
     "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1891,7 +1891,7 @@
   },
   {
     "id": "hc_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "hc_shoulder_guards",
     "name": { "str": "pair of high steel shoulder guards", "str_pl": "pairs of high steel shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1899,14 +1899,14 @@
   },
   {
     "id": "ch_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "ch_shoulder_guards",
     "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1914,7 +1914,7 @@
   },
   {
     "id": "ch_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "ch_shoulder_guards",
     "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -1922,14 +1922,14 @@
   },
   {
     "id": "qt_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "lc_shoulder_guards",
     "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_shoulder_guards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "qt_shoulder_guards",
     "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -1937,7 +1937,7 @@
   },
   {
     "id": "qt_shoulder_guards_xs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "qt_shoulder_guards",
     "name": { "str": "pair of tempered shoulder guards", "str_pl": "pairs of tempered shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },

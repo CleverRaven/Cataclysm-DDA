@@ -1,7 +1,8 @@
 [
   {
     "id": "granade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Granade" },
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "granade_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active Granade" },
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
@@ -109,7 +111,8 @@
   },
   {
     "id": "firekatana_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Rising Sun" },
     "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katana, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
@@ -136,7 +139,8 @@
   },
   {
     "id": "firekatana_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Rising Sun" },
     "description": "This is a katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
@@ -169,7 +173,8 @@
   },
   {
     "id": "zweifire_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flammenschwert (aus)", "str_pl": "flammenschwerter (aus)" },
     "//": "All of this is SUPPOSED to be in German.",
@@ -247,7 +252,8 @@
   },
   {
     "id": "zweifire_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flammenschwert", "str_pl": "flammenschwerter" },
     "//": "All of this is SUPPOSED to be in German.",
@@ -285,7 +291,7 @@
     "tool_ammo": [ "gasoline" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "battletorch_done",
     "name": { "str": "burnt out Louisville Slaughterer" },
     "description": "A sturdy wood bat, wrapped in flame-resistant Nomex fabric.  Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patches.",
@@ -302,7 +308,8 @@
   },
   {
     "id": "battletorch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Louisville Slaughterer" },
     "description": "This is sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  Light it, and the ball game will REALLY heat up.  You'll need a lighter or matches to light it.",
@@ -330,7 +337,8 @@
   },
   {
     "id": "battletorch_lit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Louisville Slaughterer" },
     "description": "This is a sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  It is burning brightly, and makes it much easier to see the baselines at night games (It also makes the umpire FAR more likely to call a ball instead of a strike).",
@@ -373,7 +381,7 @@
   {
     "id": "family_photo",
     "copy-from": "family_photo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "blurry picture of a scowling cartoon ape" },
     "description": "Allegedly very important.",
@@ -383,7 +391,7 @@
   {
     "id": "old_key",
     "copy-from": "old_key",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "penultimate key" },
     "description": "This opens the Blob Door.  Better hold on to it.",
@@ -393,7 +401,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bread_sword",
     "symbol": "/",
     "color": "brown",
@@ -414,7 +422,7 @@
   {
     "id": "rocket_can_drink",
     "copy-from": "can_drink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rocket can" },
     "description": "A beverage can shaped like a rocket with a peeling label that reads 'POWERTHIRST: ROCKET CAN EDITION'.  Its tagline claims that it contains everything you've ever wanted.",
     "symbol": "^",
@@ -438,7 +446,7 @@
   {
     "id": "aux_pressurized_tank",
     "looks_like": "pressurized_tank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "0.5L pressurized fuel tank" },
     "description": "A pressurized 0.5L canister built crafting into a small auxiliary flamethrower.",
     "weight": "100 g",
@@ -661,7 +669,7 @@
   },
   {
     "id": "diamond_sword",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "blue",
     "name": { "str": "Diamond Sword" },
@@ -706,7 +714,7 @@
   {
     "id": "coin_half_dollar",
     "copy-from": "coin_half_dollar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "name": { "str": "50 Cent coin" },
     "description": "A fifty-cent coin, featuring a portrait of famed rapper 50 Cent.  On the back is the date of minting, and the G-Unit symbol."

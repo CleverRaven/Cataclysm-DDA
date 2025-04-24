@@ -1,7 +1,8 @@
 [
   {
     "id": "grenade_inferno",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "inferno grenade" },
     "description": "This is an inferno grenade, designed to channel Netherum energy to increase its incendiary power.  Once you throw it, you will have five seconds to get away before it explodes into a raging firestorm.",
@@ -27,7 +28,8 @@
   },
   {
     "id": "grenade_inferno_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active inferno grenade" },
     "description": "This is an active inferno grenade.  Better throw it!",
@@ -53,7 +55,8 @@
   },
   {
     "id": "grenade_inferno_makeshift",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "makeshift inferno grenade" },
     "description": "This is a post-apocalyptic recreation of an inferno grenade, less powerful than a lab-made one but still very dangerous.  Once you throw it, you will have five seconds to get away before it explodes into a raging firestorm.",
@@ -79,7 +82,8 @@
   },
   {
     "id": "grenade_inferno_makeshift_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active makeshift inferno grenade" },
     "description": "This is an active makeshift inferno grenade.  Better throw it!",
@@ -105,7 +109,8 @@
   },
   {
     "id": "grenade_anti_psi",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "grenade",
     "name": { "str": "null grenade" },
@@ -130,7 +135,8 @@
   },
   {
     "id": "grenade_anti_psi_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active null grenade" },
     "description": "This null grenade is activate and ready to unleash its pulse.  You'd better throw it!",
@@ -151,7 +157,8 @@
   },
   {
     "id": "grenade_anti_psi_expended",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "grenade",
     "name": { "str": "expended null grenade" },
@@ -167,7 +174,8 @@
   },
   {
     "id": "pyrokinetic_matrix_crystal_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "matrix_crystal_pyrokinesis",
     "copy-from": "matrix_crystal_pyrokinesis",
@@ -185,7 +193,8 @@
   },
   {
     "id": "pyrokinetic_matrix_crystal_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "looks_like": "matrix_crystal_pyrokinesis",
     "copy-from": "matrix_crystal_pyrokinesis",

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pipe",
     "name": { "str": "pipe" },
     "description": "A steel pipe; makes a good melee weapon.  Useful in a bunch of crafting recipes.",
@@ -40,7 +40,7 @@
     "ammo_type": "components"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spike",
     "name": { "str": "spike" },
     "description": "A large and slightly misshapen metal spike, could do some damage mounted on a vehicle.",
@@ -58,7 +58,7 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cu_pipe",
     "name": { "str": "copper tubing" },
     "description": "A copper tube; too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
@@ -78,7 +78,7 @@
   },
   {
     "id": "material_aluminium_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "chunk of aluminum", "str_pl": "chunks of aluminum" },
     "description": "A small chunk of aluminum; light but durable, this could be cast into various shapes for construction or ground down to a powder, for more… high-profile applications.",
@@ -165,7 +165,7 @@
   },
   {
     "id": "scrap_brass",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "chunk of brass", "str_pl": "chunks of brass" },
     "description": "Some decent-sized chunks of scrap brass.",
@@ -339,7 +339,7 @@
   },
   {
     "id": "hinge",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "hinge" },
     "description": "A small metal hinge with two metal plates with screw holes.  Useful for making doors or chests.",
@@ -355,7 +355,7 @@
     "//": "Based on https://www.amazon.com/dp/B07GF54KV8"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scrap_copper",
     "symbol": ",",
     "color": "light_gray",
@@ -370,7 +370,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scrap_tin",
     "symbol": ",",
     "color": "light_gray",
@@ -439,7 +439,7 @@
   },
   {
     "id": "fanblade_metal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "metal fan blade assembly", "str_pl": "metal fan blade assemblies" },
     "description": "A multi-bladed metal fan, like you'd find on a larger desk fan or inside a convection oven.",
@@ -454,7 +454,7 @@
   },
   {
     "id": "heavy_wire_rack",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "heavy wire rack" },
     "description": "A durable steel rack, the sort you might find in an oven or on a barbecue.",
@@ -719,7 +719,7 @@
   },
   {
     "id": "1l_tin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L tin ingot" },
     "description": "A one-liter ingot of solid tin.",
@@ -779,7 +779,7 @@
   },
   {
     "id": "1l_gold",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L gold ingot" },
     "description": "A one-liter ingot of solid gold.",
@@ -853,7 +853,7 @@
   },
   {
     "id": "1l_lead",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L lead ingot" },
     "description": "A one-liter ingot of solid lead.",
@@ -897,7 +897,7 @@
   },
   {
     "id": "1l_platinum",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L platinum ingot" },
     "description": "A one-liter ingot of solid platinum.",
@@ -941,7 +941,7 @@
   },
   {
     "id": "1l_silver",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "1 L silver ingot" },
     "description": "A one-liter ingot of solid silver.",
@@ -1116,7 +1116,7 @@
   },
   {
     "id": "railroad_track_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "length of railroad track", "str_pl": "lengths of railroad track" },
     "description": "A heavy one-meter length of railroad track with a smooth top, liberated from a now-defunct rail line.  Far too heavy to be useful for much as-is, but perhaps could be shaped into something with some metalworking skill, or cut down into an anvil if sawed in half first.",
@@ -1133,7 +1133,7 @@
   },
   {
     "id": "railroad_track_item_half",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "half-meter length of railroad track", "str_pl": "half-meter lengths of railroad track" },
     "description": "A heavy half-meter length of railroad track with a smooth top, liberated from a now-defunct rail line.  Could be used as a makeshift anvil, especially with some modifications, or as spare steel.",
@@ -1148,7 +1148,7 @@
     "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scrap_aluminum",
     "symbol": ",",
     "color": "light_gray",
@@ -1163,7 +1163,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scrap_cast_iron",
     "symbol": ",",
     "color": "light_gray",
@@ -1178,7 +1178,7 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chunk_cast_iron",
     "symbol": ",",
     "color": "light_gray",
@@ -1194,7 +1194,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lump_cast_iron",
     "symbol": ",",
     "color": "light_gray",

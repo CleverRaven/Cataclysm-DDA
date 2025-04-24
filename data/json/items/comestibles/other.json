@@ -180,7 +180,7 @@
     "fun": 9
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wax",
     "name": { "str": "chunk of beeswax", "str_pl": "chunks of beeswax" },
     "category": "spare_parts",
@@ -426,7 +426,7 @@
     "fun": -10
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "napkin",
     "name": { "str": "napkin" },
     "category": "spare_parts",
@@ -443,7 +443,7 @@
     "//2": "Based on https://www.sizes.com/home/napkins.htm"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cardboard",
     "name": { "str": "piece of cardboard", "str_pl": "pieces of cardboard" },
     "looks_like": "paper",

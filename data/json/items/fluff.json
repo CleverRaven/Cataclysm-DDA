@@ -1,7 +1,7 @@
 [
   {
     "id": "magic_8_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Magic 8-Ball" },
     "description": "A fortune-telling device from the 1950s.  The kind of moral support you didn't know you needed.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "deck_of_cards",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "deck of cards", "str_pl": "decks of cards" },
     "description": "A deck of 52 playing cards.",
@@ -77,7 +77,7 @@
   },
   {
     "id": "family_photo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "Unique mission item for the CITY_COP.",
     "category": "other",
     "name": { "str": "family photo" },
@@ -123,7 +123,7 @@
   },
   {
     "id": "polaroid_photo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "polaroid photo" },
     "description": "A poorly-taken polaroid photo of a young man wearing bell-bottoms and a fedora.  It's pretty blurry.",
@@ -137,7 +137,7 @@
   },
   {
     "id": "jigsaw",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Jigsaw puzzle" },
     "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms a image of something, somewhere.",
@@ -380,7 +380,7 @@
   },
   {
     "id": "tic_tac",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "tic-tac-toe set" },
     "description": "Not really a set, just a sheet of paper with a big '#' drawn at the center, alongside three buttons of a specific color, three others from a different color and a proper container for storing it properly.  You can play tic tac toe indefinitely with that!",
@@ -394,7 +394,7 @@
   },
   {
     "id": "makeshift_dominoes",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "makeshift dominoes set" },
     "description": "Twenty eight rectangular pieces of cardboard, with dots on them so you can use it to play dominoes.  It has also a proper container for storing them all in place.",
@@ -408,7 +408,7 @@
   },
   {
     "id": "small_checkboard",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "compact checkerboard" },
     "description": "A pair of smaller checkered wooden boards that together form a compact checkerboard.  Useful as timber or for crafting a smaller chess or checkers board.",
@@ -422,7 +422,7 @@
   },
   {
     "id": "chess",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "chess set" },
     "description": "A wooden box containing all the pieces needed to play a game of chess.",
@@ -440,7 +440,7 @@
   },
   {
     "id": "small_chess",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "compact chess set" },
     "description": "A smaller and compact counterpart of the standard chess set, perfect for casual play and travel.  It contains all the pieces needed to play a game of chess.",
@@ -457,7 +457,7 @@
   },
   {
     "id": "checkers",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "checkers set" },
     "description": "A wooden box containing a set of round tokens used to play checkers.",
@@ -473,7 +473,7 @@
   },
   {
     "id": "tangram",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "tangram set" },
     "description": "A modest wooden box containing a square base, two small triangles, two large triangles, a parallelogram, and a rhombus, all painted in different colors to play the traditional Chinese puzzle of tangram.  At the box, there are several figures that you can make with the pieces.",
@@ -489,7 +489,7 @@
   },
   {
     "id": "chinese_checkers",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Chinese checkers set" },
     "description": "A wooden box containing a wooden board with a star-shaped pattern, ten holes in each of its six arms, and a set of round pegs used to play Chinese checkers.  In the box, there's a comprehensible explanation of how to play the game.",
@@ -505,7 +505,7 @@
   },
   {
     "id": "mancala",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "mancala set" },
     "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different colored beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
@@ -521,7 +521,7 @@
   },
   {
     "id": "connect_four",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Four in a Row set" },
     "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 colored discs, alongside a small booklet explaining how to play Four in a Row.",
@@ -537,7 +537,7 @@
   },
   {
     "id": "rummy",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Rummy-o set" },
     "description": "A cardboard box containing a grid, and various tiles akin to a classic deck of cards, alongside a booklet explaining how to play Rummy-o.",
@@ -553,7 +553,7 @@
   },
   {
     "id": "othello",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Reversi set" },
     "description": "A cardboard box containing a grid, and various round black and white pieces, alongside a booklet explaining how to play Reversi.",
@@ -569,7 +569,7 @@
   },
   {
     "id": "scrabble",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Scrabble Letters set" },
     "description": "A board game cardboard box containing a proper board, and various letter tiles, meant to play Scrabble Letters alone or with friends.",
@@ -585,7 +585,7 @@
   },
   {
     "id": "small_checkers",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "compact checkers set" },
     "description": "A small and compact wooden box containing a set of round tokens used to play checkers.  Perfect for casual play and travel.",
@@ -601,7 +601,7 @@
   },
   {
     "id": "makeshift_checkers",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "makeshift checkers set" },
     "description": "A piece of paper scribbled with a pattern identical to the checkerboard on a, well, checkerboard, along with all the necessary pieces and a container to store everything properly inside.",
@@ -617,7 +617,7 @@
   },
   {
     "id": "pictionary",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Picturesque", "str_pl": "sets of Picturesque" },
     "description": "A game where one player draws an image, and the others attempt to guess what it is.",
@@ -633,7 +633,7 @@
   },
   {
     "id": "monopoly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Capitalism", "str_pl": "sets of Capitalism" },
     "description": "A game where players traverse around the board, buying property and swindling their friends.",
@@ -649,7 +649,7 @@
   },
   {
     "id": "ouija",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Ouija board" },
     "description": "A wooden board with the alphabet and numbers on its face.  Commonly used for communing with spirits of the dead.  A planchette is included in the set.",
@@ -666,7 +666,7 @@
   },
   {
     "id": "dnd",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Blobs and Bandits", "str_pl": "sets of Blobs and Bandits" },
     "description": "A roleplaying game set in the post-apocalypse, so you can pretend to survive the apocalypse while surviving the apocalypse.",
@@ -682,7 +682,7 @@
   },
   {
     "id": "dnd_2",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Wayfinder", "str_pl": "sets of Wayfinder" },
     "description": "A roleplaying game set in the a fantasy medieval world with goblins and orcs.  You can be a mage, a warrior, or a barbarian and go on epic adventures.",
@@ -698,7 +698,7 @@
   },
   {
     "id": "dnd_3",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Dawn of Man", "str_pl": "sets of Dawn of Man" },
     "description": "A roleplaying game set in the Stone Age.  There, you can choose different places in the world to start, select many different classes, and different species of hominids to survive the primitive world.",
@@ -714,7 +714,7 @@
   },
   {
     "id": "g_warhammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Battlehammer", "str_pl": "sets of Battlehammer" },
     "description": "A strategy game featuring a set of tiny figurines of fantasy creatures.",
@@ -730,7 +730,7 @@
   },
   {
     "id": "g_warhammer40k",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Battlehammer 20k", "str_pl": "sets of Battlehammer 20k" },
     "description": "A strategy game featuring a set of tiny figurines of space aliens and grotesque space marines.",
@@ -746,7 +746,7 @@
   },
   {
     "id": "catan",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Settlers of the Ranch", "str_pl": "sets of Settlers of the Ranch" },
     "description": "A strategy game where players build settlements and trade for supplies.",
@@ -762,7 +762,7 @@
   },
   {
     "id": "agricola",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Farmland", "str_pl": "sets of Farmland" },
     "description": "A fun strategy board game where players (or just a player, since you can play this alone as a solitaire board game) attempt to improve their farms by plowing fields, sowing crops, raising livestock, and expanding their families.  The game is set in the European farming community during the 17th century.",
@@ -778,7 +778,7 @@
   },
   {
     "id": "soyang",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Soyang Farmers", "str_pl": "sets of Soyang Farmers" },
     "description": "A interesting strategy board game where players (or just a player, since you can play this alone as a solitaire board game) take roles of farmers in Ancient China, attempting to sell their crops at the market.  The game revolves around managing resources, fulfilling orders, and expanding the farm to become the most successful farmer.",
@@ -794,7 +794,7 @@
   },
   {
     "id": "friday",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Survival Island", "str_pl": "sets of Survival Island" },
     "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe's mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson's abilities and combat various challenges that arise during his time on the island.",
@@ -810,7 +810,7 @@
   },
   {
     "id": "nemo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Nemo's Sea", "str_pl": "sets of Nemo's Sea" },
     "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne's classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
@@ -826,7 +826,7 @@
   },
   {
     "id": "knight_mage",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
     "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate leveling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
@@ -842,7 +842,7 @@
   },
   {
     "id": "pandemic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Pathogen", "str_pl": "sets of Pathogen" },
     "description": "A intriguing and critically acclaimed cooperative board game where players (or just the player, as it can be played alone as a solitaire board game) take on different roles with unique abilities as members of a disease control team.  Their objective is to prevent global outbreaks and find cures for four deadly diseases before they escalate out of control.",
@@ -858,7 +858,7 @@
   },
   {
     "id": "scythe_game",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Steam Gears", "str_pl": "sets of Steam Gears" },
     "description": "A strategy board game set in an alternate history, steampunk-themed world, where players assume the roles of workers, engineers, and factory owners in a fictional 1920's Eastern European country.  This game focuses on area control, engine building, and resource management, as players aim to achieve victory through various paths, such as military conquest, building up their factories, or completing secret objectives.  The best part?  You can play it alone too.",
@@ -874,7 +874,7 @@
   },
   {
     "id": "spirit_island",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Deity Island", "str_pl": "sets of Deity Island" },
     "description": "A cooperative board game designed for 1-4 players, where each player takes on the role of a powerful deity defending an island from colonizing invaders.  Before the Cataclysm, inside the board gaming community, it was known for its deep strategic gameplay, thematic richness, and intricate mechanics.",
@@ -890,7 +890,7 @@
   },
   {
     "id": "terraforming_mercury",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Terraforming - Mercury", "str_pl": "sets of Terraforming - Mercury" },
     "description": "This board game is set in the 4300s, where corporations are working together to terraform the planet Mercury, the smallest and innermost planet in our solar system.  Each player (or just the player) will have unique abilities and resources at their disposal, and they will need to strategize and cooperate with one another to achieve their goals.",
@@ -953,7 +953,7 @@
   },
   {
     "id": "viticulture",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Vigneto", "str_pl": "sets of Vigneto" },
     "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard's productivity and efficiency.",
@@ -969,7 +969,7 @@
   },
   {
     "id": "feast_for_odin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "For Odin", "str_pl": "sets of For Odin" },
     "description": "In this great strategy board game, players (or the player) assume the role of a Viking chieftain, aiming to expand their territory, amass wealth, and gain favor with the Norse gods.  Players take turns performing actions, such as exploring new territories, constructing buildings, raiding settlements, and trading goods.",
@@ -985,7 +985,7 @@
   },
   {
     "id": "fields_of_arle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Arle Lands", "str_pl": "sets of Arle Lands" },
     "description": "A great strategy board game set in the 18th century in the East Frisia region of Germany, where players (or the player) take on the roles of farmers who are developing their farms and expanding their resources.",
@@ -1001,7 +1001,7 @@
   },
   {
     "id": "gloomhaven",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Enigma Emporium", "str_pl": "sets of Enigma Emporium" },
     "description": "A great cooperation-focused fantasy board game set in a dark and evolving fantasy world where players take on the roles of mercenaries seeking fortune and glory in the city of Emporium and its surrounding areas.  This game is characterized by its legacy-style gameplay, which means that decisions made during one play session can have lasting effects on future sessions.  Players must work together to explore dungeons, battle monsters, complete quests, and make choices that shape the narrative and outcome of their campaign.",
@@ -1017,7 +1017,7 @@
   },
   {
     "id": "le_havre",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Le Pourt: The Inland Port", "str_pl": "sets of Le Pourt: The Inland Port" },
     "description": "A strategy board game where players (or the player) aim to amass wealth and construct buildings to expand their harbors while carefully managing their resources in the fictitious French region of Le Pourt.  This game involves strategic decision-making as players must balance their investments in buildings, ships, and resources to maximize their profits.",
@@ -1033,7 +1033,7 @@
   },
   {
     "id": "mansions_of_madness",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Crazy Mansions", "str_pl": "sets of Crazy Mansions" },
     "description": "A cooperative horror board game set in the Lovecraftian Universe.  It offers an immersive gameplay experience where players work together to solve mysteries and confront otherworldly horrors.  This game is scenario-based, with each scenario presenting a unique narrative and set of challenges for the players to overcome.  Players must explore the game board, gather clues, solve puzzles, and engage in combat encounters while uncovering the secrets hidden within the mansion or other eerie locations.",
@@ -1049,7 +1049,7 @@
   },
   {
     "id": "world_nations",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "World Nations", "str_pl": "sets of World Nations" },
     "description": "A strategic board game that simulates the rise and fall of nations.  A great civilization-building game designed for 1-4 players.  Each player takes on the role of leading an ancient civilization, making strategic decisions to develop their nation over the course of several ages.  This game involves managing resources, constructing buildings, and competing with other players to achieve dominance in various aspects such as military strength, culture, and economy.",
@@ -1065,7 +1065,7 @@
   },
   {
     "id": "senet",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "senet set" },
     "description": "A wooden box containing all the pieces needed to play a game of senet, along with a rule booklet.  A board game from ancient Egypt, Senet plays like modern chess with a 3x10 grid and a smaller amount of pieces.",
@@ -1081,7 +1081,7 @@
   },
   {
     "id": "mahjong",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "mahjong set" },
     "description": "A very beautiful, and really huge plastic box, containing all the pieces needed to play a game of mahjong, along with a poorly-translated but comprehensible rule booklet.  Mahjong is a tile-based game where you need to match pieces into winning hands to earn points.",
@@ -1097,7 +1097,7 @@
   },
   {
     "id": "chaturanga",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "chaturanga chess set" },
     "description": "A polished wooden box containing all the pieces needed to play a game of chaturanga chess, along with a rule booklet.  Chaturanga is an ancient Indian strategy game, the ancestor of many other chess variations - European, Chinese, Japanese, and other regional variants of chess owe it their origin.",
@@ -1113,7 +1113,7 @@
   },
   {
     "id": "backgammon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "backgammon set" },
     "description": "A very nice dark wooden box containing all the pieces needed to play a game of backgammon, along with a handwritten set of rules.  The objective of the game is to be the first to remove all fifteen of your own pieces from the board.",
@@ -1129,7 +1129,7 @@
   },
   {
     "id": "latrunculi",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "latrunculi set" },
     "description": "A small wooden box containing all the pieces needed to play a game of latrunculi, along with a rule booklet.  Latrunculi was played throughout the Roman Empire, and requires a lot of tactics and strategy.",
@@ -1145,7 +1145,7 @@
   },
   {
     "id": "go",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "go set" },
     "weight": "780 g",
@@ -1161,7 +1161,7 @@
   },
   {
     "id": "shogi",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "shogi set" },
     "description": "A wooden box containing all the pieces needed to play a game of shogi, along with a bilingual English/Japanese rule booklet.  Also known as Japanese chess, shogi was one of the most popular board games in Japan before the Cataclysm.  The main objective is to tsumi (checkmate) the opponent's osho (king).",
@@ -1177,7 +1177,7 @@
   },
   {
     "id": "hnefatafl",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "hnefatafl set" },
     "description": "A wooden box containing all the pieces needed to play a game of hnefatafl, along with a rule booklet that features heavy use of Norse runes.  Also called 'Viking Chess', it was a popular game in medieval Scandinavia.  The player controlling the attackers (located on the sides of the board), wins by capturing the defender's king, while the defender wins by getting the king to one of the four corners of the board.",
@@ -1193,7 +1193,7 @@
   },
   {
     "id": "alquerque",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "alquerque set" },
     "description": "A wooden box containing all the pieces needed to play a game of alquerque, along with a rule booklet.  Alquerque is of Middle Eastern origin, and is an ancestor to checkers and Fanorona.",
@@ -1209,7 +1209,7 @@
   },
   {
     "id": "domino",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "dominoes set" },
     "description": "A wooden box containing all the pieces needed to play a game of dominoes.  The pieces of this one are perfectly handmade in light wood.",
@@ -1225,7 +1225,7 @@
   },
   {
     "id": "jackstraws",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "jackstraws set" },
     "description": "A cardboard tube containing 60 pieces in various colors for playing a casual pick-up sticks game alone or with friends.  The rules and different values of each color are printed on the tube.",
@@ -1241,7 +1241,7 @@
   },
   {
     "id": "snakesnladders",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str_sp": "Snakes and Ladders" },
     "description": "A board game for two or more players, regarded before the Cataclysm as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
@@ -1257,7 +1257,7 @@
   },
   {
     "id": "ludo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Ludo" },
     "description": "A strategy board game for two to four players, in which the players race their four tokens from start to finish according to the rolls of a single die.",
@@ -1273,7 +1273,7 @@
   },
   {
     "id": "poppirate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Pop-up Pirate" },
     "description": "A game of chance featuring a silly-looking pirate inside a spring-loaded barrel.  Players take turns inserting plastic swords into slots in the barrel, hoping to avoid the trigger slot that causes the pirate to be launched out of the barrel.",
@@ -1289,7 +1289,7 @@
   },
   {
     "id": "ambush",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str_sp": "Ambuscade!" },
     "description": "A board wargame that can be played alone or with friends.  When playing alone, the opponent's actions are chosen via tables, charts, and a 'paragraph book'.",
@@ -1305,7 +1305,7 @@
   },
   {
     "id": "ranger",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str_sp": "Patrol Leader" },
     "description": "A tactical solitaire board game.  The player is put in the role of a patrol leader in different modern battlefield scenarios, performing missions, capturing or killing enemies, protecting their teammates, and advancing on the map.",
@@ -1321,7 +1321,7 @@
   },
   {
     "id": "openfire",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str_sp": "War Tanks" },
     "description": "A tactical solitaire board game.  The player controls a platoon of tanks in six different scenarios with various victory conditions.  The player travels across the map, entering combat when an 'event marker' comes into their line of sight.",
@@ -1337,7 +1337,7 @@
   },
   {
     "id": "battleship",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Warships", "str_pl": "sets of Warships" },
     "description": "A game where players try to guess where the opponent placed their ships on the board.",
@@ -1353,7 +1353,7 @@
   },
   {
     "id": "clue",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "Murder Mystery", "str_pl": "sets of Murder Mystery" },
     "description": "A game where players try to figure out who murdered the butler.",
@@ -1369,7 +1369,7 @@
   },
   {
     "id": "old_key",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "key" },
     "description": "An old, nondescript North American Cylinder key.  Lord knows what lock it goes to; best not to bother with it.",
@@ -1383,7 +1383,7 @@
   },
   {
     "id": "cigar_cutter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "cigar cutter" },
     "description": "A set of small blades that pinch together to cut the end off of a cigar.",
@@ -1399,7 +1399,7 @@
   },
   {
     "id": "cigar_punch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "cigar punch", "str_pl": "cigar punches" },
     "description": "A small tube meant to cut a hole in the end of a cigar.",
@@ -1434,7 +1434,7 @@
     "melee_damage": { "bash": 16 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xedra_microphone",
     "name": { "str": "NRE microphone" },
     "description": "A squat tripod supports what appears to be a rather long microphone encased within a glass ampoule.  You can't tell whether it's meant to record audio, or something else entirely.",
@@ -1480,7 +1480,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ruler",
     "name": { "str": "ruler" },
     "description": "A plastic ruler used to measure lengths of smaller objects.  This one measures 15 cm.",
@@ -1494,7 +1494,7 @@
     "color": "cyan"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "eraser",
     "name": { "str": "eraser" },
     "description": "A small eraser used to clear up unwanted pencil handwriting.",
@@ -1507,7 +1507,7 @@
     "color": "white"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sharpener",
     "name": { "str": "pencil sharpener" },
     "description": "A small sharpener used to keep pencils in working order.",
@@ -1520,7 +1520,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "doormat",
     "name": { "str": "doormat" },
     "description": "A non-slip mat with a welcoming message.  Once used to keep a house clean and inviting.",
@@ -1533,7 +1533,7 @@
     "color": "brown"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "LIXA_lab_file",
     "symbol": ",",
     "color": "white",
@@ -1543,7 +1543,7 @@
     "description": "A brief with the word LIXA on the official letterhead, for distribution to the onsite staff."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "LIXA_generic_file",
     "symbol": ",",
     "color": "white",
@@ -1552,7 +1552,7 @@
     "description": "A sheaf of papers containing a truly dizzying assortment of graphs, diagrams, and equations, on LIXA letterhead."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "LIXA_mil_file",
     "symbol": ",",
     "color": "white",
@@ -1562,7 +1562,7 @@
     "description": "A signed and serialed notice distributed to LIXA's onsite military police."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "LIXA_lab_postit",
     "symbol": ",",
     "color": "white",
@@ -1577,7 +1577,7 @@
   },
   {
     "id": "glass_book",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "battered glass storybook" },
     "description": "A black glass model of an old, tattered little book with a broken spine.  To your surprise, it can be opened to a place in the middle.  Inside, the pages are blank and perfectly reflective.",
     "category": "other",
@@ -1593,7 +1593,7 @@
   },
   {
     "id": "glass_apple",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "withered glass apple" },
     "description": "A glass model of an apple that has begun to rot.  In places, it sags away from the core.  Inside, the seeds are still pristine.",
     "category": "other",
@@ -1609,7 +1609,7 @@
   },
   {
     "id": "glass_boat",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "broken glass boat" },
     "description": "A black glass model of an old sailing ship, with a gaping hole smashed in the side of the hull.  It's certainly no longer suited for long voyages.",
     "category": "other",
@@ -1623,7 +1623,7 @@
     "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "black_glass_shard",
     "symbol": ",",
     "color": "black",
@@ -1639,7 +1639,7 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sketch",
     "copy-from": "paper",
     "category": "other",
@@ -1681,7 +1681,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "painting",
     "copy-from": "sheet_canvas",
     "category": "other",
@@ -1718,7 +1718,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sculpture_rock",
     "symbol": ";",
     "color": "light_gray",
@@ -1768,7 +1768,7 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sculpture_clay",
     "symbol": ";",
     "color": "brown",
@@ -1818,7 +1818,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "butterfly_net_collapsible",
     "name": { "str": "collapsible butterfly net" },
     "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.  It must be extended to use.",
@@ -1842,7 +1842,7 @@
     "//": "Volume based on https://www.amazon.com/dp/B0CBLV98KP with the assumption that it's a cylinder with a 6.5cm diameter - using 13cm would give ridiculously high volume, and the 13cm assumption on the website includes only half of the collapsed length."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "butterfly_net_collapsible_extended",
     "name": { "str": "collapsible butterfly net (extended)", "str_pl": "collapsible butterfly nets (extended)" },
     "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
@@ -1857,7 +1857,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "butterfly_net_makeshift",
     "name": { "str": "butterfly net" },
     "description": "A piece of canvas stretched over a stick.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
@@ -1874,7 +1874,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "gun_lock",
     "name": { "str": "gun cable lock" },
     "//": "Stats from a 10/22 lock I had laying about.  If the length or volume seems weird, the cable doesn't fold all the way so it's an odd shape.",
