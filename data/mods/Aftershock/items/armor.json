@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_bag_of_holding",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bag of holding", "str_pl": "bags of holding" },
     "description": "A sleek, unfathomably-complicated machine covered in dozens of blinking lights, worn on the back by sturdy faux-leather straps.  An electrode dangles from the back, attaching to your forehead.  How it operates without annihilating spacetime isn't quite clear, but a localized portal allows things to be stored in an extradimensional space.",
     "weight": "3401 g",
@@ -23,7 +24,8 @@
   },
   {
     "id": "afs_titanium_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "titanium vest" },
     "description": "A lightweight armor vest made of pieces of titanium sewn together, with cloth padding for comfort.  Brittle against blunt force, but highly resistant to cuts and corrosion.",
     "weight": "939 g",
@@ -40,7 +42,8 @@
   },
   {
     "id": "afs_holo_cloak_mk2",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "afs_sentinel_cloak",
     "name": { "str": "hologram cloak Mk. II", "str_pl": "hologram cloaks Mk. II" },
     "description": "When activated, creates a holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by siphoning excess energy from some unknown hyperdimensional space.",
@@ -53,7 +56,8 @@
   },
   {
     "id": "afs_sentinel_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jedi_cloak",
     "name": { "str": "sentinel-lx cloak" },
     "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
@@ -79,7 +83,8 @@
   },
   {
     "id": "afs_wrist_computer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "IX-2110 computer" },
     "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  The slow attrition of technological prowess since the discontinuity has left slightly slower than its modern counterparts.",
@@ -133,7 +138,8 @@
   },
   {
     "id": "q_solarpack",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "quantum solar backpack (folded)", "str_pl": "quantum solar backpacks (folded)" },
     "description": "Personal portable charging system consisting of an array of quantum solar panels neatly folded in the form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.  Cutting edge technology.",
     "weight": "7500 g",
@@ -152,7 +158,8 @@
   },
   {
     "id": "q_solarpack_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "repairs_like": "q_solarpack",
     "name": { "str": "quantum solar backpack (unfolded)", "str_pl": "quantum solar backpacks (unfolded)" },
     "description": "Unfolded array of portable quantum solar panels ready to push some power into an active cable charger system.",
@@ -172,7 +179,8 @@
   },
   {
     "id": "xlboots_combat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of combat boots", "str_pl": "pairs of combat boots" },
     "description": "Modern oversized reinforced tactical combat boots.  Very durable.",
@@ -194,7 +202,8 @@
   },
   {
     "id": "xlgloves_tactical",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of tactical gloves", "str_pl": "pairs of tactical gloves" },
     "description": "A pair of oversized reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
@@ -212,7 +221,8 @@
   },
   {
     "id": "tripaw_xlgloves_tactical",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of Killophant gloves", "str_pl": "pairs of Killophant gloves" },
     "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three-fingered Killophants.  Thinner than regular oversized tactical gloves.",
@@ -230,7 +240,8 @@
   },
   {
     "id": "xlleather_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather belt" },
     "description": "An XL leather belt.  Useful for making your pair of pants fit if you need really big pants.",
     "weight": "150 g",
@@ -240,7 +251,8 @@
   },
   {
     "id": "xlpolice_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "police duty belt" },
     "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
     "weight": "450 g",
@@ -250,7 +262,8 @@
   },
   {
     "id": "xltac_fullhelmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "tactical full helmet" },
     "description": "An all-encompassing massive black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
@@ -260,7 +273,8 @@
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE", "PREFIX_XL" ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "xllegpouch_large",
     "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
     "description": "An XL fabric ammo pouch that can be strapped to your leg; capable of holding two magazines close at hand.",
@@ -271,7 +285,8 @@
   },
   {
     "id": "wetsuit_cecalia",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Cecaelia wetsuit" },
     "description": "A wetsuit designed for the Octopus Uplifts known as Cecaelia.  This is the explorer suit with no head or tentacle protection.",
     "weight": "1320 g",
@@ -297,7 +312,8 @@
   },
   {
     "id": "combat_wetsuit_cecalia",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "combat wetsuit" },
     "description": "The combat version of the Cecaelia wetsuit; made of neoprene and Kevlar, it will provide some level of protection for deep dwellers.",
     "weight": "1720 g",
@@ -369,7 +385,8 @@
   },
   {
     "id": "nanomesh_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "nanomesh vest" },
     "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers.",
@@ -394,7 +411,8 @@
   },
   {
     "id": "xl_nanomesh_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nanomesh vest" },
     "copy-from": "nanomesh_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -402,7 +420,8 @@
   },
   {
     "id": "carbide_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "looks_like": "cuirass_lightplate",
     "name": { "str": "carbide cuirass", "str_pl": "carbide cuirasses" },
@@ -437,7 +456,8 @@
   },
   {
     "id": "xl_carbide_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "copy-from": "carbide_cuirass",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -445,7 +465,8 @@
   },
   {
     "id": "xs_carbide_cuirass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "carbide_cuirass",
     "material_thickness": 1,
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },

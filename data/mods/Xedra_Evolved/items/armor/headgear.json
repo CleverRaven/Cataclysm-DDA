@@ -1,7 +1,8 @@
 [
   {
     "id": "phrygian_cap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "phrygian cap" },
     "description": "A soft conical hat with the apex bent over.  Commonly worn in antiquity by various cultures in Eastern Europe and Anatolia.  It later signified freedom in both the American and French Revolutions.",
     "weight": "120 g",
@@ -19,7 +20,8 @@
   },
   {
     "id": "theredcap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "blood red cap" },
     "description": "A soft conical hat with the apex bent over.  Commonly worn in antiquity by various cultures in Eastern Europe and Anatolia.  It later signified freedom in both the American and French Revolutions.  Along the brim the cap appears to be the rusty red of old blood.",
     "weight": "120 g",
@@ -66,7 +68,8 @@
   },
   {
     "id": "bloody_cap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "copy-from": "xl_mt_chainmail_hood",
     "name": { "str_sp": "bloody redcap" },

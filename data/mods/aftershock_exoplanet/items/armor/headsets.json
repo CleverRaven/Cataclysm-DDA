@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_combat_headset_off",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "name": { "str": "tactical infovisor" },
     "description": "An armored black headset that coalesces the feeds of several sensors into a single screen display.  It provides generalized assistance in combat, including targeting assistance for thrown and ranged weaponry, threat identification, conditional NV and thermal vision and protection against high intensity light sources.  It must be active to function.",
@@ -41,7 +42,8 @@
   },
   {
     "id": "afs_combat_headset",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "copy-from": "afs_combat_headset_off",
     "name": { "str": "tactical infovisor" },

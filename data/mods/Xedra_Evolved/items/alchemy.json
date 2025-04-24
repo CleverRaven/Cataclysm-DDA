@@ -165,7 +165,8 @@
   {
     "id": "charm_of_marzanna",
     "copy-from": "garnet_silver_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "charm of Marzanna", "str_pl": "charms of Marzanna" },
     "description": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
     "color": "light_blue",
@@ -174,7 +175,8 @@
   {
     "id": "feline_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "feline periapta" },
     "description": "A shiny, gold necklace adorned with an image of a cat with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
@@ -185,7 +187,8 @@
   {
     "id": "lupine_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "lupine periapta" },
     "description": "A shiny, gold necklace adorned with an image of a wolf with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
@@ -196,7 +199,8 @@
   {
     "id": "cephalopod_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cephalopod periapta" },
     "description": "A shiny, gold necklace adorned with an image of an octopus with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
@@ -207,7 +211,8 @@
   {
     "id": "plant_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tree periapta" },
     "description": "A shiny, gold necklace adorned with an image of a tree with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
@@ -218,7 +223,8 @@
   {
     "id": "scorpion_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "scorpion periapta" },
     "description": "A shiny, gold necklace adorned with an image of a scorpion with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
@@ -229,7 +235,8 @@
   {
     "id": "butterfly_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "butterfly periapta" },
     "description": "A shiny, gold necklace adorned with an image of a butterfly with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
@@ -240,7 +247,8 @@
   {
     "id": "spider_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "spider periapta" },
     "description": "A shiny, gold necklace adorned with an image of a spider with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],

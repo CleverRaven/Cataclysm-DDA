@@ -97,7 +97,8 @@
     ]
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "test_ring_strength_1",
     "weight": "4 g",
     "volume": "1 ml",
@@ -116,7 +117,8 @@
   },
   {
     "id": "test_rollerskates",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },
     "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
     "weight": "2720 g",
@@ -136,7 +138,8 @@
   },
   {
     "id": "test_roller_blades",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
     "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
     "weight": "1640 g",
@@ -394,7 +397,8 @@
   },
   {
     "id": "test_tool_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tool belt" },
     "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
     "weight": "2000 g",
@@ -455,7 +459,8 @@
   },
   {
     "id": "test_tool_belt_pocket_mix",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tool belt" },
     "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
     "weight": "2000 g",
@@ -614,7 +619,8 @@
   },
   {
     "id": "test_utility_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "utility belt" },
     "description": "Holy pockets, Batman!  This belt has all kinds of pockets for testing.",
     "weight": "3 kg",
@@ -1084,7 +1090,8 @@
   },
   {
     "id": "test_socks",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "TEST pair of socks", "str_pl": "TEST pairs of socks" },
     "description": "Socks.  Put 'em on your feet.",
     "weight": "32 g",
@@ -1101,7 +1108,8 @@
   },
   {
     "id": "test_croc_socks",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "TEST pair of croc socks", "str_pl": "TEST pairs of croc socks" },
     "description": "Goofy-looking socks with zero ankle coverage and lots of holes on top.  For testing only, nobody would actually wear these, right?",
     "weight": "20 g",
@@ -1118,7 +1126,8 @@
   },
   {
     "id": "test_ear_plugs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "TEST pair of ear plugs", "str_pl": "TEST pairs of ear plugs" },
     "description": "Industrial grade ear plugs.  They fit inside the ear.",
     "weight": "10 g",
@@ -1132,7 +1141,8 @@
   },
   {
     "id": "test_tail_encumber",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST tail encumbrance",
     "description": "Tests the effects of encumbrance on the test body part.",
     "weight": "500 g",
@@ -1149,7 +1159,8 @@
   },
   {
     "id": "test_eoc_armor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
@@ -1173,7 +1184,8 @@
   },
   {
     "id": "test_hazmat_hat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST hazmat hat",
     "description": ".",
     "weight": "5000 g",
@@ -1191,7 +1203,8 @@
   },
   {
     "id": "test_hazmat_shirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST hazmat shirt",
     "description": ".",
     "weight": "5000 g",
@@ -1209,7 +1222,8 @@
   },
   {
     "id": "test_hazmat_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
@@ -1233,7 +1247,8 @@
   },
   {
     "id": "test_hazmat_suit_noranged",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
@@ -1260,7 +1275,8 @@
   },
   {
     "id": "test_hazmat_suit_nomelee",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
@@ -1287,7 +1303,8 @@
   },
   {
     "id": "test_zentai",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test zentai" },
     "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
     "weight": "300 g",
@@ -1309,7 +1326,8 @@
   },
   {
     "id": "test_zentai_noranged",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test zentai" },
     "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
     "weight": "300 g",
@@ -1334,7 +1352,8 @@
   },
   {
     "id": "test_zentai_nomelee",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test zentai" },
     "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
     "weight": "300 g",
@@ -1359,7 +1378,8 @@
   },
   {
     "id": "test_zentai_resist_stab_cut",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test zentai" },
     "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
     "weight": "300 g",
@@ -1382,7 +1402,8 @@
   },
   {
     "id": "test_zentai_resist_test_fire",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test zentai" },
     "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
     "weight": "300 g",
@@ -1404,7 +1425,8 @@
   },
   {
     "id": "test_zentai_immune_test_fire",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test zentai" },
     "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
     "weight": "300 g",
@@ -1426,7 +1448,8 @@
   },
   {
     "id": "test_sunglasses",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test pair of sunglasses", "str_pl": "test pairs of sunglasses" },
     "description": "When your tests are so bright, you have to wear shades.",
     "weight": "35 g",
@@ -1444,7 +1467,8 @@
   },
   {
     "id": "test_complex_tanktop",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test composite tanktop" },
     "description": "The tanktop of the future.  Super armor with almost infinite defensive power.",
     "weight": "300 g",
@@ -1471,7 +1495,8 @@
   },
   {
     "id": "test_waist_apron_long",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "long waist apron" },
     "description": "A long waist apron made of cotton.",
     "price_postapoc": "50 cent",
@@ -1840,6 +1865,7 @@
   {
     "id": "test_waterskin",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": "TEST small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
@@ -1849,16 +1875,6 @@
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "max_item_volume": "15 ml",
@@ -1871,7 +1887,15 @@
       }
     ],
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "test_balloon",
@@ -2003,7 +2027,8 @@
   },
   {
     "id": "test_duffelbag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test duffel bag" },
     "description": "A huge test duffel bag.  Provides plenty of storage, but is severely encumbering.",
     "weight": "933 g",
@@ -2031,7 +2056,8 @@
   },
   {
     "id": "test_backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST backpack",
     "description": "A small backpack.  Good storage for a little encumbrance.",
     "weight": "633 g",
@@ -2050,7 +2076,8 @@
   },
   {
     "id": "test_mini_backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST backpack",
     "description": "A small backpack designed for testing nesting issues.  Good storage for a little encumbrance.",
     "weight": "633 g",
@@ -2069,7 +2096,8 @@
   },
   {
     "id": "test_briefcase",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "TEST briefcase",
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
@@ -2096,7 +2124,8 @@
   },
   {
     "id": "test_heavy_debug_backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "debug pocket universe" },
     "description": "A pocket universe.  Can store approximately 384 * 10^6 bugs.  Still applies weight to the character",
     "weight": "1 g",
@@ -2227,7 +2256,8 @@
   },
   {
     "id": "test_quiver",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test quiver" },
     "description": "Quiver of Testing, with room for 20 arrows or bolts.",
     "weight": "260 g",
@@ -3022,7 +3052,8 @@
   },
   {
     "id": "test_power_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "test power armor" },
     "description": "This is a prototype power armor just for testing.",
@@ -3071,7 +3102,8 @@
     "id": "test_power_armor_on",
     "copy-from": "test_power_armor",
     "looks_like": "test_power_armor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "test power armor (on)" },
     "description": "This is a prototype power armor just for testing.",
     "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
@@ -3081,7 +3113,8 @@
   },
   {
     "id": "test_meower_armor",
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "name": { "str": "meower armor" },
     "description": "Sleek and lightweight Kevlar cat harness with a protective hood and chestplate.  Includes a very small, inconvenient velcro pocket on the back.",
     "weight": "300 g",
@@ -3149,7 +3182,8 @@
   },
   {
     "id": "test_swat_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "SWAT armor" },
     "//": "This is well within the pricing structure I found for ballistic vest, shins, and LBE.  LEO gear ain't cheap.",
@@ -3178,7 +3212,8 @@
   },
   {
     "id": "test_swat_mostly_cotton",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "SWAT armor",
     "copy-from": "test_swat_armor",
     "armor": [
@@ -3213,7 +3248,8 @@
   },
   {
     "id": "test_swat_mostly_steel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "SWAT armor",
     "copy-from": "test_swat_armor",
     "armor": [
@@ -3248,7 +3284,8 @@
   },
   {
     "id": "test_multi_portion_segmented_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Segmented armor",
     "copy-from": "test_swat_armor",
     "armor": [
@@ -3310,7 +3347,8 @@
   },
   {
     "id": "test_portion_segmented_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Segmented armor",
     "copy-from": "test_swat_armor",
     "armor": [
@@ -3345,7 +3383,8 @@
   },
   {
     "id": "test_pants_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "fur pants" },
     "description": "A hefty pair of fur-lined pants.",
     "weight": "920 g",
@@ -3371,7 +3410,8 @@
   },
   {
     "id": "test_pants_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "test_pants_fur",
     "name": { "str_sp": "faux fur pants" },
     "description": "A pair of long cotton pants lined with warm imitation fur.",
@@ -3380,7 +3420,8 @@
   },
   {
     "id": "test_portion_faux_fur_pants_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "test_pants_fur",
     "name": { "str_sp": "faux fur pants suit test thing" },
     "description": "A TEST OBJECT SHOULD NOT BE IN GAME",
@@ -3421,6 +3462,7 @@
   {
     "id": "test_watertight_open_sealed_container_250ml",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "test can" },
     "description": "Some strange can from another dimension.  It can be worn on the waist.",
@@ -3441,17 +3483,15 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -3536,6 +3576,7 @@
   {
     "id": "test_watertight_open_sealed_container_1L",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "test jug" },
     "description": "Some strange jug from another dimension.",
@@ -3556,21 +3597,20 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "test_watertight_open_sealed_multipocket_container_2x1L",
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "category": "container",
     "name": { "str": "test jug with strap", "str_pl": "test jugs with strap" },
     "description": "Some strange jug from another dimension.  It can be worn on the waist.",
@@ -3603,21 +3643,20 @@
         "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x250ml", "test_solid_1ml" ]
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "test_restricted_container_holder",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test restricted container holder" },
     "description": "A backpack that somehow only holds specific containers.",
     "weight": "208 g",
@@ -3637,17 +3676,15 @@
         ]
       }
     ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 4,
-          "coverage": 10,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED" ],
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 4,
+        "coverage": 10,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -3778,7 +3815,8 @@
   },
   {
     "id": "test_modular_exosuit",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
     "weight": "45 kg",
@@ -3957,7 +3995,8 @@
   },
   {
     "id": "test_armor_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "chitinous armor" },
     "description": "Leg and body armor made from the exoskeletons of insects.",
@@ -3980,7 +4019,8 @@
   },
   {
     "id": "test_armor_chitin_copy",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -3988,7 +4028,8 @@
   },
   {
     "id": "test_armor_chitin_copy_w_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -3997,7 +4038,8 @@
   },
   {
     "id": "test_armor_chitin_copy_prop",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "proportional": {
@@ -4012,7 +4054,8 @@
   },
   {
     "id": "test_armor_chitin_copy_w_armor_prop",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "proportional": {
@@ -4028,7 +4071,8 @@
   },
   {
     "id": "test_armor_chitin_copy_rel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
@@ -4043,7 +4087,8 @@
   },
   {
     "id": "test_armor_chitin_copy_w_armor_rel",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
@@ -4059,7 +4104,8 @@
   },
   {
     "id": "test_goggles_welding",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of welding goggles", "str_pl": "pairs of welding goggles" },
     "description": "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
     "weight": "153 g",
@@ -4079,7 +4125,8 @@
   },
   {
     "id": "test_longshirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "debug long-sleeved shirt" },
     "description": "A long-sleeved cotton shirt.",
     "weight": "146 g",
@@ -4097,7 +4144,8 @@
   },
   {
     "id": "test_jacket_jean",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "jean jacket" },
     "description": "A jacket made from denim.",
     "weight": "800 g",
@@ -4134,7 +4182,8 @@
   },
   {
     "id": "test_postman_shirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mail carrier shirt" },
     "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
     "weight": "110 g",
@@ -4168,7 +4217,8 @@
   },
   {
     "id": "test_boxing_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of boxing gloves", "str_pl": "pairs of boxing gloves" },
     "description": "A pair of big, red, 8 oz. boxing gloves.  These are made from thick leather.",
     "weight": "453 g",
@@ -4187,7 +4237,8 @@
   },
   {
     "id": "test_jumpsuit_lycra",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test_jumpsuit_lycra" },
     "description": "Lycra test jumpsuit",
     "weight": "610 g",
@@ -4209,7 +4260,8 @@
   },
   {
     "id": "test_jumpsuit_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test_jumpsuit_fur" },
     "description": "Fur test jumpsuit",
     "weight": "610 g",
@@ -4231,7 +4283,8 @@
   },
   {
     "id": "test_jumpsuit_cotton",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "test_jumpsuit_cotton" },
     "description": "Cotton test jumpsuit",
     "weight": "610 g",
@@ -4254,7 +4307,8 @@
   {
     "id": "test_shackles",
     "//": "Only for the test wing body parts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of shackles", "str_pl": "pairs of shackles" },
     "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
     "weight": "453 g",
@@ -4279,7 +4333,8 @@
   },
   {
     "id": "test_bird_boots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of bird boots", "str_pl": "pairs of bird boots" },
     "description": "What is this, a boot for birds?!",
     "weight": "453 g",
@@ -4306,7 +4361,8 @@
   {
     "id": "test_winglets",
     "//": "Only for the test wing body parts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of gauntlets", "str_pl": "pairs of gauntlets" },
     "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
     "weight": "453 g",
@@ -4333,7 +4389,8 @@
   {
     "id": "test_winglets_left",
     "//": "Only for the test wing body parts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of gauntlets", "str_pl": "pairs of gauntlets" },
     "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
     "weight": "453 g",
@@ -4352,7 +4409,8 @@
   },
   {
     "id": "test_robofac_armor_rig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "ARMOR",
     "looks_like": "poncho",
     "name": { "str": "Hub 01 modular defense system" },
@@ -4454,7 +4512,8 @@
   },
   {
     "id": "test_load_bearing_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "load bearing vest" },
     "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
     "weight": "1250 g",
@@ -4480,7 +4539,8 @@
   },
   {
     "id": "test_ballistic_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "//": "Based on US Army SPCS",
     "name": { "str": "US ballistic vest" },
@@ -4553,7 +4613,8 @@
   },
   {
     "id": "test_complex_phase",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -4673,7 +4734,8 @@
   },
   {
     "id": "test_ghost_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "//": "Vest with no coverage to test if it still protects",
     "name": { "str": "US ghost vest" },
@@ -4744,7 +4806,8 @@
   },
   {
     "id": "test_plate_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ESAPI ballistic plate" },
     "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
@@ -4762,7 +4825,8 @@
   },
   {
     "id": "test_plate_skirt_super",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "Super Leg Skirt" },
     "//": "this item is designed to check that off limb ablative armor protects the player",
@@ -4781,7 +4845,8 @@
   },
   {
     "id": "test_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ESAPI ballistic plate" },
     "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
@@ -4799,7 +4864,8 @@
   },
   {
     "id": "test_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild test arm guard" },
     "description": "An armguard, 1.75mm at the thickest.  This one has been made with mild steel.",
@@ -4833,7 +4899,8 @@
   },
   {
     "id": "test_consolidate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Item that should be simpler" },
     "description": "This item should have only 1 armor entry in game since these three are identical.",
     "weight": "1000 g",

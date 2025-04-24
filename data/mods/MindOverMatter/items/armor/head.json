@@ -1,7 +1,8 @@
 [
   {
     "id": "psionic_anchoring_crown",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "anchoring crown" },
     "description": "A thin steel circlet studded with chunks of matrix crystal.  Your skin prickles slightly where the crown touches it.",
     "weight": "80 g",
@@ -19,7 +20,8 @@
   },
   {
     "id": "psionic_telepathic_dampener",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "telepathic dampener" },
     "description": "A steel skullcap with a matrix crystal at its crown.  It looks ridiculous, but the documents you read said it would protect you from telepathic attack.",
     "weight": "767 g",
@@ -39,7 +41,8 @@
   },
   {
     "id": "psionic_mindsight_glasses",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "looks_like": "ar_glasses_advanced",
     "name": { "str": "QD944-P 'Mindsight' glasses", "str_pl": "sets of QD944-P 'Mindsight' glasses" },
@@ -91,7 +94,8 @@
   },
   {
     "id": "psionic_mindsight_glasses_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "copy-from": "psionic_mindsight_glasses",
     "name": { "str": "QD944-P 'Mindsight' glasses (on)", "str_pl": "sets of QD944-P 'Mindsight' glasses (on)" },

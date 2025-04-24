@@ -1,7 +1,8 @@
 [
   {
     "id": "right_arm_prosthetic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "prosthetic right arm" },
     "description": "A prosthetic arm, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  With grips attached to the hands and inbuilt springs, this prosthetic also allows some use of function.  This one is for the right arm.",
     "weight": "2000 g",
@@ -21,7 +22,8 @@
   },
   {
     "id": "left_arm_prosthetic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "prosthetic left arm" },
     "description": "A prosthetic arm, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  With grips attached to the hands and inbuilt springs, this prosthetic also allows some use of function.  This one is for the left arm.",
     "weight": "2000 g",
@@ -42,7 +44,8 @@
   },
   {
     "id": "right_arm_neuroprosthetic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "neuroprosthetic right arm" },
     "description": "A neuroprosthetic arm, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  As a bleeding edge design, this one relies on wires attached to the forehead to provide motor input, allowing the arm to be operated just like the original limb, a precious commodity in these times.  This one is for the right arm.",
     "weight": "2000 g",
@@ -63,7 +66,8 @@
   },
   {
     "id": "left_arm_neuroprosthetic",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "neuroprosthetic left arm" },
     "description": "A neuroprosthetic arm, used as a replacement limb for those missing one.  Its modern design and sleek ergonomics make it very comfortable and highly suitable for use, and advanced designing makes it look exactly like the original.  As a bleeding edge design, this one relies on wires attached to the forehead to provide motor input, allowing the arm to be operated just like the original limb, a precious commodity in these times.  This one is for the left arm.",
     "weight": "2000 g",
@@ -84,7 +88,8 @@
   },
   {
     "id": "right_arm_prosthetic_wood_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "wooden prosthetic right arm" },
     "description": "A prosthetic arm, used as a replacement limb for those missing one.  Dating back to antiquity, this wooden arm was often used by many individuals as a simple way to hide the loss of one of their limbs.  Outside of that, its rigidity and lack of flexibility make it nearly useless for practical purposes, though it can help with very basic tasks, like lifting objects.  This one is for the right arm.",
     "weight": "3154 g",
@@ -105,7 +110,8 @@
   },
   {
     "id": "left_arm_prosthetic_wood_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "wooden prosthetic left arm" },
     "description": "A prosthetic arm, used as a replacement limb for those missing one.  Dating back to antiquity, this wooden arm was often used by many individuals as a simple way to hide the loss of one of their limbs.  Outside of that, its rigidity and lack of flexibility make it nearly useless for practical purposes, though it can help with very basic tasks, like lifting objects.  This one is for the left arm.",
     "weight": "3154 g",
@@ -126,7 +132,8 @@
   },
   {
     "id": "right_arm_prosthetic_steel_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "steel prosthetic right arm" },
     "description": "A prosthetic arm, used as a replacement limb for those missing one.  Dating back to the Middle Ages and Renaissance, this metallic arm was the cutting edge replacement of its day.  Hinges within the fingers and a simple locking system allow basic function of this prosthetic, such as holding a sword.  Often given to knights and nobility, this arm is quite heavy, but extremely durable.  This one is for the right arm.",
     "weight": "4529 g",
@@ -147,7 +154,8 @@
   },
   {
     "id": "left_arm_prosthetic_steel_old",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "steel prosthetic left arm" },
     "description": "A prosthetic arm, used as a replacement limb for those missing one.  Dating back to the Middle Ages and Renaissance, this metallic arm was the cutting edge replacement of its day.  Hinges within the fingers and a simple locking system allow basic function of this prosthetic, such as holding a sword.  Often given to knights and nobility, this arm is quite heavy, but extremely durable.  This one is for the left arm.",
     "weight": "4529 g",

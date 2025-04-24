@@ -2,7 +2,8 @@
   {
     "id": "belt_str",
     "copy-from": "leather_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "price_postapoc": "1750 USD",
     "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
@@ -10,7 +11,8 @@
   {
     "id": "belt_haste",
     "copy-from": "leather_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "price_postapoc": "3500 USD",
     "name": { "str": "belt of haste", "str_pl": "belts of haste" },
     "relic_data": {
@@ -98,7 +100,8 @@
   },
   {
     "id": "wizard_hat",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "wizard hat",
     "description": "A blue pointed hat with stars stitched into it.  Wearing it increases your maximum mana.",
     "weight": "390 g",
@@ -136,7 +139,8 @@
   },
   {
     "id": "cloak_morthylla",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cloak_wool",
     "name": { "str": "Cloak of Morthylla the Lamia", "str_pl": "Cloaks of Morthylla the Lamia" },
     "description": "This cloak seems to absorb light except for the pinpricks of stars that move across its surface.",
@@ -153,7 +157,8 @@
   },
   {
     "id": "magic_knife_bag",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL" ],
     "looks_like": "holster",
     "name": { "str": "Bag of Infinite Throwing Knives", "str_pl": "Bags of Infinite Throwing Knives" },
     "description": "This bag conjures a magical throwing knife on activation.  Only refills when worn.  It also boosts your throwing abilities.",
@@ -166,17 +171,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 2,
-          "coverage": 5,
-          "covers": [ "leg_l", "leg_r" ]
-        }
-      ]
-    },
     "environmental_protection": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 8 } } ],
     "flags": [ "OVERSIZE", "NO_REPAIR", "STURDY", "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
@@ -184,12 +178,22 @@
       "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true },
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "throw", "add": 3 } ] } ]
     },
-    "use_action": { "type": "cast_spell", "spell_id": "conj_mag_throw_blade_group", "no_fail": true, "level": 1, "need_worn": true }
+    "use_action": { "type": "cast_spell", "spell_id": "conj_mag_throw_blade_group", "no_fail": true, "level": 1, "need_worn": true },
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "black_dragon_hide", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 2,
+        "coverage": 5,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "wolfshead_cufflinks",
     "copy-from": "ruby_silver_cufflinks",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "weight": "20 g",
     "price_postapoc": "1200 USD",
     "name": { "str": "pair of wolfshead cufflinks", "str_pl": "pairs of wolfshead cufflinks" },

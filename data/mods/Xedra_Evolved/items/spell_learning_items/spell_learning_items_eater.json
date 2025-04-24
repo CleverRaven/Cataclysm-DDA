@@ -96,7 +96,8 @@
   },
   {
     "id": "blindfold_artifact",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "blindfold",
     "name": { "str": "red devil blindfold" },
     "description": "A red fabric blindfold with a cartoonish devil over the eyes.  You feel some anger when you put it on.  Did that devil just wink at you?",
@@ -169,7 +170,8 @@
   },
   {
     "id": "ring_artifact",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ring of Gyges", "str_pl": "rings of Gyges" },
     "description": "A small ring.  There is nothing special about it, except the word \"Republic\" embossed on it.",
     "weight": "9 g",

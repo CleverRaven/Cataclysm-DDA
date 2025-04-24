@@ -1,7 +1,8 @@
 [
   {
     "id": "cold_res_cream",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cold resistance cream" },
     "description": "A thick layer of something that smells worse than walrus fat.  But it keeps you warm.",
     "weight": "1g",
@@ -32,7 +33,8 @@
   },
   {
     "id": "cold_res_cream_greater",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "heat retention xtreme cream",
     "description": "The last word in cold snap protection designed to give short term protection in the event of a suit breach in vacuum.",
     "weight": "1g",

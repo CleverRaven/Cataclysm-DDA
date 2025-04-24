@@ -1,7 +1,8 @@
 [
   {
     "abstract": "platinum_bracelet_magic",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "platinum bracelet", "//~": "NO_I18N" },
     "description": { "str": "A bracelet, completely covered with a large amount of runes from both sides.", "//~": "NO_I18N" },
     "weight": "50 g",
@@ -16,7 +17,8 @@
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "missile_volley_bracelet",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "missile volley bracelet" },
     "description": "A bracelet, completely covered with a large amount of runes from both sides.  Wizards love to name it \"Ultima Ratio\", describing its colossal might.  Require almost a whole week to restore its charge.",
     "price_postapoc": "6900 USD",
@@ -30,7 +32,8 @@
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "gorgon_bracelet",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "petrification bracelet" },
     "description": "A bracelet, completely covered with a large amount of runes from both sides.  You don't really know how it works, but after use enemies literally freeze in the middle of their movement.  Require almost 7 days to restore its charge.",
     "price_postapoc": "6500 USD",
@@ -44,7 +47,8 @@
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "disorientation_bracelet",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "disorientation bracelet" },
     "description": "Known as \"a worse version of petrification bracelet\", this tool casts a spell that temporarily breaks the whole movement system of a creature, disabling its movement for a short time.  Require almost a week to restore its charge.",
     "price_postapoc": "5600 USD",
@@ -58,7 +62,8 @@
   {
     "copy-from": "platinum_bracelet_magic",
     "id": "super_hot_bracelet",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "propulsion bracelet" },
     "description": "It feels like the world around you just stops.  That's not true, that's just a combination of really fast speed and some mana tricks you can't understand.  Requires a whole week to restore its charge.",
     "price_postapoc": "8500 USD",
@@ -71,7 +76,8 @@
   },
   {
     "id": "mana_leech_shackle_unlocked",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "inert mana-leech shackle" },
     "description": {
       "str": "A platinum bracelet covered in runes.  If it was active, it would keep its wearer from casting spells.  Now it's just another useless trinket as you do not know the spells it requires to be activated again."
@@ -88,7 +94,8 @@
   {
     "copy-from": "mana_leech_shackle_unlocked",
     "id": "mana_leech_shackle",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "mana-leech shackle" },
     "description": {
       "str": "A platinum bracelet covered in runes.  It cannot be removed without the appropriate spell and it constantly drains the wearer's mana, preventing them from casting any spell until they get rid of it."

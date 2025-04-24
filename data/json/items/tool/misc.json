@@ -753,7 +753,8 @@
   },
   {
     "id": "teleumbrella",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "tools",
     "name": { "str": "telescoping umbrella (collapsed)", "str_pl": "telescoping umbrellas (collapsed)" },
     "description": "A telescoping umbrella which has been collapsed down for easy storage.  May be used to keep dry when extended and wielded.",
