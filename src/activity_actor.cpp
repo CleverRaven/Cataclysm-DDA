@@ -4282,9 +4282,10 @@ if( craft.item_counter >= 10000000 ) {
         }
     }
 
-    if( will_continue ) {
-        if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
-            crafter.last_craft->execute( location );
+        if( will_continue ) {
+            if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
+                crafter.last_craft->execute( location );
+            }
         }
     }
 
