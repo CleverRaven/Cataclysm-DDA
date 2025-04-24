@@ -11,18 +11,6 @@
     "flags": [ "BACKROOMS" ]
   },
   {
-    "id": "mx_backrooms_stairs",
-    "type": "map_extra",
-    "name": { "str": "Stairway" },
-    "description": "There is a stairway here.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_backrooms_stairs" },
-    "min_max_zlevel": [ -3, 2 ],
-    "sym": "S",
-    "color": "white",
-    "autonote": true,
-    "flags": [ "BACKROOMS" ]
-  },
-  {
     "id": "mx_autodoc_room",
     "type": "map_extra",
     "name": "Autodoc room",

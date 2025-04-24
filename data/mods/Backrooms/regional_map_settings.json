@@ -147,7 +147,6 @@
       "backrooms": {
         "chance": 30,
         "extras": {
-          "mx_backrooms_stairs": 15000,
           "mx_teleporter_node": 5000,
           "mx_casings": 2500,
           "mx_corpses": 2500,
