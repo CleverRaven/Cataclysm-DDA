@@ -1117,7 +1117,8 @@
       { "item": "thyme", "prob": 75, "count": [ 1, 10 ] },
       { "item": "hickory_nut", "prob": 66, "count": [ 1, 10 ] },
       { "prob": 80, "group": "poppy_pain_jar_glass_sealed_2" },
-      { "prob": 80, "group": "poppy_sleep_jar_glass_sealed_2" }
+      { "prob": 80, "group": "poppy_sleep_jar_glass_sealed_2" },
+      { "item": "icon", "prob": 100, "count": [ 10, 20 ] }
     ]
   },
   {
@@ -1298,7 +1299,11 @@
     "type": "item_group",
     "id": "GODCO_russell_sell",
     "subtype": "collection",
-    "entries": [ { "item": "tanned_hide", "count": [ 10, 12 ] }, { "item": "tanned_pelt", "count": [ 8, 10 ] } ]
+    "entries": [
+      { "item": "tanned_hide", "count": [ 10, 12 ] },
+      { "item": "tanned_pelt", "count": [ 8, 10 ] },
+      { "item": "icon", "count": [ 5, 10 ] }
+    ]
   },
   {
     "type": "item_group",
