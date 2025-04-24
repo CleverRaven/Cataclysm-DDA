@@ -4135,6 +4135,10 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
         act.set_to_null();
     }
     activity_override = craft_item.get_item()->get_making().exertion_level();
+    const recipe &rec = craft_item.get_item()->get_making();
+    if( crafter.is_npc() && rec.is_practice() ) {
+        npc_starting_skill_level = crafter.get_skill_level( rec.skill_used );
+    }
     cached_crafting_speed = 0;
     cached_workbench_multiplier = 0;
     use_cached_workbench_multiplier = false;
@@ -4212,25 +4216,28 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const double total_practice_ticks = rec.time_to_craft_moves( crafter,
                                         recipe_time_flag::ignore_proficiencies ) / 100.0;
 
-    const int ticks_per_practice = 10000000.0 / total_practice_ticks;
-    int num_practice_ticks = craft.item_counter / ticks_per_practice -
-                             old_counter / ticks_per_practice;
-    bool level_up = false;
-    if( num_practice_ticks > 0 ) {
-        level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
+const int ticks_per_practice = 10000000.0 / total_practice_ticks;
+int num_practice_ticks = craft.item_counter / ticks_per_practice -
+                         old_counter / ticks_per_practice;
+bool level_up = false;
+if( num_practice_ticks > 0 ) {
+    level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
+    if( crafter.is_npc() && rec.is_practice() && npc_starting_skill_level >= 0 ) {
+        const skill_id &skill = rec.skill_used;
+        int current_practical_level = crafter.get_skill_level_object( skill ).level();
+        if( current_practical_level > npc_starting_skill_level ) {
+            crafter.cancel_activity();
+            return;
+        }
     }
-    // Proficiencies and tools are gained/consumed after every 5% progress
-    int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
-    if( five_percent_steps > 0 ) {
-        // Divide by 100 for seconds, 20 for 5%
-        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
-        level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
-        // Invalidate the crafting time cache because proficiencies may have changed
-        cached_crafting_speed = 0;
-        // Also reset the multiplier
-        use_cached_workbench_multiplier = false;
-    }
-
+}
+int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
+if( five_percent_steps > 0 ) {
+    const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
+    level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+    cached_crafting_speed = 0;
+    use_cached_workbench_multiplier = false;
+}
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
     if( craft.item_counter >= 10000000 ) {
         --five_percent_steps;
@@ -4247,39 +4254,57 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     }
 
     // if item_counter has reached 100% or more
-    if( craft.item_counter >= 10000000 ) {
-        if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
-                is_long = true;
-                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
-            }
-        }
-        item craft_copy = craft;
-        craft_item.remove_item();
-        // We need to cache this before we cancel the activity else we risk Use After Free
-        const bool will_continue = is_long;
-        crafter.cancel_activity();
-        crafter.complete_craft( craft_copy, location );
-        if( will_continue ) {
-            if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
-                crafter.last_craft->execute( location );
-            }
-        }
-    } else {
-        if( level_up && craft.get_making().is_practice() &&
-            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
-            crafter.cancel_activity();
-        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
-            bool destroy = craft.handle_craft_failure( crafter );
-            // If the craft needs to be destroyed, do it and stop crafting.
-            if( destroy ) {
-                crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
-                                               _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
-                craft_item.remove_item();
-                crafter.cancel_activity();
-            }
+if( craft.item_counter >= 10000000 ) {
+    if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
+        if( crafter.is_avatar() && query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
+            is_long = true;
+            *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
         }
     }
+
+    // Track the skill level before the craft finishes
+    int original_skill_level = 0;
+    if( rec.is_practice() ) {
+        original_skill_level = crafter.get_skill_level( rec.skill_used );
+    }
+
+    item craft_copy = craft;
+    craft_item.remove_item();
+    const bool will_continue = is_long;
+    crafter.cancel_activity();
+    crafter.complete_craft( craft_copy, location );
+
+    // For NPCs: stop if skill increased
+    if( crafter.is_npc() && rec.is_practice() ) {
+        const skill_id &skill = rec.skill_used;
+        if( crafter.get_skill_level( skill ) > original_skill_level ) {
+            return; // Skill increased, do not continue practicing
+        }
+    }
+
+    if( will_continue ) {
+        if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
+            crafter.last_craft->execute( location );
+        }
+    }
+
+} else {
+    if( level_up && craft.get_making().is_practice() ) {
+        if( crafter.is_avatar() && query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
+            crafter.cancel_activity();
+        } else if( crafter.is_npc() ) {
+            crafter.cancel_activity();
+        }
+    } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+        bool destroy = craft.handle_craft_failure( crafter );
+        if( destroy ) {
+            crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                           _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
+            craft_item.remove_item();
+            crafter.cancel_activity();
+        }
+    }
+}
 }
 
 void craft_activity_actor::finish( player_activity &act, Character & )

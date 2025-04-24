@@ -1150,6 +1150,7 @@ class craft_activity_actor : public activity_actor
 
         item_location craft_item;
         bool is_long;
+        int npc_starting_skill_level = -1;
 
         float activity_override = NO_EXERCISE;
         std::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
