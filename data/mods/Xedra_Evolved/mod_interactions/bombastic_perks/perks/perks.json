@@ -117,7 +117,7 @@
             }
           ]
         },
-        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "rng(20,35)" ] } } ],
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "rng(2,10)" ] } }, { "type": "cut", "add": { "math": [ "rng(20,35)" ] } } ],
         "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 2.5 } ]
       }
     ]
