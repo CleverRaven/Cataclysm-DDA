@@ -3,7 +3,7 @@
     "id": "robofac_armor_rig",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "category": "ARMOR",
+    "category": "armor",
     "looks_like": "poncho",
     "name": { "str": "Hub 01 modular defense system" },
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  Striped in brown and blue, the white seal of Hub 01 is emblazoned proudly on the front.  It features several quick access pouches attached to a waist drawstring, and two waterproof dry bags for carrying liquids.  It also features several tight clamps and velcro strips around the waist and shoulders; perhaps something attaches to them.",
