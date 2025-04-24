@@ -118,7 +118,8 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "FACIAL_HAIR_BEARD" },
-      { "trait": "NO_BASH" }
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "bonus": 1, "skill": "melee" },
@@ -384,7 +385,12 @@
     "carry_override": "GODCO_corrie_carried",
     "weapon_override": "GODCO_corrie_wield",
     "proficiencies": [ "prof_plasticworking", "prof_elec_soldering", "prof_welding_basic" ],
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [ { "skill": "mechanics", "bonus": 4 }, { "skill": "fabrication", "bonus": 2 }, { "skill": "electronics", "bonus": 4 } ]
   },
   {
