@@ -111,8 +111,8 @@
             { "u_has_wielded_with_flag": "WHIP" },
             {
               "or": [
-                { "math": [ "u_mon_species_nearby('RENFIELD', 'radius': 2, 'attitude': 'both') >= 1" ] },
-                { "math": [ "u_mon_species_nearby('VAMPIRE', 'radius': 2, 'attitude': 'both') >= 1" ] }
+                { "math": [ "u_mon_species_nearby('RENFIELD', 'radius': 3, 'attitude': 'both') >= 1" ] },
+                { "math": [ "u_mon_species_nearby('VAMPIRE', 'radius': 3, 'attitude': 'both') >= 1" ] }
               ]
             }
           ]
