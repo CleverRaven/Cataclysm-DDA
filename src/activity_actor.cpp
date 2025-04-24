@@ -4231,14 +4231,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
         }
     }
-}
-int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
-if( five_percent_steps > 0 ) {
-    const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
-    level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
-    cached_crafting_speed = 0;
-    use_cached_workbench_multiplier = false;
-}
+    int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
+    if( five_percent_steps > 0 ) {
+        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
+        level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        cached_crafting_speed = 0;
+        use_cached_workbench_multiplier = false;
+    }
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
     if( craft.item_counter >= 10000000 ) {
         --five_percent_steps;
