@@ -4216,18 +4216,19 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const double total_practice_ticks = rec.time_to_craft_moves( crafter,
                                         recipe_time_flag::ignore_proficiencies ) / 100.0;
 
-const int ticks_per_practice = 10000000.0 / total_practice_ticks;
-int num_practice_ticks = craft.item_counter / ticks_per_practice -
-                         old_counter / ticks_per_practice;
-bool level_up = false;
-if( num_practice_ticks > 0 ) {
-    level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
-    if( crafter.is_npc() && rec.is_practice() && npc_starting_skill_level >= 0 ) {
-        const skill_id &skill = rec.skill_used;
-        int current_practical_level = crafter.get_skill_level_object( skill ).level();
-        if( current_practical_level > npc_starting_skill_level ) {
-            crafter.cancel_activity();
-            return;
+    const int ticks_per_practice = 10000000.0 / total_practice_ticks;
+    int num_practice_ticks = craft.item_counter / ticks_per_practice -
+                             old_counter / ticks_per_practice;
+    bool level_up = false;
+    if( num_practice_ticks > 0 ) {
+        level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
+        if( crafter.is_npc() && rec.is_practice() && npc_starting_skill_level >= 0 ) {
+            const skill_id &skill = rec.skill_used;
+            int current_practical_level = crafter.get_skill_level_object( skill ).level();
+            if( current_practical_level > npc_starting_skill_level ) {
+                crafter.cancel_activity();
+                return;
+            }
         }
     }
 }
