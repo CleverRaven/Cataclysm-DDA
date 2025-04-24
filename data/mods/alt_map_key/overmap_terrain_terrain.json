@@ -57,6 +57,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "pond_field",
+    "copy-from": "pond_field",
+    "name": "pond",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "crater",
     "copy-from": "crater",
     "name": "crater",

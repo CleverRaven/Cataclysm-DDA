@@ -118,5 +118,603 @@
     "name": "cabin basement",
     "sym": "b",
     "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_entrance",
+    "copy-from": "mine_entrance",
+    "name": "mine entrance",
+    "sym": "M",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_entrance_roof",
+    "copy-from": "mine_entrance_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_middle",
+    "copy-from": "mine_shaft_middle"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_lower",
+    "copy-from": "mine_shaft_lower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_finale",
+    "copy-from": "mine_finale",
+    "name": "mine",
+    "sym": "M",
+    "color": "i_black"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "subway",
+    "copy-from": "subway",
+    "name": "subway",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_1",
+    "copy-from": "mall_a_1",
+    "name": "road",
+    "sym": "┌",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_2",
+    "copy-from": "mall_a_2",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_6",
+    "copy-from": "mall_a_6",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_10",
+    "copy-from": "mall_a_10",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_15",
+    "copy-from": "mall_a_15",
+    "name": "road",
+    "sym": "└",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_16",
+    "copy-from": "mall_a_16",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_17",
+    "copy-from": "mall_a_17",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_18",
+    "copy-from": "mall_a_18",
+    "name": "road",
+    "sym": "┐",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_19",
+    "copy-from": "mall_a_19",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_27",
+    "copy-from": "mall_a_27",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_28",
+    "copy-from": "mall_a_28",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_36",
+    "copy-from": "mall_a_36",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_37",
+    "copy-from": "mall_a_37",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_45",
+    "copy-from": "mall_a_45",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_46",
+    "copy-from": "mall_a_46",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_54",
+    "copy-from": "mall_a_54",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_55",
+    "copy-from": "mall_a_55",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_63",
+    "copy-from": "mall_a_63",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_64",
+    "copy-from": "mall_a_64",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_72",
+    "copy-from": "mall_a_72",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_73",
+    "copy-from": "mall_a_73",
+    "name": "road",
+    "sym": "└",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_74",
+    "copy-from": "mall_a_74",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_75",
+    "copy-from": "mall_a_75",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_76",
+    "copy-from": "mall_a_76",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_77",
+    "copy-from": "mall_a_77",
+    "name": "road",
+    "sym": "┬",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_78",
+    "copy-from": "mall_a_78",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_79",
+    "copy-from": "mall_a_79",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_80",
+    "copy-from": "mall_a_80",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_81",
+    "copy-from": "mall_a_81",
+    "name": "road",
+    "sym": "┘",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_1",
+    "copy-from": "evac_center_1",
+    "name": "road",
+    "sym": "┌",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_2",
+    "copy-from": "evac_center_2",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_3",
+    "copy-from": "evac_center_3",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_4",
+    "copy-from": "evac_center_4",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_5",
+    "copy-from": "evac_center_5",
+    "name": "road",
+    "sym": "┐",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_6",
+    "copy-from": "evac_center_6",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_10",
+    "copy-from": "evac_center_10",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_11",
+    "copy-from": "evac_center_11",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_15",
+    "copy-from": "evac_center_15",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_16",
+    "copy-from": "evac_center_16",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_20",
+    "copy-from": "evac_center_20",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_21",
+    "copy-from": "evac_center_21",
+    "name": "road",
+    "sym": "└",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_22",
+    "copy-from": "evac_center_22",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_23",
+    "copy-from": "evac_center_23",
+    "name": "road",
+    "sym": "┬",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_24",
+    "copy-from": "evac_center_24",
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_25",
+    "copy-from": "evac_center_25",
+    "name": "road",
+    "sym": "┘",
+    "color": "dark_gray"
+  },
+  {
+    "id": "small_office",
+    "copy-from": "small_office",
+    "type": "overmap_terrain",
+    "name": "small office",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "id": "derelict_property",
+    "copy-from": "derelict_property",
+    "type": "overmap_terrain",
+    "name": "derelict property",
+    "sym": "d",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
+    "copy-from": "construction_site",
+    "name": "construction site",
+    "sym": "c",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "emptyresidentiallot",
+    "copy-from": "emptyresidentiallot",
+    "name": "empty residential lot",
+    "sym": "e",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dumpsite",
+    "copy-from": "dumpsite",
+    "name": "dumpsite",
+    "sym": "d",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dump",
+    "copy-from": "dump",
+    "name": "dump",
+    "sym": "d",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landfill",
+    "copy-from": "landfill",
+    "name": "landfill",
+    "sym": "l",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landscapingsupplyco_1a",
+    "copy-from": "landscapingsupplyco_1a",
+    "name": "landscaping supply co",
+    "sym": "l",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landscapingsupplyco_1b",
+    "copy-from": "landscapingsupplyco_1b",
+    "name": "landscaping supply co",
+    "sym": "l",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "emptycommerciallot",
+    "copy-from": "emptycommerciallot",
+    "name": "empty commercial lot",
+    "sym": "e",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_1a",
+    "copy-from": "junkyard_1a",
+    "name": "junkyard",
+    "sym": "j",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_1b",
+    "copy-from": "junkyard_1b",
+    "name": "junkyard",
+    "sym": "j",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_2a",
+    "copy-from": "junkyard_2a",
+    "name": "junkyard",
+    "sym": "j",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_2b",
+    "copy-from": "junkyard_2b",
+    "name": "junkyard",
+    "sym": "j",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter",
+    "copy-from": "recyclecenter",
+    "name": "recycle center",
+    "sym": "r",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smallscrapyard",
+    "copy-from": "smallscrapyard",
+    "name": "small scrap yard",
+    "sym": "s",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu" ],
+    "copy-from": "smallscrapyard_ocu",
+    "name": "scrap yard",
+    "sym": "s",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_a6",
+    "copy-from": "s_shoppingplaza_a6",
+    "name": "abandoned shopping plaza",
+    "sym": "a",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_b1",
+    "copy-from": "s_shoppingplaza_b1",
+    "name": "abandoned shopping plaza",
+    "sym": "a",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_b2",
+    "copy-from": "s_shoppingplaza_b2",
+    "name": "abandoned shopping plaza",
+    "sym": "a",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_b3",
+    "copy-from": "s_shoppingplaza_b3",
+    "name": "abandoned shopping plaza",
+    "sym": "a",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_b4",
+    "copy-from": "s_shoppingplaza_b4",
+    "name": "abandoned shopping plaza",
+    "sym": "a",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_b5",
+    "copy-from": "s_shoppingplaza_b5",
+    "name": "abandoned shopping plaza",
+    "sym": "a",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_b6",
+    "copy-from": "s_shoppingplaza_b6",
+    "name": "abandoned shopping plaza",
+    "sym": "a",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_aban1",
+    "copy-from": "cabin_aban1",
+    "name": "ruined cabin",
+    "sym": "r",
+    "color": "i_light_gray"
   }
 ]

@@ -14,5 +14,53 @@
     "name": "electronics store",
     "sym": "e",
     "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_NE",
+    "copy-from": "public_works_NE",
+    "name": "public works",
+    "sym": "w",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_NW",
+    "copy-from": "public_works_NW",
+    "name": "public works",
+    "sym": "w",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SW",
+    "copy-from": "public_works_SW",
+    "name": "public works",
+    "sym": "W",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SE",
+    "copy-from": "public_works_SE",
+    "name": "public works",
+    "sym": "w",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse",
+    "copy-from": "warehouse",
+    "name": "small warehouse",
+    "sym": "w",
+    "color": "light_cyan"
+  },
+  {
+    "id": "home_improvement",
+    "copy-from": "home_improvement",
+    "type": "overmap_terrain",
+    "name": "home improvement store",
+    "sym": "h",
+    "color": "light_cyan"
   }
 ]
