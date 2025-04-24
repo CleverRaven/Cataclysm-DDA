@@ -934,7 +934,7 @@
           { "group": "field_m9" }
         ],
         "prob": 3
-      }, 
+      },
       {
         "collection": [
           { "item": "glock_34", "prob": 100, "charges": [ 0, 15 ], "damage": [ 0, 3 ], "dirt": [ 0, 7050 ] },
