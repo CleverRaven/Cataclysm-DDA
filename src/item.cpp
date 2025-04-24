@@ -11360,6 +11360,18 @@ bool item::uses_energy() const
            ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
 }
 
+bool item::is_chargeable() const
+{
+    if( !uses_energy() ) {
+        return false;
+    }
+    if( ammo_remaining() < ammo_capacity( ammo_battery ) ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 units::energy item::energy_remaining( const Character *carrier ) const
 {
     return energy_remaining( carrier, false );

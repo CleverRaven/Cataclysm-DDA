@@ -2530,6 +2530,8 @@ class item : public visitable
 
         /** Return true if this uses electrical or a different kind of energy. */
         bool uses_energy() const;
+        /** Return true if this item is chargeable with additional energy. */
+        bool is_chargeable() const;
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
