@@ -191,7 +191,7 @@
     "looks_like": "glock_19",
     "type": "GUN",
     "name": { "str": "Glock 48" },
-    "description": "A 9mm, slimline Glock. Designed for concealed carry, and accepts the magazine from a Glock 43x, but not the base 43.",
+    "description": "A 9mm, slimline Glock.  Designed for concealed carry, and accepts the magazine from a Glock 43x, but not the base 43.",
     "weight": "524 g",
     "volume": "331 ml",
     "longest_side": "185 mm",
