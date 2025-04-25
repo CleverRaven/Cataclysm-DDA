@@ -1,7 +1,7 @@
 [
   {
     "abstract": "fake_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "fake item", "//~": "NO_I18N" },
     "description": { "str": "Dummy item.  If you see this description, it is a bug.", "//~": "NO_I18N" },
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
@@ -14,7 +14,8 @@
   {
     "id": "fake_crafting_tool",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "fake crafting tool", "//~": "NO_I18N" },
     "description": { "str": "Used for practice recipes and the like.  If you see this description, it is a bug.", "//~": "NO_I18N" },
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
@@ -22,19 +23,22 @@
   {
     "id": "spinwheelitem",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "spinning wheel" }
   },
   {
     "id": "scutcheritem",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "stationary scutcher" }
   },
   {
     "id": "fake_burrowing",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "teeth and claws" },
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "use_action": [ "DIG" ],
@@ -100,14 +104,16 @@
   {
     "id": "fake_goggles",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "bionic goggles" },
     "qualities": [ [ "GLARE", 1 ] ]
   },
   {
     "id": "bio_scalpel",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "autonomous surgical scalpels" },
     "description": "A system of surgical-grade scalpels.  They allow you to make precise cuts on corpses.",
     "techniques": [ "PRECISE" ],
@@ -119,34 +125,39 @@
   {
     "id": "fake_razor",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bionic razor" },
     "qualities": [ [ "BUTCHER", 8 ], [ "CUT", 1 ] ]
   },
   {
     "id": "fake_sharp_metal_wreckage",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sharp piece of wreckage" },
     "qualities": [ [ "CUT", 1 ] ]
   },
   {
     "id": "boulder_anvil",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_item",
     "name": { "str": "boulder anvil" },
     "qualities": [ [ "ANVIL", 1 ] ]
   },
   {
     "id": "fake_anvil",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_item",
     "name": { "str": "anvil" },
     "qualities": [ [ "ANVIL", 3 ] ]
   },
   {
     "id": "fake_anvil_heavy",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_item",
     "name": { "str": "heavy anvil" },
     "qualities": [ [ "ANVIL", 4 ] ]
@@ -154,7 +165,7 @@
   {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
     "extend": { "flags": [ "TRADER_AVOID", "FAKE_MILL" ] }
@@ -162,7 +173,7 @@
   {
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away before your eyes.",
     "emits": [ "emit_small_smoke_plume" ],
@@ -171,28 +182,32 @@
   {
     "id": "fake_firestarter",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bionic firestarter" },
     "extend": { "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ] }
   },
   {
     "id": "fake_radio",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bionic radio" },
     "extend": { "flags": [ "TWO_WAY_RADIO", "USES_BIONIC_POWER" ] }
   },
   {
     "id": "fake_tire_changer",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tire changer" },
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
     "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
   },
   {
     "id": "fake_power_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_item",
     "name": { "str": "fake power tool", "//~": "NO_I18N" },
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] },
@@ -200,14 +215,16 @@
   },
   {
     "id": "fake_arc_furnace",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_power_tool",
     "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_beverly_shear",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Beverly shear" },
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "qualities": [ [ "SAW_M", 2 ] ]
@@ -215,7 +232,8 @@
   {
     "abstract": "fake_appliance_tool",
     "name": { "str": "fake appliance tool", "//~": "NO_I18N" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_item",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
@@ -223,7 +241,8 @@
   },
   {
     "id": "drill_press_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "drill press", "str_pl": "drill presses" },
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 25,
@@ -231,7 +250,8 @@
   },
   {
     "id": "glassblowers_crucible_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "glassblower's crucible" },
     "copy-from": "fake_appliance_tool",
     "symbol": "o",
@@ -240,43 +260,50 @@
   },
   {
     "id": "tablesaw_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "table saw" },
     "copy-from": "fake_appliance_tool"
   },
   {
     "id": "mitresaw_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mitre saw" },
     "copy-from": "fake_appliance_tool"
   },
   {
     "id": "bandsaw_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "band saw" },
     "copy-from": "fake_appliance_tool"
   },
   {
     "id": "router_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "router" },
     "copy-from": "fake_appliance_tool"
   },
   {
     "id": "planer_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "planer" },
     "copy-from": "fake_appliance_tool"
   },
   {
     "id": "jointer_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "jointer" },
     "copy-from": "fake_appliance_tool"
   },
   {
     "id": "catalytic_cracking_reactor_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_appliance_tool",
     "name": { "str": "catalytic cracking reactor" },
     "//": "there's a laptop in the disassembly, I assume it requires power.",
@@ -285,19 +312,22 @@
   },
   {
     "id": "hydraulic_press_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_appliance_tool",
     "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
   },
   {
     "id": "heavy_lathe_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_appliance_tool",
     "name": { "str": "power lathe" }
   },
   {
     "id": "air_compressor_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_appliance_tool",
     "name": { "str": "air compressor" },
     "charges_per_use": 50,
@@ -305,7 +335,8 @@
   },
   {
     "id": "pseudo_exercise_machine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exercise machine" },
     "copy-from": "fake_crafting_tool",
     "material": [ "steel" ],
@@ -314,7 +345,8 @@
   },
   {
     "id": "pseudo_punching_bag",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "heavy punching bag" },
     "copy-from": "fake_crafting_tool",
     "symbol": "0",
@@ -322,7 +354,8 @@
   },
   {
     "id": "pseudo_ergometer_mechanical",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mechanical ergometer" },
     "copy-from": "fake_crafting_tool",
     "symbol": "5",
@@ -330,7 +363,8 @@
   },
   {
     "id": "pseudo_treadmill_mechanical",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "gravity treadmill" },
     "copy-from": "fake_crafting_tool",
     "symbol": "L",
@@ -338,7 +372,8 @@
   },
   {
     "id": "pseudo_training_dummy_light",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "training dummy", "str_pl": "training dummies" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
@@ -346,7 +381,8 @@
   },
   {
     "id": "pseudo_training_dummy_heavy",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
@@ -354,7 +390,8 @@
   },
   {
     "id": "pseudo_archery_target_box",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "box archery target" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
@@ -362,7 +399,8 @@
   },
   {
     "id": "pseudo_archery_target_bale",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bale archery target" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
@@ -392,27 +430,31 @@
   {
     "id": "fake_lift_light",
     "copy-from": "fake_crafting_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "light hoist" },
     "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_medium",
     "copy-from": "fake_crafting_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sturdy hoist" },
     "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_heavy",
     "copy-from": "fake_crafting_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "heavy-duty hoist" },
     "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "pseudo_app_oxygen_concentrator",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "oxygen concentrator" },
     "copy-from": "fake_crafting_tool",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
@@ -420,7 +462,8 @@
   },
   {
     "id": "pseudo_app_hd_compressor_unit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "high pressure compressor unit" },
     "copy-from": "fake_crafting_tool",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
@@ -430,7 +473,8 @@
   },
   {
     "id": "concrete_mix_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "concrete mixer" },
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 20
@@ -438,7 +482,7 @@
   {
     "id": "debug_item_search",
     "name": { "str": "debug item search", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "?",
     "description": { "str": "This is a dummy item used by item search.  You should never see it outside of debug.", "//~": "NO_I18N" },
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
@@ -446,7 +490,8 @@
   {
     "id": "fake_dynamite_50lbs",
     "//": "This is used exclusively in the rescue mission for Barry to blow a hole in the scout tower.",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "fake 50lbs dynamite car bomb", "//~": "NO_I18N" },
     "description": {

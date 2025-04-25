@@ -508,7 +508,7 @@
   },
   {
     "id": "item_undine_liquid_water_pocket",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "clothing",
     "name": { "str": "water pocket" },
     "description": "Your skin is capable of .",
@@ -533,7 +533,7 @@
   },
   {
     "id": "item_gracken_shadowstuff_pocket",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "clothing",
     "name": { "str": "shadowstuff organ" },
     "description": "You have an organ inside of your body that grows a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
@@ -1006,7 +1006,8 @@
   },
   {
     "id": "integrated_dreamspark_storage_10",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "Well of Dreamsparks" },
     "description": "The power of mortal dreams.",
     "weight": "0 g",
@@ -1034,7 +1035,8 @@
   },
   {
     "id": "integrated_dreamspark_storage_20",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "Well of Dreamsparks" },
     "description": "The power of mortal dreams.",
     "weight": "0 g",
@@ -1062,7 +1064,8 @@
   },
   {
     "id": "integrated_dreamspark_storage_30",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "Well of Dreamsparks" },
     "description": "The power of mortal dreams.",
     "weight": "0 g",
@@ -1090,7 +1093,8 @@
   },
   {
     "id": "integrated_dreamspark_storage_40",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "Well of Dreamsparks" },
     "description": "The power of mortal dreams.",
     "weight": "0 g",
@@ -1118,7 +1122,8 @@
   },
   {
     "id": "integrated_dreamspark_storage_50",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str_sp": "Well of Dreamsparks" },
     "description": "The power of mortal dreams.",
     "weight": "0 g",

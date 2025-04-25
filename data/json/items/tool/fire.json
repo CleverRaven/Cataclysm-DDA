@@ -1,7 +1,8 @@
 [
   {
     "id": "crude_firestarter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electric firestarter" },
     "description": "A crudely-made electric firestarter, which can function as an inefficient lighter.",
     "//": "ultra light battery seems to not have enough power to generate this amount of heat",
@@ -27,7 +28,8 @@
   },
   {
     "id": "fire_drill",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bow fire drill" },
     "description": "A simple item for starting fires with friction between a notched plank and wooden shaft.  The shaft is spun rapidly with a sawing motion by a bowstring wrapped around it.  Very slow to acquire a usable ember.",
     "weight": "240 g",
@@ -46,7 +48,8 @@
   },
   {
     "id": "fire_drill_large",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pump fire drill" },
     "description": "A simple item for starting fires by friction between a notched plank and wooden shaft, with a flywheel attached.  The shaft is spun rapidly with a pumping motion by a cord wrapped around it.  Slow to acquire a usable ember.",
     "weight": "900 g",
@@ -65,7 +68,8 @@
   },
   {
     "id": "flint_steel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "flint and steel", "str_pl": "sets of flint and steel" },
     "description": "A piece of flint paired with a hardened high carbon steel striker.  Use it to spark a flame.",
     "weight": "400 g",
@@ -83,7 +87,8 @@
   },
   {
     "id": "lighter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "lighter" },
     "description": "A disposable plastic lighter, capable of creating a small flame with the flick of a finger.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "14 g",
@@ -108,7 +113,8 @@
   },
   {
     "id": "magnifying_glass",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "magnifying glass", "str_pl": "magnifying glasses" },
     "description": "A magnifying glass, for closely examining fine details.  It can also be used for starting fires if direct sunlight is available.",
     "weight": "400 g",
@@ -122,7 +128,7 @@
     "flags": [ "FIRESTARTER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lens_crude",
     "symbol": ".",
     "color": "light_cyan",
@@ -139,7 +145,8 @@
   },
   {
     "id": "fire_piston",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "fire piston" },
     "description": "A firestarting tool of Southeast Asian origin, consisting of a thin, hollow wooden cylinder sealed at one end and open at the other, and a wooden piston forming an airtight circular seal with it, making use of rapid and adiabatic air compression to ignite a piece of tinder.  It also comes with a tinder container to keep tinder dry.  Use it to start a fire.",
     "weight": "668 g",
@@ -157,7 +164,8 @@
   },
   {
     "id": "matches",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "matchbook" },
     "description": "A small book of matches with a coarse strike surface on the outside flap for lighting them.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.  Due to the matches being lightly glued to the matchbook, they can be removed, but not replaced on the book.",
     "category": "container",
@@ -175,7 +183,8 @@
   },
   {
     "id": "survival_match",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "survival match", "str_pl": "survival matches" },
     "description": "A solid strike anywhere match.  One and done.",
     "looks_like": "matches",
@@ -194,7 +203,8 @@
   },
   {
     "id": "ref_matches",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "matchbox", "str_pl": "matchboxes" },
     "description": "A small box of matches with a coarse strike surface on the side for lighting them.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "looks_like": "matches",
@@ -213,7 +223,8 @@
   },
   {
     "id": "ref_lighter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "refillable lighter" },
     "description": "A stylish lighter featuring a flip-top cover and a refuelable tank, capable of creating a small flame with the flick of a finger.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "20 g",
@@ -250,7 +261,8 @@
   },
   {
     "id": "ref_lighter_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "refillable lighter" },
     "description": "A stylish lighter featuring a flip-top cover and a refuelable tank.  It is lit.",
     "weight": "20 g",
@@ -287,7 +299,8 @@
   },
   {
     "id": "ref_lighter_butane",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "refillable butane lighter" },
     "description": "A large lighter with a trigger and a safety, reloaded by fitting a can of butane inside the base.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "200 g",
@@ -306,7 +319,8 @@
   },
   {
     "id": "tinderbox",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "ember carrier" },
     "description": "A small container for holding tinder, with holes punched in it to provide a controlled airflow.  It can nurture a smoldering ember for a long time, to start fires without modern tools.",
     "weight": "40 g",
@@ -331,7 +345,8 @@
   },
   {
     "id": "tinderbox_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "ember carrier (lit)", "str_pl": "ember carriers (lit)" },
     "description": "A small container for holding tinder, with holes punched in it to provide a controlled airflow.  An ember is smoldering inside it, and can be used to start a campfire.",
     "weight": "40 g",
@@ -359,7 +374,8 @@
   },
   {
     "id": "electric_lighter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electric lighter" },
     "description": "A rechargeable electric lighter.",
     "//": [ "https://www.amazon.co.uk/gp/product/B07GRNHPST", "Size: 6.88 x 4.75 x 1.73 cm" ],
@@ -383,7 +399,8 @@
   },
   {
     "id": "small_lighter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mini lighter" },
     "description": "A miniature disposable plastic lighter, capable of creating a small flame with the flick of a finger.  Allows you to use various drugs, like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "8 g",

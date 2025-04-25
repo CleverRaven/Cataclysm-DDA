@@ -51,7 +51,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 225 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "it_battery_mount",
     "name": { "str": "storage battery case" },
     "description": "An empty case that can hold a storage battery, complete with a charging controller chip and connecting wires.",
@@ -68,7 +68,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "it_handheld_battery_mount",
     "name": { "str": "tool battery mount" },
     "description": "An empty mount that can connect conventional batteries used in most handheld tools to a vehicular power grid.  It has a power converter, a charging controller chip, connecting wires, and a harness for securing a battery.",

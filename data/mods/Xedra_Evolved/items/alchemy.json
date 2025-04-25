@@ -120,7 +120,8 @@
   },
   {
     "id": "nether_snare",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "snaring pentagram trap",
     "category": "traps",
     "properties": { "capture_species": "NETHER" },
@@ -259,7 +260,8 @@
   {
     "id": "väinämöinens_kantele_imitation",
     "looks_like": "kantele",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "Väinämöinen's Kantele, imitation", "str_pl": "Väinämöinen's Kanteles, imitation" },
     "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's jawbone.  Does it glimmer in the light?  Do its notes echo and linger more than normal?",

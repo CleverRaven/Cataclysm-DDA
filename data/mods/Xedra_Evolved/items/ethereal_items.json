@@ -75,7 +75,8 @@
   },
   {
     "id": "rapier_dreamdross",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "dreamdross rapier" },
     "description": "This is a thin ephemeral sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish one.",
     "weight": "500 g",
@@ -105,7 +106,8 @@
   },
   {
     "id": "dagger_dreamdross",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "dreamer dagger" },
     "description": "This ephemeral dagger is 15 inches long from the hilt to the tip, the double-edged blade itself is a pearly white color and extremely sharp.",
     "weight": "145 g",
@@ -177,7 +179,8 @@
     }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "xe_oneiric_hammer",
     "name": { "str": "Oneiric Hammer" },
     "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
@@ -209,7 +212,7 @@
     "melee_damage": { "bash": 30 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "constructed_hammer",
     "name": { "str": "constructed hammer" },
     "description": "A long handle ending in a two-sided head, one of which is hollow, and the other… does not exist.  Weirdly, both heads are equally useful, and the balance of hammer is pretty good to be useful as a weapon.  By activating and attacking with the hollow part, the hammer creates a tremendous force, able to break a thick tree (or someone's spine) in half, but will be destroyed afterwards.",
@@ -297,7 +300,7 @@
   },
   {
     "id": "salamander_flaming_summon_whip",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "symbol": "/",
     "color": "red",
@@ -327,7 +330,7 @@
   },
   {
     "id": "undine_waters_map",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "undine waters map", "//~": "NO_I18N" },
     "description": { "str": "The item for .", "//~": "NO_I18N" },
@@ -354,7 +357,7 @@
   },
   {
     "id": "arvore_preservation_container",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "vegetal sphere" },
     "looks_like": "art_sphere",
@@ -428,7 +431,7 @@
   {
     "id": "item_ierde_reveal_earth_map_01",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "ierde map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -450,7 +453,7 @@
   {
     "id": "item_ierde_reveal_earth_map_02",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "ierde map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -472,7 +475,7 @@
   {
     "id": "item_ierde_reveal_earth_map_03",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "ierde map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -494,7 +497,7 @@
   {
     "id": "item_ierde_reveal_earth_map_04",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "ierde map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -516,7 +519,7 @@
   {
     "id": "item_ierde_reveal_earth_map_05",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "ierde map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -538,7 +541,7 @@
   {
     "id": "item_ierde_reveal_earth_map_06",
     "copy-from": "abstractmap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "ierde map", "//~": "NO_I18N" },
     "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
@@ -560,7 +563,8 @@
   {
     "id": "changeling_summer_sunglasses",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "Under the Noonday Sun" },
     "description": { "str": "You are protected from extremely bright lights." },
     "qualities": [ [ "GLARE", 1 ] ],
@@ -568,7 +572,7 @@
   },
   {
     "id": "vampire_blood_ball",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "blood-storing sphere" },
     "looks_like": "jar_glass_sealed",

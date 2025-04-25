@@ -21,7 +21,7 @@
   },
   {
     "id": "magi_staff_minor",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "minor staff of the magi", "str_pl": "minor staves of the magi" },
@@ -43,7 +43,7 @@
   },
   {
     "id": "magi_staff_lesser",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "lesser staff of the magi", "str_pl": "lesser staves of the magi" },
@@ -65,7 +65,7 @@
   },
   {
     "id": "magi_staff_greater",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "greater staff of the magi", "str_pl": "greater staves of the magi" },
@@ -87,7 +87,8 @@
   },
   {
     "id": "bleed_staff_minor",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "magi_staff_minor",
     "symbol": "/",
     "color": "red",
@@ -122,7 +123,7 @@
   },
   {
     "id": "debug_fireball_hammer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "fireball hammer",
     "copy-from": "magi_staff_minor",
     "description": "Use with caution!  Flammable!  Explosive!",

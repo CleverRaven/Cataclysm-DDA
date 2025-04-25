@@ -37,7 +37,7 @@
     "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "kampuch",
     "name": { "str": "kampuch", "str_pl": "kampuches" },
     "//": "magical poisons, 'death' and 'bio' related",
@@ -50,7 +50,7 @@
     "material": "veggy"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "olieribos",
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.  It's not toxic, but many people have died trying to taste it, due to the airway obstruction.",

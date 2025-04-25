@@ -57,7 +57,8 @@
   },
   {
     "id": "debug_tool_no_pockets",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "debug tool with no pockets",
     "description": "debug",
     "symbol": "(",
@@ -66,7 +67,8 @@
   },
   {
     "id": "debug_tool_one_pocket",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "debug tool with one pocket",
     "copy-from": "debug_tool_no_pockets",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2L" } ]

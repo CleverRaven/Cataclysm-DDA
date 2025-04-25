@@ -263,7 +263,7 @@
   },
   {
     "id": "mwhip_iron",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",

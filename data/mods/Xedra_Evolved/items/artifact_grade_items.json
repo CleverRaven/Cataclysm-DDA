@@ -2,7 +2,8 @@
   {
     "id": "väinämöinens_kantele",
     "looks_like": "kantele",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "Väinämöinen's Kantele" },
     "description": "An original kantele made by Väinämöinen himself.  Fashioned from a great pike's jawbone, the material is unlike anything you saw before the end of the world.  Every note from this instrument thrums with power.",
@@ -49,7 +50,8 @@
   },
   {
     "id": "mana_recharge_sphere",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "sparking sphere" },
     "description": "A small brown sphere, humming with power.  Activate it to recharge your mana.",
@@ -69,7 +71,8 @@
     "use_action": [ { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 15 } ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "id": "boann_insignia",
     "name": { "str": "Boann's insignia" },

@@ -548,7 +548,7 @@
   },
   {
     "id": "myopia_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str_sp": "myopia contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -580,7 +580,7 @@
   },
   {
     "id": "myopia_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "myopia transition contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -606,7 +606,7 @@
   },
   {
     "id": "myopia_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "myopia contact lenses (daily)" },
     "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -631,7 +631,7 @@
   },
   {
     "id": "myopia_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "myopia transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -656,7 +656,7 @@
   },
   {
     "id": "hyperopia_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "hyperopia contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -678,7 +678,7 @@
   },
   {
     "id": "hyperopia_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "hyperopia transition contact lenses (weekly)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -700,7 +700,7 @@
   },
   {
     "id": "hyperopia_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "hyperopia contact lenses (daily)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -722,7 +722,7 @@
   },
   {
     "id": "hyperopia_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "hyperopia transition contact lenses (daily)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -744,7 +744,7 @@
   },
   {
     "id": "bifocal_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "bifocal contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -769,7 +769,7 @@
   },
   {
     "id": "bifocal_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "bifocal transition contact lenses (weekly)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -800,7 +800,7 @@
   },
   {
     "id": "bifocal_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "bifocal contact lenses (daily)" },
     "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -825,7 +825,7 @@
   },
   {
     "id": "bifocal_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "bifocal transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -856,7 +856,7 @@
   },
   {
     "id": "plano_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "plano transition contact lenses (weekly)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>a week</color> of use.",
@@ -878,7 +878,7 @@
   },
   {
     "id": "plano_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "plano transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>16 hours</color> of use.",

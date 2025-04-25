@@ -1,7 +1,7 @@
 [
   {
     "id": "wheel_mount_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "wooden wheel mount" },
     "description": "A piece of wood with holes suitable for a bike wheel.",
@@ -16,7 +16,7 @@
   },
   {
     "id": "wheel_mount_light",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "light wheel mount" },
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
@@ -32,7 +32,7 @@
   },
   {
     "id": "wheel_mount_medium",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "medium wheel hub assembly", "str_pl": "medium wheel hub assemblies" },
     "description": "A metal assembly that allows bolting a wheel onto a car.  Fit for a car wheel.",
@@ -48,7 +48,7 @@
   },
   {
     "id": "wheel_mount_heavy",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "heavy wheel hub assembly", "str_pl": "heavy wheel hub assemblies" },
     "description": "A heavy metal assembly that allows bolting a wheel onto a car.  Fit for a large car wheel.",
@@ -64,7 +64,7 @@
   },
   {
     "id": "wheel_mount_skateboard",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "pair of skateboard trucks", "str_pl": "pairs of skateboard trucks" },
     "description": "A pair metal skateboard trucks, for attaching wheels to.",
@@ -80,7 +80,7 @@
   },
   {
     "id": "wheel_rim_medium",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "medium steel rim" },
     "description": "A medium-size steel rim for a car tire.",
@@ -98,7 +98,7 @@
   },
   {
     "id": "wheel_rim_motorbike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "steel motorbike rim" },
     "description": "A steel rim for a motorbike tire.",
@@ -115,7 +115,7 @@
   },
   {
     "id": "wheel_rim_wide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "wide steel rim" },
     "description": "A wide steel rim for a larger tire.",
@@ -132,7 +132,7 @@
   },
   {
     "id": "wheel_rim_bicycle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "bicycle rim" },
     "description": "A large, spoked rim for a bicycle tire.",
@@ -148,7 +148,7 @@
   },
   {
     "id": "tire_medium",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "looks_like": "wheel",
     "name": { "str": "17\" car tire" },
@@ -165,7 +165,7 @@
   },
   {
     "id": "tire_medium_slick",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "looks_like": "wheel_slick",
     "name": { "str": "16\" racing tire" },
@@ -182,7 +182,7 @@
   },
   {
     "id": "tire_motorbike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "looks_like": "wheel_motorbike",
     "name": { "str": "16\" motorbike tire" },
@@ -200,14 +200,14 @@
   {
     "id": "tire_motorbike_or",
     "copy-from": "tire_motorbike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "20\" off-road motorbike tire" },
     "description": "A 20\" off-road motorbike tire for fitting to a steel motorbike rim.",
     "longest_side": "508 mm"
   },
   {
     "id": "tire_wide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "looks_like": "wheel_wide",
     "name": { "str": "24\" wide tire" },
@@ -225,13 +225,13 @@
   {
     "id": "tire_wide_or",
     "copy-from": "tire_wide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "24\" off-road wide tire" },
     "description": "A wide tire for fitting to a wide steel rim.  It's studded to provide better grip off-road at the cost of some performance on pavement."
   },
   {
     "id": "tire_bicycle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "looks_like": "wheel_bicycle",
     "name": { "str": "27\" bicycle tire" },
@@ -249,13 +249,13 @@
   {
     "id": "tire_bicycle_or",
     "copy-from": "tire_bicycle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "27\" off-road bicycle tire" },
     "description": "A wide, studded bicycle tire intended to be fitted to a bicycle rim for off-road biking."
   },
   {
     "id": "deflated_wheel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "looks_like": "wheel",
     "name": { "str": "deflated 17\" wheel" },
@@ -273,7 +273,7 @@
   },
   {
     "id": "deflated_wheel_slick",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "looks_like": "wheel_slick",
     "name": { "str": "deflated 16\" racing wheel" },
@@ -291,7 +291,7 @@
   },
   {
     "id": "deflated_wheel_motorbike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "deflated 16\" motorbike wheel" },
     "description": "A motorbike wheel.  It is currently deflated and will need to be inflated to be used on a vehicle.",
@@ -309,14 +309,14 @@
   {
     "id": "deflated_wheel_motorbike_or",
     "copy-from": "deflated_wheel_motorbike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "deflated 20\" off-road motorbike wheel" },
     "longest_side": "508 mm",
     "description": "A motorbike wheel, studded for improved off-road performance.  It is currently deflated and will need to be inflated to be used on a vehicle."
   },
   {
     "id": "deflated_wheel_wide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "deflated 24\" wide wheel" },
     "description": "A wide wheel.  \\o/ This wide.  It is currently deflated and will need to be inflated to be used on a vehicle.",
@@ -334,13 +334,13 @@
   {
     "id": "deflated_wheel_wide_or",
     "copy-from": "deflated_wheel_wide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "deflated 24\" off-road wide wheel" },
     "description": "A wide wheel.  \\o/ This wide.  It's studded to provide better grip off-road at the cost of some performance on pavement.  It is currently deflated and will need to be inflated to be used on a vehicle."
   },
   {
     "id": "deflated_wheel_bicycle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "deflated 27\" bicycle wheel" },
     "description": "A bicycle wheel.  It is currently deflated and will need to be inflated to be used on a vehicle.",
@@ -358,7 +358,7 @@
   {
     "id": "deflated_wheel_bicycle_or",
     "copy-from": "deflated_wheel_bicycle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "deflated 27\" off-road bicycle wheel" },
     "description": "A wide, studded, bicycle wheel intended for off-road biking.  It is currently deflated and will need to be inflated to be used on a vehicle."
   },
@@ -789,7 +789,7 @@
   },
   {
     "id": "wheel_mount_concrete_mix",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "concrete mixer wheel mounts" },
     "description": "A set of two small wheel mounts from a concrete mixer.",
     "copy-from": "wheel_mount_light",

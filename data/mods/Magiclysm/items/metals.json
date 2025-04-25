@@ -38,7 +38,7 @@
   },
   {
     "id": "orichalcum_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "orichalcum ingot",
     "description": "An ingot of orichalcum.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
@@ -72,7 +72,7 @@
   },
   {
     "id": "mithril_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "mithril ingot",
     "description": "An ingot of mithril.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
@@ -88,7 +88,7 @@
   },
   {
     "id": "crimsonite_ingot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "crimsonite ingot",
     "description": "An ingot of crimsonite.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",

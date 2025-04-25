@@ -152,7 +152,8 @@
     "ammo_type": "nitrogen"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "betavoltaic",
     "category": "spare_parts",
     "price": "100 USD",
@@ -166,7 +167,8 @@
     "weight": "160 g"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "RTG_coffee",
     "category": "spare_parts",
     "price": "200 USD",
@@ -1493,7 +1495,7 @@
   },
   {
     "id": "scrap_bronze",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "chunk of bronze", "str_pl": "chunks of bronze" },
     "description": "Some decent-sized chunks of scrap bronze, for fashioning some old-school items.",

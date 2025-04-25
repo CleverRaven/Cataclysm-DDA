@@ -183,7 +183,7 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "peephole",
     "symbol": ".",
     "color": "yellow",
@@ -197,7 +197,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "screen_mesh",
     "symbol": "#",
     "color": "brown",

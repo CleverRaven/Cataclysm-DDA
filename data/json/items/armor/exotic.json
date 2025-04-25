@@ -326,7 +326,8 @@
   },
   {
     "id": "feeding_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "feeding kit" },
     "description": "This is a collection of syringes with nozzles, an aerosol sprayer, and a few other attachments.  It seems designed for looking after some kind of creature that wants to stay wet.",
     "weight": "85 g",

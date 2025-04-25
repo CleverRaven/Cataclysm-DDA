@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "boann_unique_weapon_sword",
     "copy-from": "moons_tears_estoc",
     "looks_like": "ch_estoc",
@@ -19,7 +20,8 @@
     }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_knife_baselard",
     "copy-from": "knife_baselard",
     "looks_like": "knife_baselard",
@@ -30,7 +32,8 @@
     "proportional": { "melee_damage": { "stab": 1.1 }, "weight": 0.56 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_broadsword",
     "copy-from": "ch_broadsword",
     "looks_like": "ch_broadsword",
@@ -40,7 +43,8 @@
     "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.56 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_arming_sword",
     "copy-from": "ch_arming_sword",
     "looks_like": "ch_arming_sword",
@@ -50,7 +54,8 @@
     "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.56 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_mace",
     "copy-from": "ch_mace",
     "looks_like": "ch_mace",
@@ -60,7 +65,8 @@
     "proportional": { "melee_damage": { "bash": 1.2 }, "weight": 0.8 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_scimitar",
     "copy-from": "ch_scimitar",
     "looks_like": "ch_scimitar",
@@ -70,7 +76,8 @@
     "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.6 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_estoc",
     "copy-from": "ch_estoc",
     "looks_like": "ch_estoc",
@@ -80,7 +87,8 @@
     "proportional": { "melee_damage": { "stab": 1.2 }, "weight": 0.56 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_spear",
     "copy-from": "spear_steel",
     "looks_like": "spear_steel",
@@ -91,7 +99,8 @@
     "proportional": { "melee_damage": { "stab": 1.1 }, "weight": 0.95 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_battleaxe",
     "copy-from": "ch_battleaxe",
     "looks_like": "ch_battleaxe",
@@ -101,7 +110,8 @@
     "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.8 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "moons_tears_katana",
     "copy-from": "ch_katana",
     "looks_like": "ch_katana",

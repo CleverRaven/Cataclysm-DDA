@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dragon_black_scale",
     "category": "spare_parts",
     "symbol": "o",
@@ -16,7 +16,7 @@
   },
   {
     "id": "bundle_black_scale",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "dragon_black_scale",
     "symbol": "=",
     "name": { "str": "bundle of black dragon scales", "str_pl": "bundles of black dragon scales" },
@@ -49,7 +49,8 @@
   },
   {
     "id": "black_dragon_tanning_hide",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": "tanning black dragon hide",
     "description": "A treated black dragon hide which is undergoing the chemical processes required to become workable.  You will be able to activate it to unroll and make use of it when it is done.",
@@ -71,7 +72,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "black_dragon_tanned_hide",
     "symbol": ",",
     "color": "black_white",
@@ -86,7 +87,7 @@
   },
   {
     "id": "bundle_black_hide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "black_dragon_tanned_hide",
     "symbol": ",",
     "name": { "str": "bundle of black dragon hides", "str_pl": "bundles of black dragon hides" },

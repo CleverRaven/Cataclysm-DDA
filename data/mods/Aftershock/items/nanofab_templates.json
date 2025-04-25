@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_10mm_smart_template",
     "copy-from": "standard_template_construct",
     "color": "yellow",

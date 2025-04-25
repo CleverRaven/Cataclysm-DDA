@@ -31,7 +31,7 @@
   },
   {
     "id": "internal_woodshed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "internal woodshed" },
     "description": "Woodshed, in your chest..",
