@@ -5208,6 +5208,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "excluded_flags" | string, [variable object](#variable-object) or array of strings or variable objects | excludes items from the list by flags they have |
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
 | "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
+| "is_chargeable" | boolean | filter the list of items by whether or not they are chargeable.  `true` will only return electrical items that can hold more charge.  `false` will only return electrical items that cannot hold more charge (ie, fully charged items or ups / bionic items).
 | "worn_only" | boolean | return only items you you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
@@ -5243,6 +5244,7 @@ Examples:
           { "wielded_only": true },
           { "held_only": true },
           { "uses_energy": true },
+          { "is_chargeable": true },
           { "condition": { "math": [ "rand(1)" ] } }, // since 0 for conditions is evaluated as "false", this would randomly discard ~half of items from picked
           { "condition": { "math": [ "n_calories() >= 200" ] } }, // can check beta talker for it's specific properties via math
           { "condition": { "and": [ { "math": [ "n_calories() >= 200" ] }, { "math": [ "n_calories() <= 500" ] } ] } }, // and even as range!

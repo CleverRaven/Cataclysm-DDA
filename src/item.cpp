@@ -11360,6 +11360,22 @@ bool item::uses_energy() const
            ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
 }
 
+bool item::is_chargeable() const
+{
+    if( !uses_energy() ) {
+        return false;
+    }
+    // bionic power using items have ammo_capacity = player bionic power storage.  Since the items themselves aren't chargeable, auto fail unless they also have a magazine.
+    if( has_flag( flag_USES_BIONIC_POWER ) && !magazine_current() ) {
+        return false;
+    }
+    if( ammo_remaining() < ammo_capacity( ammo_battery ) ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 units::energy item::energy_remaining( const Character *carrier ) const
 {
     return energy_remaining( carrier, false );

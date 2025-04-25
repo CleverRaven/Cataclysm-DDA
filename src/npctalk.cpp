@@ -239,6 +239,7 @@ struct item_search_data {
     std::vector<str_or_var> flags;
     std::vector<str_or_var> excluded_flags;
     std::optional<bool> uses_energy;
+    std::optional<bool> is_chargeable;
     bool worn_only;
     bool wielded_only;
     bool held_only;
@@ -309,6 +310,9 @@ struct item_search_data {
         }
         if( jo.has_member( "uses_energy" ) ) {
             uses_energy.emplace( jo.get_member( "uses_energy" ) );
+        }
+        if( jo.has_member( "is_chargeable" ) ) {
+            is_chargeable.emplace( jo.get_member( "is_chargeable" ) );
         }
 
         worn_only = jo.get_bool( "worn_only", false );
@@ -423,6 +427,11 @@ struct item_search_data {
         }
 
         if( uses_energy.has_value() && loc->uses_energy() != uses_energy.value() ) {
+            return false;
+        }
+
+        if( is_chargeable.has_value() && ( ( is_chargeable.value() && !loc->is_chargeable() ) ||
+                                           ( !is_chargeable.value() && ( loc->is_chargeable() || !loc->uses_energy() ) ) ) ) {
             return false;
         }
 
