@@ -58,7 +58,7 @@
             },
             "effect": [
               { "u_message": "You are moving too slowly and fall into the water.", "type": "bad" },
-              { "u_lose_effect": "effect_biokin_perfected_motion" }
+              { "run_eocs": "EOC_BIOKIN_REMOVE_PERFECTED_MOTION" }
             ]
           }
         ]
