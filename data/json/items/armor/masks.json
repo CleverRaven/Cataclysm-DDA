@@ -112,6 +112,7 @@
     "id": "fencing_mask",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "fencing mask" },
     "description": "A tough hood made of steel mesh used by fencers.",
     "weight": "520 g",
