@@ -9381,8 +9381,7 @@ bool item::mod_damage( int qty )
         }
 
         // TODO: think about better way to telling the game what faults should be applied when
-        const std::vector<std::string> foo = { "handle", "handle_long", "spearhead" };
-        set_fault( random_potential_fault_of_type( random_entry( foo ) ) );
+        set_fault( random_potential_fault_of_type( "mechanical_damage" ) );
 
         return destroy;
     }

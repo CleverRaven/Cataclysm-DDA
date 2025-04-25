@@ -13,7 +13,7 @@
   {
     "type": "fault_group",
     "id": "handle_long",
-    "//": "Mechanical damage of a short handle (60 cm or less)",
+    "//": "Mechanical damage of a long shaft (60+ cm)",
     "group": [
       { "fault": "fault_handle_long_chipping", "weight": 100 },
       { "fault": "fault_handle_long_cracked", "weight": 50 },
@@ -60,6 +60,27 @@
       { "fault": "fault_spearhead_chipping", "weight": 100 },
       { "fault": "fault_spearhead_bent_socket", "weight": 100 },
       { "fault": "fault_spearhead_broken", "weight": 2 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "staff_short",
+    "//": "Mechanical damage of a short wooden staff (120 cm or smaller)",
+    "group": [
+      { "fault": "fault_staff_short_chipping", "weight": 100 },
+      { "fault": "fault_staff_short_cracked", "weight": 50 },
+      { "fault": "fault_staff_short_broken", "weight": 5 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "staff_long",
+    "//": "Mechanical damage of a long staff (120+ cm)",
+    "group": [
+      { "fault": "fault_staff_long_chipping", "weight": 100 },
+      { "fault": "fault_staff_long_cracked", "weight": 50 },
+      { "fault": "fault_staff_long_broken_half", "weight": 25 },
+      { "fault": "fault_staff_long_broken", "weight": 5 }
     ]
   }
 ]

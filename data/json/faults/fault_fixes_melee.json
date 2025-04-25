@@ -30,5 +30,49 @@
     "faults_removed": [ "fault_spearhead_bent_socket" ],
     "mod_damage": -1000,
     "mod_degradation": 5
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_duct_tape",
+    "name": "Duct-tape everything.",
+    "success_msg": "You duct-tape your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_staff_short_chipping", "fault_staff_short_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": 10,
+    "requirements": [ { "components": [ [ [ "duct_tape", 20 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_glue",
+    "name": "Glue the cracks.",
+    "success_msg": "You thoroughly glue your %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_staff_short_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": -20,
+    "requirements": [ [ "glue_any", 10 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_long_duct_tape",
+    "name": "Duct-tape everything.",
+    "success_msg": "You duct-tape your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_staff_long_chipping", "fault_staff_long_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": 10,
+    "requirements": [ { "components": [ [ [ "duct_tape", 40 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_staff_long_glue",
+    "name": "Glue the cracks.",
+    "success_msg": "You thoroughly glue the entire %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_handle_long_cracked" ],
+    "mod_damage": -1000,
+    "mod_degradation": -20,
+    "requirements": [ [ "glue_any", 25 ] ]
   }
 ]

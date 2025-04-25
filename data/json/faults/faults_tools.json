@@ -2,7 +2,7 @@
   {
     "type": "fault",
     "id": "fault_handle_chipping",
-    "fault_type": "handle",
+    "fault_type": "mechanical_damage",
     "name": { "str": "Chipping handle" },
     "degradation_mod": 50,
     "description": "Small pieces of the handle are chipping off."
@@ -10,7 +10,7 @@
   {
     "type": "fault",
     "id": "fault_handle_cracked",
-    "fault_type": "handle",
+    "fault_type": "mechanical_damage",
     "name": { "str": "Cracked handle" },
     "degradation_mod": 50,
     "description": "There is a nasty crack on a handle.  Better to fix it before the entire shaft snaps in half!"
@@ -18,7 +18,7 @@
   {
     "type": "fault",
     "id": "fault_handle_broken",
-    "fault_type": "handle",
+    "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
     "description": "Instead of a handle, there is just a small piece of wood that was left.",
     "item_suffix": "no handle",
@@ -32,7 +32,7 @@
   {
     "type": "fault",
     "id": "fault_handle_off",
-    "fault_type": "handle",
+    "fault_type": "mechanical_damage",
     "name": { "str": "No handle" },
     "description": "The handle that was here before snapped away.",
     "item_suffix": "no handle",
@@ -46,7 +46,7 @@
   {
     "type": "fault",
     "id": "fault_handle_long_chipping",
-    "fault_type": "handle_long",
+    "fault_type": "mechanical_damage",
     "name": { "str": "Chipping handle" },
     "degradation_mod": 50,
     "description": "Small pieces of the handle are chipping off."
@@ -54,7 +54,7 @@
   {
     "type": "fault",
     "id": "fault_handle_long_cracked",
-    "fault_type": "handle_long",
+    "fault_type": "mechanical_damage",
     "name": { "str": "Cracked handle" },
     "degradation_mod": 50,
     "description": "There is a nasty crack on a handle.  Better to fix it before the entire shaft snaps in half!"
@@ -62,10 +62,10 @@
   {
     "type": "fault",
     "id": "fault_handle_long_broken_half",
-    "fault_type": "handle_long",
+    "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
     "description": "The handle is snapped in half.  You still can use it, albeit less effectively.",
-    "item_suffix": "no handle",
+    "item_suffix": "snapped",
     "melee_damage_mod": [
       { "damage_id": "cut", "multiply": 0.7 },
       { "damage_id": "stab", "multiply": 0.7 },
@@ -76,7 +76,7 @@
   {
     "type": "fault",
     "id": "fault_handle_long_broken",
-    "fault_type": "handle_long",
+    "fault_type": "mechanical_damage",
     "name": { "str": "Broken handle" },
     "description": "The handle is completely broken.",
     "item_suffix": "no handle",
@@ -90,7 +90,7 @@
   {
     "type": "fault",
     "id": "fault_handle_long_off",
-    "fault_type": "handle_long",
+    "fault_type": "mechanical_damage",
     "name": { "str": "No handle" },
     "description": "The head of the tool completely separated off the shaft.",
     "item_suffix": "no handle",
