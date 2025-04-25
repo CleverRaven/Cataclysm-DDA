@@ -581,7 +581,7 @@
     "id": "f_afs_sofa",
     "name": "foam sofa",
     "symbol": "H",
-    "description": "Small modular foam cushions mounted over a sheet metal frame, designed in classic corporate style, they are surprisingly comfortable.  A mainstay of interior design since before the discontinuity.",
+    "description": "The classic corporate-stlye sofa, modular foam cushions mounted over a minimalist stainless steel frame.  A mainstay of frontier design since before the discontinuity.",
     "bgcolor": "red",
     "looks_like": "f_sofa",
     "move_cost_mod": 1,
