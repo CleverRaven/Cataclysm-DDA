@@ -372,14 +372,6 @@
     "color": "yellow"
   },
   {
-    "id": "animalshelter",
-    "copy-from": "animalshelter",
-    "type": "overmap_terrain",
-    "name": "animal shelter",
-    "sym": "a",
-    "color": "yellow"
-  },
-  {
     "type": "overmap_terrain",
     "id": "s_reststop_1",
     "copy-from": "s_reststop_1",

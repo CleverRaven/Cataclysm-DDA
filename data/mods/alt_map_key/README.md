@@ -27,11 +27,8 @@ Colors mark the (loose) thematic category
 - Brown - Farming, Nature, and Outdoors
   - Cave, campsite, farm, orchard, hydroponics farm, mushroom cave, dairy farm
 
-- Light Gray - Workplaces and Abandoned
-  - Offices, mines, factories, docks, call centers, dumps, industrial
-
 - Green - Food, Booze, and Restaurants
-  - Grocery store, bar, restaurant, coffeshop, brewery, candy shop
+  - Grocery store, bar, restaurant, coffee shop, brewery, candy shop
 
 - Light Blue - Vehicles, Repair, and Fuel
   - Garages, parking lots, gas stations, car sales lot, parking ramps, go cart track
@@ -39,20 +36,23 @@ Colors mark the (loose) thematic category
 - Light Cyan - Hardware, Tools, and Construction
   - Public works, home improvement, electronics store, construction sites, machine shops, plumbers
 
+- Light Gray - Workplaces and Abandoned
+  - Offices, mines, factories, docks, call centers, dumps, industrial
+
 - Light Green - Housing and Residential
   - Houses, apartments, hotels, mansions, trailer parks, dorms, old folks homes
 
 - Light Red - Medical, Drugs, and Cybernetics
-  - Hospitals, doctor's offices, pharmacies, vet, methlab, pot farm, cyber boutique, optometrist, autodoc
+  - Hospitals, doctor's offices, pharmacies, vet, meth lab, pot farm, cyber boutique, optometrist, autodoc
 
 - Magenta - Retail and Supplies
-  - Most misc stores. Any place that sold stuff not covered elsewhere
+  - Most miscellaneous stores. Any place that sold stuff not covered elsewhere
 
 - Pink - Science, Radiation, Monsters, and Weirdness
   - Slime, fungus, labs, craters, robot dispatch center, anomalous zones
 
 - Red - Guns, Military, and Emergency
-  - Gun stores, police stations, bunkers, FEMA, LMOE, evac shelter, heckpoints, mil outposts, minefields, army camps
+  - Gun stores, police stations, bunkers, FEMA, LMOE, evac shelter, checkpoints, mil outposts, minefields, army camps
 
 - White - Tourism, Culture, Education and Public Spaces
   - Museums, libraries, bookstores, churches, cemeteries, college campus, theater, gallery, parks, public spaces/gardens

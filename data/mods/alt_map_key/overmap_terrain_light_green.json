@@ -461,240 +461,130 @@
     "color": "i_light_green"
   },
   {
+    "//": "Ripped the ground floor parking tiles out into light blue, these are empty air in actuality, should PR this",
     "type": "overmap_terrain",
-    "id": "hotel_tower_1_1",
-    "copy-from": "hotel_tower_1_1",
-    "name": "hotel parking",
+    "id": [
+      "hotel_tower_flr2_1_4",
+      "hotel_tower_flr3_1_4",
+      "hotel_tower_flr4_1_4",
+      "hotel_tower_roof_1_4",
+      "hotel_tower_flr2_1_6",
+      "hotel_tower_flr3_1_6",
+      "hotel_tower_flr4_1_6",
+      "hotel_tower_roof_1_6"
+    ],
+    "copy-from": "hotel_tower_flr2_1_4",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "hotel_tower_flr2_1_5",
+      "hotel_tower_flr3_1_5",
+      "hotel_tower_flr4_1_5",
+      "hotel_tower_flr2_1_5B",
+      "hotel_tower_flr2_1_5C",
+      "hotel_tower_1_7",
+      "hotel_tower_1_8",
+      "hotel_tower_1_9",
+      "hotel_tower_flr2_1_7",
+      "hotel_tower_flr2_1_8",
+      "hotel_tower_flr2_1_9",
+      "hotel_tower_flr3_1_7",
+      "hotel_tower_flr3_1_8",
+      "hotel_tower_flr3_1_9",
+      "hotel_tower_flr4_1_7",
+      "hotel_tower_flr4_1_8",
+      "hotel_tower_flr4_1_9",
+      "hotel_tower_roof_1_7",
+      "hotel_tower_roof_1_8",
+      "hotel_tower_roof_1_9",
+      "hotel_tower_6_1_7",
+      "hotel_tower_6_1_8",
+      "hotel_tower_6_1_9"
+    ],
+    "copy-from": "hotel_tower_flr2_1_5",
+    "name": "hotel",
     "sym": "h",
     "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_1_2",
-    "copy-from": "hotel_tower_1_2",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_3",
-    "copy-from": "hotel_tower_1_3",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_4",
-    "copy-from": "hotel_tower_1_4",
-    "name": "hotel parking",
-    "sym": "h",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_5",
+    "id": [ "hotel_tower_1_5", "hotel_tower_roof_1_5", "hotel_tower_1_5B", "hotel_tower_1_5C" ],
     "copy-from": "hotel_tower_1_5",
     "name": "hotel entrance",
-    "sym": "H",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_6",
-    "copy-from": "hotel_tower_1_6",
-    "name": "hotel parking",
     "sym": "h",
     "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_1_7",
-    "copy-from": "hotel_tower_1_7",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_8",
-    "copy-from": "hotel_tower_1_8",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_1_9",
-    "copy-from": "hotel_tower_1_9",
-    "name": "hotel tower",
-    "sym": "H",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hotel_tower_b_1",
+    "id": [ "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3" ],
     "copy-from": "hotel_tower_b_1",
     "name": "hotel basement",
-    "sym": "B",
+    "sym": "h",
     "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_b_2",
-    "copy-from": "hotel_tower_b_2",
-    "name": "hotel basement",
-    "sym": "B",
+    "id": [ "motel_entrance" ],
+    "copy-from": "motel_entrance",
+    "name": "motel entrance",
+    "sym": "m",
     "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_b_3",
-    "copy-from": "hotel_tower_b_3",
-    "name": "hotel basement",
-    "sym": "B",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_motel",
-    "copy-from": "generic_motel",
+    "id": [ "motel_1", "motel_2", "motel_3" ],
+    "copy-from": "motel_1",
     "name": "motel",
     "sym": "m",
     "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_entrance",
-    "copy-from": "generic_motel",
-    "sym": "M"
+    "id": [ "motel_twd_1", "motel_entrance_no_sidewalk" ],
+    "copy-from": "motel_twd_1",
+    "name": "motel",
+    "sym": "m",
+    "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_1",
-    "copy-from": "generic_motel"
+    "id": [
+      "motel_twd_2",
+      "motel_twd_1_f1",
+      "motel_1_no_sidewalk",
+      "motel_2_no_sidewalk",
+      "motel_3_no_sidewalk",
+      "2fmotel_entrance_f2",
+      "2fmotel_1_f2",
+      "2fmotel_2_f2",
+      "2fmotel_3_f2"
+    ],
+    "copy-from": "motel_twd_2",
+    "name": "motel",
+    "sym": "m",
+    "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_3",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_twd_1",
-    "copy-from": "generic_motel",
-    "sym": "M"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_entrance_no_sidewalk",
-    "copy-from": "generic_motel",
-    "sym": "M"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_twd_2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_twd_1_f1",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_1_no_sidewalk",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_2_no_sidewalk",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_3_no_sidewalk",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_entrance_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_1_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_2_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_3_f2",
-    "copy-from": "generic_motel"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_twd_2_f1",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_twd_1_f2",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_entrance_roof",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_1_roof",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_2_roof",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "motel_3_roof",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_1_r",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_2_r",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "2fmotel_3_r",
-    "copy-from": "generic_motel",
-    "name": "motel roof"
+    "id": [
+      "motel_twd_2_f1",
+      "motel_twd_1_f2",
+      "motel_entrance_roof",
+      "motel_1_roof",
+      "motel_2_roof",
+      "motel_3_roof",
+      "2fmotel_1_r",
+      "2fmotel_2_r",
+      "2fmotel_3_r"
+    ],
+    "copy-from": "motel_twd_2_f1",
+    "name": "motel roof",
+    "sym": "m",
+    "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
@@ -970,6 +860,14 @@
     "id": "s_daycare",
     "copy-from": "s_daycare",
     "name": "daycare center",
+    "sym": "d",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_daycare_roof",
+    "copy-from": "s_daycare_roof",
+    "name": "daycare center roof",
     "sym": "d",
     "color": "light_green"
   },

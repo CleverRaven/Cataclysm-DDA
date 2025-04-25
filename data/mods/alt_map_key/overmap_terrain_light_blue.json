@@ -19,6 +19,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4", "hotel_tower_1_6" ],
+    "copy-from": "hotel_tower_1_1",
+    "name": "hotel parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "s_lot",
       "parking_2x1_0",
@@ -78,6 +86,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_gas_1" ],
+    "copy-from": "s_gas_1",
+    "name": "gas station",
+    "sym": "g",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_gas_0_0", "s_gas_1_0", "s_gas_0_1", "s_gas_1_1", "s_gas_g1" ],
     "copy-from": "s_gas_0_0",
     "name": "gas station",
@@ -121,6 +137,14 @@
     "id": "s_gas_rural",
     "copy-from": "s_gas_rural",
     "name": "gas station",
+    "sym": "g",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_rural_roof" ],
+    "copy-from": "s_gas_rural_roof",
+    "name": "gas station roof",
     "sym": "g",
     "color": "light_blue"
   },
@@ -438,8 +462,48 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1", "s_bike_shop_roof_1_shack_roof" ],
+    "copy-from": "s_bike_shop_roof",
+    "name": "bike shop roof",
+    "color": "light_blue",
+    "sym": "b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom",
+    "copy-from": "cs_car_showroom",
+    "name": "car showroom",
+    "sym": "c",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom_2ndfloor",
+    "copy-from": "cs_car_showroom_2ndfloor",
+    "name": "car showroom 2nd floor",
+    "sym": "c",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom_roof",
+    "copy-from": "cs_car_showroom_roof",
+    "name": "car showroom roof",
+    "sym": "c",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cs_car_dealership", "s_cardealer" ],
     "copy-from": "cs_car_dealership",
+    "name": "car dealership",
+    "sym": "c",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cs_car_dealership_roof", "s_cardealer_roof" ],
+    "copy-from": "cs_car_dealership_roof",
     "name": "car dealership",
     "sym": "c",
     "color": "light_blue"
@@ -454,6 +518,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_tire_shop",
+    "copy-from": "cs_tire_shop",
+    "name": "tire shop",
+    "sym": "t",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_tire_shop_roof",
+    "copy-from": "cs_tire_shop_roof",
+    "name": "tire shop roof",
+    "sym": "t",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restparking_2",
     "copy-from": "s_restparking_2",
     "name": "rest area parking",
@@ -462,40 +542,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a1",
+    "id": [ "s_shoppingplaza_a1", "s_shoppingplaza_a2", "s_shoppingplaza_a3", "s_shoppingplaza_a4", "s_shoppingplaza_a5" ],
     "copy-from": "s_shoppingplaza_a1",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a2",
-    "copy-from": "s_shoppingplaza_a2",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a3",
-    "copy-from": "s_shoppingplaza_a3",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a4",
-    "copy-from": "s_shoppingplaza_a4",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_shoppingplaza_a5",
-    "copy-from": "s_shoppingplaza_a5",
     "name": "parking lot",
     "sym": "p",
     "color": "light_blue"

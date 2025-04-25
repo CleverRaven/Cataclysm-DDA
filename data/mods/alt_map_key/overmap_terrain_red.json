@@ -99,6 +99,38 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_airsoft" ],
+    "copy-from": "s_airsoft",
+    "name": "airsoft store",
+    "sym": "a",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_airsoft_roof" ],
+    "copy-from": "s_airsoft_roof",
+    "name": "airsoft store roof",
+    "sym": "a",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b11",
+    "copy-from": "s_gas_b11",
+    "name": "bunker reception",
+    "sym": "b",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_b20", "s_gas_b21" ],
+    "copy-from": "s_gas_b20",
+    "name": "bunker",
+    "sym": "b",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "shelter",
     "copy-from": "shelter",
     "name": "evac shelter",

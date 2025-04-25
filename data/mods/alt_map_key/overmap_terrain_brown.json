@@ -886,14 +886,6 @@
     "color": "brown"
   },
   {
-    "id": "s_gardening",
-    "copy-from": "s_gardening",
-    "type": "overmap_terrain",
-    "name": "gardening supply",
-    "sym": "g",
-    "color": "brown"
-  },
-  {
     "type": "overmap_terrain",
     "id": "lumberyard_0_0",
     "copy-from": "lumberyard_0_0",
