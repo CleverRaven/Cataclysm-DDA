@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -1534,53 +1535,24 @@ tripoint_bub_ms monster::scent_move()
 int monster::calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                             bool ignore_fields ) const
 {
-    int movecost = 0;
-
     map &here = get_map();
-    const int source_cost = here.move_cost( f, nullptr, ignore_fields );
-    const int dest_cost = here.move_cost( t, nullptr, ignore_fields );
+
     // Digging and flying monsters ignore terrain cost
-    if( flies() || ( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, t ) ) ) {
-        movecost = 100;
-        // Swimming monsters move super fast in water
-    } else if( swims() ) {
+    ignore_fields |= ( flies() || ( digging() &&
+                                    here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, t ) ) );
+
+    // TODO: if Z movement are handled here, add via_ramp
+    // TODO: returns 0 when failed. Check it?
+    int movecost = here.combined_movecost( f, t, nullptr, 0, flies(), false, ignore_fields );
+
+    // Swimming monsters move super fast in water
+    if( swims() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, f ) ) {
-            movecost += 25;
-        } else {
-            movecost += 50 * source_cost;
+            movecost /= 2;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, t ) ) {
-            movecost += 25;
-        } else {
-            movecost += 50 * dest_cost;
+            movecost /= 2;
         }
-    } else if( can_submerge() ) {
-        // No-breathe monsters have to walk underwater slowly
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, f ) ) {
-            movecost += 250;
-        } else {
-            movecost += 50 * source_cost;
-        }
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, t ) ) {
-            movecost += 250;
-        } else {
-            movecost += 50 * dest_cost;
-        }
-        movecost /= 2;
-    } else if( climbs() ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, f ) ) {
-            movecost += 150;
-        } else {
-            movecost += 50 * source_cost;
-        }
-        if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, t ) ) {
-            movecost += 150;
-        } else {
-            movecost += 50 * dest_cost;
-        }
-        movecost /= 2;
-    } else {
-        movecost = ( ( 50 * source_cost ) + ( 50 * dest_cost ) ) / 2.0;
     }
 
     return movecost;
