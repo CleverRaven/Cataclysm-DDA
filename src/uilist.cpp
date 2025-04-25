@@ -65,10 +65,10 @@ void uilist_impl::draw_controls()
 {
     using cata::options::mouse;
     bool cursor_shown = SDL_ShowCursor(SDL_QUERY) == SDL_ENABLE;
-    if (mouse.enabled && mouse.hidekb && !cursor_shown) {
-        ImGui::GetCurrentContext()->NavHighlightItemUnderNav=false;
+    if (mouse.hidekb && !cursor_shown) {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
     } else {
-        ImGui::GetCurrentContext()->NavHighlightItemUnderNav=true;
+        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
     }
 
     if( !parent.text.empty() ) {
