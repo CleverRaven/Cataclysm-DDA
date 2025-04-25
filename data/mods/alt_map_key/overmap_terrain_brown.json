@@ -727,11 +727,122 @@
     "color": "brown"
   },
   {
-    "id": "small_wooded_trail",
-    "copy-from": "small_wooded_trail",
     "type": "overmap_terrain",
+    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
+    "copy-from": "small_wooded_trail",
     "name": "small wooded trail",
-    "sym": "t",
+    "sym": "s",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cabin",
+      "cabin_1",
+      "cabin_2",
+      "cabin_3",
+      "cabin_4",
+      "cabin_5",
+      "cabin_6",
+      "cabin_7",
+      "cabin_lapin",
+      "bandit_cabin",
+      "cabin_prepper"
+    ],
+    "copy-from": "cabin",
+    "name": "cabin",
+    "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_liam" ],
+    "copy-from": "cabin_liam",
+    "name": "cabin",
+    "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cabin_roof",
+      "cabin_roof_1",
+      "cabin_roof_2",
+      "cabin_roof_3",
+      "cabin_roof_4",
+      "cabin_roof_5",
+      "cabin_roof_6",
+      "cabin_roof_7",
+      "cabin_roof_lapin",
+      "bandit_cabin_roof"
+    ],
+    "copy-from": "cabin_roof",
+    "name": "cabin roof",
+    "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_lake", "lake_cabin_boathouse", "cabin_strange" ],
+    "copy-from": "cabin_lake",
+    "name": "cabin",
+    "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ],
+    "copy-from": "cabin_lake_roof",
+    "name": "cabin roof",
+    "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_strange_b",
+    "copy-from": "cabin_strange_b",
+    "name": "cabin basement",
+    "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_strange_roof",
+    "copy-from": "cabin_strange_roof",
+    "name": "cabin roof",
+    "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "yard",
+    "copy-from": "yard",
+    "name": "yard",
+    "sym": "y",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_farm",
+    "copy-from": "house_farm",
+    "name": "rural house",
+    "sym": "r",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_farm_roof",
+    "copy-from": "house_farm_roof",
+    "name": "rural house roof",
+    "sym": "r",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "survivor_forest_camp" ],
+    "copy-from": "survivor_forest_camp",
+    "name": "survivor forest camp",
+    "sym": "s",
     "color": "brown"
   },
   {

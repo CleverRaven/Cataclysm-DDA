@@ -1,40 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [
-      "park",
-      "park_roof",
-      "park_2",
-      "park_3",
-      "park_4",
-      "park_5",
-      "park_5_roof",
-      "park_6",
-      "park_7",
-      "park_7_roof",
-      "dog_park",
-      "volleyball_court",
-      "tennis_court",
-      "baskeball_court",
-      "playground",
-      "playground_roof",
-      "playground_1"
-    ],
-    "copy-from": "park",
-    "name": "park",
-    "sym": "p",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_private_park",
-    "copy-from": "cs_private_park",
-    "name": "private park",
-    "sym": "p",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "paintball_field", "paintball_field_1" ],
     "copy-from": "paintball_field",
     "name": "paintball field",
@@ -115,7 +81,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "station_radio",
+    "id": [ "station_radio", "station_radio_1" ],
     "copy-from": "station_radio",
     "name": "radio station",
     "sym": "r",
@@ -123,8 +89,56 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "radio_tower",
+    "id": [ "station_radio_roof", "station_radio_roof_1" ],
+    "copy-from": "station_radio_roof",
+    "name": "radio station roof",
+    "sym": "r",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "station_radio_tower_even",
+      "station_radio_tower_odd",
+      "station_radio_tower_top",
+      "station_radio_1_tower_even",
+      "station_radio_1_tower_odd",
+      "station_radio_1_tower_top"
+    ],
+    "copy-from": "station_radio_tower_even",
+    "name": "radio tower",
+    "sym": "r",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "radio_tower",
+      "radio_tower_even",
+      "radio_tower_even_stair_only",
+      "radio_tower_odd",
+      "radio_tower_top",
+      "radio_tower_1",
+      "radio_tower_roof_1"
+    ],
     "copy-from": "radio_tower",
+    "name": "radio tower",
+    "sym": "r",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "wasp_tower",
+      "wasp_tower_1",
+      "wasp_tower_roof_1",
+      "wasp_tower_odd_1",
+      "wasp_tower_odd_2",
+      "wasp_tower_even_1",
+      "wasp_tower_even_2",
+      "wasp_tower_top"
+    ],
+    "copy-from": "wasp_tower",
     "name": "radio tower",
     "sym": "r",
     "color": "blue"
@@ -298,10 +312,26 @@
     "color": "blue"
   },
   {
+    "type": "overmap_terrain",
     "id": [ "pavilion", "pavilion_1" ],
     "copy-from": "pavilion",
-    "type": "overmap_terrain",
     "name": "pavilion",
+    "sym": "p",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_public_10",
+    "copy-from": "trailer_public_10",
+    "name": "pavilion",
+    "sym": "p",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pavilion_roof", "pavilion_roof_1", "trailer_public_10_roof" ],
+    "copy-from": "pavilion_roof",
+    "name": "pavilion roof",
     "sym": "p",
     "color": "blue"
   },
@@ -346,10 +376,18 @@
     "color": "blue"
   },
   {
+    "type": "overmap_terrain",
     "id": "bowling_alley",
     "copy-from": "bowling_alley",
-    "type": "overmap_terrain",
     "name": "bowling alley",
+    "sym": "b",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bowling_alley_roof",
+    "copy-from": "bowling_alley_roof",
+    "name": "bowling alley roof",
     "sym": "b",
     "color": "blue"
   },
@@ -362,10 +400,18 @@
     "color": "blue"
   },
   {
+    "type": "overmap_terrain",
     "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2ndFloor_1" ],
     "copy-from": "gym_fitness",
-    "type": "overmap_terrain",
     "name": "fitness gym",
+    "sym": "f",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gym_fitness_roof", "gym_fitness_roof_1" ],
+    "copy-from": "gym_fitness_roof",
+    "name": "fitness gym roof",
     "sym": "f",
     "color": "blue"
   },
@@ -395,6 +441,38 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "bank", "bank_1" ],
+    "copy-from": "bank",
+    "name": "bank",
+    "sym": "b",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bank_roof", "bank_roof_1" ],
+    "copy-from": "bank",
+    "name": "bank roof",
+    "sym": "b",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smoke_lounge", "smoke_lounge_1" ],
+    "copy-from": "smoke_lounge",
+    "name": "smoking lounge",
+    "sym": "s",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smoke_lounge_roof", "smoke_lounge_roof_1" ],
+    "copy-from": "smoke_lounge_roof",
+    "name": "smoking lounge roof",
+    "sym": "s",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_cosmetic" ],
     "copy-from": "s_cosmetic",
     "name": "cosmetics store",
@@ -403,17 +481,33 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "post_office", "post_office_1" ],
-    "copy-from": "post_office",
-    "name": "post office",
-    "sym": "p",
+    "id": [ "barber_shop" ],
+    "copy-from": "barber_shop",
+    "name": "barber shop",
+    "sym": "b",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
-    "id": "stripclub",
+    "id": [ "barber_shop_roof" ],
+    "copy-from": "barber_shop_roof",
+    "name": "barber shop roof",
+    "sym": "b",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "stripclub", "stripclub_1", "stripclub_2" ],
     "copy-from": "stripclub",
     "name": "strip club",
+    "sym": "s",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "stripclub_roof", "stripclub_roof_1", "stripclub_roof_2" ],
+    "copy-from": "generic_city_building_roof",
+    "name": "strip club roof",
     "sym": "s",
     "color": "blue"
   },
@@ -451,10 +545,26 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "music_venue",
+    "id": [ "music_venue", "music_venue_1" ],
     "copy-from": "music_venue",
     "name": "music venue",
     "sym": "m",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "music_venue_roof", "music_venue_1_roof", "music_venue_1_roof_top" ],
+    "copy-from": "music_venue_roof",
+    "name": "music venue roof",
+    "sym": "m",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "baskeball_court" ],
+    "copy-from": "baskeball_court",
+    "name": "basketball court",
+    "sym": "b",
     "color": "blue"
   },
   {

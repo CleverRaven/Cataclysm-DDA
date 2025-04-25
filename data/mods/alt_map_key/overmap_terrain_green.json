@@ -9,10 +9,34 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_grocery_roof", "s_grocery_roof_1" ],
+    "copy-from": "s_grocery_roof",
+    "name": "grocery store roof",
+    "sym": "g",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_liquor",
     "copy-from": "s_liquor",
     "name": "liquor store",
     "sym": "l",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner",
+    "copy-from": "s_diner",
+    "name": "diner",
+    "sym": "d",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_diner_2ndfloor", "s_diner_roof" ],
+    "copy-from": "s_diner_2ndfloor",
+    "name": "diner",
+    "sym": "d",
     "color": "green"
   },
   {
@@ -25,7 +49,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_restaurant_fast", "s_restaurant_fast_1" ],
+    "id": [
+      "s_restaurant_foodplace_roof",
+      "s_restaurant_foodplace_upper_roof",
+      "s_restaurant_roof",
+      "s_restaurant_roof_1",
+      "s_restaurant_roof_2",
+      "s_restaurant_upper_roof_2",
+      "s_restaurant_roof_3"
+    ],
+    "copy-from": "s_restaurant_foodplace_roof",
+    "name": "restaurant roof",
+    "sym": "r",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_restaurant_fast",
+      "s_restaurant_fast_1",
+      "drive_through_0_0",
+      "drive_through_1_0",
+      "drive_through_2_0",
+      "drive_through_0_1",
+      "drive_through_1_1",
+      "drive_through_2_1"
+    ],
     "copy-from": "s_restaurant_fast",
     "name": "fast food restaurant",
     "sym": "f",
@@ -33,16 +82,34 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_diner",
-    "name": "diner",
-    "copy-from": "s_diner",
-    "sym": "d",
+    "id": [
+      "s_restaurant_fast_roof",
+      "s_restaurant_fast_roof_1",
+      "drive_through_roof_0_0",
+      "drive_through_roof_1_0",
+      "drive_through_roof_2_0",
+      "drive_through_roof_0_1",
+      "drive_through_roof_1_1",
+      "drive_through_roof_2_1"
+    ],
+    "copy-from": "s_restaurant_fast_roof",
+    "name": "fast food restaurant roof",
+    "sym": "f",
     "color": "green"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_restaurant_coffee", "s_restaurant_coffee_1", "s_restaurant_coffee_2" ],
     "copy-from": "s_restaurant_coffee",
+    "looks_like": "s_restaurant_coffee",
+    "name": "coffee shop",
+    "sym": "c",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_restaurant_coffee_roof", "s_restaurant_coffee_roof_1", "s_restaurant_coffee_roof_2" ],
+    "copy-from": "s_restaurant_coffee_roof",
     "name": "coffee shop",
     "sym": "c",
     "color": "green"
@@ -69,14 +136,6 @@
     "copy-from": "s_pizza_parlor",
     "name": "pizza parlor",
     "sym": "p",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cabin_strange",
-    "copy-from": "cabin_strange",
-    "name": "forest",
-    "sym": "#",
     "color": "green"
   },
   {
@@ -241,9 +300,17 @@
   {
     "type": "overmap_terrain",
     "id": "icecream_shop",
-    "copy-from": "icecream_shop",
     "name": "icecream shop",
-    "sym": "s",
+    "copy-from": "icecream_shop",
+    "sym": "i",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop_roof",
+    "name": "icecream shop roof",
+    "copy-from": "icecream_shop_roof",
+    "sym": "i",
     "color": "green"
   },
   {
@@ -267,6 +334,14 @@
     "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ],
     "copy-from": "s_butcher",
     "name": "butcher shop",
+    "sym": "b",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_butcher_roof", "s_butcher_roof_1", "s_butcher_roof_2", "s_butcher_upper_roof", "s_butcher_upper_roof_1" ],
+    "copy-from": "s_butcher_roof",
+    "name": "butcher shop roof",
     "sym": "b",
     "color": "green"
   },
@@ -338,14 +413,6 @@
     "type": "overmap_terrain",
     "id": "central_lab_entrance",
     "copy-from": "central_lab_entrance",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_cabin",
-    "copy-from": "bandit_cabin",
     "name": "forest",
     "sym": "#",
     "color": "green"

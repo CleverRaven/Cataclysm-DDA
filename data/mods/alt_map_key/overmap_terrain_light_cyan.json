@@ -9,6 +9,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_hardware_roof", "s_hardware_roof_1", "s_hardware_roof_2", "s_hardware_roof_3" ],
+    "copy-from": "s_hardware_roof",
+    "name": "hardware store roof",
+    "sym": "h",
+    "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ],
     "copy-from": "s_electronics",
     "name": "electronics store",
@@ -62,5 +70,39 @@
     "name": "home improvement store",
     "sym": "h",
     "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lightindustry_00",
+      "s_lightindustry_00_roof",
+      "s_lightindustry_01",
+      "s_lightindustry_01_roof",
+      "s_lightindustry_10",
+      "s_lightindustry_10_roof",
+      "s_lightindustry_11",
+      "s_lightindustry_11_roof"
+    ],
+    "name": "light industry",
+    "copy-from": "s_lightindustry_00",
+    "sym": "i",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lightindustry_scen_00",
+      "s_lightindustry_scen_00_roof",
+      "s_lightindustry_scen_01",
+      "s_lightindustry_scen_01_roof",
+      "s_lightindustry_scen_10",
+      "s_lightindustry_scen_10_roof",
+      "s_lightindustry_scen_11",
+      "s_lightindustry_scen_11_roof"
+    ],
+    "name": "light industry",
+    "copy-from": "s_lightindustry_scen_00",
+    "sym": "i",
+    "color": "i_light_cyan"
   }
 ]

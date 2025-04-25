@@ -113,14 +113,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_strange_b",
-    "copy-from": "cabin_strange_b",
-    "name": "cabin basement",
-    "sym": "b",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mine_entrance",
     "copy-from": "mine_entrance",
     "name": "mine entrance",
@@ -187,6 +179,14 @@
     "copy-from": "emptyresidentiallot",
     "name": "empty residential lot",
     "sym": "e",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_city_dump_small",
+    "copy-from": "cs_city_dump_small",
+    "name": "small dump",
+    "sym": "s",
     "color": "light_gray"
   },
   {
@@ -271,9 +271,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "recyclecenter",
+    "id": [ "recyclecenter", "recyclecenter_1", "recyclecenter_2" ],
     "copy-from": "recyclecenter",
     "name": "recycle center",
+    "sym": "r",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "recyclecenter_roof", "recyclecenter_roof_1", "recyclecenter_roof_2" ],
+    "copy-from": "recyclecenter_roof",
+    "name": "recycle center roof",
     "sym": "r",
     "color": "light_gray"
   },

@@ -9,8 +9,33 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_sports_roof",
+    "copy-from": "s_sports_roof",
+    "name": "sporting goods store roof",
+    "sym": "s",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
     "copy-from": "s_clothes",
+    "name": "clothing store",
+    "sym": "c",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_clothes_roof",
+      "s_clothes_roof_1",
+      "s_clothes_roof_2",
+      "s_clothes_roof_3",
+      "s_clothes_roof_4",
+      "s_clothes_roof_5",
+      "s_clothes_roof_6",
+      "s_clothes_upper_roof_4"
+    ],
+    "copy-from": "s_clothes_roof",
     "name": "clothing store",
     "sym": "c",
     "color": "magenta"
@@ -25,10 +50,154 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "pawn_roof", "pawn_roof_1", "pawn_pf_roof" ],
+    "copy-from": "pawn_roof",
+    "name": "pawn shop roof",
+    "sym": "p",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_sex_shop",
+    "copy-from": "cs_sex_shop",
+    "name": "sex shop",
+    "sym": "s",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_sex_shop_roof",
+    "copy-from": "cs_sex_shop_roof",
+    "name": "sex shop roof",
+    "sym": "s",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping",
+    "name": "outdoorsman's store",
+    "copy-from": "s_camping",
+    "sym": "o",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping_roof",
+    "name": "outdoorsman's store",
+    "copy-from": "s_camping_roof",
+    "sym": "o",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "strip_mall_1", "strip_mall_2", "strip_mall_3", "strip_mall_4" ],
+    "copy-from": "strip_mall_1",
+    "name": "strip mall",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "strip_mall_roof_1", "strip_mall_roof_2", "strip_mall_roof_3", "strip_mall_roof_4" ],
+    "copy-from": "strip_mall_roof_1",
+    "name": "strip mall roof",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2", "craft_shop_3" ],
+    "copy-from": "craft_shop",
+    "name": "craft shop",
+    "sym": "c",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_upper_roof",
+    "copy-from": "craft_shop_upper_roof",
+    "name": "craft shop upper roof",
+    "sym": "c",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2", "craft_shop_roof_3" ],
+    "copy-from": "craft_shop_roof",
+    "name": "craft shop roof",
+    "sym": "c",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "craft_shop_2ndfloor_2", "craft_shop_2ndfloor_3" ],
+    "copy-from": "craft_shop_2ndfloor_2",
+    "name": "craft shop 2nd floor",
+    "sym": "c",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
     "copy-from": "mil_surplus",
     "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "m",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_thrift",
+    "copy-from": "s_thrift",
+    "name": "thrift store",
+    "sym": "t",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_thrift_roof",
+    "copy-from": "s_thrift_roof",
+    "name": "thrift store roof",
+    "sym": "t",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ],
+    "copy-from": "mil_surplus_roof",
+    "name": { "str": "mil. surplus roof", "//NOLINT(cata-text-style)": "not a period" },
+    "sym": "m",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_dive_shop",
+    "name": "dive shop",
+    "copy-from": "s_dive_shop",
+    "sym": "d",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_dive_shop_roof",
+    "name": "dive shop roof",
+    "copy-from": "s_dive_shop_roof",
+    "sym": "d",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salon",
+    "copy-from": "salon",
+    "name": "salon",
+    "sym": "s",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salon_roof",
+    "copy-from": "salon_roof",
+    "name": "salon roof",
+    "sym": "s",
     "color": "magenta"
   },
   {
@@ -181,398 +350,6 @@
     "copy-from": "megastore_0_0_roof"
   },
   {
-    "type": "overmap_terrain",
-    "id": "mall_a_3",
-    "copy-from": "mall_a_3",
-    "name": "mall - loading bay",
-    "sym": "M",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_4",
-    "copy-from": "mall_a_4",
-    "name": "mall - utilities",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_5",
-    "copy-from": "mall_a_5",
-    "name": "mall - utilities",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_11",
-    "copy-from": "mall_a_11",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_12",
-    "copy-from": "mall_a_12",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_13",
-    "copy-from": "mall_a_13",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_14",
-    "copy-from": "mall_a_14",
-    "name": "mall - entrance",
-    "sym": "M",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_20",
-    "copy-from": "mall_a_20",
-    "name": "mall - food court",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_21",
-    "copy-from": "mall_a_21",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_22",
-    "copy-from": "mall_a_22",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_23",
-    "copy-from": "mall_a_23",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_24",
-    "copy-from": "mall_a_24",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_25",
-    "copy-from": "mall_a_25",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_26",
-    "copy-from": "mall_a_26",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_29",
-    "copy-from": "mall_a_29",
-    "name": "mall - food court",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_30",
-    "copy-from": "mall_a_30",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_31",
-    "copy-from": "mall_a_31",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_32",
-    "copy-from": "mall_a_32",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_33",
-    "copy-from": "mall_a_33",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_34",
-    "copy-from": "mall_a_34",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_35",
-    "copy-from": "mall_a_35",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_38",
-    "copy-from": "mall_a_38",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_39",
-    "copy-from": "mall_a_39",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_40",
-    "copy-from": "mall_a_40",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_41",
-    "copy-from": "mall_a_41",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_42",
-    "copy-from": "mall_a_42",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_43",
-    "copy-from": "mall_a_43",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_44",
-    "copy-from": "mall_a_44",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_47",
-    "copy-from": "mall_a_47",
-    "name": "mall - entrance",
-    "sym": "M",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_48",
-    "copy-from": "mall_a_48",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_49",
-    "copy-from": "mall_a_49",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_50",
-    "copy-from": "mall_a_50",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_51",
-    "copy-from": "mall_a_51",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_52",
-    "copy-from": "mall_a_52",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_53",
-    "copy-from": "mall_a_53",
-    "name": "mall - entrance",
-    "sym": "M",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_56",
-    "copy-from": "mall_a_56",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_57",
-    "copy-from": "mall_a_57",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_58",
-    "copy-from": "mall_a_58",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_59",
-    "copy-from": "mall_a_59",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_60",
-    "copy-from": "mall_a_60",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_61",
-    "copy-from": "mall_a_61",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_62",
-    "copy-from": "mall_a_62",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_65",
-    "copy-from": "mall_a_65",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_66",
-    "copy-from": "mall_a_66",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_67",
-    "copy-from": "mall_a_67",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_68",
-    "copy-from": "mall_a_68",
-    "name": "mall - entrance",
-    "sym": "M",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_69",
-    "copy-from": "mall_a_69",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_70",
-    "copy-from": "mall_a_70",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mall_a_71",
-    "copy-from": "mall_a_71",
-    "name": "mall",
-    "sym": "m",
-    "color": "i_magenta"
-  },
-  {
     "id": [ "small_storage_units", "small_storage_units_1" ],
     "copy-from": "small_storage_units",
     "type": "overmap_terrain",
@@ -658,6 +435,237 @@
     "copy-from": "medium_storage_units_2",
     "name": "storage units",
     "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mall_a_3", "mall_b_3" ],
+    "copy-from": "mall_a_3",
+    "name": "mall - loading bay",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mall_a_3_roof", "mall_upper_roof_3" ],
+    "copy-from": "mall_a_3_roof",
+    "name": "mall - loading bay roof",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_upper_roof_4",
+    "copy-from": "mall_upper_roof_4",
+    "name": "mall - loading bay roof",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mall_a_4", "mall_b_4", "mall_a_5", "mall_b_5" ],
+    "copy-from": "mall_a_4",
+    "name": "mall - utilities",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mall_a_4_roof", "mall_a_5_roof" ],
+    "copy-from": "mall_a_4_roof",
+    "name": "mall - utilities roof",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mall_a_14",
+      "mall_a_14_roof",
+      "mall_a_47",
+      "mall_a_47_roof",
+      "mall_a_53",
+      "mall_a_53_roof",
+      "mall_a_68",
+      "mall_a_68_roof",
+      "mall_b_14",
+      "mall_b_47",
+      "mall_b_53",
+      "mall_b_68"
+    ],
+    "name": "mall - entrance",
+    "copy-from": "mall_a_14",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mall_a_29", "mall_b_29" ],
+    "copy-from": "mall_a_29",
+    "name": "mall - food court",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mall_a_20", "mall_b_20", "mall_a_20_roof", "mall_a_29_roof" ],
+    "copy-from": "mall_a_20",
+    "name": "mall - food court roof",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mall_a_11",
+      "mall_a_11_roof",
+      "mall_a_12",
+      "mall_a_12_roof",
+      "mall_a_13",
+      "mall_a_13_roof",
+      "mall_a_21",
+      "mall_a_21_roof",
+      "mall_a_22",
+      "mall_a_22_roof",
+      "mall_a_23",
+      "mall_a_23_roof",
+      "mall_a_24",
+      "mall_a_24_roof",
+      "mall_a_25",
+      "mall_a_25_roof",
+      "mall_a_26",
+      "mall_a_26_roof",
+      "mall_a_30",
+      "mall_a_30_roof",
+      "mall_a_31",
+      "mall_a_31_roof",
+      "mall_a_32",
+      "mall_a_32_roof",
+      "mall_a_33",
+      "mall_a_33_roof",
+      "mall_a_34",
+      "mall_a_34_roof",
+      "mall_a_35",
+      "mall_a_35_roof",
+      "mall_a_38",
+      "mall_a_38_roof",
+      "mall_a_39",
+      "mall_a_39_roof",
+      "mall_a_40",
+      "mall_a_40_roof",
+      "mall_a_41",
+      "mall_a_41_roof",
+      "mall_a_42",
+      "mall_a_42_roof",
+      "mall_a_43",
+      "mall_a_43_roof",
+      "mall_a_44",
+      "mall_a_44_roof",
+      "mall_a_48",
+      "mall_a_48_roof",
+      "mall_a_49",
+      "mall_a_49_roof",
+      "mall_a_50",
+      "mall_a_50_roof",
+      "mall_a_51",
+      "mall_a_51_roof",
+      "mall_a_52",
+      "mall_a_52_roof",
+      "mall_a_56",
+      "mall_a_56_roof",
+      "mall_a_57",
+      "mall_a_57_roof",
+      "mall_a_58",
+      "mall_a_58_roof",
+      "mall_a_59",
+      "mall_a_59_roof",
+      "mall_a_60",
+      "mall_a_60_roof",
+      "mall_a_61",
+      "mall_a_61_roof",
+      "mall_a_62",
+      "mall_a_62_roof",
+      "mall_a_65",
+      "mall_a_65_roof",
+      "mall_a_66",
+      "mall_a_66_roof",
+      "mall_a_67",
+      "mall_a_67_roof",
+      "mall_a_69",
+      "mall_a_69_roof",
+      "mall_a_70",
+      "mall_a_70_roof",
+      "mall_a_71",
+      "mall_a_71_roof",
+      "mall_b_11",
+      "mall_b_12",
+      "mall_b_13",
+      "mall_b_21",
+      "mall_b_22",
+      "mall_b_23",
+      "mall_b_24",
+      "mall_b_25",
+      "mall_b_26",
+      "mall_b_30",
+      "mall_b_31",
+      "mall_b_32",
+      "mall_b_33",
+      "mall_b_34",
+      "mall_b_35",
+      "mall_b_38",
+      "mall_b_39",
+      "mall_b_40",
+      "mall_b_41",
+      "mall_b_42",
+      "mall_b_43",
+      "mall_b_44",
+      "mall_b_48",
+      "mall_b_49",
+      "mall_b_50",
+      "mall_b_51",
+      "mall_b_52",
+      "mall_b_56",
+      "mall_b_57",
+      "mall_b_58",
+      "mall_b_59",
+      "mall_b_60",
+      "mall_b_61",
+      "mall_b_62",
+      "mall_b_65",
+      "mall_b_66",
+      "mall_b_67",
+      "mall_b_69",
+      "mall_b_70",
+      "mall_b_71",
+      "mall_upper_roof_12",
+      "mall_upper_roof_13",
+      "mall_upper_roof_34",
+      "mall_upper_roof_35",
+      "mall_upper_roof_48",
+      "mall_upper_roof_49",
+      "mall_upper_roof_50",
+      "mall_upper_roof_51"
+    ],
+    "copy-from": "mall_a_11",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mall_a_58_basement",
+      "mall_a_59_basement",
+      "mall_a_60_basement",
+      "mall_a_67_basement",
+      "mall_a_68_basement",
+      "mall_a_69_basement",
+      "mall_a_67_sub_basement",
+      "mall_a_68_sub_basement",
+      "mall_a_69_sub_basement"
+    ],
+    "copy-from": "mall_a_58_basement",
+    "name": "mall - subway station",
+    "sym": "m",
     "color": "i_magenta"
   }
 ]

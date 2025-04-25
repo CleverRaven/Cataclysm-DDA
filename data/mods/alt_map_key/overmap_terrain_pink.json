@@ -164,7 +164,7 @@
     "id": "fungal_bloom",
     "copy-from": "fungal_bloom",
     "name": "fungal bloom",
-    "sym": "F",
+    "sym": "f",
     "color": "pink"
   },
   {
@@ -172,7 +172,7 @@
     "id": "fungal_tower",
     "copy-from": "fungal_tower",
     "name": "fungal tower",
-    "sym": "F",
+    "sym": "f",
     "color": "pink"
   },
   {
@@ -180,7 +180,7 @@
     "id": "fungal_flowers",
     "copy-from": "fungal_flowers",
     "name": "fungal flowers",
-    "sym": "F",
+    "sym": "f",
     "color": "pink"
   },
   {
