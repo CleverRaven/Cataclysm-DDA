@@ -189,7 +189,7 @@
     "copy-from": "anthill",
     "name": "anthill",
     "sym": "a",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
