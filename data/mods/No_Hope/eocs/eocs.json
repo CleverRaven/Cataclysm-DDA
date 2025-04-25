@@ -1,0 +1,36 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS_VALID_LOCATION",
+    "//COMMENT": "This override adds roads and a few rural-but-not-desolate locations to the valid spawn locations.",
+    "//COMMENT2": "TODO: Get this working with a are-you-in-a-city check, because roads are quite common there but so are buildings to hide in!",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_at_om_location": "field" },
+            { "u_at_om_location": "pond_field" },
+            { "u_at_om_location": "natural_spring" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "trailhead" },
+            { "u_at_om_location": "forest_trail" },
+            { "u_at_om_location": "forest_thick" },
+            { "u_at_om_location": "forest_water" },
+            { "u_at_om_location": "road" },
+            { "u_at_om_location": "meadow_core" },
+            { "u_at_om_location": "meadow_end" },
+            { "u_at_om_location": "farmland_turn" },
+            { "u_at_om_location": "farmland_straight" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "copy-from": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "recurrence": [ "5 minutes", "1 hours" ]
+  }
+]
