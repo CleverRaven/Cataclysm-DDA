@@ -63,6 +63,7 @@ class uilist_impl : cataimgui::window
 
 void uilist_impl::draw_controls()
 {
+#if defined(TILES)
     using cata::options::mouse;
     bool cursor_shown = SDL_ShowCursor(SDL_QUERY) == SDL_ENABLE;
     if (mouse.hidekb && !cursor_shown) {
@@ -70,7 +71,7 @@ void uilist_impl::draw_controls()
     } else {
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
     }
-
+#endif
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
