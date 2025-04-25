@@ -1,0 +1,176 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "",
+    "copy-from": "",
+    "name": "nothing",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_water",
+    "copy-from": "forest_water",
+    "name": "swamp",
+    "sym": "#",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "field",
+    "copy-from": "field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest",
+    "copy-from": "forest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest",
+    "copy-from": "special_forest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "copy-from": "special_forest_thick",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pond_field",
+    "copy-from": "pond_field",
+    "name": "pond",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater",
+    "copy-from": "crater",
+    "name": "crater",
+    "sym": "*",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "road",
+    "copy-from": "road",
+    "name": "road",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "road_nesw_manhole",
+    "copy-from": "road_nesw_manhole",
+    "name": "road, manhole",
+    "sym": "┼",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bridge",
+    "copy-from": "bridge",
+    "name": "bridge",
+    "sym": "│",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_center",
+    "copy-from": "river_center",
+    "sym": "~",
+    "uniform_terrain": "t_water_moving_dp"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river",
+    "copy-from": "river",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_ne",
+    "copy-from": "river_c_not_ne",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_nw",
+    "copy-from": "river_c_not_nw",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_se",
+    "copy-from": "river_c_not_se",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_sw",
+    "copy-from": "river_c_not_sw",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_ne",
+    "copy-from": "river_ne",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_se",
+    "copy-from": "river_se",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_sw",
+    "copy-from": "river_sw",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_nw",
+    "copy-from": "river_nw",
+    "name": "river bank",
+    "sym": "~",
+    "color": "light_blue"
+  }
+]
