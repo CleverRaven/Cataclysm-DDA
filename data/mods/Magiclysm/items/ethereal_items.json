@@ -319,7 +319,8 @@
   },
   {
     "id": "druid_recurve",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "looks_like": "recurbow",
@@ -710,7 +711,8 @@
   {
     "id": "impactsling",
     "looks_like": "sling",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "brown",
     "name": { "str": "impact sling" },

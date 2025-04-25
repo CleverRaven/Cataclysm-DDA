@@ -41,7 +41,8 @@
   },
   {
     "id": "lizardfolk_javelin_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "barbed javelin" },
     "description": { "str": "Fake gun that fires barbed javelins.", "//~": "NO_I18N" },

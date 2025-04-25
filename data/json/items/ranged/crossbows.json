@@ -201,7 +201,8 @@
   },
   {
     "id": "bullet_crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -239,7 +240,8 @@
   {
     "id": "hand_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -277,7 +279,8 @@
   {
     "id": "crossbow",
     "//": "Tileset whitelist for crossbows",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 5,
     "symbol": "(",
     "color": "green",
@@ -311,7 +314,8 @@
   {
     "id": "compositecrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str": "composite crossbow" },
@@ -353,7 +357,8 @@
   {
     "id": "compcrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str": "compound crossbow" },
@@ -394,7 +399,8 @@
   {
     "id": "huge_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -426,7 +432,8 @@
   {
     "id": "rep_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",

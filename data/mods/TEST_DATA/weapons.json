@@ -31,7 +31,8 @@
   },
   {
     "id": "reach_bow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "reach bow" },

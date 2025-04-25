@@ -1,7 +1,8 @@
 [
   {
     "id": "adjustable_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "adjustable stock" },
     "description": "An adjustable replacement stock improving both recoil and accuracy.",
     "weight": "350 g",
@@ -23,7 +24,8 @@
   },
   {
     "id": "folding_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "folding stock" },
     "description": "A folding stock which reduces length when folded.  Currently unfolded and ready to shoot.",
     "weight": "200 g",
@@ -49,7 +51,8 @@
   },
   {
     "id": "folding_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "folding stock (folded)", "str_pl": "folding stocks (folded)" },
     "description": "A folding stock which reduces length.  Currently folded, making shooting this gun difficult.",
     "copy-from": "folding_stock",
@@ -66,7 +69,8 @@
   },
   {
     "id": "high_end_folding_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "modular folding stock" },
     "description": "A multi position, high-end folding stock which reduces length when folded.  Currently unfolded and ready to shoot.",
     "weight": "200 g",
@@ -95,7 +99,8 @@
   },
   {
     "id": "high_end_folding_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "modular folding stock (folded)", "str_pl": "modular folding stocks (folded)" },
     "description": "A multi position, high-end folding stock which reduces length when folded.  Currently folded, making shooting this gun hard.",
     "copy-from": "high_end_folding_stock",
@@ -113,7 +118,8 @@
   },
   {
     "id": "wire_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "collapsing wire stock" },
     "description": "A collapsing wire stock which folds closely against the body of the weapon, reducing length and volume.",
     "weight": "170 g",
@@ -141,7 +147,8 @@
   },
   {
     "id": "wire_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "collapsing wire stock (collapsed)", "str_pl": "collapsing wire stocks (collapsed)" },
     "description": "A collapsing wire stock which folds closely against the body of the weapon, reducing length and volume.  Currently collapsed, making shooting difficult.",
     "copy-from": "wire_stock",
@@ -158,8 +165,8 @@
   },
   {
     "id": "stock_mauser",
-    "type": "GUNMOD",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUNMOD" ],
     "name": { "str": "Mauser C96 stock" },
     "description": "The hollow removable wooden pistol stock of the C96 Mauser pistol, which doubles as a holster.  It fits both the original clip-loaded C96 and later magazine-fed reproductions, but a gun with an extended magazine won't fit without modification.",
     "copy-from": "pistol_stock",
@@ -198,7 +205,8 @@
   },
   {
     "id": "stock_none",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "sawn-off stock" },
     "description": "A quick saw cut removed the original stock from this weapon.  It is now much harder to handle, but much smaller.",
     "install_time": "5 m",
@@ -213,7 +221,8 @@
   },
   {
     "id": "pistol_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "pistol stock" },
     "description": "An add-on stock for handguns, this considerably improves control of recoil.",
     "weight": "350 g",
@@ -234,7 +243,8 @@
   },
   {
     "id": "recoil_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "recoil stock" },
     "description": "A replacement stock designed to absorb perceived recoil.",
     "weight": "960 g",
@@ -256,7 +266,8 @@
   },
   {
     "id": "cheek_pad",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "cheek pad" },
     "description": "A stock accessory for sniper rifles and DMRs, this considerably improves eye relief efficiency, prevents slipping, and reduces recoil to the neck and cheek.",
     "weight": "300 g",
@@ -279,7 +290,8 @@
   },
   {
     "id": "butt_hook",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "butt hook" },
     "description": "An attachment to the butt of the gun that is held under the armpit, improving stability.",
     "weight": "100 g",
@@ -300,7 +312,8 @@
   },
   {
     "id": "tail_hook_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "tail hook stock" },
     "//": "When we get 'rate of angular change' a version for rifles and crossbow can be added.  Currently it would be too strong",
     "description": "A foldable add-on stock for handguns and submachine guns with a pivoting hook that latches onto the forearm, allowing for greater stability.",
@@ -323,7 +336,8 @@
   },
   {
     "id": "under_folding_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "under folding stock" },
     "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  The wire construction means that it's less comfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
     "weight": "100 g",
@@ -350,7 +364,8 @@
   },
   {
     "id": "under_folding_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "under-folding stock (folded)", "str_pl": "under-folding stocks (folded)" },
     "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  It is currently folded underneath the weapon's chassis, making it more difficult to control.",
     "copy-from": "under_folding_stock",
@@ -366,7 +381,8 @@
   },
   {
     "id": "sub2000_folding_mechanism",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "integral folding mechanism" },
     "description": "The integral series of hinges and pivots which allow the SUB-2000 to fold in half and be stored for transport.  The firearm is currently locked in the unfolded position and is ready for use.",
     "weight": "10 g",
@@ -395,7 +411,8 @@
   },
   {
     "id": "sub2000_folding_mechanism_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "integral folding mechanism (folded))", "str_pl": "integral folding mechanisms (folded)" },
     "description": "The integral series of hinges and pivots which allow the SUB-2000 to fold in half and be stored for transport.  Shooting this firearm would be particularly tricky given that the barrel assembly is folded and locked backwards for storage, rendering the weapon inoperable.",
     "weight": "10 g",
@@ -423,7 +440,8 @@
   },
   {
     "id": "m26_mass_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "MASS compatible stock" },
     "description": "A specially designed adjustable stock with an integrated grip to convert the M26-MASS to a standalone configuration.",
     "weight": "960 g",
@@ -445,7 +463,8 @@
   },
   {
     "id": "scout_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "hollow polymer stock" },
     "description": "An extremely lightweight stock.  There's a hollow cavity at the bottom where a spare magazine can be stored.",
     "weight": "260 g",

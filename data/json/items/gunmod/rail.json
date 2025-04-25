@@ -2,7 +2,8 @@
   {
     "id": "offset_sights",
     "copy-from": "improve_sights",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
@@ -13,7 +14,8 @@
   },
   {
     "id": "offset_sight_rail",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "offset sight rail" },
     "description": "An additional rail set at 45° for attaching a secondary optic.",
     "weight": "40 g",
@@ -31,7 +33,8 @@
   },
   {
     "id": "rail_laser_sight",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "rail laser sight" },
     "description": "A small visible-light laser that mounts on a firearm's accessory rail to enhance ease and speed of target acquisition.  Aside from increased weight, there are no drawbacks.",
     "weight": "120 g",
@@ -53,7 +56,8 @@
   },
   {
     "id": "offset_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "offset grip" },
     "description": "An angled grip set at 45° that attaches to a side rail, allowing for a grip while leaving the underbarrel rail free, or on guns that have integral bipods.",
     "weight": "125 g",

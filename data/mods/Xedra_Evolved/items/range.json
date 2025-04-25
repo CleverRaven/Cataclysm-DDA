@@ -2,8 +2,8 @@
   {
     "id": "dreamforged_longbow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "dreamforged bow" },
@@ -75,7 +75,8 @@
   {
     "id": "dreamforged_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "dreamforged crossbow" },

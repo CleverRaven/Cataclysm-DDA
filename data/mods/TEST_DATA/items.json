@@ -1681,7 +1681,8 @@
   {
     "id": "test_compbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": "TEST compound bow",
@@ -2449,7 +2450,8 @@
   },
   {
     "id": "test_glock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing, based on the Glock 9mm.",
     "weight": "600 g",
@@ -2479,7 +2481,8 @@
   },
   {
     "id": "test_glock_super_long",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "pistol_base",
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing barrel lengths, based on nothing.",
@@ -2502,7 +2505,8 @@
   },
   {
     "id": "barrel_glock_short",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "shortened barrel" },
     "description": "A shortened barrel results in markedly reduced accuracy and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
     "volume": "0 ml",
@@ -2826,7 +2830,8 @@
   },
   {
     "id": "test_crafted_suppressor",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "test suppressor" },
     "description": "Gun suppressor mod for testing.",
     "weight": "880 g",
@@ -3816,7 +3821,8 @@
   },
   {
     "id": "test_glock_degrade",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Test Glock" },
     "description": "A handgun for testing, based on the Glock 9mm.",
     "weight": "600 g",
@@ -4013,7 +4019,7 @@
   {
     "id": "test_knife_combat",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "GUNMOD" ],
     "category": "weapons",
     "name": { "str": "combat knife", "str_pl": "combat knives" },
     "description": "A military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
@@ -4026,12 +4032,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "5 s"
-    },
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID_TEST" ],
@@ -4039,7 +4039,11 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 26 }
+    "melee_damage": { "bash": 4, "stab": 26 },
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+    "install_time": "5 s"
   },
   {
     "id": "test_armor_chitin",
@@ -5368,7 +5372,8 @@
   },
   {
     "id": "debug_modular_m4_carbine",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "modular_m4_carbine",
     "name": { "str": "debug m4 carbine" },
     "default_mods": [ "retool_ar15_223rem_medium" ]

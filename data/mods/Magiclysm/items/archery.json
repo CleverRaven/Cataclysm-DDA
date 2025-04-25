@@ -1,8 +1,8 @@
 [
   {
     "id": "ichaival",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "looks_like": "reflexrecurvebow",
     "symbol": "(",
     "color": "white",

@@ -1,7 +1,8 @@
 [
   {
     "id": "barb_launcher",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "barb launching organ", "//~": "NO_I18N" },
@@ -35,7 +36,8 @@
   },
   {
     "id": "emp_frond",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "electric alien frond", "//~": "NO_I18N" },
@@ -68,7 +70,8 @@
   },
   {
     "id": "firework_cannon",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "fireworks cannon", "//~": "NO_I18N" },
@@ -101,7 +104,8 @@
   },
   {
     "id": "gene_sting_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "viscous barb launcher", "//~": "NO_I18N" },
@@ -134,7 +138,8 @@
   },
   {
     "id": "feral_human_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble", "//~": "NO_I18N" },
@@ -178,7 +183,8 @@
   },
   {
     "id": "nether_huntsman_arm",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "red",
     "name": { "str": "huntsman appendage", "//~": "NO_I18N" },
@@ -220,7 +226,8 @@
   {
     "id": "v29_turret",
     "copy-from": "v29",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "energy_drain": "0 kJ",
     "name": { "str": "mounted laser", "//~": "NO_I18N" },
     "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
@@ -228,7 +235,8 @@
   {
     "id": "yrax_deterrent_laser",
     "copy-from": "v29",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "deterrent laser weapon", "//~": "NO_I18N" },
     "energy_drain": "0 kJ",
     "ammo_effects": [ "LASER" ],
@@ -240,7 +248,8 @@
     "copy-from": "glock_22",
     "looks_like": "glock_22",
     "flags": [ "PSEUDO" ],
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Cops' Glock 22", "//~": "NO_I18N" },
     "description": { "str": "A gun carried by overconfident officer monsters, more inaccurate for balancing reasons.", "//~": "NO_I18N" },
     "dispersion": 960,
@@ -251,7 +260,8 @@
     "copy-from": "glock_19",
     "looks_like": "glock_19",
     "flags": [ "PSEUDO" ],
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Fighters' Glock 19", "//~": "NO_I18N" },
     "description": {
       "str": "A gun carried by civilian monsters, more inaccurate for balancing reasons.  If you see this, it's a bug.",
@@ -265,7 +275,8 @@
     "copy-from": "modular_ar15",
     "looks_like": "modular_ar15",
     "flags": [ "PSEUDO" ],
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "ammo": [ "223" ],
     "name": { "str": "Cops' AR15", "//~": "NO_I18N" },
     "//": "A rifle carried by cop monsters, more inaccurate for balancing reasons.",
@@ -275,7 +286,8 @@
   },
   {
     "id": "acid_spit",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun", "//~": "NO_I18N" },
     "description": { "str": "Fake gun that fires acid globs.", "//~": "NO_I18N" },
@@ -290,7 +302,8 @@
   },
   {
     "id": "acid_spray",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "acid dart volley", "//~": "NO_I18N" },
     "description": { "str": "Fake gun that fires acid globs.", "//~": "NO_I18N" },
@@ -306,7 +319,8 @@
   },
   {
     "id": "acid_sniper",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "acid dart gun", "//~": "NO_I18N" },
     "description": { "str": "Fake gun that fires acid globs.", "//~": "NO_I18N" },
@@ -321,7 +335,8 @@
   },
   {
     "id": "migo_bio_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "mi-go bio-gun", "//~": "NO_I18N" },
     "description": {
