@@ -183,10 +183,18 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ranch_camp_17",
+    "copy-from": "ranch_camp_17",
+    "name": "pond",
+    "sym": "#",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lumbermill_dforest",
     "copy-from": "lumbermill_dforest",
     "name": "forest",
     "sym": "#",
-    "color": "green"
+    "color": "i_green"
   }
 ]

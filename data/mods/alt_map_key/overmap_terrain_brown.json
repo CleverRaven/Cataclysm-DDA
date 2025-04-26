@@ -1,6 +1,106 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [
+      "ranch_camp_11",
+      "ranch_camp_12",
+      "ranch_camp_13",
+      "ranch_camp_14",
+      "ranch_camp_15",
+      "ranch_camp_16",
+      "ranch_camp_20",
+      "ranch_camp_21",
+      "ranch_camp_22",
+      "ranch_camp_23",
+      "ranch_camp_24",
+      "ranch_camp_25",
+      "ranch_camp_26",
+      "ranch_camp_29",
+      "ranch_camp_30",
+      "ranch_camp_31",
+      "ranch_camp_32",
+      "ranch_camp_33",
+      "ranch_camp_34",
+      "ranch_camp_35",
+      "ranch_camp_38",
+      "ranch_camp_39",
+      "ranch_camp_40",
+      "ranch_camp_41",
+      "ranch_camp_42",
+      "ranch_camp_43",
+      "ranch_camp_44",
+      "ranch_camp_47",
+      "ranch_camp_48",
+      "ranch_camp_49",
+      "ranch_camp_50",
+      "ranch_camp_51",
+      "ranch_camp_52",
+      "ranch_camp_53",
+      "ranch_camp_56",
+      "ranch_camp_58",
+      "ranch_camp_59",
+      "ranch_camp_60",
+      "ranch_camp_61",
+      "ranch_camp_62",
+      "ranch_camp_65",
+      "ranch_camp_70",
+      "ranch_camp_71"
+    ],
+    "copy-from": "ranch_camp_11",
+    "name": "ranch field",
+    "sym": "#",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57",
+    "copy-from": "ranch_camp_57",
+    "name": "silo",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silo",
+    "copy-from": "ranch_camp_57_silo",
+    "name": "silo",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silocap",
+    "copy-from": "ranch_camp_57_silocap",
+    "name": "silo cap",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_65_roof",
+    "copy-from": "ranch_camp_65_roof",
+    "name": "barn roof",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_66",
+    "copy-from": "ranch_camp_66",
+    "name": "barn",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_66_roof",
+    "copy-from": "ranch_camp_66_roof",
+    "name": "barn roof",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cave",
     "copy-from": "cave",
     "name": "cave",
@@ -38,654 +138,6 @@
     "name": "cavern",
     "sym": "c",
     "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_1",
-    "copy-from": "ranch_camp_1",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_2",
-    "copy-from": "ranch_camp_2",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_3",
-    "copy-from": "ranch_camp_3",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_4",
-    "copy-from": "ranch_camp_4",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_5",
-    "copy-from": "ranch_camp_5",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_6",
-    "copy-from": "ranch_camp_6",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_7",
-    "copy-from": "ranch_camp_7",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_8",
-    "copy-from": "ranch_camp_8",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_9",
-    "copy-from": "ranch_camp_9",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_10",
-    "copy-from": "ranch_camp_10",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_11",
-    "copy-from": "ranch_camp_11",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_12",
-    "copy-from": "ranch_camp_12",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_13",
-    "copy-from": "ranch_camp_13",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_14",
-    "copy-from": "ranch_camp_14",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_15",
-    "copy-from": "ranch_camp_15",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_16",
-    "copy-from": "ranch_camp_16",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_17",
-    "copy-from": "ranch_camp_17",
-    "name": "pond",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_18",
-    "copy-from": "ranch_camp_18",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_19",
-    "copy-from": "ranch_camp_19",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_20",
-    "copy-from": "ranch_camp_20",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_21",
-    "copy-from": "ranch_camp_21",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_22",
-    "copy-from": "ranch_camp_22",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_23",
-    "copy-from": "ranch_camp_23",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_24",
-    "copy-from": "ranch_camp_24",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_25",
-    "copy-from": "ranch_camp_25",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_26",
-    "copy-from": "ranch_camp_26",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_27",
-    "copy-from": "ranch_camp_27",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_28",
-    "copy-from": "ranch_camp_28",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_29",
-    "copy-from": "ranch_camp_29",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_30",
-    "copy-from": "ranch_camp_30",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_31",
-    "copy-from": "ranch_camp_31",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_32",
-    "copy-from": "ranch_camp_32",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_33",
-    "copy-from": "ranch_camp_33",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_34",
-    "copy-from": "ranch_camp_34",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_35",
-    "copy-from": "ranch_camp_35",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_36",
-    "copy-from": "ranch_camp_36",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_37",
-    "copy-from": "ranch_camp_37",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_38",
-    "copy-from": "ranch_camp_38",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_39",
-    "copy-from": "ranch_camp_39",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_40",
-    "copy-from": "ranch_camp_40",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_41",
-    "copy-from": "ranch_camp_41",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_42",
-    "copy-from": "ranch_camp_42",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_43",
-    "copy-from": "ranch_camp_43",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_44",
-    "copy-from": "ranch_camp_44",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_45",
-    "copy-from": "ranch_camp_45",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_46",
-    "copy-from": "ranch_camp_46",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_47",
-    "copy-from": "ranch_camp_47",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_48",
-    "copy-from": "ranch_camp_48",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_49",
-    "copy-from": "ranch_camp_49",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_50",
-    "copy-from": "ranch_camp_50",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_51",
-    "copy-from": "ranch_camp_51",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_52",
-    "copy-from": "ranch_camp_52",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_53",
-    "copy-from": "ranch_camp_53",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_54",
-    "copy-from": "ranch_camp_54",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_55",
-    "copy-from": "ranch_camp_55",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_56",
-    "copy-from": "ranch_camp_56",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_57",
-    "copy-from": "ranch_camp_57",
-    "name": "silo",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_58",
-    "copy-from": "ranch_camp_58",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_59",
-    "copy-from": "ranch_camp_59",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_60",
-    "copy-from": "ranch_camp_60",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_61",
-    "copy-from": "ranch_camp_61",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_62",
-    "copy-from": "ranch_camp_62",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_63",
-    "copy-from": "ranch_camp_63",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_64",
-    "copy-from": "ranch_camp_64",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_65",
-    "copy-from": "ranch_camp_65",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_66",
-    "copy-from": "ranch_camp_66",
-    "name": "barn",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_67",
-    "copy-from": "ranch_camp_67",
-    "name": "garage",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_68",
-    "copy-from": "ranch_camp_68",
-    "name": "ranch",
-    "sym": "R",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_69",
-    "copy-from": "ranch_camp_69",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_70",
-    "copy-from": "ranch_camp_70",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_71",
-    "copy-from": "ranch_camp_71",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_72",
-    "copy-from": "ranch_camp_72",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_73",
-    "copy-from": "ranch_camp_73",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_74",
-    "copy-from": "ranch_camp_74",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_75",
-    "copy-from": "ranch_camp_75",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_76",
-    "copy-from": "ranch_camp_76",
-    "name": "lot",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_77",
-    "copy-from": "ranch_camp_77",
-    "name": "road",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_78",
-    "copy-from": "ranch_camp_78",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_79",
-    "copy-from": "ranch_camp_79",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_80",
-    "copy-from": "ranch_camp_80",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_81",
-    "copy-from": "ranch_camp_81",
-    "name": "field",
-    "sym": "r",
-    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
@@ -1220,7 +672,7 @@
     ],
     "copy-from": "pasture",
     "name": "pasture",
-    "sym": "p",
+    "sym": "+",
     "color": "i_brown"
   },
   {
@@ -1257,7 +709,7 @@
     ],
     "copy-from": "paddock",
     "name": "paddock",
-    "sym": "d",
+    "sym": "#",
     "color": "i_brown"
   },
   {
@@ -1409,7 +861,7 @@
     ],
     "copy-from": "farm_stills_8",
     "name": "vineyard",
-    "sym": "i",
+    "sym": "%",
     "color": "i_brown"
   },
   {
@@ -1433,7 +885,7 @@
     "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
     "copy-from": "hayfield_straight",
     "name": "hay field",
-    "sym": "h",
+    "sym": "+",
     "color": "i_brown"
   },
   {
@@ -1457,7 +909,7 @@
     ],
     "copy-from": "2farm_1",
     "name": "farm field",
-    "sym": "f",
+    "sym": "#",
     "color": "i_brown"
   },
   {
@@ -1484,7 +936,7 @@
     ],
     "copy-from": "farm_isherwood_1",
     "name": "farm field",
-    "sym": "f",
+    "sym": "#",
     "color": "i_brown"
   },
   {
@@ -1507,7 +959,7 @@
     ],
     "copy-from": "2farm_13",
     "name": "farm field",
-    "sym": "f",
+    "sym": "#",
     "color": "i_brown"
   },
   {

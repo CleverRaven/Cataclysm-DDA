@@ -888,6 +888,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ranch_camp_68",
+    "copy-from": "ranch_camp_68",
+    "name": "ranch",
+    "sym": "r",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_68_roof",
+    "copy-from": "ranch_camp_68_roof",
+    "name": "ranch roof",
+    "sym": "r",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "homelesscamp",
     "copy-from": "homelesscamp",
     "name": "homeless camp",

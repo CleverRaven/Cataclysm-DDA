@@ -19,6 +19,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ranch_camp_67",
+    "copy-from": "ranch_camp_67",
+    "name": "garage",
+    "sym": "g",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_67_roof",
+    "copy-from": "ranch_camp_67_roof",
+    "name": "garage roof",
+    "sym": "g",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_76",
+    "copy-from": "ranch_camp_76",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4", "hotel_tower_1_6" ],
     "copy-from": "hotel_tower_1_1",
     "name": "hotel parking",
