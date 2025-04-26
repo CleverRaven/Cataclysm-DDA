@@ -137,7 +137,7 @@
     "copy-from": "steel_mill_0_1",
     "name": "steel mill",
     "sym": "s",
-    "color": "i_light_cyan"
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -153,8 +153,8 @@
     ],
     "name": "light industry",
     "copy-from": "s_lightindustry_00",
-    "sym": "i",
-    "color": "i_light_cyan"
+    "sym": "l",
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -170,8 +170,8 @@
     ],
     "name": "light industry",
     "copy-from": "s_lightindustry_scen_00",
-    "sym": "i",
-    "color": "i_light_cyan"
+    "sym": "l",
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
