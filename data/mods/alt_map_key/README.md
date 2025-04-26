@@ -50,6 +50,7 @@ Colors mark the (loose) thematic category
 
 - Pink - Science, Radiation, Monsters, and Weirdness
   - Slime, fungus, labs, craters, robot dispatch center, anomalous zones
+    - Labs will be pink for ground level coloring to stay on theme but other levels will vary to maintain vanilla differentiation between tiles
 
 - Red - Guns, Military, and Emergency
   - Gun stores, police stations, bunkers, FEMA, LMOE, evac shelter, checkpoints, mil outposts, minefields, army camps

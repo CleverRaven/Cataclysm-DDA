@@ -418,14 +418,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "central_lab_entrance",
-    "copy-from": "central_lab_entrance",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "bandit_camp_1",
     "copy-from": "bandit_camp_1",
     "name": "forest",
