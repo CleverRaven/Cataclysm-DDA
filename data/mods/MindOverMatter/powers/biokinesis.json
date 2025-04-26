@@ -633,9 +633,9 @@
   {
     "id": "biokin_perfected_motion",
     "type": "SPELL",
-    "name": "[Ψ]Perfected Motion",
-    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
-    "message": "The world around you slows down to a crawl.",
+    "name": "[Ψ]Perfected Motion (C)",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -644,8 +644,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_biokin_perfected_motion",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_PERFECTED_MOTION_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -657,12 +657,16 @@
         "( (u_spell_level('biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "base_energy_cost": 8000,
-    "final_energy_cost": 3500,
-    "energy_increment": -175,
-    "base_casting_time": 75,
-    "final_casting_time": 15,
-    "casting_time_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_perfected_motion') > -1 ? 0 : max( 8000 - ( u_spell_level('biokin_perfected_motion') * 175 ), 3500 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_perfected_motion') > -1 ? 10 : max( 75 - ( u_spell_level('biokin_perfected_motion') * 4 ), 15 )"
+      ]
+    }
   },
   {
     "id": "biokin_hurricane_blows",
