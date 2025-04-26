@@ -904,7 +904,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "homelesscamp",
+    "id": "prefab",
+    "copy-from": "prefab",
+    "name": "mobile home",
+    "sym": "m",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prefab_roof",
+    "copy-from": "prefab_roof",
+    "name": "mobile home roof",
+    "sym": "m",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "homelesscamp",
     "name": "homeless camp",
     "sym": "h",

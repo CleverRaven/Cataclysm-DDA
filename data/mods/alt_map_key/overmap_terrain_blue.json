@@ -435,6 +435,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "trailer_hub_10",
+    "copy-from": "trailer_hub_10",
+    "name": "administration building",
+    "sym": "a",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_10_roof",
+    "copy-from": "trailer_hub_10_roof",
+    "name": "administration building roof",
+    "sym": "a",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "dojo", "dojo_1" ],
     "copy-from": "dojo",
     "name": "dojo",

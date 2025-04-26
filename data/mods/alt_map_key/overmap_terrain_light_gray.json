@@ -543,10 +543,18 @@
     "color": "light_gray"
   },
   {
+    "type": "overmap_terrain",
     "id": "derelict_property",
     "copy-from": "derelict_property",
-    "type": "overmap_terrain",
     "name": "derelict property",
+    "sym": "d",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "derelict_property_roof",
+    "copy-from": "derelict_property_roof",
+    "name": "derelict property roof",
     "sym": "d",
     "color": "light_gray"
   },
