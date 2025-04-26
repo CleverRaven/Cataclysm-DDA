@@ -21,11 +21,12 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
-      { "bonus": 5, "skill": "gun" },
-      { "bonus": 3, "skill": "speech" },
-      { "bonus": 2, "skill": "rifle" },
-      { "bonus": 2, "skill": "survival" },
-      { "bonus": 2, "skill": "fabrication" }
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -3 ] } ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 2 ] } }
     ]
   },
   {
@@ -98,7 +99,11 @@
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
-    "skills": [ { "skill": "speech", "bonus": { "rng": [ 3, 4 ] } }, { "bonus": 1, "skill": "bashing" } ]
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "bashing", "bonus": 1 }
+    ]
   },
   {
     "type": "npc_class",
@@ -122,11 +127,12 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
-      { "bonus": 1, "skill": "melee" },
-      { "bonus": 2, "skill": "cutting" },
-      { "bonus": 2, "skill": "survival" },
-      { "bonus": 3, "skill": "bashing" },
-      { "bonus": 4, "skill": "fabrication" }
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "melee", "bonus": 1 },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 3, 4 ] } }
     ]
   },
   {
@@ -152,11 +158,12 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
-      { "bonus": 3, "skill": "survival" },
-      { "bonus": 3, "skill": "fabrication" },
-      { "bonus": 2, "skill": "melee" },
-      { "bonus": 2, "skill": "bashing" },
-      { "bonus": 2, "skill": "cutting" }
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -1, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 2 ] } }
     ]
   },
   {
@@ -183,7 +190,8 @@
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "bonus": 2, "skill": "cooking" }
+      { "bonus": 2, "skill": "cooking" },
+      { "bonus": 2, "skill": "tailor" }
     ]
   },
   {
@@ -272,12 +280,13 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
-      { "bonus": 3, "skill": "survival" },
-      { "bonus": 2, "skill": "fabrication" },
-      { "bonus": 2, "skill": "melee" },
-      { "bonus": 2, "skill": "cutting" },
-      { "bonus": 5, "skill": "gun" },
-      { "bonus": 4, "skill": "rifle" }
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -1, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
     ]
   },
   {
@@ -301,7 +310,11 @@
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
-    "skills": [ { "bonus": 2, "skill": "survival" }, { "bonus": 1, "skill": "fabrication" } ]
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -1, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "fabrication", "bonus": 1 }
+    ]
   },
   {
     "type": "npc_class",
@@ -327,10 +340,12 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
-      { "bonus": 7, "skill": "survival" },
-      { "bonus": 3, "skill": "melee" },
-      { "bonus": 2, "skill": "fabrication" },
-      { "bonus": 1, "skill": "cutting" }
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -1, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 5, 7 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cutting", "bonus": 1 },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 2 ] } }
     ]
   },
   {
@@ -353,7 +368,10 @@
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
-    "skills": [ { "bonus": 4, "skill": "speech" } ]
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 3, 4 ] } }
+    ]
   },
   {
     "type": "npc_class",
@@ -369,7 +387,11 @@
     "carry_override": "GODCO_jane_carried",
     "weapon_override": "GODCO_jane_wield",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" } ],
-    "skills": [ { "bonus": { "rng": [ 4, 5 ] }, "skill": "firstaid" } ]
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 5, 6 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } }
+    ]
   },
   {
     "type": "npc_class",
@@ -391,7 +413,12 @@
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
-    "skills": [ { "skill": "mechanics", "bonus": 4 }, { "skill": "fabrication", "bonus": 2 }, { "skill": "electronics", "bonus": 4 } ]
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -1, -4 ] } ] } ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 4, 5 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 3, 4 ] } }
+    ]
   },
   {
     "type": "npc_class",
@@ -444,7 +471,11 @@
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
-    "skills": [ { "skill": "tailor", "bonus": 6 }, { "skill": "cooking", "bonus": 6 } ]
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, -5 ] } ] } ] } },
+      { "skill": "tailor", "bonus": { "rng": [ 5, 6 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 5, 6 ] } }
+    ]
   },
   {
     "type": "npc_class",
@@ -495,8 +526,8 @@
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "bonus": 6, "skill": "computer" },
-      { "bonus": 1, "skill": "electronics" }
+      { "skill": "computer", "bonus": { "rng": [ 5, 6 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 2 ] } }
     ]
   },
   {
@@ -512,6 +543,7 @@
     "worn_override": "GODCO_maria_worn",
     "carry_override": "GODCO_maria_carried",
     "weapon_override": "GODCO_maria_wield",
+    "proficiencies": [ "prof_closures", "prof_leatherworking_basic", "prof_leatherworking" ],
     "traits": [
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
@@ -520,7 +552,7 @@
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "bonus": 5, "skill": "tailor" }
+      { "skill": "tailor", "bonus": { "rng": [ 5, 6 ] } }
     ]
   },
   {
