@@ -4500,7 +4500,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
                 fault_groups.emplace_back(
                     jo_f.get_int( "weight_override", -1 ),
                     jo_f.get_int( "weight_add", 0 ),
-                    jo_f.get_float( "weight_mult", 1.0f ),
+                    static_cast<float>( jo_f.get_float( "weight_mult", 1.0f ) ),
                     jo_f.get_string( "fault_group" ) );
             } else {
                 jo_f.throw_error( R"("faults" should specify either a "fault" or a "fault_group")" );

@@ -358,7 +358,7 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
             who.add_msg_if_player( m_good,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
-            it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
+            it.remove_single_fault_of_type( gun_mechanical_simple );
             it.set_var( "u_know_round_in_chamber", true );
         } else {
             who.add_msg_if_player( m_bad,
@@ -455,7 +455,8 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     who.fire_gun( here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
-    if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
+    if( !get_option<bool>( "AIM_AFTER_FIRING" ) ||
+        weapon.get_item()->has_fault_of_type( gun_mechanical_simple ) ) {
         restore_view();
         return;
     }

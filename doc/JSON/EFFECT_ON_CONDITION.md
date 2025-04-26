@@ -3472,7 +3472,6 @@ Store string from `set_string_var` in the variable object `target_var`
 | "title" | optional | string, [variable object](#variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
 | "description" | optional | string, [variable object](#variable-object) | The description of the input popup window, can be localized. |
 | "default_text" | optional | string, [variable object](##variable-object) | The default text in the input popup window, can be localized. |
-
 | "width" | optional | integer | The character length of the input box. Default is 20. |
 | "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
 | "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
@@ -4782,6 +4781,48 @@ You activate beta talker / NPC activates alpha talker. One must be a Character a
 Force you consume drug item
 ```jsonc
 { "u_activate": "consume_drug" }
+```
+
+#### `u_set_fault`, `npc_set_fault`
+Applies a fault on item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_fault" / "npc_set_fault" | **mandatory** | string or [variable object](#variable-object) | id of a fault applied |
+| "force" | optional | bool | if true, the fault is applied onto item even if item do not define it as possible fault. Default false | 
+| "message" | optional | bool | if truem the fault would print a message defined in fault `message` field. Default true | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
+
+##### Examples
+Beta talker adds `fault_electronic_blown_capacitor` as it's fault
+```jsonc
+{ "npc_set_fault": "fault_electronic_blown_capacitor" }
+```
+
+#### `u_set_random_fault_of_type`, `npc_set_random_fault_of_type`
+Picks a random fault from a type, and applies it onto item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_random_fault_of_type" / "npc_set_random_fault_of_type" | **mandatory** | string or [variable object](#variable-object) | type of a fault applied |
+| "force" | optional | bool | if true, the fault is applied onto item even if item do not define it as possible fault. Default false | 
+| "message" | optional | bool | if truem the fault would print a message defined in fault `message` field. Default true | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
+
+##### Examples
+Beta talker adds a random fault from `shorted` type as it's fault
+```jsonc
+{ "npc_set_random_fault_of_type": "shorted" }
 ```
 
 ## Map effects

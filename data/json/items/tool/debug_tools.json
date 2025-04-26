@@ -111,5 +111,65 @@
         }
       ]
     }
+  },
+  {
+    "id": "debug_apply_fault",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str_sp": "debug fault applier" },
+    "description": "Applies the fault on item by id.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Damage item",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_FIND_ITEM_fault",
+          "effect": {
+            "u_run_inv_eocs": "manual_mult",
+            "true_eocs": {
+              "id": "EOC_APPLY_FAULT",
+              "effect": [
+                {
+                  "set_string_var": "",
+                  "string_input": { "title": "", "description": "fault_id or fault_type_id", "identifier": "debug_apply_fault", "width": 30 },
+                  "target_var": { "context_val": "str" }
+                },
+                {
+                  "if": { "u_query": "Provided id is fault_type or fault?  \"Yes\" for fault_type, \"No\" for fault_id", "default": false },
+                  "then": { "math": [ "_is_group = 1" ] }
+                },
+                { "if": { "u_query": "Forced?", "default": false }, "then": { "math": [ "_is_force = 1" ] } },
+                {
+                  "if": { "math": [ "_is_group" ] },
+                  "then": [
+                    {
+                      "if": { "math": [ "_is_force" ] },
+                      "then": { "u_set_random_fault_of_type": { "context_val": "str" }, "force": true },
+                      "else": { "u_set_random_fault_of_type": { "context_val": "str" } }
+                    },
+                    {
+                      "u_message": "<npc_name> has random fault from fault_type \"<context_val:str>\" added, if such group exists."
+                    }
+                  ],
+                  "else": [
+                    {
+                      "if": { "math": [ "_is_force" ] },
+                      "then": { "npc_set_fault": { "context_val": "str" }, "force": true },
+                      "else": { "npc_set_fault": { "context_val": "str" } }
+                    },
+                    { "u_message": "<npc_name> has \"<context_val:str>\" fault added, if such id exists." }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
   }
 ]

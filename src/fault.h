@@ -79,6 +79,7 @@ class fault
         std::string description() const;
         std::string item_prefix() const;
         std::string item_suffix() const;
+        std::string message() const;
         double price_mod() const;
         // int is additive (default 0), float is multiplier (default 1)
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod() const;
@@ -100,6 +101,7 @@ class fault
         translation description_;
         translation item_prefix_; // prefix added to affected item's name
         translation item_suffix_;
+        translation message_;
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
         double price_modifier = 1.0;

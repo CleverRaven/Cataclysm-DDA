@@ -40,7 +40,6 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "weighted_list.h"
 
 class Character;
 class Creature;
@@ -1734,11 +1733,7 @@ class item : public visitable
         /** Return faults that can potentially occur with this item. */
         std::set<fault_id> faults_potential() const;
 
-        bool can_have_fault_type( const std::string &fault_type ) const;
-
         std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
-
-        void apply_fault();
 
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
@@ -2063,17 +2058,21 @@ class item : public visitable
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
-        /** Idempotent filter setting an item specific fault. */
-        void set_fault( const fault_id &fault_id );
+        /** Check if item can have a fault, and if yes, applies it. This version do not print a message, use item_location version instead
+         * `force`, if true, bypasses the check and applies the fault item do not define
+         */
+        void set_fault( const fault_id &fault_id, bool force = false );
 
-        void set_random_fault_of_type( const std::string &fault_type, const bool &force = false );
+        /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
+        * `force`, if true, bypasses the check and applies the fault item do not define
+        */
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false );
 
-        weighted_int_list<fault_id> all_potential_faults() const;
+        /** Removes the fault from the item, if such is presented. */
+        void remove_fault( const fault_id &fault_id );
 
-        weighted_int_list<fault_id> all_potential_faults_of_type( const std::string
-                &fault_type ) const;
-
-        const fault_id &random_potential_fault_of_type( const std::string &fault_type ) const;
+        /** Checks all the faults in item, and if there is any of this type, removes it. */
+        void remove_single_fault_of_type( const std::string &fault_type );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
@@ -2090,6 +2089,8 @@ class item : public visitable
 
         /** Does this item have the specified fault? */
         bool has_fault( const fault_id &fault ) const;
+
+        bool has_fault_of_type( const std::string &fault_type ) const;
 
         /** Does this item part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;

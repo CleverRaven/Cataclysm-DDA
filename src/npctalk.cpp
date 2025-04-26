@@ -5949,6 +5949,30 @@ talk_effect_fun_t::func f_unset_flag( const JsonObject &jo, std::string_view mem
     };
 }
 
+talk_effect_fun_t::func f_set_fault( const JsonObject &jo, std::string_view member,
+                                     const std::string_view, bool is_npc )
+{
+    str_or_var fault_var = get_str_or_var( jo.get_member( member ), member, true );
+    bool force = jo.get_bool( "force", false );
+    bool msg = jo.get_bool( "message", true );
+    return [fault_var, force, msg, is_npc]( dialogue const & d ) {
+        item_location &it = *d.actor( is_npc )->get_item();
+        it.set_fault( fault_id( fault_var.evaluate( d ) ), force, msg );
+    };
+}
+
+talk_effect_fun_t::func f_set_random_fault_of_type( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    str_or_var fault_type_var = get_str_or_var( jo.get_member( member ), member, true );
+    bool force = jo.get_bool( "force", false );
+    bool msg = jo.get_bool( "message", true );
+    return [fault_type_var, force, msg, is_npc]( dialogue const & d ) {
+        item_location &it = *d.actor( is_npc )->get_item();
+        it.set_random_fault_of_type( fault_type_var.evaluate( d ), force, msg );
+    };
+}
+
 talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view member,
                                     std::string_view, bool is_npc )
 {
@@ -7849,6 +7873,8 @@ parsers = {
     { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun::f_teleport },
     { "u_set_flag", "npc_set_flag", jarg::member, &talk_effect_fun::f_set_flag },
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
+    { "u_set_fault", "npc_set_fault", jarg::member, &talk_effect_fun::f_set_fault },
+    { "u_set_random_fault_of_type", "npc_set_random_fault_of_type", jarg::member, &talk_effect_fun::f_set_random_fault_of_type },
     { "u_activate", "npc_activate", jarg::member, &talk_effect_fun::f_activate },
     { "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun::f_consume_item },
     { "u_consume_item_sum", "npc_consume_item_sum", jarg::array, &talk_effect_fun::f_consume_item_sum },

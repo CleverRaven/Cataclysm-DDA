@@ -6871,7 +6871,7 @@ std::string item::overheat_symbol() const
         modifier += mod->type->gunmod->overheat_threshold_modifier;
         multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
     }
-    if( faults.count( fault_overheat_safety ) ) {
+    if( has_fault( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
@@ -7698,6 +7698,16 @@ bool item::has_fault( const fault_id &fault ) const
     return faults.count( fault );
 }
 
+bool item::has_fault_of_type( const std::string &fault_type ) const
+{
+    for( const fault_id &f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::has_fault_flag( const std::string &searched_flag ) const
 {
     for( const fault_id &fault : faults ) {
@@ -7767,15 +7777,19 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-void item::set_fault( const fault_id &fault_id )
+void item::set_fault( const fault_id &fault_id, bool force )
 {
+    if( !force && type->faults.get_specific_weight( fault_id ) == 0 ) {
+        return;
+    }
+
     faults.insert( fault_id );
 }
 
-void item::set_random_fault_of_type( const std::string &fault_type, const bool &force )
+void item::set_random_fault_of_type( const std::string &fault_type, bool force )
 {
     if( force ) {
-        set_fault( random_entry( faults::all_of_type( fault_type ) ) );
+        set_fault( random_entry( faults::all_of_type( fault_type ) ), true );
         return;
     }
 
@@ -7784,37 +7798,22 @@ void item::set_random_fault_of_type( const std::string &fault_type, const bool &
         faults_by_type.add( f.obj, f.weight );
     }
 
-    set_fault( *faults_by_type.pick() );
+    faults.insert( *faults_by_type.pick() );
 }
 
-weighted_int_list<fault_id> item::all_potential_faults() const
+void item::remove_fault( const fault_id &fault_id )
 {
-    weighted_int_list<fault_id> potential_faults;
-    for( const weighted_object<int, fault_id> &potential_fault : type->faults ) {
-        if( potential_fault.obj.obj().affected_by_degradation() ) {
-            potential_faults.add( potential_fault.obj, potential_fault.weight + degradation() );
-        } else {
-            potential_faults.add( potential_fault.obj, potential_fault.weight );
+    faults.erase( fault_id );
+}
+
+void item::remove_single_fault_of_type( const std::string &fault_type )
+{
+    for( const fault_id f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            faults.erase( f );
+            return;
         }
     }
-    return potential_faults;
-}
-
-weighted_int_list<fault_id> item::all_potential_faults_of_type(
-    const std::string &fault_type ) const
-{
-    weighted_int_list<fault_id> potential_faults_of_type;
-    for( const weighted_object<int, fault_id> &potential_fault : all_potential_faults() ) {
-        if( potential_fault.obj.obj().type() == fault_type ) {
-            potential_faults_of_type.add( potential_fault.obj, potential_fault.weight );
-        }
-    }
-    return potential_faults_of_type;
-}
-
-const fault_id &item::random_potential_fault_of_type( const std::string &fault_type ) const
-{
-    return *all_potential_faults_of_type( fault_type ).pick();
 }
 
 item &item::unset_flag( const flag_id &flag )
@@ -10322,16 +10321,6 @@ std::set<fault_id> item::faults_potential() const
         res.insert( fault_pair.obj );
     }
     return res;
-}
-
-bool item::can_have_fault_type( const std::string &fault_type ) const
-{
-    for( const weighted_object<int, fault_id> &some_fault : type->faults ) {
-        if( some_fault.obj->type() == fault_type ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
@@ -14791,8 +14780,8 @@ bool item::process_gun_cooling( Character *carrier )
                                  overheat_modifier, 5.0 );
     heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
-    if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
-        faults.erase( fault_overheat_safety );
+    if( has_fault( fault_overheat_safety ) && heat < threshold * 0.2 ) {
+        remove_fault( fault_overheat_safety );
         if( carrier ) {
             carrier->add_msg_if_player( m_good, _( "Your %s beeps as its cooling cycle concludes." ), tname() );
         }
@@ -14884,9 +14873,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_random_fault_of_type( "wet" );
+            set_random_fault_of_type( "wet", true );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_random_fault_of_type( "shorted" );
+                set_random_fault_of_type( "shorted", true );
             }
         }
 
@@ -14986,16 +14975,16 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( get_var( "gun_heat", 0 ) > 0 ) {
             return process_gun_cooling( carrier );
         }
-        if( faults.count( fault_emp_reboot ) ) {
+        if( has_fault( fault_emp_reboot ) ) {
             if( one_in( 60 ) ) {
                 if( !one_in( 20 ) ) {
-                    faults.erase( fault_emp_reboot );
+                    remove_fault( fault_emp_reboot );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_good, _( "Your %s reboots successfully." ), tname() );
                     }
                 } else {
-                    faults.erase( fault_emp_reboot );
-                    set_random_fault_of_type( "shorted" );
+                    remove_fault( fault_emp_reboot );
+                    set_random_fault_of_type( "shorted", true );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
                     }
