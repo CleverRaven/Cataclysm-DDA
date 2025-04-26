@@ -129,7 +129,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "temple_stairs",
+    "id": [ "temple_stairs", "temple_underground_1", "temple_underground_2", "temple_underground_3", "temple_underground_4" ],
     "copy-from": "temple_stairs",
     "name": "strange temple",
     "sym": "s",

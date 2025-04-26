@@ -410,14 +410,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "standing_stones",
-    "copy-from": "standing_stones",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "spider_pit",
     "copy-from": "spider_pit",
     "name": "forest",

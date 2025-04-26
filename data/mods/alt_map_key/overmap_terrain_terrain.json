@@ -172,5 +172,13 @@
     "name": "river bank",
     "sym": "~",
     "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_field",
+    "copy-from": "refctr_field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown"
   }
 ]

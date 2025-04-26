@@ -12,7 +12,23 @@
     "id": "cave_rat",
     "copy-from": "cave_rat",
     "name": "rat cave",
+    "sym": "r",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_underground",
+    "copy-from": "cave_underground",
+    "name": "cave",
     "sym": "c",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat_underground",
+    "copy-from": "cave_rat_underground",
+    "name": "rat cave",
+    "sym": "r",
     "color": "brown"
   },
   {
@@ -1447,10 +1463,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "refctr_field",
-    "copy-from": "refctr_field",
-    "name": "field",
-    "sym": ".",
+    "id": "standing_stones",
+    "copy-from": "standing_stones",
+    "name": "standing stones",
+    "sym": "s",
     "color": "brown"
   }
 ]
