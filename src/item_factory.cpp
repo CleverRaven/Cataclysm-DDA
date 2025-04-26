@@ -4178,52 +4178,15 @@ void itype::load( const JsonObject &jo, std::string_view src )
         }
     }
 
-    //TO-DO: replace qualities/techniques loading once generic factory is used
-    if( jo.has_member( "qualities" ) ) {
-        qualities.clear();
-        set_qualities_from_json( jo, "qualities", *this );
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            extend_qualities_from_json( tmp, "qualities", *this );
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            delete_qualities_from_json( tmp, "qualities", *this );
-        }
-        if( jo.has_object( "relative" ) ) {
-            JsonObject tmp = jo.get_object( "relative" );
-            tmp.allow_omitted_members();
-            relative_qualities_from_json( tmp, "qualities", *this );
-        }
-    }
-
-    if( jo.has_member( "charged_qualities" ) ) {
-        charged_qualities.clear();
-        set_qualities_from_json( jo, "charged_qualities", *this );
-    }
+    optional( jo, was_loaded, "qualities", qualities, weighted_string_id_reader<quality_id, int> {1} );
+    optional( jo, was_loaded, "charged_qualities", charged_qualities,
+              weighted_string_id_reader<quality_id, int> {1} );
 
     optional( jo, was_loaded, "properties", properties );
 
     optional( jo, was_loaded, "max_worn", max_worn, MAX_WORN_PER_TYPE );
 
-    if( jo.has_member( "techniques" ) ) {
-        techniques.clear();
-        set_techniques_from_json( jo, "techniques", *this );
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            extend_techniques_from_json( tmp, "techniques", *this );
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            delete_techniques_from_json( tmp, "techniques", *this );
-        }
-    }
+    optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
 
     optional( jo, was_loaded, "countdown_interval", countdown_interval );
     optional( jo, was_loaded, "revert_to", revert_to );
