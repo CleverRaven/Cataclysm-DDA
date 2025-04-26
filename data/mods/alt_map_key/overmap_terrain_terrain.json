@@ -61,7 +61,7 @@
     "copy-from": "pond_field",
     "name": "pond",
     "sym": "#",
-    "color": "blue"
+    "color": "i_blue"
   },
   {
     "type": "overmap_terrain",

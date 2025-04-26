@@ -120,46 +120,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "pool_roof",
-    "copy-from": "pool_roof",
-    "name": "pool roof",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pool_roof_1",
-    "copy-from": "pool_roof_1",
-    "name": "pool roof",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pool_roof_2",
-    "copy-from": "pool_roof_2",
-    "name": "pool roof",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pool_roof_3",
-    "copy-from": "pool_roof_3",
-    "name": "pool roof",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pool_roof_4",
-    "copy-from": "pool_roof_4",
-    "name": "pool roof",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "s_gas_1" ],
     "copy-from": "s_gas_1",
     "name": "gas station",
@@ -272,259 +232,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "stadium_0_0",
-    "copy-from": "stadium_0_0",
-    "name": "stadium parking",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_1_0",
-    "copy-from": "stadium_1_0",
-    "name": "stadium parking",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_2_0",
-    "copy-from": "stadium_2_0",
-    "name": "stadium parking",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_3_0",
-    "copy-from": "stadium_3_0",
-    "name": "stadium parking",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_0_1",
-    "copy-from": "stadium_0_1",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_1_1",
-    "copy-from": "stadium_1_1",
-    "name": "stadium entrance",
-    "sym": "S",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_2_1",
-    "copy-from": "stadium_2_1",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_3_1",
-    "copy-from": "stadium_3_1",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_0_2",
-    "copy-from": "stadium_0_2",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_1_2",
-    "copy-from": "stadium_1_2",
-    "name": "stadium field",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_2_2",
-    "copy-from": "stadium_2_2",
-    "name": "stadium field",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_3_2",
-    "copy-from": "stadium_3_2",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_0_3",
-    "copy-from": "stadium_0_3",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_1_3",
-    "copy-from": "stadium_1_3",
-    "name": "stadium field",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_2_3",
-    "copy-from": "stadium_2_3",
-    "name": "stadium field",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_3_3",
-    "copy-from": "stadium_3_3",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_0_4",
-    "copy-from": "stadium_0_4",
-    "name": "stadium garage",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_1_4",
-    "copy-from": "stadium_1_4",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_2_4",
-    "copy-from": "stadium_2_4",
-    "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stadium_3_4",
-    "copy-from": "stadium_3_4",
-    "name": "stadium bar",
-    "sym": "s",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_00",
-    "copy-from": "golfcourse_00",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_01",
-    "copy-from": "golfcourse_01",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_02",
-    "copy-from": "golfcourse_02",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_10",
-    "copy-from": "golfcourse_10",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_11",
-    "copy-from": "golfcourse_11",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_12",
-    "copy-from": "golfcourse_12",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_20",
-    "copy-from": "golfcourse_20",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_21",
-    "copy-from": "golfcourse_21",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_22",
-    "copy-from": "golfcourse_22",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "golfcourse_30",
     "copy-from": "golfcourse_30",
-    "name": "golf course parking lot",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_31",
-    "copy-from": "golfcourse_31",
-    "name": "golf course service building",
-    "sym": "g",
-    "color": "i_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "golfcourse_32",
-    "copy-from": "golfcourse_32",
-    "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
+    "name": "gofl course parking",
+    "sym": "p",
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -624,16 +336,99 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "zoo_0_0",
-    "copy-from": "zoo_0_0",
-    "name": "zoo parking",
+    "id": "lake_dock_small",
+    "copy-from": "lake_dock_small",
+    "name": "dock",
+    "sym": "d",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_shore_dock_small",
+    "copy-from": "lake_shore_dock_small",
+    "name": "dock",
+    "sym": "d",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "marina_11",
+      "marina_12",
+      "marina_13",
+      "marina_14",
+      "marina_15",
+      "marina_11_roof",
+      "marina_12_roof",
+      "marina_15_roof"
+    ],
+    "copy-from": "marina_11",
+    "name": "marina",
+    "sym": "m",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "marina_16", "marina_17", "marina_18", "marina_19", "marina_20" ],
+    "copy-from": "marina_16",
+    "name": "marina parking",
     "sym": "p",
     "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
-    "id": "zoo_1_0",
-    "copy-from": "zoo_1_0",
+    "id": [
+      "car_theater_0_0",
+      "car_theater_1_0",
+      "car_theater_2_0",
+      "car_theater_0_1",
+      "car_theater_1_1",
+      "car_theater_2_1",
+      "car_theater_0_2",
+      "car_theater_1_2",
+      "car_theater_1_2_1",
+      "car_theater_1_2_2",
+      "car_theater_2_2",
+      "car_theater_0_0_1",
+      "car_theater_1_0_1",
+      "car_theater_2_0_1",
+      "car_theater_0_0_2",
+      "car_theater_1_0_2",
+      "car_theater_2_0_2"
+    ],
+    "copy-from": "car_theater_0_0",
+    "name": "drive-in theater",
+    "sym": "d",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_theater_3_1", "car_theater_3_2", "car_theater_3_1_1", "car_theater_3_2_1", "car_theater_4_1", "car_theater_4_2" ],
+    "copy-from": "car_theater_3_1",
+    "name": "drive-in theater entrance",
+    "sym": "d",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "stadium_football_8_1",
+      "stadium_football_8_2",
+      "stadium_football_8_3",
+      "stadium_1_0",
+      "stadium_2_0",
+      "stadium_0_0",
+      "stadium_3_0"
+    ],
+    "copy-from": "stadium_football_8_1",
+    "name": "stadium parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "zoo_0_0", "zoo_1_0" ],
+    "copy-from": "zoo_0_0",
     "name": "zoo parking",
     "sym": "p",
     "color": "light_blue"

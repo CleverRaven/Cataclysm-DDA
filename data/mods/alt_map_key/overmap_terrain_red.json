@@ -503,18 +503,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "shootingrange_1a",
+    "id": [ "shootingrange_1a", "shootingrange_2a" ],
     "copy-from": "shootingrange_1a",
     "name": "shooting range",
-    "sym": "r",
+    "sym": "s",
     "color": "i_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "shootingrange_2a",
-    "copy-from": "shootingrange_2a",
-    "name": "shooting range",
-    "sym": "r",
+    "id": "shootingrange_1a_roof",
+    "copy-from": "shootingrange_1a",
+    "name": "shooting range roof",
+    "sym": "s",
     "color": "i_red"
   },
   {
