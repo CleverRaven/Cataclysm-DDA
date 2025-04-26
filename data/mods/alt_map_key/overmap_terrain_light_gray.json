@@ -158,6 +158,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "fema_storage",
+    "copy-from": "fema_storage",
+    "name": "FEMA camp storage",
+    "sym": "f",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "s_lightindustry_scen_00",
       "s_lightindustry_scen_00_roof",

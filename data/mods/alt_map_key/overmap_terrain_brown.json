@@ -888,6 +888,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "ws_survivor_bunker_f0", "ws_survivor_bunker_f-1" ],
+    "copy-from": "ws_survivor_bunker_f0",
+    "name": "survivor's bunker",
+    "sym": "s",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_survivor_camp",
+    "copy-from": "ws_survivor_camp",
+    "name": "survivor's camp",
+    "sym": "s",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
     "copy-from": "pottery_cottage",
     "name": "potters cottage",

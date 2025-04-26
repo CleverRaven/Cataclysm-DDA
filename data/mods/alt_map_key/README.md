@@ -52,12 +52,12 @@ Colors mark the (loose) thematic category
   - Slime, fungus, labs, craters, robot dispatch center, anomalous zones
     - Labs will be pink for ground level coloring to stay on theme but other levels will vary to maintain vanilla differentiation between tiles
 
-- Red - Guns, Military, and Emergency
-  - Gun stores, police stations, bunkers, FEMA, LMOE, evac shelter, checkpoints, mil outposts, minefields, army camps
+- Red - Guns and Military
+  - Gun stores, police stations, bunkers, FEMA, LMOE, checkpoints, mil outposts, minefields, army camps
 
 - White - Tourism, Culture, Education and Public Spaces
   - Museums, libraries, bookstores, churches, cemeteries, college campus, theater, gallery, parks, public spaces/gardens
 
 - Yellow - Government and Public Services
-  - Subways, fire, electric stations, sewer plants, prisons, courthouse, mail center
+  - Subways, fire, electric stations, sewer plants, prisons, courthouse, evac shelter, mail center
 

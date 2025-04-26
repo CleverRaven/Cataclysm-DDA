@@ -309,24 +309,24 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "shelter",
-    "copy-from": "shelter",
-    "name": "evac shelter",
-    "sym": "e",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "shelter_under",
-    "copy-from": "shelter_under",
-    "name": "evac shelter",
-    "sym": "e",
-    "color": "red"
+    "id": "fema_military_building",
+    "copy-from": "fema_military_building",
+    "name": "FEMA camp outpost",
+    "sym": "f",
+    "color": "i_red"
   },
   {
     "type": "overmap_terrain",
     "id": "lmoe",
     "copy-from": "lmoe",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_prepperquest",
+    "copy-from": "lmoe_prepperquest",
     "name": "LMOE shelter",
     "sym": "l",
     "color": "red"
@@ -341,8 +341,64 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lmoe_under_empty",
+    "copy-from": "lmoe_under_empty",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_under_empty_prepperquest",
+    "copy-from": "lmoe_under_empty_prepperquest",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_zombie",
+    "copy-from": "lmoe_zombie",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_zombie_under_empty",
+    "copy-from": "lmoe_zombie_under_empty",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_prepper_shelter",
+    "copy-from": "cabin_prepper_shelter",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bunker",
     "copy-from": "bunker",
+    "name": "military bunker",
+    "sym": "b",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bunker_basement_1",
+    "copy-from": "bunker_basement_1",
+    "name": "military bunker",
+    "sym": "b",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bunker_roof",
+    "copy-from": "bunker_roof",
     "name": "military bunker",
     "sym": "b",
     "color": "red"
@@ -357,19 +413,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "silo",
-    "copy-from": "silo",
-    "name": "missile silo",
-    "sym": "M",
+    "id": [ "outpost_roof" ],
+    "copy-from": "outpost_roof",
+    "name": "military outpost roof",
+    "sym": "o",
     "color": "red"
   },
   {
     "type": "overmap_terrain",
-    "id": "silo_finale",
-    "copy-from": "silo_finale",
+    "id": [ "silo_roof", "silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale" ],
+    "copy-from": "silo_roof",
     "name": "missile silo",
-    "sym": "M",
-    "color": "white_red"
+    "sym": "m",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -459,6 +515,164 @@
     "copy-from": "gunshow_0",
     "name": "gun show",
     "sym": "g",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "helipad_nw",
+      "helipad_ne",
+      "helipad_sw",
+      "helipad_se",
+      "helipad2f_nw",
+      "helipad2f_ne",
+      "helipad2f_sw",
+      "helipad2f_se",
+      "helipad_roof_nw",
+      "helipad_roof_ne",
+      "helipad_roof_sw",
+      "helipad_roof_se",
+      "mil_base_7i"
+    ],
+    "copy-from": "helipad_nw",
+    "name": "military helipad",
+    "sym": "h",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mil_base_2d",
+      "mil_base_2e",
+      "mil_base_2f",
+      "mil_base_2g",
+      "mil_base_3d",
+      "mil_base_3e",
+      "mil_base_3f",
+      "mil_base_3g",
+      "mil_base_3h",
+      "mil_base_5c",
+      "mil_base_5d",
+      "mil_base_5e",
+      "mil_base_5g",
+      "mil_base_5h",
+      "mil_base_5i",
+      "mil_base_6c",
+      "mil_base_6d",
+      "mil_base_6e",
+      "mil_base_6i",
+      "mil_base_7c",
+      "mil_base_7d",
+      "mil_base_7e",
+      "mil_base_7f",
+      "mil_base_8e"
+    ],
+    "copy-from": "mil_base_2d",
+    "name": "military base",
+    "sym": "m",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mil_base_2d1",
+      "mil_base_2e1",
+      "mil_base_2f1",
+      "mil_base_2g1",
+      "mil_base_3d1",
+      "mil_base_3e1",
+      "mil_base_3f1",
+      "mil_base_3g1",
+      "mil_base_3h1",
+      "mil_base_5c1",
+      "mil_base_5d1",
+      "mil_base_5e1",
+      "mil_base_5g1",
+      "mil_base_5h1",
+      "mil_base_5i1",
+      "mil_base_6c1",
+      "mil_base_6d1",
+      "mil_base_6e1",
+      "mil_base_6i1",
+      "mil_base_7c1",
+      "mil_base_7d1",
+      "mil_base_7e1",
+      "mil_base_7f1",
+      "mil_base_8e1",
+      "mil_base_1b2",
+      "mil_base_2b2",
+      "mil_base_3b2",
+      "mil_base_4b2",
+      "mil_base_5b2",
+      "mil_base_6b2",
+      "mil_base_7b2",
+      "mil_base_8b2",
+      "mil_base_1g2",
+      "mil_base_2g2",
+      "mil_base_3g2",
+      "mil_base_8g2",
+      "mil_base_1k2",
+      "mil_base_2k2",
+      "mil_base_3k2",
+      "mil_base_4k2",
+      "mil_base_8k2"
+    ],
+    "copy-from": "mil_base_2d1",
+    "name": "military base roof",
+    "sym": "M",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mil_base_tunnels_a",
+      "mil_base_tunnels_b",
+      "mil_base_tunnels_c",
+      "mil_base_tunnels_d",
+      "mil_base_tunnels_e",
+      "mil_base_tunnels_f",
+      "mil_base_tunnels_g",
+      "mil_base_tunnels_h",
+      "mil_base_tunnels_i"
+    ],
+    "copy-from": "mil_base_tunnels_a",
+    "name": "military base tunnels",
+    "sym": "m",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mil_base_1b",
+      "mil_base_1g",
+      "mil_base_1k",
+      "mil_base_3b",
+      "mil_base_4k",
+      "mil_base_5b",
+      "mil_base_8b",
+      "mil_base_8g",
+      "mil_base_8k",
+      "mil_base_1b1",
+      "mil_base_1g1",
+      "mil_base_1k1",
+      "mil_base_3b1",
+      "mil_base_4k1",
+      "mil_base_5b1",
+      "mil_base_8b1",
+      "mil_base_8g1",
+      "mil_base_8k1"
+    ],
+    "copy-from": "mil_base_1b",
+    "name": "military base watchtower",
+    "sym": "w",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4" ],
+    "copy-from": "mil_base_3i",
+    "name": "military base radio tower",
+    "sym": "r",
     "color": "i_red"
   }
 ]

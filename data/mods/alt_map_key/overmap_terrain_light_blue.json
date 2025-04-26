@@ -46,6 +46,32 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "fema_bus",
+    "copy-from": "fema_bus",
+    "name": "FEMA camp bus stop",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mil_base_5a",
+      "mil_base_6a",
+      "mil_base_7a",
+      "mil_base_6h",
+      "mil_base_7h",
+      "mil_base_8h",
+      "mil_base_8f",
+      "mil_base_6g",
+      "mil_base_7g"
+    ],
+    "copy-from": "mil_base_5a",
+    "name": "military base",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_lot_no_sidewalk", "trailer_hub_00" ],
     "copy-from": "s_lot_no_sidewalk",
     "name": "parking lot",

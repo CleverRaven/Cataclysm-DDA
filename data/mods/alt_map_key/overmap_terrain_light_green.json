@@ -686,6 +686,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "fema_housing",
+    "copy-from": "fema_housing",
+    "name": "FEMA camp housing",
+    "sym": "f",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_daycare",
     "copy-from": "s_daycare",
     "name": "daycare center",
