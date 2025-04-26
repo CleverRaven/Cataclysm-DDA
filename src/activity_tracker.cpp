@@ -5,7 +5,6 @@
 #include <map>
 #include <utility>
 
-#include "cata_assert.h"
 #include "game_constants.h"
 #include "options.h"
 #include "string_formatter.h"
