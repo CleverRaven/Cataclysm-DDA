@@ -912,7 +912,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lumberyard_0_0",
+    "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ],
+    "copy-from": "lumbermill_0_0",
+    "name": "lumbermill",
+    "sym": "l",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumbermill_0_0_roof", "lumbermill_0_1_roof", "lumbermill_1_0_roof", "lumbermill_1_1_roof" ],
+    "copy-from": "lumbermill_0_0_roof",
+    "name": "lumbermill roof",
+    "sym": "l",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumberyard_0_0", "lumberyard_0_1", "lumberyard_1_0", "lumberyard_1_1" ],
     "copy-from": "lumberyard_0_0",
     "name": "lumberyard",
     "sym": "l",
@@ -920,25 +936,9 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lumberyard_0_1",
-    "copy-from": "lumberyard_0_1",
-    "name": "lumberyard",
-    "sym": "l",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumberyard_1_0",
-    "copy-from": "lumberyard_1_0",
-    "name": "lumberyard",
-    "sym": "l",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumberyard_1_1",
-    "copy-from": "lumberyard_1_1",
-    "name": "lumberyard",
+    "id": [ "lumberyard_0_0_roof", "lumberyard_0_1_roof", "lumberyard_1_0_roof", "lumberyard_1_1_roof" ],
+    "copy-from": "lumberyard_0_0_roof",
+    "name": "lumberyard roof",
     "sym": "l",
     "color": "i_brown"
   },

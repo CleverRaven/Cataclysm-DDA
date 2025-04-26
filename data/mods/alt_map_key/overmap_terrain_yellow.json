@@ -255,7 +255,15 @@
     "type": "overmap_terrain",
     "id": "sai",
     "copy-from": "sai",
-    "name": "interface",
+    "name": "serving area interface",
+    "sym": "s",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "solar_farm",
+    "copy-from": "solar_farm",
+    "name": "solar farm",
     "sym": "s",
     "color": "yellow"
   },
@@ -269,33 +277,25 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "pwr_large_entrance",
+    "id": "pwr_sub_s_roof",
+    "copy-from": "pwr_sub_s_roof",
+    "name": "electric substation roof",
+    "sym": "e",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pwr_large_entrance", "pwr_large_2", "pwr_large_3", "pwr_large_4" ],
     "copy-from": "pwr_large_entrance",
     "name": "electric substation",
-    "sym": "E",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pwr_large_2",
-    "copy-from": "pwr_large_2",
-    "name": "electric substation",
     "sym": "e",
     "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": "pwr_large_3",
-    "copy-from": "pwr_large_3",
-    "name": "electric substation",
-    "sym": "e",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pwr_large_4",
-    "copy-from": "pwr_large_4",
-    "name": "electric substation",
+    "id": [ "pwr_large_entrance_roof", "pwr_large_2_roof" ],
+    "copy-from": "pwr_large_entrance_roof",
+    "name": "electric substation roof",
     "sym": "e",
     "color": "i_yellow"
   },

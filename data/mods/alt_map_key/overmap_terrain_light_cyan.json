@@ -112,18 +112,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "public_works_NE",
+    "id": [ "public_works_NE", "public_works_NW", "public_works_SE" ],
     "copy-from": "public_works_NE",
     "name": "public works",
-    "sym": "w",
-    "color": "i_light_cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "public_works_NW",
-    "copy-from": "public_works_NW",
-    "name": "public works",
-    "sym": "w",
+    "sym": "p",
     "color": "i_light_cyan"
   },
   {
@@ -131,22 +123,38 @@
     "id": "public_works_SW",
     "copy-from": "public_works_SW",
     "name": "public works",
-    "sym": "W",
+    "sym": "p",
     "color": "i_light_cyan"
   },
   {
     "type": "overmap_terrain",
-    "id": "public_works_SE",
-    "copy-from": "public_works_SE",
-    "name": "public works",
-    "sym": "w",
+    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
+    "copy-from": "public_works_NE_roof",
+    "name": "public works roof",
+    "sym": "p",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SW_roof",
+    "copy-from": "public_works_SW_roof",
+    "name": "public works roof",
+    "sym": "p",
     "color": "i_light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "warehouse",
     "copy-from": "warehouse",
-    "name": "small warehouse",
+    "name": "warehouse",
+    "sym": "w",
+    "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse_roof",
+    "copy-from": "warehouse_roof",
+    "name": "warehouse roof",
     "sym": "w",
     "color": "light_cyan"
   },
@@ -165,39 +173,5 @@
     "name": "home improvement store roof",
     "sym": "h",
     "color": "light_cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "s_lightindustry_00",
-      "s_lightindustry_00_roof",
-      "s_lightindustry_01",
-      "s_lightindustry_01_roof",
-      "s_lightindustry_10",
-      "s_lightindustry_10_roof",
-      "s_lightindustry_11",
-      "s_lightindustry_11_roof"
-    ],
-    "name": "light industry",
-    "copy-from": "s_lightindustry_00",
-    "sym": "i",
-    "color": "i_light_cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "s_lightindustry_scen_00",
-      "s_lightindustry_scen_00_roof",
-      "s_lightindustry_scen_01",
-      "s_lightindustry_scen_01_roof",
-      "s_lightindustry_scen_10",
-      "s_lightindustry_scen_10_roof",
-      "s_lightindustry_scen_11",
-      "s_lightindustry_scen_11_roof"
-    ],
-    "name": "light industry",
-    "copy-from": "s_lightindustry_scen_00",
-    "sym": "i",
-    "color": "i_light_cyan"
   }
 ]

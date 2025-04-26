@@ -1,6 +1,180 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
+    "copy-from": "mine_entrance",
+    "name": "mine entrance",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ],
+    "copy-from": "mine_entrance_roof",
+    "name": "mine entrance roof",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
+    "copy-from": "mine_shaft_middle",
+    "name": "mine shaft",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_shaft_lower", "mine_shaft_lower_east" ],
+    "copy-from": "mine_shaft_lower",
+    "name": "mine shaft",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_spiral_west",
+      "mine_spiral_central",
+      "mine_spiral_east",
+      "mine_spiral_-1_nw",
+      "mine_spiral_-1_n",
+      "mine_spiral_-1_ne",
+      "mine_spiral_-1_sw",
+      "mine_spiral_-1_s",
+      "mine_spiral_-1_se",
+      "mine_spiral_finale_nw",
+      "mine_spiral_finale_n",
+      "mine_spiral_finale_ne",
+      "mine_spiral_finale_sw",
+      "mine_spiral_finale_s",
+      "mine_spiral_finale_se",
+      "mine_amigara_west",
+      "mine_amigara_central",
+      "mine_amigara_east",
+      "mine_amigara_-1_west",
+      "mine_amigara_-1_central",
+      "mine_amigara_-1_east",
+      "mine_amigara_finale_west",
+      "mine_amigara_finale_central",
+      "mine_amigara_finale_east",
+      "mine_wyrms_west",
+      "mine_wyrms_central",
+      "mine_wyrms_east",
+      "mine_wyrms_finale"
+    ],
+    "copy-from": "mine_spiral_west",
+    "name": "mine tunnels",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_finale",
+    "copy-from": "mine_finale",
+    "name": "mine",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "steel_mill_0_1",
+      "steel_mill_0_1_2",
+      "steel_mill_0_1_3",
+      "steel_mill_0_2",
+      "steel_mill_0_2_2",
+      "steel_mill_0_2_3",
+      "steel_mill_0_3",
+      "steel_mill_0_3_2",
+      "steel_mill_0_3_3",
+      "steel_mill_0_4",
+      "steel_mill_0_4_2",
+      "steel_mill_0_4_3",
+      "steel_mill_1_1",
+      "steel_mill_1_1_2",
+      "steel_mill_1_1_3",
+      "steel_mill_1_2",
+      "steel_mill_1_2_2",
+      "steel_mill_1_2_3",
+      "steel_mill_1_3",
+      "steel_mill_1_3_2",
+      "steel_mill_1_3_3",
+      "steel_mill_1_4",
+      "steel_mill_1_4_2",
+      "steel_mill_1_4_3",
+      "steel_mill_2_1",
+      "steel_mill_2_1_2",
+      "steel_mill_2_1_3",
+      "steel_mill_2_2",
+      "steel_mill_2_2_2",
+      "steel_mill_2_2_3",
+      "steel_mill_2_3",
+      "steel_mill_2_3_2",
+      "steel_mill_2_3_3",
+      "steel_mill_2_4",
+      "steel_mill_2_4_2",
+      "steel_mill_2_4_3",
+      "steel_mill_3_1",
+      "steel_mill_3_1_2",
+      "steel_mill_3_1_3",
+      "steel_mill_3_2",
+      "steel_mill_3_2_2",
+      "steel_mill_3_2_3",
+      "steel_mill_3_3",
+      "steel_mill_3_3_2",
+      "steel_mill_3_3_3",
+      "steel_mill_4_1",
+      "steel_mill_4_1_2",
+      "steel_mill_4_1_3",
+      "steel_mill_4_2",
+      "steel_mill_4_2_2",
+      "steel_mill_4_2_3",
+      "steel_mill_4_3",
+      "steel_mill_4_3_2",
+      "steel_mill_4_3_3"
+    ],
+    "copy-from": "steel_mill_0_1",
+    "name": "steel mill",
+    "sym": "s",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lightindustry_00",
+      "s_lightindustry_00_roof",
+      "s_lightindustry_01",
+      "s_lightindustry_01_roof",
+      "s_lightindustry_10",
+      "s_lightindustry_10_roof",
+      "s_lightindustry_11",
+      "s_lightindustry_11_roof"
+    ],
+    "name": "light industry",
+    "copy-from": "s_lightindustry_00",
+    "sym": "i",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lightindustry_scen_00",
+      "s_lightindustry_scen_00_roof",
+      "s_lightindustry_scen_01",
+      "s_lightindustry_scen_01_roof",
+      "s_lightindustry_scen_10",
+      "s_lightindustry_scen_10_roof",
+      "s_lightindustry_scen_11",
+      "s_lightindustry_scen_11_roof"
+    ],
+    "name": "light industry",
+    "copy-from": "s_lightindustry_scen_00",
+    "sym": "i",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "office_tower_ne", "office_tower_nw", "office_tower_sw", "office_tower_se" ],
     "copy-from": "office_tower_ne",
     "name": "office building",
@@ -191,37 +365,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_entrance",
-    "copy-from": "mine_entrance",
-    "name": "mine entrance",
-    "sym": "M",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_entrance_roof",
-    "copy-from": "mine_entrance_roof"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_shaft_middle",
-    "copy-from": "mine_shaft_middle"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_shaft_lower",
-    "copy-from": "mine_shaft_lower"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_finale",
-    "copy-from": "mine_finale",
-    "name": "mine",
-    "sym": "M",
-    "color": "i_light_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "subway",
     "copy-from": "subway",
     "name": "subway",
@@ -314,6 +457,28 @@
     "name": "abandoned shopping plaza roof",
     "sym": "a",
     "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
+    "copy-from": "abandonedwarehouse",
+    "name": "abandoned warehouse",
+    "sym": "a",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "abandonedwarehouse_roof",
+      "abandonedwarehouse_1_roof",
+      "abandonedwarehouse_2_roof",
+      "abandonedwarehouse_3_roof",
+      "abandonedwarehouse_4_roof"
+    ],
+    "copy-from": "generic_city_building_roof",
+    "name": "abandoned warehouse roof",
+    "sym": "a",
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",

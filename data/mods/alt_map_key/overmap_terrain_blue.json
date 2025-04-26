@@ -215,14 +215,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
-    "copy-from": "abandonedwarehouse",
-    "name": "abandoned warehouse",
-    "sym": "w",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "football_field_a1",
     "copy-from": "football_field_a1",
     "name": "football field",

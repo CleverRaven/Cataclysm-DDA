@@ -180,5 +180,13 @@
     "name": "field",
     "sym": ".",
     "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumbermill_dforest",
+    "copy-from": "lumbermill_dforest",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
   }
 ]
