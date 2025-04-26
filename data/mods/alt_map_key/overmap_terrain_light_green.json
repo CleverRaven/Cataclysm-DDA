@@ -873,154 +873,84 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "farm_stills_3_basement", "ranch_camp_68_basement" ],
+    "copy-from": "farm_stills_3_basement",
+    "name": "basement",
+    "sym": "b",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_2_cellar",
+    "copy-from": "farm_isherwood_2_cellar",
+    "name": "basement",
+    "sym": "b",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_2_roof", "farm_horse_house_1_roof" ],
+    "copy-from": "farm_2_roof",
+    "name": "farm house roof",
+    "sym": "f",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_isherwood_2_roof", "horse_farm_isherwood_13_roof" ],
+    "copy-from": "farm_isherwood_2_roof",
+    "name": "farm house roof",
+    "sym": "f",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_house_1_2ndfloor", "farm_dairy_twd_second_floor_3", "farm_dairy_twd_second_floor_4" ],
+    "copy-from": "farm_horse_house_1_2ndfloor",
+    "name": "farm house 2nd floor",
+    "sym": "f",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_13_2ndfloor",
+    "copy-from": "horse_farm_isherwood_13_2ndfloor",
+    "name": "farm house 2nd floor",
+    "sym": "f",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "farm_2",
+      "farm_horse_house_1",
+      "2farm_11",
+      "farm_stills_3",
+      "farm_stills_3_2nd",
+      "farm_stills_3_roof",
+      "farm_dairy_twd_3",
+      "farm_dairy_twd_4",
+      "2farm_roof_11"
+    ],
+    "copy-from": "farm_2",
+    "name": "farm house",
+    "sym": "f",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "horse_farm_isherwood_13", "farm_isherwood_2" ],
+    "copy-from": "horse_farm_isherwood_13",
+    "name": "farm house",
+    "sym": "f",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "homelesscamp",
     "copy-from": "homelesscamp",
     "name": "homeless camp",
     "sym": "h",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_1",
-    "copy-from": "irradiator_1_1",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_2",
-    "copy-from": "irradiator_1_2",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_3",
-    "copy-from": "irradiator_1_3",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_4",
-    "copy-from": "irradiator_1_4",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_5",
-    "copy-from": "irradiator_1_5",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_6",
-    "copy-from": "irradiator_1_6",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_7",
-    "copy-from": "irradiator_1_7",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_8",
-    "copy-from": "irradiator_1_8",
-    "name": "irradiation plant",
-    "sym": "I",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_9",
-    "copy-from": "irradiator_1_9",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_1_roof",
-    "copy-from": "irradiator_1_1_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_2_roof",
-    "copy-from": "irradiator_1_2_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_3_roof",
-    "copy-from": "irradiator_1_3_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_4_roof",
-    "copy-from": "irradiator_1_4_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_5_roof",
-    "copy-from": "irradiator_1_5_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_6_roof",
-    "copy-from": "irradiator_1_6_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_7_roof",
-    "copy-from": "irradiator_1_7_roof",
-    "name": "irradiation plant",
-    "sym": "i",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_8_roof",
-    "copy-from": "irradiator_1_8_roof",
-    "name": "irradiation plant",
-    "sym": "I",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "irradiator_1_9_roof",
-    "copy-from": "irradiator_1_9_roof",
-    "name": "irradiation plant",
-    "sym": "i",
     "color": "light_green"
   }
 ]

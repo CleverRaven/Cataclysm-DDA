@@ -1,6 +1,31 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [
+      "farm_supply_1",
+      "farm_supply_2",
+      "farm_supply_3",
+      "farm_supply_4",
+      "farm_supply_looted_1",
+      "farm_supply_looted_2",
+      "farm_supply_looted_3",
+      "farm_supply_looted_4"
+    ],
+    "copy-from": "farm_supply_1",
+    "name": "farm supply store",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_supply_roof_1", "farm_supply_roof_2", "farm_supply_roof_3", "farm_supply_roof_4" ],
+    "copy-from": "farm_supply_roof_1",
+    "name": "farm supply store",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_sports",
     "copy-from": "s_sports",
     "name": "sporting goods store",

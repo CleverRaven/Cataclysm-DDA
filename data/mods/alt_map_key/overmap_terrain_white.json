@@ -185,14 +185,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ants_larvae",
-    "copy-from": "ants_larvae",
-    "name": "ant larva chamber",
-    "sym": "O",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "debug_ramps",
     "copy-from": "debug_ramps",
     "name": "ramp testing area",

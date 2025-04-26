@@ -373,14 +373,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ants_queen",
-    "copy-from": "ants_queen",
-    "name": "ant queen chamber",
-    "sym": "O",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "evac_center_7",
     "copy-from": "evac_center_7",
     "name": "refugee center",

@@ -25,13 +25,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ants",
-    "copy-from": "ants",
-    "name": "ant tunnel",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "ranch_camp_1",
     "copy-from": "ranch_camp_1",
     "name": "field",
@@ -878,6 +871,22 @@
     "color": "i_brown"
   },
   {
+    "type": "overmap_terrain",
+    "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
+    "copy-from": "pottery_cottage",
+    "name": "potters cottage",
+    "sym": "p",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pottery_cottage_basement" ],
+    "copy-from": "pottery_cottage_basement",
+    "name": "basement",
+    "sym": "b",
+    "color": "brown"
+  },
+  {
     "id": "hunting_blind",
     "copy-from": "hunting_blind",
     "type": "overmap_terrain",
@@ -926,35 +935,514 @@
     "color": "brown"
   },
   {
-    "id": "dairy_farm_NW",
+    "type": "overmap_terrain",
+    "id": [
+      "farm_dairy_twd_1",
+      "farm_dairy_twd_2",
+      "farm_dairy_twd_3_roof",
+      "farm_dairy_twd_4_roof",
+      "farm_dairy_twd_9",
+      "farm_dairy_twd_10"
+    ],
+    "copy-from": "farm_dairy_twd_1",
+    "name": "farm",
+    "sym": "f",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_dairy_twd_5", "farm_dairy_twd_6" ],
+    "copy-from": "farm_dairy_twd_5",
+    "name": "barn",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_12",
+    "copy-from": "farm_dairy_twd_12",
+    "name": "barn",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_dairy_twd_second_floor_5", "farm_dairy_twd_second_floor_6", "farm_dairy_twd_second_floor_12" ],
+    "copy-from": "farm_dairy_twd_second_floor_5",
+    "name": "barn roof",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "coop_chicken",
+    "copy-from": "coop_chicken",
+    "name": "chicken coop",
+    "sym": "c",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "2silos",
+      "2silos_1",
+      "2silos_2",
+      "2silos_roof",
+      "farm_1_silo",
+      "farm_1_silo_1",
+      "farm_1_silo_2",
+      "farm_1_silo_roof",
+      "2farm_6",
+      "2farm_6_1",
+      "2farm_6_2",
+      "2farm_6_3",
+      "farm_horse_silo",
+      "farm_horse_silo_1",
+      "farm_horse_silo_roof"
+    ],
+    "copy-from": "2silos",
+    "name": "silo",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "TreeFarm_1a",
+    "copy-from": "TreeFarm_1a",
+    "name": "tree farm",
+    "sym": "t",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "TreeFarm_1a_roof",
+    "copy-from": "TreeFarm_1a_roof",
+    "name": "tree farm",
+    "sym": "t",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "TreeFarm_1b",
+    "copy-from": "TreeFarm_1b",
+    "name": "tree farm",
+    "sym": "t",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_horse_carriage_house_1",
+    "copy-from": "farm_horse_carriage_house_1",
+    "name": "carriage house",
+    "sym": "c",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_4",
+    "copy-from": "horse_farm_isherwood_4",
+    "name": "carriage house",
+    "sym": "c",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_horse_carriage_house_1_roof",
+    "copy-from": "farm_horse_carriage_house_1_roof",
+    "name": "carriage house roof",
+    "sym": "c",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_4_roof",
+    "copy-from": "horse_farm_isherwood_4_roof",
+    "name": "carriage house roof",
+    "sym": "c",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_1_greenhouse", "farm_horse_greenhouse" ],
+    "copy-from": "farm_1_greenhouse",
+    "name": "greenhouse",
+    "sym": "g",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_9",
+    "copy-from": "horse_farm_isherwood_9",
+    "name": "greenhouse",
+    "sym": "g",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_1_greenhouse_roof", "farm_horse_greenhouse_roof" ],
+    "copy-from": "farm_1_greenhouse_roof",
+    "name": "greenhouse roof",
+    "sym": "g",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_9_roof",
+    "copy-from": "horse_farm_isherwood_9_roof",
+    "name": "greenhouse roof",
+    "sym": "g",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_horse_stable_1",
+    "copy-from": "farm_horse_stable_1",
+    "name": "stable",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_7",
+    "copy-from": "horse_farm_isherwood_7",
+    "name": "stable",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_horse_stable_1_hayloft",
+    "copy-from": "farm_horse_stable_1_hayloft",
+    "name": "stable hayloft",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_7_hayloft",
+    "copy-from": "horse_farm_isherwood_7_hayloft",
+    "name": "stable hayloft",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_horse_stable_1_roof",
+    "copy-from": "farm_horse_stable_1_roof",
+    "name": "stable roof",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "horse_farm_isherwood_7_roof",
+    "copy-from": "horse_farm_isherwood_7_roof",
+    "name": "stable roof",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "pasture",
+      "splitrail_fence_butt",
+      "splitrail_fence_gap",
+      "splitrail_fence_UL",
+      "splitrail_fence_UR",
+      "splitrail_fence_DL",
+      "splitrail_fence_DR",
+      "splitrail_fence_inner"
+    ],
+    "copy-from": "pasture",
+    "name": "pasture",
+    "sym": "p",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "paddock",
+      "paddock_L_butt",
+      "paddock_R_butt",
+      "paddock_L_gap",
+      "paddock_R_gap",
+      "paddock_C",
+      "paddock_UL",
+      "paddock_UR",
+      "paddock_DL",
+      "paddock_DR",
+      "paddock_d_D_butt",
+      "paddock_d_U_gap",
+      "paddock_d_D_gap",
+      "paddock_d_U_butt",
+      "paddock_special_1",
+      "paddock_special_2",
+      "paddock_special_3",
+      "paddock_special_4",
+      "paddock_trailhead_1",
+      "paddock_trailhead_3",
+      "paddock_trailhead_4",
+      "paddock_trailhead_6",
+      "paddock_trailhead_7",
+      "paddock_trailhead_9",
+      "paddock_end_UL",
+      "paddock_end_UR",
+      "paddock_end_DL",
+      "paddock_end_DR"
+    ],
+    "copy-from": "paddock",
+    "name": "paddock",
+    "sym": "d",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_ring_1", "farm_horse_ring_2", "farm_horse_ring_3", "farm_horse_ring_4" ],
+    "copy-from": "farm_horse_ring_1",
+    "name": "ring",
+    "sym": "r",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "paddock_trailhead_2" ],
+    "copy-from": "paddock_trailhead_2",
+    "name": "trailhead",
+    "sym": "t",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smokehouse",
+    "copy-from": "smokehouse",
+    "name": "smokehouse",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smokehouse_roof",
+    "copy-from": "smokehouse_roof",
+    "name": "smokehouse roof",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_outbuilding",
+    "copy-from": "rural_outbuilding",
+    "name": "outbuilding",
+    "sym": "o",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_outbuilding_roof",
+    "copy-from": "rural_outbuilding_roof",
+    "name": "outbuilding roof",
+    "sym": "o",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dairy_farm_NW", "dairy_farm_NE", "dairy_farm_SE", "dairy_farm_SW" ],
     "copy-from": "dairy_farm_NW",
-    "type": "overmap_terrain",
     "name": "dairy farm",
     "sym": "d",
     "color": "i_brown"
   },
   {
-    "id": "dairy_farm_NE",
-    "copy-from": "dairy_farm_NE",
     "type": "overmap_terrain",
+    "id": [
+      "dairy_farm_isherwood_NW",
+      "dairy_farm_isherwood_NE",
+      "dairy_farm_isherwood_W",
+      "dairy_farm_isherwood_E",
+      "dairy_farm_isherwood_SE",
+      "dairy_farm_isherwood_SW"
+    ],
+    "copy-from": "dairy_farm_isherwood_NW",
     "name": "dairy farm",
     "sym": "d",
     "color": "i_brown"
   },
   {
-    "id": "dairy_farm_SE",
-    "copy-from": "dairy_farm_SE",
     "type": "overmap_terrain",
-    "name": "dairy farm",
+    "id": [ "dairy_farm_SE_roof", "dairy_farm_SW_roof" ],
+    "copy-from": "dairy_farm_SE_roof",
+    "name": "dairy farm roof",
     "sym": "d",
     "color": "i_brown"
   },
   {
-    "id": "dairy_farm_SW",
-    "copy-from": "dairy_farm_SW",
     "type": "overmap_terrain",
-    "name": "dairy farm",
+    "id": [ "dairy_farm_isherwood_SE_roof", "dairy_farm_isherwood_SW_roof" ],
+    "copy-from": "dairy_farm_isherwood_SE_roof",
+    "name": "dairy farm roof",
     "sym": "d",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_3_roof" ],
+    "copy-from": "farm_3_roof",
+    "name": "barn roof",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_isherwood_3_roof" ],
+    "copy-from": "farm_isherwood_3_roof",
+    "name": "barn roof",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_isherwood_3_hayloft",
+    "copy-from": "farm_isherwood_3_hayloft",
+    "name": "barn hayloft",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_3" ],
+    "copy-from": "farm_3",
+    "name": "barn",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_isherwood_3" ],
+    "copy-from": "farm_isherwood_3",
+    "name": "barn",
+    "sym": "b",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_stills_4", "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
+    "copy-from": "farm_stills_4",
+    "name": "farm",
+    "sym": "f",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "farm_stills_8",
+      "farm_stills_12",
+      "farm_stills_1",
+      "farm_stills_2",
+      "farm_stills_5",
+      "farm_stills_6",
+      "farm_stills_9",
+      "farm_stills_10"
+    ],
+    "copy-from": "farm_stills_8",
+    "name": "vineyard",
+    "sym": "i",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_stills_7", "farm_stills_7_roof" ],
+    "copy-from": "farm_stills_7",
+    "name": "stills",
+    "sym": "s",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_stills_11",
+    "copy-from": "farm_stills_11",
+    "name": "orchard",
+    "sym": "o",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hayfield_straight", "hayfield_turnL", "hayfield_turnR", "hayfield_end" ],
+    "copy-from": "hayfield_straight",
+    "name": "hay field",
+    "sym": "h",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "2farm_1",
+      "2farm_2",
+      "2farm_5",
+      "2farm_9",
+      "2farm_10",
+      "2farm_12",
+      "2farm_15",
+      "2farm_16",
+      "farm_1",
+      "farm_4",
+      "farm_5",
+      "farm_6",
+      "farm_7",
+      "farm_8",
+      "farm_9"
+    ],
+    "copy-from": "2farm_1",
+    "name": "farm field",
+    "sym": "f",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "farm_isherwood_1",
+      "farm_isherwood_4",
+      "farm_isherwood_5",
+      "farm_isherwood_6",
+      "farm_isherwood_7",
+      "farm_isherwood_8",
+      "farm_isherwood_9",
+      "horse_farm_isherwood_1",
+      "horse_farm_isherwood_2",
+      "horse_farm_isherwood_11",
+      "horse_farm_isherwood_12",
+      "horse_farm_isherwood_14",
+      "horse_farm_isherwood_15",
+      "horse_farm_isherwood_16",
+      "horse_farm_isherwood_3",
+      "horse_farm_isherwood_5",
+      "horse_farm_isherwood_6",
+      "horse_farm_isherwood_8"
+    ],
+    "copy-from": "farm_isherwood_1",
+    "name": "farm field",
+    "sym": "f",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "2farm_13",
+      "2farm_14",
+      "2farm_17",
+      "2farm_18",
+      "2farm_19",
+      "2farm_20",
+      "2farm_21",
+      "2farm_22",
+      "2farm_23",
+      "2farm_24",
+      "farmland_straight",
+      "farmland_turn",
+      "farmland_turn_inside",
+      "farmland_U"
+    ],
+    "copy-from": "2farm_13",
+    "name": "farm field",
+    "sym": "f",
     "color": "i_brown"
   }
 ]

@@ -187,98 +187,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "farm_1",
-    "copy-from": "farm_1",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_2",
-    "copy-from": "farm_2",
-    "name": "farm house",
-    "sym": "F",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_3",
-    "copy-from": "farm_3",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_4",
-    "copy-from": "farm_4",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_5",
-    "copy-from": "farm_5",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_6",
-    "copy-from": "farm_6",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_7",
-    "copy-from": "farm_7",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_8",
-    "copy-from": "farm_8",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "farm_9",
-    "copy-from": "farm_9",
-    "name": "farm field",
-    "sym": "f",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "barn_aban1",
-    "copy-from": "barn_aban1",
-    "name": "barn",
-    "sym": "F",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "car_corner_aban1",
     "copy-from": "car_corner_aban1",
     "name": "car corner",
     "sym": "F",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants_food",
-    "copy-from": "ants_food",
-    "name": "ant food storage",
-    "sym": "O",
     "color": "green"
   },
   {
@@ -308,25 +220,41 @@
     "type": "overmap_terrain",
     "id": "orchard_processing",
     "copy-from": "orchard_processing",
-    "name": "orchard processing",
-    "sym": "A",
+    "name": "processing",
+    "sym": "p",
     "color": "i_green"
   },
   {
     "type": "overmap_terrain",
     "id": "orchard_stall",
     "copy-from": "orchard_stall",
-    "name": "orchard stall",
-    "sym": "A",
+    "name": "stall",
+    "sym": "s",
     "color": "i_green"
   },
   {
-    "id": "orchard",
-    "copy-from": "orchard",
     "type": "overmap_terrain",
+    "id": "orchard_processing_roof",
+    "copy-from": "orchard_processing_roof",
+    "name": "processing roof",
+    "sym": "p",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_stall_roof",
+    "copy-from": "orchard_stall_roof",
+    "name": "stall roof",
+    "sym": "s",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ],
+    "copy-from": "orchard",
     "name": "orchard",
     "sym": "o",
-    "color": "green"
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
@@ -418,17 +346,33 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "moonshine_still",
+    "id": [ "moonshine_still", "moonshine_still_1", "moonshine_still_2" ],
     "copy-from": "moonshine_still",
     "name": "moonshine still",
-    "sym": "m",
-    "color": "green"
+    "sym": "s",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "moonshine_still_roof", "moonshine_still_roof_1", "moonshine_still_roof_2" ],
+    "copy-from": "moonshine_still_roof",
+    "name": "moonshine still roof",
+    "sym": "s",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "sugar_house",
     "copy-from": "sugar_house",
     "name": "sugar house",
+    "sym": "s",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sugar_house_roof",
+    "copy-from": "sugar_house_roof",
+    "name": "sugar house roof",
     "sym": "s",
     "color": "green"
   },
