@@ -447,10 +447,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "gunshow_0", "gunshow_1" ],
+    "id": [ "isolated_house_farm_gunsmith", "isolated_house_farm_roof_gunsmith" ],
+    "copy-from": "isolated_house_farm_gunsmith",
+    "name": "gunsmith's home",
+    "sym": "g",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gunshow_0", "gunshow_1", "gunshow_0_roof", "gunshow_1_roof" ],
     "copy-from": "gunshow_0",
     "name": "gun show",
     "sym": "g",
-    "color": "red"
+    "color": "i_red"
   }
 ]

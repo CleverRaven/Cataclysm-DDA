@@ -173,5 +173,13 @@
     "name": "home improvement store roof",
     "sym": "h",
     "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "isolated_house_farm_blacksmith", "isolated_house_farm_roof_blacksmith" ],
+    "copy-from": "isolated_house_farm_blacksmith",
+    "name": "blacksmith's home",
+    "sym": "b",
+    "color": "light_cyan"
   }
 ]

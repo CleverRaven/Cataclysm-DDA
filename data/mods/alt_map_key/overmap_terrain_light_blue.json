@@ -46,6 +46,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_lot_no_sidewalk", "trailer_hub_00" ],
+    "copy-from": "s_lot_no_sidewalk",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pool_roof",
     "copy-from": "pool_roof",
     "name": "pool roof",
