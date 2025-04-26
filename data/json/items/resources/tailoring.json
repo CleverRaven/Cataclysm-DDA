@@ -614,7 +614,8 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "thread_kevlar",
     "category": "spare_parts",
     "price": "50 USD",
@@ -634,7 +635,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "thread_nomex",
     "category": "spare_parts",
     "price": "50 USD",
@@ -727,7 +729,8 @@
     "color": "dark_gray"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "thread_canvas",
     "category": "spare_parts",
     "price": "12 USD",

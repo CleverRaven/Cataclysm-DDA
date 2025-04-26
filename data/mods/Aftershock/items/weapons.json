@@ -65,7 +65,8 @@
   },
   {
     "id": "afs_hardlight_longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "looks_like": "recurbow",
     "color": "white",
@@ -124,7 +125,7 @@
   {
     "id": "afs_freeze_gauntlet",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "psychrophile handling gloves" },
     "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
@@ -135,23 +136,21 @@
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_cyan",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
-          "name": { "str": "Ice Fists" },
-          "description": "Strikes from this weapon can freeze targets solid."
-        }
-      ]
-    },
     "to_hit": 0,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_1" ],
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
+        "name": { "str": "Ice Fists" },
+        "description": "Strikes from this weapon can freeze targets solid."
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -162,7 +161,8 @@
   },
   {
     "id": "afs_bionic_rocket",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "deployed grenade launcher" },
     "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": "2250 ml",
@@ -184,7 +184,8 @@
   {
     "id": "TANK",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str_sp": "Tankbot Main Gun", "//~": "NO_I18N" },
@@ -283,8 +284,8 @@
   },
   {
     "id": "azabow_off",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "white",
     "copy-from": "compbow",
@@ -320,7 +321,8 @@
   },
   {
     "id": "azabow_on",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "white",
     "copy-from": "azabow_off",
@@ -362,8 +364,8 @@
     "id": "scrapbow",
     "looks_like": "longbow",
     "copy-from": "compositebow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "name": { "str": "salvage bow" },
     "description": "A bow made from readily-available materials, and quickly and cheaply put together.  It is not made to be pretty, but to get a job done.  Its nocks and string are made of shape-memory alloy that help increase string tension in the string.  The memory alloy requires a UPS source to be activated.",
     "price": "380 USD",
@@ -396,7 +398,8 @@
   {
     "id": "scrapcrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str": "salvage crossbow" },

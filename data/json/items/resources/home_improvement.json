@@ -119,7 +119,8 @@
     "color": "cyan"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "r_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -135,7 +136,8 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "g_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -151,7 +153,8 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "y_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -167,7 +170,8 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "p_carpet",
     "category": "other",
     "price": "1 USD 20 cent",

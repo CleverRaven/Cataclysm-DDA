@@ -159,7 +159,7 @@
   {
     "id": "integrated_ierde_fists",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "stone fists" },
     "description": "Your stone-like skin means your hands hit like hammers, and can be used like hammers as well.",
@@ -172,7 +172,7 @@
     "color": "brown",
     "flags": [ "INTEGRATED", "SEMITANGIBLE", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED" ],
     "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ], [ "PRY", 2 ] ],
-    "relic_data": { "passive_effects": [ { "id": "ench_ierde_stone_fists" } ] }
+    "passive_effects": [ { "id": "ench_ierde_stone_fists" } ]
   },
   {
     "id": "integrated_vegital_cuticle",
@@ -289,7 +289,7 @@
   {
     "id": "integrated_arvore_claws",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "jagged wooden claws" },
     "description": "Your hands and fingers have transformed into jagged wooden claws.",
@@ -310,12 +310,12 @@
       }
     ],
     "melee_damage": { "cut": 10 },
-    "relic_data": { "passive_effects": [ { "id": "ench_jagged_claws_faster_attack" }, { "id": "ench_jagged_claws_when_bramble_bite" } ] }
+    "passive_effects": [ { "id": "ench_jagged_claws_faster_attack" }, { "id": "ench_jagged_claws_when_bramble_bite" } ]
   },
   {
     "id": "integrated_coal_skin",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "burning coals skin" },
     "description": "Your skin has magical flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
@@ -328,7 +328,6 @@
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "relic_data": { "passive_effects": [ { "id": "coal_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -339,12 +338,13 @@
         "breathability": "SECOND_SKIN"
       }
     ],
-    "melee_damage": { "heat": 4 }
+    "melee_damage": { "heat": 4 },
+    "passive_effects": [ { "id": "coal_skin_enchantment" } ]
   },
   {
     "id": "integrated_flameskin",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "flaming skin" },
     "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
@@ -357,7 +357,6 @@
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "relic_data": { "passive_effects": [ { "id": "flame_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -368,7 +367,8 @@
         "breathability": "SECOND_SKIN"
       }
     ],
-    "melee_damage": { "heat": 12 }
+    "melee_damage": { "heat": 12 },
+    "passive_effects": [ { "id": "flame_skin_enchantment" } ]
   },
   {
     "id": "integrated_salamander_eyes",
@@ -403,7 +403,7 @@
   {
     "id": "item_salamander_cooking_heat",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "stove's caress" },
     "description": "Heat from your hands.  You may cook with it at will.",
     "weight": "0 g",
@@ -415,7 +415,7 @@
     "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP" ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "HEAT_FOOD" } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "id": "integrated_gelatinous_skin",
@@ -534,6 +534,7 @@
   {
     "id": "item_gracken_shadowstuff_pocket",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "category": "clothing",
     "name": { "str": "shadowstuff organ" },
     "description": "You have an organ inside of your body that grows a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
@@ -542,7 +543,6 @@
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_shadowstuff": 3 }, "airtight": true } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true } },
     "flags": [
       "INTEGRATED",
       "NO_UNLOAD",
@@ -554,12 +554,13 @@
       "PERSONAL",
       "SOFT",
       "WATER_FRIENDLY"
-    ]
+    ],
+    "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true }
   },
   {
     "id": "integrated_cloud_skin",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "cloud skin" },
     "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
@@ -570,7 +571,6 @@
     "material": [ "fae_flesh" ],
     "symbol": "x",
     "color": "light_red",
-    "relic_data": { "passive_effects": [ { "id": "cloud_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -580,12 +580,13 @@
         "encumbrance": 0,
         "breathability": "SECOND_SKIN"
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "cloud_skin_enchantment" } ]
   },
   {
     "id": "integrated_storm_skin",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "storm skin" },
     "description": "Your skin is a roiling storm.  Your flexibility is greatly increased, your ability to ignore temperatures hot and cold have greatly increased but your ability to carry objects has been reduced.",
@@ -596,7 +597,6 @@
     "material": [ "fae_flesh" ],
     "symbol": "x",
     "color": "light_red",
-    "relic_data": { "passive_effects": [ { "id": "storm_skin_enchantment" } ] },
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
@@ -606,7 +606,8 @@
         "encumbrance": 0,
         "breathability": "SECOND_SKIN"
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "storm_skin_enchantment" } ]
   },
   {
     "id": "integrated_sylph_eyes",
@@ -955,7 +956,7 @@
   {
     "id": "integrated_trow_fists",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "stone fists" },
     "description": "Your thick skin and nails means your hands can be used as simple tools.  You also do slightly more damage when punching.",
@@ -968,7 +969,7 @@
     "color": "brown",
     "flags": [ "INTEGRATED", "SEMITANGIBLE", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED" ],
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ], [ "PRY", 2 ] ],
-    "relic_data": { "passive_effects": [ { "id": "ench_trow_stone_fists" } ] }
+    "passive_effects": [ { "id": "ench_trow_stone_fists" } ]
   },
   {
     "id": "internal_mp3_fruit",

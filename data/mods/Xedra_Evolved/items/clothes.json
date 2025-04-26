@@ -464,7 +464,7 @@
   {
     "id": "cloak_verdant",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "verdant cloak" },
     "description": "A heavy cloak made of living leaves with long twigs and branches connecting them, meant to be thrown over your body.",
     "weight": "1175 g",
@@ -481,7 +481,7 @@
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
-    "relic_data": { "passive_effects": [ { "id": "ench_verdant_cloak" } ] }
+    "passive_effects": [ { "id": "ench_verdant_cloak" } ]
   },
   {
     "id": "holy_symbol",

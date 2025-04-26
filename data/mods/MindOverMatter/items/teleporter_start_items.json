@@ -2,7 +2,8 @@
   {
     "id": "mom_fusion_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Ch47 Fusion Pistol" },
     "description": "The standard-issue officer's sidearm for the Imperial Navy, guaranteed manufactured on Tlalticpactli itself by scions of the Huey Calpulli, the Ch47 replaced the earlier Ch41 and is widely renowned for its accuracy and ease of maintenance.  This particular Ch47 even bears an eagle and snake on the grip, indicating it was produced in a factory in Anáhuac.  Hopefully it'll make a good melee weapon as well.",
     "melee_damage": { "bash": 5 },
@@ -26,7 +27,8 @@
   },
   {
     "id": "mom_fusion_mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Ch47 power pack" },
     "description": "A power pack for the Ch47.",
     "weight": "40 g",
@@ -41,7 +43,8 @@
   },
   {
     "id": "mom_fusion_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Ch47 power cartridge" },
     "description": "Power cartridges for the Ch47.  You had better make every shot count, because there's no way you're finding any more of these.",
     "weight": "1 g",

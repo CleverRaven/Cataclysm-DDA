@@ -70,14 +70,16 @@
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "compositebow",
     "copy-from": "compositebow",
     "name": { "str": "composite bow (heavy)", "str_pl": "composite bows (heavy)" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "reflexbow",
     "copy-from": "reflexbow",
     "name": { "str": "composite bow (light)", "str_pl": "composite bows (light)" },
@@ -189,14 +191,16 @@
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "longbow",
     "copy-from": "longbow",
     "name": { "str": "longbow" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "greatbow_meteor",
     "copy-from": "greatbow_meteor",
     "name": { "str": "blackwood greatbow" },
@@ -301,7 +305,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "shortbow",
     "copy-from": "shortbow",
     "name": { "str": "short bow" },
@@ -343,7 +348,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "staff_sling",
     "copy-from": "staff_sling",
     "name": { "str": "staff sling" },
@@ -378,7 +384,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "selfbow",
     "copy-from": "selfbow",
     "name": { "str": "survival bow" },
@@ -392,7 +399,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "crossbow",
     "copy-from": "crossbow",
     "name": { "str": "wood crossbow" },
@@ -406,7 +414,8 @@
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "woodgreatbow",
     "copy-from": "woodgreatbow",
     "name": { "str": "wooden greatbow" },

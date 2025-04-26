@@ -2,7 +2,7 @@
   {
     "id": "blurred_aura",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "blurred aura",
     "description": "Your edges blur and expand and contract in ways that don't reflect reality.  Allows you to dodge two extra attacks in a given turn.",
     "weight": "1g",
@@ -22,19 +22,19 @@
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
   },
   {
     "id": "aura_futuresight",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "precognitive aura" },
     "description": "A precognitive aura that allows you to dodge things you didn't see coming.",
@@ -55,21 +55,19 @@
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "mutations": [ "FUTURESIGHT" ],
-          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
-        }
-      ]
-    },
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "mutations": [ "FUTURESIGHT" ],
+        "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
       }
     ]
   },
@@ -107,7 +105,7 @@
   {
     "id": "dagger_dreamdross",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "dreamer dagger" },
     "description": "This ephemeral dagger is 15 inches long from the hilt to the tip, the double-edged blade itself is a pearly white color and extremely sharp.",
     "weight": "145 g",
@@ -123,9 +121,9 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
-    "relic_data": { "passive_effects": [ { "id": "DREAM_DAGGER" } ] },
     "category": "weapons",
-    "melee_damage": { "stab": 16 }
+    "melee_damage": { "stab": 16 },
+    "passive_effects": [ { "id": "DREAM_DAGGER" } ]
   },
   {
     "id": "armor_dreamdross",
@@ -151,7 +149,7 @@
   {
     "id": "aura_drunken_master",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Drunken Master aura",
     "description": "Hey I thought this was America…",
     "weight": "1 g",
@@ -162,25 +160,23 @@
     "material": [ "dreamstuff" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "STRENGTH", "add": 3 },
-            { "value": "DEXTERITY", "add": 3 },
-            { "value": "INTELLIGENCE", "add": -6 },
-            { "value": "PERCEPTION", "add": -3 }
-          ],
-          "mutations": [ "DRUNKEN", "GOODCARDIO" ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "INTELLIGENCE", "add": -6 },
+          { "value": "PERCEPTION", "add": -3 }
+        ],
+        "mutations": [ "DRUNKEN", "GOODCARDIO" ]
+      }
+    ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "id": "xe_oneiric_hammer",
     "name": { "str": "Oneiric Hammer" },
     "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
@@ -193,9 +189,6 @@
     "volume": "1250 ml",
     "price": "0 cent",
     "qualities": [ [ "DREAM_HAMMER", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] } ]
-    },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_dreamdross": 100 } } ],
     "charges_per_use": 1,
     "use_action": [
@@ -209,7 +202,8 @@
         "move_cost": 100
       }
     ],
-    "melee_damage": { "bash": 30 }
+    "melee_damage": { "bash": 30 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] } ]
   },
   {
     "type": "ITEM",
@@ -301,6 +295,7 @@
   {
     "id": "salamander_flaming_summon_whip",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "category": "weapons",
     "symbol": "/",
     "color": "red",
@@ -326,7 +321,7 @@
       "FLAMING",
       "FIRE"
     ],
-    "relic_data": { "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ] }
+    "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ]
   },
   {
     "id": "undine_waters_map",
@@ -388,7 +383,7 @@
   {
     "id": "item_ierde_iron_armor",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "invulnerable iron skin" },
     "description": "Fae iron essence.",
@@ -409,24 +404,22 @@
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "ATTACK_SPEED", "multiply": -0.2 },
-            { "value": "FORCEFIELD", "add": 0.1 },
-            { "value": "PAIN_REMOVE", "add": 45 }
-          ]
-        },
-        {
-          "has": "WORN",
-          "condition": { "not": "u_has_weapon" },
-          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": -0.2 },
+          { "value": "FORCEFIELD", "add": 0.1 },
+          { "value": "PAIN_REMOVE", "add": 45 }
+        ]
+      },
+      {
+        "has": "WORN",
+        "condition": { "not": "u_has_weapon" },
+        "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
+      }
+    ]
   },
   {
     "id": "item_ierde_reveal_earth_map_01",

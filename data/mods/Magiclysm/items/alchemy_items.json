@@ -277,7 +277,8 @@
     "melee_damage": { "stab": 8 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "alumentum",
     "category": "spare_parts",
     "price": "9 USD",

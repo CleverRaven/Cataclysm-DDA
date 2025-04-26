@@ -1,7 +1,8 @@
 [
   {
     "id": "chem_potassium_alum",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "potassium alum" },
     "description": "A handful of small, water-soluble white crystals with a watery metallic odor, historically used for many different purposes.  Also known as potash alum and potassium aluminum sulfate; often called simply alum, as it's the most important member of the generic class of compounds called alums.",
@@ -18,7 +19,8 @@
   },
   {
     "id": "dye_powder",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "cloth dye powder" },
     "description": "A handful of powdered colorful cloth dye, which can be used to dye many fabrics if combined with water and some mordant.",
@@ -34,7 +36,8 @@
     "ammo_type": "components"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_calcium_chloride",
     "category": "chems",
     "price": "30 USD",
@@ -51,7 +54,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_washing_soda",
     "category": "chems",
     "price": "30 USD",
@@ -68,7 +72,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_baking_soda",
     "category": "chems",
     "price": "30 USD",
@@ -105,7 +110,8 @@
     "charges": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_mercury_fulminate",
     "category": "chems",
     "price": "9 USD",
@@ -163,7 +169,8 @@
     "charges": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_lead_azide",
     "category": "chems",
     "price": "9 USD",

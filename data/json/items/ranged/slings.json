@@ -2,7 +2,8 @@
   {
     "id": "sling",
     "looks_like": "slingshot",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "brown",
     "name": { "ctxt": "weapon", "str": "sling" },
@@ -28,7 +29,8 @@
   {
     "id": "slingshot",
     "//": "Tileset whitelist for sling & slingshots.",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "brown",
     "name": { "str": "slingshot" },
@@ -54,7 +56,8 @@
   {
     "id": "staff_sling",
     "looks_like": "quarterstaff",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "brown",
     "name": { "str": "staff sling" },
@@ -95,7 +98,8 @@
   {
     "id": "wristrocket",
     "looks_like": "sling",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "dark_gray",
     "name": { "str": "brace slingshot" },

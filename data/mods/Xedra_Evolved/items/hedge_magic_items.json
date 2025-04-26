@@ -18,7 +18,7 @@
   {
     "id": "aura_ward_off_rain",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Rain Ward",
     "description": "Thanks to the words of the charm you spoke, you won't get wet.",
     "weight": "0 g",
@@ -40,19 +40,19 @@
       "RAINPROOF"
     ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "id": "item_hedge_witchlight",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Witchlight",
     "description": "A bobbing ball of blueish-green light, just bright enough to read by.",
     "weight": "0 g",
@@ -74,7 +74,6 @@
       "NONCONDUCTIVE"
     ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Dismiss the witchlight",
@@ -84,7 +83,8 @@
           "effect": [ { "run_eocs": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL", "time_in_future": 1 } ]
         }
       ]
-    }
+    },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "type": "ITEM",
@@ -120,7 +120,7 @@
   {
     "id": "item_hedge_see_fae_necklace",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
     "turns_per_charge": 25,
@@ -141,27 +141,25 @@
       "msg": "You recite that last part of the charm.",
       "need_worn": true
     },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "special_vision": [
-            {
-              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
-              "distance": 20,
-              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
-            }
-          ]
-        }
-      ]
-    },
-    "tool_ammo": "glamour_charge"
+    "tool_ammo": "glamour_charge",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "distance": 20,
+            "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "item_hedge_see_fae_necklace_on",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
     "turns_per_charge": 25,
@@ -174,27 +172,25 @@
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "HEDGE_ENCHANTED" ],
     "revert_to": "item_hedge_see_fae_necklace_done",
     "revert_msg": "Your otherworldly senses fade.",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "special_vision": [
-            {
-              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
-              "distance": 20,
-              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
-            }
-          ]
-        }
-      ]
-    },
-    "tool_ammo": "glamour_charge"
+    "tool_ammo": "glamour_charge",
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "distance": 20,
+            "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "item_hedge_see_fae_necklace_done",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
     "weight": "100 g",
@@ -203,7 +199,7 @@
     "color": "green",
     "symbol": ",",
     "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "id": "item_hedge_changeling_snare",

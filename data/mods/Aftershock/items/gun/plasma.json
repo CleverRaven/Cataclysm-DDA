@@ -2,7 +2,8 @@
   {
     "abstract": "afs_plasma_base",
     "looks_like": "nailgun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise": "pshht",
     "name": { "str": "plasma gun", "//~": "NO_I18N" },
     "description": { "str": "A plasma gun.", "//~": "NO_I18N" },
@@ -27,7 +28,8 @@
   },
   {
     "id": "afs_magnadrive_230k",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "Magnadrive 230K" },
     "copy-from": "afs_plasma_base",
     "looks_like": "plasma_gun",
@@ -65,7 +67,8 @@
   },
   {
     "id": "afs_pam-41",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "PAM-41 2g" },
     "copy-from": "afs_plasma_base",
     "description": "A short and stubby 2 gram plasma railgun occasionally used by espatiers as a hull breaching tool.  Like larger plasma weapons, it propels toroids of plasma that detonate on contact, but its reduced size heavily hampers its range and damage output.  Fired within an atmosphere, its very low range makes it dangerous to shooter and target alike.",
@@ -101,7 +104,7 @@
   {
     "id": "afs_plasma_torch_gun",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "GUN" ],
     "name": { "str_sp": "377-UASTA (weaponized)" },
     "copy-from": "afs_plasma_base",
     "description": "A common modification for directed plasma torches that involves the installation of oversize capacitor banks and judiciously bypassed safety mechanisms, allowing them to function as a deadly if decidedly short-ranged weapons.  In most cases, the resulting \"gun\" can still perform its original metalworking functions, albeit at a much lower efficiency.\n\nUnlike purposefully made plasma weapons, the propelled plasma bottle won't cause a considerable explosion upon contact, allowing for relatively safe operation within enclosed spaces.",
@@ -114,21 +117,6 @@
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "OVERHEATS", "BELT_CLIP" ],
-    "gun_data": {
-      "skill": "launcher",
-      "dispersion": 1500,
-      "ammo_to_fire": 2,
-      "recoil": 30,
-      "durability": 6,
-      "loudness": 5,
-      "reload": 2200,
-      "range": 3,
-      "overheat_threshold": 100,
-      "cooling_value": 3,
-      "heat_per_shot": 27,
-      "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 45 } ],
-      "valid_mod_locations": [ [ "sling", 1 ] ]
-    },
     "delete": { "ammo_effects": [ "FLAME", "EXPLOSIVE_SMALL" ] },
     "extend": { "ammo_effects": [ "DAZZLE_BEAM", "OVERHEATS" ] },
     "pocket_data": [
@@ -142,11 +130,25 @@
       }
     ],
     "faults": [ { "fault": "fault_overheat_melting" } ],
-    "tool_ammo": [ "afs_shydrogen" ]
+    "tool_ammo": [ "afs_shydrogen" ],
+    "skill": "launcher",
+    "dispersion": 1500,
+    "ammo_to_fire": 2,
+    "recoil": 30,
+    "durability": 6,
+    "loudness": 5,
+    "reload": 2200,
+    "range": 3,
+    "overheat_threshold": 100,
+    "cooling_value": 3,
+    "heat_per_shot": 27,
+    "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 45 } ],
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   },
   {
     "id": "afs_makeshift_fusion_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "direct fusion gun" },
     "copy-from": "afs_plasma_base",
     "looks_like": "plasma_gun",

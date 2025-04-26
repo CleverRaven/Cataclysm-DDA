@@ -62,7 +62,8 @@
   },
   {
     "id": "bio_ion_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Ionic Overload Generator" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast that goes through various targets.  The energy shot ignites oxygen creating fires as it moves and an explosion on impact.",
     "weight": "2950 g",
@@ -87,7 +88,8 @@
   {
     "id": "yeet_cannon",
     "copy-from": "pistol_base",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Yeet Cannon" },
     "description": "You can YEET all the bullets with this baby.  YEET them right into all of the zombies in your path, all the hulks, the spiders, and those damned mole rats.",
     "weight": "709 g",
@@ -458,7 +460,8 @@
     "color": "light_gray"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "party_rock",
     "symbol": "*",
     "color": "pink",
@@ -481,7 +484,8 @@
   {
     "id": "akmag90",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "AK 90-round magazine" },
     "description": "A homemade AK magazine made out of welding magazines together.  Looks really stupid, and doesn't work.",
     "weight": "978 g",
@@ -502,7 +506,8 @@
     "id": "draco_mini",
     "copy-from": "draco_mini",
     "name": { "str": "Small AK pistol" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified.",
     "variant_type": "gun",
     "variants": [
@@ -523,7 +528,8 @@
     "id": "draco",
     "copy-from": "draco",
     "name": { "str": "AK pistol" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel.",
     "variant_type": "gun",
     "variants": [
@@ -544,7 +550,8 @@
     "id": "aksemi",
     "copy-from": "aksemi",
     "name": { "str": "AK-47 rifle" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "Civilian-legal clones of the AK-47, with no ability to fire full-auto.  Despite lacking that ability, they're still reliable and useful rifles, even if much rarer ammo and magazine wise than the more common AR-15 platform.",
     "variant_type": "gun",
     "variants": [
@@ -581,7 +588,8 @@
     "id": "ak47",
     "copy-from": "ak47",
     "name": { "str": "AKM rifle" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
     "variant_type": "gun",
     "variants": [
@@ -602,7 +610,8 @@
     "id": "mk47",
     "copy-from": "mk47",
     "name": { "str": "American AK rifle" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
     "variant_type": "gun",
     "variants": [
@@ -623,7 +632,8 @@
     "id": "draco_micro",
     "copy-from": "draco_micro",
     "looks_like": "draco",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Miniscule AK pistol" },
     "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Nano Draco, the smallest, with a 1\" barrel.  Good luck.",
     "variant_type": "gun",

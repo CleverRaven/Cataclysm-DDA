@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_fire_hardened_fletched",
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": 100 },
@@ -15,7 +16,8 @@
     "recovery_chance": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_field_point_fletched",
     "name": { "str": "wooden bodkin arrow" },
     "symbol": "=",
@@ -39,7 +41,8 @@
   },
   {
     "id": "arrow_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "symbol": "=",
     "color": "green",
     "name": { "str": "wooden rubber blunt arrow" },
@@ -55,7 +58,8 @@
     "effects": [ "BEANBAG" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_small_game_fletched",
     "name": { "str": "simple wooden small game arrow" },
     "symbol": "=",
@@ -69,7 +73,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_wood",
     "name": { "str": "wooden broadhead arrow" },
     "symbol": "=",
@@ -83,7 +88,8 @@
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_heavy_fire_hardened_fletched",
     "price": "3 USD",
     "name": { "str": "simple wooden arrow" },
@@ -96,7 +102,8 @@
     "recovery_chance": 83
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_heavy_field_point_fletched",
     "price": "10 USD",
     "name": { "str": "wooden small game arrow" },
@@ -110,7 +117,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_wood_heavy",
     "name": { "str": "makeshift wooden arrow" },
     "symbol": "=",
@@ -125,7 +133,8 @@
     "recovery_chance": 87
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal_sharpened_fletched",
     "name": { "str": "makeshift metal arrow" },
     "symbol": "=",
@@ -140,7 +149,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal",
     "name": { "str": "aluminum broadhead arrow" },
     "symbol": "=",
@@ -157,7 +167,8 @@
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal_bodkin",
     "name": { "str": "aluminum field point arrow" },
     "symbol": "=",
@@ -174,7 +185,8 @@
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_metal_target",
     "price": "12 USD",
     "name": { "str": "aluminum small game arrow" },
@@ -192,7 +204,8 @@
     "effects": [ "NOGIB" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_cf",
     "name": { "str": "carbon fiber hunting arrow" },
     "symbol": "=",
@@ -210,7 +223,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_meteor",
     "price": "20 USD",
     "name": { "str": "emerald arrow" },
@@ -235,7 +249,8 @@
     "melee_damage": { "bash": 10, "stab": 26 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "flamable_arrow",
     "name": { "str": "flammable arrow" },
     "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
@@ -268,7 +283,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_flamming",
     "copy-from": "flamable_arrow",
     "name": { "str": "flaming arrow" },
@@ -283,8 +299,8 @@
   {
     "id": "selfbow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "survival bow" },
@@ -335,8 +351,8 @@
   {
     "id": "shortbow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "short bow" },
@@ -388,7 +404,8 @@
   {
     "id": "compbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "compound hunting bow" },
@@ -438,7 +455,8 @@
   {
     "id": "compbow_high",
     "copy-from": "compbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "compound hunting bow (high)", "str_pl": "compound hunting bows (high)" },
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage - if you can draw it.",
     "//": "80 lb draw weight, efficient, 0.62 slugs of momentum with a 30g arrow.",
@@ -456,7 +474,8 @@
   {
     "id": "compbow_low",
     "copy-from": "compbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "compound hunting bow (low)", "str_pl": "compound hunting bows (low)" },
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
     "//": "40 lb draw weight, efficient, 0.45 slugs of momentum with a 30g arrow.",
@@ -474,8 +493,8 @@
   {
     "id": "compositebow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "composite bow (heavy)", "str_pl": "composite bows (heavy)" },
@@ -530,8 +549,8 @@
   {
     "id": "reflexbow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "composite bow (light)", "str_pl": "composite bows (light)" },
@@ -583,8 +602,8 @@
   {
     "id": "recurbow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "modern recurve bow" },
@@ -639,8 +658,8 @@
   {
     "id": "takedown_recurbow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "takedown recurve bow" },
@@ -705,7 +724,8 @@
   {
     "id": "takedown_recurbow_folded",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "skill": "archery",
     "symbol": "(",
     "color": "light_gray",
@@ -735,8 +755,8 @@
   },
   {
     "id": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "longbow" },
@@ -788,8 +808,8 @@
   {
     "id": "woodgreatbow",
     "copy-from": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "name": { "str": "wooden greatbow" },
     "description": "An extremely large, stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": "1 kUSD 500 USD",
@@ -816,8 +836,8 @@
   {
     "id": "greatbow_meteor",
     "copy-from": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "name": { "str": "blackwood greatbow" },
     "description": "A tall bow made from very finely grained black wood.  Its large asymmetrical limbs are improperly shaped to fire arrows of regular length, and they require incredible strength to pull back.",
     "price": "10 USD",
@@ -849,7 +869,8 @@
   {
     "id": "compgreatbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "compound greatbow" },
@@ -890,8 +911,8 @@
   {
     "id": "reflexrecurvebow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "Olympic style target bow" },

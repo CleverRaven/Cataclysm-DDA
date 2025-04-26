@@ -36,7 +36,7 @@
   {
     "id": "dream_attuning_necklace",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "dream-attuning necklace" },
     "description": "A nice silver necklace.  Wearing it, you feel your aptitude in dream magic increase.",
     "weight": "30 g",
@@ -46,12 +46,12 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   },
   {
     "id": "mana_recharge_sphere",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "category": "tools",
     "name": { "str": "sparking sphere" },
     "description": "A small brown sphere, humming with power.  Activate it to recharge your mana.",
@@ -66,13 +66,13 @@
     "color": "brown",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
-    "use_action": [ { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 15 } ]
+    "use_action": [ { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 15 } ],
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "category": "tools",
     "id": "boann_insignia",
     "name": { "str": "Boann's insignia" },
@@ -86,14 +86,14 @@
     "color": "light_gray",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
-    "use_action": { "type": "cast_spell", "spell_id": "spawn_milk_and_hazelnuts", "no_fail": true, "level": 0 }
+    "use_action": { "type": "cast_spell", "spell_id": "spawn_milk_and_hazelnuts", "no_fail": true, "level": 0 },
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   },
   {
     "id": "boann_banner",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "Boann's banner" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of white cow standing next to a river.",
     "weight": "633 g",
@@ -108,9 +108,9 @@
     "material_thickness": 2,
     "flags": [ "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
     "use_action": { "type": "cast_spell", "spell_id": "nine_second_time_stop", "no_fail": true, "level": 0, "need_worn": true },
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   }
 ]

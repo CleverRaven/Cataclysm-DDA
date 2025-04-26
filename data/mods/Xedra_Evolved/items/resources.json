@@ -31,7 +31,8 @@
   },
   {
     "id": "scrap_moon_tears",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "scrap moon tears", "str_pl": "scraps of moon tears" },
     "description": "A bulky assortment of small bits of scrap moon tears, useful for forging into ingots and wire.",
@@ -59,7 +60,8 @@
   },
   {
     "id": "scrap_shadowstuff",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "scrap shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of small bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
@@ -77,7 +79,8 @@
   },
   {
     "id": "chunk_shadowstuff",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "chunk shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of larger bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
@@ -95,7 +98,8 @@
   },
   {
     "id": "scrap_dreamdross",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "scrap dreamdross", "str_pl": "scraps of dreamdross" },
     "description": "A bulky assortment of small bits of scrap dreamdross, useful in all kinds of ephemeral crafting.",
@@ -113,7 +117,8 @@
   },
   {
     "id": "dreamdross_lump",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "lump of dreamdross", "str_pl": "lumps of dreamdross" },
     "description": "A heavy formed piece of dreamdross.  Useful for some crafting recipes.",
@@ -341,7 +346,8 @@
     "description": "A large log of living wood, sung from a tree by elemental magick."
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "obsidian_rock",
     "copy-from": "rock",
     "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },

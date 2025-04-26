@@ -2,8 +2,8 @@
   {
     "id": "dreamforged_longbow",
     "looks_like": "longbow",
-    "type": "GUN",
-    "subtypes": [ "ARMOR" ],
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "dreamforged bow" },
@@ -50,7 +50,8 @@
     ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "arrow_dreamforged",
     "name": { "str": "dreamforged arrow" },
     "symbol": "=",
@@ -74,7 +75,8 @@
   {
     "id": "dreamforged_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "dreamforged crossbow" },
@@ -110,7 +112,8 @@
     "melee_damage": { "bash": 11 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "bolt_dreamforged",
     "price": "20 USD",
     "name": { "str": "dreamforged bolt" },

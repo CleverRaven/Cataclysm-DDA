@@ -1,7 +1,8 @@
 [
   {
     "id": "38super_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Super FMJ" },
     "description": ".38 Super ammunition with a 124gr FMJ bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity among competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.",
     "ascii_picture": "38super_fmj",
@@ -52,7 +53,8 @@
   {
     "id": "38_super",
     "copy-from": "38super_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Super JHP" },
     "description": ".38 Super ammunition with a 115gr JHP bullet.  The .38 Super round was developed from .38 ACP in 1929 to penetrate body armor of the era.  The caliber saw some resurgence in popularity among competition shooters in the 1980's prior to the proliferation of double stack 9mm pistols.",
     "price": "2 USD 40 cent",
@@ -65,7 +67,8 @@
   {
     "id": "reloaded_38_super",
     "copy-from": "38_super",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Super JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -74,7 +77,8 @@
   {
     "id": "reloaded_38super_fmj",
     "copy-from": "38super_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Super FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -83,7 +87,8 @@
   {
     "id": "bp_38super_fmj",
     "copy-from": "38super_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Super FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -97,7 +102,8 @@
   {
     "id": "bp_38super",
     "copy-from": "38_super",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".38 Super JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -111,7 +117,8 @@
   {
     "id": "matchhead_38_super",
     "copy-from": "bp_38super",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".38 Super JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -121,7 +128,8 @@
   {
     "id": "matchhead_38_super_fmj",
     "copy-from": "bp_38super_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".38 Super FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

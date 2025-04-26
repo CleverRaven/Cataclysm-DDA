@@ -126,7 +126,8 @@
   },
   {
     "id": "iso_lewis_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "looks_like": "m60",
     "symbol": "(",
     "color": "light_gray",
@@ -134,14 +135,6 @@
     "description": "A British light machine gun from the first world war, slightly modernized and modified for hip and shoulder firing while standing.  Its design is somehow stable even under extreme normality distortion and thus its found a new life with lab remediation teams.\n\nYour training allows you to effectively wield this weapon in close quarters, and you perform melee attacks with it at 33% of its base attack speed.",
     "flags": [ "UNBREAKABLE_MELEE", "NO_TURRET", "NON_FOULING", "MUNDANE" ],
     "melee_damage": { "bash": 30 },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "values": [ { "value": "ATTACK_SPEED", "multiply": -0.67 }, { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.8 } ]
-        }
-      ]
-    },
     "price": "1200 USD",
     "price_postapoc": "100 USD",
     "material": [ "steel" ],
@@ -179,12 +172,19 @@
       { "fault": "fault_stovepipe" },
       { "fault": "fault_double_feed" }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "iso_lewis_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "iso_lewis_mag" ] } ],
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "values": [ { "value": "ATTACK_SPEED", "multiply": -0.67 }, { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.8 } ]
+      }
+    ]
   },
   {
     "id": "iso_lewis_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Lewis gun 47-round magazine" },
     "description": "The top mounted pan magazine of a Lewis machine gun.  It's a bit of a hassle to reload, but it's a lot of firepower in a relatively portable package.",
     "weight": "600 g",
@@ -204,7 +204,8 @@
   {
     "id": "iso_repeating_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "repeating crossbow" },
@@ -266,7 +267,8 @@
     "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "iso_bolt_blackwood_bodkin",
     "name": { "str": "blackwood bolt" },
     "symbol": "=",

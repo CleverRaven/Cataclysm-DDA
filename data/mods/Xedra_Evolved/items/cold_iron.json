@@ -1,7 +1,8 @@
 [
   {
     "id": "cold_iron_ingot",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "cold iron ingot" },
     "description": "A five-liter ingot of solid cold iron.",

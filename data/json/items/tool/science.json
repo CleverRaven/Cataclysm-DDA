@@ -665,7 +665,8 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "oxygen tank" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "category": "container",

@@ -2,7 +2,7 @@
   {
     "id": "modular_exosuit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the head, torso, power supply, back, arms, and legs.",
     "weight": "45 kg",
@@ -301,11 +301,6 @@
       "DEAF",
       "MODULE_HOLDER"
     ],
-    "relic_data": {
-      "passive_effects": [
-        { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
-      ]
-    },
     "use_action": [
       {
         "target": "modular_exosuit_on",
@@ -317,7 +312,10 @@
       },
       "MANAGE_EXOSUIT"
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [
+      { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
+    ]
   },
   {
     "id": "modular_exosuit_on",
@@ -383,7 +381,7 @@
     "id": "modular_exosuit_light",
     "copy-from": "modular_exosuit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "light exosuit frame" },
     "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.",
     "weight": "30 kg",
@@ -533,7 +531,6 @@
       "TARDIS",
       "MODULE_HOLDER"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "use_action": [
       {
         "target": "modular_exosuit_light_on",
@@ -545,7 +542,8 @@
       },
       "MANAGE_EXOSUIT"
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "ench_exo_strength" } ]
   },
   {
     "id": "modular_exosuit_light_on",
@@ -553,7 +551,7 @@
     "repairs_like": "modular_exosuit",
     "looks_like": "power_armor_light",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "light exosuit frame (on)", "str_pl": "light exosuit frames (on)" },
     "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [
@@ -569,7 +567,6 @@
       "TARDIS",
       "MODULE_HOLDER"
     ],
-    "relic_data": { "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ] },
     "power_draw": "5787 mW",
     "revert_to": "modular_exosuit_light",
     "use_action": [
@@ -610,6 +607,7 @@
         "encumbrance": [ 20, 20 ],
         "layers": [ "OUTER" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ]
   }
 ]

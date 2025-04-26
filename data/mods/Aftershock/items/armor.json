@@ -43,21 +43,21 @@
   {
     "id": "afs_holo_cloak_mk2",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "afs_sentinel_cloak",
     "name": { "str": "hologram cloak Mk. II", "str_pl": "hologram cloaks Mk. II" },
     "description": "When activated, creates a holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by siphoning excess energy from some unknown hyperdimensional space.",
     "charges_per_use": 1,
     "//": "Change charges and charge_regen only",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 15 } } ],
     "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD" ],
+    "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true }
   },
   {
     "id": "afs_sentinel_cloak",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "copy-from": "jedi_cloak",
     "name": { "str": "sentinel-lx cloak" },
     "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
@@ -68,18 +68,16 @@
     "warmth": 30,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "STURDY" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
-          "name": "Living Shadow",
-          "description": "You are wearing equipment that gives 1 bonus dodge."
-        }
-      ]
-    },
-    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+        "name": "Living Shadow",
+        "description": "You are wearing equipment that gives 1 bonus dodge."
+      }
+    ]
   },
   {
     "id": "afs_wrist_computer",

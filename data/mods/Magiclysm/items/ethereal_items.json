@@ -118,7 +118,7 @@
   {
     "id": "ice_gliders",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "slick icy coatings" },
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
@@ -132,13 +132,14 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "environmental_protection": 2,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED", "UNRESTRICTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ]
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "stormhammer",
     "name": { "str": "The Stormhammer" },
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, to smash things to bits!",
@@ -161,13 +162,13 @@
       "MAGIC_FOCUS"
     ],
     "volume": "1250 ml",
-    "relic_data": { "passive_effects": [ { "id": "ench_storm_hammer" } ] },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 30 }
+    "melee_damage": { "bash": 30 },
+    "passive_effects": [ { "id": "ench_storm_hammer" } ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "id": "stormglove",
     "symbol": "3",
     "color": "light_gray",
@@ -189,7 +190,6 @@
       "UNRESTRICTED"
     ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "id": "ench_stormglove" } ] },
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material_thickness": 0.3,
     "armor": [
@@ -215,11 +215,13 @@
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "passive_effects": [ { "id": "ench_stormglove" } ]
   },
   {
     "id": "tentacle_whip",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "symbol": "/",
     "color": "brown",
     "name": "vicious tentacle whip",
@@ -232,7 +234,7 @@
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "STURDY", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "MAGIC_FOCUS" ],
     "category": "weapons",
     "melee_damage": { "cut": 30 },
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ] }
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ]
   },
   {
     "id": "flarewhip",
@@ -269,7 +271,7 @@
   {
     "id": "fleshpouch",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
     "weight": "0 kg",
@@ -294,11 +296,12 @@
     ],
     "max_worn": 1,
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 5 } ] } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 5 } ] } ]
   },
   {
     "id": "bonespear",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Wicked Bonespear" },
@@ -312,11 +315,12 @@
     "volume": "2500 ml",
     "longest_side": "183 cm",
     "melee_damage": { "bash": 16, "stab": 36 },
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ] }
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ]
   },
   {
     "id": "druid_recurve",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "yellow",
     "looks_like": "recurbow",
@@ -429,7 +433,8 @@
   },
   {
     "id": "druid_naturearrows1",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_heavy_fire_hardened_fletched",
     "name": { "str": "nature's arrow" },
     "looks_like": "arrow_heavy_fire_hardened_fletched",
@@ -440,7 +445,8 @@
   },
   {
     "id": "arrow_druid",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "arrow_heavy_fire_hardened_fletched",
     "name": { "str": "twisted wooden arrow" },
     "looks_like": "arrow_heavy_fire_hardened_fletched",
@@ -505,7 +511,7 @@
   {
     "id": "armor_frost",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "frost armor" },
     "description": "A thin layer of magical ice, covering the entire body.  It doesn't provide much armor, instead dealing significant damage to enemies that try to attack you.",
@@ -536,7 +542,7 @@
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "ice_spike" } ] } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "ice_spike" } ] } ]
   },
   {
     "id": "aura_stoneskin",
@@ -579,7 +585,7 @@
   {
     "id": "overcharge_burn_scar",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "overcharge burn" },
     "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
     "weight": "1 g",
@@ -587,9 +593,9 @@
     "symbol": "~",
     "color": "light_red",
     "material": [ "magical_material" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
     "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ],
-    "armor": [ { "encumbrance": 18, "covers": [ "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 18, "covers": [ "eyes", "mouth" ] } ],
+    "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ]
   },
   {
     "id": "protect_env",
@@ -625,7 +631,7 @@
   {
     "id": "aura_feral",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
@@ -637,12 +643,12 @@
     "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral" } ] }
+    "passive_effects": [ { "id": "ench_aura_feral" } ]
   },
   {
     "id": "aura_feral_plus",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "enhanced feral aura",
     "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
@@ -654,7 +660,7 @@
     "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral_plus" } ] }
+    "passive_effects": [ { "id": "ench_aura_feral_plus" } ]
   },
   {
     "id": "flamesword",
@@ -705,7 +711,8 @@
   {
     "id": "impactsling",
     "looks_like": "sling",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "brown",
     "name": { "str": "impact sling" },
@@ -741,7 +748,7 @@
   {
     "id": "aura_werewolf",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "werewolf aura",
     "description": "You have become the werewolf.  Boys becoming men, men becoming wolves.",
     "weight": "1 g",
@@ -752,46 +759,44 @@
     "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "intermittent_activation": {
-            "effects": [ { "frequency": "2 minutes", "spell_effects": [ { "id": "pfruit_regeneration_spell", "hit_self": true } ] } ]
-          }
-        },
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "STRENGTH", "add": 3 },
-            { "value": "DEXTERITY", "add": 3 },
-            { "value": "INTELLIGENCE", "add": -6 },
-            { "value": "PERCEPTION", "add": 3 }
-          ],
-          "mutations": [
-            "LUPINE_FUR",
-            "CLAWS",
-            "ADRENALINE",
-            "PADDED_FEET",
-            "TAIL_FLUFFY",
-            "PRED4",
-            "LUPINE_EARS",
-            "MUZZLE",
-            "PAWS",
-            "SHOUT3",
-            "GOODCARDIO",
-            "ANIMALDISCORD2",
-            "MUTE",
-            "LARGE_OK"
-          ]
+    "passive_effects": [
+      {
+        "intermittent_activation": {
+          "effects": [ { "frequency": "2 minutes", "spell_effects": [ { "id": "pfruit_regeneration_spell", "hit_self": true } ] } ]
         }
-      ]
-    }
+      },
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "INTELLIGENCE", "add": -6 },
+          { "value": "PERCEPTION", "add": 3 }
+        ],
+        "mutations": [
+          "LUPINE_FUR",
+          "CLAWS",
+          "ADRENALINE",
+          "PADDED_FEET",
+          "TAIL_FLUFFY",
+          "PRED4",
+          "LUPINE_EARS",
+          "MUZZLE",
+          "PAWS",
+          "SHOUT3",
+          "GOODCARDIO",
+          "ANIMALDISCORD2",
+          "MUTE",
+          "LARGE_OK"
+        ]
+      }
+    ]
   },
   {
     "id": "dragon_shell_black",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Black Dragon Shell",
     "description": "An aura of black and green draconic energy, swirling around your body protecting you and punishing those who strike you.",
     "weight": "1 g",
@@ -804,27 +809,25 @@
     "environmental_protection": 2,
     "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "dragon_shell_retaliation_black", "hit_self": false } ]
-        }
-      ]
-    },
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "hit_me_effect": [ { "id": "dragon_shell_retaliation_black", "hit_self": false } ]
+      }
     ]
   },
   {
     "id": "subzero_talons",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "subzero talons" },
     "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
     "weight": "100 g",
@@ -848,7 +851,6 @@
       "UNRESTRICTED"
     ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_subzero_talons" } ] },
     "armor": [
       {
         "encumbrance": 5,
@@ -857,12 +859,13 @@
         "specifically_covers": [ "hand_back_l", "hand_back_r" ]
       }
     ],
-    "melee_damage": { "bash": 6, "cut": 12 }
+    "melee_damage": { "bash": 6, "cut": 12 },
+    "passive_effects": [ { "id": "ench_subzero_talons" } ]
   },
   {
     "id": "armor_spirit",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "copy-from": "armor_lc_lightplate",
     "name": { "str_sp": "mage armor" },
@@ -873,14 +876,14 @@
     "material_thickness": 0,
     "flags": [ "OVERSIZE", "OUTER", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
         "encumbrance": 8,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "ench_armor_spirit" } ]
   },
   {
     "id": "jar_3l_force",
@@ -914,13 +917,14 @@
   {
     "id": "longsword_holy",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "copy-from": "longsword",
     "name": { "str": "mage blade" },
     "description": "This is a summoned mana sword, between the lighter arming sword and later two-handed swords in size.  It glows shiny, and its edge is sharper the more spell level and intelligence you have.",
     "material": [ "concentrated_mana" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_longsword_holy" } ] },
-    "melee_damage": { "bash": 11, "cut": 1 }
+    "melee_damage": { "bash": 11, "cut": 1 },
+    "passive_effects": [ { "id": "ench_longsword_holy" } ]
   },
   {
     "id": "aura_auroral_guard",
@@ -1275,7 +1279,8 @@
     "max_worn": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "elastic_potential_energy",
     "category": "spare_parts",
     "price": "120 USD",
@@ -1339,7 +1344,8 @@
   },
   {
     "id": "technomancer_summoned_ups",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE", "ARTIFACT" ],
     "category": "tool_magazine",
     "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
     "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
@@ -1354,8 +1360,8 @@
     "flags": [ "TRADER_AVOID", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
     "max_worn": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   },
   {
     "id": "technomancer_welder",
@@ -1387,6 +1393,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "id": "druid_bramble_spear_item",
     "name": { "str": "spear of brambles", "str_pl": "spears of brambles" },
     "looks_like": "spear_wood",
@@ -1405,13 +1412,13 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "1 cent",
     "qualities": [ [ "COOK", 1 ] ],
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "hit_you_effect": [ { "id": "bramble_spear_slow", "hit_self": false } ] } ] }
+    "passive_effects": [ { "has": "WIELD", "hit_you_effect": [ { "id": "bramble_spear_slow", "hit_self": false } ] } ]
   },
   {
     "id": "druid_thorn_skin_item",
     "//": " 'Tornskin' but working right.  Values copied from the Bark mutation.",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Thornskin",
     "description": "Your skin is bark-like and covered in thorns.",
     "weight": "6 kg",
@@ -1432,22 +1439,6 @@
       "NONCONDUCTIVE"
     ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
-          "melee_damage_bonus": [ { "type": "stab", "add": 3 } ],
-          "incoming_damage_mod": [ { "type": "heat", "multiply": 0.6 } ],
-          "values": [
-            { "value": "DEXTERITY", "add": -1 },
-            { "value": "STRENGTH", "add": 1 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }
-          ]
-        }
-      ]
-    },
     "armor": [
       {
         "encumbrance": 8,
@@ -1455,12 +1446,26 @@
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
+        "melee_damage_bonus": [ { "type": "stab", "add": 3 } ],
+        "incoming_damage_mod": [ { "type": "heat", "multiply": 0.6 } ],
+        "values": [
+          { "value": "DEXTERITY", "add": -1 },
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }
+        ]
+      }
     ]
   },
   {
     "id": "item_biomancer_scalpel_fingers",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "flensing fingers" },
     "description": "Your fingers are a series of knives made of bone and flesh.  Enemies beware.",
@@ -1474,16 +1479,14 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "ZERO_WEIGHT", "UNBREAKABLE", "PERSONAL", "PADDED" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
     "melee_damage": { "stab": 12 },
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 } ] }
-      ]
-    }
+    "passive_effects": [
+      { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 } ] }
+    ]
   },
   {
     "id": "aura_druid_breathing_water",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Aquatic Mantle",
     "description": "Covered in magical seaweed, you can travel and breathe underwater as long as this spell is in effect.",
     "weight": "0 g",
@@ -1509,21 +1512,19 @@
       "SWIM_GOGGLES"
     ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "MAX_MANA", "add": 0 } ],
-          "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
-        }
-      ]
-    },
     "armor": [
       {
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": 0 } ],
+        "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
       }
     ]
   },
@@ -1708,7 +1709,7 @@
   {
     "id": "item_kelvinist_frozen_heart",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "Rime-Frozen Heart",
     "description": "You don't feel anything.",
     "weight": "0 g",
@@ -1729,12 +1730,12 @@
       "INTEGRATED"
     ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ] }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ]
   },
   {
     "id": "aura_bearmantle",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": "bearmantle",
     "description": "Think as the bear.  Move as the bear.  Sleep as the bear.",
     "weight": "0 g",
@@ -1745,20 +1746,19 @@
     "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "ZERO_WEIGHT", "NO_TAKEOFF", "INTEGRATED", "NONCONDUCTIVE" ],
     "max_worn": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "mutations": [ "HEAVYSLEEPER2", "FAT", "URSINE_FUR", "SMELLY2", "STRONGER_RESISTCHILL", "HIBERNATE" ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "mutations": [ "HEAVYSLEEPER2", "FAT", "URSINE_FUR", "SMELLY2", "STRONGER_RESISTCHILL", "HIBERNATE" ]
+      }
+    ]
   },
   {
     "id": "item_animist_luck_bone",
     "copy-from": "bone",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "name": { "str": "luck-bone" },
     "description": "A bone from some creature or other, inhabited by benevolent spirits.",
     "color": "white",
@@ -1768,16 +1768,17 @@
     "price_postapoc": "10 cent",
     "volume": "250 ml",
     "longest_side": "40 cm",
-    "relic_data": { "passive_effects": [ { "id": "ench_luck_bone" } ] }
+    "passive_effects": [ { "id": "ench_luck_bone" } ]
   },
   {
     "id": "technomancer_far_sight_lens",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "copy-from": "lens",
     "name": { "str": "enchanted lens", "str_pl": "enchanted lenses" },
     "description": "This lens has been etched with small symbols and infused with mana.  Holding it up to your eye allows you to see further than any mundane binoculars allow.",
     "flags": [ "ENHANCED_VISION", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_technomancer_far_sight_lens" } ] }
+    "passive_effects": [ { "id": "ench_technomancer_far_sight_lens" } ]
   },
   {
     "type": "ITEM",

@@ -1329,7 +1329,7 @@
   {
     "id": "rm13_armor",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "symbol": "[",
     "color": "dark_gray",
@@ -1360,7 +1360,6 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
     "charges_per_use": 1,
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" } ] },
     "use_action": {
       "type": "transform",
       "msg": "You activate your RM13 combat armor.\nRivtech Model 13 RivOS v2.19:   ONLINE.\nCBRN defense system:            ONLINE.\nAcoustic dampening system:      ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems nominal.",
@@ -1427,7 +1426,8 @@
       }
     ],
     "melee_damage": { "bash": 6 },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" } ]
   },
   {
     "id": "rm13_armor_on",
@@ -1600,7 +1600,7 @@
   {
     "id": "phase_immersion_suit",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -1645,7 +1645,6 @@
       "COMBAT_TOGGLEABLE",
       "UNBREAKABLE_MELEE"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "armor": [
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -1717,7 +1716,8 @@
         "volume_encumber_modifier": 0
       }
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "phase_immersion_suit_on",
@@ -2446,7 +2446,7 @@
   {
     "id": "goggles_nv",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -2479,9 +2479,9 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_bad" } ] },
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_bad" } ]
   },
   {
     "id": "goggles_nv_on",
@@ -2502,7 +2502,7 @@
   {
     "id": "goggles_ir",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -2527,7 +2527,6 @@
     "warmth": 10,
     "environmental_protection": 3,
     "material_thickness": 2,
-    "relic_data": { "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2537,7 +2536,8 @@
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ]
   },
   {
     "id": "goggles_ir_on",
@@ -3959,7 +3959,7 @@
   {
     "id": "utility_exoskeleton_off",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "battery powered utility exoskeleton" },
     "//": "This is based on the Sarcos Guardian, a production model with independent battery power, all weather operation, and capable of lifting up to 200 lbs. It uses three 12 lb batteries that provide 8 hours of operation. The battery life in-game is significantly less in order to utilize medium storage batteries, otherwise this would require the unit to be active to reload itself. This can also be changed out to use other battery types.",
@@ -3987,13 +3987,6 @@
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "relic_data": {
-      "passive_effects": [
-        { "id": "ench_exo_strength" },
-        { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 215000 } ] },
-        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
-      ]
-    },
     "armor": [
       {
         "encumbrance": 20,
@@ -4002,7 +3995,12 @@
       }
     ],
     "melee_damage": { "bash": 10 },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [
+      { "id": "ench_exo_strength" },
+      { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 215000 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
+    ]
   },
   {
     "id": "utility_exoskeleton_on",
@@ -4028,7 +4026,7 @@
   {
     "id": "ice_utility_exoskeleton_off",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "ICE utility exoskeleton" },
     "description": "A skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.  This model uses a compact internal combustion engine for power.",
@@ -4049,13 +4047,6 @@
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
-    "relic_data": {
-      "passive_effects": [
-        { "id": "ench_exo_strength" },
-        { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 190000 } ] },
-        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
-      ]
-    },
     "armor": [
       {
         "encumbrance": 20,
@@ -4064,7 +4055,12 @@
       }
     ],
     "melee_damage": { "bash": 10 },
-    "tool_ammo": "gasoline"
+    "tool_ammo": "gasoline",
+    "passive_effects": [
+      { "id": "ench_exo_strength" },
+      { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 190000 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
+    ]
   },
   {
     "id": "ice_utility_exoskeleton_on",

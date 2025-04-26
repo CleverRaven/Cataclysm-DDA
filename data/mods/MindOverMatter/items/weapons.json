@@ -216,7 +216,8 @@
   {
     "id": "mom_pulse_rifle",
     "looks_like": "laser_rifle",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "LV429 Pulse Rifle" },
     "description": "The LV429 fires a series of extremely short high-energy laser pulses, more like bullets than a traditional laser beam, greatly reducing dwell time and increasing weapon effectiveness.  Matrix crystal technology has made the weapon compact enough to be man-portable and provided it with enough power for essentially unlimited combat operations, but heat dissipation is still a problem, preventing it from being fired more than once every few seconds.",
@@ -257,20 +258,21 @@
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR", "OVERHEATS" ],
     "faults": [ { "fault": "fault_overheat_explosion" }, { "fault": "fault_overheat_melting" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mom_pulse_rifle_ammo": 1 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "8 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 8 seconds due to bug #48019, making it actually 4 seconds. Reduce to 4 seconds if that ever gets fixed."
+    "//": "Recharge time is 8 seconds due to bug #48019, making it actually 4 seconds. Reduce to 4 seconds if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "8 s", "regenerate_ammo": true }
   },
   {
     "id": "mom_pulse_rifle_prototype",
     "looks_like": "laser_rifle",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "copy-from": "mom_pulse_rifle",
     "name": { "str": "LV429-P Pulse Rifle" },
     "description": "The LV429 fires a series of extremely short high-energy laser pulses, more like bullets than a traditional laser beam, greatly reducing dwell time and increasing weapon effectiveness.  Matrix crystal technology has made the weapon compact enough to be man-portable and provided it with enough power for essentially unlimited operation.  This is a prototype, obvious from the bright red coloration of the barrel and grip, as well as the word \"prototype\" written in large letters on the stock and the flammable symbol next to it.",
     "overheat_threshold": 100,
     "cooling_value": 5,
     "heat_per_shot": 21,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed."
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed.",
+    "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
   }
 ]

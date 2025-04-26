@@ -284,6 +284,11 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
 
 void Item_factory::finalize_pre( itype &obj )
 {
+    //a gunmod slot needs a toolmod slot even if one wasn't loaded
+    if( obj.gunmod && !obj.mod ) {
+        obj.mod = cata::make_value<islot_mod>();
+    }
+
     check_and_create_magazine_pockets( obj );
     add_special_pockets( obj );
 
@@ -2888,6 +2893,7 @@ void itype::load_slots( const JsonObject &jo, bool was_loaded )
         }
         if( subtype == "GUNMOD" ) {
             Item_factory::load_slot( jo, was_loaded, gunmod );
+            Item_factory::load_slot( jo, was_loaded, mod );
         }
         if( subtype == "AMMO" ) {
             Item_factory::load_slot( jo, was_loaded, ammo );
@@ -2935,6 +2941,10 @@ void itype::load_slots( const JsonObject &jo, bool was_loaded )
     if( std::find( subtypes.begin(), subtypes.end(), "PET_ARMOR" ) != subtypes.end() &&
         std::find( subtypes.begin(), subtypes.end(), "ARMOR" ) != subtypes.end() ) {
         debugmsg( "PET_ARMOR and ARMOR cannot be simultaneously defined" );
+    }
+    if( std::find( subtypes.begin(), subtypes.end(), "GUNMOD" ) != subtypes.end() &&
+        std::find( subtypes.begin(), subtypes.end(), "TOOLMOD" ) != subtypes.end() ) {
+        debugmsg( "GUNMOD is a TOOLMOD; they cannot be simultaneously defined" );
     }
 
     for( const std::string &subtype : subtypes ) {

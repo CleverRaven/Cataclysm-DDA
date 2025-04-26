@@ -70,7 +70,7 @@
   {
     "id": "afs_motion_sensor",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "motion scanner" },
     "description": "A handheld motion scanner normally used for pest control within spaceships.  This model features an integrated screen to highlight the location of detected motion.  It must be activated to function.",
     "weight": "680 g",
@@ -89,18 +89,6 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        { "id": "afs_motion_sensor_wield" },
-        {
-          "has": "HELD",
-          "condition": "ALWAYS",
-          "name": { "str": "Passive Motion Detection" },
-          "description": "Passively detects movement at 10 second intervals.",
-          "intermittent_activation": { "effects": [ { "frequency": "10 seconds", "spell_effects": [ { "id": "afs_motion_sensor_spell" } ] } ] }
-        }
-      ]
-    },
     "flags": [ "BELT_CLIP", "MUNDANE" ],
     "use_action": {
       "menu_text": "Activate",
@@ -111,7 +99,17 @@
       "msg": "The %s screen flashes on."
     },
     "melee_damage": { "bash": 6 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      { "id": "afs_motion_sensor_wield" },
+      {
+        "has": "HELD",
+        "condition": "ALWAYS",
+        "name": { "str": "Passive Motion Detection" },
+        "description": "Passively detects movement at 10 second intervals.",
+        "intermittent_activation": { "effects": [ { "frequency": "10 seconds", "spell_effects": [ { "id": "afs_motion_sensor_spell" } ] } ] }
+      }
+    ]
   },
   {
     "id": "afs_motion_sensor_on",
@@ -455,7 +453,8 @@
   {
     "id": "afs_bionic_power_mod",
     "copy-from": "mod_battery",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "category": "spare_parts",
     "name": "cybernetic power port mod",
     "description": "This device replaces standard power connections and battery ports for electronic devices with a carefully-shaped port that hooks into bionic implants.  When applied, it will convert an item to run directly off of bionic power.",
@@ -603,7 +602,7 @@
     "id": "vr_laptop_holosuite",
     "copy-from": "vr_laptop",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "VR rig - holosuite deployed", "str_pl": "VR rigs - holosuite deployed" },
     "power_draw": "1 W",
     "revert_to": "vr_laptop",
@@ -615,23 +614,22 @@
       "type": "transform"
     },
     "flags": [ "WATCH", "TRADER_AVOID" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "name": { "str": "Augmented Reality" },
-          "description": "You are wearing equipment that gives 1 additional perception but causes you to see strange things.",
-          "mutations": [ "PSYCHOPATH", "SCHIZOPHRENIC" ],
-          "values": [ { "value": "PERCEPTION", "add": 1 } ]
-        }
-      ]
-    },
-    "tick_action": [ "EPIC_MUSIC" ]
+    "tick_action": [ "EPIC_MUSIC" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "name": { "str": "Augmented Reality" },
+        "description": "You are wearing equipment that gives 1 additional perception but causes you to see strange things.",
+        "mutations": [ "PSYCHOPATH", "SCHIZOPHRENIC" ],
+        "values": [ { "value": "PERCEPTION", "add": 1 } ]
+      }
+    ]
   },
   {
     "id": "nano_forge",
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "category": "tools",
     "name": { "str": "folded nanotech forge" },
     "description": "Matrioshka Fabritechnics created this portable nanotech forge for when expeditions are setting up a basecamp far from population centers.  Once deployed it can be used to craft ultratech marvels that otherwise are too minute for human crafting.",
@@ -644,10 +642,10 @@
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_nano_forge" },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 5000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "material": [ "superalloy" ],
     "flags": [ "DURABLE_MELEE", "HEAVY_TOOL" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true }
   },
   {
     "id": "nano_pseudo_forge",
@@ -667,6 +665,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
     "copy-from": "folding_solar_panel",
     "id": "afs_cRTG",
     "name": { "str": "U-344 RTG" },
@@ -680,9 +679,9 @@
     "use_action": { "type": "deploy_appliance", "base": "afs_cRTG" },
     "extend": { "flags": [ "RECHARGE", "NO_UNLOAD", "NO_RELOAD", "WATERPROOF", "LEAK_DAM", "RADIOACTIVE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
-    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "5 m" } },
     "price": "5600 USD",
-    "price_postapoc": "5600 USD"
+    "price_postapoc": "5600 USD",
+    "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "5 m" }
   },
   {
     "id": "syringe",
@@ -934,7 +933,8 @@
   {
     "id": "afs_survival_battery",
     "copy-from": "storage_battery",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "portable survival battery", "str_pl": "portable survival batteries" },
     "looks_like": "small_storage_battery",
     "description": "A storage battery fit for improvised shelters.",

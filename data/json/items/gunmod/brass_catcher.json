@@ -1,7 +1,8 @@
 [
   {
     "id": "brass_catcher",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "brass catcher" },
     "description": "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.",
     "weight": "114 g",
@@ -20,7 +21,8 @@
   },
   {
     "id": "big_brass_catcher",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "big brass catcher" },
     "description": "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.  This one is larger and made of canvas, so it can catch more casings before needing to be emptied.  Though the added convenience comes at the cost of being bulkier.",
     "weight": "228 g",

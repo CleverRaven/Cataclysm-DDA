@@ -2,7 +2,8 @@
   {
     "id": "obrez",
     "copy-from": "mosin91_30",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "the Obrez" },
     "description": "A cut-down, modified Mosin-Nagant.  It has a short barrel and the stock has been cut down and fitted with a mace head, with new low profile front and rear sights added.  The sides of the firearm have been reinforced with metal to withstand a beating.",
     "weight": "3000 g",
@@ -86,7 +87,8 @@
   {
     "id": "pressin",
     "copy-from": "kp32",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str_sp": "the Pressin" },
     "description": "A compact short-range pistol without a pistol grip.  When in use, the entire gun body is pointed at targets and squeezed.  The body also conceals a switchblade for close quarters use.",
     "weight": "300 g",

@@ -1,7 +1,8 @@
 [
   {
     "id": "30carbine",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30 Carbine FMJ" },
     "//": ".30 Carbine .308, 110gr Hornady FMJ 3017, 15.5 gr Hodgdon H110 ",
     "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  A light rifle round developed during the Second World War for use in the M1 carbine; it remains a popular sporting round today.",
@@ -60,7 +61,8 @@
   {
     "id": "30carbine_jsp",
     "copy-from": "30carbine",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30 Carbine JSP" },
     "description": ".30 Carbine ammunition with a 110gr jacketed soft point bullet, which will perform better as a hunting round than FMJ.  A light rifle round developed during the Second World War for use in the M1 carbine; it remains a popular sporting round today.",
     "ascii_picture": "762_jhp",
@@ -71,7 +73,8 @@
   {
     "id": "bp_30carbine_jsp",
     "copy-from": "30carbine_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30 Carbine JSP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -85,7 +88,8 @@
   {
     "id": "reloaded_30carbine_jsp",
     "copy-from": "30carbine_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30 Carbine JSP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 },
     "extend": { "effects": [ "RECYCLED" ] }
@@ -93,7 +97,8 @@
   {
     "id": "matchhead_30carbine_jsp",
     "copy-from": "bp_30carbine_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".30 Carbine JSP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -103,7 +108,8 @@
   {
     "id": "bp_30carbine",
     "copy-from": "30carbine",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30 Carbine, black powder" },
     "proportional": {
       "price": 0.3,
@@ -117,7 +123,8 @@
   {
     "id": "reloaded_30carbine",
     "copy-from": "30carbine",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30 Carbine, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 },
     "extend": { "effects": [ "RECYCLED" ] }
@@ -125,7 +132,8 @@
   {
     "id": "matchhead_30carbine",
     "copy-from": "bp_30carbine",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".30 Carbine, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
