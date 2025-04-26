@@ -392,7 +392,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "evac_center_7",
+    "id": [
+      "evac_center_7",
+      "evac_center_8",
+      "evac_center_9",
+      "evac_center_12",
+      "evac_center_13",
+      "evac_center_14",
+      "evac_center_17",
+      "evac_center_18",
+      "evac_center_19"
+    ],
     "copy-from": "evac_center_7",
     "name": "refugee center",
     "sym": "r",
@@ -400,65 +410,22 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "evac_center_8",
-    "copy-from": "evac_center_8",
-    "name": "refugee center",
-    "sym": "R",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_9",
-    "copy-from": "evac_center_9",
-    "name": "refugee center",
-    "sym": "r",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_12",
-    "copy-from": "evac_center_12",
-    "name": "refugee center",
-    "sym": "r",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_13",
-    "copy-from": "evac_center_13",
-    "name": "refugee center",
-    "sym": "r",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_14",
-    "copy-from": "evac_center_14",
-    "name": "refugee center",
-    "sym": "r",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_17",
-    "copy-from": "evac_center_17",
-    "name": "refugee center",
-    "sym": "r",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_18",
-    "copy-from": "evac_center_18",
-    "name": "refugee center",
-    "sym": "r",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "evac_center_19",
-    "copy-from": "evac_center_19",
-    "name": "refugee center",
+    "id": [
+      "evac_center_7_z1",
+      "evac_center_8_z1",
+      "evac_center_9_z1",
+      "evac_center_12_z1",
+      "evac_center_13_z1",
+      "evac_center_14_z1",
+      "evac_center_17_z1",
+      "evac_center_18_z1",
+      "evac_center_19_z1",
+      "evac_center_12_z2",
+      "evac_center_13_z2",
+      "evac_center_14_z2"
+    ],
+    "copy-from": "evac_center_7_z1",
+    "name": "refugee center roof",
     "sym": "r",
     "color": "i_red"
   },

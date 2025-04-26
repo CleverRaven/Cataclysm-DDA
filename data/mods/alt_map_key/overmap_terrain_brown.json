@@ -1444,5 +1444,13 @@
     "name": "farm field",
     "sym": "f",
     "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_field",
+    "copy-from": "refctr_field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown"
   }
 ]
