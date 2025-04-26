@@ -118,6 +118,43 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "sealab_small_roof",
+      "sealab_small_surface",
+      "sealab_small_-1",
+      "sealab_small_-2",
+      "sealab_small_-3",
+      "sealab_small_-4",
+      "sealab_small_-5"
+    ],
+    "copy-from": "sealab_small_roof",
+    "name": "freshwater research station",
+    "sym": "f",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_lab1",
+      "nursing_home_lab2",
+      "nursing_home_lab3",
+      "nursing_home_lab4",
+      "nursing_home_lab5",
+      "nursing_home_lab6",
+      "nursing_home_lab7",
+      "nursing_home_lab8",
+      "nursing_home_lab9",
+      "nursing_home_lab10",
+      "nursing_home_lab11",
+      "nursing_home_lab12"
+    ],
+    "copy-from": "nursing_home_lab1",
+    "name": "nursing home lab",
+    "sym": "n",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
     "copy-from": "mi-go_camp1",
     "name": "mi-go encampment",

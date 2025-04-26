@@ -574,6 +574,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mortuary_roof",
+    "copy-from": "mortuary_roof",
+    "name": "mortuary roof",
+    "sym": "m",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "dojo", "dojo_1" ],
     "copy-from": "dojo",
     "name": "dojo",
