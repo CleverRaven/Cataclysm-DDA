@@ -510,5 +510,78 @@
     "name": "Maintenance Zone",
     "sym": "m",
     "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_surface_1a", "LIXA_surface_2a", "LIXA_surface_1b", "LIXA_surface_2b" ],
+    "copy-from": "LIXA_surface_1a",
+    "name": "LIXA research facility",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_roof_1a", "LIXA_roof_2a", "LIXA_roof_1b", "LIXA_roof_2b" ],
+    "copy-from": "LIXA_roof_1a",
+    "name": "LIXA research facility roof",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_entry_1", "LIXA_entry_2" ],
+    "copy-from": "LIXA_entry_1",
+    "name": "LIXA research facility gate",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_road" ],
+    "copy-from": "LIXA_road",
+    "name": "LIXA research facility access road",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_road_guard", "LIXA_road_guard_roof" ],
+    "copy-from": "LIXA_road_guard",
+    "name": "LIXA research facility checkpoint",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "LIXA_stairshaft_1a",
+      "LIXA_stairshaft_1b",
+      "LIXA_stairshaft_1c",
+      "LIXA_stairshaft_1d",
+      "LIXA_stairshaft_2a",
+      "LIXA_stairshaft_2b",
+      "LIXA_stairshaft_2c",
+      "LIXA_stairshaft_2d"
+    ],
+    "copy-from": "LIXA_stairshaft_1a",
+    "name": "LIXA experiment floor access",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_workfloor_1a", "LIXA_workfloor_2a", "LIXA_workfloor_1b", "LIXA_workfloor_2b" ],
+    "copy-from": "LIXA_workfloor_1a",
+    "name": "LIXA research floor",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_device_1", "LIXA_device_2", "LIXA_device_3", "LIXA_device_2_roof", "LIXA_device_3_roof" ],
+    "copy-from": "LIXA_device_1",
+    "name": "LIXA device floor",
+    "sym": "l",
+    "color": "i_pink"
   }
 ]
