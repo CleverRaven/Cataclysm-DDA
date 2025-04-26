@@ -234,7 +234,7 @@
     "type": "overmap_terrain",
     "id": "golfcourse_30",
     "copy-from": "golfcourse_30",
-    "name": "gofl course parking",
+    "name": "golf course parking",
     "sym": "p",
     "color": "light_blue"
   },
