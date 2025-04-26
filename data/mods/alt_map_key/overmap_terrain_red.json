@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun_a", "s_gun_b_range", "s_gun_b_store" ],
+    "id": [ "s_gun_a" ],
     "copy-from": "s_gun_a",
     "name": "gun store",
     "sym": "g",
@@ -9,11 +9,27 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun_a_roof", "s_gun_b_roof", "s_gun_b_range_roof" ],
+    "id": [ "s_gun_a_roof" ],
     "copy-from": "s_gun_a_roof",
     "name": "gun store roof",
     "sym": "g",
     "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gun_b_range", "s_gun_b_store" ],
+    "copy-from": "s_gun_b_range",
+    "name": "gun store",
+    "sym": "g",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gun_b_roof", "s_gun_b_range_roof" ],
+    "copy-from": "s_gun_b_roof",
+    "name": "gun store roof",
+    "sym": "g",
+    "color": "i_red"
   },
   {
     "type": "overmap_terrain",
