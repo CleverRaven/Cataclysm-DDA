@@ -33,6 +33,91 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "corpse_surface",
+    "copy-from": "corpse_surface",
+    "name": "monster corpse",
+    "sym": "m",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_surface_entry",
+    "copy-from": "corpse_tentacle_surface_entry",
+    "name": "monster corpse",
+    "sym": "m",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_entry",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse tentacle",
+    "sym": "m",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "corpse_bowels_neck_right",
+      "corpse_bowels_neck_left",
+      "corpse_bowels_neck_edge_center",
+      "corpse_bowels_rcorner",
+      "corpse_bowels_lcorner",
+      "corpse_bowels_empty_edge"
+    ],
+    "copy-from": "corpse_bowels_neck_right",
+    "name": "monster corpse bowels",
+    "sym": "b",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_bowels_mid" ],
+    "copy-from": "corpse_bowels_mid",
+    "name": "monster corpse bowels",
+    "sym": "b",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_tentacle_edge",
+    "copy-from": "corpse_bowels_tentacle_edge",
+    "name": "monster corpse bowels",
+    "sym": "e",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_neck", "corpse_neck_center" ],
+    "copy-from": "corpse_neck",
+    "name": "monster corpse neck",
+    "sym": "n",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "corpse_head",
+      "corpse_brain",
+      "corpse_under_brain",
+      "corpse_head_edge",
+      "corpse_head_fin",
+      "corpse_head_lcorner",
+      "corpse_head_rcorner",
+      "corpse_head_neck_l",
+      "corpse_head_neck_r",
+      "corpse_head_neck_center",
+      "corpse_head_neck_l_decap",
+      "corpse_head_neck_r_decap",
+      "corpse_head_neck_center_decap"
+    ],
+    "copy-from": "corpse_head",
+    "name": "monster corpse head",
+    "sym": "h",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
     "copy-from": "mi-go_camp1",
     "name": "mi-go encampment",
