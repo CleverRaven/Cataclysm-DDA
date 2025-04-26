@@ -4191,6 +4191,14 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "countdown_interval", countdown_interval );
     optional( jo, was_loaded, "revert_to", revert_to );
 
+    //First, check for copy-from
+    if( jo.has_member( "copy-from" ) ) {
+        itype_id copy_from_looks_like = itype_id( jo.get_string( "copy-from" ) );
+        if( item_controller->has_template( copy_from_looks_like ) ) {
+            looks_like = copy_from_looks_like;
+        }
+    }
+    //then check for an overriding looks_like field
     jo.read( "looks_like", looks_like );
 
     if( jo.has_string( "abstract" ) ) {
