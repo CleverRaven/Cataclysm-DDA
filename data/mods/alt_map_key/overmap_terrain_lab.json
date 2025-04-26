@@ -583,5 +583,182 @@
     "name": "LIXA device floor",
     "sym": "l",
     "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic",
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_edge",
+    "copy-from": "microlab_generic_edge",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_connector",
+    "copy-from": "microlab_generic_surface_connector",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_vent_shaft_connector",
+    "copy-from": "microlab_generic_vent_shaft_connector",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_station",
+    "copy-from": "microlab_sub_station",
+    "name": "subway station?",
+    "sym": "s"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_connector",
+    "copy-from": "microlab_sub_connector",
+    "name": "subway station?",
+    "sym": "s"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_sub_entry",
+    "copy-from": "microlab_generic_sub_entry",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "microlab_generic_firebreak",
+      "microlab_portal_dressroom",
+      "microlab_generic_stairs_down",
+      "microlab_generic_edge_room_connector",
+      "microlab_generic_hallway_blind_end",
+      "microlab_generic_isolated_stairs_odd",
+      "microlab_generic_isolated_stairs_up",
+      "microlab_generic_isolated_elevator_pit"
+    ],
+    "copy-from": "microlab_generic_firebreak",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "microlab_portal_security1",
+      "microlab_portal_security2",
+      "microlab_portal_security3",
+      "microlab_portal_security4",
+      "microlab_portal_security5",
+      "microlab_portal_security6",
+      "microlab_portal_security7",
+      "microlab_portal_security8",
+      "microlab_portal_security_hallway1",
+      "microlab_portal_security_hallway2"
+    ],
+    "copy-from": "microlab_portal_security1",
+    "name": "physics lab",
+    "sym": "l",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_reactor", "microlab_reactor_b" ],
+    "copy-from": "microlab_reactor",
+    "name": "science lab reactor",
+    "sym": "l",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_distorted", "microlab_distorted_edge" ],
+    "copy-from": "microlab_distorted",
+    "name": "distorted science lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_elevator", "microlab_portal_elevator_physics_glass" ],
+    "copy-from": "microlab_portal_elevator",
+    "name": "physics department elevator",
+    "sym": "l",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14_elevator" ],
+    "copy-from": "microlab_portal_MSU14_elevator",
+    "name": "Hub 14 elevator",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14" ],
+    "copy-from": "microlab_portal_MSU14",
+    "name": "Hub 14",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface",
+    "copy-from": "microlab_generic_surface",
+    "name": "lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_roof",
+    "copy-from": "microlab_generic_surface_roof",
+    "name": "lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_ratkin",
+    "copy-from": "microlab_ratkin",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_ratkin_edge",
+    "copy-from": "microlab_ratkin_edge",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_ratkin_sub_entry",
+    "copy-from": "microlab_ratkin_sub_entry",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_station_ratkin",
+    "copy-from": "microlab_sub_station_ratkin",
+    "name": "pump station?",
+    "sym": "p"
   }
 ]
