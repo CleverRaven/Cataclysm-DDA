@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "shipwreck_river_1",
+    "id": [ "shipwreck_river_1", "shipwreck_river_2", "shipwreck_river_3", "shipwreck_river_4" ],
     "copy-from": "shipwreck_river_1",
     "name": "shipwreck",
     "sym": "s",
@@ -9,27 +9,53 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "shipwreck_river_2",
-    "copy-from": "shipwreck_river_2",
-    "name": "shipwreck",
-    "sym": "s",
-    "color": "pink"
+    "id": [
+      "irradiator_1_1",
+      "irradiator_1_2",
+      "irradiator_1_3",
+      "irradiator_1_4",
+      "irradiator_1_5",
+      "irradiator_1_6",
+      "irradiator_1_7",
+      "irradiator_1_9"
+    ],
+    "copy-from": "irradiator_1_1",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "i_pink"
   },
   {
     "type": "overmap_terrain",
-    "id": "shipwreck_river_3",
-    "copy-from": "shipwreck_river_3",
-    "name": "razorclaw nest",
-    "sym": "s",
-    "color": "pink"
+    "id": "irradiator_1_8",
+    "copy-from": "irradiator_1_8",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "i_pink"
   },
   {
     "type": "overmap_terrain",
-    "id": "shipwreck_river_4",
-    "copy-from": "shipwreck_river_4",
-    "name": "shipwreck",
-    "sym": "s",
-    "color": "pink"
+    "id": [
+      "irradiator_1_1_roof",
+      "irradiator_1_2_roof",
+      "irradiator_1_3_roof",
+      "irradiator_1_4_roof",
+      "irradiator_1_5_roof",
+      "irradiator_1_6_roof",
+      "irradiator_1_7_roof",
+      "irradiator_1_9_roof"
+    ],
+    "copy-from": "irradiator_1_1_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_8_roof",
+    "copy-from": "irradiator_1_8_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "i_pink"
   },
   {
     "type": "overmap_terrain",
@@ -337,8 +363,27 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hive",
-    "copy-from": "hive",
+    "id": [
+      "hive_edge_00",
+      "hive_edge_10",
+      "hive_edge_20",
+      "hive_edge_01",
+      "hive",
+      "hive_edge_21",
+      "hive_edge_02",
+      "hive_edge_12",
+      "hive_edge_22",
+      "hive_edge_00_roof",
+      "hive_edge_10_roof",
+      "hive_edge_20_roof",
+      "hive_edge_01_roof",
+      "hive_roof",
+      "hive_edge_21_roof",
+      "hive_edge_02_roof",
+      "hive_edge_12_roof",
+      "hive_edge_22_roof"
+    ],
+    "copy-from": "hive_edge_00",
     "name": "bee hive",
     "sym": "b",
     "color": "i_pink"

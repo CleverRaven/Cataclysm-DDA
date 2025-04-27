@@ -1106,6 +1106,62 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lighthouse_ground",
+    "copy-from": "lighthouse_ground",
+    "name": "lighthouse",
+    "sym": "l",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lighthouse_z1", "lighthouse_z2", "lighthouse_z4", "lighthouse_z5", "lighthouse_roof" ],
+    "copy-from": "lighthouse_z1",
+    "name": "lighthouse",
+    "sym": "l",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_z3",
+    "copy-from": "lighthouse_z3",
+    "name": "lighthouse",
+    "sym": "l",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_small_ground",
+    "copy-from": "lighthouse_small_ground",
+    "name": "lighthouse",
+    "sym": "l",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lighthouse_small_z1", "lighthouse_small_z2", "lighthouse_small_z3", "lighthouse_small_z4", "lighthouse_small_roof" ],
+    "copy-from": "lighthouse_small_z1",
+    "name": "lighthouse",
+    "sym": "l",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "copy-from": "wind_turbine_ground",
+    "name": "wind turbine",
+    "sym": "w",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_nacelle" ],
+    "copy-from": "wind_turbine_nacelle",
+    "name": "wind turbine",
+    "sym": "w",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "fire_station", "fire_station_1" ],
     "copy-from": "fire_station",
     "name": "fire station",

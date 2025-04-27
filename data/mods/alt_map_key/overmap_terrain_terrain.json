@@ -47,6 +47,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "island_forest", "island_forest_thick" ],
+    "copy-from": "island_forest",
+    "name": "island",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "island_forest_water",
+    "copy-from": "island_forest_water",
+    "name": "island",
+    "sym": "#",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pond_field",
     "copy-from": "pond_field",
     "name": "pond",
@@ -60,6 +76,30 @@
     "name": "crater",
     "sym": "*",
     "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "crater_core_large", "crater_core_small" ],
+    "copy-from": "crater_core_large",
+    "name": "crater",
+    "sym": "*",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_giant_sinkhole_1",
+    "copy-from": "ws_giant_sinkhole_1",
+    "name": "giant sinkhole",
+    "sym": "*",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_giant_sinkhole_2",
+    "copy-from": "ws_giant_sinkhole_2",
+    "name": "giant sinkhole base",
+    "sym": "*",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -112,9 +152,57 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hot_springs",
+    "copy-from": "hot_springs",
+    "name": "hot spring",
+    "sym": "h",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lumbermill_dforest",
     "copy-from": "lumbermill_dforest",
     "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirtroad1_aban1",
+    "copy-from": "dirtroad1_aban1",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "forest_aban1", "dirtroad2_aban1", "dirtplaza_aban1" ],
+    "copy-from": "forest_aban1",
+    "name": "forest",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_aban1", "cabin_aban1_roof" ],
+    "copy-from": "cabin_aban1",
+    "name": "ruined cabin",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "barn_aban1", "barn_aban1_roof" ],
+    "copy-from": "barn_aban1",
+    "name": "barn",
+    "sym": "#",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_corner_aban1", "car_corner_aban1_roof" ],
+    "copy-from": "car_corner_aban1",
+    "name": "car corner",
     "sym": "#",
     "color": "green"
   }

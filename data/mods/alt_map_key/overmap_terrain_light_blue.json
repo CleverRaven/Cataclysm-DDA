@@ -43,6 +43,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
+    "copy-from": "boat_rental",
+    "name": "boat rental",
+    "sym": "b",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
+    "copy-from": "bandit_garage_1",
+    "name": "garage",
+    "sym": "g",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4", "hotel_tower_1_6" ],
     "copy-from": "hotel_tower_1_1",
     "name": "hotel parking",

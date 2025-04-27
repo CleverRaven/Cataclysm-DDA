@@ -765,7 +765,15 @@
     "type": "overmap_terrain",
     "id": [ "smallscrapyard_ocu" ],
     "copy-from": "smallscrapyard_ocu",
-    "name": "scrap yard",
+    "name": "small scrap yard",
+    "sym": "s",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu_roof" ],
+    "copy-from": "smallscrapyard_ocu_roof",
+    "name": "small scrap yard roof",
     "sym": "s",
     "color": "light_gray"
   },
@@ -799,11 +807,45 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_aban1",
-    "copy-from": "cabin_aban1",
-    "name": "ruined cabin",
-    "sym": "r",
-    "color": "i_light_gray"
+    "id": [
+      "airliner_2a",
+      "airliner_2a_1",
+      "airliner_2b",
+      "airliner_2b_1",
+      "airliner_2b_-1",
+      "airliner_2c",
+      "airliner_2c_1",
+      "airliner_2c_-1"
+    ],
+    "copy-from": "airliner_2a",
+    "name": "crashed airliner",
+    "sym": "c",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "airliner_1b", "airliner_3c" ],
+    "copy-from": "airliner_1b",
+    "name": "wreckage",
+    "sym": "w",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "airliner_1c",
+      "airliner_2d",
+      "airliner_2e",
+      "airliner_2f",
+      "airliner_2g",
+      "airliner_2h",
+      "airliner_2i",
+      "airliner_2j"
+    ],
+    "copy-from": "airliner_1c",
+    "name": "crash trail",
+    "sym": "*",
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",

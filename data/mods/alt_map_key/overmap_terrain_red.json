@@ -497,6 +497,48 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "fort_1a",
+      "fort_2a",
+      "fort_3a",
+      "fort_4a",
+      "fort_1b",
+      "fort_2b",
+      "fort_3b",
+      "fort_4b",
+      "fort_1c",
+      "fort_2c",
+      "fort_3c",
+      "fort_4c"
+    ],
+    "copy-from": "fort_1a",
+    "name": "bastion fort",
+    "sym": "b",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "fort_1a_1",
+      "fort_2a_1",
+      "fort_3a_1",
+      "fort_4a_1",
+      "fort_1b_1",
+      "fort_2b_1",
+      "fort_3b_1",
+      "fort_4b_1",
+      "fort_1c_1",
+      "fort_2c_1",
+      "fort_3c_1",
+      "fort_4c_1"
+    ],
+    "copy-from": "fort_1a_1",
+    "name": "bastion fort",
+    "sym": "b",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "helipad_nw",
       "helipad_ne",
       "helipad_sw",
@@ -508,9 +550,16 @@
       "helipad_roof_nw",
       "helipad_roof_ne",
       "helipad_roof_sw",
-      "helipad_roof_se",
-      "mil_base_7i"
+      "helipad_roof_se"
     ],
+    "copy-from": "helipad_nw",
+    "name": "military helipad",
+    "sym": "h",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_7i" ],
     "copy-from": "helipad_nw",
     "name": "military helipad",
     "sym": "h",

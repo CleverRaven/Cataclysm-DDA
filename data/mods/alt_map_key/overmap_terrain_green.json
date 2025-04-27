@@ -187,14 +187,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "car_corner_aban1",
-    "copy-from": "car_corner_aban1",
-    "name": "car corner",
-    "sym": "F",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "sewer",
     "copy-from": "sewer",
     "name": "sewer",
@@ -314,22 +306,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bandit_garage_1",
-    "copy-from": "bandit_garage_1",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_garage_2",
-    "copy-from": "bandit_garage_2",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ],
     "copy-from": "s_butcher",
     "name": "butcher shop",
@@ -374,78 +350,6 @@
     "copy-from": "sugar_house_roof",
     "name": "sugar house roof",
     "sym": "s",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirtroad1_aban1",
-    "copy-from": "dirtroad1_aban1",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "forest_aban1",
-    "copy-from": "forest_aban1",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirtroad2_aban1",
-    "copy-from": "dirtroad2_aban1",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirtplaza_aban1",
-    "copy-from": "dirtplaza_aban1",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spider_pit",
-    "copy-from": "spider_pit",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_1",
-    "copy-from": "bandit_camp_1",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_2",
-    "copy-from": "bandit_camp_2",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_3",
-    "copy-from": "bandit_camp_3",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bandit_camp_4",
-    "copy-from": "bandit_camp_4",
-    "name": "forest",
-    "sym": "#",
     "color": "green"
   }
 ]

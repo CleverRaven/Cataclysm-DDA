@@ -118,6 +118,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "drug_lab", "bandit_drug_lab" ],
+    "copy-from": "drug_lab",
+    "name": "drug lab",
+    "sym": "d",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "drug_lab_roof",
+    "copy-from": "drug_lab_roof",
+    "name": "drug lab roof",
+    "sym": "d",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "veterinarian",
     "copy-from": "veterinarian",
     "name": "animal clinic",
