@@ -443,6 +443,62 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "speedway_1_6",
+      "speedway_2_6",
+      "speedway_3_6",
+      "speedway_4_6",
+      "speedway_5_6",
+      "speedway_1_6_1",
+      "speedway_2_6_1",
+      "speedway_3_6_1",
+      "speedway_4_6_1",
+      "speedway_5_6_1"
+    ],
+    "copy-from": "speedway_1_6",
+    "name": "bleachers",
+    "sym": "b",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "speedway_1_7",
+      "speedway_2_7",
+      "speedway_3_7",
+      "speedway_4_7",
+      "speedway_1_8",
+      "speedway_2_8",
+      "speedway_3_8",
+      "speedway_4_8",
+      "speedway_1_9",
+      "speedway_2_9",
+      "speedway_3_9",
+      "speedway_4_9"
+    ],
+    "copy-from": "speedway_1_7",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "speedway_9_3", "speedway_9_4", "speedway_9_5", "speedway_9_3_1", "speedway_9_4_1", "speedway_9_5_1" ],
+    "copy-from": "speedway_9_3",
+    "name": "garage",
+    "sym": "g",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "speedway_6_7_1", "speedway_6_7_2", "speedway_6_7_3" ],
+    "copy-from": "speedway_6_7_1",
+    "name": "announcer station",
+    "sym": "a",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "zoo_0_0", "zoo_1_0" ],
     "copy-from": "zoo_0_0",
     "name": "zoo parking",
