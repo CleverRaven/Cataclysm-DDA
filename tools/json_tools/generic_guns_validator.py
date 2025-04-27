@@ -112,8 +112,8 @@ def items_of_subtype(data, subtype):
             if 'subtypes' in i:
                 if subtype in i['subtypes']:
                     result.append(i)
-                
     return result
+
 
 def get_ids(items):
     result = set()
