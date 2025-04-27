@@ -152,7 +152,7 @@
     "id": "feral_vampire_nest_dead_bodies",
     "items": [
       { "group": "corpses", "prob": 1, "count": [ 1, 3 ] },
-      { "item": "default_zombie_death_drops", "prob": 1, "count": [ 1, 3 ] }
+      { "group": "default_zombie_death_drops", "prob": 1, "count": [ 1, 3 ] }
     ]
   }
 ]

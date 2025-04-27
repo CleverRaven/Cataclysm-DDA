@@ -139,10 +139,9 @@
   {
     "type": "monstergroup",
     "id": "GROUP_CAVE_FERAL_VAMPIRE",
-    "is_animal": true,
     "monsters": [
-      { "monster": "mon_vampire_revenant", "weight": 10 },
-      { "monster": "mon_vampire_revenant", "weight": 1, "pack_size": [ 2, 5 ] }
+      { "monster": "mon_vampire_feral", "weight": 10 },
+      { "monster": "mon_vampire_feral", "weight": 1, "pack_size": [ 2, 5 ] }
     ]
   },
   {

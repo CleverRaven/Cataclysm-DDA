@@ -45,8 +45,8 @@
       },
       "furniture": { "B": "f_straw_bed" },
       "items": {
-        "_": { "item": "midden_heap", "chance": 40, "repeat": [ 1, 2 ] },
-        " ": { "item": "midden_heap", "chance": 2 },
+        "_": { "item": "SUS_trash_floor", "chance": 40, "repeat": [ 1, 2 ] },
+        " ": { "item": "SUS_trash_floor", "chance": 2 },
         "X": [ { "item": "corpses", "chance": 5, "repeat": 1 }, { "item": "default_zombie_death_drops", "chance": 15 } ],
         "Y": [ { "item": "corpses", "chance": 50, "repeat": [ 1, 2 ] } ]
       },
@@ -54,7 +54,7 @@
         { "field": "fd_blood", "x": [ 17, 21 ], "y": [ 7, 11 ], "repeat": [ 4, 6 ] },
         { "field": "fd_blood", "x": [ 6, 7 ], "y": [ 14, 16 ], "repeat": [ 4, 6 ] }
       ],
-      "place_monster": [ { "GROUP": "GROUP_CAVE_FERAL_VAMPIRE", "x": [ 1, 21 ], "y": [ 1, 21 ], "chance": 60, "repeat": [ 2, 4 ] } ]
+      "place_monster": [ { "group": "GROUP_CAVE_FERAL_VAMPIRE", "x": [ 1, 21 ], "y": [ 1, 21 ], "chance": 60, "repeat": [ 2, 4 ] } ]
     }
   }
 ]

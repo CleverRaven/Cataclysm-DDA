@@ -23,7 +23,7 @@
         { "group": "feral_vampire_nest_dead_bodies", "x": 1, "y": 2, "chance": 70 }
       ],
       "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
-      "place_monster": [ { "monster": "mon_vampire_revenant", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
     }
   },
   {
@@ -50,7 +50,7 @@
         { "group": "feral_vampire_nest_dead_bodies", "x": 1, "y": 2, "chance": 70, "repeat": [ 1, 3 ] }
       ],
       "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
-      "place_monster": [ { "monster": "mon_vampire_revenant", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
     }
   },
   {
@@ -78,7 +78,7 @@
         { "group": "feral_vampire_nest_dead_bodies", "x": 1, "y": 2, "chance": 70, "repeat": [ 1, 3 ] }
       ],
       "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
-      "place_monster": [ { "monster": "mon_vampire_revenant", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
     }
   },
   {
@@ -105,7 +105,7 @@
         { "group": "feral_vampire_nest_dead_bodies", "x": 3, "y": 2, "chance": 70, "repeat": [ 1, 3 ] }
       ],
       "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
-      "place_monster": [ { "monster": "mon_vampire_revenant", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
     }
   },
   {
@@ -170,10 +170,10 @@
           { "item": "elecsto_diy", "chance": 60, "repeat": [ 1, 4 ] },
           { "item": "elecsto_books", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "&": { "item": "feral_vampire_nest_dead_bodies", "chance": 50 }
+        "&": [ { "item": "feral_vampire_nest_dead_bodies", "chance": 50 } ]
       },
       "place_fields": [ { "field": "fd_blood", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 1, 6 ] } ],
-      "place_monster": [ { "GROUP": "GROUP_CAVE_FERAL_VAMPIRE", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 95 } ]
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 95 } ]
     }
   },
   {
@@ -239,10 +239,10 @@
           { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
           { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
         ],
-        "&": { "item": "feral_vampire_nest_dead_bodies", "chance": 50 }
+        "&": [ { "item": "feral_vampire_nest_dead_bodies", "chance": 50 } ]
       },
       "place_fields": [ { "field": "fd_blood", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 1, 6 ] } ],
-      "place_monster": [ { "GROUP": "GROUP_CAVE_FERAL_VAMPIRE", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 95 } ]
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 95 } ]
     }
   }
 ]

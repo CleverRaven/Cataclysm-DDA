@@ -3,7 +3,7 @@
     "abstract": "mon_vampire_generic",
     "type": "MONSTER",
     "name": { "str_sp": "generic vampire", "//~": "NO_I18N" },
-    "description": { "str_sp": "I vant to suck your blood!  Bluh!  BLUH!", "//~": "NO_I18N" },
+    "description": { "str": "I vant to suck your blood!  Bluh!  BLUH!", "//~": "NO_I18N" },
     "default_faction": "vampire",
     "bodytype": "human",
     "species": [ "VAMPIRE", "HUMAN" ],
@@ -38,7 +38,7 @@
     "armor": { "bash": 15, "cut": 5, "bullet": 14, "electric": 6, "heat": -20 }
   },
   {
-    "id": "mon_vampire_revenant",
+    "id": "mon_vampire_feral",
     "copy-from": "mon_vampire_generic",
     "type": "MONSTER",
     "name": { "str_sp": "wight" },
