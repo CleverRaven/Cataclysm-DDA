@@ -363,6 +363,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "c_cave_entrance",
+    "copy-from": "c_cave_entrance",
+    "name": "river cave entrance",
+    "sym": "r",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "hive_edge_00",
       "hive_edge_10",

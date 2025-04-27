@@ -306,6 +306,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "river_cave_food",
+    "copy-from": "river_cave_food",
+    "name": "kraken food storage",
+    "sym": "O",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ],
     "copy-from": "s_butcher",
     "name": "butcher shop",
