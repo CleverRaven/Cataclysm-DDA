@@ -25,7 +25,7 @@
     "loudness": 25,
     "barrel_volume": "500 ml",
     "built_in_mods": [ "combination_gun_shotgun" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "faults": [ { "fault": "fault_gun_blackpowder" }, { "fault": "fault_gun_dirt" } ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "conversion", 1 ],

@@ -532,7 +532,7 @@ bool mission_util::load_funcs( const JsonObject &jo,
     return true;
 }
 
-bool mission_type::parse_funcs( const JsonObject &jo, const std::string_view src,
+bool mission_type::parse_funcs( const JsonObject &jo, std::string_view src,
                                 std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;

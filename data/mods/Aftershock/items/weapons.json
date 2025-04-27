@@ -102,7 +102,8 @@
   },
   {
     "id": "afs_hydraulic_gauntlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hydraulic gauntlet" },
     "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.  Thanks to an internal microreactor, it doesn't require power of its own.",
     "weight": "3778 g",
@@ -120,7 +121,8 @@
   },
   {
     "id": "afs_freeze_gauntlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "psychrophile handling gloves" },
     "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
@@ -278,6 +280,7 @@
   {
     "id": "azabow_off",
     "type": "GUN",
+    "subtypes": [ "ARMOR" ],
     "symbol": "(",
     "color": "white",
     "copy-from": "compbow",
@@ -287,20 +290,6 @@
     "material": [ "superalloy", "qt_steel", "wood" ],
     "min_strength": 40,
     "price_postapoc": "400 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 20,
-          "coverage": 5,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
     "range": 25,
     "dispersion": 1000,
@@ -311,7 +300,19 @@
       "target": "azabow_on",
       "msg": "You connect the bow to your UPS.",
       "ammo_scale": 0
-    }
+    },
+    "armor": [
+      {
+        "material": [
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 20,
+        "coverage": 5,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "azabow_on",
@@ -357,6 +358,7 @@
     "looks_like": "longbow",
     "copy-from": "compositebow",
     "type": "GUN",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "salvage bow" },
     "description": "A bow made from readily-available materials, and quickly and cheaply put together.  It is not made to be pretty, but to get a job done.  Its nocks and string are made of shape-memory alloy that help increase string tension in the string.  The memory alloy requires a UPS source to be activated.",
     "price": "380 USD",
@@ -366,19 +368,6 @@
     "volume": "2500 ml",
     "longest_side": "152 cm",
     "price_postapoc": "20 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 20,
-          "coverage": 5,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "ranged_damage": { "damage_type": "stab", "amount": 12 },
     "range": 14,
     "dispersion": 850,
@@ -386,7 +375,18 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "extend": { "flags": [ "USE_UPS" ] },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 20,
+        "coverage": 5,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "scrapcrossbow",

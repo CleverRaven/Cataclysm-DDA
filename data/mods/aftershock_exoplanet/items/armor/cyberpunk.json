@@ -2,7 +2,8 @@
   {
     "id": "afs_transparent_coat",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "coat_rain",
     "looks_like": "coat_rain",
     "name": { "str": "transparent rain coat" },
@@ -14,7 +15,8 @@
   {
     "id": "afs_academy_cloak",
     "repairs_like": "cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "cloak",
     "looks_like": "cloak",
     "name": { "str": "academy cloak" },
@@ -25,7 +27,8 @@
   },
   {
     "id": "afs_lx_shirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nanoweave formal shirt" },
     "description": "A luxurious Lausanne dress shirt.  Steel grey fading into golden thread, it has a mandarin collar and a neo-deco look that was the rage back on Earth when you last left.",
     "weight": "250 g",
@@ -42,7 +45,8 @@
   },
   {
     "id": "afs_lx_dress",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nanoweave dress", "str_pl": "nanoweave dresses" },
     "description": "A luxurious Lausanne cocktail dress.  White with gold thread accents, it has a neo-deco look that was the rage back on Earth when you last left.",
     "weight": "800 g",
@@ -61,7 +65,8 @@
   {
     "id": "afs_leather_jacket",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jacket_leather",
     "looks_like": "jacket_leather",
     "name": { "str": "synleather jacket" },
@@ -114,7 +119,8 @@
   {
     "id": "afs_cyberpunk_bomber",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jacket_leather",
     "looks_like": "jacket_leather",
     "name": { "str": "diode bomber" },
@@ -175,7 +181,8 @@
   {
     "id": "afs_bolero",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jacket_leather",
     "looks_like": "jacket_leather",
     "name": { "str": "mercenary bolero" },

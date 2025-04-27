@@ -220,6 +220,8 @@
     "ammo_type": "caotel_cell",
     "range": 0,
     "material": [ "qt_steel" ],
+    "weight": "24 g",
+    "volume": "190 ml",
     "effects": [ "NEVER_MISFIRES" ],
     "casing": "caotel_cell_spent"
   },

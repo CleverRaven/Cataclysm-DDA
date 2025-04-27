@@ -253,7 +253,8 @@ class talker_character: virtual public talker
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
         void train_proficiency_for( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
-        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
+        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins,
+                              const bool &true_random ) override;
         void mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
                              const bool &use_vitamins ) override;
         void set_trait_purifiability( const trait_id &trait, const bool &purifiable ) override;

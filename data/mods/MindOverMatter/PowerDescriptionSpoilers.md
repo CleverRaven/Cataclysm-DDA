@@ -470,10 +470,11 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 *Difficulty*: 4<br />
 *Target*: One target within 1 square plus 0.6 squares per power level<br />
-*Duration*: Diminishing returns--stuns the target for 46.2 moves to 76.9 moves at level 1, 170.5 to 264.7 moves at level 5, 272.7 to 454.5 moves at level 10, and so on, following the formula ( (power level * 0.25) * 6) / ((power level * 0.25) + 3 ) to ( (power level * 0.25) * 10 ) / ((power level * 0.25) + 3 )<br />
+*Duration*: From 1 to 3 seconds, plus 0.2 to 0.35 seconds per power level, to a maximum of 5 to 10 seconds<br />
+
 *Stamina Cost*: 5500, minus 150 per level to a minimum of 2500<br />
 *Channeling Time*: 150 moves, minus 5 moves per level to a minimum of 75<br />
-*Effects*: Stuns the target by overloading their nervous system.  It cannot affect targets without a biological nervous system--plants, robots, Nether creatures, fungus, etc.<br />
+*Effects*: Dazes and downs the target by overloading their nervous system.  Within the power duration, the target do nothing but twitch futilely. It cannot affect targets without a biological nervous system--plants, robots, Nether creatures, fungus, etc.<br />
 *Prerequisites*: Spark Sight 6, Voltaic Strikes 5 *or* Static Touch 8<br />
 </details>
 <details>

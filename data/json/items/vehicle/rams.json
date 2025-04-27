@@ -10,7 +10,8 @@
     "price": "105 USD",
     "price_postapoc": "25 USD",
     "to_hit": -1,
-    "material": [ "steel" ],
+    "//": "Recycling shredders (which I imagined this thing to be like) use tool steels or carbide blades (https://maxtormetal.com/shredder-blades-material-life/), but that seemed too hard to get, so I substituted a medium steel, as it cans still be found in larger quantities (in vehicle axles etc.)",
+    "material": [ "mc_steel" ],
     "symbol": "]",
     "color": "light_cyan",
     "melee_damage": { "bash": 6 }

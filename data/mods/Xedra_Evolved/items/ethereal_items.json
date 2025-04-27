@@ -1,7 +1,8 @@
 [
   {
     "id": "blurred_aura",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "blurred aura",
     "description": "Your edges blur and expand and contract in ways that don't reflect reality.  Allows you to dodge two extra attacks in a given turn.",
     "weight": "1g",
@@ -32,7 +33,8 @@
   },
   {
     "id": "aura_futuresight",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "precognitive aura" },
     "description": "A precognitive aura that allows you to dodge things you didn't see coming.",
@@ -125,7 +127,8 @@
   },
   {
     "id": "armor_dreamdross",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "copy-from": "armor_lc_lightplate",
     "name": { "str_sp": "dream armor" },
@@ -145,7 +148,8 @@
   },
   {
     "id": "aura_drunken_master",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": "Drunken Master aura",
     "description": "Hey I thought this was America…",
     "weight": "1 g",
@@ -223,7 +227,8 @@
   },
   {
     "id": "winch_stone",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "constructed winch", "str_pl": "constructed winches" },
     "description": "A small token that floats near your right hand.  It pulls you to determined coordinates when you command it.",
     "weight": "1 g",
@@ -248,7 +253,8 @@
   },
   {
     "id": "magic_light",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "tools",
     "name": "magic light",
     "description": "A magical light source that will light up a small area.",
@@ -264,7 +270,8 @@
   },
   {
     "id": "water_pocket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "water pocket" },
     "description": "A large pouch of churning water on your back, containing a sealed air bubble.  It shifts and adjusts itself to minimize encumbrance.",
     "weight": "0 kg",
@@ -377,7 +384,8 @@
   },
   {
     "id": "item_ierde_iron_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "invulnerable iron skin" },
     "description": "Fae iron essence.",

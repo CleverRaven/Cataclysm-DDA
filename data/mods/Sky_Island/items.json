@@ -1,7 +1,8 @@
 [
   {
     "id": "quickheal",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "consumption_effect_on_conditions": [ "EOC_healall" ],
     "name": { "str": "quickheal pill" },
@@ -59,7 +60,8 @@
     "items": [ { "item": "warptoken", "prob": 100, "count": [ 1, 6 ] } ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "warpbag_base",
     "name": { "str": "warped bag", "//~": "NO_I18N" },
     "description": { "str": "This is a template you shouldn't actually see.", "//~": "NO_I18N" },
@@ -95,7 +97,8 @@
     ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "warpwoodbag",
     "name": { "str": "warped lumberjack's bag" },
     "copy-from": "warpbag_base",
@@ -132,7 +135,8 @@
     ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "warpdirtbag",
     "name": { "str": "warped excavator's bag" },
     "copy-from": "warpbag_base",
@@ -170,7 +174,8 @@
     ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "warpmetalbag",
     "name": { "str": "warped scrapper's bag" },
     "copy-from": "warpbag_base",
@@ -224,7 +229,8 @@
     ]
   },
   {
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "warphaulbag",
     "name": { "str": "warped hauler's harness", "str_pl": "warped hauler's harnesses" },
     "copy-from": "warpbag_base",
@@ -244,7 +250,8 @@
   },
   {
     "id": "warpextender",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "consumption_effect_on_conditions": [ "EOC_warpextender" ],
     "name": { "str": "earthbound pill" },
@@ -565,7 +572,8 @@
   },
   {
     "id": "sky_island_sunblock",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Personal Sunblock" },
     "description": "The island is protecting you against the sun as long as you are on it.",
     "weight": "1 g",

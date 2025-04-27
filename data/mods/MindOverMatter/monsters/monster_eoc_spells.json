@@ -260,6 +260,45 @@
     ]
   },
   {
+    "id": "electrokinetic_paralysis_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Neural Spasms Monster", "//~": "NO_I18N" },
+    "description": { "str": "Cause an electrical burst in the target's nervous system, stunning them briefly.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "shape": "blast",
+    "min_duration": 150,
+    "max_duration": 400,
+    "min_range": 3,
+    "max_range": 23,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_MONSTER_PARALYSIS",
+    "effect": [
+      { "math": [ "_duration = rng(1.5, 4)" ] },
+      {
+        "if": {
+          "not": {
+            "u_has_any_effect": [ "effect_electrokinetic_speed_boost", "effect_monster_neuro_acceleration", "effect_monster_neuro_acceleration" ]
+          }
+        },
+        "then": [
+          { "u_add_effect": "downed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "psi_dazed", "duration": { "math": [ "_duration" ] } },
+          { "u_add_effect": "effect_electrokin_paralysis", "duration": { "math": [ "_duration" ] } }
+        ],
+        "else": { "u_message": "Your control over your own nerve impulses prevent the attack from taking hold.", "type": "good" }
+      }
+    ]
+  },
+  {
     "id": "electrokinetic_power_draining",
     "type": "SPELL",
     "name": { "str": "[Ψ]Electrokinetic Power Draining Spell", "//~": "NO_I18N" },

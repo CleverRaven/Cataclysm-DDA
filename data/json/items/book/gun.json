@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_guns",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Guns n Ammo", "str_pl": "issues of Guns n Ammo" },
     "description": "Reviews of firearms, and various useful tips about their use.",
@@ -52,7 +53,8 @@
   },
   {
     "id": "manual_gun",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Gun Owner's Handbook", "str_pl": "copies of The Gun Owner's Handbook" },
     "description": "A thick soft-cover book that claims to be a complete guide to safely operating, maintaining, and repairing firearms.",
@@ -118,7 +120,8 @@
   },
   {
     "id": "pocket_firearms",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Pocket Guide to Firearm Safety", "str_pl": "copies of Pocket Guide to Firearm Safety" },
     "description": "This pocket-sized leather-bound guide to firearm safety combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
@@ -136,7 +139,8 @@
   },
   {
     "id": "text_gunsmith",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "copy-from": "manual_gun",
     "name": {
       "str": "Ballistics: Theory, Design, and Application",

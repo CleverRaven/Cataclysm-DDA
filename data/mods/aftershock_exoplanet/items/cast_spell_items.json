@@ -1,7 +1,8 @@
 [
   {
     "abstract": "afs_caster",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "caster", "//~": "NO_I18N" },
     "description": { "str": "A generic techno doodad used to cast spells.", "//~": "NO_I18N" },
     "weight": "100 g",
@@ -18,7 +19,8 @@
   },
   {
     "id": "afs_holo_transposition_caster",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "hologram transposition caster" },
     "copy-from": "afs_caster",
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to swap positions with an existing hologram.",
@@ -28,7 +30,8 @@
   },
   {
     "id": "afs_holo_flare_caster",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "afs_caster",
     "name": { "str": "hologram flare caster" },
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to select a hologram, which will explode in a blinding flash, stunning anything nearby.",
@@ -38,7 +41,8 @@
   },
   {
     "id": "afs_holo_decoy_caster",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "afs_caster",
     "name": { "str": "decoy caster" },
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will a holographic decoy in a location of your choosing.",
@@ -48,7 +52,8 @@
   },
   {
     "id": "afs_holo_field_caster",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "afs_caster",
     "name": { "str": "decoy field caster" },
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will create several holographic decoys around you.",
@@ -58,7 +63,8 @@
   },
   {
     "id": "afs_recall_rig",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "dimensional_anchor",
     "name": { "str": "recall rig" },
     "description": "A complex antennae assembly worn around the upper torso that allows its user to home and teleport towards previously configured teleport pads.  Although relatively functional, it's much inferior to the translocation systems of old, and a successful teleport requires standing perfectly still for several minutes.",
@@ -75,7 +81,8 @@
   },
   {
     "id": "afs_translocation_device",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "translocator" },
     "copy-from": "afs_wrist_computer",
     "description": "An arcane device from the late Hyperspace Era, vaguely resembling a wrist computer made from malleable glass.  It can be activated to quickly deploy a translocator buoy or to teleport to previously activated buoys.",

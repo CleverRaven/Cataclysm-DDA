@@ -86,7 +86,8 @@
   },
   {
     "id": "spellbook_hedge_farm_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies", "//~": "NO_I18N" },
@@ -180,7 +181,8 @@
   },
   {
     "id": "spellbook_hedge_ward_demons_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum", "//~": "NO_I18N" },
@@ -274,7 +276,8 @@
   },
   {
     "id": "spellbook_hedge_doctor_book_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth", "//~": "NO_I18N" },
@@ -371,7 +374,8 @@
   },
   {
     "id": "spellbook_hedge_blood_book_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers", "//~": "NO_I18N" },
@@ -468,7 +472,8 @@
   },
   {
     "id": "spellbook_hedge_ward_dreams_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep", "//~": "NO_I18N" },
@@ -562,7 +567,8 @@
   },
   {
     "id": "spellbook_hedge_snare_changelings_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings", "//~": "NO_I18N" },
@@ -571,7 +577,8 @@
   },
   {
     "id": "spellbook_hedge_clairvoyance_cone",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Parchment of sight beyond sight", "str_pl": "Parchments of sight beyond sight" },
     "description": "A short parchment that will supposedly teach you how to see through walls.",
@@ -675,7 +682,8 @@
   },
   {
     "id": "spellbook_hedge_bathhouse_midnight_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight", "//~": "NO_I18N" },
@@ -774,7 +782,8 @@
   },
   {
     "id": "spellbook_hedge_abramelin_the_mage_spell_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage", "//~": "NO_I18N" },

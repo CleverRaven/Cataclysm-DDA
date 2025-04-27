@@ -1,7 +1,8 @@
 [
   {
     "id": "modular_exosuit",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "exosuit frame" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the head, torso, power supply, back, arms, and legs.",
     "weight": "45 kg",
@@ -323,7 +324,8 @@
     "copy-from": "modular_exosuit",
     "repairs_like": "modular_exosuit",
     "looks_like": "power_armor_light",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "exosuit frame (on)", "str_pl": "exosuit frames (on)" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [
@@ -380,7 +382,8 @@
   {
     "id": "modular_exosuit_light",
     "copy-from": "modular_exosuit",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "light exosuit frame" },
     "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.",
     "weight": "30 kg",
@@ -549,7 +552,8 @@
     "copy-from": "modular_exosuit_light",
     "repairs_like": "modular_exosuit",
     "looks_like": "power_armor_light",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "light exosuit frame (on)", "str_pl": "light exosuit frames (on)" },
     "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [

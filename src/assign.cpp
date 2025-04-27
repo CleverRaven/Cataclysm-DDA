@@ -7,7 +7,7 @@
 #include "debug.h"
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
-                              const std::string_view name )
+                              std::string_view name )
 {
     try {
         // Let the json class do the formatting, it includes the context of the JSON data.
@@ -18,7 +18,7 @@ void report_strict_violation( const JsonObject &jo, const std::string &message,
     }
 }
 
-bool assign( const JsonObject &jo, const std::string_view name, bool &val, bool strict )
+bool assign( const JsonObject &jo, std::string_view name, bool &val, bool strict )
 {
     bool out;
 
@@ -36,7 +36,7 @@ bool assign( const JsonObject &jo, const std::string_view name, bool &val, bool 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string_view name, units::volume &val, bool strict,
+bool assign( const JsonObject &jo, std::string_view name, units::volume &val, bool strict,
              const units::volume lo, const units::volume hi )
 {
     const auto parse = [name]( const JsonObject & obj, units::volume & out ) {
@@ -101,7 +101,7 @@ bool assign( const JsonObject &jo, const std::string_view name, units::volume &v
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string_view name, units::mass &val, bool strict,
+bool assign( const JsonObject &jo, std::string_view name, units::mass &val, bool strict,
              const units::mass lo, const units::mass hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::mass & out ) {
@@ -165,7 +165,7 @@ bool assign( const JsonObject &jo, const std::string_view name, units::mass &val
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string_view name, units::length &val, bool strict,
+bool assign( const JsonObject &jo, std::string_view name, units::length &val, bool strict,
              const units::length lo, const units::length hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::length & out ) {
@@ -229,7 +229,7 @@ bool assign( const JsonObject &jo, const std::string_view name, units::length &v
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string_view name, units::money &val, bool strict,
+bool assign( const JsonObject &jo, std::string_view name, units::money &val, bool strict,
              const units::money lo, const units::money hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::money & out ) {
@@ -299,7 +299,7 @@ bool assign( const JsonObject &jo, const std::string_view name, units::money &va
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string_view name, units::energy &val, bool strict,
+bool assign( const JsonObject &jo, std::string_view name, units::energy &val, bool strict,
              const units::energy lo, const units::energy hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::energy & out ) {
@@ -368,7 +368,7 @@ bool assign( const JsonObject &jo, const std::string_view name, units::energy &v
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string_view name, units::power &val, bool strict,
+bool assign( const JsonObject &jo, std::string_view name, units::power &val, bool strict,
              const units::power lo, const units::power hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::power & out ) {

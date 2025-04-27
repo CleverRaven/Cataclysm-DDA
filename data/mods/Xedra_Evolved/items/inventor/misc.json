@@ -85,6 +85,7 @@
     "symbol": ";",
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 20,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],
     "use_action": [
@@ -151,6 +152,7 @@
     ],
     "use_action": [ { "type": "cast_spell", "spell_id": "inventor_portal_closer_spell", "no_fail": true, "level": 0 } ],
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "tool_ammo": "battery"
   },
   {
@@ -166,6 +168,7 @@
     "symbol": ";",
     "color": "white",
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 150,
     "use_action": {
       "type": "cast_spell",

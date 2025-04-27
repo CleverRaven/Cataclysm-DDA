@@ -252,7 +252,13 @@
       [ "underbarrel", 1 ]
     ],
     "barrel_volume": "1200 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
+    "faults": [
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag", "exodiiBRmag_153", "exodiiBRmag_26" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -286,7 +292,13 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
     "barrel_volume": "250 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
+    "faults": [
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -353,7 +365,7 @@
       "ammo_scale": 0
     },
     "valid_mod_locations": [ [ "sling", 1 ], [ "condenser", 1 ] ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_safety" ]
+    "faults": [ { "fault": "fault_overheat_explosion" }, { "fault": "fault_overheat_venting" }, { "fault": "fault_overheat_safety" } ]
   },
   {
     "id": "exodii_plasma_fan",

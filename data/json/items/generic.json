@@ -387,6 +387,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "chitin_piece",
     "category": "spare_parts",
     "symbol": ",",
@@ -398,12 +399,14 @@
     "price_postapoc": "25 cent",
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "into": "meal_chitin_piece",
+    "recipe": "meal_chitin_piece_mill_1_4"
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "MILLING" ],
     "id": "endochitin",
     "category": "spare_parts",
     "symbol": ",",
@@ -414,12 +417,14 @@
     "price": "0 cent",
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "300 ml"
+    "volume": "300 ml",
+    "into": "meal_chitin_piece",
+    "recipe": "meal_chitin_piece_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_bug_hydrogen_sacs",
     "comestible_type": "FOOD",
     "symbol": "o",
@@ -2789,7 +2794,8 @@
     "description": "A beautiful black onyx."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "straw_pile",
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
@@ -2980,6 +2986,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "cigar_lit",
     "name": { "str": "cigar" },
     "color": "brown",
@@ -3001,18 +3008,16 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 6,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 25,
-          "coverage": 70,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 6,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 25,
+        "coverage": 70,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -3028,6 +3033,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "cig_lit",
     "name": { "str": "cigarette" },
     "color": "white",
@@ -3049,18 +3055,16 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 3,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 15,
-          "coverage": 25,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 3,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 15,
+        "coverage": 25,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -3076,6 +3080,7 @@
   },
   {
     "type": "GENERIC",
+    "subtypes": [ "ARMOR" ],
     "id": "joint_lit",
     "name": { "str": "joint" },
     "color": "light_green",
@@ -3097,18 +3102,16 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 3,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 15,
-          "coverage": 25,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 3,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 15,
+        "coverage": 25,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -3756,7 +3759,8 @@
   },
   {
     "id": "wallet_travel",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": ";",
     "color": "dark_gray",
@@ -3783,7 +3787,8 @@
   },
   {
     "id": "lanyard",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "white",

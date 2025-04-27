@@ -97,7 +97,7 @@ bool overmap_connection::has( const int_id<oter_t> &oter ) const
     } ) != subtypes.cend();
 }
 
-void overmap_connection::load( const JsonObject &jo, const std::string_view )
+void overmap_connection::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, false, "subtypes", subtypes );
 }

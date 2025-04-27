@@ -45,6 +45,7 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item faults](#item-faults)
     - [Item fault fixes](#item-fault-fixes)
+    - [Item fault groups](#item-fault-groups)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
       - [Burn data](#burn-data)
@@ -198,6 +199,7 @@ Use the `Home` key to return to the top.
   - [`map_special`](#map_special)
   - [`requirement`](#requirement)
   - [`reveal_locale`](#reveal_locale)
+  - [`distance_initial_visibility`](#distance_initial_visibility)
   - [`eocs`](#eocs)
   - [`missions`](#missions)
   - [`start_of_cataclysm`](#start_of_cataclysm)
@@ -1596,7 +1598,12 @@ Faults can be defined for more specialized damage of an item.
   "name": { "str": "Spent casing in chamber" }, // fault name for display
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
+  "item_suffix": "no handle", // optional string, items with this fault will be suffixed with this. The string would be encased in parentheses, like `sword (no handle)`
+  "fault_type": "gun_mechanical_simple", // type of a fault, code may call for a random fault in a group instead of specific fault
+  "affected_by_degradation": false, // default false. If true, the item degradation value would be added to fault weight on roll
   "price_modifier": 0.4, // (Optional, double) Defaults to 1 if not specified. A multiplier on the price of an item when this fault is present. Values above 1.0 will increase the item's value.
+  "melee_damage_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) alters the melee damage of this type for item, if fault of this type is presented. `damage_id` is mandatory, `add` is 0 by default, `multiply` is 1 by default
+  "armor_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) Same as armor_mod, changes the protection value of damage type of the faulted item if it's presented
   "flags": [ "JAMMED_GUN" ] // optional flags, see below
 }
 ```
@@ -1630,6 +1637,24 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
 `requirements` is an array of requirements, they can be specified in 2 ways:
 * An array specifying an already defined requirement by it's id and a multiplier, `[ "gun_lubrication", 2 ]` will add `gun_lubrication` requirement and multiply the components and tools ammo required by 2.
 * Inline object specifying the requirement in the same way [recipes define it](#recipe-requirements)
+
+### Item fault groups
+
+Fault group is a combination of a fault and corresponding weight, made so multiples of similar fault groups (handles, blades, cotton pieces of clothes etc) can be combined and reused
+
+```jsonc
+{
+  "type": "fault_group",
+  "id": "handles",
+  "group": [ 
+    { "fault": "fault_broken_handle", "weight": 100 }, // `fault` should be a fault id
+    { "fault": "fault_cracked_handle" }, // default weight is 100, if omitted
+    { "fault": "fault_broken_heart", "weight": 10 } 
+  ]
+}
+```
+
+The list of possible faults, their weight and actual chances can be checked in item info with a debug mode on
 
 ### Materials
 
@@ -4026,6 +4051,12 @@ The achievement you need to do to access this scenario
 (optional, boolean)
 
 Defaults true. If a road can be found within 3 OMTs of the starting position, reveals a path to the nearest city and that city's center.
+
+## `distance_initial_visibility`
+
+(optional, int)
+
+Defaults 15. How much of the initial map should be known when the game is started? This value is a radius.
 
 ## `eocs`
 (optional, array of strings)

@@ -730,7 +730,7 @@ int item_pocket::ammo_consume( int qty )
     std::list<item>::iterator it;
     for( it = contents.begin(); it != contents.end(); ) {
         if( it->has_flag( flag_CASING ) ) {
-            it++;
+            ++it;
             continue;
         }
         if( need >= it->charges ) {

@@ -34,7 +34,8 @@
   },
   {
     "id": "dream_attuning_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dream-attuning necklace" },
     "description": "A nice silver necklace.  Wearing it, you feel your aptitude in dream magic increase.",
     "weight": "30 g",
@@ -88,7 +89,8 @@
   },
   {
     "id": "boann_banner",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Boann's banner" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of white cow standing next to a river.",
     "weight": "633 g",

@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_back_battery_rechargable",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit power supply unit" },
     "description": "Designed to attach to an exosuit's back, this is a large rechargeable battery with an integrated UPS.",
@@ -19,7 +20,8 @@
   },
   {
     "id": "exo_back_gasoline",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit gasoline ICE power supply", "str_pl": "exosuit gasoline ICE power supplies" },
     "description": "Designed to attach to an exosuit's back, this is an internal combustion engine generator with an integrated UPS, fueled by gasoline.",
@@ -45,7 +47,8 @@
   },
   {
     "id": "exo_back_fuelcell",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit turbine power supply", "str_pl": "exosuit turbine power supplies" },
     "description": "Designed to attach to an exosuit's back, this is an adaptive gas turbine generator with an integrated UPS, capable of using nearly any fuel type.",
@@ -82,7 +85,8 @@
   },
   {
     "id": "exo_asrg",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit ASRG" },
     "description": "This is a prototype Compact Advanced Sterling Radioisotope Generator, intended to power an exosuit indefinitely.  The layered shielding saves space but is quite heavy, and while labeled 'Compact', this only just fits on the exosuit frame.  Due to the complexities of manufacturing, it cannot be repaired, only replaced.",
@@ -112,7 +116,8 @@
   },
   {
     "id": "exo_aux_power",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit auxiliary battery", "str_pl": "exosuit auxiliary batteries" },
     "description": "This is a rechargeable auxiliary power unit that attaches to an exosuit hardpoint.",
@@ -129,7 +134,8 @@
   },
   {
     "id": "exo_small_aux_power",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit small auxiliary battery", "str_pl": "exosuit small auxiliary batteries" },
     "description": "This is a small rechargeable auxiliary power unit that attaches to an exosuit hardpoint.",
@@ -145,7 +151,8 @@
   },
   {
     "id": "exo_carry",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit load support module (off)", "str_pl": "exosuit load support modules (off)" },
     "description": "This module significantly increases the exosuit's weight bearing at the cost of increased power consumption.",
@@ -171,7 +178,8 @@
   },
   {
     "id": "exo_carry_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "exo_carry",
     "name": { "str": "exosuit load support module (on)", "str_pl": "exosuit load support modules (on)" },
     "description": "This module significantly increases the exosuit's weight bearing at the cost of increased power consumption.  It is turned on and continually drawing power.  Use it to turn it off.",
@@ -189,7 +197,8 @@
   },
   {
     "id": "exo_small_carry",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit small load support module (off)", "str_pl": "exosuit small load support modules (off)" },
     "description": "This module increases the exosuit's weight bearing at the cost of increased power consumption.",
@@ -214,7 +223,8 @@
   },
   {
     "id": "exo_small_carry_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "exo_small_carry",
     "name": { "str": "exosuit small load support module (on)", "str_pl": "exosuit small load support modules (on)" },
     "description": "This module increases the exosuit's weight bearing at the cost of increased power consumption.  It is turned on and continually drawing power.  Use it to turn it off.",
@@ -245,7 +255,8 @@
   },
   {
     "id": "exo_flashlight",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "mounted lamp (off)", "str_pl": "mounted lamps (off)" },
     "description": "This is a light that can be secured to an exosuit hardpoint.  It has two levels of brightness.",
@@ -300,7 +311,8 @@
   },
   {
     "id": "exo_recoil",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "recoil mitigation system (off)", "str_pl": "recoil mitigation systems (off)" },
     "description": "This module takes partial control of the exosuit while firing, damping recoil.  Activate before firing.",
@@ -342,7 +354,8 @@
   },
   {
     "id": "exo_bio_oxygen",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit air supply module" },
     "description": "This is a SCBA, a self-contained breathing apparatus.  A series of tanks contain a tailored bacteria that processes Co2 back into breathable air over time.",
@@ -377,7 +390,8 @@
   },
   {
     "id": "exo_bio_oxygen_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit air supply module (on)", "str_pl": "exosuit air supply modules (on)" },
     "description": "This is a SCBA, a self-contained breathing apparatus.  A series of tanks contain a tailored bacteria that processes Co2 back into breathable air over time.  It is activated and will supply breathable air.",
@@ -429,7 +443,8 @@
   },
   {
     "id": "exo_climb",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit climbing assist module" },
     "description": "This module uses a combination of spikes, hooks, and magnets to aid the wearer in climbing.",
@@ -498,7 +513,8 @@
   },
   {
     "id": "exo_trickle_charger",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit microgenerator" },
     "description": "This is a compact radioactive power unit that attaches to an exosuit hardpoint.  While it charges slowly, the fuel source will last years.",
@@ -515,7 +531,8 @@
   },
   {
     "id": "exo_cartridge_charger",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit cartridge charger" },
     "description": "This is a charging port designed to accept power cartridges.",

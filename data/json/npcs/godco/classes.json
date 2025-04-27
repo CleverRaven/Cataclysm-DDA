@@ -118,7 +118,8 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "FACIAL_HAIR_BEARD" },
-      { "trait": "NO_BASH" }
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "skills": [
       { "bonus": 1, "skill": "melee" },
@@ -377,7 +378,7 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "bonus_str": { "rng": [ -1, 1 ] },
-    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ 0, 2 ] },
     "bonus_per": { "rng": [ -1, 1 ] },
     "worn_override": "GODCO_corrie_worn",

@@ -77,6 +77,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -3295,7 +3296,7 @@ std::vector<item_location> efile_activity_actor::filter_edevice_efiles(
             filtered_efiles.emplace_back( *it );
             it = filter_files.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
     return filtered_efiles;
@@ -6191,8 +6192,13 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
     std::list<item> it_list;
     for( item_location &worn_item : who.get_visible_worn_items() ) {
+        if( !static_cast<bool>( worn_item ) ) {
+            //Due to the eoc triggered who.takeoff, the item may become invalid.
+            continue;
+        }
         item outfit_component( *worn_item );
-        if( who.takeoff( worn_item, &it_list ) ) {
+        std::size_t old_it_list_size = it_list.size();
+        if( who.takeoff( worn_item, &it_list ) && it_list.size() > old_it_list_size ) {
             ground->force_insert_item( outfit_component, pocket_type::CONTAINER );
         }
     }
@@ -7747,8 +7753,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     return;
                 }
                 std::vector<tripoint_bub_ms> route;
-                route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                    you.get_path_avoid() );
+                route = here.route( you, pathfinding_target::point( src_loc ) );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -7779,30 +7784,16 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // adjacent to the loot source tile
             if( !is_adjacent_or_closer ) {
                 std::vector<tripoint_bub_ms> route;
-                bool adjacent = false;
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable_through( src_loc ) ) {
-                    route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
-                                        you.get_path_avoid() );
-                } else {
-                    // impassable source tile (locker etc.),
-                    // get route to nearest adjacent tile instead
-                    route = route_adjacent( you, src_loc );
-                    adjacent = true;
-                }
+                route = here.route( you, pathfinding_target::adjacent( src_loc ) );
 
                 // check if we found path to source / adjacent tile
                 if( route.empty() ) {
                     add_msg( m_info, _( "%s can't reach the source tile." ),
                              you.disp_name() );
                     continue;
-                }
-
-                // shorten the route to adjacent tile, if necessary
-                if( !adjacent ) {
-                    route.pop_back();
                 }
 
                 // set the destination and restart activity after player arrives there

@@ -37,6 +37,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weighted_list.h"
 
 // IWYU pragma: no_forward_declare std::hash
 class Character;
@@ -1361,10 +1362,9 @@ struct itype {
 
         requirement_id template_requirements;
 
-    protected:
+    public:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
-    public:
         // The container it comes in
         std::optional<itype_id> default_container;
         std::optional<std::string> default_container_variant;
@@ -1418,7 +1418,16 @@ struct itype {
         std::set<itype_id> repair;
 
         /** What faults (if any) can occur */
-        std::set<fault_id> faults;
+        weighted_int_list<fault_id> faults;
+
+        /** used to store fault types on load, when we cannot populate `faults` just yet
+        `faults` is populated with values from this in finalize_post() down the road, and then this var is never used again
+        first int is weight if overriden
+        second int is weight added to original weight
+        third float is multiplier of original weight
+        fourth string is the fault group id
+        */
+        std::vector<std::tuple<int, int, float, std::string>> fault_groups;
 
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;
@@ -1647,13 +1656,14 @@ struct itype {
         void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void relative_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void set_techniques_from_json( const JsonObject &jo, const std::string_view &member, itype &def );
+        void set_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void extend_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void delete_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
         void load( const JsonObject &jo, std::string_view src );
+        void load_slots( const JsonObject &jo, bool was_loaded );
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );

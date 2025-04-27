@@ -1,7 +1,8 @@
 [
   {
     "id": "holy_shield",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Holy Shield" },
     "description": "A Crusader's magical shield, enhanced to protect the Crusader from all that stands in their way.",
     "weight": "1905 g",
