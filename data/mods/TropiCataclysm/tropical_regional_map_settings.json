@@ -608,8 +608,6 @@
         "chance": 20,
         "extras": {
           "mx_pond": 240,
-          "mx_pond_swamp": 240,
-          "mx_pond_swamp_2": 240,
           "mx_spider": 200,
           "mx_clay_deposit": 140,
           "mx_knotweed_patch": 140,

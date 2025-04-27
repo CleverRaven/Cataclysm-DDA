@@ -11,6 +11,7 @@
         "f_region_forest_dense": { "f_wildweed": 30, "f_wildcorn": 30, "f_wildbeans": 30 }
       }
     },
+    "map_extras": { "forest_water": { "extras": { "mx_pond_swamp": 240, "mx_pond_swamp_2": 240 } } },
     "forest_mapgen_settings": {
       "forest_thick": {
         "terrains": [
