@@ -23,7 +23,7 @@
     "copy-from": "ranch_camp_67",
     "name": "garage",
     "sym": "g",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -31,7 +31,7 @@
     "copy-from": "ranch_camp_67_roof",
     "name": "garage roof",
     "sym": "g",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",

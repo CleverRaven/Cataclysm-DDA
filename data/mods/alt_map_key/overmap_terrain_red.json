@@ -329,7 +329,7 @@
     "copy-from": "fema_military_building",
     "name": "FEMA camp outpost",
     "sym": "f",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -547,7 +547,7 @@
     "copy-from": "mil_base_2d",
     "name": "military base",
     "sym": "m",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -597,7 +597,7 @@
     "copy-from": "mil_base_2d1",
     "name": "military base roof",
     "sym": "M",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -615,7 +615,7 @@
     "copy-from": "mil_base_tunnels_a",
     "name": "military base tunnels",
     "sym": "m",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -642,7 +642,7 @@
     "copy-from": "mil_base_1b",
     "name": "military base watchtower",
     "sym": "w",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -650,6 +650,6 @@
     "copy-from": "mil_base_3i",
     "name": "military base radio tower",
     "sym": "r",
-    "color": "i_red"
+    "color": "red"
   }
 ]

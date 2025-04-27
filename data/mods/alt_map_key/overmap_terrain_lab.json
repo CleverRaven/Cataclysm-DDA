@@ -548,16 +548,16 @@
     "id": [ "LIXA_road" ],
     "copy-from": "LIXA_road",
     "name": "LIXA research facility access road",
-    "sym": "l",
-    "color": "i_pink"
+    "sym": "│",
+    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",
     "id": [ "LIXA_road_guard", "LIXA_road_guard_roof" ],
     "copy-from": "LIXA_road_guard",
     "name": "LIXA research facility checkpoint",
-    "sym": "l",
-    "color": "i_pink"
+    "sym": "c",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",

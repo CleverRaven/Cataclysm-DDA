@@ -326,7 +326,7 @@
     "copy-from": "fema_storage",
     "name": "FEMA camp storage",
     "sym": "f",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",

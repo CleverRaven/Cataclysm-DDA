@@ -214,7 +214,7 @@
     "copy-from": "orchard_tree_apple",
     "name": "apple orchard",
     "sym": "a",
-    "color": "i_green"
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -222,7 +222,7 @@
     "copy-from": "orchard_processing",
     "name": "processing",
     "sym": "p",
-    "color": "i_green"
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -230,7 +230,7 @@
     "copy-from": "orchard_stall",
     "name": "stall",
     "sym": "s",
-    "color": "i_green"
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -238,7 +238,7 @@
     "copy-from": "orchard_processing_roof",
     "name": "processing roof",
     "sym": "p",
-    "color": "i_green"
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -246,7 +246,7 @@
     "copy-from": "orchard_stall_roof",
     "name": "stall roof",
     "sym": "s",
-    "color": "i_green"
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -254,7 +254,7 @@
     "copy-from": "orchard",
     "name": "orchard",
     "sym": "o",
-    "color": "i_green"
+    "color": "green"
   },
   {
     "type": "overmap_terrain",

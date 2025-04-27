@@ -1,6 +1,12 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "bridge",
+    "copy-from": "bridge",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "forest_water",
     "copy-from": "forest_water",
     "name": "swamp",
@@ -45,7 +51,7 @@
     "copy-from": "pond_field",
     "name": "pond",
     "sym": "#",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -102,7 +108,7 @@
     "copy-from": "ranch_camp_17",
     "name": "pond",
     "sym": "#",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",

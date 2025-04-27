@@ -133,7 +133,7 @@
     "copy-from": "fema_entrance",
     "name": "FEMA camp entrance checkpoint",
     "sym": "f",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",

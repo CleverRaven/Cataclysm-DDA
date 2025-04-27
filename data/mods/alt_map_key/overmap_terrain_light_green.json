@@ -690,7 +690,7 @@
     "copy-from": "fema_housing",
     "name": "FEMA camp housing",
     "sym": "f",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -714,7 +714,7 @@
     "copy-from": "farm_stills_3_basement",
     "name": "basement",
     "sym": "b",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -722,7 +722,7 @@
     "copy-from": "farm_isherwood_2_cellar",
     "name": "basement",
     "sym": "b",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -730,7 +730,7 @@
     "copy-from": "farm_2_roof",
     "name": "farm house roof",
     "sym": "f",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -738,7 +738,7 @@
     "copy-from": "farm_isherwood_2_roof",
     "name": "farm house roof",
     "sym": "f",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -746,7 +746,7 @@
     "copy-from": "farm_horse_house_1_2ndfloor",
     "name": "farm house 2nd floor",
     "sym": "f",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -754,7 +754,7 @@
     "copy-from": "horse_farm_isherwood_13_2ndfloor",
     "name": "farm house 2nd floor",
     "sym": "f",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -772,7 +772,7 @@
     "copy-from": "farm_2",
     "name": "farm house",
     "sym": "f",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -780,7 +780,7 @@
     "copy-from": "horse_farm_isherwood_13",
     "name": "farm house",
     "sym": "f",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -892,7 +892,7 @@
     "copy-from": "ranch_camp_68",
     "name": "ranch",
     "sym": "r",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -900,7 +900,7 @@
     "copy-from": "ranch_camp_68_roof",
     "name": "ranch roof",
     "sym": "r",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
