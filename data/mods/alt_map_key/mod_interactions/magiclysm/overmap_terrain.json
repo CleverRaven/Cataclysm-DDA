@@ -153,7 +153,7 @@
     "type": "overmap_terrain",
     "id": "lake_retreat_ground",
     "copy-from": "lake_retreat_ground",
-    "sym": "l",
+    "sym": "#",
     "color": "cyan"
   },
   {
@@ -238,7 +238,7 @@
     ],
     "copy-from": "attunement_altar_NW",
     "sym": "a",
-    "color": "cyan"
+    "color": "i_cyan"
   },
   {
     "type": "overmap_terrain",
