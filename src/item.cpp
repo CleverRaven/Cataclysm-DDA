@@ -1724,6 +1724,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
     bits.set( tname::segments::ACTIVE, active == rhs.active );
+    bits.set( tname::segments::ACTIVITY_OCCUPANCY, true );
     bits.set( tname::segments::FILTHY, is_filthy() == rhs.is_filthy() );
     bits.set( tname::segments::WETNESS, _stacks_wetness( *this, rhs, precise ) );
     bits.set( tname::segments::WEAPON_MODS, _stacks_weapon_mods( *this, rhs ) );
@@ -1904,6 +1905,7 @@ void item::remove_var( const std::string &key )
 diag_value const &item::get_value( const std::string &name ) const
 {
     return global_variables::_common_get_value( name, item_vars );
+
 }
 
 diag_value const *item::maybe_get_value( const std::string &name ) const
@@ -5836,6 +5838,10 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                                              "and has <info>%d</info> sides." ),
                                           static_cast<int>( this->get_var( "die_num_sides",
                                                   0 ) ) ) );
+    }
+    diag_value const *activity_var_may = maybe_get_value("activity_var");
+    if (activity_var_may != nullptr &&activity_var_may->is_dbl()){
+        info.emplace_back("DESCRIPTION",_( "* This item is currently occupied by someone's activity" ));
     }
 
 }
