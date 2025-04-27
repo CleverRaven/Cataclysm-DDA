@@ -3152,7 +3152,8 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
     inv_s.set_title( string_format( loc->is_watertight_container() ? _( "Refill %s" ) :
                                     loc->has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                     loc->display_name() ) );
-    inv_s.set_hint( _( "Choose ammo to reload\nRepeating the last keybind picks the lastly loaded round" ) );
+    inv_s.set_hint(
+        _( "Choose ammo to reload\nRepeating the last keybind picks the lastly loaded round" ) );
     inv_s.set_display_stats( false );
 
     inv_s.clear_items();
