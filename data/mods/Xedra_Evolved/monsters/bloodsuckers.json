@@ -58,10 +58,12 @@
           "type": "monster_attack",
           "attack_type": "melee",
           "id": "feral_vampire_claw_no_strength_buff",
-          "cooldown": 2,
+          "cooldown": 3,
           "move_cost": 110,
           "damage_max_instance": [ { "damage_type": "cut", "amount": 10 } ],
-          "condition": { "not": { "u_has_effect": "effect_vampire_monster_strength" } },
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "effect_vampire_monster_strength" } } ]
+          },
           "hit_dmg_u": "%1$s claws at your %2$s!",
           "hit_dmg_npc": "%1$s claws at <npcname>!",
           "miss_msg_u": "%1$s claws at you, but you dodge!",
@@ -75,10 +77,12 @@
           "type": "monster_attack",
           "attack_type": "melee",
           "id": "feral_vampire_claw_with_strength_buff",
-          "cooldown": 2,
+          "cooldown": 3,
           "move_cost": 110,
           "damage_max_instance": [ { "damage_type": "cut", "amount": 18, "armor_multiplier": 0.75 } ],
-          "condition": { "not": { "u_has_effect": "effect_vampire_monster_strength" } },
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "effect_vampire_monster_strength" } } ]
+          },
           "hit_dmg_u": "%1$s claws at your %2$s!",
           "hit_dmg_npc": "%1$s claws at <npcname>!",
           "miss_msg_u": "%1$s claws at you, but you dodge!",
@@ -125,6 +129,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_BLOOD",
+    "condition": "npc_is_character",
     "effect": [
       { "math": [ "_vampire_amount_drained", "=", "400 + rand(100)" ] },
       {
@@ -150,6 +155,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FERAL_VAMPIRE_GAIN_RANDOM_BUFF",
+    "condition": { "or": [ "npc_is_character", { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] },
     "effect": {
       "switch": { "math": [ "rand(6)" ] },
       "cases": [
