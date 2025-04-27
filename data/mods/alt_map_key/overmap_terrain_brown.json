@@ -421,18 +421,35 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "farm_dairy_twd_1",
-      "farm_dairy_twd_2",
-      "farm_dairy_twd_3_roof",
-      "farm_dairy_twd_4_roof",
-      "farm_dairy_twd_9",
-      "farm_dairy_twd_10"
-    ],
+    "id": [ "farm_dairy_twd_1", "farm_dairy_twd_2", "farm_dairy_twd_9", "farm_dairy_twd_10" ],
     "copy-from": "farm_dairy_twd_1",
     "name": "farm",
-    "sym": "f",
-    "color": "i_brown"
+    "sym": "#",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_7",
+    "copy-from": "farm_dairy_twd_7",
+    "name": "farm",
+    "sym": "┬",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_8",
+    "copy-from": "farm_dairy_twd_8",
+    "name": "farm",
+    "sym": "┘",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_dairy_twd_11",
+    "copy-from": "farm_dairy_twd_11",
+    "name": "farm road",
+    "sym": "│",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -440,7 +457,7 @@
     "copy-from": "farm_dairy_twd_5",
     "name": "barn",
     "sym": "b",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -448,7 +465,7 @@
     "copy-from": "farm_dairy_twd_12",
     "name": "barn",
     "sym": "b",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -456,7 +473,7 @@
     "copy-from": "farm_dairy_twd_second_floor_5",
     "name": "barn roof",
     "sym": "b",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
