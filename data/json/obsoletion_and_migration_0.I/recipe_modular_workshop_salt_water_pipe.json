@@ -1,5 +1,6 @@
 [
   {
+    "//00": "OBSOLETION NOTE: when this file is deleted, C++ faction camp code from #55026 that generates pipelines can also be deleted.",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmw_2_salt_water_pipe_swamp",
