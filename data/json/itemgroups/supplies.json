@@ -807,11 +807,6 @@
     ]
   },
   {
-    "id": "file_room",
-    "type": "item_group",
-    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
-  },
-  {
     "id": "gym_school",
     "type": "item_group",
     "items": [

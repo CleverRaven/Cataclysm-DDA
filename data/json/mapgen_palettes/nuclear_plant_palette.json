@@ -169,7 +169,6 @@
       ],
       "Z": [
         { "item": "magazines", "chance": 5 },
-        { "item": "file_room", "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 3, 4 ] },
         { "item": "maps", "chance": 3 },
         { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] }
