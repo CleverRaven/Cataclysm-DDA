@@ -739,5 +739,13 @@
     "name": "ruined cabin",
     "sym": "r",
     "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "billboard_0", "billboard_1", "billboard_2" ],
+    "copy-from": "billboard_0",
+    "name": "billboard",
+    "sym": "b",
+    "color": "light_gray"
   }
 ]

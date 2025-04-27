@@ -251,18 +251,50 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "roadstop",
-    "copy-from": "roadstop",
-    "name": "roadstop",
+    "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3", "s_air_atc_4" ],
+    "copy-from": "control_tower_0",
+    "name": "control tower",
+    "sym": "c",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "control_tower_roof",
+    "copy-from": "control_tower_roof",
+    "name": "control tower roof",
+    "sym": "c",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_term",
+    "copy-from": "s_air_term",
+    "name": "private airport terminal",
+    "sym": "p",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_term_roof",
+    "copy-from": "s_air_term_roof",
+    "name": "private airport terminal roof",
+    "sym": "p",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "waiting_area",
+    "copy-from": "waiting_area",
+    "name": "regional airport terminal",
     "sym": "r",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
-    "id": "roadstop_a",
-    "copy-from": "roadstop_a",
-    "name": "public washroom",
-    "sym": "p",
+    "id": "waiting_area_roof",
+    "copy-from": "waiting_area_roof",
+    "name": "regional airport terminal roof",
+    "sym": "r",
     "color": "blue"
   },
   {

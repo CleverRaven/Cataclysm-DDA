@@ -202,7 +202,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "roadstop_b",
+    "id": [ "roadstop_b", "roadstop_b_roof" ],
     "copy-from": "roadstop_b",
     "name": "roadside foodcart",
     "sym": "f",

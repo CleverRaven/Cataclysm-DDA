@@ -1142,21 +1142,5 @@
     "name": "veterans of foreign wars center roof",
     "sym": "w",
     "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_reststop_1",
-    "copy-from": "s_reststop_1",
-    "name": "rest area",
-    "sym": "r",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_reststop_2",
-    "copy-from": "s_reststop_2",
-    "name": "rest area",
-    "sym": "r",
-    "color": "i_yellow"
   }
 ]

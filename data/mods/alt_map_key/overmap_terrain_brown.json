@@ -698,6 +698,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "trailhead", "trailhead_shack_z0", "trailhead_outhouse_z0" ],
+    "copy-from": "trailhead",
+    "name": "trailhead",
+    "sym": "t",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailhead_shack_z1", "trailhead_outhouse_z1" ],
+    "copy-from": "trailhead_shack_z1",
+    "name": "trailhead roof",
+    "sym": "t",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "smokehouse",
     "copy-from": "smokehouse",
     "name": "smokehouse",

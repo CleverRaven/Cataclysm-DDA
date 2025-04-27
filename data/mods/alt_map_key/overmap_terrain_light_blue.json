@@ -52,6 +52,65 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "parking_garage_down_0",
+      "parking_garage_down_1",
+      "parking_garage_1_0",
+      "parking_garage_1_1",
+      "parking_garage2x2_down_0",
+      "parking_garage2x2_down_1",
+      "parking_garage2x2_down_2",
+      "parking_garage2x2_down_3",
+      "parking_garage2x2_1_0",
+      "parking_garage2x2_1_1",
+      "parking_garage2x2_1_2",
+      "parking_garage2x2_1_3",
+      "parking_garage2x2_2_0",
+      "parking_garage2x2_2_1",
+      "parking_garage2x2_2_2",
+      "parking_garage2x2_2_3",
+      "parking_garage2x2_3_0",
+      "parking_garage2x2_3_1",
+      "parking_garage2x2_3_2",
+      "parking_garage2x2_3_3",
+      "parking_garage2x2_4_2",
+      "parking_garage2x2_4_3",
+      "parking_garage_2_0",
+      "parking_garage_2_1",
+      "parking_garage_roof_0",
+      "parking_garage_roof_1",
+      "parking_garage_roof_top"
+    ],
+    "copy-from": "parking_garage_down_0",
+    "name": "parking garage",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "parking_garage_0_0",
+      "parking_garage_0_1",
+      "parking_garage2x2_0_0",
+      "parking_garage2x2_0_1",
+      "parking_garage2x2_0_2",
+      "parking_garage2x2_0_3"
+    ],
+    "copy-from": "parking_garage_0_0",
+    "name": "parking garage",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailer_caravan_00", "trailer_caravan_10", "trailer_caravan_01", "trailer_caravan_11" ],
+    "copy-from": "trailer_caravan_00",
+    "name": "caravan parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "s_lot",
       "parking_2x1_0",
       "parking_2x1_1",
@@ -296,7 +355,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restparking_1",
+    "id": [ "s_restparking_1", "s_restparking_2" ],
     "copy-from": "s_restparking_1",
     "name": "rest area parking",
     "sym": "p",
@@ -320,10 +379,98 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restparking_2",
-    "copy-from": "s_restparking_2",
-    "name": "rest area parking",
+    "id": [ "roadstop", "roadstop_roof" ],
+    "copy-from": "roadstop",
+    "name": "roadstop",
+    "sym": "r",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "roadstop_a", "roadstop_a_roof" ],
+    "copy-from": "roadstop_a",
+    "name": "public washroom",
     "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_reststop_1", "s_reststop_2" ],
+    "copy-from": "s_reststop_1",
+    "name": "rest area",
+    "sym": "r",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_reststop_1_roof", "s_reststop_2_roof" ],
+    "copy-from": "s_reststop_1_roof",
+    "name": "rest area roof",
+    "sym": "r",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bus_stat_0", "bus_stat_1" ],
+    "copy-from": "bus_stat_0",
+    "name": "bus station",
+    "sym": "b",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bus_stat_0_roof", "bus_stat_1_roof" ],
+    "copy-from": "bus_stat_0_roof",
+    "name": "bus station roof",
+    "sym": "b",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fuel_station",
+    "copy-from": "fuel_station",
+    "name": "fuel station",
+    "sym": "f",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fuel_station_roof",
+    "copy-from": "fuel_station_roof",
+    "name": "fuel station roof",
+    "sym": "f",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "airport_lot_0", "airport_lot_1", "s_air_parking" ],
+    "copy-from": "airport_lot_0",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hangar", "s_air_hangars" ],
+    "copy-from": "hangar",
+    "name": "small hangar",
+    "sym": "s",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hangar_roof", "s_air_hangars_roof" ],
+    "copy-from": "hangar_roof",
+    "name": "small hangar roof",
+    "sym": "s",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_helicopter_pad",
+    "copy-from": "s_air_helicopter_pad",
+    "name": "helicopter pad",
+    "sym": "h",
     "color": "light_blue"
   },
   {
