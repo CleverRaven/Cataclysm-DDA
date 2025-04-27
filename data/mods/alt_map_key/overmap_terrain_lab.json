@@ -136,6 +136,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft_surface",
+    "copy-from": "lab_subway_vent_shaft_surface",
+    "name": "Lab access shaft",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "central_lab_shaft",
     "copy-from": "central_lab_shaft",
     "name": "access shaft",
