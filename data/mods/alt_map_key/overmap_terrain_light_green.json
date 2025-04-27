@@ -920,6 +920,28 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "retirement_community_b_1",
+      "retirement_community_b_2",
+      "retirement_community_b_3",
+      "retirement_community_b_4",
+      "retirement_community_b_5",
+      "retirement_community_b_6",
+      "retirement_community_b_7",
+      "retirement_community_b_15",
+      "retirement_community_b_18",
+      "retirement_community_b_19",
+      "retirement_community_b_22",
+      "retirement_community_b_23",
+      "retirement_community_b_26"
+    ],
+    "copy-from": "retirement_community_b_1",
+    "name": "basement",
+    "sym": "b",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "homelesscamp",
     "name": "homeless camp",

@@ -438,6 +438,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "retirement_community_34", "retirement_community_35", "retirement_community_36" ],
+    "copy-from": "retirement_community_34",
+    "name": "community building",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_2f_34", "retirement_community_2f_35", "retirement_community_2f_36" ],
+    "copy-from": "retirement_community_2f_34",
+    "name": "community building roof",
+    "sym": "c",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "small_kindergarten" ],
     "name": "small kindergarten",
     "copy-from": "small_kindergarten",

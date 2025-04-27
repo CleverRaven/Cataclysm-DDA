@@ -726,6 +726,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "retirement_community_38", "retirement_community_39", "retirement_community_40" ],
+    "copy-from": "retirement_community_38",
+    "name": "administration building",
+    "sym": "a",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_b_37", "retirement_community_b_38" ],
+    "copy-from": "retirement_community_b_37",
+    "name": "administration building basement",
+    "sym": "a",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_2f_38", "retirement_community_2f_39", "retirement_community_2f_40" ],
+    "copy-from": "retirement_community_2f_38",
+    "name": "administration building roof",
+    "sym": "a",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cs_open_sewer", "cs_open_sewer_roof", "cs_open_sewer_undergound" ],
     "copy-from": "cs_open_sewer",
     "name": "open sewer",

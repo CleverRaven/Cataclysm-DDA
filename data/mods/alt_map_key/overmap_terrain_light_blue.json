@@ -427,6 +427,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "retirement_community_8", "retirement_community_14", "retirement_community_27", "retirement_community_33" ],
+    "copy-from": "retirement_community_8",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "zoo_0_0", "zoo_1_0" ],
     "copy-from": "zoo_0_0",
     "name": "zoo parking",
