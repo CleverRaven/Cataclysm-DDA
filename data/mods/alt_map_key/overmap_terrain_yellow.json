@@ -1074,10 +1074,19 @@
   {
     "type": "overmap_terrain",
     "id": "pump_station_1",
-    "copy-from": "pump_station_1",
+    "copy-from": "generic_city_building",
     "name": "pump station",
     "sym": "p",
-    "color": "yellow"
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pump_station_1_roof", "pump_station_2_roof" ],
+    "copy-from": "pump_station_1_roof",
+    "vision_levels": "roof_or_air",
+    "name": "pump station roof",
+    "sym": "p",
+    "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1085,29 +1094,13 @@
     "copy-from": "pump_station_2",
     "name": "pump station",
     "sym": "p",
-    "color": "yellow"
+    "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": "pump_station_3",
+    "id": [ "pump_station_3", "pump_station_4", "pump_station_5" ],
     "copy-from": "pump_station_3",
-    "name": "sewer",
-    "sym": "p",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pump_station_4",
-    "copy-from": "pump_station_4",
-    "name": "sewer",
-    "sym": "p",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pump_station_5",
-    "copy-from": "pump_station_5",
-    "name": "sewer",
+    "name": "pump station",
     "sym": "p",
     "color": "i_yellow"
   },

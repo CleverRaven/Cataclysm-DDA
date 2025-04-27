@@ -308,11 +308,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "toxic_dump",
+    "id": [ "toxic_dump", "toxic_dump_roof" ],
     "copy-from": "toxic_dump",
     "name": "toxic waste dump",
     "sym": "t",
     "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "haz_sar_1_1",
+      "haz_sar_1_2",
+      "haz_sar_1_3",
+      "haz_sar_1_4",
+      "haz_sar_1_1_2",
+      "haz_sar_1_2_2",
+      "haz_sar_1_3_2",
+      "haz_sar_1_4_2",
+      "haz_sar_b_1",
+      "haz_sar_b_2",
+      "haz_sar_b_3",
+      "haz_sar_b_4"
+    ],
+    "copy-from": "haz_sar_1_1",
+    "name": "hazardous waste sarcophagus",
+    "sym": "h",
+    "color": "i_pink"
   },
   {
     "type": "overmap_terrain",
