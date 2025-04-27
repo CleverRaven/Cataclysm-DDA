@@ -750,6 +750,39 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "robofachq_meteorology0",
+      "robofachq_meteorology1",
+      "robofachq_meteorology2",
+      "robofachq_meteorology3",
+      "robofachq_meteorology_roof0",
+      "robofachq_meteorology_roof1",
+      "robofachq_meteorology_roof2",
+      "robofachq_meteorology_roof3"
+    ],
+    "copy-from": "robofachq_meteorology0",
+    "name": "meteorology station",
+    "sym": "m",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofachq_subcc_a0", "robofachq_subcc_a1", "robofachq_subcc_a2", "robofachq_subcc_a3" ],
+    "copy-from": "robofachq_subcc_a0",
+    "name": "subway C&C",
+    "sym": "s",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofachq_subline_a0", "robofachq_subline_a1", "robofachq_subline_a2", "robofachq_subline_a3" ],
+    "copy-from": "robofachq_subline_a0",
+    "name": "hidden terminal",
+    "sym": "s",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cs_open_sewer", "cs_open_sewer_roof", "cs_open_sewer_undergound" ],
     "copy-from": "cs_open_sewer",
     "name": "open sewer",

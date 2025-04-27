@@ -427,6 +427,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "robofachq_surface_parking",
+    "copy-from": "robofachq_surface_parking",
+    "name": "hub 01 parking space",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "retirement_community_8", "retirement_community_14", "retirement_community_27", "retirement_community_33" ],
     "copy-from": "retirement_community_8",
     "name": "parking lot",

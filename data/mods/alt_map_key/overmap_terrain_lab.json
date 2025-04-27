@@ -621,14 +621,16 @@
     "id": "microlab_sub_station",
     "copy-from": "microlab_sub_station",
     "name": "subway station?",
-    "sym": "s"
+    "sym": "s",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_sub_connector",
     "copy-from": "microlab_sub_connector",
     "name": "subway station?",
-    "sym": "s"
+    "sym": "s",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
