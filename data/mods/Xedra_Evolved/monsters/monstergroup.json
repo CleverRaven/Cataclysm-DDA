@@ -138,6 +138,15 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_CAVE_FERAL_VAMPIRE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_vampire_revenant", "weight": 10 },
+      { "monster": "mon_vampire_revenant", "weight": 1, "pack_size": [ 2, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_RENFIELDS",
     "monsters": [ { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] } ]
   },
