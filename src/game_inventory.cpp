@@ -43,6 +43,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "npc.h"
 #include "npctrade.h"
