@@ -529,12 +529,22 @@
     "id": "triffid_grove",
     "copy-from": "triffid_grove",
     "name": "triffid grove",
-    "sym": "T",
+    "sym": "t",
     "color": "i_pink"
   },
   {
     "type": "overmap_terrain",
-    "id": "triffid_roots",
+    "id": [
+      "triffid_roots",
+      "triffid_rootss",
+      "triffid_rootsn",
+      "triffid_rootse",
+      "triffid_rootsw",
+      "triffid_rootsen",
+      "triffid_rootsnw",
+      "triffid_rootssw",
+      "triffid_rootsse"
+    ],
     "copy-from": "triffid_roots",
     "name": "triffid roots",
     "sym": "t",
@@ -545,7 +555,23 @@
     "id": "triffid_finale",
     "copy-from": "triffid_finale",
     "name": "triffid heart",
-    "sym": "T",
+    "sym": "t",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "triffid_grove_z3", "triffid_grove_z2" ],
+    "copy-from": "triffid_grove_z3",
+    "name": "triffid grove trunk",
+    "sym": "t",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_grove_roof",
+    "copy-from": "triffid_grove_roof",
+    "name": "triffid grove roof",
+    "sym": "t",
     "color": "i_pink"
   }
 ]
