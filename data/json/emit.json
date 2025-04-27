@@ -347,7 +347,7 @@
   {
     "id": "emit_insecticidal_puff",
     "type": "emit",
-    "field": "fd_insecticidal_spray_gas",
+    "field": "fd_insecticidal_gas",
     "intensity": 1,
     "qty": 1
   },
