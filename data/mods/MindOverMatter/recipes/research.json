@@ -340,7 +340,7 @@
       {
         "if": { "and": [ { "math": [ "_awakening_check > 2" ] }, { "math": [ "_awakening_check <= 5" ] } ] },
         "then": {
-          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Negligible</color>\" are visible.",
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Minor</color>\" are visible.",
           "type": "neutral"
         }
       },
@@ -352,14 +352,14 @@
         }
       },
       {
-        "if": { "and": [ { "math": [ "_awakening_check > 15" ] }, { "math": [ "_awakening_check <= 35" ] } ] },
+        "if": { "and": [ { "math": [ "_awakening_check > 15" ] }, { "math": [ "_awakening_check <= 45" ] } ] },
         "then": {
           "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_green>Potential: Good</color>\" are visible.",
           "type": "neutral"
         }
       },
       {
-        "if": { "and": [ { "math": [ "_awakening_check > 35" ] }, { "math": [ "_awakening_check <= 99" ] } ] },
+        "if": { "and": [ { "math": [ "_awakening_check > 45" ] }, { "math": [ "_awakening_check <= 99" ] } ] },
         "then": {
           "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_blue>Potential: Excellent</color>\" are visible.",
           "type": "neutral"
