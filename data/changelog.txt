@@ -132,6 +132,8 @@ Allow event character_ranged_attacks_* catch throw attack, add context val is_th
 Underground Temperature now depends on Region Settings
 Modinfo Blacklist
 Add a dentist office map
+Add mod src info to effect info
+Standardize speedway road color
 
 
 ## Content:
@@ -305,6 +307,7 @@ Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster
+Steel update: vehicle parts
 
 
 ## Interface:
@@ -797,6 +800,21 @@ Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species
 Aftershock: Merge aftershock and aftershock exoplanet.
 Aftershock: Heat Crashed Ship.
 Mod Conflicts
+[Magiclysm] Add `max_duration` to most effects
+[Xedra Evolved] Add design docs for easier collaboration
+[Xedra Evolved] Switch Learn from the Children of the Night to a power (from active trait)
+[Xedra Evolved] Implemented Enervated blood level for dhampirs
+[Xedra Evolved] Add Cloak of Shadows vampire power
+[MoM] Rework Neural Spasms
+[XE] Update the new design document to include the Vampiric Anathema & the cryptids.
+[Xedra Evolved] Add Vampire Killer playstyle perk (when using Bombastic Perks)
+[Xedra Evolved] Add more vampire tier 1 and 3 traits
+Take over Alternate Map Key mod as maintainer
+Aftershock: Bugfix Last dance Scenario
+[MoM] Perfected Motion is now concentration
+[Mods] Update and expand some special vision IDs
+[MoM] Fix two bugs
+[alt-map-key] Adding Mod tiles
 
 
 ## Balance:
@@ -892,6 +910,10 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
+World sliders rebalanced to offer differing gameplay experiences
+Monsters cannot perform `move_effects` if they have `CANNOT_MOVE`
+People in the NECR now have possible diverse skills as if they actually live!
+Icons can now be resupplied in a small amount with the 2 traders of the NECR
 
 
 ## Bugfixes:
@@ -1241,6 +1263,15 @@ Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
+[Sky Island] Add custom SI jabberwocks to prevent infighting
+[MoM] Exclude UPS from Electron Overflow
+Fix WearMan
+Fix variable default overriding set values
+Fixes Corrie's inability to leave its seat when recruited by the player
+bunker generated a ring of dirt around it, instead of soil.
+Fix auto-notes for favorites inside containers
+Stop crashing when SLEEPINESS enchant value <= 0
+Sourdough bread has no nutrients
 
 
 ## Performance:
@@ -1399,6 +1430,13 @@ generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
 Warn on load if files have been modified
+item subtypes: BREWABLE, COMPOSTABLE, MILLING, SEED, ENGINE, WHEEL
+item subtypes: BOOK, COMESTIBLE
+item subtypes: ARMOR, PET_ARMOR, TOOL_ARMOR
+Add is_chargeable search term for search_data
+item subtypes: GENERIC, TOOL
+item subtypes: AMMO, MAGAZINE, ARTIFACT, GUN, GUNMOD, TOOLMOD
+item subtypes: BIONIC_ITEM
 
 
 ## Build:
