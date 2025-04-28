@@ -1,7 +1,8 @@
 [
   {
     "abstract": "robogun_base",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "base robogun", "//~": "NO_I18N" },
     "description": { "str": "This is a pseudo item for monster attacks.  If you see this, it's a bug.", "//~": "NO_I18N" },
@@ -17,7 +18,8 @@
   },
   {
     "id": "irradiant_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "robogun_base",
     "name": "mounted 1kg plasma railgun",
     "ranged_damage": { "damage_type": "bullet", "amount": 2500, "armor_penetration": 400 },
@@ -29,7 +31,8 @@
   },
   {
     "id": "railgun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "hk_g80",
     "name": "integral railgun",
     "ammo": [ "metal_rail" ],

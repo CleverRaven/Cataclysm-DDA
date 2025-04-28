@@ -1,0 +1,663 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "s_sports",
+    "copy-from": "s_sports",
+    "name": "sporting goods store",
+    "sym": "s",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
+    "copy-from": "s_clothes",
+    "name": "clothing store",
+    "sym": "c",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ],
+    "copy-from": "pawn",
+    "name": "pawn shop",
+    "sym": "p",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
+    "copy-from": "mil_surplus",
+    "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
+    "sym": "m",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_music",
+    "copy-from": "s_music",
+    "name": "music store",
+    "sym": "m",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_0",
+    "copy-from": "megastore_0_0_0",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_0",
+    "copy-from": "megastore_1_2_0",
+    "name": "megastore entrance",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_1",
+    "copy-from": "megastore_0_0_1",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_roof",
+    "copy-from": "megastore_0_0_roof",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_3",
+    "copy-from": "mall_a_3",
+    "name": "mall - loading bay",
+    "sym": "M",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_4",
+    "copy-from": "mall_a_4",
+    "name": "mall - utilities",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_5",
+    "copy-from": "mall_a_5",
+    "name": "mall - utilities",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_11",
+    "copy-from": "mall_a_11",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_12",
+    "copy-from": "mall_a_12",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_13",
+    "copy-from": "mall_a_13",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_14",
+    "copy-from": "mall_a_14",
+    "name": "mall - entrance",
+    "sym": "M",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_20",
+    "copy-from": "mall_a_20",
+    "name": "mall - food court",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_21",
+    "copy-from": "mall_a_21",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_22",
+    "copy-from": "mall_a_22",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_23",
+    "copy-from": "mall_a_23",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_24",
+    "copy-from": "mall_a_24",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_25",
+    "copy-from": "mall_a_25",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_26",
+    "copy-from": "mall_a_26",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_29",
+    "copy-from": "mall_a_29",
+    "name": "mall - food court",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_30",
+    "copy-from": "mall_a_30",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_31",
+    "copy-from": "mall_a_31",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_32",
+    "copy-from": "mall_a_32",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_33",
+    "copy-from": "mall_a_33",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_34",
+    "copy-from": "mall_a_34",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_35",
+    "copy-from": "mall_a_35",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_38",
+    "copy-from": "mall_a_38",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_39",
+    "copy-from": "mall_a_39",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_40",
+    "copy-from": "mall_a_40",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_41",
+    "copy-from": "mall_a_41",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_42",
+    "copy-from": "mall_a_42",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_43",
+    "copy-from": "mall_a_43",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_44",
+    "copy-from": "mall_a_44",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_47",
+    "copy-from": "mall_a_47",
+    "name": "mall - entrance",
+    "sym": "M",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_48",
+    "copy-from": "mall_a_48",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_49",
+    "copy-from": "mall_a_49",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_50",
+    "copy-from": "mall_a_50",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_51",
+    "copy-from": "mall_a_51",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_52",
+    "copy-from": "mall_a_52",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_53",
+    "copy-from": "mall_a_53",
+    "name": "mall - entrance",
+    "sym": "M",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_56",
+    "copy-from": "mall_a_56",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_57",
+    "copy-from": "mall_a_57",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_58",
+    "copy-from": "mall_a_58",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_59",
+    "copy-from": "mall_a_59",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_60",
+    "copy-from": "mall_a_60",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_61",
+    "copy-from": "mall_a_61",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_62",
+    "copy-from": "mall_a_62",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_65",
+    "copy-from": "mall_a_65",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_66",
+    "copy-from": "mall_a_66",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_67",
+    "copy-from": "mall_a_67",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_68",
+    "copy-from": "mall_a_68",
+    "name": "mall - entrance",
+    "sym": "M",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_69",
+    "copy-from": "mall_a_69",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_70",
+    "copy-from": "mall_a_70",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_71",
+    "copy-from": "mall_a_71",
+    "name": "mall",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "id": [ "small_storage_units", "small_storage_units_1" ],
+    "copy-from": "small_storage_units",
+    "type": "overmap_terrain",
+    "name": "small storage units",
+    "sym": "s",
+    "color": "magenta"
+  },
+  {
+    "id": "s_jewelry",
+    "copy-from": "s_jewelry",
+    "type": "overmap_terrain",
+    "name": "jewelry store",
+    "sym": "j",
+    "color": "magenta"
+  },
+  {
+    "id": "s_antique",
+    "copy-from": "s_antique",
+    "type": "overmap_terrain",
+    "name": "antique store",
+    "sym": "a",
+    "color": "magenta"
+  },
+  {
+    "id": "animalpound",
+    "copy-from": "animalpound",
+    "type": "overmap_terrain",
+    "name": "animal pound",
+    "sym": "a",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dollarstore", "dollarstore_1" ],
+    "copy-from": "dollarstore",
+    "name": "dollar store",
+    "sym": "d",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_petstore", "s_petstore_1", "s_petstore_2" ],
+    "copy-from": "s_petstore",
+    "name": "pet supply store",
+    "sym": "p",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "large_storage_units_3",
+    "copy-from": "large_storage_units_3",
+    "name": "storage units",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "large_storage_units_2",
+    "copy-from": "large_storage_units_2",
+    "name": "storage units",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "large_storage_units_1",
+    "copy-from": "large_storage_units_1",
+    "name": "storage units",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "medium_storage_units_1",
+    "copy-from": "medium_storage_units_1",
+    "name": "storage units",
+    "sym": "s",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "medium_storage_units_2",
+    "copy-from": "medium_storage_units_2",
+    "name": "storage units",
+    "sym": "s",
+    "color": "i_magenta"
+  }
+]

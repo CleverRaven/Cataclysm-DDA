@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_red",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -19,7 +20,8 @@
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "paint spill" } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_blue",
     "name": { "str_sp": "blue paint" },
     "description": "Some blue paint.",
@@ -27,7 +29,8 @@
     "color": "blue"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_white",
     "name": { "str_sp": "white paint" },
     "description": "Some white paint.",
@@ -35,7 +38,8 @@
     "color": "white"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_green",
     "name": { "str_sp": "green paint" },
     "description": "Some green paint.",
@@ -43,7 +47,8 @@
     "color": "green"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_purple",
     "name": { "str_sp": "purple paint" },
     "description": "Some purple paint.",
@@ -51,7 +56,8 @@
     "color": "magenta"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_yellow",
     "name": { "str_sp": "yellow paint" },
     "description": "Some yellow paint.",
@@ -59,7 +65,8 @@
     "color": "yellow"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_black",
     "name": { "str_sp": "black paint" },
     "description": "Some black paint.",
@@ -67,7 +74,8 @@
     "color": "black"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_orange",
     "name": { "str_sp": "orange paint" },
     "description": "Some orange paint.",
@@ -75,7 +83,8 @@
     "color": "light_red"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_pink",
     "name": { "str_sp": "pink paint" },
     "description": "Some pink paint.",
@@ -83,7 +92,8 @@
     "color": "pink"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_gray",
     "name": { "str_sp": "gray paint" },
     "description": "Some gray paint.",
@@ -91,7 +101,8 @@
     "color": "light_gray"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_brown",
     "name": { "str_sp": "brown paint" },
     "description": "Some brown paint.",
@@ -99,7 +110,8 @@
     "color": "brown"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "paint_cyan",
     "name": { "str_sp": "cyan paint" },
     "description": "Some cyan paint.",
@@ -107,7 +119,8 @@
     "color": "cyan"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "r_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -123,7 +136,8 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "g_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -139,7 +153,8 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "y_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -155,7 +170,8 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "p_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -171,7 +187,7 @@
     "ammo_type": "NULL"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "peephole",
     "symbol": ".",
     "color": "yellow",
@@ -185,7 +201,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "screen_mesh",
     "symbol": "#",
     "color": "brown",

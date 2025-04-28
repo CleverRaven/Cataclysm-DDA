@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pumpkin_muffins",
     "name": { "str": "pumpkin muffin" },
     "weight": "30 g",
@@ -19,7 +20,8 @@
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hazelnut_cake",
     "name": { "str": "hazelnut cake" },
     "weight": "30 g",
@@ -37,7 +39,8 @@
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "nut_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "baklava",
     "name": { "str": "baklava" },
     "weight": "50 g",

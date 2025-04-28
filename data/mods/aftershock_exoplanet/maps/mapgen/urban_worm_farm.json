@@ -36,7 +36,7 @@
       "furniture": {
         "0": "f_fvat_empty",
         "/": "f_autodoc_couch",
-        "T": "f_table",
+        "T": "f_metal_table",
         "n": "f_trashcan",
         "E": "f_machinery_electronic",
         "B": "f_monomolecularsaw"

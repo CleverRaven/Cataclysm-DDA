@@ -1,440 +1,449 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_wood",
     "copy-from": "sword_wood",
     "name": { "str": "2-by-sword" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "art_club",
     "copy-from": "art_club",
     "name": { "str": "ancient club" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "art_staff",
     "copy-from": "art_staff",
     "name": { "str": "ancient staff" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "art_spear",
     "copy-from": "art_spear",
     "name": { "str": "ancient spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bwirebat",
     "copy-from": "bwirebat",
     "name": { "str": "barbed wire bat" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bat",
     "copy-from": "bat",
     "name": { "str": "baseball bat" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bo",
     "copy-from": "bo",
     "name": { "str_sp": "bō" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bokken",
     "copy-from": "bokken",
     "name": { "str_sp": "bokken" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bokken_fake",
     "copy-from": "bokken_fake",
     "name": { "str_sp": "bokken" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bokken_inferior",
     "copy-from": "bokken_inferior",
     "name": { "str_sp": "bokken" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "compositebow",
     "copy-from": "compositebow",
     "name": { "str": "composite bow (heavy)", "str_pl": "composite bows (heavy)" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "reflexbow",
     "copy-from": "reflexbow",
     "name": { "str": "composite bow (light)", "str_pl": "composite bows (light)" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_steel_crude",
     "copy-from": "spear_steel_crude",
     "name": { "str": "crude steel spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cudgel",
     "copy-from": "cudgel",
     "name": { "str": "cudgel" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "digging_stick",
     "copy-from": "digging_stick",
     "name": { "str": "digging stick" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_dory",
     "copy-from": "spear_dory",
     "name": { "str": "dory", "str_pl": "dories" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_wood",
     "copy-from": "spear_wood",
     "name": { "str": "fire-hardened wooden spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_wood_simple",
     "copy-from": "spear_wood_simple",
     "name": { "str": "wooden spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_forked",
     "copy-from": "spear_forked",
     "name": { "str": "forked spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hockey_stick",
     "copy-from": "hockey_stick",
     "name": { "str": "hockey stick" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_homemade_halfpike",
     "copy-from": "spear_homemade_halfpike",
     "name": { "str": "homemade halfpike" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "i_staff",
     "copy-from": "i_staff",
     "name": { "str": "ironshod quarterstaff", "str_pl": "ironshod quarterstaves" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ji",
     "copy-from": "ji",
     "name": { "str_sp": "ji" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_knife_proper",
     "copy-from": "spear_knife_proper",
     "name": { "str": "knife spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "club_wooden_large",
     "copy-from": "club_wooden_large",
     "name": { "str": "large wooden club" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "shillelagh_weighted",
     "copy-from": "shillelagh_weighted",
     "name": { "str": "loaded stick" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pointy_stick_long",
     "copy-from": "pointy_stick_long",
     "name": { "str": "long pointy stick" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "longbow",
     "copy-from": "longbow",
     "name": { "str": "longbow" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "greatbow_meteor",
     "copy-from": "greatbow_meteor",
     "name": { "str": "blackwood greatbow" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "naginata",
     "copy-from": "naginata",
     "name": { "str_sp": "naginata" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "naginata_inferior",
     "copy-from": "naginata_inferior",
     "name": { "str_sp": "naginata" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "naginata_fake",
     "copy-from": "naginata_fake",
     "name": { "str_sp": "naginata" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "nailbat",
     "copy-from": "nailbat",
     "name": { "str": "nail bat" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "2h_flail_wood",
     "copy-from": "2h_flail_wood",
     "name": { "str": "peasant flail" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pike",
     "copy-from": "pike",
     "name": { "ctxt": "weapon", "str": "pike" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pike_fake",
     "copy-from": "pike_fake",
     "name": { "ctxt": "weapon", "str": "pike" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pike_inferior",
     "copy-from": "pike_inferior",
     "name": { "ctxt": "weapon", "str": "pike" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "2x4",
     "copy-from": "2x4",
     "name": { "str": "plank" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "qiang",
     "copy-from": "qiang",
     "name": { "str_sp": "qiang" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "q_staff",
     "copy-from": "q_staff",
     "name": { "str": "quarterstaff", "str_pl": "quarterstaves" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rolling_pin",
     "copy-from": "rolling_pin",
     "name": { "str": "rolling pin" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "shillelagh",
     "copy-from": "shillelagh",
     "name": { "str": "shillelagh" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "shillelagh_fake",
     "copy-from": "shillelagh_fake",
     "name": { "str": "shillelagh" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "shortbow",
     "copy-from": "shortbow",
     "name": { "str": "short bow" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plank_short",
     "copy-from": "plank_short",
     "name": { "str": "short plank" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_knife",
     "copy-from": "spear_knife",
     "name": { "str": "simple knife spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "makeshift_halberd",
     "copy-from": "makeshift_halberd",
     "name": { "str": "simple makeshift glaive" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_spike",
     "copy-from": "spear_spike",
     "name": { "str": "spike on a stick", "str_pl": "spikes on sticks" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "2h_club_kanabo_spiked",
     "copy-from": "2h_club_kanabo_spiked",
     "name": { "str_sp": "spiked kanabō" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "staff_sling",
     "copy-from": "staff_sling",
     "name": { "str": "staff sling" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "stick",
     "copy-from": "stick",
     "name": { "str": "stick" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_stone",
     "copy-from": "spear_stone",
     "name": { "str": "stone spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_stone_simple",
     "copy-from": "spear_stone_simple",
     "name": { "str": "simple stone spear" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "2h_club_kanabo_studded",
     "copy-from": "2h_club_kanabo_studded",
     "name": { "str_sp": "studded kanabō" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "selfbow",
     "copy-from": "selfbow",
     "name": { "str": "survival bow" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cane",
     "copy-from": "cane",
     "name": { "str": "walking cane" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "crossbow",
     "copy-from": "crossbow",
     "name": { "str": "wood crossbow" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "club_wooden",
     "copy-from": "club_wooden",
     "name": { "str": "wooden club" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "woodgreatbow",
     "copy-from": "woodgreatbow",
     "name": { "str": "wooden greatbow" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "javelin",
     "copy-from": "javelin",
     "name": { "str": "wooden javelin" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pike_wood",
     "copy-from": "pike_wood",
     "name": { "ctxt": "weapon", "str": "wooden pike" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tonfa_wood",
     "copy-from": "tonfa_wood",
     "name": { "str": "wooden tonfa" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sword_wood_large",
     "copy-from": "sword_wood_large",
     "name": { "str": "zweitimber" },

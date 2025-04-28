@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_mealgrub_medium",
     "name": { "str_sp": "mealgrub growth medium" },
     "description": "All sorts of organic substances rendered into a nutritious goop that can be used as a growth medium in grub aquaculture.  Urban myth claims that its original formula was just bottled industrial runoff.  Whatever the case, mealgrubs thrive within it.",
@@ -23,7 +24,8 @@
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "bad_food", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_mealgrub_spores",
     "name": { "str_sp": "mealgrub spores" },
     "description": "Mealgrubs are a staple aquacultural product, treasured for their ability to process nearly any organic substance into safe for consumption animal protein.  As the result of very heavy-handed gene-modding these are proprietary organisms, and strictly speaking, it's illegal to grow them without a license.",
@@ -44,8 +46,8 @@
     "fun": -10
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "BREWABLE" ],
+    "type": "ITEM",
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ],
     "id": "brew_afs_mealgrub_broth",
     "name": { "str_sp": "mealgrub broth" },
     "description": "Growth medium seeded with mealgrub eggs.  Once placed in a growing vat, they should be ready for harvesting in around 76 hours.  The immature grub's metabolism can produce toxic by-products so caution is advisable.",
@@ -67,7 +69,8 @@
     "brew_results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_mealgrub_jelly",
     "name": { "str_sp": "live mealgrubs" },
     "description": "Thousands of mature mealworms, squirming in the viscous remains of their growth medium.  They are ready for harvest, and in fact require speedy cleaning and processing, as the harvest can quickly rot in this stage.",
@@ -91,7 +94,8 @@
   },
   {
     "id": "afs_mealgrubs",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "mealgrubs" },
     "symbol": "s",

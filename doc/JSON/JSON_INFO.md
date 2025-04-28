@@ -1599,6 +1599,7 @@ Faults can be defined for more specialized damage of an item.
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
   "item_suffix": "no handle", // optional string, items with this fault will be suffixed with this. The string would be encased in parentheses, like `sword (no handle)`
+  "message": "%s has it's handle broken!", // Message, that would be shown when such fault is applied, unless supressed
   "fault_type": "gun_mechanical_simple", // type of a fault, code may call for a random fault in a group instead of specific fault
   "affected_by_degradation": false, // default false. If true, the item degradation value would be added to fault weight on roll
   "price_modifier": 0.4, // (Optional, double) Defaults to 1 if not specified. A multiplier on the price of an item when this fault is present. Values above 1.0 will increase the item's value.

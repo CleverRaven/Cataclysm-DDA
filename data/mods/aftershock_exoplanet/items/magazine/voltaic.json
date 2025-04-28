@@ -2,7 +2,8 @@
   {
     "id": "afs_voltaic_cartridge",
     "copy-from": "afs_cartridge",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "voltaic cell" },
     "description": "A high-density energy cell purposely made to power voltaic weaponry.",
     "weight": "20 g",

@@ -1,0 +1,466 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "s_lot",
+    "copy-from": "s_lot",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof",
+    "copy-from": "pool_roof",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_1",
+    "copy-from": "pool_roof_1",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_2",
+    "copy-from": "pool_roof_2",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_3",
+    "copy-from": "pool_roof_3",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_4",
+    "copy-from": "pool_roof_4",
+    "name": "pool roof",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_0_0", "s_gas_1_0", "s_gas_0_1", "s_gas_1_1", "s_gas_g1" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "gas station",
+    "sym": "g",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_garage",
+    "copy-from": "s_garage",
+    "name": "mechanics garage",
+    "sym": "m",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_rural",
+    "copy-from": "s_gas_rural",
+    "name": "gas station",
+    "sym": "g",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_7",
+    "copy-from": "mall_a_7",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_8",
+    "copy-from": "mall_a_8",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_9",
+    "copy-from": "mall_a_9",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garage_gas_1",
+    "copy-from": "garage_gas_1",
+    "name": "garage - gas station",
+    "sym": "g",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garage_gas_2",
+    "copy-from": "garage_gas_2",
+    "name": "garage",
+    "sym": "g",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garage_gas_3",
+    "copy-from": "garage_gas_3",
+    "name": "garage",
+    "sym": "g",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_0",
+    "copy-from": "stadium_0_0",
+    "name": "stadium parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_0",
+    "copy-from": "stadium_1_0",
+    "name": "stadium parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_0",
+    "copy-from": "stadium_2_0",
+    "name": "stadium parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_0",
+    "copy-from": "stadium_3_0",
+    "name": "stadium parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_1",
+    "copy-from": "stadium_0_1",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_1",
+    "copy-from": "stadium_1_1",
+    "name": "stadium entrance",
+    "sym": "S",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_1",
+    "copy-from": "stadium_2_1",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_1",
+    "copy-from": "stadium_3_1",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_2",
+    "copy-from": "stadium_0_2",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_2",
+    "copy-from": "stadium_1_2",
+    "name": "stadium field",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_2",
+    "copy-from": "stadium_2_2",
+    "name": "stadium field",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_2",
+    "copy-from": "stadium_3_2",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_3",
+    "copy-from": "stadium_0_3",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_3",
+    "copy-from": "stadium_1_3",
+    "name": "stadium field",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_3",
+    "copy-from": "stadium_2_3",
+    "name": "stadium field",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_3",
+    "copy-from": "stadium_3_3",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_0_4",
+    "copy-from": "stadium_0_4",
+    "name": "stadium garage",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_1_4",
+    "copy-from": "stadium_1_4",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_2_4",
+    "copy-from": "stadium_2_4",
+    "name": "stadium",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "stadium_3_4",
+    "copy-from": "stadium_3_4",
+    "name": "stadium bar",
+    "sym": "s",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_00",
+    "copy-from": "golfcourse_00",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_01",
+    "copy-from": "golfcourse_01",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_02",
+    "copy-from": "golfcourse_02",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_10",
+    "copy-from": "golfcourse_10",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_11",
+    "copy-from": "golfcourse_11",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_12",
+    "copy-from": "golfcourse_12",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_20",
+    "copy-from": "golfcourse_20",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_21",
+    "copy-from": "golfcourse_21",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_22",
+    "copy-from": "golfcourse_22",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_30",
+    "copy-from": "golfcourse_30",
+    "name": "golf course parking lot",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_31",
+    "copy-from": "golfcourse_31",
+    "name": "golf course service building",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "golfcourse_32",
+    "copy-from": "golfcourse_32",
+    "name": "golf course",
+    "sym": "g",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_bike_shop", "s_bike_shop_1" ],
+    "copy-from": "s_bike_shop",
+    "name": "bike shop",
+    "color": "light_blue",
+    "sym": "b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cs_car_dealership", "s_cardealer" ],
+    "copy-from": "cs_car_dealership",
+    "name": "car dealership",
+    "sym": "c",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restparking_1",
+    "copy-from": "s_restparking_1",
+    "name": "rest area parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restparking_2",
+    "copy-from": "s_restparking_2",
+    "name": "rest area parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_a1",
+    "copy-from": "s_shoppingplaza_a1",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_a2",
+    "copy-from": "s_shoppingplaza_a2",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_a3",
+    "copy-from": "s_shoppingplaza_a3",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_a4",
+    "copy-from": "s_shoppingplaza_a4",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_shoppingplaza_a5",
+    "copy-from": "s_shoppingplaza_a5",
+    "name": "parking lot",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_0",
+    "copy-from": "zoo_0_0",
+    "name": "zoo parking",
+    "sym": "p",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_0",
+    "copy-from": "zoo_1_0",
+    "name": "zoo parking",
+    "sym": "p",
+    "color": "light_blue"
+  }
+]

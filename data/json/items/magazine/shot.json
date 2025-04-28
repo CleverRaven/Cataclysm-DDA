@@ -3,7 +3,8 @@
     "id": "saiga10mag",
     "//": "Audited with manufacturer info/ImageJ.  Weight from comparison.",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "10-round assault shotgun magazine" },
     "description": "A removable plastic 10-round box magazine, for use with firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
@@ -30,7 +31,8 @@
     "id": "saiga30mag",
     "//": "Audited with ImageJ.  Weight from comparison.",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "20-round assault shotgun magazine" },
     "description": "A removable plastic 20-round drum magazine, for use with firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
@@ -59,7 +61,8 @@
     "id": "shotbelt_20",
     "//": "Tileset whitelist for shotgun magazines and speedloaders",
     "//2": "Not sure what this is supposed to represent, audited volume and weight for loose cloth.",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "MAGAZINE" ],
     "name": { "str": "20-round shotshell belt" },
     "description": "A non-disintegrating cloth ammo belt which can hold up to 20 shotgun shells.  Notably less reliable than metal ammo belts.",
     "weight": "41 g",
@@ -70,25 +73,24 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "shot" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 2,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_upper" ]
-        }
-      ]
-    },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ],
+    "armor": [
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 2,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "shot_speedloader6",
     "//": "Audited with ImageJ.  Weight is a guess.",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "ammo",
     "name": { "str": "shotgun 6-round speedloader" },
     "description": "A plastic tube with a sliding handle that can be used to quickly load 6 rounds into a shotgun's tube in a much shorter period of time than by hand.  It needs to interface with a chute to be used with any speed.",
@@ -109,7 +111,8 @@
     "id": "shot_speedloader8",
     "//": "Audited with ImageJ.  Weight is a guess.",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "ammo",
     "name": { "str": "shotgun 8-round speedloader" },
     "description": "A plastic tube with a sliding handle that can be used to quickly load 8 rounds into a shotgun's tube in a much shorter period of time than by hand.  It needs to interface with a chute to be used with any speed.",
@@ -128,7 +131,8 @@
   },
   {
     "id": "srm_1216_mag_16",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "16-round rotary shotgun magazine" },
     "description": "A 16-round magazine for a rotary magazine-fed shotgun.",
     "variant_type": "gun",
@@ -154,7 +158,8 @@
   {
     "id": "m26_mass_mag_3",
     "//": "Audited with ImageJ.  Weight from comparison.",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "M26-MASS 3-round magazine" },
     "description": "A small 3-round box magazine for the M26-MASS underbarrel shotgun.",
     "variant_type": "gun",
@@ -173,7 +178,8 @@
   {
     "id": "m26_mass_mag_5",
     "//": "Audited with ImageJ.  Weight from comparison.",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "M26-MASS 5-round magazine" },
     "description": "A small 5-round box magazine for the M26-MASS underbarrel shotgun.",
     "variant_type": "gun",
@@ -192,7 +198,8 @@
   {
     "id": "mossberg_590m_mag_5",
     "copy-from": "mossberg_590m_mag_10",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "magazine-fed pump shotgun 5-round magazine" },
     "description": "A small 5-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
@@ -215,7 +222,8 @@
   },
   {
     "id": "mossberg_590m_mag_10",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "magazine-fed pump shotgun 10-round magazine" },
     "description": "A 10-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
@@ -241,7 +249,8 @@
   {
     "id": "mossberg_590m_mag_15",
     "copy-from": "mossberg_590m_mag_10",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "magazine-fed pump shotgun 15-round magazine" },
     "description": "A 15-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
@@ -264,7 +273,8 @@
   {
     "id": "mossberg_590m_mag_20",
     "copy-from": "mossberg_590m_mag_10",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "magazine-fed pump shotgun 20-round magazine" },
     "description": "A 20-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
@@ -287,7 +297,8 @@
   {
     "id": "mka_1919_5",
     "copy-from": "mka_1919_10",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "shotgun 5-round magazine" },
     "description": "5-round box magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
@@ -312,7 +323,8 @@
   },
   {
     "id": "mka_1919_10",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "shotgun 10-round magazine" },
     "description": "10-round box magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
@@ -338,7 +350,8 @@
   {
     "id": "mka_1919_20",
     "copy-from": "mka_1919_10",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "shotgun 20-round drum magazine" },
     "description": "20-round drum magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",

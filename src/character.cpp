@@ -6583,7 +6583,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj->faults_potential() ) {
-            opts.emplace_back( f, !!obj->faults.count( f ) );
+            opts.emplace_back( f, obj->has_fault( f ) );
             menu.addentry( -1, true, -1, string_format(
                                opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
                                f.obj().name() ) );
@@ -6595,9 +6595,9 @@ void Character::mend_item( item_location &&obj, bool interactive )
         menu.query();
         if( menu.ret >= 0 ) {
             if( opts[menu.ret].second ) {
-                obj->faults.erase( opts[menu.ret].first );
+                obj->remove_fault( opts[menu.ret].first );
             } else {
-                obj->set_fault( opts[menu.ret].first );
+                obj.set_fault( opts[menu.ret].first, true, false );
             }
         }
         return;
@@ -10579,7 +10579,7 @@ void Character::place_corpse( map *here )
             cbm.set_flag( flag_FILTHY );
             cbm.set_flag( flag_NO_STERILE );
             cbm.set_flag( flag_NO_PACKED );
-            cbm.faults.emplace( fault_bionic_salvaged );
+            cbm.set_fault( fault_bionic_salvaged );
             body.put_in( cbm, pocket_type::CORPSE );
         }
     }

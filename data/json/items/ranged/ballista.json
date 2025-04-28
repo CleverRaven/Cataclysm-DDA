@@ -1,6 +1,7 @@
 [
   {
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "id": "ballista",
     "name": { "str": "carroballista", "str_pl": "carroballistae" },
     "description": "A smaller, mounted version of the Greco-Roman ballista, for those situations where the crossbow just isn't enough.  Unlike crossbows, it is powered by a torsion spring that is wound by a hand crank and uses two prods instead of one bow.  Its size and design make it unfeasible to be used by hand, requiring it to be set down or mounted to a vehicle.",
@@ -36,7 +37,8 @@
   },
   {
     "id": "bolt_ballista_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "ballista bolt" },
     "description": "A big, steel tipped projectile, twice the size of a normal bolt and much heavier than one.  It gets thicker towards the base, and is fletched there with the protrusions of the shaft itself.",
     "weight": "200 g",

@@ -1,7 +1,8 @@
 [
   {
     "id": "alien_battery",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "spare_parts",
     "name": { "str": "alien cell" },
     "description": "A conical device salvaged from an alien artifact.  Grooves etched on its circular face slowly pulse with purple light.",

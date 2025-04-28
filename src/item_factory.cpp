@@ -284,6 +284,11 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
 
 void Item_factory::finalize_pre( itype &obj )
 {
+    //a gunmod slot needs a toolmod slot even if one wasn't loaded
+    if( obj.gunmod && !obj.mod ) {
+        obj.mod = cata::make_value<islot_mod>();
+    }
+
     check_and_create_magazine_pockets( obj );
     add_special_pockets( obj );
 
@@ -2888,6 +2893,7 @@ void itype::load_slots( const JsonObject &jo, bool was_loaded )
         }
         if( subtype == "GUNMOD" ) {
             Item_factory::load_slot( jo, was_loaded, gunmod );
+            Item_factory::load_slot( jo, was_loaded, mod );
         }
         if( subtype == "AMMO" ) {
             Item_factory::load_slot( jo, was_loaded, ammo );
@@ -2935,6 +2941,10 @@ void itype::load_slots( const JsonObject &jo, bool was_loaded )
     if( std::find( subtypes.begin(), subtypes.end(), "PET_ARMOR" ) != subtypes.end() &&
         std::find( subtypes.begin(), subtypes.end(), "ARMOR" ) != subtypes.end() ) {
         debugmsg( "PET_ARMOR and ARMOR cannot be simultaneously defined" );
+    }
+    if( std::find( subtypes.begin(), subtypes.end(), "GUNMOD" ) != subtypes.end() &&
+        std::find( subtypes.begin(), subtypes.end(), "TOOLMOD" ) != subtypes.end() ) {
+        debugmsg( "GUNMOD is a TOOLMOD; they cannot be simultaneously defined" );
     }
 
     for( const std::string &subtype : subtypes ) {
@@ -4490,7 +4500,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
                 fault_groups.emplace_back(
                     jo_f.get_int( "weight_override", -1 ),
                     jo_f.get_int( "weight_add", 0 ),
-                    jo_f.get_float( "weight_mult", 1.0f ),
+                    static_cast<float>( jo_f.get_float( "weight_mult", 1.0f ) ),
                     jo_f.get_string( "fault_group" ) );
             } else {
                 jo_f.throw_error( R"("faults" should specify either a "fault" or a "fault_group")" );
@@ -4554,11 +4564,6 @@ void itype::load( const JsonObject &jo, std::string_view src )
     assign( jo, "armor_data", armor, src == "dda" );
     assign( jo, "pet_armor_data", pet_armor, src == "dda" );
     assign( jo, "book_data", book, src == "dda" );
-    //this is temporary; gunmods/tools are presently the only types that use gun_data
-    if( gunmod || tool ) {
-        bool gun_loaded = gun ? gun->was_loaded : false;
-        optional( jo, gun_loaded, "gun_data", gun );
-    }
     assign( jo, "ammo_data", ammo, src == "dda" );
     assign( jo, "seed_data", seed, src == "dda" );
     assign( jo, "brewable", brewable, src == "dda" );
@@ -4592,6 +4597,12 @@ void itype::load( const JsonObject &jo, std::string_view src )
 
     if( jo.has_member( "subtypes" ) ) { //TO-DO: allows both types of item loading, remove this line
         load_slots( jo, was_loaded );
+    }
+
+    //this is temporary; gunmods/tools are presently the only types that use gun_data
+    if( gunmod || tool ) {
+        bool gun_loaded = gun ? gun->was_loaded : false;
+        optional( jo, gun_loaded, "gun_data", gun );
     }
 
     if( jo.get_string( "type" ) != "ITEM" ) {

@@ -36,7 +36,7 @@
       "furniture": {
         "?": "f_autodoc",
         "/": "f_autodoc_couch",
-        "T": "f_table",
+        "T": "f_metal_table",
         "n": "f_trashcan",
         "E": "f_machinery_electronic",
         "B": "f_monomolecularsaw"
@@ -97,7 +97,7 @@
       ],
       "palettes": [ "aug_clinic" ],
       "terrain": { " ": "t_open_air" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "o": "f_sofa", "T": "f_table", "Á": "f_armchair", "n": "f_trashcan" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "o": "f_sofa", "T": "f_metal_table", "Á": "f_armchair", "n": "f_trashcan" },
       "computers": {
         "5": {
           "name": "Secure Bionic Storage Access",
@@ -193,7 +193,7 @@
         "&": "f_roof_turbine_vent",
         "=": "f_vent_pipe",
         "b": "f_bed",
-        "t": "f_table",
+        "t": "f_metal_table",
         "c": "f_armchair",
         "f": "f_filing_cabinet",
         "?": "f_autodoc",

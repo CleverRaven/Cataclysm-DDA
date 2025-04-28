@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "barb_paralysis",
     "price": "4 USD",
     "name": { "str": "paralyzing barb" },
@@ -20,7 +21,8 @@
     "melee_damage": { "bash": 6, "cut": 2 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "gene_sting_barb",
     "price": "4 USD",
     "name": { "str": "gene sting barb" },

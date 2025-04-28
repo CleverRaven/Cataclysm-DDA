@@ -2,7 +2,8 @@
   {
     "id": "paintballgun",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 6,
     "symbol": "(",
     "color": "light_gray",

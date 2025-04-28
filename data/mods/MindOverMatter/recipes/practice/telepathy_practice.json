@@ -453,7 +453,6 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
-        "condition": { "math": [ "u_spell_level('telepathic_fear') >= 1" ] },
         "effect": [
           { "set_string_var": "telepathic_fear", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
