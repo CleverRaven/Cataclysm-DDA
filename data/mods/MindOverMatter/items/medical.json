@@ -12,7 +12,7 @@
     "price": "300 kUSD",
     "price_postapoc": "25 cent",
     "symbol": "!",
-    "material": [ "nether_crystal", "alien_liquid" ],
+    "material": [ { "type": "nether_crystal", "portion": 15 }, { "type": "alien_liquid", "portion": 85 } ],
     "phase": "liquid",
     "container": "test_tube",
     "color": "blue",
@@ -39,7 +39,7 @@
     "charges": 1,
     "price": "120 kUSD",
     "price_postapoc": "10 cent",
-    "material": [ "nether_crystal", "alien_liquid" ],
+    "material": [ { "type": "nether_crystal", "portion": 15 }, { "type": "alien_liquid", "portion": 85 } ],
     "phase": "liquid",
     "container": "test_tube",
     "symbol": "!",
@@ -62,7 +62,7 @@
     "charges": 1,
     "price": "120 kUSD",
     "price_postapoc": "10 cent",
-    "material": [ "nether_crystal", "alien_liquid" ],
+    "material": [ { "type": "nether_crystal", "portion": 5 }, { "type": "alien_liquid", "portion": 95 } ],
     "phase": "liquid",
     "container": "test_tube",
     "symbol": "!",
@@ -77,5 +77,91 @@
       "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "effect_noetic_resilience_trigger", "duration": 1 } ]
     }
+  },
+  {
+    "id": "psi_noetic_resonance_detector",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "noetic resonance detector" },
+    "description": "A strange device, a bit like one of those eyesight testing machines you look into in an optometrist's office.  The main housing has a place to rest your chin and a pair of binocular-like tubes, but there is also a headband attached to a set of wires hanging from a hook on the side and an armband hanging from the other side.",
+    "weight": "3200 g",
+    "volume": "5 L",
+    "price": "50000 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel", "glass", "nether_crystal", "alien_liquid" ],
+    "symbol": "N",
+    "color": "white",
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ],
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Set up and turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_PSI_NOETIC_RESONANCE_DETECTOR_ON",
+            "effect": [
+              { "u_add_effect": "effect_mom_immobilized", "duration": "PERMANENT" },
+              {
+                "run_eocs": "EOC_toolweapon_activate",
+                "variables": {
+                  "turn_cost": "15",
+                  "transform_target": "psi_noetic_resonance_detector_on",
+                  "success_message": {
+                    "i18n": true,
+                    "str": "You put the headband on your head, put the armband on your arm, and rest your head on the chinrest."
+                  },
+                  "volume": "0",
+                  "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE", "ELECTRONIC", "WATER_BREAK" ]
+  },
+  {
+    "id": "psi_noetic_resonance_detector_on",
+    "copy-from": "psi_noetic_resonance_detector",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "noetic resonance detector (on)" },
+    "description": "A strange device, a bit like one of those eyesight testing machines you look into in an optometrist's office.  The main housing has a place to rest your chin and a pair of binocular-like tubes, but there is also a headband attached to a set of wires hanging from a hook on the side and an armband hanging from the other side.  It's on and ready for use.",
+    "power_draw": "950 W",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Use the noetic resonance detector",
+        "effect_on_conditions": [ { "id": "EOC_PSI_NOETIC_RESONANCE_DETECTOR_USAGE", "effect": [ { "u_message": "" } ] } ]
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Extricate yourself and turn off",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_PSI_NOETIC_RESONANCE_DETECTOR_OFF",
+            "effect": [
+              { "u_lose_effect": "effect_mom_immobilized" },
+              {
+                "run_eocs": "EOC_toolweapon_activate",
+                "variables": {
+                  "turn_cost": "10",
+                  "transform_target": "psi_noetic_resonance_detector",
+                  "success_message": { "i18n": true, "str": "You remove the headband and the armband, return them to the machine, and turn it off." },
+                  "volume": "0",
+                  "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

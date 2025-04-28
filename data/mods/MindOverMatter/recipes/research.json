@@ -266,5 +266,120 @@
         ]
       }
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "use the noetic resonance detector",
+    "id": "psi_noetic_resonance_detector_usage",
+    "description": "Follow the usage instructions of the noetic resonance detector to determine your \"noetic potential\".",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "chemistry",
+    "skills_required": [ "metaphysics", 3 ],
+    "difficulty": 5,
+    "time": "30 m",
+    "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
+    "tools": [ [ [ "psi_noetic_resonance_detector_tool", 500 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER",
+        "condition": { "u_has_trait": "CANNOT_GAIN_PSIONICS" },
+        "effect": [
+          {
+            "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Null</color>\" are visible.",
+            "type": "neutral"
+          }
+        ],
+        "false_effect": [
+          {
+            "if": {
+              "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
+            },
+            "then": { "math": [ "_already_psi = 1" ] },
+            "else": { "math": [ "_already_psi = 0" ] }
+          },
+          {
+            "if": { "u_has_trait": "ALWAYS_GAIN_PSIONICS" },
+            "then": [
+              {
+                "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_magenta>Potential: Mathematician Target</color>\" are visible.",
+                "type": "neutral"
+              },
+              { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+            ]
+          },
+          { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
+          {
+            "switch": { "math": [ "100 - (u_awakening_reducer * 100)" ] },
+            "cases": [
+              {
+                "case": 2,
+                "effect": [
+                  {
+                    "set_string_var": "<color_light_red>Potential: Negligible</color>",
+                    "target_var": { "context_val": "_noetic_measurement" }
+                  }
+                ]
+              },
+              {
+                "case": 5,
+                "effect": [
+                  {
+                    "set_string_var": "<color_light_red>Potential: Minor</color>",
+                    "target_var": { "context_val": "_noetic_measurement" }
+                  }
+                ]
+              },
+              {
+                "case": 15,
+                "effect": [
+                  {
+                    "set_string_var": "<color_yellow>Potential: Moderate</color>",
+                    "target_var": { "context_val": "_noetic_measurement" }
+                  }
+                ]
+              },
+              {
+                "case": 35,
+                "effect": [
+                  {
+                    "set_string_var": "<color_light_green>Potential: Good</color>",
+                    "target_var": { "context_val": "_noetic_measurement" }
+                  }
+                ]
+              },
+              {
+                "case": 99,
+                "effect": [
+                  {
+                    "set_string_var": "<color_light_blue>Potential: Excellent</color>",
+                    "target_var": { "context_val": "_noetic_measurement" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "if": { "math": [ "_already_psi == 1" ] },
+            "then": [
+              {
+                "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<context_val:noetic_measurement>\" are visible.  Below it in red are the words: <light_red>WARNING: Noetic activity detected.",
+                "type": "neutral"
+              },
+              { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+            ],
+            "else": [
+              {
+                "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<context_val:noetic_measurement>\" are visible.",
+                "type": "neutral"
+              },
+              { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
