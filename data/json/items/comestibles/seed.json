@@ -1,7 +1,8 @@
 [
   {
     "abstract": "seed",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "seeds", "//~": "NO_I18N" },
     "category": "seeds",
@@ -17,13 +18,15 @@
   },
   {
     "abstract": "seed_fruit",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "seed",
     "name": { "str_sp": "fruit seeds", "//~": "NO_I18N" }
   },
   {
     "abstract": "seed_mushroom_base",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "seed",
     "name": { "str_sp": "mushroom spores", "//~": "NO_I18N" },
     "description": "Some mushroom spores.",
@@ -32,8 +35,8 @@
   {
     "id": "seed_hops",
     "copy-from": "seed",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "hop rhizomes" },
     "description": "Roots of a hop plant, for growing your own.",
     "weight": "19 g",
@@ -48,8 +51,8 @@
   {
     "id": "seed_blackberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "blackberry seeds" },
     "description": "Some blackberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -62,8 +65,8 @@
   {
     "id": "seed_blueberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "blueberry seeds" },
     "description": "Some blueberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -76,8 +79,8 @@
   {
     "id": "seed_cranberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "cranberry seeds" },
     "description": "Some cranberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -90,8 +93,8 @@
   {
     "id": "seed_huckleberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "huckleberry seeds" },
     "description": "Some huckleberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -104,8 +107,8 @@
   {
     "id": "seed_mulberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "mulberry seeds" },
     "description": "Some mulberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -118,8 +121,8 @@
   {
     "id": "seed_elderberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "elderberry seeds" },
     "description": "Some elderberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -132,8 +135,8 @@
   {
     "id": "seed_raspberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "raspberry seeds" },
     "description": "Some raspberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -146,8 +149,8 @@
   {
     "id": "seed_strawberries",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "strawberry seeds" },
     "description": "Some strawberry seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -160,8 +163,8 @@
   {
     "id": "seed_grapes",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "name": { "str_sp": "grape seeds" },
     "description": "Some grape seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -176,8 +179,8 @@
   {
     "id": "seed_rose",
     "copy-from": "seed_fruit",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "name": { "str_sp": "rose seeds" },
     "description": "Some rose seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -188,8 +191,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_tobacco",
     "copy-from": "seed",
     "name": { "str_sp": "tobacco seeds" },
@@ -200,8 +203,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_barley",
     "copy-from": "barley",
     "category": "seeds",
@@ -216,8 +219,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_sugar_beet",
     "copy-from": "seed",
     "price": "3 cent",
@@ -231,8 +234,8 @@
     "grow": "90 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_lettuce",
     "copy-from": "seed",
     "price": "50 cent",
@@ -245,8 +248,8 @@
     "grow": "85 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_cabbage",
     "copy-from": "seed",
     "price": "50 cent",
@@ -260,8 +263,8 @@
     "grow": "85 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_radish",
     "copy-from": "seed",
     "price": "50 cent",
@@ -275,8 +278,8 @@
     "grow": "35 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_tomato",
     "copy-from": "seed",
     "price": "50 cent",
@@ -290,8 +293,8 @@
     "grow": "65 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_cotton_boll",
     "copy-from": "seed",
     "price": "1 cent",
@@ -308,8 +311,8 @@
     "recipe": "paste_seed_mill_8_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_broccoli",
     "copy-from": "seed",
     "price": "50 cent",
@@ -322,8 +325,8 @@
     "grow": "75 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_zucchini",
     "copy-from": "seed",
     "price": "50 cent",
@@ -337,8 +340,8 @@
     "grow": "47 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_onion",
     "copy-from": "seed",
     "price": "50 cent",
@@ -351,8 +354,8 @@
     "grow": "65 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_garlic",
     "copy-from": "seed",
     "price": "50 cent",
@@ -365,8 +368,8 @@
     "grow": "65 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_cattail",
     "copy-from": "seed",
     "name": { "str_sp": "cattail seeds" },
@@ -380,8 +383,8 @@
     "required_terrain_flag": "SHALLOW_WATER"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_lotus",
     "copy-from": "seed",
     "name": { "str_sp": "lotus seeds" },
@@ -403,7 +406,8 @@
     "required_terrain_flag": "SHALLOW_WATER"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "seed_lotus_boiled",
     "name": { "str_sp": "boiled lotus seeds" },
     "weight": "30 g",
@@ -420,8 +424,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_dahlia",
     "copy-from": "seed",
     "name": { "str_sp": "dahlia seeds" },
@@ -434,8 +438,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_salsify_raw",
     "copy-from": "seed",
     "name": { "str_sp": "salsify seeds" },
@@ -448,8 +452,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_chicory",
     "copy-from": "seed",
     "name": { "str_sp": "chicory seeds" },
@@ -463,8 +467,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_wildcarrot",
     "copy-from": "seed",
     "price": "50 cent",
@@ -477,8 +481,8 @@
     "grow": "65 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_flower",
     "copy-from": "seed",
     "name": { "str_sp": "decorative plant seeds" },
@@ -490,8 +494,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_cactus",
     "copy-from": "seed",
     "name": { "str_sp": "cactus seeds" },
@@ -503,8 +507,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_carrot",
     "copy-from": "seed",
     "price": "50 cent",
@@ -517,8 +521,8 @@
     "grow": "65 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_corn",
     "copy-from": "dry_corn",
     "category": "seeds",
@@ -534,8 +538,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_chili_pepper",
     "copy-from": "seed",
     "price": "50 cent",
@@ -550,8 +554,8 @@
     "grow": "65 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_cucumber",
     "copy-from": "seed",
     "price": "50 cent",
@@ -564,8 +568,8 @@
     "grow": "60 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_gherkin",
     "copy-from": "seed",
     "price": "50 cent",
@@ -578,8 +582,8 @@
     "grow": "60 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_potato_raw",
     "copy-from": "potato",
     "category": "seeds",
@@ -599,8 +603,8 @@
     "grow": "95 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_weed",
     "copy-from": "seed",
     "name": { "str_sp": "cannabis seeds" },
@@ -620,8 +624,8 @@
     "recipe": "paste_seed_mill_8_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "fungal_seeds",
     "copy-from": "seed",
     "price": "12 cent",
@@ -635,8 +639,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "marloss_seed",
     "category": "seeds",
     "name": { "str": "Marloss seed" },
@@ -664,8 +668,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_beans",
     "copy-from": "dry_beans",
     "category": "seeds",
@@ -681,8 +685,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "soybean_seed",
     "copy-from": "dry_soybean",
     "category": "seeds",
@@ -699,8 +703,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_lentils",
     "copy-from": "dry_lentils",
     "category": "seeds",
@@ -714,8 +718,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_thyme",
     "copy-from": "seed",
     "price": "1 cent",
@@ -729,8 +733,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_watermelon",
     "copy-from": "seed_fruit",
     "name": { "str_sp": "watermelon seeds" },
@@ -743,8 +747,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_melon",
     "copy-from": "seed_fruit",
     "name": { "str_sp": "cantaloupe melon seeds" },
@@ -757,8 +761,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_pumpkin",
     "copy-from": "seed",
     "name": { "str_sp": "pumpkin seeds" },
@@ -779,8 +783,8 @@
     "recipe": "paste_seed_mill_8_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_sunflower",
     "copy-from": "seed",
     "name": { "str_sp": "sunflower seeds" },
@@ -800,8 +804,8 @@
     "recipe": "paste_seed_mill_8_1"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_dogbane",
     "copy-from": "seed",
     "name": { "str_sp": "dogbane seeds" },
@@ -815,8 +819,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_bee_balm",
     "copy-from": "seed",
     "name": { "str_sp": "bee balm seeds" },
@@ -830,8 +834,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_mugwort",
     "copy-from": "seed",
     "name": { "str_sp": "mugwort seeds" },
@@ -844,8 +848,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_spinach",
     "copy-from": "seed",
     "name": { "str_sp": "spinach seeds" },
@@ -858,8 +862,8 @@
     "grow": "50 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_buckwheat",
     "copy-from": "buckwheat",
     "name": { "str_sp": "buckwheat seeds" },
@@ -874,8 +878,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_wild_herbs",
     "copy-from": "seed",
     "name": { "str_sp": "wild herb seeds" },
@@ -888,8 +892,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_veggy_wild",
     "copy-from": "seed",
     "name": { "str_sp": "wild vegetable stems" },
@@ -903,8 +907,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_raw_dandelion",
     "copy-from": "seed",
     "name": { "str_sp": "dandelion seeds" },
@@ -917,8 +921,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_raw_burdock",
     "copy-from": "seed",
     "name": { "str_sp": "burdock seeds" },
@@ -931,8 +935,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_japanese_knotweed",
     "copy-from": "seed",
     "name": { "str_sp": "Japanese knotweed stems" },
@@ -945,8 +949,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_wild_rice",
     "copy-from": "seed",
     "name": { "str_sp": "wild rice seeds" },
@@ -960,8 +964,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_jerusalem_artichoke",
     "copy-from": "seed",
     "name": { "str_sp": "Jerusalem artichoke seeds" },
@@ -974,8 +978,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_maianthemum_stellatum",
     "copy-from": "seed",
     "name": { "str_sp": "starry false Solomon's seal seeds" },
@@ -989,8 +993,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_wild_sarsaparilla",
     "copy-from": "seed",
     "name": { "str_sp": "wild sarsaparilla seeds" },
@@ -1003,8 +1007,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_mayapple",
     "copy-from": "seed",
     "name": { "str_sp": "mayapple seeds" },
@@ -1017,8 +1021,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_wintergreen",
     "copy-from": "seed",
     "name": { "str_sp": "wintergreen seeds" },
@@ -1031,8 +1035,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_groundnut",
     "copy-from": "seed",
     "name": { "str_sp": "groundnut seeds" },
@@ -1045,8 +1049,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_wild_garlic",
     "copy-from": "seed",
     "name": { "str_sp": "wild garlic seeds" },
@@ -1059,8 +1063,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_raw_bamboo",
     "copy-from": "seed",
     "name": { "str_sp": "bamboo seeds" },
@@ -1073,8 +1077,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_rhubarb",
     "copy-from": "seed",
     "name": { "str_sp": "rhubarb stems" },
@@ -1088,8 +1092,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_mushroom",
     "copy-from": "seed_mushroom_base",
     "name": { "str_sp": "mushroom spores" },
@@ -1100,8 +1104,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_mushroom_morel",
     "copy-from": "seed_mushroom_base",
     "name": { "str_sp": "morel mushroom spores" },
@@ -1114,8 +1118,8 @@
   },
   {
     "id": "datura_seed",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "copy-from": "seed",
     "comestible_type": "MED",
     "name": { "str_sp": "datura seeds" },
@@ -1133,8 +1137,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_celery",
     "copy-from": "seed",
     "price": "50 cent",
@@ -1147,8 +1151,8 @@
     "grow": "130 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "id": "seed_oats",
     "copy-from": "oats",
     "name": { "str_sp": "oat seeds" },
@@ -1163,8 +1167,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_garlic_clove",
     "copy-from": "garlic",
     "name": { "str_sp": "seed garlic" },
@@ -1179,8 +1183,8 @@
   {
     "id": "seed_wheat",
     "copy-from": "wheat",
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED", "MILLING" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
     "category": "seeds",
     "name": { "str_sp": "wheat seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
@@ -1193,7 +1197,8 @@
     "recipe": ""
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fried_seeds",
     "name": { "str_sp": "fried seeds" },
     "weight": "32 g",
@@ -1215,7 +1220,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "coffee_pod",
     "name": { "str": "Kentucky coffee pod" },
     "category": "other",
@@ -1239,7 +1245,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "coffee_bean",
     "container": "bag_plastic_small",
     "price": "1 cent",
@@ -1260,7 +1267,8 @@
     "weight": "106 g"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
     "category": "other",
@@ -1270,8 +1278,8 @@
     "extend": { "flags": [ "RAW" ] }
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_chamomile",
     "copy-from": "seed",
     "looks_like": "seed_raw_dandelion",
@@ -1284,8 +1292,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_spurge",
     "copy-from": "seed",
     "looks_like": "seed_raw_dandelion",
@@ -1298,8 +1306,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_popcorn",
     "copy-from": "kernels",
     "name": { "str_sp": "seed popcorn" },
@@ -1313,8 +1321,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_horseradish",
     "copy-from": "seed",
     "name": { "str_sp": "horseradish seeds" },
@@ -1326,8 +1334,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_mustard",
     "copy-from": "seed",
     "name": { "str_sp": "mustard seeds" },
@@ -1345,8 +1353,8 @@
     "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_bell_pepper",
     "copy-from": "seed",
     "price": "50 cent",
@@ -1360,8 +1368,8 @@
     "grow": "70 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_bottle_gourd",
     "copy-from": "seed",
     "price": "50 cent",
@@ -1375,8 +1383,8 @@
     "grow": "60 days"
   },
   {
-    "type": "COMESTIBLE",
-    "subtypes": [ "SEED" ],
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_eggplant",
     "copy-from": "seed",
     "price": "70 cent",

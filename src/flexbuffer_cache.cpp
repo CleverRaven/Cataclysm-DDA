@@ -327,8 +327,10 @@ class flexbuffer_disk_cache
             // Does the source file's mtime match what we cached previously
             if( source_mtime != disk_entry->second.mtime ) {
                 std::string filepath_and_name = disk_entry->first;
-                // we use this as an exclusion condition. Configuration options can be changed all the time, we don't want to warn over those.
-                bool stale_game_data = *root_relative_source_path.begin() != std::filesystem::u8path( "config" );
+                // we use this as an exclusion condition. Configuration options can be changed all the time, we don't want to warn over those. Same for achievements.
+                bool stale_game_data = *root_relative_source_path.begin() != std::filesystem::u8path( "config" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "achievements" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "templates" );
                 if( stale_game_data ) {
                     if( get_option<bool>( "WARN_ON_MODIFIED" ) ) {
                         debugmsg( "Stale game data detected at %s, did you overwrite old files?  When updating the game you must install to a fresh folder, overwriting old files will cause errors.",

@@ -1,0 +1,186 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gun_a", "s_gun_b_store" ],
+    "copy-from": "s_gun_a",
+    "name": "gun store",
+    "sym": "g",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police",
+    "copy-from": "police",
+    "name": "police station",
+    "sym": "p",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter",
+    "copy-from": "shelter",
+    "name": "evac shelter",
+    "sym": "e",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shelter_under",
+    "copy-from": "shelter_under",
+    "name": "evac shelter",
+    "sym": "e",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe",
+    "copy-from": "lmoe",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_under",
+    "copy-from": "lmoe_under",
+    "name": "LMOE shelter",
+    "sym": "l",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bunker",
+    "copy-from": "bunker",
+    "name": "military bunker",
+    "sym": "b",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "outpost",
+    "copy-from": "outpost",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo",
+    "copy-from": "silo",
+    "name": "missile silo",
+    "sym": "M",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "silo_finale",
+    "copy-from": "silo_finale",
+    "name": "missile silo",
+    "sym": "M",
+    "color": "white_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_queen",
+    "copy-from": "ants_queen",
+    "name": "ant queen chamber",
+    "sym": "O",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_7",
+    "copy-from": "evac_center_7",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_8",
+    "copy-from": "evac_center_8",
+    "name": "refugee center",
+    "sym": "R",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_9",
+    "copy-from": "evac_center_9",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_12",
+    "copy-from": "evac_center_12",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_13",
+    "copy-from": "evac_center_13",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_14",
+    "copy-from": "evac_center_14",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_17",
+    "copy-from": "evac_center_17",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_18",
+    "copy-from": "evac_center_18",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "evac_center_19",
+    "copy-from": "evac_center_19",
+    "name": "refugee center",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shootingrange_1a",
+    "copy-from": "shootingrange_1a",
+    "name": "shooting range",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shootingrange_2a",
+    "copy-from": "shootingrange_2a",
+    "name": "shooting range",
+    "sym": "r",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gunshow_0", "gunshow_1" ],
+    "copy-from": "gunshow_0",
+    "name": "gun show",
+    "sym": "g",
+    "color": "red"
+  }
+]

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_postit_psi",
     "category": "books",
     "symbol": ",",
@@ -17,7 +17,7 @@
     "copy-from": "lab_postit_bio"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_private_correspondence",
     "name": { "str": "private note" },
     "category": "books",
@@ -33,7 +33,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_biokinesis_item",
     "name": { "str": "report (BURNT NOVEMBER)", "str_pl": "copies of report (BURNT NOVEMBER)" },
     "category": "books",
@@ -49,7 +49,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_clairsentience_item",
     "name": { "str": "report (NOBLE HORIZON)", "str_pl": "copies of report (NOBLE HORIZON)" },
     "category": "books",
@@ -65,7 +65,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_pyrokinesis_item",
     "name": { "str": "report (COPPER PRIME)", "str_pl": "copies of report (COPPER PRIME)" },
     "category": "books",
@@ -81,7 +81,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_telekinesis_item",
     "name": { "str": "report (JUNIPER GOLD)", "str_pl": "copies of report (JUNIPER GOLD)" },
     "category": "books",
@@ -97,7 +97,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_telepathy_item",
     "name": { "str": "report (GRAY DAWN)", "str_pl": "copies of report (GRAY DAWN)" },
     "category": "books",
@@ -113,7 +113,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_teleportation_item",
     "name": { "str": "report (LOST RAIN)", "str_pl": "copies of report (LOST RAIN)" },
     "category": "books",
@@ -129,7 +129,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_vitakinesis_item",
     "name": { "str": "report (SMOKE USHER)", "str_pl": "copies of report (SMOKE USHER)" },
     "category": "books",
@@ -145,7 +145,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "quest_starter_note_fifth_sun_cuachic",
     "name": { "str": "note with strange writing", "str_pl": "notes with strange writing" },
     "category": "books",
@@ -163,7 +163,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_matrix_research_item",
     "name": { "str": "report (matrix technology)", "str_pl": "copies of report (matrix technology)" },
     "category": "books",
@@ -179,7 +179,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_OS647_P_item",
     "name": { "str": "OS647-P Proposal Response", "str_pl": "copies of OS647-P Proposal Response" },
     "category": "books",
@@ -195,7 +195,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_QD944_P_item",
     "name": { "str": "QD944-P Progress Update", "str_pl": "copies of QD944-P Progress Update" },
     "category": "books",
@@ -211,7 +211,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_IG882_P_item",
     "name": { "str": "IG882-P Report", "str_pl": "copies of IG882-P Report" },
     "category": "books",
@@ -227,7 +227,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_phavian_memo_item",
     "name": { "str": "Project PHAVIAN memo", "str_pl": "copies of Project PHAVIAN memo" },
     "category": "books",
@@ -243,7 +243,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_obsidian_ring_item",
     "name": { "str": "report (OBSIDIAN RING)", "str_pl": "copies of report (OBSIDIAN RING)" },
     "category": "books",
@@ -259,7 +259,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "id_science_visitor_phavian",
     "symbol": ",",
     "color": "red",

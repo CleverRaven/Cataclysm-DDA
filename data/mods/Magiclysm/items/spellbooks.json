@@ -1,7 +1,8 @@
 [
   {
     "id": "DEBUG_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "A Technomancer's Guide to Debugging C:DDA", "str_pl": "copies of A Technomancer's Guide to Debugging C:DDA" },
     "description": "static std::string description( spell sp ) const;",
     "weight": "1 g",
@@ -31,7 +32,8 @@
   },
   {
     "id": "wizard_beginner",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
     "//": "2 Magus, 3 classless spell",
@@ -50,7 +52,8 @@
   },
   {
     "id": "novice_stormshaper_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "An Introduction to Applied Meteorology", "str_pl": "copies of An Introduction to Applied Meteorology" },
     "//": "2 stormshaper",
@@ -66,7 +69,8 @@
   },
   {
     "id": "wizard_utility",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
     "//": "2 Magus, 1 Biomancer, 1 Kelvinist, 1 Druid, 1 classless spell",
@@ -94,7 +98,8 @@
   },
   {
     "id": "pyro",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Pyromancy for Heretics", "str_pl": "copies of Pyromancy for Heretics" },
     "//": "4 Kelvinist spells",
@@ -113,7 +118,8 @@
   },
   {
     "id": "wizard_advanced",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "1 Magus, 1 biomancer, 2 kelvinist, 1 classless spells",
     "name": { "str": "A Treatise on Magical Elements", "str_pl": "copies of A Treatise on Magical Elements" },
@@ -133,7 +139,8 @@
   {
     "id": "priest_beginner",
     "//2": "id for legacy reasons",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Limits of Magical Recovery", "str_pl": "copies of The Limits of Magical Recovery" },
     "//": "1 technomancer, 2 biomancer, 1 druid spells",
@@ -149,7 +156,8 @@
   },
   {
     "id": "priest_advanced",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "The Paladin's Guide to Modern Spellcasting",
@@ -168,7 +176,8 @@
   },
   {
     "id": "winter_grasp",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Winter's Eternal Grasp", "str_pl": "copies of Winter's Eternal Grasp" },
     "//": "5 Kelvinist spells",
@@ -184,7 +193,8 @@
   },
   {
     "id": "tome_of_storms",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "7 Stormshaper spells",
     "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
@@ -214,7 +224,8 @@
   },
   {
     "id": "bioelectricity",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "6 Stormshaper spells",
     "name": { "str": "Bioelectricity, An Arcane Approach", "str_pl": "copies of Bioelectricity, An Arcane Approach" },
@@ -233,7 +244,8 @@
   },
   {
     "id": "tome_of_wind",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "5 Stormshaper wind spells",
     "name": { "str": "Blow You Away", "str_pl": "copies of Blow You Away" },
@@ -259,7 +271,8 @@
   },
   {
     "id": "tome_electric",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "5 Stormshaper electric spells",
     "name": { "str": "How Electromancy Changed the Vietnam War", "str_pl": "copies of How Electromancy Changed the Vietnam War" },
@@ -287,7 +300,8 @@
   },
   {
     "id": "generic_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Nondescript Spellbook", "str_pl": "copies of Nondescript Spellbook" },
     "//": "1 technomancer, 1 earthshaper, 1 classless spell",
@@ -302,7 +316,8 @@
   },
   {
     "id": "light_manipulation_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Of Light and Falsehoods", "str_pl": "copies of Of Light and Falsehoods" },
     "//": "3 technomancer, 4 classless spell",
@@ -330,7 +345,8 @@
   },
   {
     "id": "biomancer_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tome of Flesh", "str_pl": "copies of The Tome of Flesh" },
     "//": "5 Biomancer spells",
@@ -349,7 +365,8 @@
   },
   {
     "id": "druid_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
     "//": "5 Druid spells",
@@ -376,7 +393,8 @@
   },
   {
     "id": "recovery_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
@@ -404,7 +422,8 @@
   },
   {
     "id": "farmer_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Farm-Wizard's Almanac", "str_pl": "copies of The Farm-Wizard's Almanac" },
     "//": "2 earthshaper spells, 4 druid spells, 1 stormshaper spell",
@@ -431,7 +450,8 @@
   },
   {
     "id": "magus_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
     "//": "4 Magus spells",
@@ -450,7 +470,8 @@
   },
   {
     "id": "eshaper_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tome of the Hollow Earth", "str_pl": "copies of The Tome of the Hollow Earth" },
     "//": "5 earthshaper spells",
@@ -469,7 +490,8 @@
   },
   {
     "id": "eshaper_spellbook_melee",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Memoirs of the Champion of Earth", "str_pl": "copies of Memoirs of the Champion of Earth" },
     "//": "6 earthshaper spells",
@@ -495,7 +517,8 @@
   },
   {
     "id": "eshaper_spellbook_tool",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "One Spell is All You Need!", "str_pl": "copies of One Spell is All You Need!" },
     "//": "1 earthshaper spell. yes, the whole book is only for one, that's the idea",
@@ -511,7 +534,8 @@
   },
   {
     "id": "magus_spellbook_move",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Tome of Magical Movement", "str_pl": "copies of The Tome of Magical Movement" },
     "//": "6 Magus spells",
@@ -538,7 +562,8 @@
   },
   {
     "id": "summon_scroll_smudged",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Smudged Scroll" },
     "//": "Druid spell",
@@ -554,7 +579,8 @@
   },
   {
     "id": "summon_undead_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Necromantic Minions for Dummies", "str_pl": "copies of Necromantic Minions for Dummies" },
     "//": "3 Animist spells",
@@ -573,7 +599,8 @@
   },
   {
     "id": "techno_fundamentals",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Fundamentals of Technomancy", "str_pl": "copies of Fundamentals of Technomancy" },
     "//": "4 Technomancer spells",
@@ -592,7 +619,8 @@
   },
   {
     "id": "techno_idiots",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Complete Idiot's Guide to Technomancy", "str_pl": "copies of Complete Idiot's Guide to Technomancy" },
     "description": "This colorful guide, full of diagrams and cartoons, teaches a couple of very basic Technomancy spells for the not-so-bright pupils.",
@@ -608,7 +636,8 @@
   },
   {
     "id": "techno_em",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Technomancy and the Electromagnetic Spectrum",
@@ -630,7 +659,8 @@
   },
   {
     "id": "techno_electrical_work",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Mage-Engineer's Practical Guide", "str_pl": "copies of The Mage-Engineer's Practical Guide" },
     "//": "4 Technomancer spells, 2 Stormshaper spells",
@@ -656,7 +686,8 @@
   },
   {
     "id": "animist_spirits",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "2 animist and 1 classless spells",
     "name": { "str": "Liminal Pathways", "str_pl": "copies of Liminal Pathways" },
@@ -672,7 +703,8 @@
   },
   {
     "id": "animist_shadows",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Runic Tablet shard" },
     "//": "2 animist spells",
@@ -688,7 +720,8 @@
   },
   {
     "id": "translocate_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Geospatial Systems: The Lie Of Linearity", "str_pl": "copies of Geospatial Systems: The Lie Of Linearity" },
     "//": "1 classless spell",
@@ -704,7 +737,8 @@
   },
   {
     "id": "forbidden_tome",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Forbidden Tome" },
     "//": "1 Magus spell, 1 Druid spell, 2 Animist spells",
     "description": "A very, very old and heavy tome of various spells lost to the ages, either for good reason, or simply through the passage of time.  There are very few copies in existence, usually owned by those of great power, and yet all of them seem to have the last dozen pages or so torn out, in haste.",
@@ -719,7 +753,8 @@
   },
   {
     "id": "stat_up_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Transcendence of the Human Condition", "str_pl": "copies of Transcendence of the Human Condition" },
     "//": "4 Magus spells",
@@ -735,7 +770,8 @@
   },
   {
     "id": "magic_movement_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Wherever You've Gone, There You Can Be", "str_pl": "copies of Wherever You've Gone, There You Can Be" },
     "//": "3 Magus spells, 1 Technomancer spell",
     "description": "A very sarcastically-written guide to using magic to get into and out of places you absolutely are not supposed to be.",
@@ -753,7 +789,8 @@
   },
   {
     "id": "prepper_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "It's the End of the World, But You'll Feel Fine",
@@ -782,7 +819,8 @@
     }
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "id": "plant_spellbook",
     "name": { "ctxt": "spellbook", "str": "The Elven Path", "str_pl": "copies of The Elven Path" },
     "//": "7 Druid spells",
@@ -809,7 +847,8 @@
   },
   {
     "id": "book_lazy_magic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Lazy Mage's How-to Guide", "str_pl": "copies of The Lazy Mage's How-to Guide" },
     "//": "1 Magus spell, 1 Earthshaper spell, 1 Stormshaper spell, 1 Technomancer spell, 1 Classless spell",
@@ -834,7 +873,8 @@
   },
   {
     "id": "camping_time_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Arcano-hiking for Fun", "str_pl": "copies of Arcano-hiking for Fun" },
     "//": "1 classless, 1 druid spell",
@@ -850,7 +890,8 @@
   },
   {
     "id": "magic_history_tech_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "The Effects of Technological Progress on Magic",
@@ -869,7 +910,8 @@
   },
   {
     "id": "magic_healing_home_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Home Mage's Healthcare Manual", "str_pl": "copies of The Home Mage's Healthcare Manual" },
     "//": "2 Biomancer, 2 Druid spell",
@@ -888,7 +930,8 @@
   },
   {
     "id": "animist_summon_wisps_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Travels Among the Ljósálfar: Their Customs, Food, Lifestyle, Celebrations, and Ceremonies",
@@ -907,7 +950,8 @@
   },
   {
     "id": "stormshaper_electric_immune_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Storm Chasing In Complete Safety", "str_pl": "copies of Storm Chasing In Complete Safety" },
     "//": "1 stormshaper spell",
@@ -923,7 +967,8 @@
   },
   {
     "id": "avoid_all_temperatures_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Fashion Over Function: A Thaumaturgical Guide to Wearing Whatever, Whenever",
@@ -942,7 +987,8 @@
   },
   {
     "id": "summon_cats_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A Cat Cafe at Home!", "str_pl": "copies of A Cat Cafe at Home!" },
     "//": "1 Druid spell",
@@ -958,7 +1004,8 @@
   },
   {
     "id": "freshen_up_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Save Water and Time, with Magic!", "str_pl": "copies of Save Water and Time, with Magic!" },
     "//": "1 classless spell",
@@ -974,7 +1021,8 @@
   },
   {
     "id": "post_apocalypse_guide_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Mystic Survival in the End Times", "str_pl": "copies of Mystic Survival in the End Times" },
     "//": "1 Biomancer, 1 Druid, 1 Kelvinist, and 1 classless spell.",
@@ -993,7 +1041,8 @@
   },
   {
     "id": "earthshaper_landscaping_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Landscaping with Earthshaping", "str_pl": "copies of Landscaping with Earthshaping" },
     "description": "A guide to using earthshaping magic to shortcut the backbreaking work of digging and hauling needed to redo one's yard.",
@@ -1009,7 +1058,8 @@
   },
   {
     "id": "crystallize_mana_economy_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Limitations of the Mana Economy", "str_pl": "copies of The Limitations of the Mana Economy" },
     "//": "2 Classless spells",
@@ -1025,7 +1075,8 @@
   },
   {
     "id": "special_effects_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Make Your Own Special Effects", "str_pl": "copies of Make Your Own Special Effects" },
     "//": "1 Animist spell, 1 Magus spell, 1 Stormshaper spell, 1 Classless spell",
@@ -1041,7 +1092,8 @@
   },
   {
     "id": "magical_gardening_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Gardening the Druidic Way", "str_pl": "copies of Gardening the Druidic Way" },
     "//": "1 Druid, 1 Earthshaper spell",
@@ -1057,7 +1109,8 @@
   },
   {
     "id": "bypass_portals_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Let No Wall Stand in Your Way!", "str_pl": "copies of Let No Wall Stand in Your Way!" },
     "//": "2 technomancer spells",
@@ -1073,7 +1126,8 @@
   },
   {
     "id": "sense_outsiders_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A Study of Nethereum Incursions", "str_pl": "copies of A Study of Nethereum Incursions" },
     "//": "1 Animist spell",
@@ -1089,7 +1143,8 @@
   },
   {
     "id": "windrunning_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Born of a Gale: A Taxonomy of Air and Weather Spirits",
@@ -1108,7 +1163,8 @@
   },
   {
     "id": "stone_powers_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "2 Earthshaper spells",
     "name": {
@@ -1128,7 +1184,8 @@
   },
   {
     "id": "staying_clean_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Magical Method of Tidying Up", "str_pl": "copies of The Magical Method of Tidying Up" },
     "//": "2 classless, 1 magus spell",
@@ -1144,7 +1201,8 @@
   },
   {
     "id": "druid_healing_power_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "1 Druid spell + potion fruit recipes",
     "name": { "str": "The Healing Power of Nature", "str_pl": "copies of The Healing Power of Nature" },
@@ -1160,7 +1218,8 @@
   },
   {
     "id": "hologram_and_teleport_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Now You See We: Technomantic Transit In Action",
@@ -1179,7 +1238,8 @@
   },
   {
     "id": "messed_up_spells_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Magical Mishaps: When Spells Go Wrong", "str_pl": "copies of Magical Mishaps: When Spells Go Wrong" },
     "//": "2 druid spells, 1 stormshaper spell, 1 animist spell, all spells the pun ones",
@@ -1198,7 +1258,8 @@
   },
   {
     "id": "biomancy_fasting_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Intermittent Fasting Using Biomancy", "str_pl": "copies of Intermittent Fasting Using Biomancy" },
     "//": "1 Biomancy spell",
@@ -1214,7 +1275,8 @@
   },
   {
     "id": "anti_magic_dispel_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "A Year of Living Without Magic", "str_pl": "copies of A Year of Living Without Magic" },
     "//": "1 Classless spell",
@@ -1230,7 +1292,8 @@
   },
   {
     "id": "easy_sleeping_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Beyond Sleeping Easy with Sorcery", "str_pl": "copies of Beyond Sleeping Easy with Sorcery" },
     "//": "1 Classless spell",
@@ -1246,7 +1309,8 @@
   },
   {
     "id": "basic_pyromancy",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "//": "6 Kelvinist spells",
     "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
@@ -1272,7 +1336,8 @@
   },
   {
     "id": "all_first_circle_upgrades_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rites of the First Circle", "str_pl": "copies of The Rites of the First Circle" },
     "//": "All 3 first circle mana trait upgrade spells",
@@ -1291,7 +1356,8 @@
   },
   {
     "id": "first_circle_mana_amount_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rite of the First Circle: Mana Pool", "str_pl": "copies of The Rite of the First Circle: Mana Pool" },
     "description": "A lengthy list of the rituals and components necessary to slightly increase the efficiency by which the mage's body processes mana.",
@@ -1306,7 +1372,8 @@
   },
   {
     "id": "second_circle_mana_amount_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rite of the Second Circle: Mana Pool", "str_pl": "copies of The Rite of the Second Circle: Mana Pool" },
     "description": "A lengthy list of the rituals and components necessary to increase the efficiency by which the mage's body processes mana.",
@@ -1321,7 +1388,8 @@
   },
   {
     "id": "first_circle_mana_regen_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rite of the First Circle: Mana Flow", "str_pl": "copies of The Rite of the First Circle: Mana Flow" },
     "description": "A lengthy list of the rituals and components necessary to slightly increase the rate by which the mage's body regains mana.",
@@ -1336,7 +1404,8 @@
   },
   {
     "id": "second_circle_mana_regen_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rite of the Second Circle: Mana Flow", "str_pl": "copies of The Rite of the Second Circle: Mana Flow" },
     "description": "A lengthy list of the rituals and components necessary to increase the rate by which the mage's body regains mana.",
@@ -1351,7 +1420,8 @@
   },
   {
     "id": "first_circle_mana_mult_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rite of the First Circle: Mana Sense", "str_pl": "copies of The Rite of the First Circle: Mana Sense" },
     "description": "A lengthy list of the rituals and components necessary to slightly increase the sensitivity that the mage's body has to  mana.",
@@ -1366,7 +1436,8 @@
   },
   {
     "id": "second_circle_mana_mult_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rite of the Second Circle: Mana Sense", "str_pl": "copies of The Rite of the Second Circle: Mana Sense" },
     "description": "A lengthy list of the rituals and components necessary to increase the sensitivity that the mage's body has to mana.",
@@ -1381,7 +1452,8 @@
   },
   {
     "id": "pirate_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Sail the High Seas with Sorcery on Your Side",

@@ -1,7 +1,8 @@
 [
   {
     "id": "300blk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".300 AAC Blackout" },
     "description": "A .300 AAC Blackout round with a 125gr open tip match bullet.  .300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
     "ascii_picture": "300blk",
@@ -62,7 +63,8 @@
   {
     "id": "300blk_ss",
     "copy-from": "300blk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".300 AAC Blackout subsonic" },
     "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  When fired with a suppressor, it only emits low noise, making it ideal for silently eliminating your enemies.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
     "weight": "21 g",
@@ -74,7 +76,8 @@
   {
     "id": "bp_300blk",
     "copy-from": "300blk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".300 AAC Blackout, black powder", "str_pl": ".300 AAC Blackouts, black powder" },
     "proportional": {
       "price": 0.3,
@@ -88,7 +91,8 @@
   {
     "id": "reloaded_300blk",
     "copy-from": "300blk",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".300 AAC Blackout, reloaded", "str_pl": ".300 AAC Blackouts, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -97,7 +101,8 @@
   {
     "id": "bp_300blk_ss",
     "copy-from": "300blk_ss",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".300 AAC Blackout subsonic, black powder", "str_pl": ".300 AAC Blackouts subsonic, black powder" },
     "proportional": {
       "price": 0.3,
@@ -111,7 +116,8 @@
   {
     "id": "reloaded_300blk_ss",
     "copy-from": "300blk_ss",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".300 AAC Blackout subsonic, reloaded", "str_pl": ".300 AAC Blackouts subsonic, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

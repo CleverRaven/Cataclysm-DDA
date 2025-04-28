@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "High quality energy extracted by our advanced forbearers. Gives lasers extra damage and range. Don't think too much about how it works.",
     "id": "afs_battery_plus",
     "copy-from": "battery",

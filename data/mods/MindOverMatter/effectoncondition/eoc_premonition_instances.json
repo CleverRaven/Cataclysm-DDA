@@ -1,21 +1,8 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
-    "recurrence": [ "4 hours", "4 hours" ],
-    "//": "Copy EoC: original in json/monsters/singularities.json",
-    "condition": {
-      "and": [
-        { "one_in_chance": 6 },
-        { "not": "is_day" },
-        { "math": [ "u_Lieutenants_active > 0" ] },
-        { "math": [ "u_Shadow_Lurking > 0" ] },
-        "u_is_outside",
-        {
-          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
-        }
-      ]
-    },
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_PREP",
+    "//": "Copy and overwrite of EoC: original in json/monsters/singularities.json",
     "effect": [
       {
         "run_eocs": [
@@ -29,23 +16,14 @@
                 "popup": true
               },
               {
-                "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
+                "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_NOW",
                 "time_in_future": { "math": [ "(u_spell_level('clair_danger_sense') * 5) + 10" ] }
               }
             ],
-            "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL" ] } ]
+            "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_NOW" ] } ]
           }
         ]
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
-    "effect": [
-      { "math": [ "u_Shadow_Lurking--" ] },
-      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
     ]
   },
   {

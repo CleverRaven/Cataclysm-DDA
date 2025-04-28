@@ -1,7 +1,8 @@
 [
   {
     "id": "damaged_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "damaged shelter kit" },
     "description": "A disassembled small shelter made of sticks and skins.  It's been damaged and needs to be repaired before you can set it up.",
     "weight": "1360 g",
@@ -16,7 +17,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "large_damaged_shelter_kit",
     "symbol": ";",
     "color": "brown",
@@ -33,7 +34,8 @@
   },
   {
     "id": "large_tent_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large tent" },
     "description": "A family sized tent in a storage bag.  It provides a large amount of space, but is very bulky.",
     "weight": "2266 g",
@@ -59,7 +61,8 @@
   },
   {
     "id": "shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "shelter kit" },
     "description": "A disassembled small shelter made of sticks and skins.  Activate it to set it up.",
     "weight": "1360 g",
@@ -84,7 +87,8 @@
   },
   {
     "id": "large_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "large shelter kit" },
     "description": "A large disassembled shelter made of sticks and skins.  Activate it to set it up.",
     "weight": "21 kg",
@@ -110,7 +114,8 @@
   },
   {
     "id": "tent_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tent" },
     "description": "A small personal tent in a storage bag.  It's just big enough to fit one person comfortably.",
     "weight": "1133 g",
@@ -134,7 +139,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tent_pole",
     "symbol": "/",
     "color": "dark_gray",

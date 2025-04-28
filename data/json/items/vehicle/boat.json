@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "boat_board",
     "symbol": "o",
     "color": "brown",
@@ -16,7 +16,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "raft_board",
     "symbol": "o",
     "color": "brown",
@@ -32,7 +32,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plastic_boat_hull",
     "symbol": "o",
     "color": "brown",
@@ -48,7 +48,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "carbonfiber_boat_hull",
     "symbol": "o",
     "color": "brown",
@@ -64,7 +64,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hand_paddles",
     "name": { "str_sp": "oars" },
     "description": "A pair of oars for a boat.",
@@ -79,7 +79,7 @@
     "melee_damage": { "bash": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sail",
     "name": { "str": "sail" },
     "description": "A sail for a boat.",
@@ -95,7 +95,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "inflatable_section",
     "symbol": "o",
     "color": "green",
@@ -111,7 +111,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "inflatable_airbag",
     "symbol": "o",
     "color": "dark_gray",
@@ -127,7 +127,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aluminum_boat_hull",
     "symbol": "o",
     "color": "light_gray",

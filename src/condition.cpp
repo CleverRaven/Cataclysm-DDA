@@ -246,10 +246,10 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv )
             } else if( jo.has_string( "default" ) ) {
                 std::string const &def_str = jo.get_string( "default" );
                 if( def_str == "infinite" ) {
-                    ret_val.dur_val = time_duration::from_turns( calendar::INDEFINITELY_LONG );
+                    ret_val.default_val = time_duration::from_turns( calendar::INDEFINITELY_LONG );
                 } else {
                     JsonValue const &jv_def = jo.get_member( "default" );
-                    ret_val.dur_val = read_from_json_string<time_duration>( jv_def, time_duration::units );
+                    ret_val.default_val = read_from_json_string<time_duration>( jv_def, time_duration::units );
                 }
             }
         }
