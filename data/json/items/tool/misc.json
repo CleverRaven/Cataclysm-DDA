@@ -665,7 +665,7 @@
   {
     "id": "insecticide_spray_can",
     "type": "ITEM",
-    "subtype": "TOOL",
+    "subtypes": "TOOL",
     "name": { "str": "spray can of insecticide", "str_pl": "spray cans of insecticide" },
     "description": "A metal aerosol can with a bulky plastic cap.  The front features an illustration of an identical can and a variety of insects dead under its spray.",
     "weight": "340 g",
