@@ -68,7 +68,6 @@
         "%%%%%"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "&": "" },
       "furniture": { "%": "f_sandbag_wall" },
       "traps": { "=": "tr_rollmat" },
       "place_loot": [
@@ -205,7 +204,7 @@
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "O": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": {
         "A": "f_stool",
