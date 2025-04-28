@@ -285,12 +285,8 @@
     "result_eocs": [
       {
         "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER",
-        "//": "I tried a switch statement below but it absolutely refused to print the messages, so if statements it is",
         "effect": [
-          {
-            "u_choose_adjacent_highlight": { "context_val": "alpha_talker" },
-            "message": "Select person to test noetic potential"
-          },
+          { "u_choose_adjacent_highlight": { "context_val": "alpha_talker" }, "message": "Select noetic testing target" },
           {
             "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
             "alpha_loc": { "context_val": "alpha_talker" }
@@ -302,6 +298,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
+    "//": "I tried a switch statement below but it absolutely refused to print the messages, so if statements it is",
     "condition": "has_alpha",
     "effect": [
       {
