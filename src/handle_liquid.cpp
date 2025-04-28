@@ -116,14 +116,17 @@ void handle_all_liquid( item liquid, const int radius, const item *const avoid )
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
-        handle_liquid( liquid, avoid, radius );
+        liquid_dest_opt liquid_target;
+        handle_liquid( liquid, liquid_target, avoid, radius );
     }
 }
 
 bool consume_liquid( item &liquid, const int radius, const item *const avoid )
 {
     const int original_charges = liquid.charges;
-    while( liquid.charges > 0 && handle_liquid( liquid, avoid, radius ) ) {
+    liquid_dest_opt liquid_target;
+    while( liquid.charges > 0 && handle_liquid( liquid, liquid_target, avoid, radius ) ) {
+        liquid_target.dest_opt = LD_NULL;
         // try again with the remaining charges
     }
     return original_charges != liquid.charges;
@@ -536,7 +539,8 @@ bool can_handle_liquid( const item &liquid )
     return true;
 }
 
-bool handle_liquid( item &liquid, const item *const source, const int radius,
+bool handle_liquid( item &liquid, liquid_dest_opt &liquid_target, const item *const source,
+                    const int radius,
                     const tripoint_bub_ms *const source_pos,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
@@ -545,8 +549,8 @@ bool handle_liquid( item &liquid, const item *const source, const int radius,
     if( !can_handle_liquid( liquid ) ) {
         return false;
     }
-    struct liquid_dest_opt liquid_target;
-    if( get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon,
+    if( liquid_target.dest_opt != LD_NULL ||
+        get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon,
                            liquid_target ) ) {
         success = perform_liquid_transfer( liquid, source_pos, source_veh, part_num, source_mon,
                                            liquid_target );

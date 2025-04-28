@@ -5522,7 +5522,9 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
     milk.set_item_temperature( units::from_celsius( 38.6 ) );
-    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+    liquid_dest_opt liquid_target;
+    if( liquid_handler::handle_liquid( milk, liquid_target, nullptr, 1, nullptr, nullptr, -1,
+                                       source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
             milked_item->second = milk.charges;
