@@ -285,6 +285,7 @@
     "result_eocs": [
       {
         "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER",
+        "//": "I tried a switch statement below but it absolutely refused to print the messages, so if statements it is",
         "condition": { "u_has_trait": "CANNOT_GAIN_PSIONICS" },
         "effect": [
           {
@@ -310,72 +311,53 @@
               { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
             ]
           },
-          { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
+          { "math": [ "_awakening_check = ( 100 - (matrix_awakening_odds(u_awakening_countup)))" ] },
           {
-            "switch": { "math": [ "100 - (u_awakening_reducer * 100)" ] },
-            "cases": [
-              {
-                "case": 2,
-                "effect": [
-                  {
-                    "set_string_var": "<color_light_red>Potential: Negligible</color>",
-                    "target_var": { "context_val": "_noetic_measurement" }
-                  }
-                ]
-              },
-              {
-                "case": 5,
-                "effect": [
-                  {
-                    "set_string_var": "<color_light_red>Potential: Minor</color>",
-                    "target_var": { "context_val": "_noetic_measurement" }
-                  }
-                ]
-              },
-              {
-                "case": 15,
-                "effect": [
-                  {
-                    "set_string_var": "<color_yellow>Potential: Moderate</color>",
-                    "target_var": { "context_val": "_noetic_measurement" }
-                  }
-                ]
-              },
-              {
-                "case": 35,
-                "effect": [
-                  {
-                    "set_string_var": "<color_light_green>Potential: Good</color>",
-                    "target_var": { "context_val": "_noetic_measurement" }
-                  }
-                ]
-              },
-              {
-                "case": 99,
-                "effect": [
-                  {
-                    "set_string_var": "<color_light_blue>Potential: Excellent</color>",
-                    "target_var": { "context_val": "_noetic_measurement" }
-                  }
-                ]
-              }
-            ]
+            "if": { "and": [ { "math": [ "_awakening_check >= 0" ] }, { "math": [ "_awakening_check <= 2" ] } ] },
+            "then": {
+              "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Negligible</color>\" are visible.",
+              "type": "neutral"
+            }
+          },
+          {
+            "if": { "and": [ { "math": [ "_awakening_check > 2" ] }, { "math": [ "_awakening_check <= 5" ] } ] },
+            "then": {
+              "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Negligible</color>\" are visible.",
+              "type": "neutral"
+            }
+          },
+          {
+            "if": { "and": [ { "math": [ "_awakening_check > 5" ] }, { "math": [ "_awakening_check <= 15" ] } ] },
+            "then": {
+              "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_yellow>Potential: Moderate</color>\" are visible.",
+              "type": "neutral"
+            }
+          },
+          {
+            "if": { "and": [ { "math": [ "_awakening_check > 15" ] }, { "math": [ "_awakening_check <= 35" ] } ] },
+            "then": {
+              "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_green>Potential: Good</color>\" are visible.",
+              "type": "neutral"
+            }
+          },
+          {
+            "if": { "and": [ { "math": [ "_awakening_check > 35" ] }, { "math": [ "_awakening_check <= 99" ] } ] },
+            "then": {
+              "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_blue>Potential: Excellent</color>\" are visible.",
+              "type": "neutral"
+            }
           },
           {
             "if": { "math": [ "_already_psi == 1" ] },
             "then": [
-              {
-                "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<context_val:noetic_measurement>\" are visible.  Below it in red are the words: <light_red>WARNING: Noetic activity detected.",
-                "type": "neutral"
-              },
+              { "message": "Below it in red are the words: <color_light_red>WARNING: Noetic activity detected.", "type": "neutral" },
               { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
             ],
             "else": [
               {
-                "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<context_val:noetic_measurement>\" are visible.",
-                "type": "neutral"
-              },
-              { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+                "if": { "not": { "u_has_trait": "CANNOT_GAIN_PSIONICS" } },
+                "then": { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
+              }
             ]
           }
         ]

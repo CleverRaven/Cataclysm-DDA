@@ -13,6 +13,7 @@
   },
   {
     "id": "psi_noetic_resonance_detector_tool",
+    "copy-from": "fake_appliance_tool",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "active noetic resonance detector" },

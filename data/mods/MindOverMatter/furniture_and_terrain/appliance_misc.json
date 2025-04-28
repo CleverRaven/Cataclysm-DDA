@@ -17,7 +17,7 @@
       { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "flags": [ "APPLIANCE", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "APPLIANCE" ],
     "requirements": { "removal": { "time": "2 m" } }
   }
 ]
