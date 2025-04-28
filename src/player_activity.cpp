@@ -403,10 +403,12 @@ void player_activity::do_turn( Character &you )
         // Make sure data of previous activity is cleared
         you.activity = player_activity();
         you.resume_backlog_activity();
-
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();
+    }
+    if ((!you.activity)&&you.backlog.empty()&&(!you.get_destination_activity())){
+        activity_handlers::clean_may_activity_occupancy_items_var(you);
     }
 }
 
@@ -415,6 +417,7 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
+    activity_handlers::clean_may_activity_occupancy_items_var(who);
     get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
     g->wait_popup_reset();
 }

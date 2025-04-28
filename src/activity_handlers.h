@@ -283,6 +283,7 @@ int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_b
                     const units::volume &capacity );
 int move_cost_inv( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 
+void clean_may_activity_occupancy_items_var(Character & you);
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 finish_functions;

@@ -3847,3 +3847,25 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
     }
     return true;
 }
+
+void activity_handlers::clean_may_activity_occupancy_items_var(Character & you){
+    int character_id = you.getID().get_value();
+    auto activity_var_checker = [character_id](const item &it)->bool{
+        return it.has_var("activity_var")
+        && static_cast<int>(it.get_var("activity_var",-1)) == character_id;
+    };
+    map &here = get_map();
+    for (const auto & pos:you.may_activity_occupancy_items_loc_points){
+        auto item_locs = here.items_with(here.get_bub(pos),activity_var_checker);
+        for (auto & item_loc:item_locs){
+            item *it = item_loc.get_item();
+            if (it == nullptr || it->is_null()) { continue;}
+            it->erase_var("activity_var");
+        }
+    }
+    auto items = you.items_with(activity_var_checker);
+    for (auto *it:items){
+        if (it == nullptr || it->is_null()) { continue;}
+        it->erase_var("activity_var");
+    }
+}
