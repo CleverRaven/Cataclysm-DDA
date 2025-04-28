@@ -210,6 +210,7 @@ static const ter_str_id ter_t_door_glass_frosted_c( "t_door_glass_frosted_c" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_burnt( "t_floor_burnt" );
 static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
 static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
@@ -225,6 +226,7 @@ static const ter_str_id ter_t_strconc_floor( "t_strconc_floor" );
 static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
 static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
 static const ter_str_id ter_t_vat( "t_vat" );
+static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
@@ -564,6 +566,66 @@ static void GENERATOR_add_fire( map &md,
 
 }
 
+static void GENERATOR_pre_burn( map &md,
+                                std::list<tripoint_bub_ms> &all_points_in_map,
+                                int days_since_cataclysm )
+{
+    // Later, this will be loaded from json.
+    generator_vars burnt_vars{};
+    // Fires are still raging around this time, but some start appearing
+    // Never appears before this date
+    burnt_vars.scaling_days_start = 3;
+
+    burnt_vars.scaling_days_end = 14; // Continues appearing at maximum appearance rate after this day
+    burnt_vars.num_attempts = 1; // Currently only applied to the whole map, so one pass.
+
+    burnt_vars.min_intensity = 6; // For this generator: % chance at start day
+    burnt_vars.max_intensity = 28; // For this generator: % chance at end day
+
+    // between start and end day we linearly interpolate.
+    double lerp_scalar = static_cast<double>( ( days_since_cataclysm - burnt_vars.scaling_days_start ) /
+                         ( burnt_vars.scaling_days_end - burnt_vars.scaling_days_start ) );
+    burnt_vars.percent_chance = lerp( burnt_vars.min_intensity, burnt_vars.max_intensity, lerp_scalar );
+    // static values outside that range. Note we do not use std::clamp because the chance is *0* until the start day is reached
+    if( days_since_cataclysm < burnt_vars.scaling_days_start ) {
+        burnt_vars.percent_chance = 0;
+    } else if( days_since_cataclysm >= burnt_vars.scaling_days_end ) {
+        burnt_vars.percent_chance = burnt_vars.max_intensity;
+    }
+
+    for( int i = 0; i < burnt_vars.num_attempts; i++ ) {
+        if( !x_in_y( burnt_vars.percent_chance, 100 ) ) {
+            continue; // failed roll
+        }
+        for( tripoint_bub_ms current_tile : all_points_in_map ) {
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
+                continue;
+            }
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_DOOR, current_tile ) ) {
+                // Doorways get burned to smithereens. Put a floor there.
+                md.ter_set( current_tile.xy(), ter_t_floor_burnt );
+            } else if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
+                // burnt wall
+                md.ter_set( current_tile.xy(), ter_t_wall_burnt );
+            } else if( md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
+                // if we're indoors but we're not a wall, then we must be a floor.
+                md.ter_set( current_tile.xy(), ter_t_floor_burnt );
+            } else if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
+                // if we're outside on ground level, burn it to dirt.
+                if( current_tile.z() == 0 ) {
+                    md.ter_set( current_tile.xy(), ter_t_dirt );
+                }
+            }
+
+            // destroy any furniture that is in the tile. it's been burned, after all.
+            md.furn_set( current_tile.xy(), furn_str_id::NULL_ID() );
+
+            // destroy all items in the tile.
+            md.i_clear( current_tile.xy() );
+        }
+    }
+}
+
 static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 {
     std::list<tripoint_bub_ms> all_points_in_map;
@@ -584,6 +646,7 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
     GENERATOR_bash_damage( md, all_points_in_map, days_since_cataclysm );
     GENERATOR_move_items( md, all_points_in_map, days_since_cataclysm );
     GENERATOR_add_fire( md, all_points_in_map, days_since_cataclysm );
+    GENERATOR_pre_burn( md, all_points_in_map, days_since_cataclysm );
 
     // NOTE: Below currently only runs for bloodstains.
     for( size_t i = 0; i < all_points_in_map.size(); i++ ) {
