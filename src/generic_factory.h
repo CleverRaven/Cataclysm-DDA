@@ -133,9 +133,6 @@ const my_class &string_id<my_class>::obj() const
 template<typename T>
 class generic_factory
 {
-        friend class Item_factory; //TO-DO: remove when item infrastructure is done
-        friend struct itype; //TO-DO: remove when item infrastructure is done
-
     public:
         virtual ~generic_factory() = default;
 
