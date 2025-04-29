@@ -4996,7 +4996,7 @@ void avatar::character_to_template( const std::string &name )
 
 void Character::add_default_background()
 {
-    if( has_flag( flag_NONSTANDARD_BACKROUND ) ) {
+    if( scen.has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         return;
     }
 
