@@ -2397,8 +2397,7 @@ bool map::is_open_air( const tripoint_bub_ms &p ) const
 // Move cost: 3D
 
 int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
-                    const bool ignore_fields, const bool ignore_terrain,
-                    const bool ignore_furn ) const
+                    const bool ignore_fields, const bool ignore_furn ) const
 {
     // To save all of the bound checks and submaps fetching, we extract it
     // here instead of using furn(), field_at() and ter().
@@ -2414,7 +2413,7 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
     field static nofield;
 
     const furn_t &furniture = !ignore_furn ? current_submap->get_furn( l ).obj() : furn_t();
-    const ter_t &terrain = !ignore_terrain ? current_submap->get_ter( l ).obj() : ter_t();
+    const ter_t &terrain = current_submap->get_ter( l ).obj();
     const field &field = !ignore_fields ? current_submap->get_field( l ) : nofield ;
     const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
@@ -2483,27 +2482,40 @@ bool map::passable_ter_furn( const tripoint_bub_ms &p ) const
 int map::combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                             const vehicle *ignored_vehicle,
                             const int modifier, const bool flying, const bool via_ramp, const bool ignore_fields,
-                            const bool ignore_terrain, const bool ignore_furn,
+                            const bool digging, const bool swimming, const bool climbing,
                             const bool ignore_trig ) const
 {
     static constexpr std::array<int, 4> mults = { 0, 50, 71, 100 };
-    const int cost1 = move_cost( from, ignored_vehicle, ignore_fields, ignore_terrain, ignore_furn );
-    const int cost2 = move_cost( to, ignored_vehicle, ignore_fields, ignore_terrain, ignore_furn );
+
+    // from tile should never be digable
+    const bool digs_to = digging && has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, to );
+    const bool swims_from = swimming && has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, from );
+    const bool swims_to = swimming && has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, to );
+
+    // swimmers and diggers ignore terraincost
+    const int cost1 = swims_from ? 0 :
+                      move_cost( from, ignored_vehicle, ignore_fields, climbing &&
+                                 has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, from ) );
+    const int cost2 = swims_to || digs_to ? 0 :
+                      move_cost( to, ignored_vehicle, ignore_fields, climbing &&
+                                 has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, to ) );
+
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
     size_t match = trigdist && !ignore_trig ? ( from.x() != to.x() ) + ( from.y() != to.y() ) +
                    ( from.z() != to.z() ) : 1;
     if( flying || from.z() == to.z() ) {
-        return ( cost1 + cost2 + modifier ) * mults[match] / 2;
+        return std::max( cost1 + cost2 + modifier, 1 ) * mults[match] / 2;
     }
 
     // Inter-z-level movement by foot (not flying)
-    if( !valid_move( from, to, false, via_ramp ) ) {
+    if( !valid_move( from, to, false, false, via_ramp ) ) {
         return 0;
     }
 
     // TODO: Penalize for using stairs
-    return ( cost1 + cost2 + modifier ) * mults[match] / 2;
+    // result should not return 0 as it would be considered failed
+    return std::max( cost1 + cost2 + modifier, 1 ) * mults[match] / 2;
 }
 
 bool map::valid_move( const tripoint_bub_ms &from, const tripoint_bub_ms &to,

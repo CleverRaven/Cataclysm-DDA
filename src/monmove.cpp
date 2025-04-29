@@ -1543,38 +1543,19 @@ int monster::calc_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &
                             bool ignore_fields ) const
 {
     map &here = get_map();
-    int movecost = 0;
     int modifier = 0;
 
-    // Digging, swimming and flying monsters ignore terrain cost. Swimmers are extra quick
-    const bool is_digging =  digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to ) ;
-    const bool is_swimming = swims() && ( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, from )  ||
-                                          here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to ) );
-
-    const bool is_climbing = climbs() && ( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to ) ||
-                                           here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, from ) );
-
-    const bool ignore_ter = flies() || is_swimming || is_digging;
-
-
-    // climbing shouldn't be entirely free, even for climbers
-    // TODO: somehow un magic
-    if( is_climbing ) {
-        modifier += 3;
+    //temp hackery. We shouldnt get here if the target location is climbable as it will run calc_climb_cost instead, so only mod 'from'
+    if( digging() && here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, from ) ) {
+        modifier += 3;      // basic climbing cost. should probably be handeled somewhere else?
     }
-
-    // terrain is the main contributor, make sure its bigger then 0.
-    // generally 25 cost per mod point
-    if( ignore_ter ) {
-        modifier = std::max( modifier, 1 );
-    }
-
     // TODO: if Z movement are handled here, add via_ramp
     // TODO: returns 0 when failed. Check it?
-    movecost = here.combined_movecost( from, to, nullptr, modifier, flies(), false,
-                                       ignore_fields, ignore_ter, is_climbing, true );
+    int movecost = here.combined_movecost( from, to, nullptr, modifier, flies(), false,
+                                           ignore_fields, digging(), swims(), climbs(), true );
 
-    add_msg_debug( debugmode::DF_MONMOVE, "%s movecost pre-mod: %i", name(), movecost );
+
+    add_msg_debug( debugmode::DF_MONMOVE, "%s movecost: %i", name(), movecost );
 
     return movecost;
 }
@@ -1838,6 +1819,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
     }
 
     // Allows climbing monsters to move on terrain with movecost <= 0
+    // TODO: maybe add climbcost here isntead of in calc_movecost
     Creature *critter = get_creature_tracker().creature_at( destination, is_hallucination() );
     const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at(
                 destination );

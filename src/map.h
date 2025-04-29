@@ -575,10 +575,10 @@ class map
         * n > 0     | x*n turns to move past this
         */
         int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
-                       bool ignore_fields = false, bool ignore_terrain = false, bool ignore_furn = false ) const;
+                       bool ignore_fields = false, bool ignore_furn = false ) const;
         int move_cost( const point_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
-                       bool ignore_fields = false, bool ignore_terrain = false, bool ignore_furn = false ) const {
-            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle, ignore_fields, ignore_terrain,
+                       bool ignore_fields = false, bool ignore_furn = false ) const {
+            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle, ignore_fields,
                               ignore_furn );
         }
         bool impassable( const tripoint_bub_ms &p ) const;
@@ -611,13 +611,22 @@ class map
 
         /**
         * Cost to move out of one tile and into the next.
-        *
-        * @return The cost in turns to move out of tripoint `from` and into `to`
+        * @param from Source location
+        * @param to Target location
+        * @param ignored_vehicle do not apply vehicle penalty
+        * @param modifier generally 1 modifier is 25 movecost for adjacent tiles
+        * @param flying
+        * @param via_ramp allow going up/down ramps
+        * @param ignore_fields ignore field-effects like smoke
+        * @param digging ignore diggable terrain
+        * @param swimming ignore swimmable terrain
+        * @param ignore_trig consider location as adjacent
+        * @return The cost in turns to move out of tripoint `from` and into `to`. Movecost of 0 implies an invalid move.
         */
         int combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                                const vehicle *ignored_vehicle = nullptr,
                                int modifier = 0, bool flying = false, bool via_ramp = false,
-                               bool ignore_fields = false, bool ignore_terrain = false, bool ignore_furn = false,
+                               bool ignore_fields = false, bool digging = false, bool swimming = false, bool climbing = false,
                                bool ignore_trig = false ) const;
 
         /**
