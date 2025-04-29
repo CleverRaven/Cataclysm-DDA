@@ -95,7 +95,8 @@
       "glock36_mag",
       "glock43_mag",
       "glock43x/48_mag",
-      "glock42_mag"
+      "glock42_mag",
+      "glock40mag_9"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
