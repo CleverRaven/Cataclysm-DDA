@@ -697,8 +697,8 @@
   {
     "id": "glock_44",
     "copy-from": "gun_base_22_semi_pistol",
-    "type": "GUN",
     "looks_like": "glock19",
+    "type": "GUN",
     "name": { "str": "Glock 44" },
     "description": "A Glock chambered in .22LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
     "weight": "358 g",
