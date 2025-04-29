@@ -522,7 +522,7 @@
     "subtype": "collection",
     "id": "boxed_glock_27",
     "container-item": "box_pistol",
-    "items": [ { "item": "glock_237" }, { "group": "firearm_box_extras" }, { "item": "glock40mag_9", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "glock_27" }, { "group": "firearm_box_extras" }, { "item": "glock40mag_9", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
