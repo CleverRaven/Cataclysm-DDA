@@ -925,7 +925,7 @@
     "description": "Greasy Prospector brand improved pork and beans with hickory smoked pig fat chunks.",
     "price": "1 USD",
     "price_postapoc": "150 cent",
-    "phase": "liquid ",
+    "phase": "liquid",
     "material": [ "flesh", "bean" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
