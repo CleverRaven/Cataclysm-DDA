@@ -2493,10 +2493,10 @@ int map::combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &
     const bool swims_to = swimming && has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, to );
 
     // swimmers and diggers ignore terraincost
-    const int cost1 = swims_from ? 0 :
+    const int cost1 = flying || swims_from ? 0 :
                       move_cost( from, ignored_vehicle, ignore_fields, climbing &&
                                  has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, from ) );
-    const int cost2 = swims_to || digs_to ? 0 :
+    const int cost2 = flying || swims_to || digs_to ? 0 :
                       move_cost( to, ignored_vehicle, ignore_fields, climbing &&
                                  has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, to ) );
 
