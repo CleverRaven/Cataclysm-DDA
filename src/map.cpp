@@ -2488,17 +2488,18 @@ int map::combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &
     static constexpr std::array<int, 4> mults = { 0, 50, 71, 100 };
 
     // from tile should never be digable
-    const bool digs_to = digging && has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, to );
-    const bool swims_from = swimming && has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, from );
-    const bool swims_to = swimming && has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, to );
+    const bool digs_to = digging && has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to );
+    const bool swims_from = swimming && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, from );
+    const bool swims_to = swimming && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to );
+    const bool climbs_from = climbing && has_flag( ter_furn_flag::TFLAG_CLIMBABLE, from );
+    const bool climbs_to = climbing && has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to );
 
     // swimmers and diggers ignore terraincost
-    const int cost1 = flying || swims_from ? 0 :
-                      move_cost( from, ignored_vehicle, ignore_fields, climbing &&
-                                 has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, from ) );
-    const int cost2 = flying || swims_to || digs_to ? 0 :
-                      move_cost( to, ignored_vehicle, ignore_fields, climbing &&
-                                 has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, to ) );
+    const int cost1 = flying || swims_from || climbs_from ? 0 :
+                      move_cost( from, ignored_vehicle, ignore_fields );
+    const int cost2 = flying || swims_to || digs_to || climbs_to ? 0 :
+                      move_cost( to, ignored_vehicle, ignore_fields );
+
 
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3

@@ -620,6 +620,7 @@ class map
         * @param ignore_fields ignore field-effects like smoke
         * @param digging ignore diggable terrain
         * @param swimming ignore swimmable terrain
+        * @param climbing ignores terrain if there is climbable furn
         * @param ignore_trig consider location as adjacent
         * @return The cost in turns to move out of tripoint `from` and into `to`. Movecost of 0 implies an invalid move.
         */

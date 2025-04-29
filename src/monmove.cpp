@@ -1546,13 +1546,20 @@ int monster::calc_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &
     int modifier = 0;
 
     // temp hackery. We shouldnt get here if the target location is climbable as it will run calc_climb_cost instead, so only mod 'from'
-    if( digging() && here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, from ) ) {
+    if( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, from ) ) {
         modifier += 3;      // basic climbing cost. should probably be handeled somewhere else?
     }
     // do flyers always fly or can they walk?
     if( flies() ) {
         modifier += 4;
     }
+    if( climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, from ) ) {
+        modifier += 3;
+    }
+    if( climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to ) ) {
+        modifier += 3;
+    }
+
     // TODO: if Z movement are handled here, add via_ramp
     // TODO: returns 0 when failed. Check it?
     int movecost = here.combined_movecost( from, to, nullptr, modifier, flies(), false,
