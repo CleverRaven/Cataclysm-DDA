@@ -1,9 +1,95 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [
+      "hospital_1",
+      "hospital_2",
+      "hospital_3",
+      "hospital_4",
+      "hospital_5",
+      "hospital_6",
+      "hospital_7",
+      "hospital_8",
+      "hospital_9",
+      "hospital_1_roof",
+      "hospital_2_roof",
+      "hospital_3_roof",
+      "hospital_4_roof",
+      "hospital_5_roof",
+      "hospital_6_roof",
+      "hospital_7_roof",
+      "hospital_8_roof",
+      "hospital_9_roof",
+      "urban_35_1",
+      "urban_35_2",
+      "urban_35_3",
+      "urban_35_4",
+      "urban_35_5",
+      "urban_35_6",
+      "urban_35_7",
+      "urban_35_8",
+      "urban_35_9",
+      "urban_35_10",
+      "urban_35_11",
+      "urban_35_12",
+      "urban_35_13",
+      "urban_35_14",
+      "urban_35_15",
+      "urban_35_16",
+      "urban_35_17",
+      "urban_35_18",
+      "urban_35_19",
+      "urban_35_20",
+      "urban_35_21",
+      "urban_35_22",
+      "urban_35_23",
+      "urban_35_24",
+      "urban_35_25",
+      "urban_35_26",
+      "urban_35_27",
+      "urban_35_28",
+      "urban_35_29",
+      "urban_35_30",
+      "urban_35_31",
+      "urban_35_32",
+      "urban_35_33",
+      "urban_35_34",
+      "urban_35_35"
+    ],
+    "copy-from": "hospital_1",
+    "name": "hospital",
+    "sym": "h",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "office_dentist" ],
+    "copy-from": "office_dentist",
+    "name": "dentist office",
+    "sym": "d",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "office_dentist_roof" ],
+    "copy-from": "office_dentist_roof",
+    "name": "dentist office roof",
+    "sym": "d",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_pharm", "s_pharm_1" ],
     "copy-from": "s_pharm",
     "name": "pharmacy",
+    "sym": "p",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_pharm_roof", "s_pharm_roof_1" ],
+    "copy-from": "s_pharm_roof",
+    "name": "pharmacy roof",
     "sym": "p",
     "color": "light_red"
   },
@@ -17,63 +103,48 @@
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_hospital",
-    "copy-from": "generic_hospital",
-    "name": "hospital",
-    "sym": "h",
-    "color": "i_light_red"
+    "id": [
+      "office_doctor_roof",
+      "office_doctor_access_roof",
+      "office_doctor_roof_1",
+      "office_doctor_access_roof_1",
+      "office_doctor_roof_2",
+      "office_doctor_upper_roof_2"
+    ],
+    "copy-from": "office_doctor_roof",
+    "name": "doctor's office roof",
+    "sym": "d",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "hospital_1",
-    "copy-from": "generic_hospital"
+    "id": [ "drug_lab", "bandit_drug_lab" ],
+    "copy-from": "drug_lab",
+    "name": "drug lab",
+    "sym": "d",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "hospital_2",
-    "copy-from": "generic_hospital",
-    "sym": "H"
+    "id": "drug_lab_roof",
+    "copy-from": "drug_lab_roof",
+    "name": "drug lab roof",
+    "sym": "d",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
-    "id": "hospital_3",
-    "copy-from": "generic_hospital"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hospital_4",
-    "copy-from": "generic_hospital"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hospital_5",
-    "copy-from": "generic_hospital"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hospital_6",
-    "copy-from": "generic_hospital"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hospital_7",
-    "copy-from": "generic_hospital"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hospital_8",
-    "copy-from": "generic_hospital"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hospital_9",
-    "copy-from": "generic_hospital"
-  },
-  {
     "id": "veterinarian",
     "copy-from": "veterinarian",
-    "type": "overmap_terrain",
     "name": "animal clinic",
+    "sym": "a",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "veterinarian_roof",
+    "copy-from": "generic_city_building_roof",
+    "name": "animal clinic roof",
     "sym": "a",
     "color": "light_red"
   }
