@@ -2935,34 +2935,34 @@ void activity_handlers::atm_do_turn( player_activity *, Character *you )
 static void rod_fish( Character *you, const std::vector<monster *> &fishables )
 {
     map &here = get_map();
+    constexpr auto caught_corpse = [](Character *you,map &here,const mtype &corpse_type){
+        item corpse = item::make_corpse( corpse_type.id,
+                                  calendar::turn + rng( 0_turns,
+                                  3_hours ) );
+        corpse.set_var( "activity_var", you->getID().get_value() );
+        item_location loc = here.add_item_or_charges_ret_loc( you->pos_bub(), corpse );
+        you->add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname());
+        if (loc.where() == item_location::type::map){
+            you->may_activity_occupancy_after_end_items_loc.insert(loc.pos_abs());
+        }
+    };
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     GROUP_FISH, true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( you->pos_bub(), item::make_corpse( fish_mon,
-                                  calendar::turn + rng( 0_turns,
-                                          3_hours ) ) );
-        you->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
+        caught_corpse(you,here,fish_mon.obj());
     } else {
         monster *chosen_fish = random_entry( fishables );
         chosen_fish->fish_population -= 1;
         if( chosen_fish->fish_population <= 0 ) {
             g->catch_a_monster( chosen_fish, you->pos_bub(), you, 50_hours );
         } else {
-
-            here.add_item_or_charges( you->pos_bub(), item::make_corpse( chosen_fish->type->id,
-                                      calendar::turn + rng( 0_turns,
-                                              3_hours ) ) );
-            you->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
+            if (chosen_fish->type !=nullptr){
+                caught_corpse(you,here,*(chosen_fish->type));
+            }
         }
     }
-    for( item &elem : here.i_at( you->pos_bub() ) ) {
-        if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
-            elem.set_var( "activity_var", you->name );
-        }
-    }
-    you->may_activity_occupancy_after_end_items_loc.insert(here.get_abs(you->pos_bub()));
 }
 
 void activity_handlers::fish_do_turn( player_activity *act, Character *you )
