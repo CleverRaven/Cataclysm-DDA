@@ -2397,7 +2397,8 @@ bool map::is_open_air( const tripoint_bub_ms &p ) const
 // Move cost: 3D
 
 int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
-                    const bool ignore_fields ) const
+                    const bool ignore_fields, const bool ignore_terrain,
+                    const bool ignore_furn ) const
 {
     // To save all of the bound checks and submaps fetching, we extract it
     // here instead of using furn(), field_at() and ter().
@@ -2412,14 +2413,14 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
 
     field static nofield;
 
-    const furn_t &furniture = current_submap->get_furn( l ).obj();
-    const ter_t &terrain = current_submap->get_ter( l ).obj();
-    const field &field = current_submap->get_field( l );
+    const furn_t &furniture = !ignore_furn ? current_submap->get_furn( l ).obj() : furn_t();
+    const ter_t &terrain = !ignore_terrain ? current_submap->get_ter( l ).obj() : ter_t();
+    const field &field = !ignore_fields ? current_submap->get_field( l ) : nofield ;
     const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( furniture, terrain, ( !ignore_fields ? field : nofield ), veh, part );
+    return move_cost_internal( furniture, terrain, field, veh, part );
 }
 
 bool map::impassable( const tripoint_bub_ms &p ) const
@@ -2481,14 +2482,16 @@ bool map::passable_ter_furn( const tripoint_bub_ms &p ) const
 
 int map::combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                             const vehicle *ignored_vehicle,
-                            const int modifier, const bool flying, const bool via_ramp, const bool ignore_fields ) const
+                            const int modifier, const bool flying, const bool via_ramp, const bool ignore_fields,
+                            const bool ignore_terrain, const bool ignore_furn,
+                            const bool ignore_trig ) const
 {
     static constexpr std::array<int, 4> mults = { 0, 50, 71, 100 };
-    const int cost1 = move_cost( from, ignored_vehicle, ignore_fields );
-    const int cost2 = move_cost( to, ignored_vehicle, ignore_fields );
+    const int cost1 = move_cost( from, ignored_vehicle, ignore_fields, ignore_terrain, ignore_furn );
+    const int cost2 = move_cost( to, ignored_vehicle, ignore_fields, ignore_terrain, ignore_furn );
     // Multiply cost depending on the number of differing axes
     // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
-    size_t match = trigdist ? ( from.x() != to.x() ) + ( from.y() != to.y() ) +
+    size_t match = trigdist && !ignore_trig ? ( from.x() != to.x() ) + ( from.y() != to.y() ) +
                    ( from.z() != to.z() ) : 1;
     if( flying || from.z() == to.z() ) {
         return ( cost1 + cost2 + modifier ) * mults[match] / 2;

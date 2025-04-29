@@ -591,6 +591,9 @@ class Creature : public viewer
             return false;
         }
 
+        // Returns is_immune_fields for a given position.
+        bool is_immune_fields( map &here, const tripoint_bub_ms &pos ) const;
+
         // Returns if the creature is immune to every given field type.
         bool is_immune_fields( const std::vector<field_type_id> &fields ) const;
 

@@ -291,7 +291,7 @@ class monster : public Creature
          * @return true if movement successful, false otherwise
          */
         bool move_to( const tripoint_bub_ms &p, bool force = false, bool step_on_critter = false,
-                      float stagger_adjustment = 1.0 );
+                      float move_cost_multiplier = 1.0 );
 
         /**
          * Attack any enemies at the given location.

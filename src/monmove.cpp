@@ -774,16 +774,19 @@ void monster::plan()
  * how much that step reduces the distance to your goal.
  * Since it incorporates the current distance metric,
  * it also scales for diagonal vs orthogonal movement.
+ * Note: rl_dist does check for trigdist, but only returning it as int, making it not precice enough.
  **/
 static float get_stagger_adjust( const tripoint_bub_ms &source, const tripoint_bub_ms &destination,
                                  const tripoint_bub_ms &next_step )
 {
-    // TODO: push this down into rl_dist
-    const float initial_dist =
-        trigdist ? trig_dist( source, destination ) : rl_dist( source, destination );
-    const float new_dist =
-        trigdist ? trig_dist( next_step, destination ) : rl_dist( next_step, destination );
+    // TODO: push this down into rl_dist. rl_dist only returns ints, therefore it is not suitable for sub-unit calculations
+    const float initial_dist = trigdist ? trig_dist( source, destination ) : rl_dist( source,
+                               destination );
+    const float new_dist = trigdist ? trig_dist( next_step, destination ) : rl_dist( next_step,
+                           destination );
     // If we return 0, it wil cancel the action.
+    add_msg_debug( debugmode::DF_MONMOVE, "Stagger modifier: %f", std::max( 0.01f,
+                   initial_dist - new_dist ) );
     return std::max( 0.01f, initial_dist - new_dist );
 }
 
@@ -1242,6 +1245,7 @@ void monster::move()
             if( progress > 0 && ( !moved || x_in_y( progress, switch_chance ) ) ) {
                 moved = true;
                 next_step = candidate_abs;
+                add_msg_debug( debugmode::DF_MONMOVE, "progress: %f", progress );
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
@@ -1252,10 +1256,13 @@ void monster::move()
             }
         }
     }
+
+
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         const tripoint_bub_ms local_next_step = here.get_bub( next_step );
+        add_msg_debug( debugmode::DF_MONMOVE, "step distance: %f", trig_dist( pos, local_next_step ) );
         const bool did_something =
             ( !pacified && attack_at( local_next_step ) ) ||
             ( !pacified && can_open_doors &&
@@ -1532,28 +1539,42 @@ tripoint_bub_ms monster::scent_move()
     return random_entry( smoves, next );
 }
 
-int monster::calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+int monster::calc_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                             bool ignore_fields ) const
 {
     map &here = get_map();
+    int movecost = 0;
+    int modifier = 0;
 
-    // Digging and flying monsters ignore terrain cost
-    ignore_fields |= ( flies() || ( digging() &&
-                                    here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, t ) ) );
+    // Digging, swimming and flying monsters ignore terrain cost. Swimmers are extra quick
+    const bool is_digging =  digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to ) ;
+    const bool is_swimming = swims() && ( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, from )  ||
+                                          here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to ) );
+
+    const bool is_climbing = climbs() && ( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to ) ||
+                                           here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, from ) );
+
+    const bool ignore_ter = flies() || is_swimming || is_digging;
+
+
+    // climbing shouldn't be entirely free, even for climbers
+    // TODO: somehow un magic
+    if( is_climbing ) {
+        modifier += 3;
+    }
+
+    // terrain is the main contributor, make sure its bigger then 0.
+    // generally 25 cost per mod point
+    if( ignore_ter ) {
+        modifier = std::max( modifier, 1 );
+    }
 
     // TODO: if Z movement are handled here, add via_ramp
     // TODO: returns 0 when failed. Check it?
-    int movecost = here.combined_movecost( f, t, nullptr, 0, flies(), false, ignore_fields );
+    movecost = here.combined_movecost( from, to, nullptr, modifier, flies(), false,
+                                       ignore_fields, ignore_ter, is_climbing, true );
 
-    // Swimming monsters move super fast in water
-    if( swims() ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, f ) ) {
-            movecost /= 2;
-        }
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, t ) ) {
-            movecost /= 2;
-        }
-    }
+    add_msg_debug( debugmode::DF_MONMOVE, "%s movecost pre-mod: %i", name(), movecost );
 
     return movecost;
 }
@@ -1792,7 +1813,7 @@ static tripoint_bub_ms find_closest_stair( const tripoint_bub_ms &near_this,
 }
 
 bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critter,
-                       const float stagger_adjustment )
+                       const float move_cost_multiplier )
 {
     map &here = get_map();
     const tripoint_bub_ms pos = pos_bub( here );
@@ -1852,22 +1873,27 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
         return false;
     }
 
+
+
     if( !force ) {
+        add_msg_debug( debugmode::DF_MONMOVE, "not force move" );
         // This adjustment is to make it so that monster movement speed relative to the player
         // is consistent even if the monster stumbles,
         // and the same regardless of the distance measurement mode.
         // Note: Keep this as float here or else it will cancel valid moves
-        const float cost = stagger_adjustment *
+        const float cost = move_cost_multiplier *
                            static_cast<float>( climbs() &&
                                                here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos,
                                                        destination ) : calc_movecost( pos,
-                                                               destination, ( !impassable_field_ids.empty() &&
-                                                                       is_immune_fields( impassable_field_ids ) ) ) );
+                                                               destination ) );
+        add_msg_debug( debugmode::DF_MONMOVE, "movecost: %i", static_cast<int>( std::ceil( cost ) ) );
         if( cost > 0.0f ) {
             mod_moves( -static_cast<int>( std::ceil( cost ) ) );
         } else {
             return false;
         }
+    } else {
+        add_msg_debug( debugmode::DF_MONMOVE, "force move" );
     }
 
     //Check for moving into/out of water
@@ -2220,6 +2246,7 @@ void monster::stumble()
                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
             if( move_to( dest, true, false ) ) {
+                add_msg_debug( debugmode::DF_MONMOVE, "%s stumbles", name() );
                 break;
             }
         }

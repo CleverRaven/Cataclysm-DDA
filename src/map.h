@@ -575,10 +575,11 @@ class map
         * n > 0     | x*n turns to move past this
         */
         int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
-                       bool ignore_fields = false ) const;
+                       bool ignore_fields = false, bool ignore_terrain = false, bool ignore_furn = false ) const;
         int move_cost( const point_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
-                       bool ignore_fields = false ) const {
-            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle, ignore_fields );
+                       bool ignore_fields = false, bool ignore_terrain = false, bool ignore_furn = false ) const {
+            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle, ignore_fields, ignore_terrain,
+                              ignore_furn );
         }
         bool impassable( const tripoint_bub_ms &p ) const;
         bool impassable( const point_bub_ms &p ) const {
@@ -616,7 +617,8 @@ class map
         int combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                                const vehicle *ignored_vehicle = nullptr,
                                int modifier = 0, bool flying = false, bool via_ramp = false,
-                               bool ignore_fields = false ) const;
+                               bool ignore_fields = false, bool ignore_terrain = false, bool ignore_furn = false,
+                               bool ignore_trig = false ) const;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
