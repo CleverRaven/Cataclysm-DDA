@@ -91,14 +91,18 @@ bool handle_liquid( item &liquid, liquid_dest_opt &liquid_target, const item *so
                     int radius = 0,
                     const tripoint_bub_ms *source_pos = nullptr,
                     const vehicle *source_veh = nullptr, int part_num = -1,
-                    const monster *source_mon = nullptr );
+                    const monster *source_mon = nullptr, bool silent = true );
 bool handle_liquid( item_location &liquid, const item *source = nullptr, int radius = 0 );
 
 /* Not to be used directly. Use liquid_handler::handle_liquid instead. */
 bool perform_liquid_transfer( item &liquid, const tripoint_bub_ms *source_pos,
                               const vehicle *source_veh, int part_num,
-                              const monster * /*source_mon*/, liquid_dest_opt &target );
+                              const monster * /*source_mon*/, liquid_dest_opt &target, bool silent );
 bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target );
+
+// Select destination to use, but don't actually do anything with it. Does not allow for spilling.
+liquid_dest_opt select_liquid_target( item &liquid, const int radius );
+
 } // namespace liquid_handler
 
 #endif // CATA_SRC_HANDLE_LIQUID_H

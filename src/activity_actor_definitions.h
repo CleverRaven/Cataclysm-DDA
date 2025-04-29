@@ -1407,9 +1407,10 @@ class milk_activity_actor : public activity_actor
 {
     public:
         milk_activity_actor() = default;
-        milk_activity_actor( int moves, std::vector<tripoint_abs_ms> coords,
-                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( std::move( coords ) ),
-            string_values( std::move( str_values ) ) {}
+        milk_activity_actor( int moves, int moves_per_unit, tripoint_abs_ms coords,
+                             liquid_dest_opt &target, bool milking_tie = true ) : total_moves( moves ),
+            moves_per_unit( moves_per_unit ), monster_coords( std::move( coords ) ), target( target ),
+            milking_tie( milking_tie ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_MILK( "ACT_MILK" );
@@ -1430,8 +1431,11 @@ class milk_activity_actor : public activity_actor
 
     private:
         int total_moves {};
-        std::vector<tripoint_abs_ms> monster_coords;
-        std::vector<std::string> string_values;
+        tripoint_abs_ms monster_coords;
+        bool milking_tie; // was the monster tied due to milking.
+        liquid_dest_opt target;
+        int moves_per_unit;
+        time_point next_unit_move;
 };
 
 class shearing_activity_actor : public activity_actor

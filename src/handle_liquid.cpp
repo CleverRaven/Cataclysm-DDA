@@ -358,13 +358,13 @@ static bool get_liquid_target( item_location &liquid, const item *const source, 
 }
 
 static bool handle_keg_or_ground_target( Character &player_character, item &liquid,
-        liquid_dest_opt &target, const std::function<bool()> &create_activity )
+        liquid_dest_opt &target, const std::function<bool()> &create_activity, bool silent )
 {
     if( create_activity() ) {
         serialize_liquid_target( player_character.activity, target.pos );
     } else {
         if( target.dest_opt == LD_KEG ) {
-            iexamine::pour_into_keg( target.pos, liquid );
+            iexamine::pour_into_keg( target.pos, liquid, silent );
         } else {
             get_map().add_item_or_charges( target.pos, liquid );
             liquid.charges = 0;
@@ -375,13 +375,13 @@ static bool handle_keg_or_ground_target( Character &player_character, item &liqu
 }
 
 static bool handle_item_target( Character &player_character, item &liquid, liquid_dest_opt &target,
-                                const std::function<bool()> &create_activity )
+                                const std::function<bool()> &create_activity, bool silent )
 {
     // Currently activities can only store item position in the players inventory,
     // not on ground or similar. TODO: implement storing arbitrary container locations.
     if( target.item_loc && create_activity() ) {
         serialize_liquid_target( player_character.activity, target.item_loc );
-    } else if( player_character.pour_into( target.item_loc, liquid, true ) ) {
+    } else if( player_character.pour_into( target.item_loc, liquid, true, silent ) ) {
         target.item_loc.make_active();
         player_character.mod_moves( -100 );
     }
@@ -465,14 +465,14 @@ bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target )
             player_character.assign_activity( consume_activity_actor( liquid ) );
             return true;
         case LD_ITEM: {
-            return handle_item_target( player_character, *liquid, target, create_activity );
+            return handle_item_target( player_character, *liquid, target, create_activity, false );
         }
         case LD_VEH: {
             return handle_vehicle_target( player_character, *liquid, target, create_activity );
         }
         case LD_KEG:
         case LD_GROUND:
-            return handle_keg_or_ground_target( player_character, *liquid, target, create_activity );
+            return handle_keg_or_ground_target( player_character, *liquid, target, create_activity, false );
         case LD_NULL:
         default:
             return false;
@@ -482,7 +482,7 @@ bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target )
 // todo: Remove in favor of the item_location version.
 bool perform_liquid_transfer( item &liquid, const tripoint_bub_ms *const source_pos,
                               const vehicle *const source_veh, const int part_num,
-                              const monster *const /*source_mon*/, liquid_dest_opt &target )
+                              const monster *const /*source_mon*/, liquid_dest_opt &target, bool silent )
 {
     if( !check_liquid( liquid ) ) {
         // "canceled by the user" because we *can* not handle it.
@@ -510,14 +510,14 @@ bool perform_liquid_transfer( item &liquid, const tripoint_bub_ms *const source_
             liquid.charges--;
             return true;
         case LD_ITEM: {
-            return handle_item_target( player_character, liquid, target, create_activity );
+            return handle_item_target( player_character, liquid, target, create_activity, silent );
         }
         case LD_VEH: {
             return handle_vehicle_target( player_character, liquid, target, create_activity );
         }
         case LD_KEG:
         case LD_GROUND:
-            return handle_keg_or_ground_target( player_character, liquid, target, create_activity );
+            return handle_keg_or_ground_target( player_character, liquid, target, create_activity, silent );
         case LD_NULL:
         default:
             return false;
@@ -543,7 +543,7 @@ bool handle_liquid( item &liquid, liquid_dest_opt &liquid_target, const item *co
                     const int radius,
                     const tripoint_bub_ms *const source_pos,
                     const vehicle *const source_veh, const int part_num,
-                    const monster *const source_mon )
+                    const monster *const source_mon, bool silent )
 {
     bool success = false;
     if( !can_handle_liquid( liquid ) ) {
@@ -553,7 +553,7 @@ bool handle_liquid( item &liquid, liquid_dest_opt &liquid_target, const item *co
         get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon,
                            liquid_target ) ) {
         success = perform_liquid_transfer( liquid, source_pos, source_veh, part_num, source_mon,
-                                           liquid_target );
+                                           liquid_target, silent );
         if( success && ( ( liquid_target.dest_opt == LD_ITEM &&
                            liquid_target.item_loc->is_watertight_container() ) || liquid_target.dest_opt == LD_KEG ) ) {
             liquid.unset_flag( flag_id( json_flag_FROM_FROZEN_LIQUID ) );
@@ -586,4 +586,68 @@ bool handle_liquid( item_location &liquid, const item *const source, const int r
     }
     return false;
 }
+
+liquid_dest_opt select_liquid_target( item &liquid, const int radius )
+{
+    liquid_dest_opt target;
+
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
+        dbg( D_ERROR ) << "select_liquid_target: Tried to handle_liquid a non-liquid!";
+        debugmsg( "Tried to handle_liquid a non-liquid!" );
+        return target;
+    }
+
+    Character &player_character = get_player_character();
+
+    uilist menu;
+
+    map &here = get_map();
+    const std::string liquid_name = liquid.display_name( liquid.charges );
+    //~ %s: liquid name
+    menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
+
+    std::vector<std::function<void()>> actions;
+    // This handles containers found anywhere near the player, including on the map and in vehicle storage.
+    menu.addentry( -1, true, 'c', _( "Select a container" ) );
+    actions.emplace_back( [&]() {
+        target.item_loc = game_menus::inv::container_for( player_character, liquid,
+                          radius );
+        item *const cont = target.item_loc.get_item();
+
+        if( cont == nullptr || cont->is_null() ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        target.dest_opt = LD_ITEM;
+    } );
+
+    for( const tripoint_bub_ms &target_pos : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+        if( !iexamine::has_keg( target_pos ) ) {
+            continue;
+        }
+        const std::string dir = direction_name( direction_from( player_character.pos_bub(), target_pos ) );
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Select an adjacent keg (%s)" ), dir );
+        actions.emplace_back( [ &, target_pos]() {
+            target.pos = target_pos;
+            target.dest_opt = LD_KEG;
+        } );
+    }
+
+    if( menu.entries.empty() ) {
+        return target;
+    }
+
+    while( target.dest_opt == LD_NULL ) {
+        menu.query();
+        if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
+            add_msg( _( "Never mind." ) );
+            // Explicitly canceled all options (container, drink, pour).
+            return target;
+        }
+
+        actions[menu.ret]();
+    }
+    return target;
+}
+
 } // namespace liquid_handler
