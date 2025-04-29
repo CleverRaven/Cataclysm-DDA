@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "unloaded_wave_rider_engine",
     "name": "elemental wave rider engine",
     "symbol": "v",
@@ -12,7 +12,7 @@
     "price": "8 kUSD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "floral_base_item",
     "name": { "str": "floral vessel" },
     "symbol": "v",

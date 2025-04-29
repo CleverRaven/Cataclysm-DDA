@@ -2,7 +2,8 @@
   {
     "id": "afs_raketa30mag",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Raketa 30-round shotgun magazine" },
     "description": "A removable 30-round horizontal magazine, for use with the Raketa shotgun.",
     "variant_type": "gun",
@@ -19,7 +20,8 @@
   {
     "id": "afs_shot_speedloader8",
     "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Drotik speedloader" },
     "description": "This speedloader holds up to eight 12ga shotgun shells, intended for use with the Drotik.",
     "weight": "150 g",

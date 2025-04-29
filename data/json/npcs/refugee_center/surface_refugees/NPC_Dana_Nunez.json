@@ -567,7 +567,7 @@
   },
   {
     "id": "landough_calrisean",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "sourdough_starter_uncovered",
     "looks_like": "jar_glass_sealed",
     "name": { "str_sp": "Dana's family sourdough starter" },

@@ -1,7 +1,8 @@
 [
   {
     "id": "trinket_damage",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "projectile accelerator" },
     "description": "A small cylinder, reminiscent of a muzzle booster.  It can be mounted onto the end of your barrel, which somehow increases the speed of the projectile.  It also makes the gun much louder and difficult to hold after each shot.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -20,7 +21,8 @@
   },
   {
     "id": "trinket_range",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "rocket bullets" },
     "description": "You can't properly explain how this thing works, but the end result should be clear - faster bullet with better damage, but awful dispersion.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -39,7 +41,8 @@
   },
   {
     "id": "trinket_sound",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "force silencer" },
     "description": "This barrel attachment drastically decreases any sound that your gun emits.  Sadly, the damage and range of the weapon decrease respectively.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -58,7 +61,8 @@
   },
   {
     "id": "choke_wideshot",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "wide-shot shotgun choke" },
     "description": "A choke that makes the pellets spread out wide to hit multiple enemies.  The pellets will have shorter range but somehow deals higher damage.",
     "weight": "300 g",
@@ -79,7 +83,8 @@
   },
   {
     "id": "mod_inv_pistol_booster",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "pistol booster" },
     "description": "A set of mechanisms, that alter the action of the blocky pistol enough to make it something in-between a machine pistol and a submachine gun.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -128,7 +133,8 @@
   },
   {
     "id": "inventor_lasmod_close_range",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "beam array" },
     "description": "A set of modified weapon lens that increase the output energy of the laser at expense of its range.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -147,7 +153,8 @@
   },
   {
     "id": "inventor_lasmod_long_range",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "focusing lens", "str_pl": "focusing lenses" },
     "description": "A set of modified weapon lens that increases the range of the weapon at the price of its damage.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -166,7 +173,8 @@
   },
   {
     "id": "inventor_lasmod_capasitor",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "improved capacitors" },
     "description": "A set of powerful capacitors that increase the damage of a beam at the price of doubling power consumption.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -185,7 +193,8 @@
   },
   {
     "id": "inventor_lasmod_mega_capasitor",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "high-powered capacitors" },
     "description": "A set of extremely powerful capacitors which can turn a common laser beam into powerful anti-materiel penetrator.  It spends five times more energy than the default capacitor, so you need a lot of batteries to use it.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -204,7 +213,8 @@
   },
   {
     "id": "inventor_lasmod_energy_safe",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "energy-effective pump sources" },
     "description": "A set of improved electric discharges, that uses energy more efficiently then standard.  It makes you spend much less energy per shot, but the overall output of a system is a bit smaller.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -223,7 +233,8 @@
   },
   {
     "id": "inventor_lasmod_adv_cooler",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "advanced heat exchanger" },
     "description": "A set of fins in mathematically precise order, that make heat transferring much more efficient than your original implementation.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -241,7 +252,8 @@
   },
   {
     "id": "inventor_lasmod_adv_adv_cooler",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "freezing heat sink" },
     "description": "A small piece of completely frozen metal.  It grants a massive cooling improvement, but the weapon circuits don't work properly with this mod, making you spend more energy per shot.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -260,7 +272,8 @@
   },
   {
     "id": "inventor_lasmod_recuperator",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "heat recuperator" },
     "description": "Put some amount of the heat exchange from the gun back into platform loop.  Decrease amount of energy used, and increase the heat output of the weapon, but also its heat generation within the loop.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -280,7 +293,8 @@
   },
   {
     "id": "inventor_lasmod_mega_everything",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "glass cannon energy conversion" },
     "description": "Alter the energy loop in the platform - instead of doing multiple shots, it store all the power, and use most of it in a single shot.  Effectively transform the weapon into one or two shot recoilless rifle.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -301,7 +315,8 @@
   },
   {
     "id": "inventor_lasmod_radiator",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "secondary radiator" },
     "description": "Additional radiator for your energy weapon.  Someone may say it's because you don't know how to use your gun properly.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -319,7 +334,8 @@
   },
   {
     "id": "inventor_lasmod_chonky_radiator",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "huge radiator" },
     "description": "Replace the entire radiator in the platform into this hefty and bulky piece of metal, trading a portability of a gun for a massive overheat buffer.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -337,7 +353,8 @@
   },
   {
     "id": "inventor_lasmod_spooky_heat_sink",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "skeletonized heat sink" },
     "description": "Replace a large part of the weapon's radiator with an additional cooling unit.  The gun overheats faster, but recovers from it at a faster rate.",
     "flags": [ "INVENTOR_CRAFTED" ],
@@ -356,7 +373,8 @@
   },
   {
     "id": "inventor_lasmod_more_capacitors",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "additional capacitors" },
     "description": "Replace a large portion of the radiator with additional capacitors.  The gun will barely cool off, but the damage output may be worth it.",
     "flags": [ "INVENTOR_CRAFTED" ],

@@ -785,7 +785,7 @@
             "else": [
               { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
               {
-                "run_eocs": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_LEARNING",
+                "run_eocs": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING",
                 "time_in_future": [
                   { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
                   { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }

@@ -1,7 +1,8 @@
 [
   {
     "id": "60mm_shell_m720a1",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "high-explosive mortar shell" },
     "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.",
     "variant_type": "gun",
@@ -30,7 +31,8 @@
   {
     "id": "60mm_shell_m768",
     "copy-from": "60mm_shell_m720a1",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "high-explosive mortar shell" },
     "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.  This one is more modern version, both more safe and more powerful.",
     "variant_type": "gun",

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_yugg_rubber",
     "name": { "str": "rubber yugg corpse" },
     "description": "An oversized hollow tube made of black semi-liquid rubbery substance.  It is vaguely shaped like a yugg.",
@@ -31,7 +31,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_yugg_jade",
     "name": { "str": "jade yugg statue" },
     "description": "A statue of a yugg, made entire out of jade.  If jade was still worth anything this could fetch a fortune.  A shame the world ended.",

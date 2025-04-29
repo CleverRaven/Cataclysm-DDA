@@ -1,0 +1,66 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ],
+    "copy-from": "s_hardware",
+    "name": "hardware store",
+    "sym": "h",
+    "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ],
+    "copy-from": "s_electronics",
+    "name": "electronics store",
+    "sym": "e",
+    "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_NE",
+    "copy-from": "public_works_NE",
+    "name": "public works",
+    "sym": "w",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_NW",
+    "copy-from": "public_works_NW",
+    "name": "public works",
+    "sym": "w",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SW",
+    "copy-from": "public_works_SW",
+    "name": "public works",
+    "sym": "W",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SE",
+    "copy-from": "public_works_SE",
+    "name": "public works",
+    "sym": "w",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse",
+    "copy-from": "warehouse",
+    "name": "small warehouse",
+    "sym": "w",
+    "color": "light_cyan"
+  },
+  {
+    "id": "home_improvement",
+    "copy-from": "home_improvement",
+    "type": "overmap_terrain",
+    "name": "home improvement store",
+    "sym": "h",
+    "color": "light_cyan"
+  }
+]

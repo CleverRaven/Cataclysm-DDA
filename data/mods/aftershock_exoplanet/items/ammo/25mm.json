@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_25mm_shot",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "25mm canister shot" },
     "description": "A 25mm round with a canister shot load, deals devastating damage against lightly armored foes within mid to close range.  Relatively low tech and affordable when compared to other 25mm grenades, these are often fielded by frontier outfits due to their adequate performance in anti-drone and close quarters combat.",
     "weight": "130 g",
@@ -25,7 +26,8 @@
   },
   {
     "id": "afs_25mm_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "afs_25mm_shot",
     "name": { "str_sp": "25mm Ball" },
     "description": "Standard issue UICA 25mm rounds, loading a single lead-core steel-jacketed projectile.  Suitable for general purpose and anti-personnel use, these are the most common 25mm rounds in circulation.",
@@ -42,7 +44,8 @@
   },
   {
     "id": "afs_25mm_frag",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "afs_25mm_shot",
     "name": { "str_sp": "25mm FRAG" },
     "description": "Standard issue UICA 25mm rounds, each loading a plastic explosive charge within a frangible ceramic projectile.",
@@ -60,7 +63,8 @@
   },
   {
     "id": "afs_25mm_apfsds",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "afs_25mm_shot",
     "name": { "str_sp": "25mm APFSDS" },
     "description": "Standard issue UICA 25mm rounds, each concealing a finned tungsten-alloy kinetic penetrator within a biodegradable plastic sabot.  Designed to defeat modern personal and light-vehicle armor, these are illegal to own, and thus are seldomly seen outside of military armories.",
@@ -77,7 +81,8 @@
   },
   {
     "id": "afs_25mm_smart",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "25mm SDART" },
     "description": "High precision 25mm microjet darts.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
     "//": "tiny guided rockets.",

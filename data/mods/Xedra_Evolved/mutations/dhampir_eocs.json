@@ -54,7 +54,7 @@
     "condition": { "u_has_trait": "DHAMPIR_TRAIT" },
     "effect": [
       {
-        "if": { "math": [ "vampire_total_tier_one_traits() + rand(8) > 13" ] },
+        "if": { "math": [ "vampire_total_tier_one_traits() + rand(8) > 15" ] },
         "then": { "run_eocs": "EOC_DHAMPIR_GAIN_NEW_POWER_TIER_2" },
         "else": {
           "u_roll_remainder": [
@@ -65,6 +65,8 @@
             "VAMPIRIC_RESILIENCE",
             "VAMPIRE_HEIGHTENED_SENSES",
             "VAMPIRE_SILENT_MOVE",
+            "VAMPIRE_HEALTH_BONUS",
+            "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT",
             "DHAMPIR_REDUCED_COLD_TEMPS"
           ],
           "type": "mutation",
@@ -104,6 +106,9 @@
                               "MAGICFORBLOOD",
                               "HYPNOTIC_GAZE",
                               "VAMPIRE_COMMAND_BEAST",
+                              "VAMPIRE_CARDIO_BONUS",
+                              "VAMPIRE_MOTION_ALARM",
+                              "VAMPIRE_BONUS_HP",
                               "DHAMPIR_REDUCED_PAIN",
                               "DHAMPIR_MEND_WOUNDS_FASTER"
                             ],

@@ -1,0 +1,242 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "shipwreck_river_1",
+    "copy-from": "shipwreck_river_1",
+    "name": "shipwreck",
+    "sym": "s",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shipwreck_river_2",
+    "copy-from": "shipwreck_river_2",
+    "name": "shipwreck",
+    "sym": "s",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shipwreck_river_3",
+    "copy-from": "shipwreck_river_3",
+    "name": "razorclaw nest",
+    "sym": "s",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "shipwreck_river_4",
+    "copy-from": "shipwreck_river_4",
+    "name": "shipwreck",
+    "sym": "s",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab",
+    "copy-from": "lab",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_stairs",
+    "copy-from": "lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_core",
+    "copy-from": "lab_core",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_finale",
+    "copy-from": "lab_finale",
+    "name": "science lab",
+    "sym": "L",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_lab",
+    "copy-from": "ants_lab",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_lab_stairs",
+    "copy-from": "ants_lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab",
+    "copy-from": "ice_lab",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_stairs",
+    "copy-from": "ice_lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_core",
+    "copy-from": "ice_lab_core",
+    "name": "science lab",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_finale",
+    "copy-from": "ice_lab_finale",
+    "name": "science lab",
+    "sym": "L",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_train_depot",
+    "copy-from": "lab_train_depot",
+    "name": "science train depot",
+    "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface",
+    "copy-from": "microlab_generic_surface",
+    "name": "lab",
+    "sym": "L",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "temple_stairs",
+    "copy-from": "temple_stairs",
+    "name": "strange temple",
+    "sym": "s",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "temple_finale",
+    "copy-from": "temple_finale",
+    "name": "strange temple",
+    "sym": "s",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "toxic_dump",
+    "copy-from": "toxic_dump",
+    "name": "toxic waste dump",
+    "sym": "t",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hive",
+    "copy-from": "hive",
+    "name": "bee hive",
+    "sym": "b",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_bloom",
+    "copy-from": "fungal_bloom",
+    "name": "fungal bloom",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_tower",
+    "copy-from": "fungal_tower",
+    "name": "fungal tower",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_flowers",
+    "copy-from": "fungal_flowers",
+    "name": "fungal flowers",
+    "sym": "F",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "anthill",
+    "copy-from": "anthill",
+    "name": "anthill",
+    "sym": "a",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z0",
+    "copy-from": "slimepit_z0",
+    "name": "slime pit",
+    "sym": "S",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z-1",
+    "copy-from": "slimepit_z-1",
+    "name": "slime pit",
+    "sym": "S",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z-2",
+    "copy-from": "slimepit_z-2",
+    "name": "slime pit",
+    "sym": "S",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_grove",
+    "copy-from": "triffid_grove",
+    "name": "triffid grove",
+    "sym": "T",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_roots",
+    "copy-from": "triffid_roots",
+    "name": "triffid roots",
+    "sym": "t",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_finale",
+    "copy-from": "triffid_finale",
+    "name": "triffid heart",
+    "sym": "T",
+    "color": "i_pink"
+  }
+]

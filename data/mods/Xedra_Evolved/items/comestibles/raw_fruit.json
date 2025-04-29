@@ -64,7 +64,7 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xe_elder_ginseng",
     "name": { "str": "elder ginseng", "str_pl": "several elder ginseng" },
     "//": "magical poisons, 'death' and 'bio' related",

@@ -79,6 +79,7 @@ class fault
         std::string description() const;
         std::string item_prefix() const;
         std::string item_suffix() const;
+        std::string message() const;
         double price_mod() const;
         // having this faults adds this much of temporary (will be removed when fault is fixed) degradation
         int degradation_mod() const;
@@ -102,6 +103,7 @@ class fault
         translation description_;
         translation item_prefix_; // prefix added to affected item's name
         translation item_suffix_;
+        translation message_;
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
         double price_modifier = 1.0;

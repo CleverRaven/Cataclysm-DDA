@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_jumpsuit_military",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
     "name": { "str_sp": "military overalls" },
@@ -12,7 +13,8 @@
   },
   {
     "id": "afs_ilbe",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "load_bearing_vest",
     "name": { "str_sp": "U3s ILBE" },
     "description": "Load bearing equipment that can be configured to attach PALS compatible pouches, meant to be worn in conjunction with armor.  It has two magnetic attachment points for a rifle and a sidearm.  Standard issue in UICA forces.",
@@ -56,7 +58,8 @@
   },
   {
     "id": "afs_backpack_rockets",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "U38m munitions carrier" },
     "description": "A large carrying frame designed to hold up to 10 rockets or similarly shaped munitions on your back.  Most often used in conjunction with a lifting frame to manage the weight.",
     "weight": "4 kg",

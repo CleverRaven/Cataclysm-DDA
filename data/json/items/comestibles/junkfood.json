@@ -422,7 +422,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "COMESTIBLE", "ARMOR" ],
     "id": "candy_bracelet",
     "name": { "str": "candy bracelet" },
     "looks_like": "copper_bracelet",
@@ -430,11 +430,9 @@
     "description": "A candy bracelet made by stringing candies onto a thread.  In theory, you could both wear and eat the bracelet.",
     "copy-from": "candy4",
     "material": [ "junk" ],
-    "armor_data": {
-      "sided": true,
-      "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
-    },
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "sided": true,
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "type": "ITEM",

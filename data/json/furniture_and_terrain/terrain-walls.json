@@ -156,7 +156,6 @@
       "ter_set": "t_null",
       "items": [
         { "item": "2x4", "count": [ 0, 5 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ]

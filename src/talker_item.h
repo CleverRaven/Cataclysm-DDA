@@ -87,6 +87,8 @@ class talker_item: public talker_item_const, public talker_cloner<talker_item>
         void set_all_parts_hp_cur( int ) override;
         void set_degradation( int ) override;
         void die( map *here ) override;
+        void set_fault( const fault_id &fault_id, bool force, bool message ) override;
+        void set_random_fault_of_type( const std::string &fault_type, bool force, bool message ) override;
 
     private:
         item_location *me_it{};

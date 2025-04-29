@@ -115,9 +115,9 @@
     "material": [ "wheat" ],
     "looks_like": "bread",
     "volume": "75 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 2,
-    "vitamins": [ [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
