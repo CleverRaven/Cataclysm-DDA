@@ -101,7 +101,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint_bub_ms *source_pos,
 bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target );
 
 // Select destination to use, but don't actually do anything with it. Does not allow for spilling.
-liquid_dest_opt select_liquid_target( item &liquid, const int radius );
+liquid_dest_opt select_liquid_target( item &liquid, int radius );
 
 } // namespace liquid_handler
 

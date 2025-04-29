@@ -5490,6 +5490,7 @@ void milk_activity_actor::do_turn( player_activity &act, Character &who )
         // We might end up here if the creature dies while being milked
         who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
         act.set_to_null();
+        return;
     }
 
     if( target.dest_opt != LD_NULL ) { // Backward compatibility check 2025-04-29.
@@ -5535,7 +5536,6 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
     milk.set_item_temperature( units::from_celsius( 38.6 ) );
-    target;
     if( liquid_handler::handle_liquid( milk, target, nullptr, 1, nullptr, nullptr, -1,
                                        source_mon ) ) {
         milked_item->second = 0;
