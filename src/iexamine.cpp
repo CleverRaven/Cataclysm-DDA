@@ -66,6 +66,7 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "mtype.h"
+#include "monster.h"
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
@@ -128,15 +129,20 @@ static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_migo_serum( "migo_serum" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slow_descent( "slow_descent" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+
+static const faction_id faction_no_faction( "no_faction" );
 
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
@@ -158,6 +164,7 @@ static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
 static const furn_str_id furn_f_kiln_portable_full( "f_kiln_portable_full" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
+static const furn_str_id furn_f_migo_cocoon_open( "f_migo_cocoon_open" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
@@ -168,6 +175,9 @@ static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
+
+static const item_group_id Item_spawn_data_everyday_gear( "everyday_gear" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -176,6 +186,7 @@ static const itype_id itype_cactus_pad( "cactus_pad" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
+static const itype_id itype_chitin_piece( "chitin_piece" );
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_dahlia_root( "dahlia_root" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -202,6 +213,7 @@ static const itype_id itype_poppy_nectar( "poppy_nectar" );
 static const itype_id itype_seed_cactus( "seed_cactus" );
 static const itype_id itype_seed_dahlia( "seed_dahlia" );
 static const itype_id itype_sheet( "sheet" );
+static const itype_id itype_slime_scrap( "slime_scrap" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
@@ -229,8 +241,14 @@ static const material_id material_wood( "wood" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_drained_captive( "mon_drained_captive" );
+static const mtype_id mon_feral_prisoner( "mon_feral_prisoner" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_human( "mon_human" );
+static const mtype_id mon_pathetic_prisoner( "mon_pathetic_prisoner" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
 
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 
@@ -243,6 +261,7 @@ static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
@@ -306,6 +325,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
@@ -4032,6 +4052,107 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
             add_msg( _( "You close the lid and start the fermenting cycle." ) );
         }
     }
+}
+
+void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+
+    if( !you.has_quality( qual_CUT ) ) {
+        add_msg( m_info, _( "You need a cutting tool to open this cocoon." ) );
+        return;
+    }
+
+    if( !query_yn( _( "Try to open the mi-go cocoon?  The fluid inside looks…  alive." ) ) ) {
+        return;
+    }
+
+    sounds::sound( examp, 10, sounds::sound_t::combat, _( "*rip*" ), true, "tear", "fabric" );
+
+    here.furn_set( examp, furn_f_migo_cocoon_open );
+
+    int outcome = rng( 1, 100 );
+
+    if( outcome <= 60 ) {
+        int prisoner_type = rng( 1, 100 );
+
+        if( prisoner_type <= 40 ) { // 40%
+            add_msg( m_warning, _( "A dazed prisoner stumbles out of the cocoon." ) );
+            monster pathetic_prisoner( mon_pathetic_prisoner, examp );
+            pathetic_prisoner.add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
+            g->place_critter_at( make_shared_fast<monster>( pathetic_prisoner ), examp );
+        } else if( prisoner_type <= 50 ) { // 10% - feral prisoner
+            add_msg( m_warning, _( "A prisoner falls out of the cocoon, looking disoriented." ) );
+            monster feral_prisoner( mon_feral_prisoner, examp );
+            feral_prisoner.add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
+            g->place_critter_at( make_shared_fast<monster>( feral_prisoner ), examp );
+        } else if( prisoner_type <= 75 ) { // 25% - drained captive
+            add_msg( m_warning, _( "A barely alive human falls limply from the cocoon." ) );
+            monster drained_captive( mon_drained_captive, examp );
+            g->place_critter_at( make_shared_fast<monster>( drained_captive ), examp );
+        } else { // 25% - Real human survivor
+            add_msg( m_good, _( "A human survivor falls out of the cocoon!" ) );
+
+            shared_ptr_fast<npc> prisoner = make_shared_fast<npc>();
+            prisoner->normalize();
+
+            string_id<npc_template> npc_type( "mi-go_prisoner" );
+            if( !npc_type.is_valid() ) {
+                add_msg( m_debug, _( "Invalid NPC template: mi-go_prisoner" ) );
+                return;
+            }
+
+            prisoner->load_npc_template( npc_type );
+
+            prisoner->set_all_parts_hp_cur( rng( 10, 75 ) );
+            prisoner->add_effect( efftype_id( effect_stunned ), rng( 5_turns, 20_turns ) );
+
+            tripoint_abs_ms abs_pos = here.get_abs( examp );
+            prisoner->spawn_at_precise( abs_pos );
+            prisoner->set_fac( faction_no_faction );
+            overmap_buffer.insert_npc( prisoner );
+
+            add_msg( m_info,
+                     _( "They appear to be in shock and covered in some kind of bioluminescent fluid." ) );
+            prisoner->add_effect( effect_migo_serum, rng( 10_minutes, 30_minutes ) );
+        }
+    } else if( outcome <= 75 ) { // 15% monster
+        add_msg( m_bad, _( "Something monstrous bursts from the cocoon!" ) );
+
+        std::vector<mtype_id> monster_types = {
+            mon_zombie,
+            mon_zombie_brute
+        };
+
+        mtype_id mon_type = random_entry( monster_types );
+        monster cocoon_monster( mon_type, examp );
+        cocoon_monster.add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
+        g->place_critter_at( make_shared_fast<monster>( cocoon_monster ), examp );
+    } else if( outcome <= 90 ) { // 15% corpse
+        add_msg( m_neutral, _( "You find a partially dissected human corpse inside the cocoon." ) );
+
+        item body = item::make_corpse( mon_human, calendar::turn, "human victim" );
+        here.add_item_or_charges( examp, body );
+
+        if( one_in( 3 ) ) {
+            here.put_items_from_loc( Item_spawn_data_everyday_gear, examp, calendar::turn );
+        }
+    } else { // 10% empty with biomaterials
+        add_msg( m_neutral, _( "The cocoon is empty, but contains some strange biomaterials." ) );
+
+        here.spawn_item( examp, itype_slime_scrap, rng( 1, 4 ) );
+        if( one_in( 3 ) ) {
+            here.spawn_item( examp, itype_chitin_piece, rng( 1, 2 ) );
+        }
+    }
+
+    if( one_in( 10 ) && !you.has_trait( trait_INFRESIST ) ) {
+        add_msg( m_bad,
+                 _( "You feel something wet and sticky on your hands.  The fluid seems to be seeping into your skin." ) );
+        you.add_effect( effect_migo_serum, rng( 10_minutes, 30_minutes ) );
+    }
+
+    you.mod_moves( -to_moves<int>( 20_seconds ) );
 }
 
 void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
@@ -7817,6 +7938,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "fireplace", &iexamine::fireplace },
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
+            { "migo_cocoon", &iexamine::migo_cocoon },
             { "quern_examine", &iexamine::quern_examine },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },

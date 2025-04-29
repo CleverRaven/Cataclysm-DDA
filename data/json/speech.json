@@ -1,25 +1,25 @@
 [
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Hello?\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mi-go_prisoner" ],
     "sound": "\"Papaya!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Who's there?\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Can you help me?\"",
     "volume": 20
   },
@@ -31,7 +31,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Can you repeat that?\"",
     "volume": 20
   },
@@ -49,19 +49,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Come here!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Please, don't!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "a horrified scream!",
     "volume": 32
   },
@@ -199,25 +199,25 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "an anguished wail!",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"You're gonna rot in hell for this!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"You hear me!?\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"You're gonna rot in hell, you pieces of shit!\"",
     "volume": 32
   },
@@ -1447,13 +1447,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Oh you motherfucking shellfish, you're going down.\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_feral_prisoner" ],
     "sound": "\"I… I feel weak…\"",
     "volume": 15
   },
@@ -1567,13 +1567,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Burning… from the inside…\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"This smell… Don't know…\"",
     "volume": 10
   },
