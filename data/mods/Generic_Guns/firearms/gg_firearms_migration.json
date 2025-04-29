@@ -157,7 +157,17 @@
       "TDI_10",
       "draco_9mm",
       "p365",
-      "swbodyguard"
+      "swbodyguard",
+      "glock_42",
+      "glock_23",
+      "glock_27",
+      "glock_30",
+      "glock_36",
+      "glock_43",
+      "glock_43x",
+      "glock_26",
+      "glock_34",
+      "glock_48"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -172,7 +182,8 @@
       "uberti_1873",
       "rossi_r92_357_16",
       "rossi_r92_357_20",
-      "rugerpcc"
+      "rugerpcc",
+      "glock_44"
     ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
