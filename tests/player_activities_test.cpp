@@ -16,6 +16,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "flag.h"
+#include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
