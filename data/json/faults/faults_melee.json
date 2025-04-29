@@ -69,40 +69,40 @@
     "type": "fault",
     "id": "fault_spearhead_fracture",
     "fault_type": "mechanical_damage",
-    "name": { "str": "Spearhead fracture" },
-    "description": "The tip of the spearhead snapped off, making the thrusts weaker.",
+    "name": { "str": "Tip fracture" },
+    "description": "The tip of the tool snapped off, making the thrusts weaker.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
   },
   {
     "type": "fault",
     "id": "fault_spearhead_warped",
     "fault_type": "mechanical_damage",
-    "name": { "str": "Spearhead warp" },
-    "description": "The tip of the spearhead started to warp, making the thrusts weaker.",
+    "name": { "str": "Tip warp" },
+    "description": "The tip of the tool started to warp, making the thrusts weaker.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.8 } ]
   },
   {
     "type": "fault",
     "id": "fault_spearhead_chipping",
     "fault_type": "mechanical_damage",
-    "name": { "str": "Spearhead chipping" },
-    "description": "Small pieces of the spearhead started to chip off, making the thrusts less damaging.",
+    "name": { "str": "Tip chipping" },
+    "description": "Small pieces of the tool started to chip off, making the thrusts less damaging.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.9 } ]
   },
   {
     "type": "fault",
     "id": "fault_spearhead_bent_socket",
     "fault_type": "mechanical_damage",
-    "name": { "str": "Bent spear socket" },
-    "description": "The spear socket was bent off, making the spear tip not lined with a shaft, and making the weapon very hard to thrust properly.",
+    "name": { "str": "Bent socket" },
+    "description": "The tool socket was bent off, making the tip not lined with a shaft, and making the weapon very hard to thrust properly.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.7 } ]
   },
   {
     "type": "fault",
     "id": "fault_spearhead_broken",
     "fault_type": "mechanical_damage",
-    "name": { "str": "Broken spearhead" },
-    "description": "The spear head of this spear is comppletely broken.  The only way to repair such damage to make a new spear.",
+    "name": { "str": "Broken head" },
+    "description": "The head of this tool is comppletely broken.  The only way to repair such damage to make a new one.",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.1 } ],
     "affected_by_degradation": true
   },

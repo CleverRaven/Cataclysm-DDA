@@ -52,8 +52,8 @@
   },
   {
     "type": "fault_group",
-    "id": "blade_spearhead",
-    "//": "Mechanical damage of a bespoke spearhead",
+    "id": "spearhead",
+    "//": "Mechanical damage of a bespoke spearhead or something that replaces it, but generally deal damage by thrust, like pitchfork",
     "group": [
       { "fault": "fault_spearhead_fracture", "weight": 100 },
       { "fault": "fault_spearhead_warped", "weight": 100 },
