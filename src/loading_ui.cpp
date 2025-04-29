@@ -37,6 +37,7 @@ struct ui_state {
     std::string context;
     std::string step;
     std::string snippet;
+    float snippet_height;
 };
 
 static ui_state *gLUI = nullptr;
@@ -100,8 +101,11 @@ static void update_state( const std::string &context, const std::string &step )
             resize();
         } );
 
-        static const std::string snippet = string_format( _( "Tip of the day: %s" ),
-                                           SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated() );
+        //  static const std::string snippet = string_format( _( "Tip of the day: %s" ), SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated() );
+
+        static const std::string snippet =
+            "I think that you should figure out the size of the snippet first, then subtract it from the size of the viewport when computing max_size. That would eliminate the * 0.9 hack. The image would then be scaled to fit the remaining available space. One way to do this would be to write a function called measure_colored_text that does all the same things as draw_colored_text but doesn’t actually draw it. It would just add up the bounding boxes and return the final one.";
+
         gLUI->snippet = snippet;
 #ifdef TILES
         std::vector<cata_path> imgs;
@@ -128,8 +132,7 @@ static void update_state( const std::string &context, const std::string &step )
             }
         }
         SDL_Surface_Ptr surf = load_image( gLUI->chosen_load_img.get_unrelative_path().u8string().c_str() );
-        // leave some space for the loading text...
-        ImVec2 max_size = ImGui::GetMainViewport()->Size * 0.9;
+        ImVec2 max_size = ImGui::GetMainViewport()->Size * 0.98;
         // preserve aspect ratio by finding the longest **relative** side and scaling both sides by its ratio to max_size
         // scales both "up" and "down"
         float width_ratio = static_cast<float>( surf->w ) / max_size.x;
@@ -139,9 +142,20 @@ static void update_state( const std::string &context, const std::string &step )
                               static_cast<float>( surf->h ) / longest_side_ratio
                             };
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
-        const int snip_size = foldstring( snippet,
-                                          gLUI->splash_size.x / ImGui::CalcTextSize( " " ).x ).size();
-        gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, ( 2.0f + ( snip_size * 2 ) ) *ImGui::GetTextLineHeightWithSpacing() };
+
+        // turbo cursed
+        if( ImGui::Begin( "calculate snippet height", nullptr,
+                          ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+                          ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
+            const int cursos_init_pos = ImGui::GetCursorPosY();
+            cataimgui::draw_colored_text( gLUI->snippet, c_light_cyan, gLUI->splash_size.x );
+            ImGui::Text( "%s %s", gLUI->context.c_str(), gLUI->step.c_str() );
+            ImGui::NewLine();
+            gLUI->snippet_height = ImGui::GetCursorPosY() - cursos_init_pos;
+        }
+        ImGui::End();
+
+        gLUI->window_size = { 0.0f, gLUI->splash_size.y + gLUI->snippet_height };
 #else
         std::string splash = PATH_INFO::title( get_holiday_from_time() );
         if( get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
