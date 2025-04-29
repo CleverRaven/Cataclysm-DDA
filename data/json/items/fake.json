@@ -503,7 +503,6 @@
     "volume": "15020 ml",
     "price": "60 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ { "type": "tnt", "portion": 95 }, { "type": "paper", "portion": 5 } ],
     "symbol": "*",
     "color": "red",
