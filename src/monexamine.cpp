@@ -27,6 +27,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"

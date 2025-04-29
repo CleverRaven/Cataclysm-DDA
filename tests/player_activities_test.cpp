@@ -1924,7 +1924,7 @@ TEST_CASE( "edevice", "[activity][edevice]" )
     }
 }
 
-liquid_dest_opt dest_opt; // Defaults to LD_NULL, which is good enough when not used.
+static liquid_dest_opt dest_opt; // Defaults to LD_NULL, which is good enough when not used.
 
 /**
 * Helper method to create activity stubs that aren't meant to be processed.
