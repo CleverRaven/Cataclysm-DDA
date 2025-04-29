@@ -35,6 +35,7 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "do_turn.h"
@@ -8164,6 +8165,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
 
     if( map_incomplete ) {
         smallmap tmp_map;
+        swap_map swap( *tmp_map.cast_to_map() );
         tmp_map.main_cleanup_override( false );
         tmp_map.generate( grid_abs_omt, calendar::turn, true );
         _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
@@ -8883,10 +8885,8 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
                                tmp.wander_pos.to_string_writable() );
             }
 
-            // This usage of get_map() rather than the actual map used is due to the called operation's hidden usage of
-            // the reality bubble map, so the reference has to be adjusted to match that.
             monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ),
-                                    reality_bubble().get_bub( abs_pos ) );
+                                    local_pos );
             if( placed ) {
                 placed->on_load();
             }
