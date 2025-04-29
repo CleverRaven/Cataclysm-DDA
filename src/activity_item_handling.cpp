@@ -3855,7 +3855,7 @@ void activity_handlers::clean_may_activity_occupancy_items_var(Character & you){
         && static_cast<int>(it.get_var("activity_var",-1)) == character_id;
     };
     map &here = get_map();
-    for (const auto & pos:you.may_activity_occupancy_items_loc_points){
+    for (const auto & pos:you.may_activity_occupancy_after_end_items_loc){
         auto item_locs = here.items_with(here.get_bub(pos),activity_var_checker);
         for (auto & item_loc:item_locs){
             item *it = item_loc.get_item();
@@ -3863,6 +3863,7 @@ void activity_handlers::clean_may_activity_occupancy_items_var(Character & you){
             it->erase_var("activity_var");
         }
     }
+    you.may_activity_occupancy_after_end_items_loc.clear();
     auto items = you.items_with(activity_var_checker);
     for (auto *it:items){
         if (it == nullptr || it->is_null()) { continue;}

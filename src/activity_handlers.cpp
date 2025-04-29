@@ -1888,6 +1888,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", you->name );
         }
+        you->may_activity_occupancy_after_end_items_loc.insert(here.get_abs(pos));
     }
 }
 
@@ -2949,6 +2950,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
         if( chosen_fish->fish_population <= 0 ) {
             g->catch_a_monster( chosen_fish, you->pos_bub(), you, 50_hours );
         } else {
+
             here.add_item_or_charges( you->pos_bub(), item::make_corpse( chosen_fish->type->id,
                                       calendar::turn + rng( 0_turns,
                                               3_hours ) ) );
@@ -2960,6 +2962,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
             elem.set_var( "activity_var", you->name );
         }
     }
+    you->may_activity_occupancy_after_end_items_loc.insert(here.get_abs(you->pos_bub()));
 }
 
 void activity_handlers::fish_do_turn( player_activity *act, Character *you )
@@ -3521,6 +3524,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", you->name );
         }
+        you->may_activity_occupancy_after_end_items_loc.insert(here.get_abs(pos));
     }
 }
 
