@@ -583,8 +583,9 @@ static void GENERATOR_pre_burn( map &md,
     burnt_vars.max_intensity = 28; // For this generator: % chance at end day
 
     // between start and end day we linearly interpolate.
-    double lerp_scalar = static_cast<double>( ( days_since_cataclysm - burnt_vars.scaling_days_start ) /
-                         ( burnt_vars.scaling_days_end - burnt_vars.scaling_days_start ) );
+    double lerp_scalar = static_cast<double>(
+                             static_cast<double>( days_since_cataclysm - burnt_vars.scaling_days_start ) /
+                             static_cast<double>( burnt_vars.scaling_days_end - burnt_vars.scaling_days_start ) );
     burnt_vars.percent_chance = lerp( burnt_vars.min_intensity, burnt_vars.max_intensity, lerp_scalar );
     // static values outside that range. Note we do not use std::clamp because the chance is *0* until the start day is reached
     if( days_since_cataclysm < burnt_vars.scaling_days_start ) {
@@ -601,14 +602,13 @@ static void GENERATOR_pre_burn( map &md,
             if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
                 continue;
             }
-            if( md.has_flag_ter( ter_furn_flag::TFLAG_DOOR, current_tile ) ) {
-                // Doorways get burned to smithereens. Put a floor there.
-                md.ter_set( current_tile.xy(), ter_t_floor_burnt );
-            } else if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
                 // burnt wall
                 md.ter_set( current_tile.xy(), ter_t_wall_burnt );
-            } else if( md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
+            } else if( md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ||
+                       md.has_flag_ter( ter_furn_flag::TFLAG_DOOR, current_tile ) ) {
                 // if we're indoors but we're not a wall, then we must be a floor.
+                // doorways also get burned to the ground.
                 md.ter_set( current_tile.xy(), ter_t_floor_burnt );
             } else if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
                 // if we're outside on ground level, burn it to dirt.
@@ -858,7 +858,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 oter_id omt = overmap_buffer.ter( omt_point );
                 if( omt->has_flag( oter_flags::pp_generate_riot_damage ) && !omt->has_flag( oter_flags::road ) ) {
                     GENERATOR_riot_damage( *this, omt_point, false );
-                } else if( ( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) ) {
+                } else if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
                     // HACK: Hardcode running only certain sub-generators on roads
                     GENERATOR_riot_damage( *this, omt_point, true );
                 }
