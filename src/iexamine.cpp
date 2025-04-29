@@ -3041,7 +3041,10 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
                 if( from_activity ) {
                     i.set_var( "activity_var", you.name );
                 }
-                here.add_item_or_charges( you.pos_bub(), i );
+                item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), i );
+                if (from_activity && loc.where() == item_location::type::map ){
+                    you.may_activity_occupancy_after_end_items_loc.insert(loc.pos_abs());
+                }
             }
             here.furn_set( examp, furn_str_id( fp->base ) );
             you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );

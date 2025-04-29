@@ -1959,6 +1959,7 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             you.assign_activity( ACT_BUTCHER_FULL, 0, true );
             you.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
             you.activity.placement = here.get_abs( src_loc );
+            you.may_activity_occupancy_after_end_items_loc.insert(here.get_abs(src_loc));
             return true;
         }
     }

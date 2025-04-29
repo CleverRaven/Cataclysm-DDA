@@ -1232,7 +1232,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             } else if( drop->count_by_charges() ) {
                 std::vector<item> objs = create_charge_items( drop, roll, entry, corpse_item, you );
                 for( item &obj : objs ) {
-                    here.add_item_or_charges( you.pos_bub(), obj );
+                    item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), obj );
+                    if (loc.where() == item_location::type::map){
+                        you.may_activity_occupancy_after_end_items_loc.insert(loc.pos_abs());
+                    }
                 }
             } else {
                 item obj( drop, calendar::turn );
@@ -1253,7 +1256,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     obj.set_var( "activity_var", you.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
-                    here.add_item_or_charges( you.pos_bub(), obj );
+                    item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), obj );
+                    if (loc.where() == item_location::type::map){
+                        you.may_activity_occupancy_after_end_items_loc.insert(loc.pos_abs());
+                    }
                 }
             }
             you.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
@@ -1294,7 +1300,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 ruined_parts.set_var( "activity_var", you.name );
             }
             for( int i = 0; i < item_charges; ++i ) {
-                here.add_item_or_charges( you.pos_bub(), ruined_parts );
+                item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), ruined_parts );
+                if (loc.where() == item_location::type::map){
+                    you.may_activity_occupancy_after_end_items_loc.insert(loc.pos_abs());
+                }
             }
         }
     }
