@@ -9380,7 +9380,7 @@ bool item::mod_damage( int qty )
         }
 
         // TODO: think about better way to telling the game what faults should be applied when
-        set_fault( random_potential_fault_of_type( "mechanical_damage" ) );
+        set_random_fault_of_type( "mechanical_damage" );
 
         return destroy;
     }
