@@ -60,6 +60,7 @@ enum class segments : std::size_t {
     CONTENTS,
     EMEMORY,
     ACTIVITY_OCCUPANCY,
+
     last_segment,
 
     // separate flags for TYPE
