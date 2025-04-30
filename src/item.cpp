@@ -5839,9 +5839,12 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                                           static_cast<int>( this->get_var( "die_num_sides",
                                                   0 ) ) ) );
     }
-    diag_value const *activity_var_may = maybe_get_value("activity_var");
-    if (activity_var_may != nullptr &&activity_var_may->is_dbl()){
-        info.emplace_back("DESCRIPTION",_( "* This item is currently occupied by someone's activity" ));
+    diag_value const *activity_var_may = maybe_get_value( "activity_var" );
+    if( activity_var_may != nullptr && activity_var_may->is_str() ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "* This item is currently occupied by %s's activity" ),
+                               get_var( "activity_var", "someone" ) ) );
     }
 
 }
