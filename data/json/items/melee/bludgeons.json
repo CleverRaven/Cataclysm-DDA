@@ -1995,11 +1995,11 @@
     "type": "TOOL",
     "id": "exodii_prybar",
     "name": { "str": "breacher" },
-    "description": "Some sort of large prybar of a make and manufacturer you've never seen before.  On the heavier end is a set of thick, crabclaw like shears connected to a hydraulic piston, capable of cutting or prying through metal with great force.  The Exodii use these to scrap large machines and vehicles, and it's been retrofitted to run on their bionic power.",
+    "description": "Some sort of large prybar of a make and manufacturer you've never seen before.  On the heavier end is a set of thick, crabclaw like shears connected to a hydraulic piston, capable of cutting or prying through metal with great force.  The Exodii use these for general purpose breaching and scrapping heavy machines, and it's been retrofitted to run on their bionic power.",
     "price_postapoc": "45 USD",
     "color": "dark_gray",
     "symbol": "/",
-    "material": [ "hc_steel", "fiberglass" ],
+    "material": [ "hc_steel", "ceramic" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "USES_BIONIC_POWER" ],
     "weight": "5000 g",
     "longest_side": "91 cm",
@@ -2013,7 +2013,7 @@
     "charges_per_use": 1,
     "power_draw": "600 W",
     "use_action": [ "CROWBAR" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" }
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" }
   },
   {
     "type": "TOOL",
@@ -2027,14 +2027,14 @@
     "flags": [ "DURABLE_MELEE", "DIG_TOOL", "USES_BIONIC_POWER" ],
     "weight": "6880 g",
     "looks_like": "circsaw_off",
-    "longest_side": "146 cm",
+    "longest_side": "116 cm",
     "volume": "2000 ml",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "charged_qualities": [ [ "DIG", 6 ], [ "SAW_M", 2 ], [ "SAW_W", 2 ], [ "AXE", 3 ] ],
+    "charged_qualities": [ [ "DIG", 6 ], [ "AXE", 3 ] ],
     "use_action": [ "JACKHAMMER" ],
     "charges_per_use": 800,
     "power_draw": "1200 W",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "melee_damage": { "bash": 40, "cut": 10 }
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "clumsy" },
+    "melee_damage": { "bash": 42, "cut": 16 }
   }
 ]
