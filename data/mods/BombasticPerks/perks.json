@@ -24,7 +24,7 @@
     "valid": false,
     "description": "Grants +1 Strength, repeatable.",
     "active": true,
-    "triggers": [ [ { "condition" : { "one_in_chance" : 1 } } ] ],
+    "triggers": [ [ { "condition": { "one_in_chance": 1 } } ] ],
     "activated_eocs": [ "EOC_REP_STR_UP" ]
   },
   {
@@ -36,7 +36,7 @@
     "valid": false,
     "description": "Grants +1 Dexterity, repeatable.",
     "active": true,
-    "triggers": [ [ { "condition" : { "one_in_chance" : 1 } } ] ],
+    "triggers": [ [ { "condition": { "one_in_chance": 1 } } ] ],
     "activated_eocs": [ "EOC_REP_DEX_UP" ]
   },
   {
@@ -48,7 +48,7 @@
     "valid": false,
     "description": "Grants +1 Intelligence, repeatable.",
     "active": true,
-    "triggers": [ [ { "condition" : { "one_in_chance" : 1 } } ] ],
+    "triggers": [ [ { "condition": { "one_in_chance": 1 } } ] ],
     "activated_eocs": [ "EOC_REP_INT_UP" ]
   },
   {
@@ -60,7 +60,7 @@
     "valid": false,
     "description": "Grants +1 Perception, repeatable.",
     "active": true,
-    "triggers": [ [ { "condition" : { "one_in_chance" : 1 } } ] ],
+    "triggers": [ [ { "condition": { "one_in_chance": 1 } } ] ],
     "activated_eocs": [ "EOC_REP_PER_UP" ]
   },
   {

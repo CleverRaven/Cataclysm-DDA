@@ -3,7 +3,7 @@
     "type": "enchantment",
     "id": "bonus_stats",
     "condition": "ALWAYS",
-    "values": [ 
+    "values": [
       { "value": "STRENGTH", "add": { "math": [ "rep_str_var" ] } },
       { "value": "DEXTERITY", "add": { "math": [ "rep_dex_var" ] } },
       { "value": "INTELLIGENCE", "add": { "math": [ "rep_int_var" ] } },
@@ -13,33 +13,21 @@
   {
     "id": "EOC_REP_STR_UP",
     "type": "effect_on_condition",
-    "effect": [
-      { "math": [ "rep_str_var", "+=", "1" ] },
-      { "u_lose_trait" : "REP_STR_UP" }
-    ]
+    "effect": [ { "math": [ "rep_str_var", "+=", "1" ] }, { "u_lose_trait": "REP_STR_UP" } ]
   },
   {
     "id": "EOC_REP_DEX_UP",
     "type": "effect_on_condition",
-    "effect": [
-      { "math": [ "rep_dex_var", "+=", "1" ] },
-      { "u_lose_trait" : "REP_DEX_UP" }
-    ]
+    "effect": [ { "math": [ "rep_dex_var", "+=", "1" ] }, { "u_lose_trait": "REP_DEX_UP" } ]
   },
   {
     "id": "EOC_REP_INT_UP",
     "type": "effect_on_condition",
-    "effect": [
-      { "math": [ "rep_int_var", "+=", "1" ] },
-      { "u_lose_trait" : "REP_INT_UP" }
-    ]
+    "effect": [ { "math": [ "rep_int_var", "+=", "1" ] }, { "u_lose_trait": "REP_INT_UP" } ]
   },
   {
     "id": "EOC_REP_PER_UP",
     "type": "effect_on_condition",
-    "effect": [
-      { "math": [ "rep_per_var", "+=", "1" ] },
-      { "u_lose_trait" : "REP_PER_UP" }
-    ]
+    "effect": [ { "math": [ "rep_per_var", "+=", "1" ] }, { "u_lose_trait": "REP_PER_UP" } ]
   }
 ]
