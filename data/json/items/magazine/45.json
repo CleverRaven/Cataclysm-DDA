@@ -376,7 +376,8 @@
   {
     "id": "glock36_mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock 36 magazine" },
     "description": "A 6-round magazine for the Glock 36. Incompatible with other .45 Glocks",
     "weight": "70 g",
