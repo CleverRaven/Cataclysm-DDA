@@ -7698,8 +7698,7 @@ void map::rotate( int turns )
             continue;
         }
 
-        // Translate bubble -> global -> current map.
-        const point_bub_ms old( get_bub( reality_bubble().get_abs( np.pos_bub() ).xy() ) );
+        const point_bub_ms old( get_bub( np.pos_abs().xy() ) );
 
         const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
         np.spawn_at_precise( get_abs( tripoint_bub_ms( new_pos, sq.z() ) ) );
