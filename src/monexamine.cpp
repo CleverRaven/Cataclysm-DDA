@@ -20,12 +20,14 @@
 #include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -503,6 +505,7 @@ void stop_leading( monster &z )
  */
 void milk_source( monster &source_mon )
 {
+    map &here = get_map();
 
     itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
     auto milkable_ammo = source_mon.ammo.find( milked_item );
@@ -512,18 +515,59 @@ void milk_source( monster &source_mon )
     }
 
     else if( milkable_ammo->second > 0 ) {
-        const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint_abs_ms> coords{};
-        std::vector<std::string> str_values{};
+        // This could be expanded upon by taking species and actor skills into consideration.
+        const int moves_per_unit = to_moves<int>( time_duration::from_minutes( 1.0 / 2 ) );
+        int moves = milkable_ammo->second * moves_per_unit;
+        tripoint_abs_ms coords;
         Character &player_character = get_player_character();
-        coords.push_back( get_map().get_abs( source_mon.pos_bub() ) );
+        coords = source_mon.pos_abs();
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            str_values.emplace_back( "temp_tie" );
         }
-        player_character.assign_activity( milk_activity_actor( moves, coords, str_values ) );
+
+        item milk( milked_item, calendar::turn, milkable_ammo->second );
+        liquid_dest_opt liquid_target = liquid_handler::select_liquid_target( milk, 1 );
+
+        if( liquid_target.dest_opt == LD_NULL ) {
+            return;
+        }
+
+        units::volume target_volume;
+
+        switch( liquid_target.dest_opt ) {
+            case LD_ITEM:
+                target_volume = liquid_target.item_loc.get_item()->max_containable_volume() -
+                                liquid_target.item_loc.get_item()->total_contained_volume();
+
+                if( target_volume < milk.volume() ) {
+                    const item single_unit( milked_item, calendar::turn, 1 );
+                    int target_units = target_volume / single_unit.volume();
+                    moves = target_units * moves_per_unit;
+                }
+                break;
+
+            case LD_KEG:
+                target_volume = here.furn( liquid_target.pos ).obj().keg_capacity;
+
+                if( target_volume < milk.volume() ) {
+                    const item single_unit( milked_item, calendar::turn, 1 );
+                    int target_units = target_volume / single_unit.volume();
+                    moves = target_units * moves_per_unit;
+                }
+                break;
+
+            // None of these should happen
+            case LD_NULL:
+            case LD_CONSUME:
+            case LD_GROUND:
+            case LD_VEH:
+                break;
+        }
+
+        player_character.assign_activity( milk_activity_actor( moves, moves_per_unit, coords, liquid_target,
+                                          temp_tie ) );
 
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {

@@ -462,7 +462,9 @@ void veh_app_interact::siphon( map &here )
     const int idx = veh->index_of_part( pt );
     item liquid( base.legacy_front() );
     const int liq_charges = liquid.charges;
-    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+    liquid_dest_opt liquid_target;
+
+    if( liquid_handler::handle_liquid( liquid, liquid_target, nullptr, 1, nullptr, veh, idx ) ) {
         veh->drain( here, idx, liq_charges - liquid.charges );
     }
 }
