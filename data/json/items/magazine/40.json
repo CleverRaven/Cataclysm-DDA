@@ -51,7 +51,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock 27 magazine" },
-    "description": "A compact. light-weight polymer magazine with a 9 round capacity.  It cannot fit .357 SIG rounds like its counterparts, but it can still fit inside the larger .40 Glocks.",
+    "description": "A compact, light-weight polymer magazine with a 9 round capacity.  It cannot fit .357 SIG rounds like its counterparts, but it can still fit inside the larger .40 Glocks.",
     "copy-from": "glock40mag",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 9 } } ]
   },
