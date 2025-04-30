@@ -11,7 +11,7 @@ LOCAL_CPP_FEATURES := exceptions rtti
 LOCAL_SHARED_LIBRARIES := SDL2
 
 # Add your application source files here...
-IMGUI_SRCS := $(sort $(wildcard $(LOCAL_PATH)/third-party/imgui/*.cpp))
+IMGUI_SRCS := $(sort $(wildcard $(LOCAL_PATH)/third-party/imgui/*.cpp)  $(wildcard $(LOCAL_PATH)/third-party/ImGuiFileDialog/*.cpp))
 LOCAL_SRC_FILES := $(sort $(IMGUI_SRCS:$(LOCAL_PATH)/%=%))
 
 LOCAL_CFLAGS += -DBACKTRACE=1 -DLOCALIZE=1 -fsigned-char
