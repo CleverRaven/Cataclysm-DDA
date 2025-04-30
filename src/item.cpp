@@ -5844,7 +5844,7 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
         info.emplace_back( "DESCRIPTION",
                            string_format(
                                _( "* This item is currently used by %s" ),
-                               get_var( "activity_var", "someone" ) ) );
+                               activity_var_may->str() ) );
     }
 
 }
