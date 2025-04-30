@@ -84,7 +84,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock43x", "charges": [ 0, 10 ] },
+      { "item": "glock_43x", "charges": [ 0, 10 ] },
       { "item": "glock43x/48_mag" },
       { "item": "glock43x/48_mag", "prob": 50 },
       { "group": "on_hand_9mm" }
@@ -97,7 +97,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock48", "charges": [ 0, 10 ] },
+      { "item": "glock_48", "charges": [ 0, 10 ] },
       { "item": "glock43x/48_mag" },
       { "item": "glock43x/48_mag", "prob": 50 },
       { "group": "on_hand_9mm" }
