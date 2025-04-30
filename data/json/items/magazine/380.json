@@ -112,7 +112,8 @@
   {
     "id": "glock42_mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock 42 magazine" },
     "description": "A standard 6-round capacity magazine for the Glock 42.",
     "weight": "45 g",
