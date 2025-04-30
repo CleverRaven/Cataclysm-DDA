@@ -46,7 +46,7 @@
     "name": { "str": "large electric motor" },
     "description": "A large electric motor.  Could be used to power a full-size car or SUV.",
     "weight": "90 kg",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "symbol": ":",
     "volume": "75 L",
     "price": "220 USD",
