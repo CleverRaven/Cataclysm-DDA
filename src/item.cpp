@@ -1724,7 +1724,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
     bits.set( tname::segments::ACTIVE, active == rhs.active );
-    bits.set( tname::segments::ACTIVITY_OCCUPANCY, get_var( "activity_var", "" ) == rhs.get_var( "activity_var", "" ) );
+    bits.set( tname::segments::ACTIVITY_OCCUPANCY, get_var( "activity_var",
+              "" ) == rhs.get_var( "activity_var", "" ) );
     bits.set( tname::segments::FILTHY, is_filthy() == rhs.is_filthy() );
     bits.set( tname::segments::WETNESS, _stacks_wetness( *this, rhs, precise ) );
     bits.set( tname::segments::WEAPON_MODS, _stacks_weapon_mods( *this, rhs ) );
