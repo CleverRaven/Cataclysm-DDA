@@ -4996,14 +4996,24 @@ void avatar::character_to_template( const std::string &name )
 
 void Character::add_default_background()
 {
-    if( scen.has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+    if( scenario.has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         return;
+    }
+
+    if( prof && prof->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+        return;
+    }
+
+    for( const profession *hobby_prof : hobbies ) {
+        if( hobby_prof && hobby_prof->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
+            return;
+        }
     }
 
     for( const profession_group &prof_grp : profession_group::get_all() ) {
         if( prof_grp.get_id() == profession_group_adult_basic_background ) {
-            for( const profession_id &hobb : prof_grp.get_professions() ) {
-                hobbies.insert( &hobb.obj() );
+            for( const profession *hobb : prof_grp.get_professions() ) {
+                hobbies.insert( hobb );
             }
         }
     }
