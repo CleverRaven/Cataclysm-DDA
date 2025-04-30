@@ -570,7 +570,7 @@ std::string activity_occupany( item const &it, unsigned int /* quantity */,
     if( it.has_var( "activity_var" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
-        return _( " (activity occupany)" );
+        return _( " (in use)" );
     }
     return {};
 }
