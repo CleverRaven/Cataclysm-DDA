@@ -28,11 +28,11 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 #include <SDL_keyboard.h>
-
+#include <SDL_mouse.h>
 #endif
 
-#if defined(TILES)
-#include <SDL_mouse.h>
+#if defined(TILES) && !defined(__ANDROID__)
+#include <SDL2/SDL_mouse.h>
 #endif
 
 class uilist_impl : cataimgui::window
