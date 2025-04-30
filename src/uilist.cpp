@@ -29,6 +29,7 @@
 #include <jni.h>
 #include <SDL_keyboard.h>
 #include <SDL_mouse.h>
+#include "options.h"
 #endif
 
 #if defined(TILES) && !defined(__ANDROID__)
