@@ -28,7 +28,6 @@
     "//": "Mechanical damage of any blade, from a sword to a knife",
     "group": [
       { "fault": "fault_blade_rolled_edge", "weight": 100 },
-      { "fault": "fault_blade_bent", "weight": 100 },
       { "fault": "fault_blade_chipped", "weight": 100 },
       { "fault": "fault_blade_cracked", "weight": 100 },
       { "fault": "fault_blade_broken", "weight": 3 },
@@ -43,7 +42,6 @@
     "//": "Mechanical damage of a blade that do not have a tip, like cleaver",
     "group": [
       { "fault": "fault_blade_rolled_edge", "weight": 100 },
-      { "fault": "fault_blade_bent", "weight": 100 },
       { "fault": "fault_blade_chipped", "weight": 100 },
       { "fault": "fault_blade_cracked", "weight": 100 },
       { "fault": "fault_blade_broken", "weight": 3 },
