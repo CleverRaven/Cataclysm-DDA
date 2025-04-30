@@ -565,7 +565,7 @@ std::string active( item const &it, unsigned int /* quantity */,
     return {};
 }
 std::string activity_occupany( item const &it, unsigned int /* quantity */,
-                        segment_bitset const &/* segments */ )
+                               segment_bitset const &/* segments */ )
 {
     if( it.has_var("activity_var")) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
