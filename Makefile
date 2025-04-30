@@ -169,6 +169,7 @@ BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 IMGUI_DIR = $(SRC_DIR)/third-party/imgui
 IMTUI_DIR = $(SRC_DIR)/third-party/imtui
+IMGUI_FILEDIALOG_DIR = $(SRC_DIR)/third-party/ImGuiFileDialog
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
@@ -966,9 +967,11 @@ ASTYLE_SOURCES := $(sort \
 SOURCES += $(THIRD_PARTY_SOURCES)
 
 IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_stdlib.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
-ifeq ($(SDL), 1)
+ifeq ($(TILES), 1)
+	IMGUI_SOURCES += $(IMGUI_FILEDIALOG_DIR)/ImGuiFileDialog.cpp $(IMGUI_FILEDIALOG_DIR)/ImWidgets.cpp # not needed with IMTUI
 	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_freetype.cpp
 	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_impl_sdl2.cpp $(IMGUI_DIR)/imgui_impl_sdlrenderer2.cpp
+	DEFINES += -DIMGUI_INCLUDE='"imgui/imgui.h"' -DIMGUI_INTERNAL_INCLUDE='"imgui/imgui_internal.h"' -DCUSTOM_IMGUIFILEDIALOG_CONFIG='"CustomImGuiFileDialogConfig.h"' -DCUSTOM_IMWIDGETS_CONFIG='"CustomImWidgetsConfig.h"'
 else
 	IMGUI_SOURCES += $(IMTUI_DIR)/imtui-impl-ncurses.cpp $(IMTUI_DIR)/imtui-impl-text.cpp
 	DEFINES += -DIMTUI
@@ -1099,6 +1102,9 @@ includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
 $(ODIR)/third-party/imgui/%.o: $(IMGUI_DIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+
+$(ODIR)/third-party/ImGuiFileDialog/%.o: $(IMGUI_FILEDIALOG_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/third-party/imtui/%.o: $(IMTUI_DIR)/%.cpp

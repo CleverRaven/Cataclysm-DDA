@@ -403,6 +403,14 @@ if (NOT GETTEXT_MSGFMT_EXECUTABLE )
     set(GETTEXT_MSGFMT_EXECUTABLE "${GETTEXT_MSGFMT_BINARY}")
 endif()
 
+# ImGui needs some defines
+if (TILES)
+    add_compile_definitions(IMGUI_INCLUDE=\"imgui/imgui.h\")
+    add_compile_definitions(IMGUI_INTERNAL_INCLUDE=\"imgui/imgui_internal.h\")
+    add_compile_definitions(CUSTOM_IMGUIFILEDIALOG_CONFIG=\"CustomImGuiFileDialogConfig.h\")
+    add_compile_definitions(CUSTOM_IMWIDGETS_CONFIG=\"CustomImWidgetsConfig.h\")
+endif ()
+
 # Ok. Now create build and install recipes
 if (LOCALIZE)
     add_subdirectory(lang)
