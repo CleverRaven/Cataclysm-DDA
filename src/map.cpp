@@ -8169,7 +8169,8 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
 
     if( map_incomplete ) {
         smallmap tmp_map;
-        swap_map swap( *tmp_map.cast_to_map() );
+        // Disabled until it's figured out why NPCs are loaded at incorrect locations.
+        //        swap_map swap( *tmp_map.cast_to_map() );
         tmp_map.main_cleanup_override( false );
         tmp_map.generate( grid_abs_omt, calendar::turn, true );
         _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
@@ -8890,7 +8891,9 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
             }
 
             monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ),
-                                    local_pos );
+                                    // Temporary reversion to wrong map usage compensation until NPC incorrect placement has been sorted out.
+                                    reality_bubble().get_bub( abs_pos ) );
+            //                                    local_pos );
             if( placed ) {
                 placed->on_load();
             }
