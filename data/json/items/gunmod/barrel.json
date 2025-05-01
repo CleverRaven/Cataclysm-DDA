@@ -81,7 +81,7 @@
     "type": "GUNMOD",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "threaded pistol barrel" },
-    "description": "A pistol barrel equipped with muzzle threads for additional acessories.",
+    "description": "A pistol barrel equipped with muzzle threads for additional accessories.",
     "weight": "100 g",
     "volume": "125ml",
     "price": "200 USD",
