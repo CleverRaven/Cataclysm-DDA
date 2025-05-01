@@ -1401,11 +1401,11 @@ class item : public visitable
         int damage_level( bool precise = false ) const;
 
         /** Modifiy melee weapon damage to account for item's damage. */
-        float damage_adjusted_melee_weapon_damage( float value ) const;
+        float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
         /** Modifiy gun damage to account for item's damage. */
         float damage_adjusted_gun_damage( float value ) const;
         /** Modifiy armor resist to account for item's damage. */
-        float damage_adjusted_armor_resist( float value ) const;
+        float damage_adjusted_armor_resist( float value, const damage_type_id &dmg_type ) const;
 
         /** @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ ). */
         int max_damage() const;
@@ -1733,8 +1733,6 @@ class item : public visitable
         /** Return faults that can potentially occur with this item. */
         std::set<fault_id> faults_potential() const;
 
-        bool can_have_fault_type( const std::string &fault_type ) const;
-
         std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
 
         /** Returns the total area of this wheel or 0 if it isn't one. */
@@ -2060,8 +2058,21 @@ class item : public visitable
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
-        /** Idempotent filter setting an item specific fault. */
-        item &set_fault( const fault_id &fault_id );
+        /** Check if item can have a fault, and if yes, applies it. This version do not print a message, use item_location version instead
+         * `force`, if true, bypasses the check and applies the fault item do not define
+         */
+        void set_fault( const fault_id &fault_id, bool force = false );
+
+        /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
+        * `force`, if true, bypasses the check and applies the fault item do not define
+        */
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false );
+
+        /** Removes the fault from the item, if such is presented. */
+        void remove_fault( const fault_id &fault_id );
+
+        /** Checks all the faults in item, and if there is any of this type, removes it. */
+        void remove_single_fault_of_type( const std::string &fault_type );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
@@ -2078,6 +2089,8 @@ class item : public visitable
 
         /** Does this item have the specified fault? */
         bool has_fault( const fault_id &fault ) const;
+
+        bool has_fault_of_type( const std::string &fault_type ) const;
 
         /** Does this item part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;
@@ -2518,6 +2531,8 @@ class item : public visitable
 
         /** Return true if this uses electrical or a different kind of energy. */
         bool uses_energy() const;
+        /** Return true if this item is chargeable with additional energy. */
+        bool is_chargeable() const;
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.

@@ -1,7 +1,8 @@
 [
   {
     "id": "helmet_full_carbide",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "raider's breaching helmet" },
     "description": "This helmet is designed for the individual that is worried about catching heavy weapons fire to the face.  It is unwieldy and heavy, and lacks basic environmental protection features, but it just might stop even the largest of ballistic rounds.",
@@ -28,7 +29,8 @@
   {
     "id": "tac_fullhelmet_uicas",
     "repairs_like": "xlkevlar",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "UICAS Tip of the Spear helmet" },
     "description": "An all-environment combat helmet issued to UICA espatiers.  Commonly known as 'the jar' due to its unusual clear polymer canopy that leaves its wearer's face visible.",
@@ -61,7 +63,8 @@
   {
     "id": "tac_helmet_uicas",
     "repairs_like": "xlkevlar",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "UICAS Point of Impact helmet" },
     "description": "A lightweight black helmet that provides excellent protection from all sorts of damage, unless it's airborne.  UICAS makes the point of designing all headgear whenever possible with clear faceplates, in order to provide a human touch to all interactions.",

@@ -1194,7 +1194,7 @@ std::vector<std::string> monster::extended_description() const
 
     using flag_description = std::pair<const mon_flag_id, std::string>;
     const auto describe_flags = [this, &tmp](
-                                    const std::string_view format,
+                                    std::string_view format,
                                     const std::vector<flag_description> &flags_names,
     const std::string &if_empty = "" ) {
         std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
@@ -1210,7 +1210,7 @@ std::vector<std::string> monster::extended_description() const
 
     using property_description = std::pair<bool, std::string>;
     const auto describe_properties = [&tmp](
-                                         const std::string_view format,
+                                         std::string_view format,
                                          const std::vector<property_description> &property_names,
     const std::string &if_empty = "" ) {
         std::string property_descriptions = enumerate_as_string( property_names.begin(),
@@ -2405,6 +2405,12 @@ bool monster::move_effects( bool )
         return true;
     }
 
+    // If the monster has the CANNOT_MOVE flag, they can't
+    // perform any move effects, so skip this step
+    if( has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+        return false;
+    }
+
     map &here = get_map();
     bool u_see_me = get_player_view().sees( here, *this );
     if( has_effect( effect_tied ) ) {
@@ -2806,7 +2812,7 @@ void monster::disable_special( const std::string &special_name )
     special_attacks.at( special_name ).enabled = false;
 }
 
-bool monster::special_available( const std::string_view special_name ) const
+bool monster::special_available( std::string_view special_name ) const
 {
     std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
                 special_name );
@@ -3312,7 +3318,7 @@ void monster::spawn_dissectables_on_death( item *corpse ) const
                 dissectable.set_flag( flg );
             }
             for( const fault_id &flt : entry.faults ) {
-                dissectable.faults.emplace( flt );
+                dissectable.set_fault( flt );
             }
             if( corpse ) {
                 corpse->put_in( dissectable, pocket_type::CORPSE );

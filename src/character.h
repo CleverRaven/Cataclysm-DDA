@@ -926,7 +926,9 @@ class Character : public Creature, public visitable
         stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
         int get_lift_str() const;
-        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
+        /** Takes off an item, returning false on fail. The taken off item is processed in the interact.
+         * Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
+         */
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
@@ -2114,7 +2116,7 @@ class Character : public Creature, public visitable
          * possible at all. `true` indicates at least some of the liquid has been moved.
          */
         /**@{*/
-        bool pour_into( item_location &container, item &liquid, bool ignore_settings );
+        bool pour_into( item_location &container, item &liquid, bool ignore_settings, bool silent );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
 

@@ -2,7 +2,8 @@
   {
     "id": "reloaded_shot_bird",
     "copy-from": "shot_bird",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge birdshot, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -11,7 +12,8 @@
   {
     "id": "reloaded_shot_dragon",
     "copy-from": "shot_dragon",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge dragon's breath, reloaded" },
     "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel.  While looking very impressive, they present more of a fire hazard than an effective tool for lighting up hostiles.  This one was made in somebody's garage.  Are you sure you want to shoot this?",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -21,7 +23,8 @@
   {
     "id": "reloaded_shot_00",
     "copy-from": "shot_00",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge buckshot, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -30,7 +33,8 @@
   {
     "id": "reloaded_shot_flechette",
     "copy-from": "shot_flechette",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge flechette, reloaded", "str_pl": "12 gauge flechettes, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -39,7 +43,8 @@
   {
     "id": "reloaded_shot_slug",
     "copy-from": "shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge slug, reloaded", "str_pl": "12 gauge slugs, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -48,7 +53,8 @@
   {
     "id": "bp_shot_bird",
     "copy-from": "shot_bird",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge birdshot, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -57,7 +63,8 @@
   {
     "id": "bp_shot_dragon",
     "copy-from": "shot_dragon",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge dragon's breath, black powder" },
     "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel.  While looking very impressive, they present more of a fire hazard than an effective tool for lighting up hostiles.  This one was made in somebody's garage.  Are you sure you want to shoot this?",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
@@ -67,7 +74,8 @@
   {
     "id": "bp_shot_00",
     "copy-from": "shot_00",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge buckshot, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -76,7 +84,8 @@
   {
     "id": "bp_shot_flechette",
     "copy-from": "shot_flechette",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge flechette, black powder", "str_pl": "12 gauge flechettes, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -85,7 +94,8 @@
   {
     "id": "bp_shot_slug",
     "copy-from": "shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge slug, black powder", "str_pl": "12 gauge slugs, black powder" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
@@ -93,7 +103,8 @@
   },
   {
     "abstract": "shotshell_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "base shotshell", "//~": "NO_I18N" },
     "weight": "47 g",
     "volume": "377 ml",
@@ -110,7 +121,8 @@
   {
     "id": "shot_00",
     "copy-from": "shotshell_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge buckshot" },
     "weight": "43 g",
     "description": "A 12 gauge shotgun shell, filled with 9 pellets of 00 buck.  A very common and versatile round, they're useful for both self defense and for hunting.  The spread of the shot doesn't just increase your chances to have a projectile hit, it also causes a much larger wound, greatly increasing lethality.  It does struggle with range, and against body armor.",
@@ -129,7 +141,8 @@
   {
     "id": "shot_beanbag",
     "copy-from": "shotshell_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge beanbag" },
     "description": "A beanbag round for shotguns.  Designated 'less-lethal' and intended to disable, but remember that 'less-lethal' does not mean 'non-lethal'.",
     "ascii_picture": "shot_beanbag",
@@ -146,7 +159,8 @@
   {
     "id": "shot_bird",
     "copy-from": "shotshell_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge birdshot" },
     "weight": "38 g",
     "description": "Weak shotgun ammunition, filled with tiny pellets and a low powder charge.  Used often for shooting clays or birds, they're a very common commercial round.  Their effectiveness against human targets are quite limited outside of very close ranges, serving more to hurt than kill.",
@@ -165,7 +179,8 @@
   {
     "id": "shot_dragon",
     "copy-from": "shot_bird",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge dragon's breath" },
     "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel.  While looking very impressive, they present more of a fire hazard than an effective tool for lighting up hostiles.",
     "ascii_picture": "shot_dragon",
@@ -177,7 +192,8 @@
   {
     "id": "shot_flechette",
     "copy-from": "shot_00",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge flechette" },
     "description": "A shotgun shell filled with tiny steel darts.  While looking quite dangerous, their actual effectiveness is questionable.  Despite being finned, they have a tendency to tumble mid-air, leading to greater spread and reduced damage.",
     "ascii_picture": "shot_flechette",
@@ -193,7 +209,8 @@
   {
     "id": "shot_he",
     "copy-from": "shot_slug",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge explosive slug" },
     "//": "$30/shot thanks to tight regulation, one way or another.",
     "description": "A shotgun shell shooting a small explosive.  Banned in several states.  While an explosive from a shotgun sounds impressive, its practical applications are limited at best.  The loss in mass in order to accommodate an explosive give it much less impact force compared to traditional ammunition.  The relatively small size of the slug can only accommodate a limited amount of explosives, resulting in a fairly underwhelming explosion.  These traits make it a utility tool for damaging barriers and disrupting other explosive devices, rather than something for anti-personnel use.",
@@ -207,7 +224,8 @@
   {
     "id": "shot_scrap",
     "copy-from": "shot_00",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge buckshot, scrap loaded" },
     "description": "A shotgun shell filled with whatever scrap metal was lying around.  More damaging than birdshot, but fairly inaccurate.",
     "ascii_picture": "shot_scrap",
@@ -218,7 +236,8 @@
   {
     "id": "bp_shot_scrap",
     "copy-from": "shot_scrap",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "12 gauge, black powder, scrap loaded" },
     "description": "A shotgun shell filled with black gunpowder and whatever scrap metal was lying around.  The logical conclusion of ammunition bootlegging.  It'll kill zombies just fine, but your gun will suffer for it.",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 } },
@@ -228,7 +247,8 @@
   {
     "id": "shot_slug",
     "copy-from": "shotshell_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "12 gauge slug" },
     "description": "A 12 gauge slug.  Unlike birdshot or buckshot, slugs are a single large projectile fired from a shotgun.  They're mostly used for hunting bigger game, or for longer range shots where typical buck may spread out more.  Not as lethal as buckshot in certain ranges, but much more accurate and with a longer range, and is more effective against armor.",
     "ascii_picture": "shot_slug",

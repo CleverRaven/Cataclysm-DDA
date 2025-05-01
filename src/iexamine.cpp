@@ -845,7 +845,7 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
                                  attunement->name() ) ) ) {
         you.toggle_trait( attunement );
         // There's no way for you to have this mutation, so a variant is pointless
-        you.add_msg_if_player( m_info, attunement->desc() );
+        you.add_msg_if_player( m_info, you.mutation_desc( attunement ) );
     } else {
         you.add_msg_if_player( _( "Maybe later." ) );
     }
@@ -3416,7 +3416,7 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
             total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
         }
     }
 
@@ -3548,7 +3548,7 @@ void iexamine::arcfurnace_full( Character &, const tripoint_bub_ms &examp )
             total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
         }
     }
 
@@ -3929,7 +3929,7 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
             // This will add items to a space near the vat, because it's flagged as NOITEM.
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
             brew_present = true;
         }
     }
@@ -4158,7 +4158,7 @@ void iexamine::compost_empty( Character &you, const tripoint_bub_ms &examp )
             // This will add items to a space near the tank, because it's flagged as NOITEM.
             item_it = items.erase( item_it );
         } else {
-            item_it++;
+            ++item_it;
             compost_present = true;
         }
     }
@@ -4433,7 +4433,7 @@ static void displace_items_except_one_liquid( const tripoint_bub_ms &examp )
             items.insert( *it );
             it = items.erase( it );
         } else {
-            it++;
+            ++it;
             liquid_present = true;
         }
     }
@@ -4590,7 +4590,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
                     return;
                 }
                 item tmp( drink.typeId(), calendar::turn, charges_held );
-                pour_into_keg( examp, tmp );
+                pour_into_keg( examp, tmp, false );
                 you.use_charges( drink.typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 you.mod_moves( -to_moves<int>( 10_seconds ) );
@@ -4608,7 +4608,7 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
  * will be removed from the liquid item.
  * @return Whether any charges have been transferred at all.
  */
-bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid )
+bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid, bool silent )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0_ml ) {
@@ -4633,7 +4633,9 @@ bool iexamine::pour_into_keg( const tripoint_bub_ms &pos, item &liquid )
         return false;
     }
 
-    add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname(), keg_name );
+    if( !silent ) {
+        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname(), keg_name );
+    }
     while( liquid.charges > 0 && drink.volume() < keg_cap ) {
         drink.charges++;
         liquid.charges--;
@@ -5047,7 +5049,8 @@ void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     item water = here.liquid_from( examp );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+    liquid_dest_opt liquid_target;
+    liquid_handler::handle_liquid( water, liquid_target, nullptr, 0, &examp );
 }
 
 void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )

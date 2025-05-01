@@ -5616,7 +5616,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
     return 0;
 }
 
-static int get_quality_from_string( const std::string_view s )
+static int get_quality_from_string( std::string_view s )
 {
     const ret_val<int> try_quality = try_parse_integer<int>( s, false );
     if( try_quality.success() ) {
@@ -8097,7 +8097,7 @@ int item::contain_monster( const tripoint_bub_ms &target )
     set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ),
                                     f.type->nname() ) );
     // Need to add the weight of the empty container because item::weight uses the "weight" variable directly.
-    set_var( "weight", to_milligram( type->weight + f.get_weight() ) );
+    set_var( "weight", static_cast<double>( to_milligram( type->weight + f.get_weight() ) ) );
     g->remove_zombie( f );
     return 0;
 }

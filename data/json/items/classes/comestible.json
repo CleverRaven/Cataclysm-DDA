@@ -1,7 +1,8 @@
 [
   {
     "abstract": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "spice", "//~": "NO_I18N" },
     "//": "Spices are inedible in their base form but useful in crafting",

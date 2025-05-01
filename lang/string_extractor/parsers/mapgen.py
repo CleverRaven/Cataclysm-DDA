@@ -22,6 +22,10 @@ def parse_mapgen(json, origin):
 
 
 def parse_mapgen_object(json, origin, om):
+    if type(json) is list:
+        for j in json:
+            parse_mapgen_object(j, origin, om)
+
     for key in ["place_specials", "place_signs"]:
         if key in json:
             for sign in json[key]:
@@ -60,17 +64,22 @@ def parse_mapgen_object(json, origin, om):
                 write_text(computer["name"], origin,
                            comment="Computer name placed on map {}".format(om))
 
+    monsters = []
     if "place_monster" in json:
-        for m in json["place_monster"]:
-            if "name" in m:
-                desc = ""
-                if "monster" in m:
-                    desc = "\"{}\"".format(m["monster"])
-                elif "group" in m:
-                    desc = "group \"{}\"".format(m["group"])
-                write_text(m["name"], origin,
-                           comment="Name of the monster {} placed on map {}"
-                           .format(desc, om))
+        monsters += json["place_monster"]
+    if "monster" in json:
+        monsters += [*json["monster"].values()]
+
+    for m in monsters:
+        if "name" in m:
+            desc = ""
+            if "monster" in m:
+                desc = "\"{}\"".format(m["monster"])
+            elif "group" in m:
+                desc = "group \"{}\"".format(m["group"])
+            write_text(m["name"], origin,
+                       comment="Name of the monster {} placed on map {}"
+                       .format(desc, om))
 
     if "place_graffiti" in json:
         for graffiti in json["place_graffiti"]:

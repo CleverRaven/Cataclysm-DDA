@@ -1,7 +1,8 @@
 [
   {
     "id": "howto_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "How to Trap Anything", "str_pl": "copies of How to Trap Anything" },
     "description": "A worn manual that describes how to set and disarm a wide variety of traps.",
@@ -20,7 +21,8 @@
   },
   {
     "id": "mag_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Trapper's Life", "str_pl": "issues of Trapper's Life" },
     "description": "An in-depth magazine about trapping game.  There are lots of articles and diagrams that explain simple trap designs.",
@@ -39,7 +41,8 @@
   },
   {
     "id": "manual_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Modern Trapper", "str_pl": "copies of The Modern Trapper" },
     "description": "An extensive volume that details numerous methods of trapping game.",
@@ -58,7 +61,8 @@
   },
   {
     "id": "manual_traps_mil",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "FM 20-32 Mine/Countermine Operations", "str_pl": "copies of FM 20-32 Mine/Countermine Operations" },
     "description": "A hefty military field manual about mine-warfare principles, the mechanics of different types of mines/IED's, and countermine operations.",
@@ -78,7 +82,8 @@
   },
   {
     "id": "manual_traps_mil_basic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "str": "Booby Traps, IEDs, Mines and You: A Primer",
@@ -100,7 +105,8 @@
   },
   {
     "id": "textbook_traps",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": {
       "//~": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
@@ -125,7 +131,8 @@
   },
   {
     "id": "trappers_companion",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Trapper's Companion", "str_pl": "copies of The Trapper's Companion" },
     "description": "A folksy guide to trapping wild game using time-tested methods.  A bit in-depth for the beginner, it can provide a wealth of information to a knowledgeable trapper.",

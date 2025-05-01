@@ -1,7 +1,8 @@
 [
   {
     "id": "4570_sp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45-70 SP" },
     "description": ".45-70 Government ammunition loaded with a 305 grain soft point bullet.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.",
     "ascii_picture": "4570_sp",
@@ -27,7 +28,8 @@
   {
     "id": "4570_pen",
     "copy-from": "4570_sp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".45-70 +P penetrator" },
     "description": ".45-70 Government overpressure ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.",
     "ascii_picture": "4570_pen",
@@ -40,7 +42,8 @@
   {
     "id": "4570_low",
     "copy-from": "4570_sp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45-70 LFN cowboy" },
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet to original specifications for safe use in antique firearms.  Quite a bit less powerful than modern ammo, but still packs a punch.",
     "weight": "41 g",
@@ -52,7 +55,8 @@
   {
     "id": "reloaded_4570_sp",
     "copy-from": "4570_sp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45-70 SP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -61,7 +65,8 @@
   {
     "id": "reloaded_4570_pen",
     "copy-from": "4570_pen",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": ".45-70 +P penetrator, reloaded", "str_pl": ".45-70 +P penetrators, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -70,7 +75,8 @@
   {
     "id": "reloaded_4570_low",
     "copy-from": "4570_low",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45-70 LFN, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -79,7 +85,8 @@
   {
     "id": "reloaded_4570_bp",
     "copy-from": "4570_low",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".45-70 LFN, black powder" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.3 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER" ] },

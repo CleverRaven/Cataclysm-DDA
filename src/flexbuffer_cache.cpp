@@ -23,6 +23,7 @@
 #include "filesystem.h"
 #include "json.h"
 #include "mmap_file.h"
+#include "options.h"
 
 namespace
 {
@@ -325,6 +326,21 @@ class flexbuffer_disk_cache
 
             // Does the source file's mtime match what we cached previously
             if( source_mtime != disk_entry->second.mtime ) {
+                std::string filepath_and_name = disk_entry->first;
+                // we use this as an exclusion condition. Configuration options can be changed all the time, we don't want to warn over those. Same for achievements.
+                bool stale_game_data = *root_relative_source_path.begin() != std::filesystem::u8path( "config" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "achievements" ) &&
+                                       *root_relative_source_path.begin() != std::filesystem::u8path( "templates" );
+                if( stale_game_data ) {
+                    if( get_option<bool>( "WARN_ON_MODIFIED" ) ) {
+                        debugmsg( "Stale game data detected at %s, did you overwrite old files?  When updating the game you must install to a fresh folder, overwriting old files will cause errors.",
+                                  filepath_and_name );
+                    } else {
+                        // we still log the modification warning even if the option is disabled, for sifting bug reports
+                        DebugLog( D_WARNING, D_MAIN ) << "Stale game data detected (error disabled by user): " <<
+                                                      filepath_and_name;
+                    }
+                }
                 // Cached flexbuffer on disk is out of date, remove it.
                 remove_file( disk_entry->second.flexbuffer_path.u8string() );
                 cached_flexbuffers_.erase( disk_entry );

@@ -637,7 +637,7 @@
     "time": "90 m",
     "autolearn": true,
     "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 4 ], [ "plastic_molding", 3 ] ],
+    "using": [ [ "welding_standard", 20 ], [ "steel_chunk_any", 4 ], [ "plastic_molding", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
@@ -653,7 +653,7 @@
     "time": "90 m",
     "autolearn": true,
     "//": "22cm weld",
-    "using": [ [ "welding_standard", 22 ], [ "steel_tiny", 5 ], [ "plastic_molding", 6 ] ],
+    "using": [ [ "welding_standard", 22 ], [ "steel_chunk_any", 5 ], [ "plastic_molding", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 12 ] ] ]
@@ -1340,7 +1340,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "soldering_standard", 4 ], [ "steel_chunk_any", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 4 ] ], [ [ "e_scrap", 1 ] ] ]

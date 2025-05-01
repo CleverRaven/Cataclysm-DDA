@@ -72,7 +72,7 @@
       "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
       "O": { "item": "SUS_oven", "chance": 100 },
       "u": [ { "item": "SUS_coffee_cupboard", "chance": 50 }, { "item": "dining", "chance": 30 } ],
-      "R": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
+      "R": { "item": "SUS_office_supplies", "chance": 75, "repeat": [ 1, 2 ] },
       "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
       "T": { "item": "SUS_toilet", "chance": 50 }
     },

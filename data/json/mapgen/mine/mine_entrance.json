@@ -116,7 +116,7 @@
         "9": { "item": "car_kit", "chance": 60, "repeat": 2 },
         "B": { "item": "bed", "chance": 50 },
         "b": { "item": "lab_bookshelves", "chance": 60, "repeat": 2 },
-        "c": { "item": "office_supplies", "chance": 60 },
+        "c": { "item": "SUS_office_desk", "chance": 60 },
         "Ć": [
           { "item": "SUS_silverware", "chance": 80 },
           { "item": "SUS_utensils", "chance": 80 },

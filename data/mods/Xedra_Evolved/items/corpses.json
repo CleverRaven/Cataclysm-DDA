@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_sniperbot",
     "symbol": "x",
     "color": "brown",
@@ -13,7 +13,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_shotgunbot",
     "symbol": "x",
     "color": "brown",
@@ -26,7 +26,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_meleebot",
     "symbol": "x",
     "color": "brown",
@@ -39,7 +39,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_exodii_quad_jotunn",
     "symbol": ",",
     "color": "light_gray",
@@ -55,7 +55,7 @@
     "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_dreamforged_automaton",
     "symbol": ",",
     "color": "light_gray",
@@ -71,7 +71,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_fae",
     "//": "Changeling corpses.",
     "copy-from": "corpse",

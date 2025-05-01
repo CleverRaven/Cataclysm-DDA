@@ -236,7 +236,7 @@
         "effect": [
           {
             "math": [
-              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_loop') * u_spell_difficulty('xedra_chronomancer_time_lo')"
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_loop') * u_spell_difficulty('xedra_chronomancer_time_loop')"
             ]
           },
           { "math": [ "_chronomancer_menu_difficulty = 5" ] },

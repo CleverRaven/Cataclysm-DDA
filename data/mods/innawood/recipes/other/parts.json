@@ -100,7 +100,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_chunk_any", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 3 ], [ "makeshift_transformer", 3 ] ] ]
   },

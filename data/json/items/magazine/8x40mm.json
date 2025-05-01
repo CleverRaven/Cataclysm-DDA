@@ -2,7 +2,8 @@
   {
     "id": "8x40_100_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "caseless 100-round magazine" },
     "description": "A 100-round box magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGB100.",
     "variant_type": "gun",
@@ -28,7 +29,8 @@
   {
     "id": "8x40_10_mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "caseless 10-round magazine" },
     "description": "A 10-round stick magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGP10.",
     "variant_type": "gun",
@@ -54,7 +56,8 @@
   {
     "id": "8x40_25_mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "caseless 25-round magazine" },
     "description": "A 25-round stick magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGP25.",
     "variant_type": "gun",
@@ -80,7 +83,8 @@
   {
     "id": "8x40_50_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "caseless 50-round magazine" },
     "description": "A 50-round box magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGB50.",
     "variant_type": "gun",

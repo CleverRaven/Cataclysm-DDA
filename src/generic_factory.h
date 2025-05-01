@@ -133,7 +133,6 @@ const my_class &string_id<my_class>::obj() const
 template<typename T>
 class generic_factory
 {
-
     public:
         virtual ~generic_factory() = default;
 
@@ -938,7 +937,7 @@ bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
 
 //Reads a standard single-float "proportional" entry
-float read_proportional_entry( const JsonObject &jo, const std::string_view &key );
+float read_proportional_entry( const JsonObject &jo, std::string_view key );
 
 namespace reader_detail
 {

@@ -198,7 +198,7 @@
         ],
         "2": [
           { "item": "faction_camp_misc", "chance": 80, "repeat": [ 1, 2 ], "faction": "your_followers" },
-          { "item": "metal_wreckage", "chance": 80, "repeat": [ 6, 9 ], "faction": "your_followers" }
+          { "item": "trash_junkyard", "chance": 80, "repeat": [ 6, 9 ], "faction": "your_followers" }
         ]
       }
     }

@@ -2209,7 +2209,7 @@
     "bleed_rate": 40,
     "vision_day": 35,
     "vision_night": 35,
-    "harvest": "demihuman",
+    "harvest": "nether_huntsman",
     "weakpoint_sets": [ "wps_humanoid_body", "wps_nether_huntsman" ],
     "families": [ "prof_wp_netherium_abomination" ],
     "path_settings": { "max_dist": 35, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": true },

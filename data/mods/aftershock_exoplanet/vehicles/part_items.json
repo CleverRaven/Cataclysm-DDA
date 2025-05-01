@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_titanium_frame",
     "name": { "str": "ultralight frame" },
     "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
@@ -17,14 +17,14 @@
     "melee_damage": { "bash": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_titanium_foldable_frame",
     "copy-from": "afs_titanium_frame",
     "name": { "str": "ultralight foldable frame" },
     "description": "A sturdy, lightweight foldable frame made from titanium."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_control_station",
     "name": { "str": "control station" },
     "looks_like": "vehicle_dashboard",
@@ -40,7 +40,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_panel_v3",
     "name": "quantum solar panel",
     "description": "This solar panel is obviously cutting-edge technology and given where you found it, it should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
@@ -51,7 +51,8 @@
     "copy-from": "solar_panel"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "minireactor",
     "name": { "str": "minireactor" },
     "description": "A small, portable plutonium reactor.  Handle with great care!",

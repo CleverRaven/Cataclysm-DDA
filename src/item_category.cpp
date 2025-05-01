@@ -47,7 +47,7 @@ void item_category::reset()
     item_category_factory.reset();
 }
 
-void item_category::load( const JsonObject &jo, const std::string_view )
+void item_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name_header", name_header_ );

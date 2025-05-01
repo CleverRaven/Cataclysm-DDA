@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "feces_dino",
     "name": { "str_sp": "dinosaur droppings" },
     "copy-from": "feces_bird",
