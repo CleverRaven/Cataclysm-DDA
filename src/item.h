@@ -2091,7 +2091,7 @@ class item : public visitable
         /** Does this item have the specified vitamin? */
         bool has_vitamin( const vitamin_id &vitamin ) const;
 
-        const std::string get_fault_description( const fault_id &f_id ) const;
+        std::string get_fault_description( const fault_id &f_id ) const;
 
         /** Does this item have the specified fault? */
         bool has_fault( const fault_id &fault ) const;

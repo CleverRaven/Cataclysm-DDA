@@ -7777,7 +7777,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-const std::string item::get_fault_description( const fault_id &f_id ) const
+std::string item::get_fault_description( const fault_id &f_id ) const
 {
     return string_format( f_id.obj().description(), type->nname( 1 ) );
 }
@@ -7818,6 +7818,7 @@ bool item::set_fault( const fault_id &f_id, bool force, bool message )
     }
 
     faults.insert( f_id );
+    return true;
 }
 
 void item::set_random_fault_of_type( const std::string &fault_type, bool force, bool message )
