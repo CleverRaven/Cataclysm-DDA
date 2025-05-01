@@ -78,7 +78,7 @@
   },
   {
     "id": "pistol_threaded",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "threaded pistol barrel" },
     "description": "A pistol barrel equipped with muzzle threads for additional accessories.",
