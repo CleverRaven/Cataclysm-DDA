@@ -133,7 +133,6 @@ const my_class &string_id<my_class>::obj() const
 template<typename T>
 class generic_factory
 {
-
     public:
         virtual ~generic_factory() = default;
 

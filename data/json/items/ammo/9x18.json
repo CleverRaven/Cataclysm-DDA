@@ -1,7 +1,8 @@
 [
   {
     "id": "9x18mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm 57-N-181S" },
     "description": "9x18mm Makarov ammunition with a 93gr steel core FMJ bullet.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st.",
     "ascii_picture": "9x18mm",
@@ -27,7 +28,8 @@
   {
     "id": "9x18mmP2",
     "copy-from": "9x18mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm SP-7" },
     "description": "9x18mm Makarov SP-7 ammunition.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st.",
     "price": "1 USD 50 cent",
@@ -40,7 +42,8 @@
   {
     "id": "9x18mmfmj",
     "copy-from": "9x18mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm RG028" },
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses a bullet with a hardened steel core to improve armor penetration.",
     "price": "2 USD",
@@ -50,7 +53,8 @@
   {
     "id": "bp_9x18mm",
     "copy-from": "9x18mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm, black powder" },
     "proportional": {
       "price": 0.3,
@@ -64,7 +68,8 @@
   {
     "id": "bp_9x18mmfmj",
     "copy-from": "9x18mmfmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -78,7 +83,8 @@
   {
     "id": "reloaded_9x18mm",
     "copy-from": "9x18mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -87,7 +93,8 @@
   {
     "id": "reloaded_9x18mmP2",
     "copy-from": "9x18mmP2",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm +P+, reloaded" },
     "//": "Rather than give it a military designation, this is simply handmade overpressure ammo.",
     "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  This one has been hand-reloaded to generate higher internal pressure, boosting flight stability and damage.",
@@ -98,7 +105,8 @@
   {
     "id": "reloaded_9x18mmfmj",
     "copy-from": "9x18mmfmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x18mm FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -107,7 +115,8 @@
   {
     "id": "matchhead_9x18mmfmj",
     "copy-from": "bp_9x18mmfmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": "9x18mm FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -117,7 +126,8 @@
   {
     "id": "matchhead_9x18mm",
     "copy-from": "bp_9x18mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": "9x18mm, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

@@ -210,6 +210,7 @@ static const ter_str_id ter_t_door_glass_frosted_c( "t_door_glass_frosted_c" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_burnt( "t_floor_burnt" );
 static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
 static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
@@ -225,6 +226,7 @@ static const ter_str_id ter_t_strconc_floor( "t_strconc_floor" );
 static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
 static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
 static const ter_str_id ter_t_vat( "t_vat" );
+static const ter_str_id ter_t_wall_burnt( "t_wall_burnt" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
@@ -419,38 +421,62 @@ static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile,
     }
 }
 
-static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
+struct generator_vars {
+    int scaling_days_start;
+    int scaling_days_end;
+    int num_attempts;
+    int percent_chance;
+    int min_intensity;
+    int max_intensity;
+};
+
+static void GENERATOR_bash_damage( map &md,
+                                   std::list<tripoint_bub_ms> &all_points_in_map,
+                                   int days_since_cataclysm )
 {
-    std::list<tripoint_bub_ms> all_points_in_map;
+    // Later, this will be loaded from json.
+    generator_vars bash_vars{};
+    bash_vars.scaling_days_start = 0; // irrelevant for this one
+    bash_vars.scaling_days_end = days_since_cataclysm; // irrelevant for this one
+    bash_vars.num_attempts = 250; // Roughly half as many attempts as old version, may need tweaking
+    bash_vars.percent_chance = 10;
+    bash_vars.min_intensity = 6; // For this generator: Bash damage
+    bash_vars.max_intensity = 60; // For this generator: Bash damage
 
-
-    int days_since_cataclysm = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
-
-    // Placeholder / FIXME
-    // This assumes that we're only dealing with regular 24x24 OMTs. That is likely not the case.
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int n = 0; n < SEEY * 2; n++ ) {
-            tripoint_bub_ms current_tile( i, n, p.z() );
-            all_points_in_map.push_back( current_tile );
+    for( int i = 0; i < bash_vars.num_attempts; i++ ) {
+        if( !x_in_y( bash_vars.percent_chance, 100 ) ) {
+            continue; // failed roll
         }
-    }
-    for( size_t i = 0; i < all_points_in_map.size(); i++ ) {
-        // Pick a tile at random!
-        tripoint_bub_ms current_tile = random_entry( all_points_in_map );
-
-        // Do nothing at random!;
-        if( x_in_y( 10, 100 ) ) {
-            continue;
-        }
-        // Skip naturally occuring underground wall tiles
+        const tripoint_bub_ms current_tile = random_entry( all_points_in_map );
         if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
             continue;
         }
-        // Bash stuff at random!
-        if( x_in_y( 20, 100 ) ) {
-            md.bash( current_tile, rng( 6, 60 ) );
+        md.bash( current_tile, rng( bash_vars.min_intensity, bash_vars.max_intensity ) );
+    }
+}
+
+static void GENERATOR_move_items( map &md,
+                                  std::list<tripoint_bub_ms> &all_points_in_map,
+                                  int days_since_cataclysm )
+{
+    // Later, this will be loaded from json.
+    generator_vars mover_vars{};
+    mover_vars.scaling_days_start = 0; // irrelevant for this one, currently.
+    mover_vars.scaling_days_end = days_since_cataclysm; // irrelevant for this one
+
+    // NOTE: Each tile of items is fully iterated over, to eliminate the effects of stack ordering.
+    // Otherwise we would be biased towards the front of the stack
+    mover_vars.num_attempts = 250; // Roughly half as many attempts as old version, may need tweaking
+
+    mover_vars.percent_chance = 10;
+    mover_vars.min_intensity = 0; // For this generator: Min distance moved. Note: NOT IMPLEMENTED
+    mover_vars.max_intensity = 3; // For this generator: Max distance moved
+
+    for( int i = 0; i < mover_vars.num_attempts; i++ ) {
+        const tripoint_bub_ms current_tile = random_entry( all_points_in_map );
+        if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
+            continue;
         }
-        // Move stuff at random!
         auto item_iterator = md.i_at( current_tile.xy() ).begin();
         while( item_iterator != md.i_at( current_tile.xy() ).end() ) {
             // Some items must not be moved out of SEALED CONTAINER
@@ -463,11 +489,13 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
                     continue;
                 }
             }
-            if( x_in_y( 10, 100 ) ) {
+
+            if( x_in_y( mover_vars.percent_chance, 100 ) ) {
                 // pick a new spot...
-                tripoint_bub_ms destination_tile( current_tile.x() + rng( -3, 3 ),
-                                                  current_tile.y() + rng( -3, 3 ),
-                                                  current_tile.z() );
+                tripoint_bub_ms destination_tile(
+                    current_tile.x() + rng( -mover_vars.max_intensity, mover_vars.max_intensity ),
+                    current_tile.y() + rng( -mover_vars.max_intensity, mover_vars.max_intensity ),
+                    current_tile.z() );
                 // oops, don't place out of bounds. just skip moving
                 const bool outbounds_X = destination_tile.x() < 0 || destination_tile.x() >= SEEX * 2;
                 const bool outbounds_Y = destination_tile.y() < 0 || destination_tile.y() >= SEEY * 2;
@@ -486,6 +514,155 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             } else {
                 item_iterator++;
             }
+
+        }
+    }
+
+}
+
+static void GENERATOR_add_fire( map &md,
+                                std::list<tripoint_bub_ms> &all_points_in_map,
+                                int days_since_cataclysm )
+{
+    // Later, this will be loaded from json.
+    generator_vars fire_vars{};
+    fire_vars.scaling_days_start = 0;
+    fire_vars.scaling_days_end = 14;
+
+    // Placeholder. Number selected so that the # of fires is close to the old implementation.
+    fire_vars.num_attempts = 2;
+
+    // FIXME? I'm concerned by the fact that the initial chance scales higher the later the last scaling day is.
+    // This is not great, but it ramps down linearly without relying on magic numbers.
+    fire_vars.percent_chance = std::max( fire_vars.scaling_days_end - days_since_cataclysm, 0 );
+
+    fire_vars.min_intensity = 1; // For this generator: field intensity
+    fire_vars.max_intensity = 3; // For this generator: field intensity
+
+    for( int i = 0; i < fire_vars.num_attempts; i++ ) {
+        if( !x_in_y( fire_vars.percent_chance, 100 ) ) {
+            continue; // failed roll
+        }
+        const tripoint_bub_ms current_tile = random_entry( all_points_in_map );
+        if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
+            continue;
+        }
+
+        if( x_in_y( fire_vars.percent_chance, 100 ) ) {
+            // FIXME: Magic number 3. Replace with some value loaded into generator_vars?
+            if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_HARD, current_tile ) ||
+                days_since_cataclysm < 3 ) {
+                // Only place fire on flammable surfaces unless the cataclysm started very recently
+                // Note that most floors are FLAMMABLE_HARD, this is fine. This check is primarily geared
+                // at preventing fire in the middle of roads or parking lots.
+                md.add_field( current_tile, field_fd_fire,
+                              rng( fire_vars.min_intensity, fire_vars.max_intensity ) );
+            }
+        }
+
+    }
+
+}
+
+static void GENERATOR_pre_burn( map &md,
+                                std::list<tripoint_bub_ms> &all_points_in_map,
+                                int days_since_cataclysm )
+{
+    // Later, this will be loaded from json.
+    generator_vars burnt_vars{};
+    // Fires are still raging around this time, but some start appearing
+    // Never appears before this date
+    burnt_vars.scaling_days_start = 3;
+
+    burnt_vars.scaling_days_end = 14; // Continues appearing at maximum appearance rate after this day
+    burnt_vars.num_attempts = 1; // Currently only applied to the whole map, so one pass.
+
+    burnt_vars.min_intensity = 6; // For this generator: % chance at start day
+    burnt_vars.max_intensity = 28; // For this generator: % chance at end day
+
+    // between start and end day we linearly interpolate.
+    double lerp_scalar = static_cast<double>(
+                             static_cast<double>( days_since_cataclysm - burnt_vars.scaling_days_start ) /
+                             static_cast<double>( burnt_vars.scaling_days_end - burnt_vars.scaling_days_start ) );
+    burnt_vars.percent_chance = lerp( burnt_vars.min_intensity, burnt_vars.max_intensity, lerp_scalar );
+    // static values outside that range. Note we do not use std::clamp because the chance is *0* until the start day is reached
+    if( days_since_cataclysm < burnt_vars.scaling_days_start ) {
+        burnt_vars.percent_chance = 0;
+    } else if( days_since_cataclysm >= burnt_vars.scaling_days_end ) {
+        burnt_vars.percent_chance = burnt_vars.max_intensity;
+    }
+
+    for( int i = 0; i < burnt_vars.num_attempts; i++ ) {
+        if( !x_in_y( burnt_vars.percent_chance, 100 ) ) {
+            continue; // failed roll
+        }
+        for( tripoint_bub_ms current_tile : all_points_in_map ) {
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
+                continue;
+            }
+            if( md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
+                // burnt wall
+                md.ter_set( current_tile.xy(), ter_t_wall_burnt );
+            } else if( md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ||
+                       md.has_flag_ter( ter_furn_flag::TFLAG_DOOR, current_tile ) ) {
+                // if we're indoors but we're not a wall, then we must be a floor.
+                // doorways also get burned to the ground.
+                md.ter_set( current_tile.xy(), ter_t_floor_burnt );
+            } else if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) ) {
+                // if we're outside on ground level, burn it to dirt.
+                if( current_tile.z() == 0 ) {
+                    md.ter_set( current_tile.xy(), ter_t_dirt );
+                }
+            }
+
+            // destroy any furniture that is in the tile. it's been burned, after all.
+            md.furn_set( current_tile.xy(), furn_str_id::NULL_ID() );
+
+            // destroy all items in the tile.
+            md.i_clear( current_tile.xy() );
+        }
+    }
+}
+
+static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p, bool is_a_road )
+{
+    std::list<tripoint_bub_ms> all_points_in_map;
+
+
+    int days_since_cataclysm = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+
+    // Placeholder / FIXME
+    // This assumes that we're only dealing with regular 24x24 OMTs. That is likely not the case.
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int n = 0; n < SEEY * 2; n++ ) {
+            tripoint_bub_ms current_tile( i, n, p.z() );
+            all_points_in_map.push_back( current_tile );
+        }
+    }
+
+    // Run sub generators associated with this generator. Currently hardcoded.
+    GENERATOR_bash_damage( md, all_points_in_map, days_since_cataclysm );
+    GENERATOR_move_items( md, all_points_in_map, days_since_cataclysm );
+    GENERATOR_add_fire( md, all_points_in_map, days_since_cataclysm );
+    // HACK: Don't burn roads to the ground! This should be resolved when the system is moved to json
+    if( !is_a_road ) {
+        GENERATOR_pre_burn( md, all_points_in_map, days_since_cataclysm );
+    }
+
+    // NOTE: Below currently only runs for bloodstains.
+    for( size_t i = 0; i < all_points_in_map.size(); i++ ) {
+        // Pick a tile at random!
+        tripoint_bub_ms current_tile = random_entry( all_points_in_map );
+
+        // Do nothing at random!;
+        if( x_in_y( 10, 100 ) ) {
+            continue;
+        }
+        // Skip naturally occuring underground wall tiles
+        if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
+            continue;
         }
         // Set some fields at random!
         if( x_in_y( 15, 1000 ) ) {
@@ -500,20 +677,6 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
                 place_blood_streaks( md, current_tile, days_since_cataclysm );
             } else {
                 place_bool_pools( md, current_tile, days_since_cataclysm );
-            }
-        }
-
-        // Randomly spawn fires, with the chance decreasing from 1 in 2000 to 1 in 10,000 over the
-        // course of 14 days
-        if( x_in_y( 1,  std::min( 2000 + 571 * days_since_cataclysm, 10000 ) ) ) {
-            if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
-                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
-                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_HARD, current_tile ) ||
-                days_since_cataclysm < 3 ) {
-                // Only place fire on flammable surfaces unless the cataclysm started very recently
-                // Note that most floors are FLAMMABLE_HARD, this is fine. This check is primarily geared
-                // at preventing fire in the middle of roads or parking lots.
-                md.add_field( current_tile, field_fd_fire );
             }
         }
     }
@@ -693,10 +856,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             if( any_missing || !save_results ) {
                 const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
                 oter_id omt = overmap_buffer.ter( omt_point );
-                if( omt->has_flag(
-                        oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
-                                overmap_buffer.is_in_city( omt_point ) ) ) {
-                    GENERATOR_riot_damage( *this, omt_point );
+                if( omt->has_flag( oter_flags::pp_generate_riot_damage ) && !omt->has_flag( oter_flags::road ) ) {
+                    GENERATOR_riot_damage( *this, omt_point, false );
+                } else if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
+                    // HACK: Hardcode running only certain sub-generators on roads
+                    GENERATOR_riot_damage( *this, omt_point, true );
                 }
             }
         }
@@ -1312,7 +1476,7 @@ mapgen_function_json_nested::mapgen_function_json_nested(
 {
 }
 
-jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string_view tag )
+jmapgen_int::jmapgen_int( const JsonObject &jo, std::string_view tag )
 {
     if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
@@ -1338,7 +1502,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string_view tag )
     }
 }
 
-jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string_view tag, const int &def_val,
+jmapgen_int::jmapgen_int( const JsonObject &jo, std::string_view tag, const int &def_val,
                           const int &def_valmax )
     : val( def_val )
     , valmax( def_valmax )
@@ -1563,7 +1727,7 @@ static bool is_null_helper( const int_id<T> &id )
     return id.id().is_null();
 }
 
-static bool is_null_helper( const std::string_view )
+static bool is_null_helper( std::string_view )
 {
     return false;
 }
@@ -1621,7 +1785,7 @@ static bool is_valid_helper( const int_id<T> & )
     return true;
 }
 
-static bool is_valid_helper( const std::string_view )
+static bool is_valid_helper( std::string_view )
 {
     return true;
 }
@@ -2272,7 +2436,7 @@ class jmapgen_field : public jmapgen_piece
         time_duration age;
         int chance;
         bool remove;
-        jmapgen_field( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_field( const JsonObject &jsi, std::string_view/*context*/ ) :
             ftype( jsi.get_member( "field" ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
             , chance( jsi.get_int( "chance", 100 ) )
@@ -2321,7 +2485,7 @@ class jmapgen_npc : public jmapgen_piece
         bool target;
         std::vector<trait_id> traits;
         std::string unique_id;
-        jmapgen_npc( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_npc( const JsonObject &jsi, std::string_view/*context*/ ) :
             npc_class( jsi.get_member( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_string( "add_trait" ) ) {
@@ -2377,7 +2541,7 @@ class jmapgen_faction : public jmapgen_piece
 {
     public:
         mapgen_value<faction_id> id;
-        jmapgen_faction( const JsonObject &jsi, const std::string_view/*context*/ )
+        jmapgen_faction( const JsonObject &jsi, std::string_view/*context*/ )
             : id( jsi.get_member( "id" ) ) {
         }
         mapgen_phase phase() const override {
@@ -2412,7 +2576,7 @@ class jmapgen_sign : public jmapgen_piece_with_has_vehicle_collision
     public:
         translation signage;
         std::string snippet;
-        jmapgen_sign( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_sign( const JsonObject &jsi, std::string_view/*context*/ ) :
             snippet( jsi.get_string( "snippet", "" ) ) {
             jsi.read( "signage", signage );
             optional( jsi, false, "furniture", sign_furniture, furn_f_sign );
@@ -2465,7 +2629,7 @@ class jmapgen_graffiti : public jmapgen_piece
     public:
         translation text;
         std::string snippet;
-        jmapgen_graffiti( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_graffiti( const JsonObject &jsi, std::string_view/*context*/ ) :
             snippet( jsi.get_string( "snippet", "" ) ) {
             jsi.read( "text", text );
             if( text.empty() && snippet.empty() ) {
@@ -2514,7 +2678,7 @@ class jmapgen_vending_machine : public jmapgen_piece_with_has_vehicle_collision
         bool lootable;
         bool powered;
         bool networked;
-        jmapgen_vending_machine( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_vending_machine( const JsonObject &jsi, std::string_view/*context*/ ) :
             reinforced( jsi.get_bool( "reinforced", false ) )
             , lootable( jsi.get_bool( "lootable", false ) )
             , powered( jsi.get_bool( "powered", false ) )
@@ -2550,7 +2714,7 @@ class jmapgen_toilet : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         jmapgen_int amount;
-        jmapgen_toilet( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_toilet( const JsonObject &jsi, std::string_view/*context*/ ) :
             amount( jsi, "amount", 0, 0 ) {
         }
         mapgen_phase phase() const override {
@@ -2577,7 +2741,7 @@ class jmapgen_gaspump : public jmapgen_piece_with_has_vehicle_collision
     public:
         jmapgen_int amount;
         mapgen_value<itype_id> fuel;
-        jmapgen_gaspump( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_gaspump( const JsonObject &jsi, std::string_view/*context*/ ) :
             amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_member( "fuel" ) ) {
                 jsi.read( "fuel", fuel );
@@ -2628,7 +2792,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         jmapgen_int amount;
         mapgen_value<itype_id> liquid;
         jmapgen_int chance;
-        jmapgen_liquid_item( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_liquid_item( const JsonObject &jsi, std::string_view/*context*/ ) :
             amount( jsi, "amount", -1, -1 )
             , liquid( jsi.get_member( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
@@ -2682,7 +2846,7 @@ class jmapgen_corpse : public jmapgen_piece
     public:
         mongroup_id group;
         time_duration age;
-        jmapgen_corpse( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_corpse( const JsonObject &jsi, std::string_view/*context*/ ) :
             group( jsi.get_member( "group" ) )
             , age( time_duration::from_days( jsi.get_int( "age", 0 ) ) ) {
         }
@@ -2711,7 +2875,7 @@ class jmapgen_item_group : public jmapgen_piece
         item_group_id group_id;
         jmapgen_int chance;
         std::string faction;
-        jmapgen_item_group( const JsonObject &jsi, const std::string_view context ) :
+        jmapgen_item_group( const JsonObject &jsi, std::string_view context ) :
             chance( jsi, "chance", 100, 100 ) {
             JsonValue group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection",
@@ -2808,7 +2972,7 @@ class jmapgen_monster_group : public jmapgen_piece
         mapgen_value<mongroup_id> id;
         float density;
         jmapgen_int chance;
-        jmapgen_monster_group( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_monster_group( const JsonObject &jsi, std::string_view/*context*/ ) :
             id( jsi.get_member( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
             , chance( jsi, "chance", 1, 1 ) {
@@ -2856,7 +3020,7 @@ class jmapgen_monster : public jmapgen_piece
         bool target;
         bool use_pack_size;
         struct spawn_data data;
-        jmapgen_monster( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_monster( const JsonObject &jsi, std::string_view/*context*/ ) :
             chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
             , one_or_none( jsi.get_bool( "one_or_none",
@@ -3028,7 +3192,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
         int fuel;
         int status;
         std::string faction;
-        jmapgen_vehicle( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_vehicle( const JsonObject &jsi, std::string_view/*context*/ ) :
             type( jsi.get_member( "vehicle" ) )
             , chance( jsi.get_int( "chance", 100 ) )
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
@@ -3211,7 +3375,7 @@ class jmapgen_spawn_item : public jmapgen_piece
         jmapgen_int amount;
         jmapgen_int chance;
         std::set<flag_id> flags;
-        jmapgen_spawn_item( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_spawn_item( const JsonObject &jsi, std::string_view/*context*/ ) :
             type( jsi.get_member( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 )
@@ -3262,7 +3426,7 @@ class jmapgen_trap : public jmapgen_piece_with_has_vehicle_collision
         mapgen_value<trap_id> id;
         bool remove = false;
 
-        jmapgen_trap( const JsonObject &jsi, const std::string_view/*context*/ ) {
+        jmapgen_trap( const JsonObject &jsi, std::string_view/*context*/ ) {
             init( jsi.get_member( "trap" ) );
             remove = jsi.get_bool( "remove", false );
         }
@@ -3310,7 +3474,7 @@ class jmapgen_furniture : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<furn_id> id;
-        jmapgen_furniture( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_furniture( const JsonObject &jsi, std::string_view/*context*/ ) :
             jmapgen_furniture( jsi.get_member( "furn" ) ) {}
         explicit jmapgen_furniture( const JsonValue &fid ) : id( fid ) {}
         mapgen_phase phase() const override {
@@ -3345,7 +3509,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
         };
     public:
         mapgen_value<ter_id> id;
-        jmapgen_terrain( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_terrain( const JsonObject &jsi, std::string_view/*context*/ ) :
             jmapgen_terrain( jsi.get_member( "ter" ) ) {}
         explicit jmapgen_terrain( const JsonValue &tid ) : id( mapgen_value<ter_id>( tid ) ) {}
 
@@ -3509,7 +3673,7 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
 {
     public:
         mapgen_value<ter_furn_transform_id> id;
-        jmapgen_ter_furn_transform( const JsonObject &jsi, const std::string_view/*context*/ ) :
+        jmapgen_ter_furn_transform( const JsonObject &jsi, std::string_view/*context*/ ) :
             id( jsi.get_member( "transform" ) ) {}
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
@@ -3542,7 +3706,7 @@ class jmapgen_make_rubble : public jmapgen_piece
         bool items = false;
         mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( ter_t_dirt );
         bool overwrite = false;
-        jmapgen_make_rubble( const JsonObject &jsi, const std::string_view/*context*/ ) {
+        jmapgen_make_rubble( const JsonObject &jsi, std::string_view/*context*/ ) {
             if( jsi.has_member( "rubble_type" ) ) {
                 rubble_type = mapgen_value<furn_id>( jsi.get_member( "rubble_type" ) );
             }
@@ -3591,7 +3755,7 @@ class jmapgen_computer : public jmapgen_piece_with_has_vehicle_collision
         std::vector<std::string> chat_topics;
         std::vector<effect_on_condition_id> eocs;
         bool target;
-        jmapgen_computer( const JsonObject &jsi, const std::string_view/*context*/ ) {
+        jmapgen_computer( const JsonObject &jsi, std::string_view/*context*/ ) {
             jsi.read( "name", name );
             jsi.read( "access_denied", access_denied );
             security = jsi.get_int( "security", 0 );
@@ -3790,7 +3954,7 @@ class jmapgen_zone : public jmapgen_piece
         mapgen_value<faction_id> faction;
         std::string name;
         std::string filter;
-        jmapgen_zone( const JsonObject &jsi, const std::string_view/*context*/ )
+        jmapgen_zone( const JsonObject &jsi, std::string_view/*context*/ )
             : zone_type( jsi.get_member( "type" ) )
             , faction( jsi.get_member( "faction" ) ) {
             if( jsi.has_string( "name" ) ) {
@@ -3849,7 +4013,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
 {
     public:
         std::vector<vproto_id> vehicles_to_remove;
-        jmapgen_remove_vehicles( const JsonObject &jo, const std::string_view/*context*/ ) {
+        jmapgen_remove_vehicles( const JsonObject &jo, std::string_view/*context*/ ) {
             for( std::string vehicle_prototype_id : jo.get_string_array( "vehicles" ) ) {
                 vehicles_to_remove.emplace_back( vehicle_prototype_id );
             }
@@ -3880,7 +4044,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
     public:
         std::string npc_class;
         std::string unique_id;
-        jmapgen_remove_npcs( const JsonObject &jsi, const std::string_view /*context*/ ) {
+        jmapgen_remove_npcs( const JsonObject &jsi, std::string_view /*context*/ ) {
             optional( jsi, false, "class", npc_class );
             optional( jsi, false, "unique_id", unique_id );
         }
@@ -3911,7 +4075,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
 class jmapgen_remove_all : public jmapgen_piece
 {
     public:
-        jmapgen_remove_all( const JsonObject &/*jo*/, const std::string_view/*context*/ ) {
+        jmapgen_remove_all( const JsonObject &/*jo*/, std::string_view/*context*/ ) {
         }
         mapgen_phase phase() const override {
             return mapgen_phase::removal;
@@ -4021,7 +4185,7 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                void check( const std::string_view, const mapgen_parameters & ) const {
+                void check( std::string_view, const mapgen_parameters & ) const {
                     // TODO: check join ids are valid
                 }
 
@@ -4171,7 +4335,7 @@ class jmapgen_nested : public jmapgen_piece
         neighbor_flag_any_check neighbor_flags_any;
         predecessor_oter_check predecessors;
         correct_z_level_check correct_z_level;
-        jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
+        jmapgen_nested( const JsonObject &jsi, std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
             , neighbor_joins( jsi.get_object( "joins" ) )
             , neighbor_flags( jsi.get_object( "flags" ) )
@@ -4368,7 +4532,7 @@ void jmapgen_objects::add( const jmapgen_place &place,
 }
 
 template<typename PieceType>
-void jmapgen_objects::load_objects( const JsonArray &parray, const std::string_view context )
+void jmapgen_objects::load_objects( const JsonArray &parray, std::string_view context )
 {
     for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
@@ -4384,7 +4548,7 @@ void jmapgen_objects::load_objects( const JsonArray &parray, const std::string_v
 
 template<>
 void jmapgen_objects::load_objects<jmapgen_loot>(
-    const JsonArray &parray, const std::string_view/*context*/ )
+    const JsonArray &parray, std::string_view/*context*/ )
 {
     for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
@@ -4685,13 +4849,13 @@ void mapgen_palette::check() const
     }
 }
 
-mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::string_view src,
+mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, std::string_view src,
         const std::string &context )
 {
     return load_internal( jo, src, context, false, true );
 }
 
-void mapgen_palette::load( const JsonObject &jo, const std::string_view src )
+void mapgen_palette::load( const JsonObject &jo, std::string_view src )
 {
     mapgen_palette ret = load_internal( jo, src, "", true, false );
     if( ret.id.is_empty() ) {
@@ -4812,7 +4976,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, std::string_
         const std::string &context, bool require_id, bool allow_recur )
 {
     mapgen_palette new_pal;
-    bool extending = src != "DDA" && jo.has_bool( "extending" ) && jo.get_bool( "extending" );
+    bool extending = src != "dda" && jo.has_bool( "extending" ) && jo.get_bool( "extending" );
     require_id |= extending;
     mapgen_palette::placing_map &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;

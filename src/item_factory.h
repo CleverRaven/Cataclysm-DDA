@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
@@ -45,6 +46,9 @@ class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
+/**
+* See OBSOLETION_AND_MIGRATION.md
+*/
 class migration
 {
     public:
@@ -90,9 +94,20 @@ struct item_blacklist_t {
  */
 class Item_factory
 {
+        friend class generic_factory<itype>;
+        friend struct itype;
     public:
+        generic_factory<itype> item_factory = generic_factory<itype>( "ITEM" );
+
         Item_factory();
         ~Item_factory();
+
+        generic_factory<itype> &get_generic_factory() {
+            return item_factory;
+        }
+
+        //initialize use_functions
+        void init();
         /**
          * Reset the item factory. All item type definitions and item groups are erased.
          */
@@ -172,33 +187,6 @@ class Item_factory
          * Returns the idents of all item groups that are known.
          */
         std::vector<item_group_id> get_all_group_names();
-
-        /**
-         * @name Item type loading
-         *
-         * These function load different instances of itype objects from json.
-         * The loaded item types are stored and can be accessed through @ref find_template.
-         * @param jo The json object to load data from.
-         * @throw JsonError if the json object contains invalid data.
-         */
-        /*@{*/
-        void load_ammo( const JsonObject &jo, const std::string &src );
-        void load_gun( const JsonObject &jo, const std::string &src );
-        void load_armor( const JsonObject &jo, const std::string &src );
-        void load_pet_armor( const JsonObject &jo, const std::string &src );
-        void load_tool( const JsonObject &jo, const std::string &src );
-        void load_toolmod( const JsonObject &jo, const std::string &src );
-        void load_tool_armor( const JsonObject &jo, const std::string &src );
-        void load_book( const JsonObject &jo, const std::string &src );
-        void load_comestible( const JsonObject &jo, const std::string &src );
-        void load_engine( const JsonObject &jo, const std::string &src );
-        void load_wheel( const JsonObject &jo, const std::string &src );
-        void load_gunmod( const JsonObject &jo, const std::string &src );
-        void load_magazine( const JsonObject &jo, const std::string &src );
-        void load_battery( const JsonObject &jo, const std::string &src );
-        void load_generic( const JsonObject &jo, const std::string &src );
-        void load_bionic( const JsonObject &jo, const std::string &src );
-        /*@}*/
 
         /**
           *  a temporary function to aid in nested container migration of magazine and gun json
@@ -293,10 +281,6 @@ class Item_factory
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
-        //TO-DO: remove
-        std::map<itype_id, itype> m_abstracts;
-        std::unordered_map<itype_id, itype> m_templates;
-
     private:
         /** Set at finalization and prevents alterations to the static item templates */
         bool frozen = false;
@@ -329,19 +313,9 @@ class Item_factory
          */
         bool check_ammo_type( std::string &msg, const ammotype &ammo ) const;
 
-        /**
-         * Called before creating a new template and handles inheritance via copy-from
-         * May defer instantiation of the template if depends on other objects not as-yet loaded
-         */
-        bool load_definition( const JsonObject &jo, const std::string &src, itype &def );
-
-        /**
-         * Load the data of the slot struct. It creates the slot object (of type SlotType) and
-         * and calls @ref load to do the actual (type specific) loading.
-         */
         template<typename SlotType>
-        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                        const std::string &src );
+        static void load_slot( const JsonObject &jo, bool was_loaded,
+                               cata::value_ptr<SlotType> &slotptr );
 
         void load( relic &slot, const JsonObject &jo, std::string_view src );
 
@@ -372,7 +346,6 @@ class Item_factory
         static void set_allergy_flags( itype &item_template );
 
         void clear();
-        void init();
 
         void finalize_item_blacklist();
 
@@ -398,4 +371,15 @@ class Item_factory
         std::set<itype_id> gun_tools;
 };
 
+namespace items
+{
+/** Load all items */
+void load( const JsonObject &jo, const std::string &src );
+/** Finalize all loaded items */
+void finalize_all();
+/** Clear all loaded items (invalidating any pointers) */
+void reset();
+/** Checks all loaded items are valid */
+void check_consistency();
+}  // namespace items
 #endif // CATA_SRC_ITEM_FACTORY_H

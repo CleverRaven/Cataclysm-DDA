@@ -966,7 +966,7 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
             obj.set_flag( flg );
         }
         for( const fault_id &flt : entry.faults ) {
-            obj.faults.emplace( flt );
+            obj.set_fault( flt );
         }
         if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
             obj.set_var( "activity_var", you.name );
@@ -1219,7 +1219,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
-                    obj.faults.emplace( flt );
+                    obj.remove_fault( flt );
                 }
 
                 // TODO: smarter NPC liquid handling
@@ -1247,7 +1247,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
-                    obj.faults.emplace( flt );
+                    obj.remove_fault( flt );
                 }
                 if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", you.name );
@@ -1670,11 +1670,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( act_ref.targets.at( 0 ), liquid, true );
+                you->pour_into( act_ref.targets.at( 0 ), liquid, true, false );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( here.get_bub( act_ref.coords.at( 1 ) ) ) ) {
-                    iexamine::pour_into_keg( here.get_bub( act_ref.coords.at( 1 ) ), liquid );
+                    iexamine::pour_into_keg( here.get_bub( act_ref.coords.at( 1 ) ), liquid, false );
                 } else {
                     here.add_item_or_charges( here.get_bub( act_ref.coords.at( 1 ) ), liquid );
                     you->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
@@ -2789,10 +2789,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     you->invalidate_crafting_inventory();
 
     for( const ::fault_id &id : fix.faults_removed ) {
-        target.faults.erase( id );
+        target.remove_fault( id );
     }
     for( const ::fault_id &id : fix.faults_added ) {
-        target.set_fault( id );
+        act->targets[0].set_fault( id, true, false );
     }
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );

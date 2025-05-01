@@ -2493,5 +2493,10 @@
     "id": "u_shotgun_mod",
     "type": "MIGRATION",
     "replace": "u_shotgun"
+  },
+  {
+    "id": "internal_mp3",
+    "type": "MIGRATION",
+    "replace": "manual_swimming"
   }
 ]

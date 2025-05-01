@@ -2,7 +2,8 @@
   {
     "id": "banjo",
     "looks_like": "acoustic_guitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "banjo" },
     "description": "A standard factory-made banjo.  Looks to be in working condition.",
@@ -35,7 +36,8 @@
   {
     "id": "bone_flute",
     "looks_like": "flute",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "bone flute" },
     "description": "A polished bone flute with five finger holes.",
@@ -67,7 +69,8 @@
   {
     "id": "clarinet",
     "looks_like": "flute",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "clarinet" },
     "description": "An ornate clarinet made from wood.",
@@ -99,7 +102,8 @@
   {
     "id": "kantele",
     "looks_like": "acoustic_guitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "kantele" },
     "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's bone.  This ordinary wooden one doesn't seem quite as special.",
@@ -130,7 +134,8 @@
   },
   {
     "id": "flute",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "flute" },
     "description": "A simple silver-plated flute.",
@@ -162,7 +167,8 @@
   {
     "id": "trumpet",
     "looks_like": "flute",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "trumpet" },
     "description": "A brass trumpet with only a few dents here and there.",
@@ -194,7 +200,8 @@
   {
     "id": "ukulele",
     "looks_like": "acoustic_guitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "ukulele" },
     "description": "A small factory-made ukulele.  Makes you wish you were on a tropical island, or somewhere over the rainbow.",
@@ -227,7 +234,8 @@
   {
     "id": "violin",
     "looks_like": "acoustic_guitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "violin" },
     "description": "A cheap, factory-made violin with a built-in holder for a bow.  Still produces a nice sound.",
@@ -260,7 +268,8 @@
   {
     "id": "violin_golden",
     "looks_like": "acoustic_guitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "golden fiddle" },
     "description": "A shiny golden fiddle, with a strange aura around it.  You feel like it once belonged to the best there's ever been.",
@@ -292,7 +301,8 @@
   {
     "id": "krar_golden",
     "looks_like": "acoustic_guitar",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "golden krar" },
     "description": "A shiny golden krar, similar to a harp.",
@@ -320,7 +330,8 @@
   {
     "id": "krar",
     "looks_like": "krar_golden",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "krar" },
     "description": "A wooden krar, similar to a harp.",
     "copy-from": "krar_golden",
@@ -329,7 +340,8 @@
   },
   {
     "id": "drum_percussion",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "drum, percussion", "str_pl": "drums, percussion" },
     "description": "A standard factory-made percussion drum.  Looks to be in working condition.",
@@ -361,7 +373,8 @@
   },
   {
     "id": "drum_percussion_primitive",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "primitive drum, percussion", "str_pl": "primitive drums, percussion" },
     "description": "A handmade primitive percussion drum.  Looks to be in working condition.",
@@ -392,7 +405,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "harmonica_holder",
     "looks_like": "flute",
     "name": { "str_pl": "harmonicas with holders", "str": "harmonica with a holder" },
@@ -422,7 +436,8 @@
     "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "acoustic_guitar",
     "name": { "str": "acoustic guitar" },
     "category": "tools",
@@ -458,7 +473,8 @@
     "melee_damage": { "bash": 18 }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "guitar_electric",
     "looks_like": "acoustic_guitar",
     "name": { "str": "electric guitar" },
@@ -500,7 +516,8 @@
     "melee_damage": { "bash": 26 }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "bagpipes",
     "looks_like": "flute",
     "name": { "str_sp": "bagpipes" },
@@ -539,7 +556,8 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "tuba",
     "looks_like": "flute",
     "name": { "str": "tuba" },
@@ -581,7 +599,8 @@
     "melee_damage": { "bash": 13 }
   },
   {
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "id": "saxophone",
     "looks_like": "flute",
     "name": { "str": "saxophone" },

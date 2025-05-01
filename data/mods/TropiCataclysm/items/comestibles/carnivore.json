@@ -2,7 +2,8 @@
   {
     "id": "echinoderm",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of echinoderm flesh", "str_pl": "chunks of echinoderm flesh" },
     "description": "The flesh of an echinoderm.  Considered a delicacy in several parts of the world but otherwise poor in nutritional value.",
     "//": "Nutrition information roughly based on edible sea cucumbers, if you know more pls expand",
@@ -18,7 +19,8 @@
   {
     "id": "echinoderm_cooked",
     "copy-from": "echinoderm",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked echinoderm" },
     "description": "Freshly cooked echinoderm.  Not so glamorous without the rest of ingredients.",
     "proportional": { "price": 1.5 },
@@ -30,7 +32,8 @@
   {
     "id": "cnidarian",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of cnidarian meat", "str_pl": "chunks of cnidarian meat" },
     "description": "The flesh of a cnidarian.  Cultivated in some parts of the planet as an exotic ingredient but otherwise a low nutrient edible.",
     "//": "Nutrition information taken from google for cultivated edible jellyfish. if you know more pls expand",
@@ -46,7 +49,8 @@
   {
     "id": "cnidarian_cooked",
     "copy-from": "cnidarian",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked cnidarian" },
     "description": "Freshly cooked cnidarian.  Looks translucent and tasteless, you may want to add something to flavor it.",
     "proportional": { "price": 1.5 },

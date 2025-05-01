@@ -1,7 +1,8 @@
 [
   {
     "id": "boots_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of survivor fireboots", "str_pl": "pairs of survivor fireboots" },
     "description": "A pair of customized, Kevlar-armored Nomex boots.  These will keep you alive, even when knee-deep in the flames.",
@@ -23,7 +24,8 @@
   },
   {
     "id": "xl_boots_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of survivor fireboots", "str_pl": "pairs of survivor fireboots" },
     "copy-from": "boots_fsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -31,7 +33,8 @@
   },
   {
     "id": "xs_boots_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots_fsurvivor",
     "name": { "str": "pair of survivor fireboots", "str_pl": "pairs of survivor fireboots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -39,7 +42,8 @@
   },
   {
     "id": "boots_hsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of heavy survivor boots", "str_pl": "pairs of heavy survivor boots" },
     "description": "A pair of customized Kevlar boots that are heavily armored with steel.  Favoring protection over comfort, these will keep you alive, especially when knee-deep in the dead.",
@@ -90,7 +94,8 @@
   },
   {
     "id": "xl_boots_hsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of heavy survivor boots", "str_pl": "pairs of heavy survivor boots" },
     "copy-from": "boots_hsurvivor",
     "proportional": { "weight": 1.2, "volume": 1.2 },
@@ -98,7 +103,8 @@
   },
   {
     "id": "xs_boots_hsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "boots_hsurvivor",
     "name": { "str": "pair of heavy survivor boots", "str_pl": "pairs of heavy survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -106,7 +112,8 @@
   },
   {
     "id": "gloves_hsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
     "description": "A pair of customized, steel-backed Kevlar gloves.  These are designed for protection first.",
@@ -161,7 +168,8 @@
   },
   {
     "id": "xl_gloves_hsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
     "copy-from": "gloves_hsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -169,7 +177,8 @@
   },
   {
     "id": "xs_gloves_hsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_hsurvivor",
     "name": { "str": "pair of heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -177,7 +186,8 @@
   },
   {
     "id": "gloves_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "description": "A pair of customized, Kevlar-armored Nomex gloves.  These are a post-apocalyptic extension of what firefighters wore pre-Cataclysm.",
@@ -197,7 +207,8 @@
   },
   {
     "id": "xl_gloves_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "copy-from": "gloves_fsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -205,7 +216,8 @@
   },
   {
     "id": "xs_gloves_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_fsurvivor",
     "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -213,7 +225,8 @@
   },
   {
     "id": "hood_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "survivor firehood" },
     "description": "A customized armored Nomex and Kevlar hood, strong and durable.",
@@ -233,7 +246,8 @@
   },
   {
     "id": "xl_hood_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_fsurvivor",
     "name": { "str": "survivor firehood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
@@ -241,7 +255,8 @@
   },
   {
     "id": "xs_hood_fsurvivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hood_fsurvivor",
     "name": { "str": "survivor firehood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -249,7 +264,8 @@
   },
   {
     "id": "fsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "survivor firesuit" },
     "description": "Heavy, hand-built combination armor made from a cut-down bulletproof vest and a reinforced flame-resistant Nomex jumpsuit.  Protects the wearer from fire and the elements.",
@@ -282,7 +298,8 @@
   },
   {
     "id": "xl_fsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "survivor firesuit" },
     "copy-from": "fsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -290,7 +307,8 @@
   },
   {
     "id": "xs_fsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "fsurvivor_suit",
     "name": { "str": "survivor firesuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -298,7 +316,8 @@
   },
   {
     "id": "hsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "heavy survivor suit" },
     "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
@@ -328,7 +347,8 @@
   },
   {
     "id": "xlhsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hsurvivor_suit",
     "name": { "str": "heavy survivor suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -336,7 +356,8 @@
   },
   {
     "id": "xshsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hsurvivor_suit",
     "name": { "str": "heavy survivor suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -344,7 +365,8 @@
   },
   {
     "id": "lsurvivor_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mercenary body armor" },
     "description": "Custom-made armor that combines a level II vest with a combat shirt and adds extra padding to the arms for safety.  Fairly lightweight and ergonomic and has numerous pockets for storage.",
@@ -435,7 +457,8 @@
   },
   {
     "id": "xl_lsurvivor_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "mercenary body armor" },
     "copy-from": "lsurvivor_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -443,7 +466,8 @@
   },
   {
     "id": "xs_lsurvivor_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "lsurvivor_armor",
     "name": { "str": "mercenary body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -451,7 +475,8 @@
   },
   {
     "id": "lsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "light survivor suit" },
     "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced fabric jumpsuit.  Protects from the elements as well as from harm.",
@@ -481,7 +506,8 @@
   },
   {
     "id": "xl_lsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "light survivor suit" },
     "copy-from": "lsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -489,7 +515,8 @@
   },
   {
     "id": "survivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "survivor suit" },
     "description": "A hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
@@ -520,7 +547,8 @@
   },
   {
     "id": "xlsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "survivor suit" },
     "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
@@ -553,7 +581,8 @@
   },
   {
     "id": "wsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "winter survivor suit" },
     "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and an insulated leather jumpsuit.  Protects from the elements as well as from harm.",
@@ -584,7 +613,8 @@
   },
   {
     "id": "xl_wsurvivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "winter survivor suit" },
     "copy-from": "wsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
@@ -592,7 +622,8 @@
   },
   {
     "id": "wsurvivor_suit_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "winter survivor suit" },
     "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_suit",
@@ -604,7 +635,8 @@
   },
   {
     "id": "xl_wsurvivor_suit_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "winter survivor suit" },
     "copy-from": "wsurvivor_suit",
     "material": [ "kevlar_layered", "faux_fur" ],
@@ -615,7 +647,8 @@
   },
   {
     "id": "h20survivor_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "survivor wetsuit" },
     "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced neoprene wetsuit.  Protects from the elements as well as from harm.",

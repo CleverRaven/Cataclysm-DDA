@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_cutting",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "All About Swords", "str_pl": "issues of All About Swords" },
     "description": "An interesting magazine that contains information about swords and sword fighting techniques from all across the world.",
@@ -55,7 +56,8 @@
   },
   {
     "id": "manual_cutting",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "knife fighter's notes", "str_pl": "collections of knife fighter's notes" },
     "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for beginners.",
@@ -111,7 +113,8 @@
   },
   {
     "id": "manual_swords",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "USMC Sword Manual Procedure", "str_pl": "copies of USMC Sword Manual Procedures" },
     "description": "A text on stationary sword drills in US Marine Corps.",

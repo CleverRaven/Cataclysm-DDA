@@ -1,7 +1,8 @@
 [
   {
     "id": "plastic_jack_o_lantern",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "plastic jack o'lantern" },
     "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light inside, which is currently off.  It's mostly for seasonal decoration and doesn't provide very much light.",
     "weight": "113 g",
@@ -33,7 +34,8 @@
   },
   {
     "id": "plastic_jack_o_lantern_lit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "spooky plastic jack o'lantern" },
     "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light inside which is currently on, to delightfully spooky effect.  It doesn't provide very much light, but it can stay lit for a very long time.",
     "weight": "113 g",
@@ -59,7 +61,8 @@
   },
   {
     "id": "jackolantern",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "jack-o'-lantern" },
     "description": "A carved pumpkin with a candle inside it.  You could light it to really set the spooky mood.",
     "weight": "123 g",
@@ -83,7 +86,8 @@
   },
   {
     "id": "jackolantern_lit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "jackolantern",
     "name": { "str": "lit jack-o'-lantern" },
     "description": "A carved pumpkin with a lit candle inside.  Spooky and festive!",
@@ -99,7 +103,8 @@
   },
   {
     "id": "decorative_wreath",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "yule wreath" },
     "description": "A decorative wreath that can be deployed as furniture to celebrate the winter holidays.",
     "weight": "1814 g",
@@ -114,7 +119,8 @@
   },
   {
     "abstract": "inflatable_decoration",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inflatable", "//~": "NO_I18N" },
     "description": { "str": "A generic inflatable abstract to use for specific items.", "//~": "NO_I18N" },
     "weight": "3 kg",
@@ -128,7 +134,8 @@
   },
   {
     "id": "inflatable_dragon",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "inflatable_decoration",
     "name": { "str": "inflatable dragon" },
     "description": "A battery-powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
@@ -145,7 +152,8 @@
   },
   {
     "id": "inflatable_ghost",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "inflatable_decoration",
     "name": { "str": "inflatable ghost" },
     "description": "A battery-powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
@@ -162,7 +170,8 @@
   },
   {
     "id": "fog_machine",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "inflatable_decoration",
     "name": { "str": "fog machine" },
     "description": "A battery-powered fog machine.  It would be great for setting ambience.",

@@ -1088,7 +1088,7 @@ void vehicle::unlock()
             vp.enabled = false;
         }
         if( vp.is_engine() ) {
-            vp.base.faults.erase( fault_engine_immobiliser );
+            vp.base.remove_fault( fault_engine_immobiliser );
         }
     }
 }

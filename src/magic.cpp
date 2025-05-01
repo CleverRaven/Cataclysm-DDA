@@ -304,7 +304,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( const JsonObject &jo, const std::string_view src )
+void spell_type::load( const JsonObject &jo, std::string_view src )
 {
     src_mod = mod_id( src );
     mandatory( jo, was_loaded, "name", name );
@@ -2417,10 +2417,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                 } else if( cancel == sp->spell_class->cancels.front() ) {
                     trait_cancel = cancel->name();
                     if( sp->spell_class->cancels.size() == 1 ) {
-                        trait_cancel = string_format( "%s: %s", trait_cancel, cancel->desc() );
+                        trait_cancel = string_format( "%s: %s", trait_cancel, guy.mutation_desc( cancel ) );
                     }
                 } else {
-                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, cancel->name() );
+                    trait_cancel = string_format( _( "%s, %s" ), trait_cancel, guy.mutation_desc( cancel ) );
                 }
                 if( cancel == sp->spell_class->cancels.back() ) {
                     trait_cancel += ".";
@@ -2428,10 +2428,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
             }
             if( !guy.is_avatar() || query_yn(
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
-                    sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
+                    sp->spell_class->name(), guy.mutation_desc( sp->spell_class ), trait_cancel ) ) {
                 guy.set_mutation( sp->spell_class );
                 guy.on_mutation_gain( sp->spell_class );
-                guy.add_msg_if_player( sp->spell_class.obj().desc() );
+                guy.add_msg_if_player( guy.mutation_desc( sp->spell_class ) );
             } else {
                 return;
             }

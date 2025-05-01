@@ -802,6 +802,7 @@
   {
     "type": "terrain",
     "id": "t_salt_water_pump",
+    "//": "After #78419 this can no longer be constructed, but is left in for old save compatibility",
     "name": "salt water pump",
     "looks_like": "t_water_pump",
     "description": "A water pump connected to a pipe supplying it with salt water.  Not good to drink, but it has other uses.",
@@ -1404,6 +1405,7 @@
   {
     "type": "terrain",
     "id": "t_covered_salt_water_well",
+    "//": "After #78419 this can no longer be constructed, but is left in for old save compatibility",
     "name": "covered salt water well",
     "description": "A deep well, collecting salt water from a surrounding swamp.  You won't be able to get any water unless you add some mechanism for drawing it up to the surface.",
     "symbol": "#",

@@ -1,7 +1,8 @@
 [
   {
     "abstract": "elephant_armor",
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "name": { "str": "elephant armor" },
     "symbol": "[",
     "min_pet_vol": "380 L",
@@ -11,7 +12,8 @@
     "flags": [ "IS_PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "kevlar_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "yellow",
@@ -25,7 +27,8 @@
     "material_thickness": 10
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "acidchitin_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "green",
@@ -40,7 +43,8 @@
     "environmental_protection": 7
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "chitin_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "green",
@@ -55,7 +59,8 @@
     "environmental_protection": 4
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "chainmail_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "green",
@@ -69,7 +74,8 @@
     "material_thickness": 6
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "leather_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "green",
@@ -113,7 +119,8 @@
     ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "leatherbone_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "green",
@@ -127,7 +134,8 @@
     "material_thickness": 6
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "rubber_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "green",
@@ -141,7 +149,8 @@
     "material_thickness": 3
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "sweater_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "red",
@@ -156,7 +165,8 @@
     "material_thickness": 1
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "iron_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "brown",
@@ -170,7 +180,8 @@
     "material_thickness": 4
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "steel_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "light_gray",
@@ -184,7 +195,8 @@
     "material_thickness": 4
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "PET_ARMOR" ],
     "id": "bronze_armor_elephant",
     "copy-from": "elephant_armor",
     "color": "yellow",

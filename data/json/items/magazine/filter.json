@@ -1,7 +1,8 @@
 [
   {
     "id": "gasfilter_sm",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "filter mask cartridge" },
     "description": "A small-sized, replaceable filter cartridge for an air filtration mask.",
@@ -19,7 +20,8 @@
   },
   {
     "id": "gasfilter_med",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "CBRN filter canister" },
     "description": "A cylindrical, black-finished filter canister packed with charcoal retained between dual particulate membranes, rated to protect against chemical weapons, nerve agents, biological contaminants, radioactive dust, and all manner of other unpleasant vapors or particles.  That is, though, only if you screw it into an appropriate respirator before hand and the charcoal isn't expired.",
@@ -42,7 +44,8 @@
   },
   {
     "id": "rebreather_cartridge_air",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "rebreather scrubber cartridge, air tank", "str_pl": "rebreather scrubber cartridges, air tanks" },
     "price": "85 USD",
@@ -59,7 +62,8 @@
   },
   {
     "id": "rebreather_cartridge_o2",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "rebreather scrubber cartridge, oxygen tank", "str_pl": "rebreather scrubber cartridges, oxygen tanks" },
     "price": "85 USD",
@@ -76,7 +80,8 @@
   },
   {
     "id": "rebreather_cartridge_regen",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "rebreather oxygen regenerator cartridge" },
     "price": "85 USD",

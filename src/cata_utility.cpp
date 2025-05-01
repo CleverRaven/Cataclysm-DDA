@@ -83,7 +83,7 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string_view str, const std::string_view qry )
+bool lcmatch( std::string_view str, std::string_view qry )
 {
     // It will be quite common for the query string to be empty.  Anything will
     // match in that case, so short-circuit and avoid the expensive
@@ -112,12 +112,12 @@ bool lcmatch( const std::string_view str, const std::string_view qry )
     return false;
 }
 
-bool lcmatch( const translation &str, const std::string_view qry )
+bool lcmatch( const translation &str, std::string_view qry )
 {
     return lcmatch( str.translated(), qry );
 }
 
-bool match_include_exclude( const std::string_view text, std::string filter )
+bool match_include_exclude( std::string_view text, std::string filter )
 {
     size_t iPos;
     bool found = false;
@@ -672,7 +672,7 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-int string_view_cmp( const std::string_view l, const std::string_view r )
+int string_view_cmp( std::string_view l, std::string_view r )
 {
     size_t min_len = std::min( l.size(), r.size() );
     int result = memcmp( l.data(), r.data(), min_len );
@@ -686,7 +686,7 @@ int string_view_cmp( const std::string_view l, const std::string_view r )
 }
 
 template<typename Integer>
-Integer svto( const std::string_view s )
+Integer svto( std::string_view s )
 {
     Integer result = 0;
     const char *end = s.data() + s.size();
@@ -699,7 +699,7 @@ Integer svto( const std::string_view s )
 
 template int svto<int>( std::string_view );
 
-std::vector<std::string> string_split( const std::string_view string, char delim )
+std::vector<std::string> string_split( std::string_view string, char delim )
 {
     std::vector<std::string> elems;
 

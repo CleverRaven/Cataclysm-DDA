@@ -1,0 +1,60 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cave_underground" ],
+    "weight": 150,
+    "object": {
+      "fill_ter": "t_dirt_underground",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..................~~~~..",
+        ".....    ........   ~~~.",
+        "...   B   .......    ~~~",
+        "..  B    B  ......    ..",
+        "..          ........ ...",
+        "..  B       ........ ...",
+        "...   B       .....   ..",
+        "....             .XXXX .",
+        ".....     ..       XXXX ",
+        ".....  ........   XXXXX ",
+        ".....  ........... XXXX ",
+        "..      ...........  XX.",
+        ".           .......  ...",
+        ".            ......  ...",
+        ".  ..  ....   .....  ...",
+        ".   ..YY....  .....  ...",
+        ".    .YY....  ...    ...",
+        "...  .....    ...    ...",
+        "...___...          .....",
+        ".._____..          .....",
+        "._______..      ........",
+        "._______...    .........",
+        ".._____..... ...........",
+        "....__......>..........."
+      ],
+      "terrain": {
+        ".": "t_soil",
+        " ": "t_dirt_underground",
+        "_": "t_dirt_underground",
+        "X": "t_dirt_underground",
+        "Y": "t_dirt_underground",
+        "B": "t_dirt_underground",
+        ">": "t_slope_up",
+        "~": "t_water_sh_underground"
+      },
+      "furniture": { "B": "f_straw_bed" },
+      "items": {
+        "_": { "item": "SUS_trash_floor", "chance": 40, "repeat": [ 1, 2 ] },
+        " ": { "item": "SUS_trash_floor", "chance": 2 },
+        "X": [ { "item": "corpses", "chance": 5, "repeat": 1 }, { "item": "default_zombie_death_drops", "chance": 15 } ],
+        "Y": [ { "item": "corpses", "chance": 50, "repeat": [ 1, 2 ] } ]
+      },
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 17, 21 ], "y": [ 7, 11 ], "repeat": [ 4, 6 ] },
+        { "field": "fd_blood", "x": [ 6, 7 ], "y": [ 14, 16 ], "repeat": [ 4, 6 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_CAVE_FERAL_VAMPIRE", "x": [ 1, 21 ], "y": [ 1, 21 ], "chance": 60, "repeat": [ 2, 4 ] } ]
+    }
+  }
+]

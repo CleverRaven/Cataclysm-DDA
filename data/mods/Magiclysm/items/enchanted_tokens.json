@@ -2,7 +2,7 @@
   {
     "abstract": "mtoken",
     "name": "magic token",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "weight": "8 g",
     "volume": "1 ml",
@@ -13,7 +13,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_longsword",
     "name": "longsword token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a longsword.",
@@ -28,7 +28,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_arming_sword",
     "name": { "str": "arming sword token" },
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case an arming sword.",
@@ -43,7 +43,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_broadsword",
     "name": "broadsword token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a broadsword.",
@@ -58,7 +58,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_battleaxe",
     "name": { "str": "battle axe token" },
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
@@ -73,7 +73,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_pike",
     "name": "pike token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a pike.",
@@ -88,7 +88,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_mace",
     "name": "mace token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a mace.",
@@ -103,7 +103,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_q_staff",
     "name": "quarterstaff token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a quarterstaff.",
@@ -118,7 +118,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_hammer",
     "name": "hammer token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a hammer.",
@@ -133,7 +133,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_screwdriver_set",
     "name": "screwdriver set token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a screwdriver.",
@@ -148,7 +148,7 @@
   },
   {
     "copy-from": "mtoken",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mtoken_crowbar",
     "name": "crowbar token",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a crowbar.",

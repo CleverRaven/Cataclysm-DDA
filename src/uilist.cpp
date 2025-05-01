@@ -28,8 +28,11 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 #include <SDL_keyboard.h>
+#include <SDL_mouse.h>
+#endif
 
-#include "options.h"
+#if defined(TILES) && !defined(__ANDROID__)
+#include <SDL2/SDL_mouse.h>
 #endif
 
 class uilist_impl : cataimgui::window
@@ -60,6 +63,15 @@ class uilist_impl : cataimgui::window
 
 void uilist_impl::draw_controls()
 {
+#if defined(TILES)
+    using cata::options::mouse;
+    bool cursor_shown = SDL_ShowCursor( SDL_QUERY ) == SDL_ENABLE;
+    if( mouse.hidekb && !cursor_shown ) {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+    } else {
+        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    }
+#endif
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
@@ -598,7 +610,7 @@ void uilist::inputfilter()
     filter_popup.reset();
 }
 
-static ImVec2 calc_size( const std::string_view line )
+static ImVec2 calc_size( std::string_view line )
 {
     return ImGui::CalcTextSize( remove_color_tags( line ).c_str() );
 }
