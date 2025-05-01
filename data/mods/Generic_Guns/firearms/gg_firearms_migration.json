@@ -182,8 +182,7 @@
       "uberti_1873",
       "rossi_r92_357_16",
       "rossi_r92_357_20",
-      "rugerpcc",
-      "glock_44"
+      "rugerpcc"
     ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
@@ -243,7 +242,8 @@
       "rio_bravo",
       "henry_golden_boy",
       "sw617",
-      "sr22"
+      "sr22",
+      "glock_44"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
