@@ -23,7 +23,8 @@
       [ "red_dot_sight", 70 ],
       [ "choke", 50 ],
       [ "big_brass_catcher", 20 ],
-      [ "offset_grip", 5 ]
+      [ "offset_grip", 5 ],
+      [ "pistol_threaded", 5]
     ]
   },
   {
@@ -59,7 +60,8 @@
       [ "modern_handguard", 20 ],
       [ "bipod_handguard", 10 ],
       [ "high_end_folding_stock", 10 ],
-      [ "muzzle_weight", 10 ]
+      [ "muzzle_weight", 10 ],
+      [ "pistol_threaded", 20]
     ]
   },
   {

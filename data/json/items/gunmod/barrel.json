@@ -75,5 +75,24 @@
     "energy_drain_multiplier": 50.0,
     "min_skills": [ [ "gun", 1 ] ],
     "melee_damage": { "bash": 5 }
+  },
+  {
+  "id": "pistol_threaded",
+    "type": "GUNMOD",
+    "subtypes": [ "GUNMOD" ],
+    "name": { "str": "threaded pistol barrel" },
+    "description": "A pistol barrel equipped with muzzle threads for additional acessories.",
+    "weight": "100 g",
+    "volume": "125ml",
+    "price": "200 USD",
+    "price_postapoc": "15 USD",
+    "install_time": "1 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "barrel",
+    "mod_targets": [ "pistol" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "muzzle", 1 ] ]
   }
 ]
