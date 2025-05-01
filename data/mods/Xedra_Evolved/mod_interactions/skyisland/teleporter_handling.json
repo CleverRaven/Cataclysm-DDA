@@ -46,7 +46,7 @@
             { "compare_string": [ "homullus_road_translocate_spell", { "context_val": "spell" } ] },
             { "compare_string": [ "arvore_forest_translocate", { "context_val": "spell" } ] },
             { "compare_string": [ "ierde_tunnel_translocation_spell", { "context_val": "spell" } ] },
-            { "compare_string": [ "ierde_tunnel_translocation_spell", { "context_val": "spell" } ] }
+            { "compare_string": [ "changeling_teleport_home_spell", { "context_val": "spell" } ] }
           ]
         }
       ]
