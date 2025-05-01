@@ -80,7 +80,7 @@
         "then": [
           { "u_teleport": { "u_val": "mom_si_on_ground_location" }, "force": true },
           {
-            "u_message": "You briefly see the familiar sights of the floating island before you feel a wrenching sensation and you're suddenly back on the surface.  Whatever powers have put you in this situation must not be happy with you trying to cirumvent the rules.",
+            "u_message": "You briefly see the familiar sights of the floating island before you feel a wrenching sensation and you're suddenly back on the surface.  Whatever powers have put you in this situation must not be happy with you trying to circumvent the rules.",
             "type": "bad",
             "popup": true
           },
