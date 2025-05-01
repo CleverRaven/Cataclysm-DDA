@@ -1155,7 +1155,7 @@ bool game::start_game()
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         mission *new_mission = mission::reserve_new( m, character_id() );
-        new_mission->assign( u );
+         new_mission->assign( u );
     }
 
     // Same for profession missions
