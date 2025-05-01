@@ -87,7 +87,6 @@
         "d": "t_floor",
         "f": "t_floor",
         "w": "t_thconc_floor"
-        
       },
       "place_items": [
         { "chance": 10, "item": "ammo_common_boxed_used", "x": 6, "y": 9 },
