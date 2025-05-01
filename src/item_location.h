@@ -8,7 +8,6 @@
 #include <utility>
 
 #include "coords_fwd.h"
-#include "type_id.h"
 #include "units_fwd.h"
 
 class Character;

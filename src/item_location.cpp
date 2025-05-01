@@ -8,7 +8,6 @@
 #include <memory>
 #include <optional>
 #include <ostream>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -19,22 +18,18 @@
 #include "debug.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
-#include "fault.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
-#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_selector.h"
-#include "messages.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
-#include "rng.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -46,8 +41,6 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "value_ptr.h"
-#include "weighted_list.h"
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
