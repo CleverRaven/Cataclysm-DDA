@@ -29,6 +29,7 @@
 #include <jni.h>
 #include <SDL_keyboard.h>
 #include <SDL_mouse.h>
+#include "options.h"
 #endif
 
 #if defined(TILES) && !defined(__ANDROID__)
@@ -927,7 +928,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         delete[] n_enabled;
         if( j_ret == -1 ) {
             ret = UILIST_CANCEL;
-        } else if( 0 <= j_ret && j_ret < entries.size() ) {
+        } else if( 0 <= j_ret && j_ret < static_cast<int>( entries.size() ) ) {
             ret = entries[j_ret].retval;
         } else {
             ret = UILIST_ERROR;
