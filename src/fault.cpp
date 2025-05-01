@@ -203,6 +203,11 @@ const std::set<fault_fix_id> &fault::get_fixes() const
     return fixes;
 }
 
+const std::set<fault_id> &fault::get_block_faults() const
+{
+    return block_faults;
+}
+
 void fault::load( const JsonObject &jo, std::string_view )
 {
 
@@ -213,6 +218,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "message", message_ );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "block_faults", block_faults );
     optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );
     optional( jo, was_loaded, "affected_by_degradation", affected_by_degradation_, false );
 

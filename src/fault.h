@@ -87,6 +87,7 @@ class fault
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod() const;
         bool affected_by_degradation() const;
         bool has_flag( const std::string &flag ) const;
+        const std::set<fault_id> &get_block_faults() const;
 
         const std::set<fault_fix_id> &get_fixes() const;
     private:
@@ -104,6 +105,7 @@ class fault
         translation message_;
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
+        std::set<fault_id> block_faults;
         double price_modifier = 1.0;
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod_;
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod_;

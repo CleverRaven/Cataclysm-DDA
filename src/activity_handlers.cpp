@@ -2792,7 +2792,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         target.remove_fault( id );
     }
     for( const ::fault_id &id : fix.faults_added ) {
-        act->targets[0].set_fault( id, true, false );
+        target.set_fault( id, true, false );
     }
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
