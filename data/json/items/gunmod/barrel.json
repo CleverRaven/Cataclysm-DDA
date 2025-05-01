@@ -77,7 +77,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-  "id": "pistol_threaded",
+    "id": "pistol_threaded",
     "type": "GUNMOD",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "threaded pistol barrel" },
