@@ -6,6 +6,7 @@
     "authors": [ "Ryan \"DeNarr\" Saige", "Kevin Granade" ],
     "description": "Allows stats to raise via skill progression.",
     "obsolete": true,
+    "//": "Obsoleted in 0.I",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   },
