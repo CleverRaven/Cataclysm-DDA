@@ -2066,7 +2066,8 @@ class item : public visitable
         /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
         * `force`, if true, bypasses the check and applies the fault item do not define
         */
-        void set_random_fault_of_type( const std::string &fault_type, bool force = false, bool message = true );
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false,
+                                       bool message = true );
 
         /** Removes the fault from the item, if such is presented. */
         void remove_fault( const fault_id &fault_id );
