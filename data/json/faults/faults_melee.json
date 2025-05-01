@@ -34,6 +34,7 @@
       { "damage_id": "bash", "multiply": 0.8 }
     ],
     "description": "The small part of this blade broke away.  You still can use it, but it's much less effective.",
+    "block_faults": [ "fault_blade_broken_tip", "fault_blade_bent_tip" ],
     "affected_by_degradation": true
   },
   {
@@ -47,6 +48,14 @@
       { "damage_id": "bash", "multiply": 0.2 }
     ],
     "description": "The blade shattered completely, making it just a stub.  The only way to repair such damage to make a new weapon.",
+    "block_faults": [
+      "fault_blade_rolled_edge",
+      "fault_blade_chipped",
+      "fault_blade_cracked",
+      "fault_blade_broken_half",
+      "fault_blade_broken_tip",
+      "fault_blade_bent_tip"
+    ],
     "affected_by_degradation": true
   },
   {
@@ -55,6 +64,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken tip" },
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.6 } ],
+    "block_faults": [ "fault_blade_bent_tip" ],
     "description": "The tip of the blade you could use to thrust is no more."
   },
   {
@@ -95,6 +105,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Bent socket" },
     "description": "The tool socket was bent off, making the tip not lined with a shaft, and making the weapon very hard to thrust properly.",
+    "item_suffix": "bent",
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.7 } ]
   },
   {
@@ -103,6 +114,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken head" },
     "description": "The head of this tool is comppletely broken.  The only way to repair such damage to make a new one.",
+    "block_faults": [ "fault_spearhead_fracture", "fault_spearhead_warped", "fault_spearhead_chipping", "fault_spearhead_bent_socket" ],
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.1 } ],
     "affected_by_degradation": true
   },
@@ -133,6 +145,7 @@
     "name": { "str": "Broken" },
     "description": "The entire %s just snapped, leaving only long splinters.",
     "item_suffix": "broken",
+    "block_faults": [ "fault_staff_short_chipping", "fault_staff_short_cracked" ],
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.25 } ]
   },
   {
@@ -158,6 +171,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken" },
     "description": "This %s is snapped in half.  You still can use it, albeit much less effectively.",
+    "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked" ],
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.5 } ]
   },
   {
@@ -167,7 +181,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken" },
     "description": "This % is completely broken.",
-    "item_suffix": "broken",
+    "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked", "fault_staff_long_broken_half" ],
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
   }
 ]
