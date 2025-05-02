@@ -87,8 +87,6 @@ static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
-static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
-
 static const material_id material_bean( "bean" );
 static const material_id material_blood( "blood" );
 static const material_id material_bone( "bone" );
@@ -1891,7 +1889,7 @@ void Item_factory::init()
     add_actor( std::make_unique<effect_on_conditons_actor>() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups[Item_spawn_data_EMPTY_GROUP] =
+    m_template_groups[get_Item_spawn_data_EMPTY_GROUP()] =
         std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0, 0, "EMPTY_GROUP" );
 }
 
