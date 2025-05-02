@@ -139,7 +139,7 @@
       {
         "name": "post-it",
         "id": "lab_postit_psi_62",
-        "text": "So is here some kind \"light dimension\" out there too?"
+        "text": "So is there some kind \"light dimension\" out there too?"
       },
       {
         "name": "post-it",
@@ -252,14 +252,26 @@
         "//": "XE338 here are hunting horrors",
         "text": "Immediately after immersion into 471XE, the dive team confirmed probe observations that despite not being in any kind of chamber or underground, there were no visible light sources anywhere.  Sgt Simmons ordered the team to turn on their flashlights, and after doing so the team almost immediately came under attack by multiple XE338 entities.  Due to 471XE's effects on Netherum energy, Sgt Simmons ordered V78 to deter the attack using mathematics and the dive team formed a defensive formation while V78 fended off the XE338 attackers with repeated bolts of lightning.  While the attacks were effective, the light itself seemed to function as a deterrent and the dive team was able to withdraw through the aperture in short order with only Dr. Rodriguez suffering any injuries that required more than first aid.\n\nBased on this incident, further travel to 471XE is prohibited without a CRYPTIC FORGE mathematician present and backed up by several high-powered light sources."
       },
-      { "name": "I am the One", "id": "lab_file_electrokinesis_05", "weight": 900, "text": "" }
+      {
+        "name": "I am the One",
+        "id": "lab_file_electrokinesis_05",
+        "weight": 900,
+        "text": "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\nHandwritten below in red are the words, \"Refer I32 for psychological evaluation.\""
+      }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_photokinesis",
     "//": "Phavian designation for photokinetic study is CRYPTIC FORGE",
-    "text": [  ]
+    "text": [
+      {
+        "name": "incident report: 884001",
+        "id": "lab_file_photokinesis_01",
+        "weight": 1000,
+        "text": "At 1405 during a routine CRYPTIC FORGE test, mathematician A34 reported feeling \"strange, I don't know what\" and immediately afterwards all monitoring and testing equipment ceased transmitting.  Security responded immediately and found A34 uninjured inside the testing room, though they were forced to cut through the door since the electronic lock had failed. Subsequent investigation of network footage revealed that when attempting to radiation-sterilize various vegetables, A34 had somehow triggered an electromagnetic pulse.  When interviewed after the incident, A34 stated that, \"the energy just kept building and building and I guess it had to go somewhere.\"\n\nUnfortunately, due to the lockdowns and the prohibitive cost, as well as the disruptions it would cause other experiments and daily operations in general, any form of electromagnetic hardening is impractical.  Dr. Al-Masri has floated the possibilty of attempting to train other CRYPTIC FORGE mathematicians to provide a control in case of an EMP, but at the moment, this is only theoretical as no mathematician has demonstrated the conscious abilty to produce one.  I'm sorry to say that for the moment, all we can do is hope it doesn't happen again."
+      }
+    ]
   },
   {
     "type": "snippet",
@@ -506,6 +518,7 @@
       {
         "name": "PATIENT MOSAIC introduction: GRAY DAWN eyes only",
         "id": "lab_file_item_IG882_P_02",
+        "weight": 1000,
         "text": "Greetings,\nThank you for your participation in the development of the PATIENT MOSAIC process.  Your work here will advance the foundation of human understand of the inner workings of the mind.\n\nThe PATIENT MOSAIC personality updating process allows the mathematician to change the fundamentals of their personality.  To turn a wallflower to the life of the party, to get rid of your deepest anxieties or fears, to cure depression instead of managing it with therapy or medication.  With refinement, all of these things will not only be possible, but easy, and you will be one of the people who makes it possible.\n\nAt the moment, PATIENT MOSAIC has two primary points of difficulty which you, as a participant, must be aware of.  The first is that it can only be executed by the mathematician upon themselves.  Despite continued progress in the functioning of the process, PATIENT MOSAIC cannot make even the smallest change on another person as of yet.  The second is that the mind is a complex thing and despite the new understanding that GRAY DAWN has brought to us, there is still much to learn.  Small changes can have unexpected ripple effects, leading to undesirable outcomes.  It should be stressed that none of these outcomes are irreversible, but due to the first point, any adverse effects incurred as as a result of the process must be reversed by you; XEDRA researchers and mathematicians cannot assist you except to diagnose any problems that may have resulted.\n\nWe welcome your assistance on this endeavor to expand the frontiers of human knowledge and thank you for your efforts toward the goals of Project PHAVIAN."
       }
     ]
@@ -605,7 +618,7 @@
       {
         "name": "Introductory materials",
         "id": "lab_file_phavian_memo_04",
-        "weight": 1000,
+        "weight": 1150,
         "text": "Colleague,\n\nGreetings.  You have selected, or have been selected, to participate in XEDRA-23, or as we call it, Project PHAVIAN.  As a member of XEDRA, you will already have seen many extraordinary things in the course of your work, things which you previously might have scoffed at or dismissed out of hand.  You will see more extraordinary things in the course of your work here, things that even those at other XEDRA divisions would have thought impossible a few years ago.  Phase experiments expand the range of human exploration, but matrix technology unlocks human potential to a degree never before seen.  You will be a part of that endeavor, advancing human knowledge and ensuring the United States of America's place at the forefront of scientific advancement throughout the 21st century.\n\nThere is an ancient proverb that is often translated as \"A single spark can start a prairie fire.\"  Our work here will be the light that will lead humanity into a new age.  I look forward to working with you.\n\nHarold Liu\nDirector, Project PHAVIAN"
       },
       {
@@ -633,10 +646,10 @@
         "text": "Dr. Mitchell,\nPer our last email, Dr. Enrique Rodriguez passed away in a car accident almost two years ago, shortly after being assigned to XEDRA as a portal research specialist, and he never had the opportunity to work with XEDRA-23.  As you can see from the employee database, there has never been a Dr. Julia Simmons employed by either XEDRA-23 or any other XEDRA division.\n\nIn addition, the XEDRA handbook requires that all employees use their current title in their signature at all times.  Please update your signature to comply with this policy.\nAlicia Sanders\nSenior Talent Coodinator"
       },
       {
-        "name": "Update: Records Policy re: Incident report: 5233184",
+        "name": "Update: Records Policy re: Incident report: 523184",
         "id": "lab_file_phavian_memo_09",
         "weight": 1000,
-        "text": "Colleagues,\n\nFollowing the recent incident, PHAVIAN is immediately instituting a requirement that all sensitive data be stored offline, on paper, away from possible RUBY LOOP interference.  Incident 5233184 has shown us that existing security protocols are utterly ineffective at stopping RUBY LOOP from altering stored data, and while we only lost a week of experimental results, those results include the most recent COBALT THORN test and thus represent a profound blow to our work in advancing human knowledge.  I recognize the difficulty of changing our experimental procedures and our methods of communication so drastically at such short notice, but at the moment we are still not sure how much advancement that other nations have made in the fields of portal immersion or in Netherum mathematics, so it is best to take extreme caution while we develop new protocols around information security.  When we have a update, or an effective counter to possible RUBY LOOP interference, rest assured that I will share it with you immediately.\n\nHarold Liu\nDirector, Project PHAVIAN"
+        "text": "Colleagues,\n\nFollowing the recent incident, PHAVIAN is immediately instituting a requirement that all sensitive data be stored offline, on paper, away from possible RUBY LOOP interference.  Incident 523184 has shown us that existing security protocols are utterly ineffective at stopping RUBY LOOP from altering stored data, and while we only lost a week of experimental results, those results include the most recent COBALT THORN test and thus represent a profound blow to our work in advancing human knowledge.  I recognize the difficulty of changing our experimental procedures and our methods of communication so drastically at such short notice, but at the moment we are still not sure how much advancement that other nations have made in the fields of portal immersion or in Netherum mathematics, so it is best to take extreme caution while we develop new protocols around information security.  When we have a update, or an effective counter to possible RUBY LOOP interference, rest assured that I will share it with you immediately.\n\nHarold Liu\nDirector, Project PHAVIAN"
       }
     ]
   },
@@ -675,6 +688,11 @@
         "name": "You've heard the rumor, right?",
         "id": "lab_file_phavian_private_06",
         "text": "C,\nJust talked to ███████ on our lunch break and he confirmed what I heard--Gaspar is real.  We all know people who have just disappeared, right?  They say they're transferred to other sites, to keep up the variety in experiments or whatever, but do they ever get transferred back?  You heard of Project Empty Mother?  Sapphire Horizon?  You know about the magi, right?  There's always three and where's the third?  They can't turn us all into meat but they're going to do it to some of us and I don't want to be one of them.  We have to get out of here.\n-A"
+      },
+      {
+        "name": "Shadows",
+        "id": "lab_file_phavian_private_07",
+        "text": "I keep feeling like something is watching me while I'm working on the engines.  Like there are shadows behind me even in a perfectly-lit room.  I've set up my phone to record and of course, nothing shows up.  But there's something.  I run the footage through frame-by-frame and there are occasional frames of pure static when I'm tinkering and I can't place exactly which part of the engine is causing it, even when I try the same thing multiple times.  The static isn't always there, but it's there often enough.  I know they put Mitchell on adminstrative leave after his breakdown but maybe he was on to something."
       }
     ]
   }
