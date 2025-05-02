@@ -2106,7 +2106,8 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     const requirement_data &reqs = bld_reqs.consolidated_reqs;
 
     //Stop upgrade if you don't have materials
-    if( reqs.can_make_with_inventory( _inv, making.get_component_filter() ) ) {
+    if( reqs.can_make_with_inventory( _inv, making.get_component_filter(), 1, craft_flags::none,
+                                      false ) ) {
         bool must_feed = !making.has_flag( "NO_FOOD_REQ" );
 
         basecamp_action_components components( making, miss_id.mapgen_args, 1, *this );
