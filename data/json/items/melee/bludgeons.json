@@ -2012,7 +2012,7 @@
     "charges_per_use": 1,
     "power_draw": "600 W",
     "use_action": [ "CROWBAR" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" }
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" }
   },
   {
     "type": "TOOL",
