@@ -185,7 +185,12 @@ enum class item_drop_reason : int {
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
-                               map *here, const tripoint_bub_ms &where, bool force_ground = false );
+map *here, const tripoint_bub_ms &where, bool force_ground = false );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+                                const std::list<item> &items );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+                                const std::list<item> &items,map *here, const tripoint_bub_ms &where,
+                                bool force_ground = false );
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
                                         map *here, const tripoint_bub_ms &where );
