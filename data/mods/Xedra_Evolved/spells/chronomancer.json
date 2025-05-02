@@ -408,7 +408,9 @@
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "difficulty": 10,
     "max_level": { "math": [ "xedra_chronomancer_level(1)" ] },
-    "effect": "banishment",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_XEDRA_CHRONOMANCER_PARADOX_INSIGHT",
+    "extra_effects": [ { "id": "xedra_chronomancer_paradox_banish" } ],
     "shape": "blast",
     "min_damage": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_paradox'), 25, 0 )" ] },
     "max_damage": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_paradox'), 25, 0 )" ] },
@@ -425,6 +427,27 @@
         "max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_paradox') ) ), 50 )"
       ]
     }
+  },
+  {
+    "id": "xedra_chronomancer_paradox_banish",
+    "type": "SPELL",
+    "name": { "str": "Paradox - Banish", "//~": "NO_I18N" },
+    "description": { "str": "Banish Portion of Paradox.  Having this spell is a bug", "//~": "NO_I18N" },
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "XEDRA_CHRONOMANCER",
+    "skill": "deduction",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 1,
+    "min_damage": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_paradox'), 25, 0 )" ] },
+    "max_damage": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_paradox'), 25, 0 )" ] },
+    "effect": "banishment",
+    "shape": "blast",
+    "min_range": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_paradox'), 1, 0 ), 20 )" ] },
+    "max_range": 20,
+    "base_energy_cost": 0,
+    "base_casting_time": 0
   },
   {
     "id": "xedra_chronomancer_stable_loop",
