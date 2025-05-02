@@ -20,13 +20,13 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "global_vars.h"
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
@@ -558,7 +558,11 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
                 if( foe->is_avatar() && ( pt.x() < HALF_MAPSIZE_X || pt.y() < HALF_MAPSIZE_Y ||
                                           pt.x() >= HALF_MAPSIZE_X + SEEX || pt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    const tripoint_abs_ms pt_abs = here.get_abs(
+                                                       pt ); // Could have used the result from update_map to shift the value instead.
                     g->update_map( pt.x(), pt.y() );
+                    // update_map invalidates bubble positions on a shift. Refetch invalidated positions.
+                    pt = here.get_bub( pt_abs );
                     monster_pos = z.pos_bub( here );
                     target_pos = target->pos_bub( here );
                 }
@@ -648,6 +652,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                                              zpt.y() < HALF_MAPSIZE_Y ||
                                              zpt.x() >= HALF_MAPSIZE_X + SEEX || zpt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
                     g->update_map( zpt.x(), zpt.y() );
+                    // update_map invalidates bubble positions on a shift. Refetch invalidated positions.
+                    zpt = z.pos_bub( here );
+                    target_pos = target->pos_bub( here );
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {

@@ -61,6 +61,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
+#include "math_parser_diag_value.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -101,6 +102,8 @@
 #include "weather.h"
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const addiction_id addiction_alcohol( "alcohol" );
 
 static const efftype_id effect_HACK_camp_vision_for_npc( "HACK_camp_vision_for_npc" );
 
@@ -534,7 +537,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
         bool &mirror_horizontal,
         bool &mirror_vertical,
         int &rotation,
-        const std::string_view base_error_message,
+        std::string_view base_error_message,
         const std::string &actor )
 {
     mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
@@ -626,7 +629,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
 }
 
 static std::optional<basecamp *> get_basecamp( npc &p,
-        const std::string_view camp_type = "default" )
+        std::string_view camp_type = "default" )
 {
     tripoint_abs_omt omt_pos = p.pos_abs_omt();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -1593,12 +1596,10 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
 void basecamp::choose_new_leader()
 {
-    // This is ugly, but dialogue vars are stored as strings, even if they hold data for times.
-    time_point last_succession_time = time_point::from_turn( std::stof(
-                                          get_player_character().get_value( var_timer_time_of_last_succession ) ) );
-    time_duration succession_cooldown = time_duration::from_turns( std::stof(
-                                            get_globals().get_global_value(
-                                                    var_time_between_succession ) ) );
+    time_point last_succession_time = time_point::from_turn(
+                                          get_avatar().get_value( var_timer_time_of_last_succession ).dbl() );
+    time_duration succession_cooldown = time_duration::from_turns(
+                                            get_globals().get_global_value( var_time_between_succession ).dbl() );
     time_point next_succession_chance = last_succession_time + succession_cooldown;
     int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
     if( next_succession_chance >= calendar::turn ) {
@@ -1628,8 +1629,7 @@ void basecamp::choose_new_leader()
         }
         get_avatar().control_npc_menu( false );
         // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
-        get_player_character().set_value( var_timer_time_of_last_succession,
-                                          std::to_string( current_time_int ) );
+        get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
     }
 
     // Vector of pairs containing a pointer to an NPC and their modified social score
@@ -1658,8 +1658,7 @@ void basecamp::choose_new_leader()
         // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
         if( selected == 0 ) {
             popup( _( "Fate calls for you to remain in your role as leader… for now." ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
+            get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
         npc_ptr chosen = followers.at( selected ).first;
@@ -1681,8 +1680,7 @@ void basecamp::choose_new_leader()
         // you == nullptr
         if( elected == nullptr ) {
             popup( _( "You win the election!" ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
+            get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
         popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
@@ -5902,6 +5900,10 @@ bool basecamp::distribute_food( bool player_command )
             return false;
         }
         if( it.rotten() ) {
+            return false;
+        }
+        // Alcohol is specifically excluded until it can be turned into a vitamin/tracked by the larder
+        if( it.get_comestible()->addictions.count( addiction_alcohol ) ) {
             return false;
         }
         nutrients from_it = default_character_compute_effective_nutrients( it ) * it.count();

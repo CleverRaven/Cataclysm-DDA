@@ -70,7 +70,7 @@
       [ "bandana", 10 ],
       [ "cig", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 18, "charges": [ 0, -1 ] },
       [ "gloves_fingerless", 5 ],
       [ "holster", 5 ],
       [ "hatchet", 5 ],

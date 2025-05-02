@@ -1,7 +1,8 @@
 [
   {
     "id": "atomic_survival",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Survival Under Atomic Attack", "str_pl": "copies of Survival Under Atomic Attack" },
     "description": "A wordy and intricate guide to wilderness and urban survival in a worst-case scenario.  While filled with loads of useful information, the madman who wrote this was a terrible writer, and gleaning knowledge from the rants is a chore.",
@@ -13,17 +14,18 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "blue",
-    "skill": "survival",
     "required_level": 1,
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": -3,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "survival",
+    "read_fun": -3
   },
   {
     "id": "fun_survival",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Through the Lens", "str_pl": "copies of Through the Lens" },
     "description": "A colorful digest devoted to backpacking and wilderness photography.  The photos are beautiful, though the terminology in the sections on survivalcraft assume some proficiency.",
@@ -35,7 +37,6 @@
     "symbol": "?",
     "looks_like": "textbook_fireman",
     "color": "pink",
-    "skill": "survival",
     "required_level": 1,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.15 },
@@ -44,11 +45,13 @@
     "max_level": 3,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 3
+    "read_skill": "survival",
+    "read_fun": 3
   },
   {
     "id": "mag_dude",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Alpha Male Quarterly", "str_pl": "Alpha Male Quarterlies" },
     "description": "A full-size glossy men's magazine.  There's a brief article about hiking and a list of simple wilderness survival tips somewhere in between the photos of bikini-clad women and the gadget advertisements.",
@@ -60,15 +63,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "survival",
     "max_level": 1,
     "intelligence": 5,
     "time": "24 m",
-    "fun": 1
+    "read_skill": "survival",
+    "read_fun": 1
   },
   {
     "id": "mag_survival",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Outdoor Adventures", "str_pl": "issues of Outdoor Adventures" },
     "description": "A glossy magazine about surviving and hunting in the wilderness.  There's an exciting article about a bear attack in the back pages.",
@@ -80,15 +84,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "survival",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 2
+    "read_skill": "survival",
+    "read_fun": 2
   },
   {
     "id": "manual_survival",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Pitching a Tent", "str_pl": "copies of Pitching a Tent" },
     "description": "A guide detailing the basics of woodsmanship and outdoor survival.",
@@ -100,18 +105,19 @@
     "symbol": "?",
     "looks_like": "manual_archery",
     "color": "green",
-    "skill": "survival",
     "max_level": 3,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.2 },
       { "proficiency": "prof_knapping_speed", "time_factor": 0.15, "fail_factor": 0.2 }
     ],
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "survival"
   },
   {
     "id": "pocket_survival",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Pocket Survival Guide", "str_pl": "copies of Pocket Survival Guide" },
     "description": "This pocket-sized leather-bound survival guide combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
@@ -123,18 +129,19 @@
     "symbol": "?",
     "looks_like": "mag_gaming",
     "color": "green",
-    "skill": "survival",
     "max_level": 2,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.25, "fail_factor": 0.3 },
       { "proficiency": "prof_knapping_speed", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
     "intelligence": 6,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "survival"
   },
   {
     "id": "survival_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Autobiography of a Mountain Man", "str_pl": "copies of Autobiography of a Mountain Man" },
     "//": "Since it's a novel, price point is much more reasonable.",
@@ -147,7 +154,6 @@
     "symbol": "?",
     "looks_like": "manual_dodge",
     "color": "light_blue",
-    "skill": "survival",
     "required_level": 5,
     "proficiencies": [
       { "proficiency": "prof_knapping", "time_factor": 0.1, "fail_factor": 0.15 },
@@ -156,12 +162,14 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
-    "fun": 1,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "survival",
+    "read_fun": 1
   },
   {
     "id": "textbook_survival",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Outdoor Survival Guide", "str_pl": "copies of Outdoor Survival Guide" },
     "description": "A thick soft-cover book filled with vital information about surviving in the wild, aimed at the experienced backpacker.",
@@ -173,16 +181,17 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "survival",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "survival"
   },
   {
     "id": "textbook_botany",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Introduction to Plant Biology", "str_pl": "copies of Introduction to Plant Biology" },
     "description": "A college-level textbook about plants of all shapes and sizes.  Covers a wide range of subjects, from horticulture to the identification of tropical plants.  As such, it is of limited practical use in your current situation.",
@@ -194,15 +203,16 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "green",
-    "skill": "survival",
     "required_level": 3,
     "max_level": 5,
     "intelligence": 9,
-    "time": "45 m"
+    "time": "45 m",
+    "read_skill": "survival"
   },
   {
     "id": "textbook_arthropod",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Wonderful World of Arthropodology", "str_pl": "copies of The Wonderful World of Arthropodology" },
     "description": "A three-volume doorstopper introducing the whole breadth of modern arthropodology, beginning with a lengthy section on the comparative anatomy of the described taxa.  The authors somehow manage to maintain a gushingly enthusiastic tone, even as they describe the grisly effects of arthropod venoms or the mating habits of horseshoe crabs.  Given the curious lack of man-sized wasps in the illustrations, you have to wonder how much of the content is still applicable.",
@@ -214,16 +224,17 @@
     "color": "red",
     "symbol": "?",
     "looks_like": "textbook_firstaid",
-    "skill": "survival",
     "required_level": 3,
     "proficiencies": [ { "proficiency": "prof_chitinworking", "time_factor": 0.1, "fail_factor": 0.15 } ],
     "max_level": 4,
     "intelligence": 9,
-    "time": "45 m"
+    "time": "45 m",
+    "read_skill": "survival"
   },
   {
     "id": "isherwood_herbal_remedies",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Natural Remedies of New England", "str_pl": "copies of Natural Remedies of New England" },
     "description": "A leather-bound manuscript, it features native herbal remedies with hand-colored illustrations of each plant.",
@@ -235,12 +246,12 @@
     "symbol": "?",
     "looks_like": "scots_cookbook",
     "color": "light_gray",
-    "skill": "survival",
     "required_level": 1,
     "max_level": 5,
     "intelligence": 8,
     "time": "20 m",
-    "fun": 4,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "survival",
+    "read_fun": 4
   }
 ]

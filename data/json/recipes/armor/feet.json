@@ -352,7 +352,7 @@
       [ "adhesive_rubber", 1 ],
       [ "tailoring_leather_small", 16 ],
       [ "welding_standard", 10 ],
-      [ "steel_tiny", 2 ]
+      [ "steel_chunk_any", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -965,7 +965,7 @@
       [ "adhesive_rubber", 1 ],
       [ "tailoring_leather_small", 16 ],
       [ "welding_standard", 10 ],
-      [ "steel_tiny", 2 ]
+      [ "steel_chunk_any", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -1002,7 +1002,7 @@
       [ "tailoring_leather_small", 30 ],
       [ "welding_standard", 12 ],
       [ "blacksmithing_standard", 2 ],
-      [ "steel_tiny", 2 ]
+      [ "steel_chunk_any", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },

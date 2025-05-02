@@ -29,6 +29,10 @@
       [ "goggles_welding", 10 ],
       [ "apron_leather", 15 ],
       [ "apron_cut_resistant", 20 ],
+      [ "chaps_cut_resistant", 20 ],
+      [ "gloves_cut_resistant", 25 ],
+      [ "armguard_cut_resistant", 25 ],
+      [ "balaclava_cut_resistant", 5 ],
       [ "gloves_leather", 25 ],
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 20 ],
@@ -100,7 +104,7 @@
       [ "glasses_safety", 25 ],
       { "group": "charcoal_bag_part", "prob": 50 },
       { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
-      { "group": "sandbag", "prob": 5 },
+      { "group": "sandbag_any", "prob": 5 },
       { "item": "chemistry_set", "prob": 5 },
       [ "sandpaper", 50 ]
     ]

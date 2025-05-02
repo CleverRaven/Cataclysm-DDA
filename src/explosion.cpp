@@ -27,11 +27,11 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "field_type.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -59,7 +59,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -116,37 +115,42 @@ static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/100 chance of a fragment passing through the given square.
 static constexpr float MIN_FRAGMENT_DENSITY = 0.001f;
 
-explosion_data load_explosion_data( const JsonObject &jo )
-{
-    explosion_data ret;
-    // Power is mandatory
-    jo.read( "power", ret.power );
-    // Rest isn't
-    ret.distance_factor = jo.get_float( "distance_factor", 0.75f );
-    ret.max_noise = jo.get_int( "max_noise", 90000000 );
-    ret.fire = jo.get_bool( "fire", false );
-    if( jo.has_int( "shrapnel" ) ) {
-        ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
-        ret.shrapnel.recovery = 0;
-        ret.shrapnel.drop = fuel_type_none;
-    } else if( jo.has_object( "shrapnel" ) ) {
-        JsonObject shr = jo.get_object( "shrapnel" );
-        ret.shrapnel = load_shrapnel_data( shr );
-    }
 
-    return ret;
+//reads shrapnel data as object or int
+class shrapnel_reader : public generic_typed_reader<shrapnel_reader>
+{
+    public:
+        shrapnel_data get_next( const JsonValue &val ) const {
+            shrapnel_data ret;
+            if( val.test_int() ) {
+                ret.casing_mass = val.get_int();
+                ret.recovery = 0;
+                ret.drop = fuel_type_none;
+                return ret;
+            } else if( val.test_object() ) {
+                ret.deserialize( val.get_object() );
+                return ret;
+            }
+            val.throw_error( "shrapnel_reader element must be int or object" );
+            return ret;
+        }
+};
+
+void explosion_data::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "power", power );
+    optional( jo, was_loaded, "distance_factor", distance_factor, 0.75f );
+    optional( jo, was_loaded, "max_noise", max_noise, 90000000 );
+    optional( jo, was_loaded, "fire", fire );
+    optional( jo, was_loaded, "shrapnel", shrapnel, shrapnel_reader{} );
 }
 
-shrapnel_data load_shrapnel_data( const JsonObject &jo )
+void shrapnel_data::deserialize( const JsonObject &jo )
 {
-    shrapnel_data ret;
-    // Casing mass is mandatory
-    jo.read( "casing_mass", ret.casing_mass );
-    // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.08 );
-    ret.recovery = jo.get_int( "recovery", 0 );
-    ret.drop = itype_id( jo.get_string( "drop", "null" ) );
-    return ret;
+    mandatory( jo, was_loaded, "casing_mass", casing_mass );
+    optional( jo, was_loaded, "fragment_mass", fragment_mass, 0.08 ); //differs from header?
+    optional( jo, was_loaded, "recovery", recovery );
+    optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
 }
 namespace explosion_handler
 {
@@ -291,7 +295,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
     }
 
     // Draw the explosion, but only if the explosion center is within the reality bubble
-    map &bubble_map = get_map();
+    map &bubble_map = reality_bubble();
     if( bubble_map.inbounds( m->get_abs( p ) ) ) {
         std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
@@ -486,7 +490,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                 }
             }
             auto it = frag.targets_hit[critter];
-            if( get_map().inbounds(
+            if( reality_bubble().inbounds(
                     abs_target ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
                 multi_projectile_hit_message( critter, it.first, it.second, n_gettext( "bomb fragment",
                                               "bomb fragments", it.first ) );
@@ -542,8 +546,10 @@ void explosion( const Creature *source, map *here, const tripoint_bub_ms &p,
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex )
 {
-    if( get_map().inbounds( m->get_abs( p ) ) ) {
-        tripoint_bub_ms bubble_pos = get_map().get_bub( m->get_abs( p ) );
+    map &bubble_map = reality_bubble();
+
+    if( bubble_map.inbounds( m->get_abs( p ) ) ) {
+        tripoint_bub_ms bubble_pos = bubble_map.get_bub( m->get_abs( p ) );
         int noise = ex.power * ( ex.fire ? 2 : 10 );
         noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
 
@@ -824,8 +830,11 @@ void emp_blast( const tripoint_bub_ms &p )
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->faults.insert( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
-                                   faults::random_of_type( "shorted" ) );
+                if( get_option<bool>( "GAME_EMP" ) ) {
+                    it.set_fault( fault_emp_reboot, true );
+                } else {
+                    it.set_random_fault_of_type( "shorted", true );
+                }
             }
         }
     }
@@ -837,10 +846,14 @@ void emp_blast( const tripoint_bub_ms &p )
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_fault( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
-                          faults::random_of_type( "shorted" ) );
-            //map::make_active adds the item to the active item processing list, so that it can reboot without further interaction
             item_location loc = item_location( map_cursor( p ), &it );
+
+            if( get_option<bool>( "GAME_EMP" ) ) {
+                loc.set_fault( fault_emp_reboot, true, false );
+            } else {
+                loc.set_random_fault_of_type( "shorted", true, false );
+            }
+            //map::make_active adds the item to the active item processing list, so that it can reboot without further interaction
             here.make_active( loc );
         }
     }
@@ -955,7 +968,7 @@ void process_explosions()
 
     for( const queued_explosion &ex : explosions_copy ) {
         const int safe_range = ex.data.safe_range();
-        map  *bubble_map = &get_map();
+        map  *bubble_map = &reality_bubble();
         const tripoint_bub_ms bubble_pos( bubble_map->get_bub( ex.pos ) );
 
         if( bubble_pos.x() - safe_range < 0 || bubble_pos.x() + safe_range > MAPSIZE_X ||

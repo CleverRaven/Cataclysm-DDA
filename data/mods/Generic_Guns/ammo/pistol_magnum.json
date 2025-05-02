@@ -1,7 +1,8 @@
 [
   {
     "id": "pistol_magnum_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "44fmj",
     "name": { "str_sp": "magnum ammo, ball" },
     "ammo_type": "ammo_pistol_magnum",
@@ -10,7 +11,8 @@
   },
   {
     "id": "pistol_magnum_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "pistol_magnum_ball",
     "name": { "str_sp": "magnum ammo, JHP" },
     "description": "Magnum ammunition, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
@@ -18,7 +20,8 @@
   },
   {
     "id": "reloaded_pistol_magnum_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "pistol_magnum_ball",
     "name": { "str_sp": "magnum ammo, ball (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -26,7 +29,8 @@
   },
   {
     "id": "reloaded_pistol_magnum_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "pistol_magnum_jhp",
     "name": { "str_sp": "magnum ammo, JHP (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -35,7 +39,8 @@
   {
     "id": "bp_pistol_magnum_ball",
     "copy-from": "pistol_magnum_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "magnum ammo, ball (black powder)" },
     "proportional": {
       "price": 0.3,
@@ -49,7 +54,8 @@
   {
     "id": "bp_pistol_magnum_jhp",
     "copy-from": "pistol_magnum_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "magnum ammo, JHP (black powder)" },
     "proportional": {
       "price": 0.3,

@@ -22,6 +22,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "enums.h"
+#include "global_vars.h"
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_components.h"
@@ -30,6 +31,7 @@
 #include "item_pocket.h"
 #include "item_tname.h"
 #include "material.h"
+#include "math_parser_diag_value.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
@@ -370,8 +372,6 @@ class item : public visitable
         units::ememory occupied_ememory() const;
         /** @return remaining electronic memory on this e-device */
         units::ememory remaining_ememory() const;
-        /** Returns whether the given item location is inside an e-device) */
-        static bool is_efile( const item_location &loc );
         /** Returns the recipe catalog for this item if it exists, otherwise returns nullptr */
         item *get_recipe_catalog();
         const item *get_recipe_catalog() const;
@@ -1401,11 +1401,11 @@ class item : public visitable
         int damage_level( bool precise = false ) const;
 
         /** Modifiy melee weapon damage to account for item's damage. */
-        float damage_adjusted_melee_weapon_damage( float value ) const;
+        float damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const;
         /** Modifiy gun damage to account for item's damage. */
         float damage_adjusted_gun_damage( float value ) const;
         /** Modifiy armor resist to account for item's damage. */
-        float damage_adjusted_armor_resist( float value ) const;
+        float damage_adjusted_armor_resist( float value, const damage_type_id &dmg_type ) const;
 
         /** @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ ). */
         int max_damage() const;
@@ -1733,8 +1733,6 @@ class item : public visitable
         /** Return faults that can potentially occur with this item. */
         std::set<fault_id> faults_potential() const;
 
-        bool can_have_fault_type( const std::string &fault_type ) const;
-
         std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
 
         /** Returns the total area of this wheel or 0 if it isn't one. */
@@ -1977,36 +1975,21 @@ class item : public visitable
          * it remains through saving & loading, it is copied when the item is moved etc.
          * Each item variable is referred to by its name, so make sure you use a name that is not
          * already used somewhere.
-         * You can directly store integer, floating point and string values. Data of other types
-         * must be converted to one of those to be stored.
-         * The set_var functions override the existing value.
-         * The get_var function return the value (if the variable exists), or the default value
-         * otherwise.  The type of the default value determines which get_var function is used.
-         * All numeric values are returned as doubles and may be cast to the desired type.
-         * <code>
-         * int v = itm.get_var("v", 0); // v will be an int
-         * double d = itm.get_var("v", 0.0); // d will be a double
-         * std::string s = itm.get_var("v", ""); // s will be a std::string
-         * // no default means empty string as default:
-         * auto n = itm.get_var("v"); // v will be a std::string
-         * </code>
          */
         /*@{*/
-        void set_var( const std::string &name, int value );
-        void set_var( const std::string &name, long long value );
-        // Acceptable to use long as part of overload set
-        // NOLINTNEXTLINE(cata-no-long)
-        void set_var( const std::string &name, long value );
-        void set_var( const std::string &name, double value );
-        double get_var( const std::string &name, double default_value ) const;
-        void set_var( const std::string &name, const tripoint_abs_ms &value );
-        tripoint_abs_ms get_var( const std::string &name, const tripoint_abs_ms &default_value ) const;
-        //TODO: Add cata_variant overload for value here and for get_var rather than using raw strings where appropriate?
-        void set_var( const std::string &name, const std::string &value );
-        std::string get_var( const std::string &name, const std::string &default_value ) const;
-        /** Get the variable, if it does not exists, returns an empty string. */
-        std::string get_var( const std::string &name ) const;
-        std::optional<std::string> maybe_get_var( const std::string &name ) const;
+        double get_var( const std::string &key, double default_value ) const;
+        std::string get_var( const std::string &key, std::string default_value = {} ) const;
+        tripoint_abs_ms get_var( const std::string &key, tripoint_abs_ms default_value ) const;
+
+        void set_var( const std::string &key, diag_value value );
+        template <typename... Args>
+        void set_var( const std::string &key, Args... args ) {
+            set_var( key, diag_value{ std::forward<Args>( args )... } );
+        }
+
+        void remove_var( const std::string &key );
+        diag_value const &get_value( const std::string &name ) const;
+        diag_value const *maybe_get_value( const std::string &name ) const;
         /** Whether the variable is defined at all. */
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */
@@ -2075,8 +2058,21 @@ class item : public visitable
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
-        /** Idempotent filter setting an item specific fault. */
-        item &set_fault( const fault_id &fault_id );
+        /** Check if item can have a fault, and if yes, applies it. This version do not print a message, use item_location version instead
+         * `force`, if true, bypasses the check and applies the fault item do not define
+         */
+        void set_fault( const fault_id &fault_id, bool force = false );
+
+        /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
+        * `force`, if true, bypasses the check and applies the fault item do not define
+        */
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false );
+
+        /** Removes the fault from the item, if such is presented. */
+        void remove_fault( const fault_id &fault_id );
+
+        /** Checks all the faults in item, and if there is any of this type, removes it. */
+        void remove_single_fault_of_type( const std::string &fault_type );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
@@ -2093,6 +2089,8 @@ class item : public visitable
 
         /** Does this item have the specified fault? */
         bool has_fault( const fault_id &fault ) const;
+
+        bool has_fault_of_type( const std::string &fault_type ) const;
 
         /** Does this item part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;
@@ -2533,6 +2531,8 @@ class item : public visitable
 
         /** Return true if this uses electrical or a different kind of energy. */
         bool uses_energy() const;
+        /** Return true if this item is chargeable with additional energy. */
+        bool is_chargeable() const;
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
@@ -3266,7 +3266,7 @@ class item : public visitable
         cata::heap<FlagsSetType> prefix_tags_cache; // flags that will add prefixes to this item
         cata::heap<FlagsSetType> suffix_tags_cache; // flags that will add suffixes to this item
         lazy<safe_reference_anchor> anchor;
-        cata::heap<std::map<std::string, std::string>> item_vars;
+        cata::heap<global_variables::impl_t> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         cata::heap<std::set<matec_id>> techniques; // item specific techniques

@@ -74,7 +74,7 @@
     "name": "stop sign",
     "symbol": "P",
     "description": "An octagonal red sign on a long metal pole, marked with the word STOP.",
-    "color": "dark_gray",
+    "color": "red",
     "examine_action": "sign",
     "move_cost_mod": 1,
     "coverage": 10,

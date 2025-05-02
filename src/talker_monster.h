@@ -51,7 +51,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
 
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        diag_value const *maybe_get_value( const std::string &var_name ) const override;
 
         bool has_flag( const flag_id &f ) const override;
         bool has_species( const species_id &species ) const override;
@@ -105,7 +105,7 @@ class talker_monster: public talker_monster_const, public talker_cloner<talker_m
         void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
         void mod_pain( int amount ) override;
 
-        void set_value( const std::string &var_name, const std::string &value ) override;
+        void set_value( const std::string &var_name, diag_value const &value ) override;
         void remove_value( const std::string &var_name ) override;
 
         void set_anger( int ) override;

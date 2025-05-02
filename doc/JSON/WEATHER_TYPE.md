@@ -33,7 +33,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 
 #### `weather_type` example
 
-```json
+```jsonc
 [
   {
     "id": "lightning",

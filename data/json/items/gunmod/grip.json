@@ -1,7 +1,8 @@
 [
   {
     "id": "light_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "lightweight replacement furniture" },
     "description": "A set of lightweight composite grips and furniture that reduces a firearm's weight, and as a consequence, its handling and melee damage.",
     "weight": "140 g",
@@ -22,7 +23,8 @@
   },
   {
     "id": "pistol_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "ergonomic grip" },
     "description": "A set of ergonomic replacement furniture for a firearm improving handling.",
     "weight": "125 g",
@@ -42,7 +44,8 @@
   },
   {
     "id": "breacher_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "breacher grip" },
     "description": "A very uncomfortable straight grip.  Clearly not intended for regular use.",
     "weight": "125 g",

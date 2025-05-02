@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "coords_fwd.h"
+#include "type_id.h"
 #include "units_fwd.h"
 
 class Character;
@@ -127,6 +128,11 @@ class item_location
         bool has_parent() const;
 
         /**
+        * Returns whether the item location is inside an e-device)
+        */
+        bool is_efile() const;
+
+        /**
         * Returns available volume capacity where this item is located.
         */
         units::volume volume_capacity() const;
@@ -145,6 +151,21 @@ class item_location
         * true if the item is inside a not open watertight container
         **/
         bool protected_from_liquids() const;
+
+        /**
+        * Checks if item can have fault, and if so, applies it
+        * `force` allow to bypass check and apply fault item do not define
+        * `message` defines if fault message will be printed
+        **/
+        void set_fault( const fault_id &fault_id, bool force = false, bool message = true );
+
+        /**
+        * Checks if item has any fault of type, and if so, applies it
+        * `force` allow to bypass check and apply fault item do not define
+        * `message` defines if fault message will be printed
+        **/
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false,
+                                       bool message = true );
 
         ret_val<void> parents_can_contain_recursive( item *it ) const;
         ret_val<int> max_charges_by_parent_recursive( const item &it ) const;

@@ -41,7 +41,7 @@ concurrency:
 # At the time of writing (Jan 2025), the feature matrix for the above criteria looks like this:
 # | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
 # | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
-# | Basic Build and Test                 | ubuntu   | clang-10 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
+# | Basic Build and Test                 | ubuntu   | clang-13 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
 # | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
 # | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
 # | GCC 12, Ubuntu, Curses, ASan         | ubuntu   | gcc-12   | newest*  (gcc) |       |       | yes      |       |           |     | address  |      |
@@ -99,8 +99,8 @@ jobs:
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-10
-            os: ubuntu-20.04
+          - compiler: clang++-13
+            os: ubuntu-22.04
             tiles: 0
             sound: 0
             cmake: 0
@@ -111,9 +111,9 @@ jobs:
             archive-success: basic-build
             dont_skip_data_only_changes: 1
             mods: --mods=magiclysm
-            title: Basic Build and Test (Clang 10, Ubuntu, Curses)
+            title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
             ccache_limit: 4.5G
-            ccache_key: linux-llvm-10-break1
+            ccache_key: linux-llvm-13
 
           - compiler: clang++
             os: macos-13
@@ -219,7 +219,7 @@ jobs:
         CCACHE_NOCOMPRESS: true
         SKIP: >-
           ${{
-          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) ||
+          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 13, Ubuntu, Curses)' ) ||
           ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
           ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
           }}

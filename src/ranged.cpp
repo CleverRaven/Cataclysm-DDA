@@ -19,7 +19,7 @@
 #include "ballistics.h"
 #include "bionics.h"
 #include "bodypart.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -796,12 +796,11 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) &&
-               it.can_have_fault_type( gun_mechanical_simple ) ) {
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
-        it.faults.insert( random_entry( it.faults_potential_of_type( gun_mechanical_simple ) ) );
+        it.set_random_fault_of_type( gun_mechanical_simple );
         return false;
 
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
@@ -856,7 +855,7 @@ bool Character::handle_gun_damage( item &it )
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
                                    it.tname() );
-            it.faults.insert( fault_gun_chamber_spent );
+            it.set_fault( fault_gun_chamber_spent );
             // Don't return false in this case; this shot happens, follow-up ones won't.
         }
         // These are the dirtying/fouling mechanics
@@ -878,11 +877,11 @@ bool Character::handle_gun_damage( item &it )
             dirt = it.get_var( "dirt", 0 );
             dirt_dbl = static_cast<double>( dirt );
             if( dirt > 0 && !it.has_fault_flag( "NO_DIRTYING" ) ) {
-                it.faults.insert( fault_gun_dirt );
+                it.set_fault( fault_gun_dirt );
             }
             if( dirt > 0 && curammo_effects.count( ammo_effect_BLACKPOWDER ) ) {
-                it.faults.erase( fault_gun_dirt );
-                it.faults.insert( fault_gun_blackpowder );
+                it.remove_fault( fault_gun_dirt );
+                it.set_fault( fault_gun_blackpowder );
             }
             // end fouling mechanics
         }
@@ -931,7 +930,7 @@ bool Character::handle_gun_overheat( item &it )
             add_msg_if_player( m_bad,
                                _( "Your %s displays a warning sequence as its active cooling cycle engages." ),
                                it.tname() );
-            it.faults.insert( fault_overheat_safety );
+            it.set_fault( fault_overheat_safety );
             return false;
         }
 
@@ -944,13 +943,13 @@ bool Character::handle_gun_overheat( item &it )
                                it.tname() );
             add_msg_if_player( m_bad, _( "Your %s detonates!" ),
                                it.tname() );
-            it.faults.insert( fault_overheat_melting );
+            it.set_fault( fault_overheat_melting );
             explosion_handler::explosion( this, this->pos_bub(), 1200, 0.4 );
             return false;
         } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
             add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),
                                it.tname() );
-            it.faults.insert( fault_overheat_melting );
+            it.set_fault( fault_overheat_melting );
             return false;
         } else if( it.faults_potential().count( fault_overheat_venting ) && fault_roll > 2 ) {
             map &here = get_map();
@@ -2232,12 +2231,12 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
     thresholds_it = thresholds.begin();
     aim_types.push_back( aim_type { _( "Regular" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
-    thresholds_it++;
+    ++thresholds_it;
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Careful" ), "CAREFUL_SHOT",
                                         _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
-        thresholds_it++;
+        ++thresholds_it;
     }
     if( thresholds_it != thresholds.end() ) {
         aim_types.push_back( aim_type { _( "Precise" ), "PRECISE_SHOT",
@@ -2356,7 +2355,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
             }
 
             // TODO: Refine critera to handle overlapping maps.
-            if( here == &get_map() ) {
+            if( here == &reality_bubble() ) {
                 sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
                                          sfx::get_heard_angle( eject ) );
             }
@@ -3364,11 +3363,13 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 
 void target_ui::set_last_target()
 {
+    map &here = get_map();
+
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().get_abs( dst ) ) {
+        you->last_target_pos.value() != here.get_abs( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().get_abs( dst );
+    you->last_target_pos = here.get_abs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3742,10 +3743,13 @@ bool target_ui::action_aim()
     set_last_target();
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
+    double hold_recoil = you->recoil;
     for( int i = 0; i < 10; ++i ) {
         do_aim( *you, *relevant, min_recoil );
     }
-
+    add_msg_debug( debugmode::debug_filter::DF_BALLISTIC,
+                   "you reduced recoil from %f to %f in 10 moves",
+                   hold_recoil, you->recoil );
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 

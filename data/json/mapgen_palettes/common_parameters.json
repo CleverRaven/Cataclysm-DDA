@@ -121,7 +121,7 @@
   {
     "type": "palette",
     "id": "parametrized_linoleum_palette",
-    "//": "Intended as a palette for randomized fences",
+    "//": "Intended as a palette for randomized linoleum",
     "parameters": {
       "linoleum_color": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_gray", 1 ], [ "t_linoleum_white", 1 ] ] } }
     },

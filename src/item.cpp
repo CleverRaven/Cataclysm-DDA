@@ -3,14 +3,11 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
-#include <cerrno>
 #include <cmath>
 #include <cstdlib>
-#include <cstring>
 #include <iomanip>
 #include <iterator>
 #include <limits>
-#include <locale>
 #include <memory>
 #include <optional>
 #include <set>
@@ -117,7 +114,6 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "try_parse_integer.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -647,7 +643,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         if( one_in( 20 ) ) {
             result.set_flag( flag_REVIVE_SPECIAL );
         }
-        result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
+        result.set_var( "upgrade_time", upgrade_time );
     }
 
     if( !mt->zombify_into.is_empty() && get_option<bool>( "ZOMBIFY_INTO_ENABLED" ) ) {
@@ -913,12 +909,24 @@ int item::damage_level( bool precise ) const
     return precise ? damage_ : type->damage_level( damage_ );
 }
 
-float item::damage_adjusted_melee_weapon_damage( float value ) const
+float item::damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const
 {
     if( type->count_by_charges() ) {
         return value; // count by charges items don't have partial damage
     }
-    return value * ( 1.0f - 0.1f * std::max( 0, damage_level() - 1 ) );
+
+    for( fault_id fault : faults ) {
+        for( const std::tuple<int, float, damage_type_id> &damage_mod : fault.obj().melee_damage_mod() ) {
+            const damage_type_id dmg_type_of_fault = std::get<2>( damage_mod );
+            if( dt == dmg_type_of_fault ) {
+                const int damage_added = std::get<0>( damage_mod );
+                const float damage_mult = std::get<1>( damage_mod );
+                value = ( value + damage_added ) * damage_mult;
+            }
+        }
+    }
+
+    return std::max( 0.0f, value * ( 1.0f - 0.1f * std::max( 0, damage_level() - 1 ) ) );
 }
 
 float item::damage_adjusted_gun_damage( float value ) const
@@ -929,12 +937,24 @@ float item::damage_adjusted_gun_damage( float value ) const
     return value - 2 * std::max( 0, damage_level() - 1 );
 }
 
-float item::damage_adjusted_armor_resist( float value ) const
+float item::damage_adjusted_armor_resist( float value, const damage_type_id &dmg_type ) const
 {
     if( type->count_by_charges() ) {
         return value; // count by charges items don't have partial damage
     }
-    return value * ( 1.0f - std::max( 0, damage_level() - 1 ) * 0.125f );
+
+    for( fault_id fault : faults ) {
+        for( const std::tuple<int, float, damage_type_id> &damage_mod : fault.obj().armor_mod() ) {
+            const damage_type_id dmg_type_of_fault = std::get<2>( damage_mod );
+            if( dmg_type == dmg_type_of_fault ) {
+                const int damage_added = std::get<0>( damage_mod );
+                const float damage_mult = std::get<1>( damage_mod );
+                value = ( value + damage_added ) * damage_mult;
+            }
+        }
+    }
+
+    return std::max( 0.0f, value * ( 1.0f - std::max( 0, damage_level() - 1 ) * 0.125f ) );
 }
 
 void item::set_damage( int qty )
@@ -1610,7 +1630,7 @@ bool _stacks_ethereal( item const &lhs, item const &rhs )
 {
     static const std::string varname( "ethereal" );
     return ( !lhs.ethereal && !rhs.ethereal ) ||
-           ( lhs. ethereal && rhs.ethereal && lhs.get_var( varname ) == rhs.get_var( varname ) );
+           ( lhs. ethereal && rhs.ethereal && lhs.get_var( varname, 0 ) == rhs.get_var( varname, 0 ) );
 }
 
 bool _stacks_ups( item const &lhs, item const &rhs )
@@ -1722,6 +1742,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, bits[tname::segments::TAGS] );
 
     bits.set( tname::segments::FAULTS, faults == rhs.faults );
+    bits.set( tname::segments::FAULTS_SUFFIX, faults == rhs.faults );
     bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
     bits.set( tname::segments::OVERHEAT, overheat_symbol() == rhs.overheat_symbol() );
     bits.set( tname::segments::DIRT, get_var( "dirt", 0 ) == rhs.get_var( "dirt", 0 ) );
@@ -1843,131 +1864,51 @@ void item::force_insert_item( const item &it, pocket_type pk_type )
     on_contents_changed();
 }
 
-void item::set_var( const std::string &name, const int value )
+void item::set_var( const std::string &key, diag_value value )
 {
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
+    item_vars[ key ] = std::move( value );
 }
 
-void item::set_var( const std::string &name, const long long value )
+double item::get_var( const std::string &key, double default_value ) const
 {
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
-}
-
-// NOLINTNEXTLINE(cata-no-long)
-void item::set_var( const std::string &name, const long value )
-{
-    std::ostringstream tmpstream;
-    tmpstream.imbue( std::locale::classic() );
-    tmpstream << value;
-    item_vars[name] = tmpstream.str();
-}
-
-void item::set_var( const std::string &name, const double value )
-{
-    item_vars[name] = string_format( "%f", value );
-}
-
-double item::get_var( const std::string &name, const double default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    const std::string &val = it->second;
-    char *end;
-    errno = 0;
-    double result = strtod( val.data(), &end );
-    if( errno != 0 ) {
-        debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
-                  val, strerror( errno ) );
-        return default_value;
-    }
-    if( end != val.data() + val.size() ) {
-        if( *end == ',' ) {
-            // likely legacy format with localized ',' for fraction separator instead of '.'
-            std::string converted_val = val;
-            converted_val[end - val.data()] = '.';
-            errno = 0;
-            double result = strtod( converted_val.data(), &end );
-            if( errno != 0 ) {
-                debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
-                          val, strerror( errno ) );
-                return default_value;
-            }
-            if( end != converted_val.data() + converted_val.size() ) {
-                debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
-            }
-            return result;
-        }
-        debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
-    }
-    return result;
-}
-
-void item::set_var( const std::string &name, const tripoint_abs_ms &value )
-{
-    item_vars[name] = value.to_string();
-}
-
-tripoint_abs_ms item::get_var( const std::string &name,
-                               const tripoint_abs_ms &default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->dbl();
     }
 
-    // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
-    // first is produced by tripoint::to_string, second was old custom format
-    if( it->second[0] == '(' ) {
-        return tripoint_abs_ms{tripoint::from_string( it->second )};
+    return default_value;
+}
+
+std::string item::get_var( const std::string &key, std::string default_value ) const
+{
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->str();
     }
 
-    std::vector<std::string> values = string_split( it->second, ',' );
-    cata_assert( values.size() == 3 );
-    auto convert_or_error = []( const std::string_view s ) {
-        ret_val<int> result = try_parse_integer<int>( s, false );
-        if( result.success() ) {
-            return result.value();
-        } else {
-            debugmsg( "Error parsing tripoint coordinate in item::get_var: %s", result.str() );
-            return 0;
-        }
-    };
-    return tripoint_abs_ms( convert_or_error( values[0] ),
-                            convert_or_error( values[1] ),
-                            convert_or_error( values[2] ) );
+    return default_value;
 }
 
-void item::set_var( const std::string &name, const std::string &value )
+tripoint_abs_ms item::get_var( const std::string &key, tripoint_abs_ms default_value ) const
 {
-    item_vars[name] = value;
-}
-
-std::string item::get_var( const std::string &name, const std::string &default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
+    if( diag_value const *ret = maybe_get_value( key ); ret ) {
+        return ret->tripoint();
     }
-    return it->second;
+
+    return default_value;
 }
 
-std::string item::get_var( const std::string &name ) const
+void item::remove_var( const std::string &key )
 {
-    return get_var( name, "" );
+    item_vars.erase( key );
 }
 
-std::optional<std::string> item::maybe_get_var( const std::string &name ) const
+diag_value const &item::get_value( const std::string &name ) const
 {
-    const auto it = item_vars.find( name );
-    return it == item_vars.end() ? std::nullopt : std::optional<std::string> { it->second };
+    return global_variables::_common_get_value( name, item_vars );
+}
+
+diag_value const *item::maybe_get_value( const std::string &name ) const
+{
+    return global_variables::_common_maybe_get_value( name, item_vars );
 }
 
 bool item::has_var( const std::string &name ) const
@@ -2473,7 +2414,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
-        const std::map<std::string, std::string>::const_iterator idescription =
+        global_variables::impl_t::const_iterator const idescription =
             item_vars.find( "description" );
         const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
@@ -2494,7 +2435,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 get_avatar().add_snippet( snip_id );
             }
         } else if( idescription != item_vars.end() ) {
-            info.emplace_back( "DESCRIPTION", idescription->second );
+            info.emplace_back( "DESCRIPTION", idescription->second.str() );
         } else if( has_itype_variant() ) {
             info.emplace_back( "DESCRIPTION", variant_description() );
         } else {
@@ -2611,7 +2552,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( auto const &imap : item_vars ) {
                 info.emplace_back( "BASE",
                                    string_format( _( "item var: %s, %s" ), imap.first,
-                                                  imap.second ) );
+                                                  imap.second.to_string() ) );
             }
 
             info.emplace_back( "BASE", _( "wetness: " ),
@@ -2652,6 +2593,18 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    iteminfo::lower_is_better | iteminfo::is_decimal,
                                    units::to_kelvin( get_freeze_point() ) );
             }
+
+            std::string faults;
+            for( const weighted_object<int, fault_id> &fault : type->faults ) {
+                const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
+                if( has_fault( fault.obj ) ) {
+                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight,
+                                        weight_percent ), c_yellow );
+                } else {
+                    faults += fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight, weight_percent );
+                }
+            }
+            info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
         }
     }
 }
@@ -2711,7 +2664,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     nutrients max_nutr;
 
     Character &player_character = get_player_character();
-    std::string recipe_exemplar = get_var( "recipe_exemplar", "" );
+    std::string recipe_exemplar = get_var( "recipe_exemplar", std::string{} );
     if( recipe_exemplar.empty() ) {
         min_nutr = max_nutr = player_character.compute_effective_nutrients( *food_item );
     } else {
@@ -6102,27 +6055,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
+    auto const item_note = item_vars.find( "item_note" );
 
     if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
         insert_separation_line( info );
         std::string ntext;
-        std::map<std::string, std::string>::const_iterator item_note_tool =
-            item_vars.find( "item_note_tool" );
+        auto const item_note_tool = item_vars.find( "item_note_tool" );
         const use_function *use_func =
             item_note_tool != item_vars.end() ?
             item_controller->find_template(
-                itype_id( item_note_tool->second ) )->get_use( "inscribe" ) :
+                itype_id( item_note_tool->second.str() ) )->get_use( "inscribe" ) :
             nullptr;
         const inscribe_actor *use_actor =
             use_func ? dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
         if( use_actor ) {
             //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
             ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
-                                   use_actor->gerund, tname(), item_note->second );
+                                   use_actor->gerund, tname(), item_note->second.str() );
         } else {
             //~ %1$s: inscription text
-            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
+            ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second.str() );
         }
         info.emplace_back( "DESCRIPTION", ntext );
     }
@@ -6190,7 +6142,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string_view install_where,
+                                     std::string_view install_where,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
             std::vector<std::string> result_parts;
@@ -6919,7 +6871,7 @@ std::string item::overheat_symbol() const
         modifier += mod->type->gunmod->overheat_threshold_modifier;
         multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
     }
-    if( faults.count( fault_overheat_safety ) ) {
+    if( has_fault( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
@@ -7276,11 +7228,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     units::mass ret;
     double ret_mul = 1.0;
-    std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
-    if( local_str_mass.empty() ) {
+    diag_value const &local_mass = get_value( integral ? "integral_weight" : "weight" );
+    if( local_mass.is_empty() ) {
         ret = integral ? type->integral_weight : type->weight;
     } else {
-        ret = units::from_milligram( std::stoll( local_str_mass ) );
+        ret = units::from_milligram( local_mass.dbl() );
     }
 
     if( has_flag( flag_REDUCED_WEIGHT ) ) {
@@ -7632,10 +7584,10 @@ int item::damage_melee( const damage_type_id &dt ) const
 
     // effectiveness is reduced by 10% per damage level
     int res = 0;
-    if( type->melee.count( dt ) > 0 ) {
-        res = type->melee.at( dt );
+    if( type->melee.damage_map.count( dt ) > 0 ) {
+        res = type->melee.damage_map.at( dt );
     }
-    res = damage_adjusted_melee_weapon_damage( res );
+    res = damage_adjusted_melee_weapon_damage( res, dt );
 
     // apply type specific flags
     // FIXME: Hardcoded damage types
@@ -7746,6 +7698,16 @@ bool item::has_fault( const fault_id &fault ) const
     return faults.count( fault );
 }
 
+bool item::has_fault_of_type( const std::string &fault_type ) const
+{
+    for( const fault_id &f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::has_fault_flag( const std::string &searched_flag ) const
 {
     for( const fault_id &fault : faults ) {
@@ -7815,10 +7777,43 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-item &item::set_fault( const fault_id &fault_id )
+void item::set_fault( const fault_id &fault_id, bool force )
 {
+    if( !force && type->faults.get_specific_weight( fault_id ) == 0 ) {
+        return;
+    }
+
     faults.insert( fault_id );
-    return *this;
+}
+
+void item::set_random_fault_of_type( const std::string &fault_type, bool force )
+{
+    if( force ) {
+        set_fault( random_entry( faults::all_of_type( fault_type ) ), true );
+        return;
+    }
+
+    weighted_int_list<fault_id> faults_by_type;
+    for( const weighted_object<int, fault_id> &f : type->faults ) {
+        faults_by_type.add( f.obj, f.weight );
+    }
+
+    faults.insert( *faults_by_type.pick() );
+}
+
+void item::remove_fault( const fault_id &fault_id )
+{
+    faults.erase( fault_id );
+}
+
+void item::remove_single_fault_of_type( const std::string &fault_type )
+{
+    for( const fault_id f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            faults.erase( f );
+            return;
+        }
+    }
 }
 
 item &item::unset_flag( const flag_id &flag )
@@ -8949,11 +8944,6 @@ units::ememory item::remaining_ememory() const
     return total_ememory() - occupied_ememory();
 }
 
-bool item::is_efile( const item_location &loc )
-{
-    return loc.parent_item() && loc.parent_item()->is_estorage();
-}
-
 item *item::get_recipe_catalog()
 {
     const std::function<bool( const item &i )> filter = []( const item & i ) {
@@ -9140,7 +9130,7 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
     float resist = 0.0f;
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
-    const float damage_scale = damage_adjusted_armor_resist( 1.0f );
+    const float damage_scale = damage_adjusted_armor_resist( 1.0f, dmg_type );
 
     if( !bp_null ) {
         // If we have armour portion materials for this body part, use that instead
@@ -9384,6 +9374,7 @@ bool item::mod_damage( int qty )
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
+
         return destroy;
     }
 }
@@ -10326,27 +10317,18 @@ int item::wind_resist() const
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
-    res.insert( type->faults.begin(), type->faults.end() );
-    return res;
-}
-
-bool item::can_have_fault_type( const std::string &fault_type ) const
-{
-    std::set<fault_id> res;
-    for( const auto &some_fault : type->faults ) {
-        if( some_fault->type() == fault_type ) {
-            return true;
-        }
+    for( const weighted_object<int, fault_id> &fault_pair : type->faults ) {
+        res.insert( fault_pair.obj );
     }
-    return false;
+    return res;
 }
 
 std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
 {
     std::set<fault_id> res;
-    for( const auto &some_fault : type->faults ) {
-        if( some_fault->type() == fault_type ) {
-            res.emplace( some_fault );
+    for( const weighted_object<int, fault_id> &some_fault : type->faults ) {
+        if( some_fault.obj->type() == fault_type ) {
+            res.emplace( some_fault.obj );
         }
     }
     return res;
@@ -11365,6 +11347,22 @@ bool item::uses_energy() const
     return has_flag( flag_USES_BIONIC_POWER ) ||
            has_flag( flag_USE_UPS ) ||
            ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
+}
+
+bool item::is_chargeable() const
+{
+    if( !uses_energy() ) {
+        return false;
+    }
+    // bionic power using items have ammo_capacity = player bionic power storage.  Since the items themselves aren't chargeable, auto fail unless they also have a magazine.
+    if( has_flag( flag_USES_BIONIC_POWER ) && !magazine_current() ) {
+        return false;
+    }
+    if( ammo_remaining() < ammo_capacity( ammo_battery ) ) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 units::energy item::energy_remaining( const Character *carrier ) const
@@ -13302,18 +13300,19 @@ bool item::already_used_by_player( const Character &p ) const
     // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
     // id has been added.
     const std::string needle = string_format( ";%d;", p.getID().get_value() );
-    return it->second.find( needle ) != std::string::npos;
+    return it->second.str().find( needle ) != std::string::npos;
 }
 
 void item::mark_as_used_by_player( const Character &p )
 {
-    std::string &used_by_ids = item_vars[ USED_BY_IDS ];
+    std::string used_by_ids = get_value( USED_BY_IDS ).str();
     if( used_by_ids.empty() ) {
         // *always* start with a ';'
         used_by_ids = ";";
     }
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID().get_value() );
+    set_var( USED_BY_IDS, used_by_ids );
 }
 
 bool item::can_holster( const item &obj ) const
@@ -13435,7 +13434,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             temp = std::max( temp, temperatures::normal );
             break;
         case temperature_flag::ROOT_CELLAR:
-            temp = AVERAGE_ANNUAL_TEMPERATURE;
+            temp = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             break;
         default:
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
@@ -13488,7 +13487,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             if( pos.z() >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
                 env_temperature = wgen.get_weather_temperature( get_map().get_abs( pos ), time, seed );
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                env_temperature = units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
             }
             env_temperature += temp_mod;
 
@@ -13506,7 +13505,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
                     env_temperature = std::max( env_temperature, temperatures::normal );
                     break;
                 case temperature_flag::ROOT_CELLAR:
-                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                    env_temperature =  units::from_celsius( get_weather().get_cur_weather_gen().base_temperature );
                     break;
                 default:
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
@@ -14781,8 +14780,8 @@ bool item::process_gun_cooling( Character *carrier )
                                  overheat_modifier, 5.0 );
     heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
-    if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
-        faults.erase( fault_overheat_safety );
+    if( has_fault( fault_overheat_safety ) && heat < threshold * 0.2 ) {
+        remove_fault( fault_overheat_safety );
         if( carrier ) {
             carrier->add_msg_if_player( m_good, _( "Your %s beeps as its cooling cycle concludes." ), tname() );
         }
@@ -14840,11 +14839,13 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                              float insulation, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     if( ethereal ) {
-        if( !has_var( "ethereal" ) ) {
+        diag_value const &eth = get_value( "ethereal" );
+        if( eth.is_empty() ) {
             return true;
         }
-        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
-        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        double const set = eth.dbl() - 1;
+        set_var( "ethereal", set );
+        const bool processed = set <= 0;
         if( processed && carrier != nullptr ) {
             carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
         }
@@ -14872,9 +14873,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_fault( faults::random_of_type( "wet" ) );
+            set_random_fault_of_type( "wet", true );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_fault( faults::random_of_type( "shorted" ) );
+                set_random_fault_of_type( "shorted", true );
             }
         }
 
@@ -14974,16 +14975,16 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( get_var( "gun_heat", 0 ) > 0 ) {
             return process_gun_cooling( carrier );
         }
-        if( faults.count( fault_emp_reboot ) ) {
+        if( has_fault( fault_emp_reboot ) ) {
             if( one_in( 60 ) ) {
                 if( !one_in( 20 ) ) {
-                    faults.erase( fault_emp_reboot );
+                    remove_fault( fault_emp_reboot );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_good, _( "Your %s reboots successfully." ), tname() );
                     }
                 } else {
-                    faults.erase( fault_emp_reboot );
-                    set_fault( faults::random_of_type( "shorted" ) );
+                    remove_fault( fault_emp_reboot );
+                    set_random_fault_of_type( "shorted", true );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
                     }
@@ -15277,7 +15278,7 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
                                   corpse->nname() );
         }
     } else if( iter != item_vars.end() ) {
-        return iter->second;
+        return iter->second.str();
     } else if( use_variant && has_itype_variant() ) {
         ret_name = itype_variant().alt_name.translated( quantity );
     } else {

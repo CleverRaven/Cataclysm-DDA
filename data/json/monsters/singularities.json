@@ -94,7 +94,6 @@
       "ALWAYS_SEES_YOU",
       "HAS_MIND",
       "NIGHT_INVISIBILITY",
-      "CAMOUFLAGE",
       "NO_FUNG_DMG",
       "FILTHY",
       "STUN_IMMUNE",
@@ -332,20 +331,27 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
-    "recurrence": [ "15 minutes", "9 hours" ],
-    "global": true,
-    "run_for_npcs": false,
-    "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
-    "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS_SHOULD_SPAWN",
+    "condition": { "one_in_chance": 6 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS_CAN_SPAWN",
     "condition": {
       "and": [
-        { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
         { "math": [ "Lieutenants_active > 0" ] },
         { "math": [ "Shadow_Lurking > 0" ] },
-        { "math": [ "Shadow_Warnings >= 1" ] },
+        { "math": [ "Shadow_Warnings >= 1" ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS_VALID_LOCATION",
+    "condition": {
+      "and": [
         "u_is_outside",
         {
           "or": [
@@ -356,14 +362,46 @@
           ]
         }
       ]
-    },
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHADOW_SPAWN_CONDITIONS",
+    "//1": "Night time, shadow is active, you are outdoors *and awake*, and you are not likely to be near shelter.",
+    "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_SHOULD_SPAWN" },
+        { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_CAN_SPAWN" },
+        { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS_VALID_LOCATION" }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "recurrence": [ "15 minutes", "9 hours" ],
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_PREP" ] } ],
+    "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_PREP",
+    "//COMMENT": "The purpose of this prep stage is to allow our in-repo mods to selectively hook into the spawn logic without overriding critical parts of the EOC chain. For example Mind over Matter delays the spawn for clairsentients, implementing a 'premonition' of the incoming danger. Here in vanilla we just spawn it, right now.",
+    "effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_NOW" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_NOW",
     "effect": [
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
       { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
-    ],
-    "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN" ] } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -446,7 +484,7 @@
     "//1": "Lots of friends nearby, or in base camp, or safely indoors, or the sun has risen, or you've run far enough away from where it spawned (7.5 OMTs).",
     "condition": {
       "and": [
-        { "not": { "compare_string": [ "", { "global_val": "shadow_encounter_XYZ_pos" } ] } },
+        { "math": [ "has_var(shadow_encounter_XYZ_pos)" ] },
         {
           "or": [
             { "npc_allies": 3 },

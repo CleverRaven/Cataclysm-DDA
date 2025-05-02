@@ -7,7 +7,7 @@
     "name": { "str": "black rat" },
     "description": "The black rat, an omnivorous rodent with sheer black fur and a long, rough tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm over the dead or dying.",
     "default_faction": "ratkin",
-    "upgrades": { "half_life": 15, "into": "mon_big_rat" }
+    "upgrades": { "half_life": 60, "into": "mon_big_rat" }
   },
   {
     "id": "mon_lab_ratkin",
@@ -16,7 +16,7 @@
     "//": "Duplicate rats created to prevent all rats from evolving into mutant rats, any monster ending in ratkin should only appear in places where mutant rats can evolve.",
     "description": "The albino Norway rat, an omnivorous rodent with sleek white fur and a long, rough tail.  While its ancestors were harbingers of plague, these clever animals are omnipresent in modern biomedical research.",
     "default_faction": "ratkin",
-    "upgrades": { "half_life": 15, "into": "mon_big_rat" },
+    "upgrades": { "half_life": 60, "into": "mon_big_rat" },
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "volume": "320 ml",
@@ -83,7 +83,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 50, "avoid_sharp": true },
-    "upgrades": { "half_life": 30, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_RATKIN_EVOLVED" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "regen_morale": true,

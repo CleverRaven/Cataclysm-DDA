@@ -725,6 +725,19 @@
     ]
   },
   {
+    "id": "clothing_chainsaw_protection",
+    "type": "item_group",
+    "//": "Protective equipment often worn in professions that make use of chainsaws and other sawing tools.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_cut_resistant", "prob": 70 },
+      { "item": "armguard_cut_resistant", "prob": 60 },
+      { "item": "chaps_cut_resistant", "prob": 50 },
+      { "item": "apron_cut_resistant", "prob": 45 },
+      { "item": "balaclava_cut_resistant", "prob": 10 }
+    ]
+  },
+  {
     "id": "hardware_clothing",
     "type": "item_group",
     "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
@@ -752,6 +765,7 @@
       [ "gloves_cut_resistant", 10 ],
       [ "chaps_cut_resistant", 5 ],
       [ "armguard_cut_resistant", 5 ],
+      [ "balaclava_cut_resistant", 2 ],
       [ "apron_leather", 10 ],
       [ "tool_belt", 30 ],
       [ "knee_pads", 20 ],
@@ -2908,6 +2922,7 @@
       { "group": "army_helmet_nvg", "prob": 1 },
       [ "helmet_army", 40 ],
       [ "helmet_liner", 10 ],
+      [ "mask_bal", 5 ],
       [ "beret", 50 ],
       [ "beret_wool", 40 ],
       [ "elbow_pads", 50 ],
@@ -4055,6 +4070,62 @@
           { "item": "backpack_denim", "prob": 5 },
           { "item": "backpack_hiking", "prob": 25 },
           { "item": "duffelbag", "prob": 80 },
+          { "item": "travelpack", "prob": 25 },
+          { "item": "gobag", "prob": 1 }
+        ],
+        "prob": 80
+      }
+    ]
+  },
+  {
+    "id": "bags_unisex_small",
+    "type": "item_group",
+    "//": "worn bags of all sorts for domestic buildings",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [ { "item": "2lcanteen", "prob": 50 }, { "item": "camelbak", "prob": 25 }, { "item": "canteen", "prob": 70 } ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          { "item": "fanny", "prob": 60 },
+          { "item": "mbag", "prob": 35 },
+          { "item": "runner_bag", "prob": 45 },
+          { "item": "slingpack", "prob": 65 },
+          { "item": "purse", "prob": 70 },
+          { "item": "leg_bag", "prob": 1 },
+          { "item": "leg_small_bag", "prob": 1 },
+          { "item": "armrig", "prob": 1 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "case_violin", "prob": 5 },
+          { "item": "bookstrap", "prob": 5 },
+          { "item": "camera_bag", "prob": 20 },
+          { "item": "quiver_takedown_bow", "prob": 2 },
+          { "item": "nylon_quiver", "prob": 12 },
+          { "item": "quiver", "prob": 8 },
+          { "item": "quiver_large", "prob": 15 },
+          { "item": "solarpack", "prob": 5 },
+          { "item": "ammo_satchel", "prob": 10 },
+          { "item": "ammo_pouch", "prob": 10 },
+          { "item": "chestrig", "prob": 20 },
+          { "item": "chestrig", "variant": "flag_chestrig", "prob": 2 },
+          { "item": "dive_bag", "prob": 25 },
+          { "item": "dry_bag", "prob": 25 },
+          { "item": "chestrig", "variant": "flag_chestrig", "prob": 70, "event": "independence_day" }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "item": "daypack", "prob": 25 },
+          { "item": "backpack_leather", "prob": 40 },
+          { "item": "backpack", "prob": 85 },
+          { "item": "backpack_denim", "prob": 5 },
           { "item": "travelpack", "prob": 25 },
           { "item": "gobag", "prob": 1 }
         ],

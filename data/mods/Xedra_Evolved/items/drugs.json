@@ -1,7 +1,8 @@
 [
   {
     "id": "faewild",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "faewild dust" },
     "description": "A shimmering silvery dust.  Narcotic with the street name of Faewild.  Causes the user to see colors not normally visible to the naked human eye.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "lotus_blossom",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "lotus blossom" },
     "description": "A drug that became popular over the last few years before the Cataclysm.  It appears to be exactly as its street name, a dark purple lotus blossom.  It's known to be a strong painkiller while also causing vivid hallucinations.",
@@ -50,7 +52,8 @@
   },
   {
     "id": "wyld_candy",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "wyld candy", "str_pl": "wyld candies" },
     "description": "Mixed candies purporting to come from 'Fair Folk Industries' these candies appear in areas of the country thought to have significant crossover events.  It remains unknown whether these candies are produced by a company from here taking advantage of a thin place or if they came from somewhere else.",
@@ -66,7 +69,8 @@
   },
   {
     "id": "blood_treatment",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "questionable blood treatment" },
     "description": "This homemade blood treatment purports to reduce the cravings brought on by vampirism and if applied often and early to even reverse some stages of the disease.  But vampires surely can't be real, can they?",
@@ -86,7 +90,8 @@
   },
   {
     "id": "cthonic_poultice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": "cthonic poultice",
     "description": "A poultice made from the elements of the earth.  You could use it to heal your wounds, if you were made of stone.",
@@ -101,7 +106,8 @@
   },
   {
     "id": "verdant_poultice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": "verdant poultice",
     "description": "A poultice made from plant life.  You could use it to heal your wounds, if you were grown from plants.",
@@ -116,7 +122,8 @@
   },
   {
     "id": "cerulean_poultice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": "cerulean poultice",
     "description": "A poultice made from the elements of the sea.  You could use it to heal your wounds, if you were liquid as well.",
@@ -131,7 +138,8 @@
   },
   {
     "id": "charred_sacrifice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "charred sacrifice" },
     "description": "A devotion to the powers of fire.  You could use it to heal your wounds, if you were born of the flames.",
@@ -146,7 +154,8 @@
   },
   {
     "id": "doll_repair_paste",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "doll repair paste" },
     "description": "A paste made from paint and glue.  You could use it to heal your wounds, if you were made in man's image.",
@@ -161,7 +170,8 @@
   },
   {
     "id": "ethereal_draught",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "ethereal draught" },
     "description": "A concoction made from honey and bread.  You could use it to heal your wounds, if you were born of air and darkness.",
@@ -179,7 +189,8 @@
     "name": { "str": "elemental mana draught" },
     "description": { "str": "Converting", "//~": "NO_I18N" },
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "weight": "265 g",
     "quench": 1,
     "calories": 0,
@@ -194,5 +205,50 @@
     "phase": "liquid",
     "price": "25 USD",
     "freezing_point": 4
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "DRINK",
+    "category": "drug",
+    "id": "anathema_blood_catalyst_unready",
+    "looks_like": "vampire_blood",
+    "name": { "str_sp": "churning vampire blood mixture" },
+    "description": "Vampire blood mixed with blood none would consume and different toxic substances.  The hostile environment is already driving the vampire blood to devour itself.  It will be ready to consume in a few days.",
+    "material": [ "vampire_blood" ],
+    "phase": "liquid",
+    "charges": 1,
+    "weight": "6360 g",
+    "color": "red",
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ],
+    "symbol": "~",
+    "price": "0 cent",
+    "volume": "6000 ml",
+    "use_action": {
+      "target": "anathema_blood_catalyst",
+      "msg": "The vampire blood has completely devoured itself, leaving a small dose of very potent vampire blood behind.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The vampire blood is still devouring itself."
+    }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "DRINK",
+    "category": "drug",
+    "id": "anathema_blood_catalyst",
+    "looks_like": "vampire_blood",
+    "name": { "str_sp": "blood of the Anathema" },
+    "description": "Vampire blood that been forced to gain the ability to devour vampire blood to survive.  Consuming it will allow you to devour vampire blood to gain power, like that vampire did before you caused their end.",
+    "material": [ "vampire_blood" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "265 g",
+    "color": "red",
+    "symbol": "~",
+    "price_postapoc": "0 cent",
+    "volume": "250 ml",
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_BLOOD_ANATHEMA" ]
   }
 ]

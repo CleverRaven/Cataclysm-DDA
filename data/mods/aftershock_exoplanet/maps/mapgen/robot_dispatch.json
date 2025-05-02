@@ -1,0 +1,135 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "robot_dispatch_first",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "    /    c/             ",
+        "    //¡¡¡//             ",
+        "    |....c|¡|¡|¡|¡|¡|   ",
+        "  |||||!|||.|z|.|.|z|   ",
+        "  ¡z)''''1|)|)|)|)|)||  ",
+        "  |||.3..||'.,.'.'.'6|  ",
+        "  ¡z).....]'3,3'3'3'6|  ",
+        "  |||.3..||'.,.'.'.'||  ",
+        "  ¡z)''''1|1|1|1|1|1|   ",
+        "  |||.3..|||||||||||||| ",
+        "  ¡z)''''1|....''....|| ",
+        "  |||.3..||¡||)55)||¡|| ",
+        "  ¡.)''''1|...))))...|| ",
+        "  |||.3..||.c..''..c.|| ",
+        "  ¡z)''''1||..|¡¡|..||| ",
+        "  ||||||]||EE||''||EE|| ",
+        "  c|c|LL..||||2¡¡|||||| ",
+        "   ¡'!..'.!....''.!<<|  ",
+        "  ||=||...|qqyy...|<<|  ",
+        "      ||||||||||||||||  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing", "afs_light_param_palette" ],
+      "terrain": { "2": "t_afs_industrial_card_reader", "¡": "t_door_metal_locked" },
+      "furniture": {
+        "1": "f_drone_recharge_station",
+        "3": "f_robotic_arm",
+        "4": "f_habitat_storage_board",
+        "5": [ [ "f_drone_ai_core_broken", 20 ], [ "f_drone_ai_core", 1 ] ],
+        "6": "f_ancient_processor"
+      },
+      "monsters": { "z": { "monster": "GROUP_UTILIBOT" } },
+      "items": { "1": { "item": "old_industrial_bot_storage", "chance": 20 } },
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "robot_dispatch_second",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "    .......             ",
+        "    .......             ",
+        "    ......|.........|   ",
+        "  ........|.........|   ",
+        "  ..ppppp.|)|)|)|)|)||  ",
+        "  ........|cc1c1c141E|  ",
+        "  ..ppppp.|c.h.h....E|  ",
+        "  ........|....'....||  ",
+        "  |.......|E|E...E|E|   ",
+        "  |||===||||||.'.|||||| ",
+        "  |~:.'.:~|..|...#WOA|| ",
+        "  |||@.@||||||)¡¡3||#|| ",
+        "  |4y....5|22|...|222|| ",
+        "  |4y.'..5|'.].'.]..'|| ",
+        "  |Ñññ...6|'.]...]..'|| ",
+        "  ||||||]||22|...|222|| ",
+        "  ....|6.6||||...|||||| ",
+        "  .p.p=.'.!....'..!>>|  ",
+        "  .p.p=...|qqyy..Ñ|>>|  ",
+        "      ||||||||||||||||  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing", "afs_light_param_palette" ],
+      "terrain": { " ": "t_open_air", "¡": "t_door_metal_locked", "3": "t_afs_industrial_card_reader" },
+      "furniture": {
+        "1": "f_command_console_old",
+        "2": "f_ancient_processor",
+        "4": "f_metal_table",
+        "5": "f_screenmirror",
+        "6": "f_habitat_storage_board",
+        "ñ": "f_habitat_storage_board",
+        "Ñ": "f_habitat_kitchenette"
+      },
+      "items": {
+        "ñ": { "item": "afs_old_food_storage", "chance": 80 },
+        "Ñ": { "item": "afs_kitchenette" },
+        "6": { "item": "afs_colonist_outfit", "chance": 20 }
+      },
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "robot_dispatch_roof",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ............  ",
+        "          ............  ",
+        "          ............  ",
+        "          ............  ",
+        "          ...........   ",
+        "  ..................... ",
+        "  ..................... ",
+        "  ..................... ",
+        "  ..................... ",
+        "  ..................... ",
+        "  ..................... ",
+        "  ..................... ",
+        "      ................. ",
+        "      ................  ",
+        "      ................  ",
+        "      ................  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { " ": "t_open_air" }
+    }
+  }
+]

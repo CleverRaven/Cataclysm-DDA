@@ -164,11 +164,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         inv_s.add_contained_items( container );
     } else {
         // Default behavior.
-        inv_s.add_character_items( u );
-        inv_s.add_nearby_items( radius );
-        if( add_ebooks ) {
-            inv_s.add_character_ebooks( u );
-        }
+        inv_s.add_character_items( u, add_ebooks );
+        inv_s.add_nearby_items( radius, add_ebooks );
     }
 
     if( u.has_activity( consuming ) ) {
@@ -1479,11 +1476,12 @@ class read_inventory_preset: public pickup_inventory_preset
 
         std::string get_denial( const item_location &loc ) const override {
             std::vector<std::string> denials;
-            if( you.get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
-                !loc->type->can_use( "learn_spell" ) ) {
+            if( ( you.get_book_reader( *loc, denials ) == nullptr &&
+                  !denials.empty() &&
+                  !loc->type->can_use( "learn_spell" ) ) ) {
                 return denials.front();
             }
-            return pickup_inventory_preset::get_denial( loc );
+            return pickup_inventory_preset::get_denial( loc.is_efile() ? loc.parent_item() : loc );
         }
 
         std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
@@ -1696,12 +1694,20 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
                                     //if browsing, no compatibility check
                                     ( action == EF_READ && fast_transfer ) || //if reading, only fast-compatible edevices
                                     compat != efile_activity_actor::edevice_compatible::ECOMPAT_NONE; //otherwise, any compatible edevice
+            bool is_not_forbidden = true;
+            for( const pocket_data &pocket : loc->type->pockets ) {
+                if( pocket.type == pocket_type::E_FILE_STORAGE && pocket.forbidden ) {
+                    is_not_forbidden = false;
+                }
+            }
+
             bool preset_bool = is_tool_has_charge &&
                                used_edevice_check &&
                                has_use_check &&
                                browsed_equal_check &&
                                compatible_check &&
-                               no_files_check;
+                               no_files_check &&
+                               is_not_forbidden;
             if( preset_bool ) {
                 add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "found edevice %s", loc->display_name() ) );
             }
@@ -1766,7 +1772,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
     bool wiping = action == EF_WIPE;
 
     const inventory_filter_preset preset( [&copying]( const item_location & loc ) {
-        return item::is_efile( loc ) && ( !copying || loc->is_ecopiable() );
+        return loc.is_efile() && ( !copying || loc->is_ecopiable() );
     } );
 
     const int available_charges = to_edevice->ammo_remaining( );

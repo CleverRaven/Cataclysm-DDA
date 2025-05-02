@@ -1,0 +1,103 @@
+[
+  {
+    "type": "recipe",
+    "result": "afs_foamcrete",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "45 m",
+    "book_learn": [ [ "recipe_unusual_ammos", 3 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "oxy_powder", 20 ] ],
+      [ [ "afs_biomaterial_1", 4 ] ],
+      [ [ "water", 4 ], [ "water_clean", 4 ] ],
+      [ [ "concrete", 10 ], [ "chitin_piece", 6 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "xray_laser_barrel",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "45 m",
+    "book_learn": [ [ "recipe_unusual_ammos", 3 ], [ "recipe_lab_elec", 8 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "HAMMER_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 50 ] ],
+    "components": [
+      [ [ "oxy_powder", 20 ] ],
+      [ [ "afs_material_2", 4 ] ],
+      [ [ "afs_material_3", 1 ] ],
+      [ [ "afs_energy_storage_2", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_nano",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "45 m",
+    "book_learn": [ [ "recipe_unusual_ammos", 3 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "NANO_FORGE", "level": 1 }, { "id": "HAMMER_FINE", "level": 1 } ],
+    "using": [ [ "nanosmithing_standard", 5 ] ],
+    "components": [ [ [ "afs_material_2", 4 ] ], [ [ "afs_material_3", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "rebar_rail",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "120 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "rebar", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "steel_rail",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "100 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "afs_reloaded_5x50dart",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_caseless", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_handloading" } ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
+    "components": [
+      [ [ "afs_5x50_hull", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 30 ], [ "gunpowder_magnum_pistol", 30 ] ],
+      [ [ "combatnail", 1 ] ]
+    ]
+  }
+]

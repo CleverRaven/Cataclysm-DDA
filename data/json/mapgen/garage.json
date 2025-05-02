@@ -368,7 +368,7 @@
       },
       "items": {
         "I": { "item": "office", "chance": 30 },
-        "i": { "item": "office_paper", "chance": 30 },
+        "i": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "S": { "item": "mechanics", "chance": 20 },
         "r": { "item": "mechanics", "chance": 20 },
         "C": { "item": "softdrugs", "chance": 20 }

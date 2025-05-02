@@ -1,7 +1,8 @@
 [
   {
     "id": "integrated_stegoskin",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "stego skin" },
     "description": "Thick, bulky and heavy.  This skin withstands punishment from even the biggest beasts.",

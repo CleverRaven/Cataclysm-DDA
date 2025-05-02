@@ -37,6 +37,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -293,7 +294,7 @@ struct queued_eoc {
     public:
         effect_on_condition_id eoc;
         time_point time;
-        std::unordered_map<std::string, std::string> context;
+        global_variables::impl_t context;
 };
 
 struct eoc_compare {
@@ -925,7 +926,9 @@ class Character : public Creature, public visitable
         stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
         int get_lift_str() const;
-        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
+        /** Takes off an item, returning false on fail. The taken off item is processed in the interact.
+         * Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
+         */
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
@@ -1400,6 +1403,10 @@ class Character : public Creature, public visitable
         bool has_flag( const json_character_flag &flag ) const override;
         /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
         int count_flag( const json_character_flag &flag ) const;
+        /** Whether the character feels significant empathy for the given species.  HUMAN is empathized with by default */
+        bool empathizes_with_species( const species_id &species ) const;
+        /** Whether the character feels significant empathy for the given monster.  HUMAN is empathized with by default */
+        bool empathizes_with_monster( const mtype_id &monster ) const;
 
     private:
         // Cache if character has a flag on their mutations. It is cleared whenever my_mutations is modified.
@@ -2109,7 +2116,7 @@ class Character : public Creature, public visitable
          * possible at all. `true` indicates at least some of the liquid has been moved.
          */
         /**@{*/
-        bool pour_into( item_location &container, item &liquid, bool ignore_settings );
+        bool pour_into( item_location &container, item &liquid, bool ignore_settings, bool silent );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
 
@@ -3413,8 +3420,6 @@ class Character : public Creature, public visitable
         int nutrition_for( const item &comest ) const;
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
-        /** Would this character be normally willing to consume human flesh? */
-        bool okay_with_eating_humans() const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.

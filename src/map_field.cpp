@@ -481,7 +481,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                     if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
                         on_field_modified( p, *pd.cur_fd_type );
                     }
-                    it++;
+                    ++it;
                     continue;
                 }
 
@@ -493,7 +493,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
                     on_field_modified( p, *pd.cur_fd_type );
                 }
-                it++;
+                ++it;
             }
         }
     }

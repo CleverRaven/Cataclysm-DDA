@@ -2,7 +2,8 @@
   {
     "abstract": "combat_exoskeleton_abstract",
     "category": "armor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "abstract combat exoskeleton", "//~": "NO_I18N" },
     "price": "60000 USD",
     "price_postapoc": "5000 USD",
@@ -23,7 +24,6 @@
       "COMBAT_TOGGLEABLE",
       "MODULE_HOLDER"
     ],
-    "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -151,17 +151,17 @@
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [ { "type": "rubber", "thickness": 6 } ]
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ]
   },
   {
     "id": "combat_exoskeleton_heavy",
     "copy-from": "combat_exoskeleton_abstract",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "combat exoskeleton mk1", "str_pl": "combat exoskeletons mk1" },
     "description": "Colloquially known as a 'tank suit' in the media, these first-generation exoskeletons were tested in military service a few years back and determined to be too expensive for regular use.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_heavy",
-    "ammo": "battery",
-    "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_heavy_active" } ] },
     "use_action": {
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.38…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
@@ -169,12 +169,15 @@
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "The exoskeleton batteries are empty."
-    }
+    },
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "combat_exoskeleton_heavy_active" } ]
   },
   {
     "id": "combat_exoskeleton_heavy_on",
     "copy-from": "combat_exoskeleton_heavy",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk1 (on)", "str_pl": "combat exoskeletons mk1 (on)" },
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
     "power_draw": "200 W",
@@ -262,12 +265,11 @@
   {
     "id": "combat_exoskeleton_medium",
     "copy-from": "combat_exoskeleton_abstract",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "combat exoskeleton mk2", "str_pl": "combat exoskeletons mk2" },
     "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_basic",
-    "ammo": "battery",
-    "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_medium_active" } ] },
     "use_action": {
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v2.86…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
@@ -275,12 +277,15 @@
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "The exoskeleton batteries are empty."
-    }
+    },
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "combat_exoskeleton_medium_active" } ]
   },
   {
     "id": "combat_exoskeleton_medium_on",
     "copy-from": "combat_exoskeleton_medium",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk2 (on)", "str_pl": "combat exoskeletons m2 (on)" },
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
     "power_draw": "175 W",
@@ -368,12 +373,11 @@
   {
     "id": "combat_exoskeleton_light",
     "copy-from": "combat_exoskeleton_abstract",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "combat exoskeleton mk3", "str_pl": "combat exoskeletons mk3" },
     "description": "The final iteration of military power armor before the fall of civilization, this version was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm, unfortunately, the world ended before it could roll out in significant numbers.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_light",
-    "ammo": "battery",
-    "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_light_active" } ] },
     "use_action": {
       "type": "transform",
       "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.51…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
@@ -381,12 +385,15 @@
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "The exoskeleton batteries are empty."
-    }
+    },
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "combat_exoskeleton_light_active" } ]
   },
   {
     "id": "combat_exoskeleton_light_on",
     "copy-from": "combat_exoskeleton_light",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "combat exoskeleton mk3 (on)", "str_pl": "combat exoskeletons mk3 (on)" },
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
     "power_draw": "150 W",
@@ -474,7 +481,8 @@
   {
     "id": "combat_exoskeleton_light_salvaged",
     "copy-from": "combat_exoskeleton_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "salvaged combat exoskeleton mk3" },
     "description": "This is supposed to be a combat exoskeleton of third generation but its environmental suit is severely damaged and the mechanical components are non functional.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_light",

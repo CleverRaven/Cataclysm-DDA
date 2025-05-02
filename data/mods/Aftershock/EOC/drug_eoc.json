@@ -22,7 +22,7 @@
       "and": [ { "u_has_effect": "afs_medigel_eff_trigger" }, { "compare_string": [ "disinfected", { "context_val": "effect" } ] } ]
     },
     "effect": [
-      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "heal_part" } },
+      { "copy_var": { "context_val": "bodypart" }, "target_var": { "u_val": "heal_part" } },
       { "u_add_effect": "afs_medigel_eff", "duration": "3 days", "target_part": { "u_val": "heal_part" } }
     ]
   },

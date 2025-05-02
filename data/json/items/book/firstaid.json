@@ -1,7 +1,8 @@
 [
   {
     "id": "emergency_book",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Guide to Advanced Emergency Care", "str_pl": "copies of Guide to Advanced Emergency Care" },
     "description": "A thick textbook for paramedics describing advanced lifesaving procedures and field-expedient care methods.",
@@ -12,18 +13,19 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "firstaid",
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "55 m",
-    "fun": -1,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "read_skill": "firstaid",
+    "read_fun": -1
   },
   {
     "id": "mag_firstaid",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Paramedics", "str_pl": "issues of Paramedics" },
     "description": "An educational magazine for EMTs.",
@@ -35,16 +37,17 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "firstaid",
     "max_level": 1,
     "intelligence": 6,
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "8 m",
-    "fun": 1
+    "read_skill": "firstaid",
+    "read_fun": 1
   },
   {
     "id": "manual_first_aid",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Big Book of First Aid", "str_pl": "copies of The Big Book of First Aid" },
     "description": "It's big and heavy, but full of great information about first aid.",
@@ -56,18 +59,19 @@
     "ascii_picture": "manual_first_aid",
     "symbol": "?",
     "color": "green",
-    "skill": "firstaid",
     "max_level": 3,
     "intelligence": 8,
     "proficiencies": [
       { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 },
       { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 }
     ],
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "firstaid"
   },
   {
     "id": "pocket_firstaid",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Pocket Guide to First Aid", "str_pl": "copies of Pocket Guide to First Aid" },
     "description": "This pocket-sized leather-bound guide to first aid combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
@@ -78,15 +82,16 @@
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "green",
-    "skill": "firstaid",
     "max_level": 2,
     "intelligence": 6,
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_factor": 0.75, "fail_factor": 0.5 } ],
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "firstaid"
   },
   {
     "id": "textbook_firstaid",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "First Responder Handbook", "str_pl": "copies of First Responder Handbook" },
     "//": "College-level textbooks are Cheap at $60.  Med book is likely more expensive.",
@@ -98,17 +103,18 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "firstaid",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "firstaid"
   },
   {
     "id": "booklet_firstaid",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "First Aid Kit Instruction Booklet", "str_pl": "copies of First Aid Kit Instruction Booklet" },
     "description": "Illustrated how-to guide for your first aid kit.",
@@ -120,14 +126,15 @@
     "symbol": "?",
     "looks_like": "pocket_firstaid",
     "color": "pink",
-    "skill": "firstaid",
     "max_level": 1,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "firstaid",
+    "read_fun": 1
   },
   {
     "id": "reference_firstaid1",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Physicians' Desk Reference", "str_pl": "copies of Physicians' Desk Reference" },
     "description": "This hefty volume contains all the legally mandated information relevant to physicians for writing prescriptions, generously supported by the efforts and contributions of major pharmaceutical companies.  For the most part, it provides information identical to what is available on that of medication packaging inserts, and cannot match the completeness of digital pharmaceutical references like MediSoft.  At least it doesn't need power to be used.",
@@ -141,12 +148,13 @@
     "color": "blue",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -2,
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "read_fun": -2
   },
   {
     "id": "reference_firstaid2",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Merck Veterinary Manual", "str_pl": "copies of Merck Veterinary Manual" },
     "description": "This expansive text covers 'all domestic species and diseases in veterinary medicine worldwide'.  Should you need information regarding zoonotic diseases, off-label use of medication for animals, common dysfunctions and diseases of animals, or any other veterinary reference info, this is your book.  There are some interesting new chapters on animal cloning in this edition.",
@@ -164,7 +172,8 @@
   },
   {
     "id": "textbook_toxicology",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Textbook of Advanced Toxicology", "str_pl": "copies of Textbook of Advanced Toxicology" },
     "description": "This unassuming volume details the broad spectrum of chemical and biological toxins known to modern medicine.  While the obvious focus of the book is the therapy of such poisonings, there are lengthy sections describing the structure and synthesis of some compounds of interest.",
@@ -176,11 +185,11 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "green",
-    "skill": "firstaid",
     "required_level": 5,
     "max_level": 6,
     "intelligence": 11,
     "time": "45 m",
-    "fun": -2
+    "read_skill": "firstaid",
+    "read_fun": -2
   }
 ]
