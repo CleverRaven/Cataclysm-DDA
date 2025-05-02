@@ -139,7 +139,7 @@
     "color": "cyan",
     "sided": true,
     "price": "500000 USD",
-    "price_postapoc": "5000 USD",
+    "price_postapoc": "50 USD",
     "material": [ { "type": "nether_crystal", "portion": 5 }, { "type": "plastic", "portion": 95 } ],
     "flags": [
       "WATCH",
