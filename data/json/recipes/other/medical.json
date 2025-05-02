@@ -471,7 +471,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "vitc_fragment" ,
+    "result": "vitc_fragment",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "id_suffix": "by hand",
