@@ -145,30 +145,6 @@
   },
   {
     "type": "technique",
-    "id": "PIN",
-    "name": "Pin Target",
-    "melee_allowed": true,
-    "reach_ok": true,
-    "skill_requirements": [ { "name": "melee", "level": 2 } ],
-    "//condition": "Humanoids of similar size and no flying",
-    "weighting": 2,
-    "condition": {
-      "and": [
-        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
-        { "math": [ "n_val('size') != 1" ] },
-        { "not": { "npc_has_effect": "downed" } },
-        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
-        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
-      ]
-    },
-    "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
-    "messages": [ "You pin %s to the floor", "<npcname> pins %s to the floor" ],
-    "down_dur": 3,
-    "description": "Down 3 turns, min 2 melee",
-    "attack_vectors": [ "vector_null" ]
-  },
-  {
-    "type": "technique",
     "id": "BRUTAL",
     "name": "Brutal Strike",
     "melee_allowed": true,
