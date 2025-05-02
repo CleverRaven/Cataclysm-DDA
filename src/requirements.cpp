@@ -863,7 +863,8 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 }
 
 bool requirement_data::can_make_with_inventory( const read_only_visitable &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
+        const std::function<bool( const item & )> &filter, int batch, craft_flags flags,
+        bool restrict_volume ) const
 {
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -880,7 +881,7 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     if( !has_comps( crafting_inv, components, filter, batch ) ) {
         retval = false;
     }
-    if( !check_enough_materials( crafting_inv, filter, batch ) ) {
+    if( !check_enough_materials( crafting_inv, filter, batch, restrict_volume ) ) {
         retval = false;
     }
     return retval;
@@ -1048,7 +1049,7 @@ const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &ve
 }
 
 bool requirement_data::check_enough_materials( const read_only_visitable &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+        const std::function<bool( const item & )> &filter, int batch, bool restrict_volume ) const
 {
     bool retval = true;
     units::volume total_component_volume = 0_ml;
@@ -1071,7 +1072,7 @@ bool requirement_data::check_enough_materials( const read_only_visitable &crafti
 
     // This will be the volume of the resulting in-progress craft item (see item::volume), so we don't want to exceed it.
     // TODO: Feedback? Some sort of indicator to the player that resulting volume is why it can't be crafted
-    if( total_component_volume > MAX_ITEM_VOLUME ) {
+    if( restrict_volume && total_component_volume > MAX_ITEM_VOLUME ) {
         retval = false;
     }
 
