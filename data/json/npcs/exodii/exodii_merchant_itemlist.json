@@ -238,8 +238,7 @@
       { "item": "armor_thessalonian", "prob": 80, "count": [ 1, 2 ] },
       { "item": "leggings_thessalonian", "prob": 80, "count": [ 1, 2 ] },
       { "item": "sword_xiphos", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "spear_dory", "prob": 30, "count": [ 1, 2 ] },
-      { "item": "trianja", "prob": 20, "count": [ 1, 2 ] }
+      { "item": "spear_dory", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
   {
