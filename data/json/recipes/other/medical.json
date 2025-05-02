@@ -480,7 +480,7 @@
     "result_mult": 6,
     "time": "1m",
     "autolearn": true,
-    "qualities": [{"id": "CUT_FINE", "level":2}],
+    "qualities": [ { "id": "CUT_FINE", "level": 2 } ],
     "components": [ [ [ "vitc_tablet", 1 ] ] ]
   }
 ]
