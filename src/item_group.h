@@ -411,4 +411,6 @@ class Item_group : public Item_spawn_data
         prop_list items;
 };
 
+item_group_id get_Item_spawn_data_EMPTY_GROUP();
+
 #endif // CATA_SRC_ITEM_GROUP_H
