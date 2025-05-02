@@ -431,8 +431,9 @@
   {
     "id": "xedra_chronomancer_paradox_banish",
     "type": "SPELL",
-    "name": { "str": "Paradox - Banish", "//~": "NO_I18N" },
+    "name": { "str": "Paradox", "//~": "NO_I18N" },
     "description": { "str": "Banish Portion of Paradox.  Having this spell is a bug", "//~": "NO_I18N" },
+    "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",

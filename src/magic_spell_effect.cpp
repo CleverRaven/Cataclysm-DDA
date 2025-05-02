@@ -1876,7 +1876,8 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             // we wannt to leave 1 hp on each already unbroken limb
             caster_total_hp -= unbroken_parts;
             if( overflow > caster_total_hp ) {
-                caster.add_msg_if_player( m_bad, _( "Banishment failed, you are too weak!" ) );
+                std::string spell_name = sp.name();
+                caster.add_msg_if_player( m_bad, _( "%s failed, you are too weak!" ), spell_name );
                 return;
             } else {
                 // can change if a part has less hp than this
