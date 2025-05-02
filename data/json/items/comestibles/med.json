@@ -1961,7 +1961,7 @@
     "description": "a small slice of a vitamin C supplement, providing as much vitamin C as a human can conceivably absorb.",
     "material": [ "drug_filler" ],
     "weight": "1 g",
-    "volume": "5 ml",
+    "volume": "1 ml",
     "price": "0 cent",
     "price_postapoc": "2 cent",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
