@@ -2948,7 +2948,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
         item corpse = item::make_corpse( corpse_type.id,
                                   calendar::turn + rng( 0_turns,
                                   3_hours ) );
-        corpse.set_var( "activity_var", you->getID().get_value() );
+        corpse.set_var( "activity_var", you->name );
         item_location loc = here.add_item_or_charges_ret_loc( you->pos_bub(), corpse );
         you->add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname());
         if (loc.where() == item_location::type::map){
