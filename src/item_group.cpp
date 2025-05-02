@@ -67,6 +67,12 @@ void Item_spawn_data::relic_generator::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "procgen_id", id );
 }
 
+item_group_id get_Item_spawn_data_EMPTY_GROUP()
+{
+    static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+    return Item_spawn_data_EMPTY_GROUP;
+}
+
 relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) const
 {
     return id->generate( rules, it_id );
