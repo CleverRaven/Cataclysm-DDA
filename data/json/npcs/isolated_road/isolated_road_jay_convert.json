@@ -497,7 +497,7 @@
         "concatenate": [ "Sure.  What do you want me to convert your ammo to?", "\n\n[Your credit: $<u_val:number_artisans_gunsmith_credit>]" ]
       }
     },
-    "//": "Acceptable ammo: Same, except for 22 LR, 7.62x39, 460 S&W, 500 S&W, 4.6mm, 357 SIG, 357 Mag, 458 Win Mag, 454 Casull, 410",
+    "//": "Acceptable ammo: Same, except for 7.62x39, 460 S&W, 500 S&W, 4.6mm, 357 SIG, 357 Mag, 458 Win Mag, 454 Casull, 410",
     "responses": [
       { "text": "Forget it.", "topic": "TALK_GUNSMITH_SERVICES" },
       { "text": "I have some ammo to sell.", "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE" },
@@ -548,6 +548,13 @@
         "show_always": true,
         "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 28 / 2" ] },
         "effect": { "run_eocs": "EOC_gunsmith_target", "variables": { "item": "reloaded_9mmP2", "coeff": "28" } },
+        "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
+      },
+      {
+        "text": "[$0.12, <item_name:22_fmj>]",
+        "show_always": true,
+        "condition": { "math": [ "u_number_artisans_gunsmith_credit >= 12 / 2" ] },
+        "effect": { "run_eocs": "EOC_gunsmith_target", "variables": { "item": "22_fmj", "coeff": "12" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
