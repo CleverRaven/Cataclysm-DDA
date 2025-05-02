@@ -11,6 +11,16 @@
   },
   {
     "type": "scenario",
+    "id": "lone_evacuee",
+    "name": "Lone Evacuee",
+    "points": 0,
+    "description": "You arrive at a government evac shelter expecting help.  Instead, you find cold silence and empty bunks.  No one made it.  You're on your own.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "refugeecenter",
     "name": "Refugee Center",
     "points": 0,
