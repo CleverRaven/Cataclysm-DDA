@@ -18,6 +18,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "crafting.h"
 #include "debug.h"
 #include "event.h"
 #include "event_bus.h"

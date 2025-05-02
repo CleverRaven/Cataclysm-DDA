@@ -31,6 +31,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "crafting_gui.h"
 #include "cursesdef.h"
 #include "debug.h"

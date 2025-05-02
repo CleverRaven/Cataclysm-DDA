@@ -20,6 +20,7 @@
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
