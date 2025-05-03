@@ -198,48 +198,71 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     find_params.existing_only = true;
 
     auto get_target_position = [&]() {
-        // Either find a random or closest match, based on the criteria.
-        if( params.random ) {
-            target_pos = overmap_buffer.find_random( origin_pos, find_params );
-        } else {
-            target_pos = overmap_buffer.find_closest( origin_pos, find_params );
+        omt_find_params step_find_params = find_params;
+        int steps = 1;
+        int range_increment = ( find_params.search_range - find_params.min_distance ) / steps;
+
+        // Split up the random search range into range segments of the search range is the default one
+        // to get a random position at a reasonable range in most cases.
+        if( params.random && find_params.search_range == mission_util::default_min_search_range ) {
+            steps = 50; // "Arbitrary" split to give range increments of a bit over 1 km.
+            range_increment = ( find_params.search_range - find_params.min_distance ) / steps;
+            step_find_params.search_range = find_params.min_distance + range_increment;
         }
 
-        // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
-        // have to see the location beforehand, then we can attempt to create the new terrain.
-        if( target_pos.is_invalid() && params.create_if_necessary &&
-            !params.must_see ) {
-            // If this terrain is part of an overmap special...
-            if( params.overmap_special ) {
-                // ...then attempt to place the whole special.
-                const bool placed = overmap_buffer.place_special( static_cast<overmap_special_id >(
-                                        ( *params.overmap_special ).evaluate( d ) ), origin_pos,
-                                    params.search_range.evaluate( d ) );
-                // If we succeeded in placing the special, then try and find the particular location
-                // we're interested in.
-                if( placed ) {
-                    find_params.must_see = false;
-                    target_pos = overmap_buffer.find_closest( origin_pos, find_params );
-                }
-            } else if( params.replaceable_overmap_terrain ) {
-                // This terrain wasn't part of an overmap special, but we do have a replacement
-                // terrain specified. Find a random location of that replacement type.
-                find_params.must_see = false;
-                find_params.types.front().first = ( *params.replaceable_overmap_terrain ).evaluate( d );
-                target_pos = overmap_buffer.find_random( origin_pos, find_params );
+        for( int i = 0; i < steps; i++ ) {
+            // Either find a random or closest match, based on the criteria.
+            if( params.random ) {
+                target_pos = overmap_buffer.find_random( origin_pos, step_find_params );
+            } else {
+                target_pos = overmap_buffer.find_closest( origin_pos, step_find_params );
+            }
 
-                // We didn't find it, so allow this search to create new overmaps and try again.
-                find_params.existing_only = true;
-                if( target_pos.is_invalid() ) {
-                    target_pos = overmap_buffer.find_random( origin_pos, find_params );
-                }
+            // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
+            // have to see the location beforehand, then we can attempt to create the new terrain.
+            if( target_pos.is_invalid() && params.create_if_necessary &&
+                !params.must_see ) {
+                // If this terrain is part of an overmap special...
+                if( params.overmap_special ) {
+                    // ...then attempt to place the whole special.
+                    const bool placed = overmap_buffer.place_special( static_cast<overmap_special_id>(
+                                            ( *params.overmap_special ).evaluate( d ) ), origin_pos,
+                                        params.search_range.evaluate( d ) );
+                    // If we succeeded in placing the special, then try and find the particular location
+                    // we're interested in.
+                    if( placed ) {
+                        step_find_params.must_see = false;
+                        target_pos = overmap_buffer.find_closest( origin_pos, step_find_params );
+                    }
+                } else if( params.replaceable_overmap_terrain ) {
+                    // This terrain wasn't part of an overmap special, but we do have a replacement
+                    // terrain specified. Find a random location of that replacement type.
+                    step_find_params.must_see = false;
+                    step_find_params.types.front().first = ( *params.replaceable_overmap_terrain ).evaluate( d );
+                    target_pos = overmap_buffer.find_random( origin_pos, step_find_params );
 
-                // We found a match, so set this position (which was our replacement terrain)
-                // to our desired mission terrain.
-                if( !target_pos.is_invalid() ) {
-                    overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain.evaluate( d ) ) );
+                    // We didn't find it, so allow this search to create new overmaps and try again.
+                    step_find_params.existing_only = true;
+                    if( target_pos.is_invalid() ) {
+                        target_pos = overmap_buffer.find_random( origin_pos, step_find_params );
+                    }
+
+                    // We found a match, so set this position (which was our replacement terrain)
+                    // to our desired mission terrain.
+                    if( !target_pos.is_invalid() ) {
+                        overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain.evaluate( d ) ) );
+                    }
                 }
             }
+
+            if( !target_pos.is_invalid() ) {
+                break;
+            }
+
+            // We may get some minor int truncation loss at the max range, but won't care as it's
+            // the ultimate fallback anyway.
+            step_find_params.min_distance = step_find_params.search_range + 1;
+            step_find_params.search_range += range_increment;
         }
     };
 
@@ -417,7 +440,7 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
         jo.throw_error_at( "search_range",
                            "There's no reason to change max search range if your search isn't random." );
     }
-    p.search_range  = get_dbl_or_var( jo, "search_range", false, OMAPX * 14 );
+    p.search_range  = get_dbl_or_var( jo, "search_range", false, default_min_search_range );
     p.min_distance  = get_dbl_or_var( jo, "min_distance", false );
 
     if( jo.has_member( "offset_x" ) || jo.has_member( "offset_y" ) || jo.has_member( "offset_z" ) ) {

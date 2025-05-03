@@ -145,6 +145,8 @@ struct mission_target_params {
 
 namespace mission_util
 {
+const int default_min_search_range = OMAPX * 14;
+
 tripoint_abs_omt random_house_in_closest_city();
 tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
         mission *miss );
