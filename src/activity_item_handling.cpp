@@ -3879,10 +3879,10 @@ static void erase_item_contents_activity_var(const std::function<bool(const item
     }
 };
 void activity_handlers::clean_may_activity_occupancy_items_var(Character & you){
-    int character_id = you.getID().get_value();
-    const std::function<bool(const item *const)> activity_var_checker = [character_id](const item *const it)->bool{
+    std::string character_name = you.name;
+    const std::function<bool(const item *const)> activity_var_checker = [character_name](const item *const it)->bool{
         return it->has_var("activity_var")
-        && static_cast<int>(it->get_var("activity_var",-1)) == character_id;
+        && it->get_var("activity_var","") == character_name;
     };
     for (item_location &loc:you.may_activity_occupancy_after_end_items_loc){
         if (loc && activity_var_checker(loc.get_item())){
