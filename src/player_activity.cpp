@@ -407,8 +407,8 @@ void player_activity::do_turn( Character &you )
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();
     }
-    if ((!you.activity)&&you.backlog.empty()&&(!you.get_destination_activity())){
-        activity_handlers::clean_may_activity_occupancy_items_var(you);
+    if( ( !you.activity ) && you.backlog.empty() && ( !you.get_destination_activity() ) ) {
+        activity_handlers::clean_may_activity_occupancy_items_var( you );
     }
 }
 
@@ -417,7 +417,7 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
-    activity_handlers::clean_may_activity_occupancy_items_var(who);
+    activity_handlers::clean_may_activity_occupancy_items_var( who );
     get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
     g->wait_popup_reset();
 }

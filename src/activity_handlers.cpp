@@ -1234,8 +1234,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 std::vector<item> objs = create_charge_items( drop, roll, entry, corpse_item, you );
                 for( item &obj : objs ) {
                     item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), obj );
-                    if (loc){
-                        you.may_activity_occupancy_after_end_items_loc.push_back(loc);
+                    if( loc ) {
+                        you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                     }
                 }
             } else {
@@ -1258,8 +1258,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 }
                 for( int i = 0; i != roll; ++i ) {
                     item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), obj );
-                    if (loc){
-                        you.may_activity_occupancy_after_end_items_loc.push_back(loc);
+                    if( loc ) {
+                        you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                     }
                 }
             }
@@ -1302,8 +1302,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
             for( int i = 0; i < item_charges; ++i ) {
                 item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), ruined_parts );
-                if (loc){
-                    you.may_activity_occupancy_after_end_items_loc.push_back(loc);
+                if( loc ) {
+                    you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                 }
             }
         }
@@ -1897,7 +1897,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     if( resume_for_multi_activities( *you ) ) {
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", you->name );
-            you->may_activity_occupancy_after_end_items_loc.emplace_back(map_cursor{here.get_abs(pos)},&elem);
+            you->may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( pos )},
+                    &elem );
         }
     }
 }
@@ -2945,15 +2946,15 @@ void activity_handlers::atm_do_turn( player_activity *, Character *you )
 static void rod_fish( Character *you, const std::vector<monster *> &fishables )
 {
     map &here = get_map();
-    constexpr auto caught_corpse = [](Character *you,map &here,const mtype &corpse_type){
+    constexpr auto caught_corpse = []( Character * you, map & here, const mtype & corpse_type ) {
         item corpse = item::make_corpse( corpse_type.id,
-                                  calendar::turn + rng( 0_turns,
-                                  3_hours ) );
+                                         calendar::turn + rng( 0_turns,
+                                                 3_hours ) );
         corpse.set_var( "activity_var", you->name );
         item_location loc = here.add_item_or_charges_ret_loc( you->pos_bub(), corpse );
-        you->add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname());
-        if (loc){
-            you->may_activity_occupancy_after_end_items_loc.push_back(loc);
+        you->add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname() );
+        if( loc ) {
+            you->may_activity_occupancy_after_end_items_loc.push_back( loc );
         }
     };
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
@@ -2961,15 +2962,15 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     GROUP_FISH, true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        caught_corpse(you,here,fish_mon.obj());
+        caught_corpse( you, here, fish_mon.obj() );
     } else {
         monster *chosen_fish = random_entry( fishables );
         chosen_fish->fish_population -= 1;
         if( chosen_fish->fish_population <= 0 ) {
             g->catch_a_monster( chosen_fish, you->pos_bub(), you, 50_hours );
         } else {
-            if (chosen_fish->type !=nullptr){
-                caught_corpse(you,here,*(chosen_fish->type));
+            if( chosen_fish->type != nullptr ) {
+                caught_corpse( you, here, *( chosen_fish->type ) );
             }
         }
     }
@@ -3533,7 +3534,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
     if( resume_for_multi_activities( *you ) ) {
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", you->name );
-            you->may_activity_occupancy_after_end_items_loc.emplace_back(map_cursor{here.get_abs(pos)},&elem);
+            you->may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( pos )},
+                    &elem );
         }
     }
 }

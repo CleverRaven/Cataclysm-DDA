@@ -1094,7 +1094,7 @@ void npc::revert_after_activity()
     current_activity_id = activity_id::NULL_ID();
     clear_destination();
     backlog.clear();
-    activity_handlers::clean_may_activity_occupancy_items_var(*this);
+    activity_handlers::clean_may_activity_occupancy_items_var( *this );
 }
 
 npc_mission npc::get_previous_mission() const
@@ -2949,7 +2949,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = player_activity();
     clear_destination();
-    activity_handlers::clean_may_activity_occupancy_items_var(*this);
+    activity_handlers::clean_may_activity_occupancy_items_var( *this );
     add_effect( effect_npc_suspend, 24_hours, true, 1 );
 }
 

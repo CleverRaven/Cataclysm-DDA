@@ -6998,8 +6998,8 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         obj.set_var( "activity_var", who.name );
         //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
         item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
-        if (loc){
-            who.may_activity_occupancy_after_end_items_loc.push_back(loc);
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
         }
 
     }
@@ -7008,8 +7008,8 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         obj.set_var( "activity_var", who.name );
         //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
         item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
-        if (loc){
-            who.may_activity_occupancy_after_end_items_loc.push_back(loc);
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
         }
     }
     for( int i = 0; i != splint_quan; ++i ) {
@@ -7017,8 +7017,8 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         obj.set_var( "activity_var", who.name );
         //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
         item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
-        if (loc){
-            who.may_activity_occupancy_after_end_items_loc.push_back(loc);
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
         }
     }
     here.ter_set( pos, ter_t_dirt );
