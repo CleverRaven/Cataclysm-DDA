@@ -238,7 +238,7 @@ void player_activity::do_turn( Character &you )
     // This is because the game can get stuck trying to fuel a fire when it's not...
     if( type == ACT_MIGRATION_CANCEL ) {
         actor->do_turn( *this, you );
-        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(you);
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     // first to ensure sync with actor
@@ -314,7 +314,7 @@ void player_activity::do_turn( Character &you )
         }
         // We may have canceled this via a message interrupt.
         if( type.is_null() ) {
-            activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(you);
+            activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
             return;
         }
     }
@@ -371,7 +371,7 @@ void player_activity::do_turn( Character &you )
         if( !ignoreQuery && auto_resume ) {
             you.assign_activity( wait_stamina_activity_actor( you.get_stamina_max() ) );
         }
-        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(you);
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     if( *this && type->rooted() ) {
@@ -410,7 +410,7 @@ void player_activity::do_turn( Character &you )
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();
     }
-    activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(you);
+    activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
 }
 
 void player_activity::canceled( Character &who )
