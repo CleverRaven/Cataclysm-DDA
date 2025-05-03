@@ -21,7 +21,6 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "map_iterator.h"
-#include "map_scale_constants.h"
 #include "mapgen_functions.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"

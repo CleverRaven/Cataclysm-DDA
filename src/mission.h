@@ -15,6 +15,7 @@
 #include "coordinates.h"
 #include "dialogue_helpers.h"
 #include "enums.h"
+#include "map_scale_constants.h"
 #include "npc_favor.h"
 #include "point.h"
 #include "translation.h"
