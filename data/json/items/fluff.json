@@ -1422,7 +1422,7 @@
     "volume": "15750 ml",
     "price": "240 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "?",
     "looks_like": "briefcase",
@@ -1635,7 +1635,7 @@
     "weight": "75 g",
     "volume": "30 ml",
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "ALLOWS_BODY_BLOCK" ],
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 6 },
     "weapon_category": [ "SHIVS" ]
   },

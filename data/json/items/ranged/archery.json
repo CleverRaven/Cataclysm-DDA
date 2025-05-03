@@ -461,7 +461,7 @@
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage - if you can draw it.",
     "//": "80 lb draw weight, efficient, 0.62 slugs of momentum with a 30g arrow.",
     "min_strength": 11,
-    "ranged_damage": { "damage_type": "stab", "amount": 12 },
+    "ranged_damage": { "damage_type": "stab", "amount": 2 },
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Loosen Limbs",
@@ -480,7 +480,7 @@
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
     "//": "40 lb draw weight, efficient, 0.45 slugs of momentum with a 30g arrow.",
     "min_strength": 7,
-    "ranged_damage": { "damage_type": "stab", "amount": 7 },
+    "ranged_damage": { "damage_type": "stab", "amount": -3 },
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Tighten Limbs",

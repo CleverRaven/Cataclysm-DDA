@@ -60,7 +60,7 @@
     "description": "An empty case that can hold a storage battery, complete with a charging controller chip and connecting wires.",
     "ascii_picture": "it_battery_mount",
     "weight": "1231 g",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "color": "light_gray",
     "symbol": ":",
     "material": [ "plastic", "lc_steel" ],

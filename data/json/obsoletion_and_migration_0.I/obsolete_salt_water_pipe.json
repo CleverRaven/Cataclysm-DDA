@@ -1,5 +1,6 @@
 [
   {
+    "//00": "OBSOLETION NOTE: when this file is deleted, C++ faction camp code from #55026 that generates pipelines can also be deleted.",
     "type": "mapgen",
     "update_mapgen_id": "faction_expansion_salt_water_pipe_swamp_N",
     "//": "Hard coded name for a map that's used to implement the salt water pipe functionality",

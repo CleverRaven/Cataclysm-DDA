@@ -1,15 +1,60 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "church",
-    "copy-from": "church",
+    "id": [ "church", "church_1" ],
+    "copy-from": "generic_city_building",
     "name": "church",
     "sym": "c",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
-    "id": "cathedral_1_NW",
+    "id": [ "church_roof", "church_2ndfloor_1", "church_3rdfloor_1", "church_roof_1" ],
+    "copy-from": "generic_city_building_roof",
+    "name": "church roof",
+    "sym": "c",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "church_steeple", "church_steeple_end", "church_steeple_roof" ],
+    "copy-from": "generic_city_building_roof",
+    "name": "church steeple",
+    "sym": "c",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "synagogue" ],
+    "copy-from": "synagogue",
+    "name": "synagogue",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "synagogue_roof", "synagogue_upper_roof" ],
+    "copy-from": "synagogue_roof",
+    "name": "synagogue roof",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cathedral_1_NW",
+      "cathedral_1_NE",
+      "cathedral_1_SW",
+      "cathedral_1_SE",
+      "cathedral_2_NW",
+      "cathedral_2_NE",
+      "cathedral_2_SW",
+      "cathedral_2_SE",
+      "cathedral_3_NW",
+      "cathedral_3_NE",
+      "cathedral_3_SW",
+      "cathedral_3_SE"
+    ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral",
     "sym": "c",
@@ -17,31 +62,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cathedral_1_NE",
-    "copy-from": "cathedral_1_NE",
-    "name": "cathedral",
-    "sym": "c",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cathedral_1_SW",
-    "copy-from": "cathedral_1_SW",
-    "name": "cathedral",
-    "sym": "c",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cathedral_1_SE",
-    "copy-from": "cathedral_1_SE",
-    "name": "cathedral",
-    "sym": "c",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cathedral_b_NW",
+    "id": [ "cathedral_b_NW", "cathedral_b_NE", "cathedral_b_SW", "cathedral_b_SE" ],
     "copy-from": "cathedral_b_NW",
     "name": "cathedral basement",
     "sym": "c",
@@ -49,25 +70,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cathedral_b_NE",
-    "copy-from": "cathedral_b_NE",
-    "name": "cathedral basement",
-    "sym": "c",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cathedral_b_SW",
-    "copy-from": "cathedral_b_SW",
-    "name": "cathedral basement",
-    "sym": "c",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cathedral_b_SE",
-    "copy-from": "cathedral_b_SE",
-    "name": "cathedral basement",
+    "id": [
+      "cathedral_4_NW",
+      "cathedral_4_NE",
+      "cathedral_5_NW",
+      "cathedral_5_NE",
+      "cathedral_6_NW",
+      "cathedral_6_NE",
+      "cathedral_7_NW",
+      "cathedral_7_NE"
+    ],
+    "copy-from": "cathedral_4_NW",
+    "name": "cathedral tower",
     "sym": "c",
     "color": "i_white"
   },
@@ -81,6 +95,39 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_library_roof", "s_library_roof_1", "s_library_roof_2", "s_library_roof_3" ],
+    "copy-from": "s_library_roof",
+    "name": "library roof",
+    "sym": "l",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "urban_library_1",
+      "urban_library_2",
+      "urban_library_3",
+      "urban_library_4",
+      "urban_library_5",
+      "urban_library_6",
+      "urban_library_7",
+      "urban_library_8"
+    ],
+    "copy-from": "s_library",
+    "name": "library",
+    "sym": "l",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "urban_library_roof_1", "urban_library_roof_2", "urban_library_roof_3", "urban_library_roof_4" ],
+    "copy-from": "s_library_roof",
+    "name": "library roof",
+    "sym": "l",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ],
     "copy-from": "s_bookstore",
     "name": "bookstore",
@@ -89,9 +136,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "school_1_1",
+    "id": [ "s_bookstore_roof", "s_bookstore_roof_1", "s_bookstore_roof_2", "s_bookstore_upper_roof", "s_bookstore_upper_roof_1" ],
+    "copy-from": "s_bookstore_roof",
+    "name": "bookstore roof",
+    "sym": "b",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "school_1_1", "school_1_3", "school_1_4", "school_1_5", "school_1_6", "school_1_7", "school_1_8", "school_1_9" ],
     "copy-from": "school_1_1",
-    "name": "regional school",
+    "name": "school",
     "sym": "s",
     "color": "i_white"
   },
@@ -99,153 +154,84 @@
     "type": "overmap_terrain",
     "id": "school_1_2",
     "copy-from": "school_1_2",
-    "name": "regional school",
-    "sym": "S",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "school_1_3",
-    "copy-from": "school_1_3",
-    "name": "regional school",
+    "name": "school",
     "sym": "s",
     "color": "i_white"
   },
   {
     "type": "overmap_terrain",
-    "id": "school_1_4",
-    "copy-from": "school_1_4",
-    "name": "regional school",
+    "id": [
+      "school_2_1",
+      "school_2_2",
+      "school_2_4",
+      "school_2_5",
+      "school_2_6",
+      "school_2_7",
+      "school_2_8",
+      "school_2_9",
+      "school_3_1",
+      "school_3_2",
+      "school_3_4",
+      "school_3_5",
+      "school_3_6",
+      "school_3_7",
+      "school_3_8",
+      "school_3_9",
+      "school_4_1",
+      "school_4_2",
+      "school_4_4",
+      "school_4_5",
+      "school_4_6",
+      "school_4_7",
+      "school_4_8",
+      "school_4_9",
+      "school_5_6"
+    ],
+    "copy-from": "school_2_1",
+    "name": "school",
     "sym": "s",
     "color": "i_white"
   },
   {
     "type": "overmap_terrain",
-    "id": "school_1_5",
-    "copy-from": "school_1_5",
-    "name": "regional school",
-    "sym": "s",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "school_1_6",
-    "copy-from": "school_1_6",
-    "name": "regional school",
-    "sym": "s",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "school_1_7",
-    "copy-from": "school_1_7",
-    "name": "regional school",
-    "sym": "s",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "school_1_8",
-    "copy-from": "school_1_8",
-    "name": "regional school",
-    "sym": "s",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "school_1_9",
-    "copy-from": "school_1_9",
-    "name": "regional school",
-    "sym": "s",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants_larvae",
-    "copy-from": "ants_larvae",
-    "name": "ant larva chamber",
-    "sym": "O",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "debug_ramps",
-    "copy-from": "debug_ramps",
-    "name": "ramp testing area",
-    "sym": "%",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "looted_house",
-    "copy-from": "looted_house",
-    "name": "looted house",
-    "sym": "%",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "looted_house_roof",
-    "copy-from": "looted_house_roof",
-    "name": "looted house roof",
-    "sym": "%",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "looted_house_basement",
-    "copy-from": "looted_house_basement",
-    "name": "looted house basement",
-    "sym": "%",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "looted_hospital",
-    "copy-from": "looted_hospital",
-    "name": "looted hospital",
-    "sym": "%",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "looted_hospital_roof",
-    "copy-from": "looted_hospital_roof",
-    "name": "looted hospital roof",
-    "sym": "%",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cemetery_4square_00",
+    "id": [
+      "cemetery_4square_00",
+      "cemetery_4square_10",
+      "cemetery_4square_01",
+      "cemetery_4square_11",
+      "cemetery_4square_11_roof",
+      "Cemetery_1a",
+      "Cemetery_1a_roof",
+      "Cemetery_1b"
+    ],
     "copy-from": "cemetery_4square_00",
-    "name": "religious cemetery",
-    "sym": "r",
+    "name": "cemetery",
+    "sym": "c",
     "color": "i_white"
   },
   {
     "type": "overmap_terrain",
-    "id": "cemetery_4square_10",
-    "copy-from": "cemetery_4square_10",
-    "name": "religious cemetery",
-    "sym": "r",
+    "id": [ "BotanicalGarden_1a", "BotanicalGarden_1b" ],
+    "copy-from": "BotanicalGarden_1a",
+    "name": "botanical garden",
+    "sym": "b",
     "color": "i_white"
   },
   {
     "type": "overmap_terrain",
-    "id": "cemetery_4square_01",
-    "copy-from": "cemetery_4square_01",
-    "name": "religious cemetery",
-    "sym": "r",
+    "id": [ "BotanicalGarden_1a_roof", "BotanicalGarden_1b_roof" ],
+    "copy-from": "BotanicalGarden_1a_roof",
+    "name": "botanical garden",
+    "sym": "b",
     "color": "i_white"
   },
   {
     "type": "overmap_terrain",
-    "id": "cemetery_4square_11",
-    "copy-from": "cemetery_4square_11",
-    "name": "religious cemetery",
-    "sym": "r",
-    "color": "i_white"
+    "id": [ "NatureTrail_1a", "NatureTrail_1b" ],
+    "copy-from": "NatureTrail_1a",
+    "name": "nature trail",
+    "sym": "n",
+    "color": "white"
   },
   {
     "id": "art_gallery",
@@ -257,10 +243,173 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "art_gallery_roof",
+    "copy-from": "art_gallery_roof",
+    "name": "art gallery roof",
+    "sym": "a",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
+    "copy-from": "small_wooded_trail",
+    "name": "small wooded trail",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_public_space",
+    "copy-from": "cs_public_space",
+    "name": "public space",
+    "sym": "p",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "publicgarden", "publicgarden_2" ],
+    "copy-from": "publicgarden",
+    "name": "public garden",
+    "sym": "p",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "textile_mill_museum_0a0",
+      "textile_mill_museum_0a1",
+      "textile_mill_museum_0a2",
+      "textile_mill_museum_0b0",
+      "textile_mill_museum_0b1",
+      "textile_mill_museum_0b2",
+      "textile_mill_museum_1a0",
+      "textile_mill_museum_1a1",
+      "textile_mill_museum_1a2",
+      "textile_mill_museum_1b0",
+      "textile_mill_museum_1b1",
+      "textile_mill_museum_1b2",
+      "textile_mill_museum_2a0",
+      "textile_mill_museum_2a1",
+      "textile_mill_museum_2a2",
+      "textile_mill_museum_2b0",
+      "textile_mill_museum_2b1",
+      "textile_mill_museum_2b2"
+    ],
+    "copy-from": "textile_mill_museum_0a0",
+    "name": "textile mill museum",
+    "sym": "t",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_gardening_allotment",
+    "copy-from": "cs_gardening_allotment",
+    "name": "gardening allotment",
+    "sym": "a",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_gardening_allotment_roof",
+    "copy-from": "cs_gardening_allotment_roof",
+    "name": "gardening allotment roof",
+    "sym": "a",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "playground", "playground_roof", "playground_1" ],
+    "copy-from": "playground",
+    "name": "playground",
+    "sym": "p",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "park", "park_roof", "park_2", "park_3", "park_4", "park_5", "park_5_roof", "park_6", "park_7", "park_7_roof" ],
+    "copy-from": "park",
+    "name": "park",
+    "sym": "p",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "communitygarden", "communitygarden_2", "communitygarden_3" ],
+    "copy-from": "communitygarden",
+    "name": "community garden",
+    "sym": "c",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "park_maze", "park_maze_2" ],
+    "copy-from": "park_maze",
+    "name": "hedge maze",
+    "sym": "h",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_private_park",
+    "copy-from": "cs_private_park",
+    "name": "private park",
+    "sym": "p",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_private_park_roof",
+    "copy-from": "cs_private_park_roof",
+    "name": "private park roof",
+    "sym": "p",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rural_church", "rural_church_parking" ],
+    "copy-from": "rural_church",
+    "name": "rural church",
+    "sym": "r",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rural_church_steeple" ],
+    "copy-from": "rural_church_steeple",
+    "name": "rural church steeple",
+    "sym": "r",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rural_church_steeple_roof" ],
+    "copy-from": "rural_church_steeple_roof",
+    "name": "rural church steeple roof",
+    "sym": "r",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rural_church_basement" ],
+    "copy-from": "rural_church_basement",
+    "name": "rural church basement",
+    "sym": "r",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dog_park" ],
+    "copy-from": "dog_park",
+    "name": "dog park",
+    "sym": "d",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_public_art_piece",
     "copy-from": "cs_public_art_piece",
     "name": "public art piece",
-    "sym": "a",
+    "sym": "p",
     "color": "white"
   },
   {
@@ -268,31 +417,55 @@
     "copy-from": "cemetery_small",
     "type": "overmap_terrain",
     "name": "small cemetery",
-    "sym": "c",
+    "sym": "s",
     "color": "white"
   },
   {
+    "type": "overmap_terrain",
     "id": "museum",
     "copy-from": "museum",
-    "type": "overmap_terrain",
     "name": "museum",
     "sym": "m",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
-    "id": "Cemetery_1a",
-    "copy-from": "Cemetery_1a",
-    "name": "cemetery",
+    "id": "museum_roof",
+    "copy-from": "museum_roof",
+    "name": "museum roof",
+    "sym": "m",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_34", "retirement_community_35", "retirement_community_36" ],
+    "copy-from": "retirement_community_34",
+    "name": "community building",
     "sym": "c",
     "color": "i_white"
   },
   {
     "type": "overmap_terrain",
-    "id": "Cemetery_1b",
-    "copy-from": "Cemetery_1b",
-    "name": "cemetery",
+    "id": [ "retirement_community_2f_34", "retirement_community_2f_35", "retirement_community_2f_36" ],
+    "copy-from": "retirement_community_2f_34",
+    "name": "community building roof",
     "sym": "c",
     "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_kindergarten" ],
+    "name": "small kindergarten",
+    "copy-from": "small_kindergarten",
+    "sym": "s",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_kindergarten_roof" ],
+    "copy-from": "small_kindergarten_roof",
+    "name": "small kindergarten roof",
+    "sym": "s",
+    "color": "white"
   }
 ]

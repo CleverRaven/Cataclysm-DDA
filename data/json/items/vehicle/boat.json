@@ -11,7 +11,7 @@
     "material": [ "wood" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
@@ -27,7 +27,7 @@
     "material": [ "wood" ],
     "weight": "6000 g",
     "volume": "12500 ml",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
@@ -43,7 +43,7 @@
     "material": [ "plastic" ],
     "weight": "1500 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
@@ -59,7 +59,7 @@
     "material": [ "kevlar_rigid" ],
     "weight": "500 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
@@ -84,7 +84,7 @@
     "name": { "str": "sail" },
     "description": "A sail for a boat.",
     "weight": "7904 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "light_gray",
     "symbol": ":",
     "material": [ "wood", "cotton" ],
@@ -106,7 +106,7 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
@@ -122,7 +122,7 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   },
@@ -138,7 +138,7 @@
     "material": [ "aluminum" ],
     "weight": "2250 g",
     "volume": "12500 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "category": "veh_parts",
     "melee_damage": { "bash": 8 }
   }

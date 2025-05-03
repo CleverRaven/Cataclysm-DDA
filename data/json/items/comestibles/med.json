@@ -1953,6 +1953,23 @@
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
   },
   {
+    "id": "vitc_fragment",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str": "vitamin C supplement fragment" },
+    "description": "a small slice of a vitamin C supplement, providing as much vitamin C as a human can conceivably absorb.",
+    "material": [ "drug_filler" ],
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "0 cent",
+    "price_postapoc": "2 cent",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 92 ] ] }
+  },
+  {
     "id": "gummy_vitamins",
     "copy-from": "vitamins",
     "type": "ITEM",
