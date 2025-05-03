@@ -3874,18 +3874,7 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
     }
     return true;
 }
-static void erase_item_contents_activity_var( const std::function<bool( const item & )>
-        &activity_var_checker, item &it )
-{
-    const std::vector<item *> contents_items = it.items_with( activity_var_checker );
-    for( item *inner_item : contents_items ) {
-        if( inner_item == nullptr || inner_item->is_null() ) {
-            continue;
-        }
-        inner_item->erase_var( "activity_var" );
-        erase_item_contents_activity_var( activity_var_checker, *inner_item );
-    }
-};
+
 void activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(
     Character &you )
 {
