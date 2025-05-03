@@ -96,7 +96,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XEDRA_CHRONOMANCER_PARADOX_INSIGHT",
     "effect": [
-      { "math": [ "_insight_gain = u_hp('ALL') / 2" ] },
+      { "math": [ "_insight_gain = u_hp('ALL') / 4" ] },
       { "math": [ "n_vitamin('xedra_chronomancer_insight') += _insight_gain"] },
       { "npc_message": "Observing this paradox gave you <context_val:insight_gain> Insight into time", "type": "info" }
     ]
