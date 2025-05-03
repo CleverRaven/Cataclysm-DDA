@@ -141,7 +141,16 @@
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",
     "skill": "deduction",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [
+      "NO_FAIL",
+      "SILENT",
+      "NO_HANDS",
+      "NO_LEGS",
+      "NO_EXPLOSION_SFX",
+      "IGNORE_WALLS",
+      "NO_PROJECTILE",
+      "MUST_HAVE_CLASS_TO_LEARN"
+    ],
     "difficulty": 0,
     "max_level": 0,
     "effect": "ter_transform",
@@ -403,12 +412,7 @@
     "description": "Create a minute incision in your target's personal timestream, separating their present from their past and thus deleting them from reality in a temporal paradox.  This technique is harder to perform on more powerful foes, and may result in backlash if you are not prepared.  Luckily, this time anomaly is significant enough that merely observing it will give you significant temporal insights based on its strength.",
     "teachable": false,
     "valid_targets": [ "hostile" ],
-    "condition": {
-      "and": [
-        { "not": { "npc_has_flag": "DIMENSIONAL_ANCHOR" } },
-        { "not": { "npc_has_flag": "STABILIZED_TIMELINE" } }
-      ]
-    },
+    "condition": { "and": [ { "not": { "npc_has_flag": "DIMENSIONAL_ANCHOR" } }, { "not": { "npc_has_flag": "STABILIZED_TIMELINE" } } ] },
     "spell_class": "XEDRA_CHRONOMANCER",
     "skill": "deduction",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
@@ -423,16 +427,8 @@
     "min_range": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_paradox'), 1, 0 ), 20 )" ] },
     "max_range": 20,
     "magic_type": "xedra_chronomancy_magic",
-    "base_energy_cost": {
-      "math": [
-        "max( ( 2000 - ( 25 * u_spell_level('xedra_chronomancer_stable_loop') ) ), 1000 ) "
-      ]
-    },
-    "base_casting_time": {
-      "math": [
-        "max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_paradox') ) ), 50 )"
-      ]
-    }
+    "base_energy_cost": { "math": [ "max( ( 2000 - ( 25 * u_spell_level('xedra_chronomancer_stable_loop') ) ), 1000 ) " ] },
+    "base_casting_time": { "math": [ "max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_paradox') ) ), 50 )" ] }
   },
   {
     "id": "xedra_chronomancer_paradox_banish",

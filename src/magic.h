@@ -34,6 +34,7 @@ class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
+struct const_dialogue;
 struct dealt_projectile_attack;
 struct requirement_data;
 
