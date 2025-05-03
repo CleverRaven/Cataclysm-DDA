@@ -400,7 +400,7 @@
     "id": "xedra_chronomancer_paradox",
     "type": "SPELL",
     "name": "Paradox",
-    "description": "Create a minute incision in your target's personal timestream, separating their present from their past and thus deleting them from reality in a temporal paradox.  This technique is harder to perform on more powerfull foes, and may result in backlash if you are not prepared.  Luckily, this time anomaly is significant enough that merely observing it will give you significant temporal insights based on its strength.",
+    "description": "Create a minute incision in your target's personal timestream, separating their present from their past and thus deleting them from reality in a temporal paradox.  This technique is harder to perform on more powerful foes, and may result in backlash if you are not prepared.  Luckily, this time anomaly is significant enough that merely observing it will give you significant temporal insights based on its strength.",
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "condition": {
