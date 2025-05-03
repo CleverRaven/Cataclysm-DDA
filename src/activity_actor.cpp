@@ -4440,8 +4440,8 @@ void workout_activity_actor::start( player_activity &act, Character &who )
             intensity_modifier = 1;
             break;
     }
-    int length;
-    query_int( length, _( "Train for how long (minutes): " ) );
+    int length = 0;
+    query_int( length, false, _( "Train for how long (minutes): " ) );
     if( length > 0 ) {
         duration = length * 1_minutes;
     } else {
@@ -4543,7 +4543,7 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
             return true;
         case 2:
         default:
-            query_int( length, _( "Train for how long (minutes): " ) );
+            query_int( length, false, _( "Train for how long (minutes): " ) );
             elapsed += act.moves_total - act.moves_left;
             duration = 0_minutes;
             if( length > 0 ) {

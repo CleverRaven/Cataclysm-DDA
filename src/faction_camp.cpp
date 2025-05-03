@@ -89,7 +89,6 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -2463,21 +2462,14 @@ void basecamp::job_assignment_ui()
                     if( smenu.ret == 0 ) {
                         cur_npc->job.clear_all_priorities();
                     } else if( smenu.ret == 1 ) {
-                        const int priority = string_input_popup()
-                                             .title( _( "Priority for all jobs " ) )
-                                             .width( 20 )
-                                             .only_digits( true )
-                                             .query_int();
+                        int priority;
+                        query_int( priority, false, _( "Priority for all jobs " ) );
                         cur_npc->job.set_all_priorities( priority );
                     } else if( smenu.ret > 1 && smenu.ret <= static_cast<int>( job_vec.size() ) + 1 ) {
                         activity_id sel_job = job_vec[size_t( smenu.ret - 2 )];
                         player_activity test_act = player_activity( sel_job );
-                        const std::string formatted = string_format( _( "Priority for %s " ), test_act.get_verb() );
-                        const int priority = string_input_popup()
-                                             .title( formatted )
-                                             .width( 20 )
-                                             .only_digits( true )
-                                             .query_int();
+                        int priority;
+                        query_int( priority, false, _( "Priority for %s " ), test_act.get_verb() );
                         cur_npc->job.set_task_priority( sel_job, priority );
                     } else {
                         break;

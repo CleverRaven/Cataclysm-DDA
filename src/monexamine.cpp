@@ -950,14 +950,8 @@ bool monexamine::mech_hack( monster &z )
 
 static int prompt_for_amount( const char *const msg, const int max )
 {
-    const std::string formatted = string_format( msg, max );
-    const int amount = string_input_popup()
-                       .title( formatted )
-                       .width( 20 )
-                       .text( std::to_string( max ) )
-                       .only_digits( true )
-                       .query_int();
-
+    int amount = max;
+    query_int( amount, true, msg, max );
     return clamp( amount, 0, max );
 }
 

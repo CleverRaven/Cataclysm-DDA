@@ -13502,10 +13502,8 @@ void game::display_scent()
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_SCENT );
     } else {
-        int div;
-        bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
-        if( !got_value || div < 1 ) {
-            add_msg( _( "Never mind." ) );
+        int div = 0;
+        if( !query_int( div, false, _( "Set scent map sensitivity to?" ) ) || div != 0 ) {
             return;
         }
         shared_ptr_fast<game::draw_callback_t> scent_cb = make_shared_fast<game::draw_callback_t>( [&]() {
