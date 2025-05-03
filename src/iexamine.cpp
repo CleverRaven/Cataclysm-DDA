@@ -3041,7 +3041,7 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
                 if( from_activity ) {
                     i.set_var( "activity_var", you.name );
                     item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), i );
-                    if( from_activity && loc ) {
+                    if( loc ) {
                         you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                     }
                 }
