@@ -410,6 +410,10 @@ void player_activity::do_turn( Character &you )
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();
     }
+    // According to the existing code, if 'you' is an NPC, the outer layer may try to resume activity from the
+    // backlog  (in npc::do_player_activity()), which results is (!you.activity) && (!you.get_destination_activity())
+    // is true here not meaning that mult_activity ends, so npc's activity_var cannot be handled here.
+    // only avatar's activity_var is erased in player_activity::do_turn.
     activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
 }
 
