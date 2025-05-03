@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "coords_fwd.h"
+#include "map_selector.h"
 #include "requirements.h"
 #include "type_id.h"
 #include "units_fwd.h"
