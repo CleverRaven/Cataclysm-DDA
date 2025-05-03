@@ -38,7 +38,7 @@
     ],
     "copy-from": "oil_platform_1a_2",
     "name": "oil platform",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray",
     "see_cost": "full_high"
   },
@@ -55,7 +55,7 @@
     ],
     "copy-from": "oil_platform_3a_3",
     "name": "oil platform",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray",
     "see_cost": "full_high"
   },
@@ -159,7 +159,7 @@
     ],
     "copy-from": "oil_platform_1a_0",
     "name": "oil platform",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray",
     "see_cost": "full_high"
   },
@@ -168,7 +168,7 @@
     "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
     "copy-from": "mine_entrance",
     "name": "mine entrance",
-    "sym": "m",
+    "sym": "M",
     "color": "i_light_gray"
   },
   {
@@ -176,7 +176,7 @@
     "id": [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ],
     "copy-from": "mine_entrance_roof",
     "name": "mine entrance roof",
-    "sym": "m",
+    "sym": "M",
     "color": "i_light_gray"
   },
   {
@@ -184,7 +184,7 @@
     "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
     "copy-from": "mine_shaft_middle",
     "name": "mine shaft",
-    "sym": "m",
+    "sym": "M",
     "color": "i_light_gray"
   },
   {
@@ -192,7 +192,7 @@
     "id": [ "mine_shaft_lower", "mine_shaft_lower_east" ],
     "copy-from": "mine_shaft_lower",
     "name": "mine shaft",
-    "sym": "m",
+    "sym": "M",
     "color": "i_light_gray"
   },
   {
@@ -229,7 +229,7 @@
     ],
     "copy-from": "mine_spiral_west",
     "name": "mine tunnels",
-    "sym": "m",
+    "sym": "M",
     "color": "i_light_gray"
   },
   {
@@ -237,7 +237,7 @@
     "id": "mine_finale",
     "copy-from": "mine_finale",
     "name": "mine",
-    "sym": "m",
+    "sym": "M",
     "color": "i_light_gray"
   },
   {
@@ -300,7 +300,7 @@
     ],
     "copy-from": "steel_mill_0_1",
     "name": "steel mill",
-    "sym": "s",
+    "sym": "S",
     "color": "i_light_gray"
   },
   {
@@ -317,7 +317,7 @@
     ],
     "name": "light industry",
     "copy-from": "s_lightindustry_00",
-    "sym": "l",
+    "sym": "L",
     "color": "i_light_gray"
   },
   {
@@ -325,7 +325,7 @@
     "id": "fema_storage",
     "copy-from": "fema_storage",
     "name": "FEMA camp storage",
-    "sym": "f",
+    "sym": "F",
     "color": "light_gray"
   },
   {
@@ -342,7 +342,7 @@
     ],
     "name": "light industry",
     "copy-from": "s_lightindustry_scen_00",
-    "sym": "l",
+    "sym": "L",
     "color": "i_light_gray"
   },
   {
@@ -350,7 +350,7 @@
     "id": [ "office_tower_ne", "office_tower_nw", "office_tower_sw", "office_tower_se" ],
     "copy-from": "office_tower_ne",
     "name": "office building",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray"
   },
   {
@@ -363,7 +363,7 @@
     ],
     "copy-from": "office_tower_underground_nw",
     "name": "office building parking",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray"
   },
   {
@@ -378,7 +378,7 @@
     ],
     "copy-from": "office_tower_roof_nw",
     "name": "office building roof",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray"
   },
   {
@@ -409,7 +409,7 @@
     ],
     "copy-from": "office_tower_2_a1",
     "name": "office tower",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray"
   },
   {
@@ -417,7 +417,7 @@
     "id": "office_tower_2_a3",
     "copy-from": "office_tower_2_a3",
     "name": "office courtyard",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray"
   },
   {
@@ -438,7 +438,7 @@
     ],
     "copy-from": "office_tower_collapse_a0",
     "name": "collapsed tower",
-    "sym": "c",
+    "sym": "C",
     "color": "i_light_gray"
   },
   {
@@ -465,7 +465,7 @@
     ],
     "copy-from": "loffice_tower_1",
     "name": "office tower",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray"
   },
   {
@@ -500,7 +500,7 @@
     ],
     "copy-from": "office_skyscraper_1",
     "name": "office skyscraper",
-    "sym": "o",
+    "sym": "O",
     "color": "i_light_gray"
   },
   {
@@ -508,7 +508,7 @@
     "id": [ "office_cubical", "office_cubical_1", "small_office" ],
     "copy-from": "office_cubical",
     "name": "office",
-    "sym": "o",
+    "sym": "O",
     "color": "light_gray"
   },
   {
@@ -516,7 +516,7 @@
     "id": [ "office_cubical_roof", "office_cubical_roof_1", "small_office_roof", "small_office_upper_roof" ],
     "copy-from": "office_cubical_roof",
     "name": "office roof",
-    "sym": "o",
+    "sym": "O",
     "color": "light_gray"
   },
   {
@@ -524,7 +524,7 @@
     "id": [ "abstorefront", "abstorefront_1", "abstorefront_2" ],
     "copy-from": "abstorefront",
     "name": "abandoned storefront",
-    "sym": "a",
+    "sym": "A",
     "color": "light_gray"
   },
   {
@@ -532,7 +532,7 @@
     "id": [ "abstorefront_roof", "abstorefront_roof_1", "abstorefront_roof_2" ],
     "copy-from": "abstorefront_roof",
     "name": "abandoned storefront roof",
-    "sym": "a",
+    "sym": "A",
     "color": "light_gray"
   },
   {
@@ -547,7 +547,7 @@
     "id": "derelict_property",
     "copy-from": "derelict_property",
     "name": "derelict property",
-    "sym": "d",
+    "sym": "D",
     "color": "light_gray"
   },
   {
@@ -555,7 +555,7 @@
     "id": "derelict_property_roof",
     "copy-from": "derelict_property_roof",
     "name": "derelict property roof",
-    "sym": "d",
+    "sym": "D",
     "color": "light_gray"
   },
   {
@@ -563,7 +563,7 @@
     "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
     "copy-from": "construction_site",
     "name": "construction site",
-    "sym": "c",
+    "sym": "C",
     "color": "light_gray"
   },
   {
@@ -571,7 +571,7 @@
     "id": "emptyresidentiallot",
     "copy-from": "emptyresidentiallot",
     "name": "empty residential lot",
-    "sym": "e",
+    "sym": "E",
     "color": "light_gray"
   },
   {
@@ -579,7 +579,7 @@
     "id": "cs_city_dump_small",
     "copy-from": "cs_city_dump_small",
     "name": "small dump",
-    "sym": "s",
+    "sym": "S",
     "color": "light_gray"
   },
   {
@@ -587,7 +587,7 @@
     "id": [ "trailer_public_00", "trailer_public_00_roof" ],
     "copy-from": "trailer_public_00",
     "name": "garbage collection point",
-    "sym": "g",
+    "sym": "G",
     "color": "light_gray"
   },
   {
@@ -595,7 +595,7 @@
     "id": [ "dumpsite", "dumpsite_edge" ],
     "copy-from": "dumpsite",
     "name": "dumpsite",
-    "sym": "d",
+    "sym": "D",
     "color": "light_gray"
   },
   {
@@ -603,7 +603,7 @@
     "id": "dump",
     "copy-from": "dump",
     "name": "dump",
-    "sym": "d",
+    "sym": "D",
     "color": "light_gray"
   },
   {
@@ -611,7 +611,7 @@
     "id": "landfill",
     "copy-from": "landfill",
     "name": "landfill",
-    "sym": "l",
+    "sym": "L",
     "color": "light_gray"
   },
   {
@@ -627,7 +627,7 @@
     ],
     "copy-from": "s_shoppingplaza_a6",
     "name": "abandoned shopping plaza",
-    "sym": "a",
+    "sym": "A",
     "color": "i_light_gray"
   },
   {
@@ -643,7 +643,7 @@
     ],
     "copy-from": "s_shoppingplaza_A6",
     "name": "abandoned shopping plaza roof",
-    "sym": "a",
+    "sym": "A",
     "color": "i_light_gray"
   },
   {
@@ -651,7 +651,7 @@
     "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
     "copy-from": "abandonedwarehouse",
     "name": "abandoned warehouse",
-    "sym": "a",
+    "sym": "A",
     "color": "light_gray"
   },
   {
@@ -665,7 +665,7 @@
     ],
     "copy-from": "generic_city_building_roof",
     "name": "abandoned warehouse roof",
-    "sym": "a",
+    "sym": "A",
     "color": "light_gray"
   },
   {
@@ -673,7 +673,7 @@
     "id": "emptycommerciallot",
     "copy-from": "emptycommerciallot",
     "name": "empty commercial lot",
-    "sym": "e",
+    "sym": "E",
     "color": "light_gray"
   },
   {
@@ -690,7 +690,7 @@
     ],
     "copy-from": "junkyard_1a",
     "name": "junkyard",
-    "sym": "j",
+    "sym": "J",
     "color": "i_light_gray"
   },
   {
@@ -734,7 +734,7 @@
     ],
     "copy-from": "ws_regional_dump_0_0",
     "name": "regional dump",
-    "sym": "r",
+    "sym": "R",
     "color": "i_light_gray"
   },
   {
@@ -742,7 +742,7 @@
     "id": [ "recyclecenter", "recyclecenter_1", "recyclecenter_2" ],
     "copy-from": "recyclecenter",
     "name": "recycle center",
-    "sym": "r",
+    "sym": "R",
     "color": "light_gray"
   },
   {
@@ -750,7 +750,7 @@
     "id": [ "recyclecenter_roof", "recyclecenter_roof_1", "recyclecenter_roof_2" ],
     "copy-from": "recyclecenter_roof",
     "name": "recycle center roof",
-    "sym": "r",
+    "sym": "R",
     "color": "light_gray"
   },
   {
@@ -758,7 +758,7 @@
     "id": "smallscrapyard",
     "copy-from": "smallscrapyard",
     "name": "small scrap yard",
-    "sym": "s",
+    "sym": "S",
     "color": "light_gray"
   },
   {
@@ -766,7 +766,7 @@
     "id": [ "smallscrapyard_ocu" ],
     "copy-from": "smallscrapyard_ocu",
     "name": "small scrap yard",
-    "sym": "s",
+    "sym": "S",
     "color": "light_gray"
   },
   {
@@ -774,7 +774,7 @@
     "id": [ "smallscrapyard_ocu_roof" ],
     "copy-from": "smallscrapyard_ocu_roof",
     "name": "small scrap yard roof",
-    "sym": "s",
+    "sym": "S",
     "color": "light_gray"
   },
   {
@@ -782,7 +782,7 @@
     "id": [ "unvitrified_farm_1", "unvitrified_farm_2", "unvitrified_farm_neg_1", "unvitrified_farm_0" ],
     "copy-from": "unvitrified_farm_1",
     "name": "quiet farmstead",
-    "sym": "q",
+    "sym": "Q",
     "color": "i_light_gray"
   },
   {
@@ -790,7 +790,7 @@
     "id": [ "unvitrified_orchard" ],
     "copy-from": "unvitrified_orchard",
     "name": "quiet orchard",
-    "sym": "q",
+    "sym": "Q",
     "color": "i_light_gray"
   },
   {
@@ -818,7 +818,7 @@
     ],
     "copy-from": "abandoned_textile_mill_0_1",
     "name": "abandoned textile mill",
-    "sym": "a",
+    "sym": "A",
     "color": "i_light_gray"
   },
   {
@@ -835,7 +835,7 @@
     ],
     "copy-from": "airliner_2a",
     "name": "crashed airliner",
-    "sym": "c",
+    "sym": "C",
     "color": "light_gray"
   },
   {
@@ -843,7 +843,7 @@
     "id": [ "airliner_1b", "airliner_3c" ],
     "copy-from": "airliner_1b",
     "name": "wreckage",
-    "sym": "w",
+    "sym": "W",
     "color": "light_gray"
   },
   {
@@ -868,7 +868,7 @@
     "id": [ "billboard_0", "billboard_1", "billboard_2" ],
     "copy-from": "billboard_0",
     "name": "billboard",
-    "sym": "b",
+    "sym": "B",
     "color": "light_gray"
   }
 ]

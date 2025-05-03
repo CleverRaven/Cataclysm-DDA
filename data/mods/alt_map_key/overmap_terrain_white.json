@@ -4,7 +4,7 @@
     "id": [ "church", "church_1" ],
     "copy-from": "generic_city_building",
     "name": "church",
-    "sym": "c",
+    "sym": "C",
     "color": "white"
   },
   {
@@ -12,7 +12,7 @@
     "id": [ "church_roof", "church_2ndfloor_1", "church_3rdfloor_1", "church_roof_1" ],
     "copy-from": "generic_city_building_roof",
     "name": "church roof",
-    "sym": "c",
+    "sym": "C",
     "color": "white"
   },
   {
@@ -20,7 +20,7 @@
     "id": [ "church_steeple", "church_steeple_end", "church_steeple_roof" ],
     "copy-from": "generic_city_building_roof",
     "name": "church steeple",
-    "sym": "c",
+    "sym": "C",
     "color": "white"
   },
   {
@@ -28,7 +28,7 @@
     "id": [ "synagogue" ],
     "copy-from": "synagogue",
     "name": "synagogue",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   },
   {
@@ -36,7 +36,7 @@
     "id": [ "synagogue_roof", "synagogue_upper_roof" ],
     "copy-from": "synagogue_roof",
     "name": "synagogue roof",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   },
   {
@@ -57,7 +57,7 @@
     ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral",
-    "sym": "c",
+    "sym": "C",
     "color": "i_white"
   },
   {
@@ -65,7 +65,7 @@
     "id": [ "cathedral_b_NW", "cathedral_b_NE", "cathedral_b_SW", "cathedral_b_SE" ],
     "copy-from": "cathedral_b_NW",
     "name": "cathedral basement",
-    "sym": "c",
+    "sym": "C",
     "color": "i_white"
   },
   {
@@ -82,7 +82,7 @@
     ],
     "copy-from": "cathedral_4_NW",
     "name": "cathedral tower",
-    "sym": "c",
+    "sym": "C",
     "color": "i_white"
   },
   {
@@ -90,7 +90,7 @@
     "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ],
     "copy-from": "s_library",
     "name": "library",
-    "sym": "l",
+    "sym": "L",
     "color": "white"
   },
   {
@@ -98,7 +98,7 @@
     "id": [ "s_library_roof", "s_library_roof_1", "s_library_roof_2", "s_library_roof_3" ],
     "copy-from": "s_library_roof",
     "name": "library roof",
-    "sym": "l",
+    "sym": "L",
     "color": "white"
   },
   {
@@ -115,7 +115,7 @@
     ],
     "copy-from": "s_library",
     "name": "library",
-    "sym": "l",
+    "sym": "L",
     "color": "i_white"
   },
   {
@@ -123,7 +123,7 @@
     "id": [ "urban_library_roof_1", "urban_library_roof_2", "urban_library_roof_3", "urban_library_roof_4" ],
     "copy-from": "s_library_roof",
     "name": "library roof",
-    "sym": "l",
+    "sym": "L",
     "color": "i_white"
   },
   {
@@ -131,7 +131,7 @@
     "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ],
     "copy-from": "s_bookstore",
     "name": "bookstore",
-    "sym": "b",
+    "sym": "B",
     "color": "white"
   },
   {
@@ -139,7 +139,7 @@
     "id": [ "s_bookstore_roof", "s_bookstore_roof_1", "s_bookstore_roof_2", "s_bookstore_upper_roof", "s_bookstore_upper_roof_1" ],
     "copy-from": "s_bookstore_roof",
     "name": "bookstore roof",
-    "sym": "b",
+    "sym": "B",
     "color": "white"
   },
   {
@@ -147,7 +147,7 @@
     "id": [ "school_1_1", "school_1_3", "school_1_4", "school_1_5", "school_1_6", "school_1_7", "school_1_8", "school_1_9" ],
     "copy-from": "school_1_1",
     "name": "school",
-    "sym": "s",
+    "sym": "S",
     "color": "i_white"
   },
   {
@@ -155,7 +155,7 @@
     "id": "school_1_2",
     "copy-from": "school_1_2",
     "name": "school",
-    "sym": "s",
+    "sym": "S",
     "color": "i_white"
   },
   {
@@ -189,7 +189,7 @@
     ],
     "copy-from": "school_2_1",
     "name": "school",
-    "sym": "s",
+    "sym": "S",
     "color": "i_white"
   },
   {
@@ -206,7 +206,7 @@
     ],
     "copy-from": "cemetery_4square_00",
     "name": "cemetery",
-    "sym": "c",
+    "sym": "C",
     "color": "i_white"
   },
   {
@@ -214,7 +214,7 @@
     "id": [ "BotanicalGarden_1a", "BotanicalGarden_1b" ],
     "copy-from": "BotanicalGarden_1a",
     "name": "botanical garden",
-    "sym": "b",
+    "sym": "B",
     "color": "i_white"
   },
   {
@@ -222,7 +222,7 @@
     "id": [ "BotanicalGarden_1a_roof", "BotanicalGarden_1b_roof" ],
     "copy-from": "BotanicalGarden_1a_roof",
     "name": "botanical garden",
-    "sym": "b",
+    "sym": "B",
     "color": "i_white"
   },
   {
@@ -230,7 +230,7 @@
     "id": [ "NatureTrail_1a", "NatureTrail_1b" ],
     "copy-from": "NatureTrail_1a",
     "name": "nature trail",
-    "sym": "n",
+    "sym": "N",
     "color": "white"
   },
   {
@@ -238,7 +238,7 @@
     "copy-from": "art_gallery",
     "type": "overmap_terrain",
     "name": "art gallery",
-    "sym": "a",
+    "sym": "A",
     "color": "white"
   },
   {
@@ -246,7 +246,7 @@
     "id": "art_gallery_roof",
     "copy-from": "art_gallery_roof",
     "name": "art gallery roof",
-    "sym": "a",
+    "sym": "A",
     "color": "white"
   },
   {
@@ -254,7 +254,7 @@
     "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
     "copy-from": "small_wooded_trail",
     "name": "small wooded trail",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   },
   {
@@ -262,7 +262,7 @@
     "id": "cs_public_space",
     "copy-from": "cs_public_space",
     "name": "public space",
-    "sym": "p",
+    "sym": "P",
     "color": "white"
   },
   {
@@ -270,7 +270,7 @@
     "id": [ "publicgarden", "publicgarden_2" ],
     "copy-from": "publicgarden",
     "name": "public garden",
-    "sym": "p",
+    "sym": "P",
     "color": "white"
   },
   {
@@ -297,7 +297,7 @@
     ],
     "copy-from": "textile_mill_museum_0a0",
     "name": "textile mill museum",
-    "sym": "t",
+    "sym": "T",
     "color": "i_white"
   },
   {
@@ -305,7 +305,7 @@
     "id": "cs_gardening_allotment",
     "copy-from": "cs_gardening_allotment",
     "name": "gardening allotment",
-    "sym": "a",
+    "sym": "A",
     "color": "white"
   },
   {
@@ -313,7 +313,7 @@
     "id": "cs_gardening_allotment_roof",
     "copy-from": "cs_gardening_allotment_roof",
     "name": "gardening allotment roof",
-    "sym": "a",
+    "sym": "A",
     "color": "white"
   },
   {
@@ -321,7 +321,7 @@
     "id": [ "playground", "playground_roof", "playground_1" ],
     "copy-from": "playground",
     "name": "playground",
-    "sym": "p",
+    "sym": "P",
     "color": "white"
   },
   {
@@ -329,7 +329,7 @@
     "id": [ "park", "park_roof", "park_2", "park_3", "park_4", "park_5", "park_5_roof", "park_6", "park_7", "park_7_roof" ],
     "copy-from": "park",
     "name": "park",
-    "sym": "p",
+    "sym": "P",
     "color": "white"
   },
   {
@@ -337,7 +337,7 @@
     "id": [ "communitygarden", "communitygarden_2", "communitygarden_3" ],
     "copy-from": "communitygarden",
     "name": "community garden",
-    "sym": "c",
+    "sym": "C",
     "color": "white"
   },
   {
@@ -345,7 +345,7 @@
     "id": [ "park_maze", "park_maze_2" ],
     "copy-from": "park_maze",
     "name": "hedge maze",
-    "sym": "h",
+    "sym": "H",
     "color": "white"
   },
   {
@@ -353,7 +353,7 @@
     "id": "cs_private_park",
     "copy-from": "cs_private_park",
     "name": "private park",
-    "sym": "p",
+    "sym": "P",
     "color": "white"
   },
   {
@@ -361,7 +361,7 @@
     "id": "cs_private_park_roof",
     "copy-from": "cs_private_park_roof",
     "name": "private park roof",
-    "sym": "p",
+    "sym": "P",
     "color": "white"
   },
   {
@@ -369,7 +369,7 @@
     "id": [ "rural_church", "rural_church_parking" ],
     "copy-from": "rural_church",
     "name": "rural church",
-    "sym": "r",
+    "sym": "R",
     "color": "i_white"
   },
   {
@@ -377,7 +377,7 @@
     "id": [ "rural_church_steeple" ],
     "copy-from": "rural_church_steeple",
     "name": "rural church steeple",
-    "sym": "r",
+    "sym": "R",
     "color": "i_white"
   },
   {
@@ -385,7 +385,7 @@
     "id": [ "rural_church_steeple_roof" ],
     "copy-from": "rural_church_steeple_roof",
     "name": "rural church steeple roof",
-    "sym": "r",
+    "sym": "R",
     "color": "i_white"
   },
   {
@@ -393,7 +393,7 @@
     "id": [ "rural_church_basement" ],
     "copy-from": "rural_church_basement",
     "name": "rural church basement",
-    "sym": "r",
+    "sym": "R",
     "color": "i_white"
   },
   {
@@ -401,7 +401,7 @@
     "id": [ "dog_park" ],
     "copy-from": "dog_park",
     "name": "dog park",
-    "sym": "d",
+    "sym": "D",
     "color": "white"
   },
   {
@@ -409,7 +409,7 @@
     "id": "cs_public_art_piece",
     "copy-from": "cs_public_art_piece",
     "name": "public art piece",
-    "sym": "p",
+    "sym": "P",
     "color": "white"
   },
   {
@@ -417,7 +417,7 @@
     "copy-from": "cemetery_small",
     "type": "overmap_terrain",
     "name": "small cemetery",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   },
   {
@@ -425,7 +425,7 @@
     "id": "museum",
     "copy-from": "museum",
     "name": "museum",
-    "sym": "m",
+    "sym": "M",
     "color": "white"
   },
   {
@@ -433,7 +433,7 @@
     "id": "museum_roof",
     "copy-from": "museum_roof",
     "name": "museum roof",
-    "sym": "m",
+    "sym": "M",
     "color": "white"
   },
   {
@@ -441,7 +441,7 @@
     "id": [ "retirement_community_34", "retirement_community_35", "retirement_community_36" ],
     "copy-from": "retirement_community_34",
     "name": "community building",
-    "sym": "c",
+    "sym": "C",
     "color": "i_white"
   },
   {
@@ -449,7 +449,7 @@
     "id": [ "retirement_community_2f_34", "retirement_community_2f_35", "retirement_community_2f_36" ],
     "copy-from": "retirement_community_2f_34",
     "name": "community building roof",
-    "sym": "c",
+    "sym": "C",
     "color": "i_white"
   },
   {
@@ -457,7 +457,7 @@
     "id": [ "small_kindergarten" ],
     "name": "small kindergarten",
     "copy-from": "small_kindergarten",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   },
   {
@@ -465,7 +465,7 @@
     "id": [ "small_kindergarten_roof" ],
     "copy-from": "small_kindergarten_roof",
     "name": "small kindergarten roof",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   }
 ]

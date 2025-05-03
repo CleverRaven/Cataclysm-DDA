@@ -4,7 +4,7 @@
     "id": "lab",
     "copy-from": "lab",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -12,7 +12,7 @@
     "id": "full_basic_lab_roof",
     "copy-from": "full_basic_lab_roof",
     "name": "science lab roof",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -20,7 +20,7 @@
     "id": "lab_stairs",
     "copy-from": "lab_stairs",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -28,7 +28,7 @@
     "id": "lab_core",
     "copy-from": "lab_core",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -36,7 +36,7 @@
     "id": "lab_finale",
     "copy-from": "lab_finale",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_red"
   },
   {
@@ -44,7 +44,7 @@
     "id": "ice_lab",
     "copy-from": "ice_lab",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -52,7 +52,7 @@
     "id": "ice_lab_stairs",
     "copy-from": "ice_lab_stairs",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -60,7 +60,7 @@
     "id": "ice_lab_core",
     "copy-from": "ice_lab_core",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -68,7 +68,7 @@
     "id": "ice_lab_finale",
     "copy-from": "ice_lab_finale",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_red"
   },
   {
@@ -76,7 +76,7 @@
     "id": "tower_lab",
     "copy-from": "tower_lab",
     "name": "science lab tower",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -84,7 +84,7 @@
     "id": "tower_lab_stairs",
     "copy-from": "tower_lab_stairs",
     "name": "science lab tower",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -92,7 +92,7 @@
     "id": "tower_lab_finale",
     "copy-from": "tower_lab_finale",
     "name": "science lab tower",
-    "sym": "l",
+    "sym": "L",
     "color": "i_red"
   },
   {
@@ -107,7 +107,7 @@
     ],
     "copy-from": "office_tower_lab_a1_roof",
     "name": "science lab tower roof",
-    "sym": "l",
+    "sym": "L",
     "color": "i_red"
   },
   {
@@ -115,7 +115,7 @@
     "id": "lab_train_depot",
     "copy-from": "lab_train_depot",
     "name": "science train depot",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -123,7 +123,7 @@
     "id": "central_lab_train_depot",
     "copy-from": "central_lab_train_depot",
     "name": "central train depot",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -131,7 +131,7 @@
     "id": "central_lab_entrance",
     "copy-from": "central_lab_entrance",
     "name": "Lab access shaft",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -139,7 +139,7 @@
     "id": "lab_subway_vent_shaft_surface",
     "copy-from": "lab_subway_vent_shaft_surface",
     "name": "Lab access shaft",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -147,7 +147,7 @@
     "id": "central_lab_shaft",
     "copy-from": "central_lab_shaft",
     "name": "access shaft",
-    "sym": "a",
+    "sym": "A",
     "color": "i_magenta"
   },
   {
@@ -165,7 +165,7 @@
     ],
     "copy-from": "central_lab_hq_1",
     "name": "central lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_red"
   },
   {
@@ -173,7 +173,7 @@
     "id": "central_lab",
     "copy-from": "central_lab",
     "name": "central lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -181,7 +181,7 @@
     "id": "central_lab_stairs",
     "copy-from": "central_lab_stairs",
     "name": "central lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -189,7 +189,7 @@
     "id": "central_lab_core",
     "copy-from": "central_lab_core",
     "name": "central lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -197,7 +197,7 @@
     "id": "central_lab_finale",
     "copy-from": "central_lab_finale",
     "name": "central lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_red"
   },
   {
@@ -205,7 +205,7 @@
     "id": [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ],
     "copy-from": "lab_surface_brick_basementD1_hidden_lab_stairs",
     "name": "lab basement",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -225,7 +225,7 @@
     ],
     "copy-from": "lab_surface_brick_blockA0",
     "name": "parking lot",
-    "sym": "p",
+    "sym": "P",
     "color": "light_blue"
   },
   {
@@ -246,7 +246,7 @@
     ],
     "copy-from": "lab_surface_parking_blockA2",
     "name": "parking lot",
-    "sym": "p",
+    "sym": "P",
     "color": "light_blue"
   },
   {
@@ -268,7 +268,7 @@
     ],
     "copy-from": "lab_surface_brick_blockA2",
     "name": "research facility",
-    "sym": "r",
+    "sym": "R",
     "color": "i_pink"
   },
   {
@@ -276,7 +276,7 @@
     "id": "lab_surface_brick_blockC3",
     "copy-from": "lab_surface_brick_blockC3",
     "name": "research facility entrance",
-    "sym": "r",
+    "sym": "R",
     "color": "i_pink"
   },
   {
@@ -299,7 +299,7 @@
     ],
     "copy-from": "lab_surface_brick_block2A2",
     "name": "research facility, second floor",
-    "sym": "r",
+    "sym": "R",
     "color": "i_pink"
   },
   {
@@ -322,7 +322,7 @@
     ],
     "copy-from": "lab_surface_brick_block3A2",
     "name": "research facility, third floor",
-    "sym": "r",
+    "sym": "R",
     "color": "i_pink"
   },
   {
@@ -345,7 +345,7 @@
     ],
     "copy-from": "lab_surface_brick_block4A2",
     "name": "research facility, fourth floor",
-    "sym": "r",
+    "sym": "R",
     "color": "i_pink"
   },
   {
@@ -368,7 +368,7 @@
     ],
     "copy-from": "lab_surface_brick_block5A2",
     "name": "research facility, roof",
-    "sym": "r",
+    "sym": "R",
     "color": "i_pink"
   },
   {
@@ -385,7 +385,7 @@
     ],
     "copy-from": "lab_2x2_MUT_tier_1_NW",
     "name": "Research Zone",
-    "sym": "r",
+    "sym": "R",
     "color": "i_light_blue"
   },
   {
@@ -393,7 +393,7 @@
     "id": [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP", "lab_CORE_2x1_1DN", "lab_CORE_2x1_2DN" ],
     "copy-from": "lab_CORE_2x1_1UP",
     "name": "Recreation Zone",
-    "sym": "r",
+    "sym": "R",
     "color": "i_white"
   },
   {
@@ -408,7 +408,7 @@
     ],
     "copy-from": "lab_security_z-1",
     "name": "Security Zone",
-    "sym": "s",
+    "sym": "S",
     "color": "i_yellow"
   },
   {
@@ -431,7 +431,7 @@
     ],
     "copy-from": "lab_2x1_CORE_-1W",
     "name": "Cargo Zone",
-    "sym": "c",
+    "sym": "C",
     "color": "i_white"
   },
   {
@@ -454,7 +454,7 @@
     ],
     "copy-from": "lab_1x1_RES_8_bedrooms_maintenance",
     "name": "Residential Zone",
-    "sym": "r",
+    "sym": "R",
     "color": "i_green"
   },
   {
@@ -476,7 +476,7 @@
     ],
     "copy-from": "lab_res_8_SWD_ground",
     "name": "Trans-Coast Logistics",
-    "sym": "t",
+    "sym": "T",
     "color": "i_pink"
   },
   {
@@ -484,7 +484,7 @@
     "id": "full_mutagen_lab_roof",
     "copy-from": "full_mutagen_lab_roof",
     "name": "Trans-Coast Logistics roof",
-    "sym": "t",
+    "sym": "T",
     "color": "i_pink"
   },
   {
@@ -492,7 +492,7 @@
     "id": [ "lab_security_z0S_roof", "lab_security_z0N_roof" ],
     "copy-from": "lab_security_z0S_roof",
     "name": "Trans-Coast Logistics roof",
-    "sym": "t",
+    "sym": "T",
     "color": "i_pink"
   },
   {
@@ -500,7 +500,7 @@
     "id": [ "lab_health_z-2_A", "lab_health_z-2_B", "lab_health_z-3_A" ],
     "copy-from": "lab_health_z-2_A",
     "name": "Health Clinic",
-    "sym": "h",
+    "sym": "H",
     "color": "i_red"
   },
   {
@@ -508,7 +508,7 @@
     "id": [ "lab_health_z-3_B" ],
     "copy-from": "lab_health_z-3_B",
     "name": "Health Clinic",
-    "sym": "h",
+    "sym": "H",
     "color": "i_red"
   },
   {
@@ -516,7 +516,7 @@
     "id": [ "lab_maintenance_z-2&3_B", "lab_maintenance_z-2&3_A" ],
     "copy-from": "lab_maintenance_z-2&3_B",
     "name": "Maintenance Zone",
-    "sym": "m",
+    "sym": "M",
     "color": "i_cyan"
   },
   {
@@ -524,7 +524,7 @@
     "id": [ "LIXA_surface_1a", "LIXA_surface_2a", "LIXA_surface_1b", "LIXA_surface_2b" ],
     "copy-from": "LIXA_surface_1a",
     "name": "LIXA research facility",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -532,7 +532,7 @@
     "id": [ "LIXA_roof_1a", "LIXA_roof_2a", "LIXA_roof_1b", "LIXA_roof_2b" ],
     "copy-from": "LIXA_roof_1a",
     "name": "LIXA research facility roof",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -540,7 +540,7 @@
     "id": [ "LIXA_entry_1", "LIXA_entry_2" ],
     "copy-from": "LIXA_entry_1",
     "name": "LIXA research facility gate",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -556,7 +556,7 @@
     "id": [ "LIXA_road_guard", "LIXA_road_guard_roof" ],
     "copy-from": "LIXA_road_guard",
     "name": "LIXA research facility checkpoint",
-    "sym": "c",
+    "sym": "C",
     "color": "pink"
   },
   {
@@ -573,7 +573,7 @@
     ],
     "copy-from": "LIXA_stairshaft_1a",
     "name": "LIXA experiment floor access",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -581,7 +581,7 @@
     "id": [ "LIXA_workfloor_1a", "LIXA_workfloor_2a", "LIXA_workfloor_1b", "LIXA_workfloor_2b" ],
     "copy-from": "LIXA_workfloor_1a",
     "name": "LIXA research floor",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -589,7 +589,7 @@
     "id": [ "LIXA_device_1", "LIXA_device_2", "LIXA_device_3", "LIXA_device_2_roof", "LIXA_device_3_roof" ],
     "copy-from": "LIXA_device_1",
     "name": "LIXA device floor",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -597,7 +597,7 @@
     "id": "microlab_generic",
     "copy-from": "microlab_generic",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -605,7 +605,7 @@
     "id": "microlab_generic_edge",
     "copy-from": "microlab_generic_edge",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -613,7 +613,7 @@
     "id": "microlab_generic_surface_connector",
     "copy-from": "microlab_generic_surface_connector",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -621,7 +621,7 @@
     "id": "microlab_generic_vent_shaft_connector",
     "copy-from": "microlab_generic_vent_shaft_connector",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -629,7 +629,7 @@
     "id": "microlab_sub_station",
     "copy-from": "microlab_sub_station",
     "name": "subway station?",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -637,7 +637,7 @@
     "id": "microlab_sub_connector",
     "copy-from": "microlab_sub_connector",
     "name": "subway station?",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -645,7 +645,7 @@
     "id": "microlab_generic_sub_entry",
     "copy-from": "microlab_generic_sub_entry",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -662,7 +662,7 @@
     ],
     "copy-from": "microlab_generic_firebreak",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -681,7 +681,7 @@
     ],
     "copy-from": "microlab_portal_security1",
     "name": "physics lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_red"
   },
   {
@@ -689,7 +689,7 @@
     "id": [ "microlab_reactor", "microlab_reactor_b" ],
     "copy-from": "microlab_reactor",
     "name": "science lab reactor",
-    "sym": "l",
+    "sym": "L",
     "color": "i_light_red"
   },
   {
@@ -697,7 +697,7 @@
     "id": [ "microlab_distorted", "microlab_distorted_edge" ],
     "copy-from": "microlab_distorted",
     "name": "distorted science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -705,7 +705,7 @@
     "id": [ "microlab_portal_elevator", "microlab_portal_elevator_physics_glass" ],
     "copy-from": "microlab_portal_elevator",
     "name": "physics department elevator",
-    "sym": "l",
+    "sym": "L",
     "color": "i_light_red"
   },
   {
@@ -713,7 +713,7 @@
     "id": [ "microlab_portal_MSU14_elevator" ],
     "copy-from": "microlab_portal_MSU14_elevator",
     "name": "Hub 14 elevator",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -721,7 +721,7 @@
     "id": [ "microlab_portal_MSU14" ],
     "copy-from": "microlab_portal_MSU14",
     "name": "Hub 14",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -729,7 +729,7 @@
     "id": "microlab_generic_surface",
     "copy-from": "microlab_generic_surface",
     "name": "lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -737,7 +737,7 @@
     "id": "microlab_generic_surface_roof",
     "copy-from": "microlab_generic_surface_roof",
     "name": "lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -745,7 +745,7 @@
     "id": "microlab_ratkin",
     "copy-from": "microlab_ratkin",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -753,7 +753,7 @@
     "id": "microlab_ratkin_edge",
     "copy-from": "microlab_ratkin_edge",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -761,7 +761,7 @@
     "id": "microlab_ratkin_sub_entry",
     "copy-from": "microlab_ratkin_sub_entry",
     "name": "science lab",
-    "sym": "l",
+    "sym": "L",
     "color": "i_magenta"
   },
   {
@@ -769,6 +769,6 @@
     "id": "microlab_sub_station_ratkin",
     "copy-from": "microlab_sub_station_ratkin",
     "name": "pump station?",
-    "sym": "p"
+    "sym": "P"
   }
 ]
