@@ -63,6 +63,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "map_selector.h"
 #include "martialarts.h"
 #include "math_parser_diag_value.h"
 #include "memory_fast.h"
