@@ -207,7 +207,7 @@
     "copy-from": "s_gas_0_0",
     "name": "gas station",
     "sym": "G",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -215,7 +215,7 @@
     "copy-from": "s_gas_0_0_roof",
     "name": "gas station roof",
     "sym": "G",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -287,7 +287,7 @@
     "copy-from": "garage_gas_1",
     "name": "garage - gas station",
     "sym": "G",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -295,7 +295,7 @@
     "copy-from": "garage_gas_2",
     "name": "garage",
     "sym": "G",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -303,7 +303,7 @@
     "copy-from": "garage_gas_roof_1",
     "name": "garage roof",
     "sym": "G",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -415,7 +415,7 @@
     "copy-from": "s_reststop_1",
     "name": "rest area",
     "sym": "R",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -423,7 +423,7 @@
     "copy-from": "s_reststop_1_roof",
     "name": "rest area roof",
     "sym": "R",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -431,7 +431,7 @@
     "copy-from": "bus_stat_0",
     "name": "bus station",
     "sym": "B",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -439,7 +439,7 @@
     "copy-from": "bus_stat_0_roof",
     "name": "bus station roof",
     "sym": "B",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -503,7 +503,7 @@
     "copy-from": "lake_dock_small",
     "name": "dock",
     "sym": "D",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -511,7 +511,7 @@
     "copy-from": "lake_shore_dock_small",
     "name": "dock",
     "sym": "D",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -528,7 +528,7 @@
     "copy-from": "marina_11",
     "name": "marina",
     "sym": "M",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -562,7 +562,7 @@
     "copy-from": "car_theater_0_0",
     "name": "drive-in theater",
     "sym": "D",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -570,7 +570,7 @@
     "copy-from": "car_theater_3_1",
     "name": "drive-in theater entrance",
     "sym": "D",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -621,7 +621,7 @@
     "copy-from": "speedway_1_6",
     "name": "bleachers",
     "sym": "B",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -650,7 +650,7 @@
     "copy-from": "speedway_9_3",
     "name": "garage",
     "sym": "G",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",

@@ -42,7 +42,7 @@
     ],
     "copy-from": "goblin_1A",
     "sym": "G",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -133,7 +133,7 @@
     "id": [ "black_dragon_lair_z-0_NW", "black_dragon_lair_z-0_NE", "black_dragon_lair_z-0_SE", "black_dragon_lair_z-0_SW" ],
     "copy-from": "black_dragon_lair_z-0_NW",
     "sym": "D",
-    "color": "i_cyan"
+    "color": "cyan"
   },
   {
     "type": "overmap_terrain",
@@ -238,7 +238,7 @@
     ],
     "copy-from": "attunement_altar_NW",
     "sym": "A",
-    "color": "i_cyan"
+    "color": "cyan"
   },
   {
     "type": "overmap_terrain",
@@ -260,7 +260,7 @@
     ],
     "copy-from": "mine_balrog_west",
     "sym": "M",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -400,6 +400,6 @@
     ],
     "copy-from": "forge_x0y0z0",
     "sym": "F",
-    "color": "i_cyan"
+    "color": "cyan"
   }
 ]

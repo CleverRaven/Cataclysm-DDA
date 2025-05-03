@@ -113,7 +113,7 @@
     ],
     "copy-from": "urban_13_1",
     "sym": "B",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -147,7 +147,7 @@
     ],
     "copy-from": "urban_29_3",
     "sym": "^",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -174,7 +174,7 @@
     ],
     "copy-from": "urban_1_1",
     "sym": "^",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -221,7 +221,7 @@
     ],
     "copy-from": "urban_29_5",
     "sym": "^",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -261,7 +261,7 @@
     ],
     "copy-from": "urban_2_3",
     "sym": "^",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -280,7 +280,7 @@
     "copy-from": "urban_13_3",
     "name": "dense urban",
     "sym": "^",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -298,7 +298,7 @@
     "copy-from": "urban_25_3",
     "name": "urban city block",
     "sym": "^",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -306,7 +306,7 @@
     "copy-from": "urban_14_1",
     "name": "urban city block - basement",
     "sym": "B",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -327,7 +327,7 @@
     "copy-from": "urban_14_10",
     "name": "dense urban",
     "sym": "^",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -374,7 +374,7 @@
     "copy-from": "apartments_con_tower_000",
     "name": "apartment tower",
     "sym": "A",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -402,7 +402,7 @@
     "copy-from": "apartments_con_tower_004",
     "name": "apartment tower roof",
     "sym": "A",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -432,7 +432,7 @@
     "copy-from": "apartment_complex_entrance",
     "name": "apartment complex",
     "sym": "A",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -450,7 +450,7 @@
     "copy-from": "apartment_complex_corner_roof",
     "name": "apartment complex roof",
     "sym": "A",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -458,7 +458,7 @@
     "copy-from": "apartment_complex_courtyard",
     "name": "apartment complex - courtyard",
     "sym": "A",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "//": "Ripped the ground floor parking tiles out into light blue, these are empty air in actuality, should PR this",
@@ -508,7 +508,7 @@
     "copy-from": "hotel_tower_flr2_1_5",
     "name": "hotel",
     "sym": "H",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -516,7 +516,7 @@
     "copy-from": "hotel_tower_1_5",
     "name": "hotel entrance",
     "sym": "H",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -524,7 +524,7 @@
     "copy-from": "hotel_tower_b_1",
     "name": "hotel basement",
     "sym": "H",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -532,7 +532,7 @@
     "copy-from": "motel_entrance",
     "name": "motel entrance",
     "sym": "M",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -540,7 +540,7 @@
     "copy-from": "motel_1",
     "name": "motel",
     "sym": "M",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -548,7 +548,7 @@
     "copy-from": "motel_twd_1",
     "name": "motel",
     "sym": "M",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -566,7 +566,7 @@
     "copy-from": "motel_twd_2",
     "name": "motel",
     "sym": "M",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -584,7 +584,7 @@
     "copy-from": "motel_twd_2_f1",
     "name": "motel roof",
     "sym": "M",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -592,7 +592,7 @@
     "copy-from": "mansion_e1",
     "name": "mansion",
     "sym": "M",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -682,7 +682,7 @@
     "copy-from": "mansion_+1",
     "name": "mansion",
     "sym": "M",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -790,7 +790,7 @@
     "copy-from": "homeless_0_0_0",
     "name": "homeless shelter",
     "sym": "H",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -806,7 +806,7 @@
     "copy-from": "homeless_0_0_1",
     "name": "homeless shelter",
     "sym": "H",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -821,7 +821,7 @@
     "copy-from": "nursing_home_sh1",
     "name": "nursing home",
     "sym": "N",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -829,7 +829,7 @@
     "copy-from": "nursing_home_1",
     "name": "nursing home",
     "sym": "N",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -844,7 +844,7 @@
     "copy-from": "nursing_home_1_roof",
     "name": "nursing home roof",
     "sym": "N",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -865,7 +865,7 @@
     "copy-from": "nursing_home_b1",
     "name": "nursing home basement",
     "sym": "N",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -886,7 +886,7 @@
     "copy-from": "nursing_home_bb1",
     "name": "nursing home basement",
     "sym": "N",
-    "color": "i_light_green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",

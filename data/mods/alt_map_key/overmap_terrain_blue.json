@@ -104,7 +104,7 @@
     "copy-from": "convention_0_0_0",
     "name": "convention center",
     "sym": "C",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -208,7 +208,7 @@
     "copy-from": "p_resort_1nw",
     "name": "private resort",
     "sym": "P",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -247,7 +247,7 @@
     "copy-from": "p_resort_0nw",
     "name": "private resort",
     "sym": "P",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -367,7 +367,7 @@
     "type": "overmap_terrain",
     "name": "fishing pond",
     "sym": "#",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -699,7 +699,7 @@
     "copy-from": "karting_0_0_0",
     "name": "go-kart track",
     "sym": "G",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -716,7 +716,7 @@
     "copy-from": "movietheater_0_0",
     "name": "movie theater",
     "sym": "M",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -724,7 +724,7 @@
     "copy-from": "movietheater_1_0",
     "name": "movie theater entrance",
     "sym": "M",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -741,7 +741,7 @@
     "copy-from": "miniaturerailway_0_0_0",
     "name": "miniature railway",
     "sym": "M",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -762,7 +762,7 @@
     "copy-from": "luna_park_0_0_0",
     "name": "miniature railway park",
     "sym": "M",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -781,7 +781,7 @@
     "copy-from": "golfcourse_00",
     "name": "golf course",
     "sym": "G",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -789,7 +789,7 @@
     "copy-from": "golfcourse_31",
     "name": "golf course service building",
     "sym": "G",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -797,7 +797,7 @@
     "copy-from": "golfcourse_31_2ndfloor",
     "name": "golf course bar",
     "sym": "G",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -805,7 +805,7 @@
     "copy-from": "golfcourse_31_roof",
     "name": "golf course service building roof",
     "sym": "G",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -813,7 +813,7 @@
     "copy-from": "zoo_2_0",
     "name": "zoo entrance",
     "sym": "Z",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -834,7 +834,7 @@
     "copy-from": "zoo_0_1",
     "name": "zoo",
     "sym": "Z",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -842,7 +842,7 @@
     "copy-from": "zoo_3_2_basement",
     "name": "zoo",
     "sym": "Z",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -867,7 +867,7 @@
     "copy-from": "zoo_0_0_roof",
     "name": "zoo roof",
     "sym": "Z",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -885,7 +885,7 @@
     "copy-from": "s_baseballfield_a1",
     "name": "baseball field",
     "sym": "B",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -927,7 +927,7 @@
     "copy-from": "football_field_a1",
     "name": "football field",
     "sym": "F",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -1068,7 +1068,7 @@
     "copy-from": "stadium_0_1",
     "name": "stadium",
     "sym": "S",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -1084,6 +1084,6 @@
     "copy-from": "stadium_football_2_1",
     "name": "stadium entrance",
     "sym": "S",
-    "color": "i_blue"
+    "color": "blue"
   }
 ]

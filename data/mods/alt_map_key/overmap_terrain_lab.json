@@ -5,7 +5,7 @@
     "copy-from": "lab",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -13,7 +13,7 @@
     "copy-from": "full_basic_lab_roof",
     "name": "science lab roof",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -21,7 +21,7 @@
     "copy-from": "lab_stairs",
     "name": "science lab",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -29,7 +29,7 @@
     "copy-from": "lab_core",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -37,7 +37,7 @@
     "copy-from": "lab_finale",
     "name": "science lab",
     "sym": "L",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -45,7 +45,7 @@
     "copy-from": "ice_lab",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -53,7 +53,7 @@
     "copy-from": "ice_lab_stairs",
     "name": "science lab",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -61,7 +61,7 @@
     "copy-from": "ice_lab_core",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -69,7 +69,7 @@
     "copy-from": "ice_lab_finale",
     "name": "science lab",
     "sym": "L",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -77,7 +77,7 @@
     "copy-from": "tower_lab",
     "name": "science lab tower",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -85,7 +85,7 @@
     "copy-from": "tower_lab_stairs",
     "name": "science lab tower",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -93,7 +93,7 @@
     "copy-from": "tower_lab_finale",
     "name": "science lab tower",
     "sym": "L",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -108,7 +108,7 @@
     "copy-from": "office_tower_lab_a1_roof",
     "name": "science lab tower roof",
     "sym": "L",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -116,7 +116,7 @@
     "copy-from": "lab_train_depot",
     "name": "science train depot",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -124,7 +124,7 @@
     "copy-from": "central_lab_train_depot",
     "name": "central train depot",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -132,7 +132,7 @@
     "copy-from": "central_lab_entrance",
     "name": "Lab access shaft",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -140,7 +140,7 @@
     "copy-from": "lab_subway_vent_shaft_surface",
     "name": "Lab access shaft",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -148,7 +148,7 @@
     "copy-from": "central_lab_shaft",
     "name": "access shaft",
     "sym": "A",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -166,7 +166,7 @@
     "copy-from": "central_lab_hq_1",
     "name": "central lab",
     "sym": "L",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -174,7 +174,7 @@
     "copy-from": "central_lab",
     "name": "central lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -182,7 +182,7 @@
     "copy-from": "central_lab_stairs",
     "name": "central lab",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -190,7 +190,7 @@
     "copy-from": "central_lab_core",
     "name": "central lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -198,7 +198,7 @@
     "copy-from": "central_lab_finale",
     "name": "central lab",
     "sym": "L",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -206,7 +206,7 @@
     "copy-from": "lab_surface_brick_basementD1_hidden_lab_stairs",
     "name": "lab basement",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -269,7 +269,7 @@
     "copy-from": "lab_surface_brick_blockA2",
     "name": "research facility",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -277,7 +277,7 @@
     "copy-from": "lab_surface_brick_blockC3",
     "name": "research facility entrance",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -300,7 +300,7 @@
     "copy-from": "lab_surface_brick_block2A2",
     "name": "research facility, second floor",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -323,7 +323,7 @@
     "copy-from": "lab_surface_brick_block3A2",
     "name": "research facility, third floor",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -346,7 +346,7 @@
     "copy-from": "lab_surface_brick_block4A2",
     "name": "research facility, fourth floor",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -369,7 +369,7 @@
     "copy-from": "lab_surface_brick_block5A2",
     "name": "research facility, roof",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -386,7 +386,7 @@
     "copy-from": "lab_2x2_MUT_tier_1_NW",
     "name": "Research Zone",
     "sym": "R",
-    "color": "i_light_blue"
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -394,7 +394,7 @@
     "copy-from": "lab_CORE_2x1_1UP",
     "name": "Recreation Zone",
     "sym": "R",
-    "color": "i_white"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -409,7 +409,7 @@
     "copy-from": "lab_security_z-1",
     "name": "Security Zone",
     "sym": "S",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -432,7 +432,7 @@
     "copy-from": "lab_2x1_CORE_-1W",
     "name": "Cargo Zone",
     "sym": "C",
-    "color": "i_white"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -455,7 +455,7 @@
     "copy-from": "lab_1x1_RES_8_bedrooms_maintenance",
     "name": "Residential Zone",
     "sym": "R",
-    "color": "i_green"
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -477,7 +477,7 @@
     "copy-from": "lab_res_8_SWD_ground",
     "name": "Trans-Coast Logistics",
     "sym": "T",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -485,7 +485,7 @@
     "copy-from": "full_mutagen_lab_roof",
     "name": "Trans-Coast Logistics roof",
     "sym": "T",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -493,7 +493,7 @@
     "copy-from": "lab_security_z0S_roof",
     "name": "Trans-Coast Logistics roof",
     "sym": "T",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -501,7 +501,7 @@
     "copy-from": "lab_health_z-2_A",
     "name": "Health Clinic",
     "sym": "H",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -509,7 +509,7 @@
     "copy-from": "lab_health_z-3_B",
     "name": "Health Clinic",
     "sym": "H",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -517,7 +517,7 @@
     "copy-from": "lab_maintenance_z-2&3_B",
     "name": "Maintenance Zone",
     "sym": "M",
-    "color": "i_cyan"
+    "color": "cyan"
   },
   {
     "type": "overmap_terrain",
@@ -525,7 +525,7 @@
     "copy-from": "LIXA_surface_1a",
     "name": "LIXA research facility",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -533,7 +533,7 @@
     "copy-from": "LIXA_roof_1a",
     "name": "LIXA research facility roof",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -541,7 +541,7 @@
     "copy-from": "LIXA_entry_1",
     "name": "LIXA research facility gate",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -574,7 +574,7 @@
     "copy-from": "LIXA_stairshaft_1a",
     "name": "LIXA experiment floor access",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -582,7 +582,7 @@
     "copy-from": "LIXA_workfloor_1a",
     "name": "LIXA research floor",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -590,7 +590,7 @@
     "copy-from": "LIXA_device_1",
     "name": "LIXA device floor",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -598,7 +598,7 @@
     "copy-from": "microlab_generic",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -606,7 +606,7 @@
     "copy-from": "microlab_generic_edge",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -614,7 +614,7 @@
     "copy-from": "microlab_generic_surface_connector",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -622,7 +622,7 @@
     "copy-from": "microlab_generic_vent_shaft_connector",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -646,7 +646,7 @@
     "copy-from": "microlab_generic_sub_entry",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -663,7 +663,7 @@
     "copy-from": "microlab_generic_firebreak",
     "name": "science lab",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -682,7 +682,7 @@
     "copy-from": "microlab_portal_security1",
     "name": "physics lab",
     "sym": "L",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -690,7 +690,7 @@
     "copy-from": "microlab_reactor",
     "name": "science lab reactor",
     "sym": "L",
-    "color": "i_light_red"
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
@@ -698,7 +698,7 @@
     "copy-from": "microlab_distorted",
     "name": "distorted science lab",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -706,7 +706,7 @@
     "copy-from": "microlab_portal_elevator",
     "name": "physics department elevator",
     "sym": "L",
-    "color": "i_light_red"
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
@@ -714,7 +714,7 @@
     "copy-from": "microlab_portal_MSU14_elevator",
     "name": "Hub 14 elevator",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -722,7 +722,7 @@
     "copy-from": "microlab_portal_MSU14",
     "name": "Hub 14",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -730,7 +730,7 @@
     "copy-from": "microlab_generic_surface",
     "name": "lab",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -738,7 +738,7 @@
     "copy-from": "microlab_generic_surface_roof",
     "name": "lab",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -746,7 +746,7 @@
     "copy-from": "microlab_ratkin",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -754,7 +754,7 @@
     "copy-from": "microlab_ratkin_edge",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -762,7 +762,7 @@
     "copy-from": "microlab_ratkin_sub_entry",
     "name": "science lab",
     "sym": "L",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",

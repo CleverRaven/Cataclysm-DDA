@@ -14,7 +14,7 @@
     "copy-from": "farm_supply_1",
     "name": "farm supply store",
     "sym": "S",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -22,7 +22,7 @@
     "copy-from": "farm_supply_roof_1",
     "name": "farm supply store",
     "sym": "S",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -180,7 +180,7 @@
     "copy-from": "city_block2_1",
     "name": "urban city block",
     "sym": "U",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -188,7 +188,7 @@
     "copy-from": "strip_mall_1",
     "name": "strip mall",
     "sym": "S",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -196,7 +196,7 @@
     "copy-from": "strip_mall_roof_1",
     "name": "strip mall roof",
     "sym": "S",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -325,7 +325,7 @@
     "copy-from": "megastore_0_0_0",
     "name": "megastore",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -333,7 +333,7 @@
     "copy-from": "megastore_1_2_0",
     "name": "megastore",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -351,7 +351,7 @@
     "copy-from": "megastore_0_0_1",
     "name": "megastore, second floor",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -368,7 +368,7 @@
     "copy-from": "megastore_0_0_roof",
     "name": "megastore roof",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -376,7 +376,7 @@
     "copy-from": "megastore_1_1_roof",
     "name": "megastore roof",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "id": [ "small_storage_units", "small_storage_units_1" ],
@@ -534,7 +534,7 @@
     "copy-from": "large_storage_units_3",
     "name": "storage units",
     "sym": "S",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -548,7 +548,7 @@
     "copy-from": "large_storage_units_roof_3",
     "name": "storage units roof",
     "sym": "S",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -556,7 +556,7 @@
     "copy-from": "mall_a_3",
     "name": "mall - loading bay",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -564,7 +564,7 @@
     "copy-from": "mall_a_3_roof",
     "name": "mall - loading bay roof",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -572,7 +572,7 @@
     "copy-from": "mall_upper_roof_4",
     "name": "mall - loading bay roof",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -580,7 +580,7 @@
     "copy-from": "mall_a_4",
     "name": "mall - utilities",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -588,7 +588,7 @@
     "copy-from": "mall_a_4_roof",
     "name": "mall - utilities roof",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -609,7 +609,7 @@
     "name": "mall - entrance",
     "copy-from": "mall_a_14",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -617,7 +617,7 @@
     "copy-from": "mall_a_29",
     "name": "mall - food court",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -625,7 +625,7 @@
     "copy-from": "mall_a_20",
     "name": "mall - food court roof",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -761,7 +761,7 @@
     ],
     "copy-from": "mall_a_11",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -779,6 +779,6 @@
     "copy-from": "mall_a_58_basement",
     "name": "mall - subway station",
     "sym": "M",
-    "color": "i_magenta"
+    "color": "magenta"
   }
 ]

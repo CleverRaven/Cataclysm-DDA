@@ -18,7 +18,7 @@
     ],
     "copy-from": "lab_surface_brick_blockA2",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -59,7 +59,7 @@
     ],
     "copy-from": "phavan_office_skyscraper_lab_lower_nw",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -99,14 +99,14 @@
     ],
     "copy-from": "psi_phavian_lab_blockA2",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "psi_phavian_lab_blockC3",
     "copy-from": "psi_phavian_lab_blockC3",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -128,7 +128,7 @@
     ],
     "copy-from": "psi_phavian_lab_block2A2",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -150,7 +150,7 @@
     ],
     "copy-from": "psi_phavian_lab_block3A2",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -172,7 +172,7 @@
     ],
     "copy-from": "psi_phavian_lab_block4A2",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -194,14 +194,14 @@
     ],
     "copy-from": "psi_phavian_lab_block5A2",
     "sym": "R",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": [ "psi_phavian_lab_basementD1_hidden_psi_lab_stairs", "psi_phavian_lab_basementE1" ],
     "copy-from": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs",
     "sym": "L",
-    "color": "i_pink"
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",

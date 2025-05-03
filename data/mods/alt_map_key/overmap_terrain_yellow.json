@@ -651,7 +651,7 @@
     "copy-from": "nuclear_plant_0_0_0",
     "name": "nuclear plant",
     "sym": "N",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -706,7 +706,7 @@
     "copy-from": "town_hall_0_0_0",
     "name": "town hall",
     "sym": "T",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -714,7 +714,7 @@
     "copy-from": "town_hall_0_0_1",
     "name": "town hall",
     "sym": "T",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -722,7 +722,7 @@
     "copy-from": "town_hall_0_0_roof",
     "name": "town hall roof",
     "sym": "T",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -730,7 +730,7 @@
     "copy-from": "retirement_community_38",
     "name": "administration building",
     "sym": "A",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -738,7 +738,7 @@
     "copy-from": "retirement_community_b_37",
     "name": "administration building basement",
     "sym": "A",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -746,7 +746,7 @@
     "copy-from": "retirement_community_2f_38",
     "name": "administration building roof",
     "sym": "A",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -764,7 +764,7 @@
     "copy-from": "evac_center_7",
     "name": "refugee center",
     "sym": "R",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -785,7 +785,7 @@
     "copy-from": "evac_center_7_z1",
     "name": "refugee center roof",
     "sym": "R",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -802,7 +802,7 @@
     "copy-from": "robofachq_meteorology0",
     "name": "meteorology station",
     "sym": "M",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -810,7 +810,7 @@
     "copy-from": "robofachq_subcc_a0",
     "name": "subway C&C",
     "sym": "S",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -818,7 +818,7 @@
     "copy-from": "robofachq_subline_a0",
     "name": "hidden terminal",
     "sym": "S",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -860,7 +860,7 @@
     "copy-from": "prison_1_1",
     "name": "prison",
     "sym": "P",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -985,7 +985,7 @@
     "copy-from": "prison_1_b_1",
     "name": "prison",
     "sym": "P",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -993,7 +993,7 @@
     "copy-from": "sewage_treatment_0_0_0",
     "name": "sewage treatment plant",
     "sym": "S",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1006,7 +1006,7 @@
     "copy-from": "sewage_treatment_1_0_roof",
     "name": "sewage treatment plant roof",
     "sym": "S",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1021,7 +1021,7 @@
     "copy-from": "sewage_treatment_0_0_-1",
     "name": "sewage treatment plant - underground",
     "sym": "S",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1061,7 +1061,7 @@
     "copy-from": "pwr_large_entrance",
     "name": "electric substation",
     "sym": "E",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1069,7 +1069,7 @@
     "copy-from": "pwr_large_entrance_roof",
     "name": "electric substation roof",
     "sym": "E",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1077,7 +1077,7 @@
     "copy-from": "generic_city_building",
     "name": "pump station",
     "sym": "P",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1086,7 +1086,7 @@
     "vision_levels": "roof_or_air",
     "name": "pump station roof",
     "sym": "P",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1094,7 +1094,7 @@
     "copy-from": "pump_station_2",
     "name": "pump station",
     "sym": "P",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1102,7 +1102,7 @@
     "copy-from": "pump_station_3",
     "name": "pump station",
     "sym": "P",
-    "color": "i_yellow"
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",

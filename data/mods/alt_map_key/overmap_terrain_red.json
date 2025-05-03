@@ -21,7 +21,7 @@
     "copy-from": "s_gun_b_range",
     "name": "gun store",
     "sym": "G",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -29,7 +29,7 @@
     "copy-from": "s_gun_b_roof",
     "name": "gun store roof",
     "sym": "G",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -78,7 +78,7 @@
     "copy-from": "police_dept_u000",
     "name": "police department",
     "sym": "P",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -95,7 +95,7 @@
     "copy-from": "police_dept_u002",
     "name": "police department roof",
     "sym": "P",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -103,7 +103,7 @@
     "copy-from": "police_dept_skyway",
     "name": "police department skybridge",
     "sym": "P",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -111,7 +111,7 @@
     "copy-from": "police_dept_b00",
     "name": "police department garage",
     "sym": "P",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -135,7 +135,7 @@
     "copy-from": "s_gas_b11",
     "name": "bunker reception",
     "sym": "B",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -143,7 +143,7 @@
     "copy-from": "s_gas_b20",
     "name": "bunker",
     "sym": "B",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -273,7 +273,7 @@
     "copy-from": "aircraft_carrier_1a",
     "name": "aircraft carrier",
     "sym": "A",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -321,7 +321,7 @@
     "copy-from": "aircraft_carrier_1a_-1",
     "name": "aircraft carrier",
     "sym": "A",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -460,7 +460,7 @@
     "copy-from": "deserter_city_gate",
     "name": "deserter outpost",
     "sym": "D",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -468,7 +468,7 @@
     "copy-from": "shootingrange_1a",
     "name": "shooting range",
     "sym": "S",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -476,7 +476,7 @@
     "copy-from": "shootingrange_1a",
     "name": "shooting range roof",
     "sym": "S",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -492,7 +492,7 @@
     "copy-from": "gunshow_0",
     "name": "gun show",
     "sym": "G",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -513,7 +513,7 @@
     "copy-from": "fort_1a",
     "name": "bastion fort",
     "sym": "B",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -534,7 +534,7 @@
     "copy-from": "fort_1a_1",
     "name": "bastion fort",
     "sym": "B",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -555,7 +555,7 @@
     "copy-from": "helipad_nw",
     "name": "military helipad",
     "sym": "H",
-    "color": "i_red"
+    "color": "red"
   },
   {
     "type": "overmap_terrain",

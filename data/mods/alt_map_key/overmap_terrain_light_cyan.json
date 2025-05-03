@@ -44,7 +44,7 @@
     "copy-from": "hdwr_large_0_0_0",
     "name": "home improvement superstore",
     "sym": "H",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -60,7 +60,7 @@
     "copy-from": "hdwr_large_0_0_1",
     "name": "home improvement superstore roof",
     "sym": "H",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -68,7 +68,7 @@
     "copy-from": "landscapingsupplyco_1a",
     "name": "landscaping supply co",
     "sym": "L",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -76,7 +76,7 @@
     "copy-from": "landscapingsupplyco_1b",
     "name": "landscaping supply co",
     "sym": "L",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -84,7 +84,7 @@
     "copy-from": "landscapingsupplyco_1b_roof",
     "name": "landscaping supply co roof",
     "sym": "L",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -116,7 +116,7 @@
     "copy-from": "public_works_NE",
     "name": "public works",
     "sym": "P",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -124,7 +124,7 @@
     "copy-from": "public_works_SW",
     "name": "public works",
     "sym": "P",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -132,7 +132,7 @@
     "copy-from": "public_works_NE_roof",
     "name": "public works roof",
     "sym": "P",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -140,7 +140,7 @@
     "copy-from": "public_works_SW_roof",
     "name": "public works roof",
     "sym": "P",
-    "color": "i_light_cyan"
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",

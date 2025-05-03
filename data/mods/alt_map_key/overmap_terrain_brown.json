@@ -14,7 +14,7 @@
     "copy-from": "bandit_camp_1",
     "name": "wooden fort",
     "sym": "W",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -254,7 +254,7 @@
     "copy-from": "campground_1a",
     "name": "campground",
     "sym": "C",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -262,7 +262,7 @@
     "copy-from": "campground_roof",
     "name": "campground roof",
     "sym": "C",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -270,7 +270,7 @@
     "copy-from": "godco_1",
     "name": "church retreat",
     "sym": "C",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -291,7 +291,7 @@
     "copy-from": "godco_1_1",
     "name": "church retreat roof",
     "sym": "C",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -401,7 +401,7 @@
     "copy-from": "lodge_ground1",
     "name": "hunting lodge",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -409,7 +409,7 @@
     "copy-from": "lodge_ground_glooscap1",
     "name": "hunting lodge",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -417,7 +417,7 @@
     "copy-from": "lodge_2ndfloor1",
     "name": "second floor hunting lodge",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -425,7 +425,7 @@
     "copy-from": "lodge_roof1",
     "name": "hunting lodge roof",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -438,7 +438,7 @@
     "copy-from": "lodge_basement_residential1",
     "name": "hunting lodge basement",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -478,7 +478,7 @@
     "copy-from": "state_park_0_0",
     "name": "state park",
     "sym": "S",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -511,7 +511,7 @@
     "copy-from": "GMLODGE1_1",
     "name": "Militia Lodge",
     "sym": "M",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -559,7 +559,7 @@
     "copy-from": "lumbermill_0_0",
     "name": "lumbermill",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -567,7 +567,7 @@
     "copy-from": "lumbermill_0_0_roof",
     "name": "lumbermill roof",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -575,7 +575,7 @@
     "copy-from": "lumbermill_0_0_ocu",
     "name": "lumbermill",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -583,7 +583,7 @@
     "copy-from": "lumberyard_0_0",
     "name": "lumberyard",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -591,7 +591,7 @@
     "copy-from": "lumberyard_0_0_roof",
     "name": "lumberyard roof",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -752,7 +752,7 @@
     "copy-from": "TreeFarm_1a",
     "name": "tree farm",
     "sym": "T",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -760,7 +760,7 @@
     "copy-from": "TreeFarm_1a_roof",
     "name": "tree farm",
     "sym": "T",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -768,7 +768,7 @@
     "copy-from": "TreeFarm_1b",
     "name": "tree farm",
     "sym": "T",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -1006,7 +1006,7 @@
     "copy-from": "dairy_farm_NW",
     "name": "dairy farm",
     "sym": "D",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -1029,7 +1029,7 @@
     "copy-from": "dairy_farm_SE_roof",
     "name": "dairy farm roof",
     "sym": "D",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",

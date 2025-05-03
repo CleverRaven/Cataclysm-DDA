@@ -39,7 +39,7 @@
     "copy-from": "oil_platform_1a_2",
     "name": "oil platform",
     "sym": "O",
-    "color": "i_light_gray",
+    "color": "light_gray",
     "see_cost": "full_high"
   },
   {
@@ -56,7 +56,7 @@
     "copy-from": "oil_platform_3a_3",
     "name": "oil platform",
     "sym": "O",
-    "color": "i_light_gray",
+    "color": "light_gray",
     "see_cost": "full_high"
   },
   {
@@ -160,7 +160,7 @@
     "copy-from": "oil_platform_1a_0",
     "name": "oil platform",
     "sym": "O",
-    "color": "i_light_gray",
+    "color": "light_gray",
     "see_cost": "full_high"
   },
   {
@@ -169,7 +169,7 @@
     "copy-from": "mine_entrance",
     "name": "mine entrance",
     "sym": "M",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -177,7 +177,7 @@
     "copy-from": "mine_entrance_roof",
     "name": "mine entrance roof",
     "sym": "M",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -185,7 +185,7 @@
     "copy-from": "mine_shaft_middle",
     "name": "mine shaft",
     "sym": "M",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -193,7 +193,7 @@
     "copy-from": "mine_shaft_lower",
     "name": "mine shaft",
     "sym": "M",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -230,7 +230,7 @@
     "copy-from": "mine_spiral_west",
     "name": "mine tunnels",
     "sym": "M",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -238,7 +238,7 @@
     "copy-from": "mine_finale",
     "name": "mine",
     "sym": "M",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -301,7 +301,7 @@
     "copy-from": "steel_mill_0_1",
     "name": "steel mill",
     "sym": "S",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -318,7 +318,7 @@
     "name": "light industry",
     "copy-from": "s_lightindustry_00",
     "sym": "L",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -343,7 +343,7 @@
     "name": "light industry",
     "copy-from": "s_lightindustry_scen_00",
     "sym": "L",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -351,7 +351,7 @@
     "copy-from": "office_tower_ne",
     "name": "office building",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -364,7 +364,7 @@
     "copy-from": "office_tower_underground_nw",
     "name": "office building parking",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -379,7 +379,7 @@
     "copy-from": "office_tower_roof_nw",
     "name": "office building roof",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -410,7 +410,7 @@
     "copy-from": "office_tower_2_a1",
     "name": "office tower",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -418,7 +418,7 @@
     "copy-from": "office_tower_2_a3",
     "name": "office courtyard",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -439,7 +439,7 @@
     "copy-from": "office_tower_collapse_a0",
     "name": "collapsed tower",
     "sym": "C",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -466,7 +466,7 @@
     "copy-from": "loffice_tower_1",
     "name": "office tower",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -501,7 +501,7 @@
     "copy-from": "office_skyscraper_1",
     "name": "office skyscraper",
     "sym": "O",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -628,7 +628,7 @@
     "copy-from": "s_shoppingplaza_a6",
     "name": "abandoned shopping plaza",
     "sym": "A",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -644,7 +644,7 @@
     "copy-from": "s_shoppingplaza_A6",
     "name": "abandoned shopping plaza roof",
     "sym": "A",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -691,7 +691,7 @@
     "copy-from": "junkyard_1a",
     "name": "junkyard",
     "sym": "J",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -735,7 +735,7 @@
     "copy-from": "ws_regional_dump_0_0",
     "name": "regional dump",
     "sym": "R",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -783,7 +783,7 @@
     "copy-from": "unvitrified_farm_1",
     "name": "quiet farmstead",
     "sym": "Q",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -791,7 +791,7 @@
     "copy-from": "unvitrified_orchard",
     "name": "quiet orchard",
     "sym": "Q",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -819,7 +819,7 @@
     "copy-from": "abandoned_textile_mill_0_1",
     "name": "abandoned textile mill",
     "sym": "A",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",

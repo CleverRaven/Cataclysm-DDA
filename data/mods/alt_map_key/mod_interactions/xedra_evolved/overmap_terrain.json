@@ -41,7 +41,7 @@
     ],
     "copy-from": "field_office_1",
     "sym": "B",
-    "color": "i_light_gray"
+    "color": "light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -75,7 +75,7 @@
     ],
     "copy-from": "cathedralv_1_NW",
     "sym": "C",
-    "color": "i_white"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -91,14 +91,14 @@
     ],
     "copy-from": "cathedralv_4_NW",
     "sym": "C",
-    "color": "i_white"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
     "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ],
     "copy-from": "cathedralv_b_NW",
     "sym": "C",
-    "color": "i_white"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -134,7 +134,7 @@
     ],
     "copy-from": "ierde_genius_loci_NW",
     "sym": "A",
-    "color": "i_cyan"
+    "color": "cyan"
   },
   {
     "type": "overmap_terrain",
@@ -182,28 +182,28 @@
     "id": [ "lodgev_ground1", "lodgev_ground2" ],
     "copy-from": "lodgev_ground1",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ],
     "copy-from": "lodgev_2ndfloor1",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodgev_roof1", "lodgev_roof2" ],
     "copy-from": "lodgev_roof1",
     "sym": "L",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodgev_basement_residential1", "lodgev_basement_residential2" ],
     "copy-from": "lodgev_basement_residential1",
     "sym": "B",
-    "color": "i_brown"
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
