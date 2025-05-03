@@ -3886,6 +3886,12 @@ static void erase_item_contents_activity_var( const std::function<bool( const it
         erase_item_contents_activity_var( activity_var_checker, *inner_item );
     }
 };
+void activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( Character &you )
+{
+    if( you.is_avatar() && ( !you.activity )  && ( !you.get_destination_activity() ) ) {
+        clean_may_activity_occupancy_items_var( you );
+    }
+}
 void activity_handlers::clean_may_activity_occupancy_items_var( Character &you )
 {
     std::string character_name = you.name;
