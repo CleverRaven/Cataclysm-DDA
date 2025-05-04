@@ -365,7 +365,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
