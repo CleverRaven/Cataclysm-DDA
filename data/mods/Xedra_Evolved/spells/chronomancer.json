@@ -427,7 +427,7 @@
     "min_range": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_paradox'), 1, 0 ), 20 )" ] },
     "max_range": 20,
     "magic_type": "xedra_chronomancy_magic",
-    "base_energy_cost": { "math": [ "max( ( 2000 - ( 25 * u_spell_level('xedra_chronomancer_stable_loop') ) ), 1000 ) " ] },
+    "base_energy_cost": { "math": [ "max( ( 2000 - ( 50 * u_spell_level('xedra_chronomancer_stable_loop') ) ), 1000 ) " ] },
     "base_casting_time": { "math": [ "max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_paradox') ) ), 50 )" ] }
   },
   {
