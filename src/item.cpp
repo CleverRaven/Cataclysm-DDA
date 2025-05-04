@@ -2598,10 +2598,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const weighted_object<int, fault_id> &fault : type->faults ) {
                 const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
                 if( has_fault( fault.obj ) ) {
-                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight,
+                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
                                         weight_percent ), c_yellow );
                 } else {
-                    faults += fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight, weight_percent );
+                    faults += fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight, weight_percent );
                 }
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
@@ -5993,7 +5993,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         for( const fault_id &e : faults ) {
             //~ %1$s is the name of a fault and %2$s is the description of the fault
             info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
-                               e.obj().name(), e.obj().description() ) );
+                               e.obj().name(), get_fault_description( e ) ) );
         }
     }
 
@@ -7777,28 +7777,70 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-void item::set_fault( const fault_id &fault_id, bool force )
+std::string item::get_fault_description( const fault_id &f_id ) const
 {
-    if( !force && type->faults.get_specific_weight( fault_id ) == 0 ) {
-        return;
-    }
-
-    faults.insert( fault_id );
+    return string_format( f_id.obj().description(), type->nname( 1 ) );
 }
 
-void item::set_random_fault_of_type( const std::string &fault_type, bool force )
+bool item::can_have_fault( const fault_id &f_id )
+{
+    // f_id fault is not defined in itype
+    if( type->faults.get_specific_weight( f_id ) == 0 ) {
+        return false;
+    }
+
+    // f_id is blocked by some another fault
+    for( const fault_id &faults_of_item : faults ) {
+        for( const fault_id &blocked_fault : faults_of_item.obj().get_block_faults() ) {
+            if( f_id == blocked_fault ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool item::set_fault( const fault_id &f_id, bool force, bool message )
+{
+    if( !force && !can_have_fault( f_id ) ) {
+        return false;
+    }
+
+    // if f_id fault blocks fault A, we should remove fault A before applying fault f_id
+    // can't have chipped blade if the blade is gone
+    for( const fault_id &f_blocked : f_id.obj().get_block_faults() ) {
+        remove_fault( f_blocked );
+    }
+
+    if( message ) {
+        add_msg( m_bad, f_id.obj().message() );
+    }
+
+    faults.insert( f_id );
+    return true;
+}
+
+void item::set_random_fault_of_type( const std::string &fault_type, bool force, bool message )
 {
     if( force ) {
-        set_fault( random_entry( faults::all_of_type( fault_type ) ), true );
+        set_fault( random_entry( faults::all_of_type( fault_type ) ), true, message );
         return;
     }
 
     weighted_int_list<fault_id> faults_by_type;
     for( const weighted_object<int, fault_id> &f : type->faults ) {
-        faults_by_type.add( f.obj, f.weight );
+        if( can_have_fault( f.obj ) ) {
+            faults_by_type.add( f.obj, f.weight );
+        }
+
     }
 
-    faults.insert( *faults_by_type.pick() );
+    const fault_id f = *faults_by_type.pick();
+    if( f ) {
+        set_fault( f, force, message );
+    }
+
 }
 
 void item::remove_fault( const fault_id &fault_id )
