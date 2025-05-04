@@ -303,7 +303,7 @@ static social_modifiers load_bionic_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string_view src )
+void bionic_data::load( const JsonObject &jsobj, std::string_view src )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -446,7 +446,7 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
 
 std::map<bionic_id, bionic_id> bionic_data::migrations;
 
-void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string_view )
+void bionic_data::load_bionic_migration( const JsonObject &jo, std::string_view )
 {
     const bionic_id from( jo.get_string( "from" ) );
     const bionic_id to = jo.has_string( "to" )
@@ -2205,7 +2205,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         here.add_item( pos_bub(), cbm );
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
@@ -2282,7 +2282,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         here.add_item( patient.pos_bub(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
@@ -2625,7 +2625,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         item cbm( bid->itype() );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
+        cbm.set_fault( fault_bionic_salvaged );
         get_map().add_item( patient_pos, cbm );
     }
 }
@@ -2768,7 +2768,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
             if( !has_trait( spell_class ) ) {
                 set_mutation( spell_class );
                 on_mutation_gain( spell_class );
-                add_msg_if_player( spell_class->desc() );
+                add_msg_if_player( mutation_desc( spell_class ) );
             }
         }
         if( !magic->knows_spell( learned_spell ) ) {

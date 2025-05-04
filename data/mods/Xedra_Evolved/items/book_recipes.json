@@ -1,6 +1,7 @@
 [
   {
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "id": "book_moons_tears_ingot",
     "name": { "str": "Report: LAUGHING DANCER metallurgy", "str_pl": "copies of Report: LAUGHING DANCER metallurgy" },

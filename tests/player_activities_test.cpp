@@ -16,6 +16,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "flag.h"
+#include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -1923,6 +1924,8 @@ TEST_CASE( "edevice", "[activity][edevice]" )
     }
 }
 
+static liquid_dest_opt dest_opt; // Defaults to LD_NULL, which is good enough when not used.
+
 /**
 * Helper method to create activity stubs that aren't meant to be processed.
 * The activities here still need to be able to pass activity_actor::start and
@@ -1932,6 +1935,7 @@ TEST_CASE( "edevice", "[activity][edevice]" )
 * Activity actors that use ui functionality in their start methods cannot work at all,
 * only affects workout_activity_actor right now
 */
+
 static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( autodrive_activity_actor() ),
     //player_activity( bikerack_racking_activity_actor() ),
@@ -1961,7 +1965,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },
-    [] { return player_activity( milk_activity_actor( 1, {get_avatar().pos_abs()}, {std::string()} ) ); },
+    [] { return player_activity( milk_activity_actor( 1, 3000, get_avatar().pos_abs(), dest_opt, false ) ); },
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, tripoint_rel_ms::north ) ); },

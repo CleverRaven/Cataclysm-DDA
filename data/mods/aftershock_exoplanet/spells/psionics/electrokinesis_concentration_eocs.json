@@ -230,11 +230,10 @@
       { "math": [ "u_afs_electrokin_personal_battery_count = 0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_COUNTER",
-            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [ { "math": [ "u_afs_electrokin_personal_battery_count++" ] } ]
           }
         ]
@@ -250,11 +249,10 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_VALUE_ADDED",
-            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
                 "if": { "math": [ "u_afs_electrokin_personal_battery_count > 0" ] },

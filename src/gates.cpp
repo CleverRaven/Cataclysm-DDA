@@ -92,7 +92,7 @@ generic_factory<gate_data> gates_data( "gate type" );
 
 } // namespace
 
-void gate_data::load( const JsonObject &jo, const std::string_view )
+void gate_data::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );

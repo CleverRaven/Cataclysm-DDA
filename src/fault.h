@@ -79,6 +79,7 @@ class fault
         std::string description() const;
         std::string item_prefix() const;
         std::string item_suffix() const;
+        std::string message() const;
         double price_mod() const;
         // int is additive (default 0), float is multiplier (default 1)
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod() const;
@@ -86,6 +87,7 @@ class fault
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod() const;
         bool affected_by_degradation() const;
         bool has_flag( const std::string &flag ) const;
+        const std::set<fault_id> &get_block_faults() const;
 
         const std::set<fault_fix_id> &get_fixes() const;
     private:
@@ -100,8 +102,10 @@ class fault
         translation description_;
         translation item_prefix_; // prefix added to affected item's name
         translation item_suffix_;
+        translation message_;
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
+        std::set<fault_id> block_faults;
         double price_modifier = 1.0;
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod_;
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod_;

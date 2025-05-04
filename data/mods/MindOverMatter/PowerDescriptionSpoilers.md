@@ -194,7 +194,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Metabolic Hyperefficiency 8, Adrenaline Trigger 6<br />
 </details>
 <details>
-<summary><h3>Perfected Motion</h3></summary>
+<summary><h3>Perfected Motion (C)</h3></summary>
 
 *Difficulty*: 9<br />
 *Duration*: 5 seconds to 30 seconds, plus 0.5 to 1.1 seconds per level<br />
@@ -202,6 +202,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 15<br />
 *Effects*: Increases the psion’s movement rate to an inhuman degree.  Move cost is reduced by 50% plus 1.5% per level, to a maximum of 96% reduced move cost. The psion is also immune to slippery terrain.<br />
 *Prerequisites*: Combat Dance 6, Burst of Speed 12<br />  
+*Note*: Perfected Motion is incompatible with Hurricane Blows
 </details>
 <details>
 <summary><h3>Hurricane Blow</h3></summary>
@@ -212,6 +213,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 65 moves, minus 3 moves per level to a minimum of 15<br />
 *Effects*: Allows the psion to strike multiple times in less than a second.  Speed is increased by 400 plus 75 per power level and the psion attacks 25% faster and does 10% more melee damage plus 1.5% per power level, but cannot use ranged attacks or other psionic powers, and the power ends immediately if the psion moves.<br />
 *Prerequisites*: Combat Dance 10, Reflex Enhance 14 *or* Adrenaline Trigger 12<br />
+*Note*:  Hurricane Blows is incompatible with Perfected Motion
 </details>
 </details>
 <details>
@@ -470,10 +472,11 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 *Difficulty*: 4<br />
 *Target*: One target within 1 square plus 0.6 squares per power level<br />
-*Duration*: Diminishing returns--stuns the target for 46.2 moves to 76.9 moves at level 1, 170.5 to 264.7 moves at level 5, 272.7 to 454.5 moves at level 10, and so on, following the formula ( (power level * 0.25) * 6) / ((power level * 0.25) + 3 ) to ( (power level * 0.25) * 10 ) / ((power level * 0.25) + 3 )<br />
+*Duration*: From 1 to 3 seconds, plus 0.2 to 0.35 seconds per power level, to a maximum of 5 to 10 seconds<br />
+
 *Stamina Cost*: 5500, minus 150 per level to a minimum of 2500<br />
 *Channeling Time*: 150 moves, minus 5 moves per level to a minimum of 75<br />
-*Effects*: Stuns the target by overloading their nervous system.  It cannot affect targets without a biological nervous system--plants, robots, Nether creatures, fungus, etc.<br />
+*Effects*: Dazes and downs the target by overloading their nervous system.  Within the power duration, the target do nothing but twitch futilely. It cannot affect targets without a biological nervous system--plants, robots, Nether creatures, fungus, etc.<br />
 *Prerequisites*: Spark Sight 6, Voltaic Strikes 5 *or* Static Touch 8<br />
 </details>
 <details>

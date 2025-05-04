@@ -2,7 +2,7 @@
   {
     "abstract": "base_toiletries",
     "name": { "str_sp": "generic grooming", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": "+",
     "color": "blue",
@@ -15,7 +15,7 @@
   {
     "id": "soap_holder",
     "name": { "str": "soap dish", "str_pl": "soap dishes" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A shallow dish for holding a bar of soap.  It has ridges to help drain water away from the dish.  Not the most exciting of items.",
     "symbol": "-",
     "weight": "65 g",
@@ -28,7 +28,7 @@
   {
     "id": "razor_shaving",
     "name": { "str": "shaving razor" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
     "symbol": "t",
     "copy-from": "base_toiletries",
@@ -42,7 +42,7 @@
   {
     "id": "toothbrush_plain",
     "name": { "str": "toothbrush", "str_pl": "toothbrushes" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
     "weight": "18 g",
@@ -77,7 +77,7 @@
   {
     "id": "tampon",
     "name": { "str": "tampon" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A small cotton tampon with a plastic applicator.",
     "symbol": "+",
     "color": "white",
@@ -114,7 +114,7 @@
   {
     "id": "menstrual_pad",
     "name": { "str": "menstrual pad" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "An absorbent pad.",
     "symbol": "=",
     "color": "white",
@@ -151,7 +151,7 @@
   {
     "id": "menstrual_cup",
     "name": { "str": "menstrual cup" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A tiny, washable, flexible plastic cup about the size of a medicine cup for catching menstrual flow.",
     "symbol": "v",
     "color": "pink",
@@ -167,7 +167,7 @@
   {
     "id": "hairbrush",
     "name": { "str": "hairbrush", "str_pl": "hairbrushes" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "An instrument of hair torture.",
     "symbol": "/",
     "copy-from": "base_toiletries",
@@ -186,7 +186,7 @@
   {
     "id": "curler_hair",
     "name": { "str": "hair curler" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A soft plastic cylinder you can wrap a lock of your hair around to curl it.",
     "copy-from": "base_toiletries",
     "symbol": ",",
@@ -197,7 +197,7 @@
   {
     "id": "string_floss",
     "name": { "str": "dental floss", "str_pl": "rolls of dental floss" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container.  Perfect for picking bits of smoked meat out of your teeth.  Disassemble to use the thread for something else.",
     "weight": "28 g",
     "copy-from": "base_toiletries",
@@ -207,7 +207,7 @@
   {
     "id": "comb_pocket",
     "name": { "str": "comb" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A grooming tool with teeth for straightening your hair.",
     "weight": "9 g",
     "volume": "30 ml",
@@ -227,7 +227,7 @@
   {
     "id": "plunger_toilet",
     "name": { "str": "toilet plunger" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A rubber-tipped tool for unclogging pipes, or a club for an immature survivor.",
     "symbol": "p",
     "color": "red",
@@ -243,7 +243,7 @@
   {
     "id": "plunger_futuristic",
     "name": { "str": "professional plunger" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "This hollow plastic toilet plunger's bell compresses like an accordion.  It is efficient at its intended purpose, and complete rubbish as a weapon.",
     "symbol": "p",
     "color": "black",
@@ -256,7 +256,7 @@
   {
     "id": "toilet_paper",
     "name": { "str": "toilet paper", "str_pl": "rolls of toilet paper" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A luxurious remnant of civilization.",
     "symbol": "~",
     "color": "white",
@@ -286,7 +286,8 @@
   {
     "id": "hair_dryer",
     "name": { "str": "hair dryer" },
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "description": "This tool dries your hair by pushing air through a coil of hot wires.  The heat can be toggled on and off.",
     "symbol": "(",
     "color": "black",
@@ -306,7 +307,7 @@
   {
     "id": "curling_iron",
     "name": { "str": "curling iron" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A wand made of heat-resistant ceramics.  When plugged into an outlet, it is hot enough to shape your hair into curls.  Too bad the power's out.",
     "symbol": "/",
     "color": "magenta",
@@ -321,7 +322,7 @@
   {
     "id": "brush_toilet",
     "name": { "str": "toilet brush", "str_pl": "toilet brushes" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "Zombies cannot be intimidated or humiliated, so this stiff brush is only useful for scouring toilet bowls.",
     "symbol": "p",
     "color": "white",
@@ -334,7 +335,7 @@
   {
     "id": "comb_lice",
     "name": { "str": "lice comb" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A stainless-steel comb with spiral grooved teeth designed to remove pesky parasites from hair.  Even just thinking about it makes you itch.",
     "symbol": "c",
     "material": [ "steel" ],
@@ -346,7 +347,7 @@
   {
     "id": "bath_toy",
     "name": { "str": "bath toy" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A plastic floating bath toy.",
     "symbol": "w",
     "color": "yellow",
@@ -364,7 +365,7 @@
   {
     "id": "toothbrush_electric",
     "name": { "str": "electric toothbrush", "str_pl": "electric toothbrushes" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A plastic electric toothbrush.",
     "symbol": "/",
     "material": [ "plastic" ],
@@ -382,7 +383,7 @@
   },
   {
     "id": "bottle_bathroom",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "plastic soap bottle" },
     "description": "A squeezable bottle used to hold various liquid soaps.",
@@ -421,7 +422,7 @@
   {
     "id": "dentures",
     "name": { "str": "set of dentures", "str_pl": "sets of dentures" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "description": "A standard set of prosthetic teeth.  Pretty useless to anyone aside from its owner.",
     "symbol": "c",
     "material": [ "plastic" ],

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pitchfork",
     "name": { "str": "pitchfork" },
     "category": "tools",
@@ -22,7 +22,7 @@
     "melee_damage": { "bash": 5, "stab": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pointy_stick",
     "symbol": "/",
     "color": "brown",
@@ -40,7 +40,7 @@
     "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pointy_stick_long",
     "name": { "str": "long pointy stick" },
     "description": "A stout pole with one end sharpened to a point.",
@@ -61,7 +61,7 @@
     "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_wood",
     "name": { "str": "fire-hardened wooden spear" },
     "description": "A stout wooden pole with a fire-hardened point.",
@@ -82,14 +82,14 @@
     "melee_damage": { "bash": 4, "stab": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_wood_simple",
     "copy-from": "spear_wood",
     "name": { "str": "wooden spear" },
     "description": "A stout wooden pole with a whittled point."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_shaft_sharpened",
     "name": { "str": "sharpened spear shaft" },
     "description": "You've gone through the effort of making a proper spear shaft, but instead of attaching something sharp to the end you just whittled a point into the wood.  The peak of pointy stick technology.",
@@ -112,7 +112,8 @@
   },
   {
     "id": "makeshift_scythe_war",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "makeshift war scythe" },
     "description": "This farming tool has been modified into an improvised weapon by rotating its blade 90 degrees, transforming it into a deadly giant blade on the end of a stick.  It's quite fragile, however.",
@@ -133,7 +134,7 @@
   },
   {
     "id": "makeshift_halberd",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "simple makeshift glaive" },
     "//": "Name changed to simple makeshift glaive, but changing the id would break e.g.  tilesets.",
     "description": "A large blade attached to a stout section of tree branch.  It could do a considerable amount of damage, but the blade isn't secured very well and could easily break off.",
@@ -154,7 +155,7 @@
   },
   {
     "id": "makeshift_glaive",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "makeshift_halberd",
     "name": { "str": "makeshift glaive" },
     "description": "A stout tree branch that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
@@ -164,7 +165,8 @@
   },
   {
     "id": "spear_spike",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "spike on a stick", "str_pl": "spikes on sticks" },
     "description": "A flimsy pole made of wood with a basic metal spike tied to it.  It's barely sharp, and crudely constructed, but it will keep the zombies out of arm's reach until you can find something better.",
@@ -187,7 +189,8 @@
   },
   {
     "id": "spear_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "simple knife spear" },
     "copy-from": "spear_knife_superior",
     "description": "A flimsy pole made of wood with a knife bound to the end.  It's long enough to slice from a distance, but the knife isn't that well attached.  You could take a bit more time to carefully split the shaft and attach the knife blade more permanently.",
@@ -199,7 +202,8 @@
   },
   {
     "id": "spear_knife_superior",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "makeshift knife spear" },
     "description": "A long stick that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
@@ -221,7 +225,7 @@
     "melee_damage": { "bash": 4, "stab": 26 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_knife_proper",
     "name": { "str": "knife spear" },
     "description": "A stout wooden pole with the blade of a knife bolted into place at the end.  The shape of a knife blade isn't ideal for a spear, but it's still very sharp and effective.",
@@ -244,7 +248,8 @@
   },
   {
     "id": "spear_homemade_halfpike",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "homemade halfpike" },
     "description": "A short do-it-yourself spear made out of a long stick with a metal spike seated and bound into place at its tip.",
@@ -266,7 +271,7 @@
     "melee_damage": { "bash": 4, "stab": 24 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_steel_crude",
     "name": { "str": "crude steel spear" },
     "description": "A stout wooden pole with a misshapen metal spike seated into the end and bolted into place.",
@@ -288,7 +293,7 @@
     "melee_damage": { "bash": 4, "stab": 24 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_forked",
     "name": { "str": "forked spear" },
     "description": "A wooden pole with three spikes tied to it.  It's specialized for catching weapons, and not intended for extended use in combat.",
@@ -310,7 +315,7 @@
     "melee_damage": { "bash": 6, "stab": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_copper",
     "name": { "str": "copper spear" },
     "description": "A stout wooden pole with a spearhead worked from copper.",
@@ -331,7 +336,7 @@
     "melee_damage": { "bash": 4, "stab": 28 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_steel",
     "name": { "str": "steel spear" },
     "description": "A stout wooden pole with a hand-forged steel spearhead.",
@@ -352,7 +357,7 @@
     "melee_damage": { "bash": 6, "stab": 30 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sharpened_pipe",
     "symbol": "/",
     "color": "light_gray",
@@ -371,7 +376,7 @@
     "melee_damage": { "bash": 3, "stab": 13 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "simple_spear_pipe",
     "name": { "str": "basic pipe spear" },
     "description": "Three pipes tightly fit together with one end cut down to a point.",
@@ -393,7 +398,7 @@
     "melee_damage": { "bash": 6, "stab": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_pipe",
     "name": { "str": "pipe spear" },
     "description": "Three pipes tightly fit together with some wrappings for a handle around one end and a sharp tip on the other.",
@@ -414,7 +419,7 @@
     "melee_damage": { "bash": 7, "stab": 24 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pointed_rebar",
     "symbol": "/",
     "color": "dark_gray",
@@ -435,7 +440,7 @@
     "melee_damage": { "bash": 9, "stab": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sharp_rebar",
     "symbol": "/",
     "color": "dark_gray",
@@ -456,7 +461,7 @@
     "melee_damage": { "bash": 6, "stab": 13 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spear_rebar",
     "symbol": "/",
     "color": "dark_gray",
@@ -477,7 +482,7 @@
     "melee_damage": { "bash": 5, "stab": 16 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "qiang",
     "name": { "str_sp": "qiang" },
     "description": "An ancient Chinese spear, typically with a tassel just below the spearhead and larger than most European spears.  One of the four major weapons in folklore, alongside the dao saber, jian sword, and gun staff.",
@@ -500,7 +505,7 @@
   },
   {
     "id": "halberd",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "halberd" },
@@ -524,7 +529,7 @@
   {
     "id": "halberd_fake",
     "copy-from": "halberd",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "halberd" },
     "description": "A dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a thick pole.",
     "proportional": { "melee_damage": { "bash": 1.2, "cut": 0.1 } },
@@ -538,7 +543,7 @@
   },
   {
     "id": "glaive",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "glaive" },
@@ -557,7 +562,7 @@
     "melee_damage": { "bash": 10, "cut": 40 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "naginata",
     "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  Occasionally used by samurai in early periods, or by their wives in defense of the household.",
@@ -580,7 +585,7 @@
   {
     "id": "naginata_inferior",
     "copy-from": "naginata",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
     "proportional": { "melee_damage": { "bash": 4.14, "cut": 0.25 } },
@@ -592,7 +597,7 @@
   {
     "id": "naginata_fake",
     "copy-from": "naginata",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "naginata" },
     "description": "A dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
     "proportional": { "melee_damage": { "bash": 1.5, "cut": 0.05 } },
@@ -605,7 +610,7 @@
     "price_postapoc": "5 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "javelin",
     "name": { "str": "wooden javelin" },
     "description": "A fire-hardened wooden spear honed to a sharper point.",
@@ -627,7 +632,7 @@
     "melee_damage": { "stab": 11 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "javelin_iron",
     "name": { "str": "iron javelin" },
     "description": "An iron-tipped wooden throwing spear.",
@@ -650,7 +655,7 @@
   },
   {
     "id": "pike_wood",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "ctxt": "weapon", "str": "wooden pike" },
     "description": "A medieval weapon consisting of a very long wooden shaft with a fire-hardened point.",
@@ -673,7 +678,7 @@
   },
   {
     "id": "pike_copper",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "ctxt": "weapon", "str": "copper pike" },
     "description": "A medieval weapon consisting of a very long wooden shaft tipped with a copper spearhead.",
@@ -696,7 +701,7 @@
   },
   {
     "id": "pike_bronze",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "ctxt": "weapon", "str": "bronze pike" },
     "description": "A medieval weapon consisting of a very long wooden shaft tipped with a bronze spearhead.",
     "weight": "2500 g",
@@ -719,7 +724,7 @@
   },
   {
     "id": "pike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "ctxt": "weapon", "str": "pike" },
     "description": "A medieval weapon consisting of a very long wooden shaft tipped with a steel spearhead.",
     "weight": "2500 g",
@@ -742,7 +747,7 @@
   {
     "id": "pike_fake",
     "copy-from": "pike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pike", "ctxt": "weapon" },
     "description": "A dull, cheaply made replica of a medieval weapon consisting of a very long wooden shaft tipped with an iron spearhead.",
     "proportional": { "melee_damage": { "bash": 1.44, "stab": 0.06 } },
@@ -757,7 +762,7 @@
   {
     "id": "pike_inferior",
     "copy-from": "pike",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pike", "ctxt": "weapon" },
     "description": "A medieval weapon consisting of a very long wooden shaft tipped with an iron spearhead.  The head seems to be pretty dull, and the whole thing feels poorly made.",
     "proportional": { "melee_damage": { "bash": 2.7, "stab": 0.25 } },
@@ -767,7 +772,7 @@
     "price_postapoc": "12 USD 50 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scythe_war",
     "name": { "str": "war scythe" },
     "description": "A pole weapon with a curving single-edged blade.  Its blade bears some superficial resemblance to that of an agricultural scythe from which it likely evolved.",
@@ -788,7 +793,7 @@
   },
   {
     "id": "spear_dory",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "dory", "str_pl": "dories" },
     "description": "A well-made spear with a bronze head, Greek in origin.  Despite its large size, it was frequently used one-handed.",
     "weight": "2200 g",
@@ -809,7 +814,7 @@
   },
   {
     "id": "spear_bronze",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "bronze spear" },
     "description": "A forged spear with a bronze head.",
     "weight": "1500 g",
@@ -831,7 +836,7 @@
   },
   {
     "id": "poleaxe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "poleaxe" },
@@ -853,7 +858,7 @@
   },
   {
     "id": "ji",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "ji" },
     "//": "Couldn't find a good way to pluralize the transliteration.",
     "description": "A bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
@@ -873,7 +878,7 @@
   },
   {
     "id": "spear_stone",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "stone spear" },
     "description": "A stout wooden pole with a sharp stone spearhead.",
     "weight": "1500 g",
@@ -895,7 +900,7 @@
   },
   {
     "id": "spear_stone_simple",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "simple stone spear" },
     "description": "A long stick with a sharp stone spearhead.",
     "weight": "1600 g",
@@ -917,7 +922,7 @@
     "melee_damage": { "bash": 8, "stab": 20 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aztec_spear_scrap",
     "name": "makeshift tepoztopili",
     "description": "This is a long polearm with an oar-like oval head covered with razors.  Its shape make it suitable for both thrusting and slashing.  It resembles the Mesoamerican Tepoztopili, though the shaft is not very sturdy.",
@@ -936,7 +941,7 @@
     "melee_damage": { "bash": 10, "cut": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aztec_spear_glass",
     "name": "glass bladed tepoztopili",
     "description": "This is a long polearm with an oar-like oval head covered with glass.  Its shape make it suitable for both thrusting and slashing.  It resembles the Mesoamerican Tepoztopili, though the shaft is not very sturdy.",
@@ -955,7 +960,7 @@
     "melee_damage": { "bash": 10, "cut": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aztec_spear_stone",
     "name": "stone bladed tepoztopili",
     "description": "This is a long polearm with an oar-like oval head covered with stones.  Its shape make it suitable for both thrusting and slashing.  It resembles the Mesoamerican Tepoztopili, though the shaft is not very sturdy.",
@@ -974,7 +979,7 @@
     "melee_damage": { "bash": 14, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lc_aztec_spear",
     "name": "mild steel bladed tepoztopili",
     "description": "This is a redesigned version of the Mesoamerican tepoztopili.  It's an elliptical piece of carved wood lined with sharp mild steel blades, firmly attached to a stout spear shaft.",
@@ -993,7 +998,7 @@
     "melee_damage": { "bash": 18, "cut": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mc_aztec_spear",
     "name": { "str": "medium steel bladed tepoztopili" },
     "description": "This is a redesigned version of the Mesoamerican tepoztopili.  It has an elliptical piece of carved wood lined with sharp medium steel blades, firmly attached to a stout spear shaft.",
@@ -1004,7 +1009,7 @@
     "melee_damage": { "bash": 18, "cut": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hc_aztec_spear",
     "name": { "str": "high steel bladed tepoztopili" },
     "description": "This is a redesigned version of the Mesoamerican tepoztopili.  It has an elliptical piece of carved wood lined with sharp high steel blades, firmly attached to a stout spear shaft.",
@@ -1015,7 +1020,7 @@
     "melee_damage": { "bash": 18, "cut": 18 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ch_aztec_spear",
     "name": { "str": "hardened steel bladed tepoztopili" },
     "description": "This is a redesigned version of the Mesoamerican tepoztopili.  It has an elliptical piece of carved wood lined with sharp hardened steel blades, firmly attached to a stout spear shaft.",
@@ -1026,7 +1031,7 @@
     "melee_damage": { "bash": 18, "cut": 22 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "qt_aztec_spear",
     "name": { "str": "tempered steel bladed tepoztopili" },
     "description": "This is a redesigned version of the Mesoamerican tepoztopili.  It has an elliptical piece of carved wood lined with sharp tempered steel blades, firmly attached to a stout spear shaft.  It's a weapon worthy of being wielded by Huitzilopochtli himself.",

@@ -1,7 +1,8 @@
 [
   {
     "id": "rifle_huge_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "50bmg",
     "name": { "str_sp": "huge rifle ammo, ball" },
     "ammo_type": "ammo_rifle_huge",
@@ -10,7 +11,8 @@
   },
   {
     "id": "rifle_huge_AP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "rifle_huge_ball",
     "name": { "str_sp": "huge rifle ammo, AP" },
     "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  These armor piercing munitions feature tungsten steel penetrators for use against light-skinned vehicles.",
@@ -18,7 +20,8 @@
   },
   {
     "id": "reloaded_rifle_huge_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "rifle_huge_ball",
     "name": { "str_sp": "huge rifle ammo, ball (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -26,7 +29,8 @@
   },
   {
     "id": "reloaded_rifle_huge_AP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "rifle_huge_AP",
     "name": { "str_sp": "huge rifle ammo, AP (reloaded)" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
@@ -35,7 +39,8 @@
   {
     "id": "bp_rifle_huge_ball",
     "copy-from": "rifle_huge_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "rifle ammo, ball (black powder)" },
     "proportional": {
       "price": 0.3,
@@ -49,7 +54,8 @@
   {
     "id": "bp_rifle_huge_AP",
     "copy-from": "rifle_huge_AP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "rifle ammo, AP (black powder)" },
     "proportional": {
       "price": 0.3,

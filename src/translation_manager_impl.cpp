@@ -39,7 +39,7 @@ std::optional<std::pair<std::size_t, std::size_t>> TranslationManager::Impl::Loo
     return std::nullopt;
 }
 
-std::string TranslationManager::Impl::LanguageCodeOfPath( const std::string_view path )
+std::string TranslationManager::Impl::LanguageCodeOfPath( std::string_view path )
 {
     const std::size_t end = path.rfind( "/LC_MESSAGES" );
     if( end == std::string::npos ) {

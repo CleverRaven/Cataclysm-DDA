@@ -174,7 +174,7 @@ static distribution load_distribution( const JsonObject &jo )
     jo.throw_error( "Invalid distribution" );
 }
 
-static distribution load_distribution( const JsonObject &jo, const std::string_view name )
+static distribution load_distribution( const JsonObject &jo, std::string_view name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -227,7 +227,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     }
 }
 
-void npc_class::load( const JsonObject &jo, const std::string_view )
+void npc_class::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "job_description", job_description );

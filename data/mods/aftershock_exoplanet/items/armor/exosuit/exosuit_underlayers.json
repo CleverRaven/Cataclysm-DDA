@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_exo_standard_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit underlayer" },
@@ -28,11 +29,12 @@
     ],
     "warmth": 10,
     "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_1" } ] }
+    "passive_effects": [ { "id": "afs_ench_climate_control_1" } ]
   },
   {
     "id": "afs_exo_combat_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit combat underlayer" },
@@ -67,11 +69,12 @@
     ],
     "warmth": 10,
     "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_2" } ] }
+    "passive_effects": [ { "id": "afs_ench_climate_control_2" } ]
   },
   {
     "id": "afs_exo_eva_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit EVA underlayer" },
@@ -98,11 +101,12 @@
     ],
     "warmth": 10,
     "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_4" } ] }
+    "passive_effects": [ { "id": "afs_ench_climate_control_4" } ]
   },
   {
     "id": "afs_exo_hazard_underlayer",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit utility underlayer" },
@@ -137,6 +141,6 @@
     ],
     "warmth": 10,
     "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_3" } ] }
+    "passive_effects": [ { "id": "afs_ench_climate_control_3" } ]
   }
 ]

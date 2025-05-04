@@ -1,7 +1,8 @@
 [
   {
     "id": "test_platinum_bit",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "TEST platinum bit" },
     "description": "A soft shiny metal.  Before the apocalypse this would've been worth a small fortune but now its value is greatly diminished.",

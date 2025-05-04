@@ -10,13 +10,13 @@
       "backroom_border",
       "backroom_border",
       "backroom_border",
-      "backroom_border",
-      "backroom_border",
-      "backroom_border",
       "backfloorchamber_north",
-      "backroom_border",
-      "backroom_border",
-      "backroom_border",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
+      "backfloorchamber_north",
       "backroom_border",
       "backroom_border",
       "backroom_border",
@@ -145,7 +145,7 @@
     },
     "map_extras": {
       "backrooms": {
-        "chance": 40,
+        "chance": 30,
         "extras": {
           "mx_teleporter_node": 5000,
           "mx_casings": 2500,

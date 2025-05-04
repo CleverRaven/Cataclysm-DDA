@@ -165,7 +165,7 @@ void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj
     load( jobj );
 }
 
-void relic_procgen_data::load( const JsonObject &jo, const std::string_view )
+void relic_procgen_data::load( const JsonObject &jo, std::string_view )
 {
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;

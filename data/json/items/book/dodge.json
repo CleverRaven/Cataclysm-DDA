@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_dodge",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Dance Dance Dance!", "str_pl": "issues of Dance Dance Dance!" },
     "description": "Learn the moves of the trendiest dances right now.",
@@ -55,7 +56,8 @@
   },
   {
     "id": "manual_dodge",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Book of Dances", "str_pl": "copies of The Book of Dances" },
     "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
@@ -99,7 +101,8 @@
   },
   {
     "id": "manual_dodge_kid",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Break a Leg!", "str_pl": "copies of Break a Leg!" },
     "description": "The Kids' Guide to Acting and Stagecraft.",
@@ -128,7 +131,8 @@
   },
   {
     "id": "book_nonf_hard_dodge_tlwd",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Treasury of Legends about Western Dancing", "str_pl": "copies of Western Dancing" },
     "description": "Written by Emanuel Nogueira, a constabulario and historian of Nuevo Laredo, this massive book details the movements and cultural legacies of a variety of North American folk dances.",

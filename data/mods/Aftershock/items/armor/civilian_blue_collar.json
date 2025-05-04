@@ -2,7 +2,8 @@
   {
     "id": "afs_hi_vis_jacket",
     "repairs_like": "jacket_windbreaker",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jacket_windbreaker",
     "looks_like": "jacket_windbreaker",
     "name": { "str": "hi-vis jacket" },
@@ -41,7 +42,8 @@
   },
   {
     "id": "xl_jeans",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "jeans" },
     "weight": "900 g",
     "volume": "3 L",
@@ -52,7 +54,8 @@
   },
   {
     "id": "xl_technician_pants_gray",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "work pants", "str_pl": "pairs of work pants" },
     "description": "A pair of gray work pants.",
     "copy-from": "technician_pants_gray",
@@ -69,7 +72,8 @@
   },
   {
     "id": "xl_technician_shirt_gray",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "work t-shirt" },
     "description": "A gray work t-shirt with a small front pocket.",
     "weight": "84 g",
@@ -84,7 +88,8 @@
   },
   {
     "id": "afs_hi_vis_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "vest",
     "looks_like": "vest",
     "name": { "str": "hi-vis vest" },
@@ -96,7 +101,8 @@
   },
   {
     "id": "afs_company_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jacket_windbreaker",
     "looks_like": "jacket_windbreaker",
     "name": { "str": "company jacket" },
@@ -105,7 +111,8 @@
   },
   {
     "id": "afs_supervisor_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jacket_windbreaker",
     "looks_like": "jacket_windbreaker",
     "name": { "str": "supervisor jacket" },
@@ -114,7 +121,8 @@
   },
   {
     "id": "afs_work_tie",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "tie_skinny",
     "looks_like": "tie_skinny",
     "name": { "str": "worker's tie" },
@@ -122,7 +130,8 @@
   },
   {
     "id": "spacer_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
     "name": { "str": "crew jumpsuit" },
@@ -132,7 +141,8 @@
   {
     "id": "afs_hazard_suit",
     "copy-from": "robofac_enviro_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "soft hazard suit" },
     "description": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  Offers good protection from chemical and radioactive hazards, but is not insulated against heat or cold.  Requires a gasmask or sealed helmet for full protection.",
     "use_action": {
@@ -145,7 +155,8 @@
   {
     "id": "afs_hazard_suit_casual",
     "copy-from": "robofac_enviro_suit_casual",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "soft hazard suit (casual)", "str_pl": "soft hazard suits (casual)" },
     "description": "A brightly colored, standard-fab pattern environmental suit for use in industrial and medical settings.  The upper portion has been tied around the waist casually.",
     "use_action": {
@@ -157,7 +168,8 @@
   },
   {
     "id": "spacer_cap",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "hat_cotton",
     "material": [ "plastic", "cotton" ],
     "looks_like": "powered_earmuffs",
@@ -172,7 +184,8 @@
   },
   {
     "id": "afs_herc_rig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "HERC rig" },
     "description": "A lightweight steel-reinforced tool carrier.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
     "weight": "600 g",

@@ -2598,10 +2598,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const weighted_object<int, fault_id> &fault : type->faults ) {
                 const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
                 if( has_fault( fault.obj ) ) {
-                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight,
+                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
                                         weight_percent ), c_yellow );
                 } else {
-                    faults += fault.obj.str() + string_format( " (%d, %d%%), ", fault.weight, weight_percent );
+                    faults += fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight, weight_percent );
                 }
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
@@ -5993,7 +5993,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         for( const fault_id &e : faults ) {
             //~ %1$s is the name of a fault and %2$s is the description of the fault
             info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
-                               e.obj().name(), e.obj().description() ) );
+                               e.obj().name(), get_fault_description( e ) ) );
         }
     }
 
@@ -6142,7 +6142,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string_view install_where,
+                                     std::string_view install_where,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
             std::vector<std::string> result_parts;
@@ -6871,7 +6871,7 @@ std::string item::overheat_symbol() const
         modifier += mod->type->gunmod->overheat_threshold_modifier;
         multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
     }
-    if( faults.count( fault_overheat_safety ) ) {
+    if( has_fault( fault_overheat_safety ) ) {
         return string_format( _( "<color_light_green>\u2588VNT </color>" ) );
     }
     switch( std::min( 5, static_cast<int>( get_var( "gun_heat",
@@ -7698,6 +7698,16 @@ bool item::has_fault( const fault_id &fault ) const
     return faults.count( fault );
 }
 
+bool item::has_fault_of_type( const std::string &fault_type ) const
+{
+    for( const fault_id &f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::has_fault_flag( const std::string &searched_flag ) const
 {
     for( const fault_id &fault : faults ) {
@@ -7767,54 +7777,85 @@ bool item::has_vitamin( const vitamin_id &v ) const
     return false;
 }
 
-void item::set_fault( const fault_id &fault_id )
+std::string item::get_fault_description( const fault_id &f_id ) const
 {
-    faults.insert( fault_id );
+    return string_format( f_id.obj().description(), type->nname( 1 ) );
 }
 
-void item::set_random_fault_of_type( const std::string &fault_type, const bool &force )
+bool item::can_have_fault( const fault_id &f_id )
+{
+    // f_id fault is not defined in itype
+    if( type->faults.get_specific_weight( f_id ) == 0 ) {
+        return false;
+    }
+
+    // f_id is blocked by some another fault
+    for( const fault_id &faults_of_item : faults ) {
+        for( const fault_id &blocked_fault : faults_of_item.obj().get_block_faults() ) {
+            if( f_id == blocked_fault ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool item::set_fault( const fault_id &f_id, bool force, bool message )
+{
+    if( !force && !can_have_fault( f_id ) ) {
+        return false;
+    }
+
+    // if f_id fault blocks fault A, we should remove fault A before applying fault f_id
+    // can't have chipped blade if the blade is gone
+    for( const fault_id &f_blocked : f_id.obj().get_block_faults() ) {
+        remove_fault( f_blocked );
+    }
+
+    if( message ) {
+        add_msg( m_bad, f_id.obj().message() );
+    }
+
+    faults.insert( f_id );
+    return true;
+}
+
+void item::set_random_fault_of_type( const std::string &fault_type, bool force, bool message )
 {
     if( force ) {
-        set_fault( random_entry( faults::all_of_type( fault_type ) ) );
+        set_fault( random_entry( faults::all_of_type( fault_type ) ), true, message );
         return;
     }
 
     weighted_int_list<fault_id> faults_by_type;
     for( const weighted_object<int, fault_id> &f : type->faults ) {
-        faults_by_type.add( f.obj, f.weight );
+        if( can_have_fault( f.obj ) ) {
+            faults_by_type.add( f.obj, f.weight );
+        }
+
     }
 
-    set_fault( *faults_by_type.pick() );
+    const fault_id f = *faults_by_type.pick();
+    if( f ) {
+        set_fault( f, force, message );
+    }
+
 }
 
-weighted_int_list<fault_id> item::all_potential_faults() const
+void item::remove_fault( const fault_id &fault_id )
 {
-    weighted_int_list<fault_id> potential_faults;
-    for( const weighted_object<int, fault_id> &potential_fault : type->faults ) {
-        if( potential_fault.obj.obj().affected_by_degradation() ) {
-            potential_faults.add( potential_fault.obj, potential_fault.weight + degradation() );
-        } else {
-            potential_faults.add( potential_fault.obj, potential_fault.weight );
+    faults.erase( fault_id );
+}
+
+void item::remove_single_fault_of_type( const std::string &fault_type )
+{
+    for( const fault_id f : faults ) {
+        if( f.obj().type() == fault_type ) {
+            faults.erase( f );
+            return;
         }
     }
-    return potential_faults;
-}
-
-weighted_int_list<fault_id> item::all_potential_faults_of_type(
-    const std::string &fault_type ) const
-{
-    weighted_int_list<fault_id> potential_faults_of_type;
-    for( const weighted_object<int, fault_id> &potential_fault : all_potential_faults() ) {
-        if( potential_fault.obj.obj().type() == fault_type ) {
-            potential_faults_of_type.add( potential_fault.obj, potential_fault.weight );
-        }
-    }
-    return potential_faults_of_type;
-}
-
-const fault_id &item::random_potential_fault_of_type( const std::string &fault_type ) const
-{
-    return *all_potential_faults_of_type( fault_type ).pick();
 }
 
 item &item::unset_flag( const flag_id &flag )
@@ -10324,16 +10365,6 @@ std::set<fault_id> item::faults_potential() const
     return res;
 }
 
-bool item::can_have_fault_type( const std::string &fault_type ) const
-{
-    for( const weighted_object<int, fault_id> &some_fault : type->faults ) {
-        if( some_fault.obj->type() == fault_type ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
 {
     std::set<fault_id> res;
@@ -11358,6 +11389,22 @@ bool item::uses_energy() const
     return has_flag( flag_USES_BIONIC_POWER ) ||
            has_flag( flag_USE_UPS ) ||
            ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
+}
+
+bool item::is_chargeable() const
+{
+    if( !uses_energy() ) {
+        return false;
+    }
+    // bionic power using items have ammo_capacity = player bionic power storage.  Since the items themselves aren't chargeable, auto fail unless they also have a magazine.
+    if( has_flag( flag_USES_BIONIC_POWER ) && !magazine_current() ) {
+        return false;
+    }
+    if( ammo_remaining() < ammo_capacity( ammo_battery ) ) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 units::energy item::energy_remaining( const Character *carrier ) const
@@ -14775,8 +14822,8 @@ bool item::process_gun_cooling( Character *carrier )
                                  overheat_modifier, 5.0 );
     heat -= std::max( ( type->gun->cooling_value * cooling_multiplier ) + cooling_modifier, 0.5 );
     set_var( "gun_heat", std::max( 0.0, heat ) );
-    if( faults.count( fault_overheat_safety ) && heat < threshold * 0.2 ) {
-        faults.erase( fault_overheat_safety );
+    if( has_fault( fault_overheat_safety ) && heat < threshold * 0.2 ) {
+        remove_fault( fault_overheat_safety );
         if( carrier ) {
             carrier->add_msg_if_player( m_good, _( "Your %s beeps as its cooling cycle concludes." ), tname() );
         }
@@ -14868,9 +14915,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_random_fault_of_type( "wet" );
+            set_random_fault_of_type( "wet", true );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_random_fault_of_type( "shorted" );
+                set_random_fault_of_type( "shorted", true );
             }
         }
 
@@ -14970,16 +15017,16 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( get_var( "gun_heat", 0 ) > 0 ) {
             return process_gun_cooling( carrier );
         }
-        if( faults.count( fault_emp_reboot ) ) {
+        if( has_fault( fault_emp_reboot ) ) {
             if( one_in( 60 ) ) {
                 if( !one_in( 20 ) ) {
-                    faults.erase( fault_emp_reboot );
+                    remove_fault( fault_emp_reboot );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_good, _( "Your %s reboots successfully." ), tname() );
                     }
                 } else {
-                    faults.erase( fault_emp_reboot );
-                    set_random_fault_of_type( "shorted" );
+                    remove_fault( fault_emp_reboot );
+                    set_random_fault_of_type( "shorted", true );
                     if( carrier ) {
                         carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
                     }

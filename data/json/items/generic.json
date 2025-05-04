@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "pseudo item, used as fuel type for engines that are animal-powered",
     "id": "animal",
     "symbol": "?",
@@ -14,7 +14,7 @@
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "pseudo item, only used for crafting as a required tool",
     "id": "fire",
     "symbol": "$",
@@ -26,7 +26,7 @@
     "flags": [ "PSEUDO" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cottonwood_tree_boll",
     "name": { "str": "cottonwood tree boll" },
     "category": "other",
@@ -40,7 +40,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "pseudo item, used as fuel type for engines that are human-powered",
     "id": "muscle",
     "symbol": "?",
@@ -54,7 +54,7 @@
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "pseudo item, used as fuel type for engines that are wind-powered",
     "id": "wind",
     "symbol": "?",
@@ -68,7 +68,7 @@
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "pseudo item, used as fuel type for CBMs that are sun-powered",
     "id": "sunlight",
     "symbol": "?",
@@ -82,7 +82,7 @@
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "pseudo item, used as fuel type for CBMs that are metabolism-powered",
     "id": "metabolism",
     "symbol": "?",
@@ -96,7 +96,7 @@
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",
@@ -108,7 +108,7 @@
     "flags": [ "PSEUDO" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "null",
     "symbol": "$",
     "color": "red",
@@ -120,7 +120,7 @@
     "//": "Fist is internally represented as 'wielding a none as a weapon'"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "file",
     "name": { "str": "file" },
     "category": "books",
@@ -133,7 +133,7 @@
     "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "log_immersion27",
     "copy-from": "file",
     "name": { "str": "INCIDENT REPORT: IMMERSION-27A" },
@@ -141,42 +141,42 @@
     "snippet_category": "log_immersion27"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "report_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str_sp": "MATERIAL: T-SUBSTRATE" },
     "snippet_category": "t-substrate"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "HAADF_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str_sp": "HAADF MICROGRAPH: T-SUBSTRATE" },
     "snippet_category": "HAADF_t-substrate"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "monitoring_equipment_doc",
     "copy-from": "log_immersion27",
     "name": { "str": "XEDRA document" },
     "snippet_category": "monitoring_equipment"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "artifact_scp_doc",
     "copy-from": "log_immersion27",
     "name": { "str_sp": "ANOMALOUS ARTIFACT REPORT" },
     "snippet_category": "artifact_scp"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "melchior_science_doc",
     "copy-from": "log_immersion27",
     "name": { "str": "MELCHIOR report" },
     "snippet_category": "melchior_science_doc"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "msu14_password",
     "name": { "str": "annotated paper scrap" },
     "category": "books",
@@ -189,7 +189,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "small_printout_portal_storm_data",
     "name": { "str": "short NRE printout" },
     "category": "books",
@@ -202,7 +202,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "medium_printout_portal_storm_data",
     "copy-from": "small_printout_portal_storm_data",
     "name": { "str": "NRE printout" },
@@ -211,7 +211,7 @@
     "volume": "8 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "large_printout_portal_storm_data",
     "copy-from": "small_printout_portal_storm_data",
     "name": { "str": "long NRE printout" },
@@ -220,7 +220,7 @@
     "volume": "50 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "nre_anomaly_printout_data",
     "copy-from": "small_printout_portal_storm_data",
     "name": { "str": "NRE anomaly printout" },
@@ -229,7 +229,7 @@
     "volume": "50 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -244,7 +244,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "twig",
     "name": { "str": "twig" },
     "looks_like": "stick",
@@ -257,7 +257,7 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "leaves",
     "name": { "str": "handful of leaves", "str_pl": "handfuls of leaves" },
     "looks_like": "withered",
@@ -270,7 +270,7 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "withered",
     "symbol": "%",
     "color": "light_gray",
@@ -282,7 +282,7 @@
     "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dry_seaweed",
     "name": { "str_sp": "dried seaweed" },
     "looks_like": "withered",
@@ -295,7 +295,7 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dry_seaweed_pile",
     "name": { "str_sp": "pile of dried seaweed" },
     "looks_like": "withered",
@@ -308,7 +308,8 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "super_glue",
     "category": "spare_parts",
     "symbol": ",",
@@ -327,7 +328,7 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rubber_cement",
     "category": "spare_parts",
     "symbol": ",",
@@ -343,7 +344,7 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bone_glue",
     "symbol": ",",
     "category": "spare_parts",
@@ -358,7 +359,7 @@
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fertilizer",
     "symbol": "*",
     "color": "green",
@@ -368,7 +369,7 @@
     "flags": [ "ZERO_WEIGHT" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chain",
     "category": "spare_parts",
     "name": { "str": "steel chain" },
@@ -386,7 +387,8 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "MILLING" ],
     "id": "chitin_piece",
     "category": "spare_parts",
     "symbol": ",",
@@ -398,12 +400,14 @@
     "price_postapoc": "25 cent",
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "into": "meal_chitin_piece",
+    "recipe": "meal_chitin_piece_mill_1_4"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "MILLING" ],
     "id": "endochitin",
     "category": "spare_parts",
     "symbol": ",",
@@ -414,12 +418,14 @@
     "price": "0 cent",
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "300 ml"
+    "volume": "300 ml",
+    "into": "meal_chitin_piece",
+    "recipe": "meal_chitin_piece_mill_1_4"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_bug_hydrogen_sacs",
     "comestible_type": "FOOD",
     "symbol": "o",
@@ -436,7 +442,7 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ballast",
     "category": "spare_parts",
     "symbol": "o",
@@ -450,7 +456,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "acidchitin_piece",
     "copy-from": "chitin_piece",
     "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
@@ -460,7 +466,7 @@
   },
   {
     "id": "bundle_rag",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of cotton patches", "str_pl": "bundles of cotton patches" },
     "description": "A hundred cotton patches, bundled tightly together for storage.  Disassemble to unpack.",
@@ -474,7 +480,7 @@
   },
   {
     "id": "bundle_cotton",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of cotton sheets", "str_pl": "bundles of cotton sheets" },
     "description": "Twenty-five cotton sheets, bundled tightly together for storage.  Disassemble to unpack.",
@@ -488,7 +494,7 @@
   },
   {
     "id": "bundle_leather",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of leather", "str_pl": "bundles of leather" },
     "description": "Fifty leather patches, bundled tightly together for storage.  Disassemble to unpack.",
@@ -502,7 +508,7 @@
   },
   {
     "id": "bundle_wool",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of felt", "str_pl": "bundles of felt" },
     "description": "A hundred felt patches, bundled tightly together for storage.  Disassemble to unpack.",
@@ -516,7 +522,7 @@
   },
   {
     "id": "bundle_nylon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of synthetic fabric", "str_pl": "bundles of synthetic fabric" },
     "description": "Fifty synthetic fabric patches, bundled tightly together for storage.  Disassemble to unpack.",
@@ -532,7 +538,7 @@
   },
   {
     "id": "bundle_plank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of planks", "str_pl": "bundles of planks" },
     "description": "Ten construction planks securely tied together for easier transport.  Disassemble to untie them.",
@@ -548,7 +554,7 @@
   },
   {
     "id": "bundle_rebar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of rebar", "str_pl": "bundles of rebar" },
     "description": "Ten rods of rebar securely tied together for easier transport.  Disassemble to untie them.",
@@ -564,7 +570,7 @@
   },
   {
     "id": "bundle_pipe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of pipes", "str_pl": "bundles of pipes" },
     "description": "Ten pipes securely tied together for easier transport.  Disassemble to untie them.",
@@ -580,7 +586,7 @@
   },
   {
     "id": "bundle_copper_pipe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of copper tubing", "str_pl": "bundles of copper tubing" },
     "description": "Ten copper pipes securely tied together for easier transport.  Disassemble to untie them.",
@@ -596,7 +602,7 @@
   },
   {
     "id": "bundle_branch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of sticks", "str_pl": "bundles of sticks" },
     "description": "Ten sticks securely tied together for easier transport.  Disassemble to untie them.",
@@ -612,7 +618,7 @@
   },
   {
     "id": "bundle_branch_long",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "bundle of long sticks", "str_pl": "bundles of long sticks" },
     "description": "Five long sticks securely tied together for easier transport.  Disassemble to untie them.",
@@ -628,7 +634,7 @@
   },
   {
     "id": "bundle_javelin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "bundle of javelins", "str_pl": "bundles of javelins" },
     "description": "Five wooden javelins securely tied together for easier transport.  Disassemble to untie them.",
@@ -643,7 +649,7 @@
     "color": "brown"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sample_t_substrate",
     "category": "spare_parts",
     "symbol": ",",
@@ -657,7 +663,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "biollante_bud",
     "symbol": ",",
     "color": "magenta",
@@ -670,7 +676,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "canister_empty",
     "symbol": "*",
     "color": "light_gray",
@@ -695,7 +701,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "petrified_eye",
     "symbol": "*",
     "color": "dark_gray",
@@ -711,7 +717,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spiral_stone",
     "symbol": "*",
     "color": "light_gray",
@@ -728,7 +734,8 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "usb_drive_nano",
     "symbol": ",",
     "color": "white",
@@ -742,7 +749,7 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "train_data",
     "copy-from": "usb_drive_nano",
     "name": { "str_sp": "laboratory shipping records" },
@@ -751,7 +758,7 @@
     "price_postapoc": "0 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lixa_data",
     "copy-from": "usb_drive_nano",
     "name": { "str_sp": "LIXA research archive backup" },
@@ -761,7 +768,7 @@
   },
   {
     "id": "robofac_hardcase",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "DARPA hard case" },
     "description": "A heavy and very durable protective case made of steel and thick plastic, locked with a six-dial combination.  A sticker with the logo of DARPA is attached to the front, but looking at the surface, you can see that another marking - formerly stenciled into the material - was recently and hastily destroyed.",
     "weight": "1202 g",
@@ -777,7 +784,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fema_data",
     "symbol": ",",
     "color": "white",
@@ -790,7 +797,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "godcotrader_accounting_records_dirty",
     "//": "Quest item, should not spawn naturally.",
     "name": { "str_sp": "accounting records" },
@@ -804,7 +811,7 @@
     "material": [ "paper" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "godcotrader_accounting_records_clean",
     "//": "Quest item, should not spawn naturally.",
     "name": { "str_sp": "accounting records" },
@@ -818,7 +825,7 @@
     "material": [ "paper" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
@@ -848,7 +855,7 @@
     "//2": "Based on the medium variation from https://www.amazon.com/dp/B09TNCS7HL"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chalice",
     "name": { "str": "gold chalice" },
     "description": "A gold chalice.",
@@ -864,7 +871,7 @@
     "//": "Based on: https://www.amazon.com/Goblets-Chalices-Glasses-Hand-Made-Decoration/dp/B09FDW2RX2/ref=sr_1_4?crid=1N9BI6VTIV08Z&keywords=gold%2Bchalice&qid=1680851190&sprefix=gold%2Bchalic%2Caps%2C305&sr=8-4&th=1"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "blade",
     "symbol": "/",
     "color": "light_gray",
@@ -883,7 +890,7 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "blade_scythe",
     "symbol": "(",
     "color": "light_gray",
@@ -900,7 +907,7 @@
     "melee_damage": { "bash": 6, "cut": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "circsaw_blade",
     "symbol": "/",
     "color": "light_gray",
@@ -918,7 +925,7 @@
     "melee_damage": { "cut": 14 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tree_spile",
     "symbol": ".",
     "color": "light_gray",
@@ -933,7 +940,7 @@
     "qualities": [ [ "TREE_TAP", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "makeshift_tree_spile",
     "copy-from": "tree_spile",
     "color": "brown",
@@ -943,7 +950,7 @@
     "qualities": [ [ "TREE_TAP", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "egg_void_spider",
     "name": { "str": "luminescent bead" },
     "weight": "55 g",
@@ -957,7 +964,7 @@
     "volume": "50 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tattered_garment",
     "name": { "str_sp": "tattered garments" },
     "category": "other",
@@ -972,7 +979,7 @@
     "color": "brown"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wire",
     "symbol": ";",
     "color": "light_gray",
@@ -986,7 +993,7 @@
     "volume": "100 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "piano_wire",
     "symbol": "l",
     "color": "light_gray",
@@ -1000,7 +1007,7 @@
     "volume": "3 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lc_wire",
     "symbol": ";",
     "color": "light_gray",
@@ -1014,7 +1021,7 @@
     "volume": "100 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "medium steel wire" },
@@ -1022,7 +1029,7 @@
     "material": [ "mc_steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "high steel wire" },
@@ -1030,7 +1037,7 @@
     "material": [ "hc_steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ch_wire",
     "copy-from": "lc_wire",
     "name": { "str": "hardened steel wire" },
@@ -1038,7 +1045,7 @@
     "material": [ "ch_steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "qt_wire",
     "copy-from": "lc_wire",
     "name": { "str": "tempered steel wire" },
@@ -1046,7 +1053,7 @@
     "material": [ "qt_steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wire_barbed",
     "symbol": ";",
     "color": "light_gray",
@@ -1060,7 +1067,7 @@
     "flags": [ "HURT_WHEN_WIELDED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wire_mesh",
     "symbol": ";",
     "color": "light_gray",
@@ -1075,7 +1082,7 @@
     "material": [ "steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rebar",
     "symbol": "/",
     "color": "light_gray",
@@ -1093,7 +1100,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "railroad_track_small",
     "symbol": "=",
     "color": "dark_gray",
@@ -1107,7 +1114,7 @@
     "volume": "30 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "concrete",
     "symbol": "%",
     "color": "light_gray",
@@ -1121,7 +1128,7 @@
     "volume": "300 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "drum_skin",
     "name": { "str": "drum skin" },
     "copy-from": "tanned_hide",
@@ -1129,7 +1136,7 @@
     "description": "The tanned hide of an animal repurposed to become the head on a percussion drum."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "torch_done",
     "symbol": "/",
     "color": "brown",
@@ -1145,7 +1152,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "handflare_dead",
     "category": "other",
     "symbol": ";",
@@ -1158,7 +1165,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spring",
     "symbol": ",",
     "color": "light_gray",
@@ -1174,7 +1181,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lawnmower",
     "symbol": ";",
     "color": "green",
@@ -1191,7 +1198,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broketent",
     "symbol": ";",
     "color": "green",
@@ -1206,7 +1213,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "largebroketent",
     "symbol": ";",
     "color": "green",
@@ -1220,7 +1227,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "element",
     "symbol": ",",
     "color": "light_gray",
@@ -1234,7 +1241,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "crude_heating_element",
     "symbol": ",",
     "color": "light_gray",
@@ -1248,7 +1255,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "thermostat",
     "symbol": ",",
     "color": "light_gray",
@@ -1262,7 +1269,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "household_water_heater",
     "symbol": "0",
     "color": "white",
@@ -1279,7 +1286,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "household_water_heater_family",
     "symbol": "0",
     "color": "white",
@@ -1296,7 +1303,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -1312,7 +1319,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "household_washing_machine",
     "symbol": "{",
     "color": "white",
@@ -1337,7 +1344,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "household_dishwasher",
     "symbol": "{",
     "color": "white",
@@ -1362,7 +1369,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pilot_light",
     "symbol": ",",
     "color": "light_gray",
@@ -1376,7 +1383,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "delay_fuze",
     "symbol": ",",
     "color": "light_gray",
@@ -1390,7 +1397,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "impact_fuze",
     "symbol": ",",
     "color": "light_gray",
@@ -1405,7 +1412,7 @@
   },
   {
     "id": "broken_kord",
-    "type": "GENERIC",
+    "type": "ITEM",
     "looks_like": "kord",
     "symbol": "(",
     "color": "light_gray",
@@ -1428,7 +1435,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "MISSION_ITEM" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_robofac_camspy",
     "symbol": ",",
     "color": "green",
@@ -1443,7 +1450,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_skitterbot",
     "symbol": ",",
     "color": "green",
@@ -1458,7 +1465,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_robofac_skittergun",
     "symbol": ",",
     "color": "green",
@@ -1473,7 +1480,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_science_bot",
     "symbol": ",",
     "color": "green",
@@ -1488,7 +1495,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_nursebot",
     "symbol": ",",
     "color": "dark_gray",
@@ -1503,7 +1510,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_grocerybot",
     "symbol": ",",
     "color": "dark_gray",
@@ -1518,7 +1525,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_grocerybot_busted",
     "symbol": ",",
     "color": "dark_gray",
@@ -1533,13 +1540,13 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_nursebot_defective",
     "name": { "str": "broken nurse bot" },
     "copy-from": "broken_nursebot"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_robofac_prototype",
     "symbol": ",",
     "color": "green",
@@ -1554,7 +1561,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_molebot",
     "symbol": ",",
     "color": "green",
@@ -1569,7 +1576,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_mech_recon",
     "name": { "str": "broken recon mech" },
     "description": "A broken mech exoskeleton suit, it looks beyond repair.",
@@ -1583,7 +1590,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_mech_lifter",
     "name": { "str": "broken mech lifter" },
     "description": "A broken mech exoskeleton suit, it looks beyond repair.",
@@ -1597,7 +1604,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_mech_combat",
     "name": { "str": "broken combat mech" },
     "description": "A broken mech exoskeleton suit, it looks beyond repair.",
@@ -1611,7 +1618,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_dispatch",
     "symbol": ",",
     "color": "yellow",
@@ -1626,7 +1633,8 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "paper",
     "name": { "str_sp": "paper" },
     "category": "spare_parts",
@@ -1644,7 +1652,8 @@
   },
   {
     "id": "book_binder",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "books",
     "use_action": [ "BINDER_ADD_RECIPE", "BINDER_MANAGE_RECIPE" ],
     "symbol": "/",
@@ -1661,7 +1670,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "paper": 90 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_dispatch_military",
     "symbol": ",",
     "color": "green",
@@ -1678,7 +1687,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_manhack",
     "symbol": ",",
     "color": "light_green",
@@ -1695,7 +1704,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_grenade_hack",
     "symbol": ",",
     "color": "green",
@@ -1712,7 +1721,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_gasbomb_hack",
     "symbol": ",",
     "color": "dark_gray",
@@ -1729,7 +1738,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_EMP_hack",
     "symbol": ",",
     "color": "cyan",
@@ -1746,7 +1755,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_flashbang_hack",
     "symbol": ",",
     "color": "dark_gray",
@@ -1763,7 +1772,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_c4_hack",
     "symbol": ",",
     "color": "light_gray",
@@ -1780,7 +1789,7 @@
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_speaker",
     "symbol": ",",
     "color": "yellow",
@@ -1797,7 +1806,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",
@@ -1811,7 +1820,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "RAM",
     "symbol": ",",
     "color": "dark_gray",
@@ -1826,7 +1835,7 @@
     "volume": "18 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "power_supply",
     "symbol": ",",
     "color": "light_gray",
@@ -1840,7 +1849,7 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "amplifier",
     "symbol": ",",
     "color": "light_gray",
@@ -1854,7 +1863,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "transponder",
     "symbol": ",",
     "color": "light_gray",
@@ -1870,7 +1879,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "receiver",
     "symbol": ",",
     "color": "light_gray",
@@ -1884,7 +1893,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "large_lcd_screen",
     "symbol": ",",
     "color": "dark_gray",
@@ -1900,7 +1909,7 @@
     "melee_damage": { "bash": 7 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "small_lcd_screen",
     "symbol": ",",
     "color": "dark_gray",
@@ -1916,7 +1925,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lens",
     "symbol": ".",
     "color": "light_cyan",
@@ -1932,7 +1941,7 @@
     "flags": [ "FIRESTARTER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lens_small",
     "symbol": ".",
     "color": "light_cyan",
@@ -1946,7 +1955,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",
@@ -1960,7 +1969,7 @@
     "volume": "2 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "burnt_out_bionic",
     "symbol": ",",
     "color": "dark_gray",
@@ -1977,7 +1986,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standard_template_construct",
     "symbol": ",",
     "color": "cyan",
@@ -1996,7 +2005,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "standard_template_construct_combat_exoskeleton",
     "copy-from": "standard_template_construct",
     "name": { "str": "nanofabricator exoskeleton template" },
@@ -2004,7 +2013,7 @@
     "nanofab_template_group": "nanofab_recipes_combat_exoskeletons"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "debug_template",
     "copy-from": "standard_template_construct",
     "color": "yellow",
@@ -2014,7 +2023,7 @@
     "template_requirements": "copper_scrap_equivalent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "template_photonics",
     "copy-from": "standard_template_construct",
     "color": "yellow",
@@ -2026,7 +2035,7 @@
     "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "template_armor",
     "copy-from": "standard_template_construct",
     "color": "yellow",
@@ -2038,7 +2047,7 @@
     "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",
@@ -2052,7 +2061,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "motor_micro",
     "symbol": ",",
     "color": "light_gray",
@@ -2066,7 +2075,7 @@
     "volume": "25 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "circuit",
     "symbol": ",",
     "color": "green",
@@ -2080,7 +2089,7 @@
     "volume": "15 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "e_scrap",
     "symbol": ",",
     "color": "green",
@@ -2094,7 +2103,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "radio_repeater_mod",
     "symbol": ",",
     "color": "light_gray",
@@ -2110,7 +2119,8 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "fan",
     "symbol": ",",
     "name": { "str": "desk fan" },
@@ -2131,7 +2141,7 @@
     "tool_ammo": [ "battery" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ceramic_armor",
     "category": "spare_parts",
     "symbol": ",",
@@ -2147,7 +2157,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fish_bowl",
     "symbol": "u",
     "color": "light_cyan",
@@ -2163,7 +2173,7 @@
   },
   {
     "id": "pipe_cleaner",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pipe cleaner" },
     "description": "A tool designed to clean the interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
     "weight": "50 g",
@@ -2175,7 +2185,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "clock",
     "symbol": ";",
     "color": "light_gray",
@@ -2190,7 +2200,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "clockworks",
     "category": "spare_parts",
     "symbol": ";",
@@ -2204,7 +2214,7 @@
     "volume": "50 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mirror",
     "symbol": "o",
     "color": "light_cyan",
@@ -2220,7 +2230,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "manhole_cover",
     "symbol": "]",
     "color": "dark_gray",
@@ -2237,7 +2247,7 @@
     "melee_damage": { "bash": 20 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pine_bough",
     "symbol": "/",
     "color": "green",
@@ -2249,7 +2259,7 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pinecone",
     "symbol": ",",
     "color": "brown",
@@ -2262,7 +2272,7 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "brew_sake_koji",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "unfinished koji rice" },
@@ -2286,7 +2296,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sake_koji_rice",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "koji rice" },
@@ -2300,7 +2310,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "young_koji",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "growing wild koji mold" },
@@ -2322,7 +2332,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "young_koji_done",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "grown wild koji mold" },
@@ -2335,7 +2345,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "soy_wheat_dough",
     "looks_like": "flour",
     "name": { "str_sp": "soy and wheat dough" },
@@ -2356,7 +2366,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "soy_wheat_dough_done",
     "looks_like": "flour",
     "name": { "str_sp": "soy and wheat dough with koji" },
@@ -2368,7 +2378,7 @@
     "volume": "500 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "poppy_bud",
     "name": { "str": "poppy bud" },
     "category": "chems",
@@ -2382,7 +2392,7 @@
     "price_postapoc": "50 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sunflower",
     "name": { "str": "sunflower" },
     "description": "The top of a sunflower, with yellow petals and some seeds that have yet to be eaten by animals.",
@@ -2395,7 +2405,7 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chamomile",
     "name": { "str_sp": "chamomile flowers" },
     "description": "A handful of white chamomile flowers, used as an herbal remedy since ancient times.",
@@ -2408,7 +2418,7 @@
     "price_postapoc": "0 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lotus",
     "name": { "str": "lotus flower" },
     "description": "A lovely flower that grows on the surface of bodies of fresh water.  Traditionally connected with many Eastern cultures.",
@@ -2421,7 +2431,7 @@
     "price_postapoc": "0 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spurge",
     "name": { "str_sp": "spurge flowers" },
     "description": "A handful of yellow-green flowers.  Can be brewed into a tea that prevents asthma attacks.",
@@ -2434,7 +2444,7 @@
     "price_postapoc": "0 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bouquet",
     "name": { "str_sp": "withered bouquet" },
     "description": "A mixed collection of flowers.  Unfortunately, they have all withered with time.",
@@ -2449,7 +2459,7 @@
     "price_postapoc": "0 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dog_tag_dog",
     "name": { "str_sp": "dog tag" },
     "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.  It says \"<dog_name>\".",
@@ -2464,7 +2474,7 @@
     "price_postapoc": "0 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
@@ -2478,7 +2488,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "brick",
     "symbol": ",",
     "color": "brown",
@@ -2496,7 +2506,7 @@
     "//": "I consider this value to be too high, but lowering it further would put it below rocks, and rocks are a staple of balance due to ferals."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mortar_build",
     "symbol": "%",
     "color": "light_gray",
@@ -2511,7 +2521,7 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mortar_lime",
     "symbol": "%",
     "color": "white",
@@ -2526,7 +2536,7 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "soft_adobe_brick",
     "category": "spare_parts",
     "symbol": ",",
@@ -2551,7 +2561,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "adobe_brick",
     "category": "spare_parts",
     "symbol": ",",
@@ -2570,7 +2580,7 @@
     "melee_damage": { "bash": 7 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mortar_adobe",
     "symbol": "%",
     "color": "brown",
@@ -2585,7 +2595,7 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "abstract": "bark_abstract",
     "symbol": ",",
     "color": "brown",
@@ -2601,28 +2611,28 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tanbark",
     "name": { "str": "piece of tanbark", "str_pl": "pieces of tanbark" },
     "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather.",
     "copy-from": "bark_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "birchbark",
     "name": { "str": "piece of birchbark", "str_pl": "pieces of birchbark" },
     "description": "A sheet of tough, water-resistant bark taken from a birch tree.",
     "copy-from": "bark_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "willowbark",
     "name": { "str": "piece of willowbark", "str_pl": "pieces of willowbark" },
     "description": "A sheet of bark taken from a willow tree.  Used in the production of aspirin.",
     "copy-from": "bark_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sassafras_root",
     "symbol": ",",
     "color": "brown",
@@ -2635,7 +2645,7 @@
     "volume": "109 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "diamond",
     "symbol": "*",
     "color": "white",
@@ -2649,7 +2659,7 @@
     "volume": "6 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "garnet",
     "symbol": "*",
     "color": "red",
@@ -2663,7 +2673,7 @@
     "volume": "6 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "amethyst",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2672,7 +2682,7 @@
     "description": "A sparkling amethyst."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "aquamarine",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2681,7 +2691,7 @@
     "description": "A sparkling aquamarine."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "emerald",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2690,7 +2700,7 @@
     "description": "A sparkling emerald."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "alexandrite",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2699,7 +2709,7 @@
     "description": "A sparkling alexandrite."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "malachite",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2708,7 +2718,7 @@
     "description": "A sparkling malachite."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pearl",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2717,7 +2727,7 @@
     "description": "A lustrous pearl."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ruby",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2726,7 +2736,7 @@
     "description": "A sparkling ruby."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "peridot",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2735,7 +2745,7 @@
     "description": "A sparkling peridot."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "sapphire",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2744,7 +2754,7 @@
     "description": "A sparkling sapphire."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "opal",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2753,7 +2763,7 @@
     "description": "A lustrous opal."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tourmaline",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2762,7 +2772,7 @@
     "description": "A sparkling tourmaline."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "citrine",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2771,7 +2781,7 @@
     "description": "A sparkling citrine."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "blue_topaz",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2780,7 +2790,7 @@
     "description": "A sparkling blue topaz."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "onyx",
     "copy-from": "garnet",
     "flags": [ "GEMSTONE" ],
@@ -2789,7 +2799,8 @@
     "description": "A beautiful black onyx."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "straw_pile",
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
@@ -2805,7 +2816,7 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "straw_doll",
     "symbol": "o",
     "color": "light_gray",
@@ -2819,7 +2830,7 @@
     "volume": "500 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pillow",
     "symbol": ",",
     "color": "blue",
@@ -2835,7 +2846,7 @@
     "category": "other"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "makeshift_pillow",
     "symbol": ",",
     "color": "blue",
@@ -2851,7 +2862,7 @@
     "category": "other"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bodypillow",
     "symbol": "[",
     "color": "white",
@@ -2946,7 +2957,7 @@
     "category": "other"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "down_pillow",
     "symbol": ",",
     "color": "blue",
@@ -2963,7 +2974,8 @@
   },
   {
     "id": "pouch_autoclave",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "NULL",
     "category": "other",
     "name": { "str": "autoclave pouch", "str_pl": "autoclave pouches" },
@@ -2979,7 +2991,8 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "cigar_lit",
     "name": { "str": "cigar" },
     "color": "brown",
@@ -3001,21 +3014,19 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 6,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 25,
-          "coverage": 70,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 6,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 25,
+        "coverage": 70,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cigar_butt",
     "name": { "str": "cigar butt" },
     "color": "dark_gray",
@@ -3027,7 +3038,8 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "cig_lit",
     "name": { "str": "cigarette" },
     "color": "white",
@@ -3049,21 +3061,19 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 3,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 15,
-          "coverage": 25,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 3,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 15,
+        "coverage": 25,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cig_butt",
     "name": { "str": "cigarette butt" },
     "color": "dark_gray",
@@ -3075,7 +3085,8 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "joint_lit",
     "name": { "str": "joint" },
     "color": "light_green",
@@ -3097,21 +3108,19 @@
       }
     ],
     "material": [ "paper" ],
-    "armor_data": {
-      "warmth": 3,
-      "armor": [
-        {
-          "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 15,
-          "coverage": 25,
-          "covers": [ "mouth" ]
-        }
-      ]
-    },
-    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ],
+    "warmth": 3,
+    "armor": [
+      {
+        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 15,
+        "coverage": 25,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "joint_roach",
     "name": { "str": "joint roach", "str_pl": "joint roaches" },
     "color": "green",
@@ -3123,7 +3132,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cannabis",
     "symbol": "%",
     "color": "light_green",
@@ -3136,7 +3145,7 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tobacco_raw",
     "symbol": "%",
     "color": "light_green",
@@ -3151,7 +3160,8 @@
   },
   {
     "abstract": "card_plastic_abstract",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": ",",
     "color": "cyan",
     "name": { "str": "abstract plastic card", "//~": "NO_I18N" },
@@ -3168,7 +3178,8 @@
   },
   {
     "id": "cash_card",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "currency",
     "copy-from": "card_plastic_abstract",
     "symbol": "$",
@@ -3183,7 +3194,8 @@
   },
   {
     "id": "robofac_test_data",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "card_plastic_abstract",
     "color": "yellow",
     "name": { "str": "prototype I/O recorder" },
@@ -3193,7 +3205,7 @@
     "extend": { "flags": [ "MISSION_ITEM" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "//": "Item for meteorologist mission.",
     "id": "module_meteorologist",
     "name": { "str": "drone memory bank" },
@@ -3203,7 +3215,8 @@
   },
   {
     "id": "gasdiscount_silver",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "currency",
     "copy-from": "card_plastic_abstract",
     "color": "yellow",
@@ -3214,7 +3227,8 @@
   },
   {
     "id": "gasdiscount_gold",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "currency",
     "copy-from": "card_plastic_abstract",
     "color": "yellow",
@@ -3225,7 +3239,8 @@
   },
   {
     "id": "gasdiscount_platinum",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "currency",
     "copy-from": "card_plastic_abstract",
     "color": "yellow",
@@ -3235,7 +3250,7 @@
     "extend": { "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
@@ -3251,7 +3266,7 @@
   },
   {
     "id": "light_bulb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "light bulb" },
     "description": "A rather outdated light bulb used in all sorts of lighting equipment.",
     "symbol": ",",
@@ -3265,7 +3280,8 @@
   },
   {
     "id": "shrapnel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
@@ -3281,7 +3297,7 @@
   },
   {
     "id": "clay_pot_flower",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "clay flower pot" },
     "description": "A nice-looking clay pot used for planting.",
@@ -3296,7 +3312,7 @@
   },
   {
     "id": "plastic_pot_flower",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "plastic flower pot" },
     "description": "A cheap plastic pot used for planting.",
@@ -3311,7 +3327,7 @@
   },
   {
     "id": "fluid_preserved_brain",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "fluid-preserved brain" },
     "description": "This 3 L jar contains a human brain preserved in a formaldehyde solution.",
@@ -3328,7 +3344,7 @@
   },
   {
     "id": "evaporator_coil",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "evaporator coil" },
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
@@ -3344,7 +3360,7 @@
   },
   {
     "id": "condensor_coil",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "condensor coil" },
     "description": "A compressor and fan that work together to cool down refrigerant.",
@@ -3360,7 +3376,7 @@
   },
   {
     "id": "refrigerant_tank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "refrigerant tank" },
     "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to a compatible valve.",
     "weight": "410 g",
@@ -3374,7 +3390,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hard_steel_armor",
     "category": "spare_parts",
     "symbol": ",",
@@ -3389,7 +3405,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "steel_armor",
     "category": "spare_parts",
     "symbol": ",",
@@ -3404,7 +3420,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lock",
     "category": "spare_parts",
     "symbol": "P",
@@ -3419,7 +3435,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "craft",
     "symbol": "%",
     "color": "white",
@@ -3433,7 +3449,7 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "disassembly",
     "symbol": "%",
     "color": "white",
@@ -3447,7 +3463,7 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spare_tire_carrier",
     "category": "spare_parts",
     "symbol": "t",
@@ -3462,7 +3478,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "amplifier_head",
     "symbol": ";",
     "color": "blue",
@@ -3475,7 +3491,7 @@
     "volume": "3 L"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret",
     "symbol": ",",
     "color": "green",
@@ -3492,7 +3508,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_riot",
     "symbol": ",",
     "color": "blue",
@@ -3501,7 +3517,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
@@ -3510,7 +3526,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_crows_m240",
     "symbol": ",",
     "color": "green",
@@ -3519,7 +3535,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_bmg",
     "symbol": ",",
     "color": "green",
@@ -3528,7 +3544,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_artisans",
     "symbol": ",",
     "color": "green",
@@ -3537,7 +3553,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_secubot",
     "symbol": ",",
     "color": "green",
@@ -3554,7 +3570,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_talon_m202a1",
     "symbol": ",",
     "color": "green",
@@ -3571,7 +3587,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_robofac_laserturret_mk1",
     "symbol": ",",
     "color": "green",
@@ -3580,7 +3596,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_turret_searchlight",
     "symbol": ",",
     "color": "green",
@@ -3590,7 +3606,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fire_brick",
     "symbol": ",",
     "color": "brown",
@@ -3607,7 +3623,7 @@
   },
   {
     "id": "plastic_six_dice",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "plastic die", "str_pl": "plastic dice" },
     "description": "A six-sided plastic die.",
@@ -3622,7 +3638,7 @@
   },
   {
     "id": "salt_lick",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "salt lick" },
     "description": "A heavy cube-shaped block of salt for livestock.  Don't lick it, it's gross.",
@@ -3637,7 +3653,7 @@
     "flags": [ "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "alder_bark",
     "name": { "str": "piece of alder bark", "str_pl": "pieces of alder bark" },
     "description": "A strip of bark pulled from an alder tree.  Used in the production of topical hemostatics.",
@@ -3645,7 +3661,7 @@
   },
   {
     "id": "wallet",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "wallet" },
     "looks_like": "bag_plastic",
@@ -3691,7 +3707,7 @@
   },
   {
     "id": "wallet_duct_tape",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "wallet",
     "name": { "str": "duct tape wallet" },
     "description": "A wallet made entirely out of duct tape.",
@@ -3700,7 +3716,7 @@
   },
   {
     "id": "wallet_leather",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "wallet",
     "name": { "str": "leather wallet" },
     "description": "A wallet made of leather.",
@@ -3708,7 +3724,7 @@
   },
   {
     "id": "wallet_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "wallet",
     "name": { "str": "large wallet" },
     "description": "A flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
@@ -3748,7 +3764,7 @@
   },
   {
     "id": "wallet_stylish",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
     "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
@@ -3756,7 +3772,8 @@
   },
   {
     "id": "wallet_travel",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": ";",
     "color": "dark_gray",
@@ -3783,7 +3800,8 @@
   },
   {
     "id": "lanyard",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "white",
@@ -3811,7 +3829,7 @@
     "armor": [ { "encumbrance": 0, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_tazer_hack",
     "symbol": ",",
     "color": "green",
@@ -3828,7 +3846,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_lab_security_drone_GM",
     "symbol": ",",
     "color": "green",
@@ -3845,7 +3863,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_lab_security_drone_YM",
     "symbol": ",",
     "color": "yellow",
@@ -3862,7 +3880,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_lab_security_drone_BM",
     "symbol": ",",
     "color": "blue",
@@ -3879,7 +3897,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_lab_security_drone_BM2",
     "symbol": ",",
     "color": "cyan",
@@ -3896,7 +3914,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_lab_security_drone_GR",
     "symbol": ",",
     "color": "light_green",
@@ -3913,7 +3931,7 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_lab_security_drone_BS",
     "symbol": ",",
     "color": "dark_gray",
@@ -3931,7 +3949,7 @@
   },
   {
     "id": "parachute_mil",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "military parachute" },
     "description": "This is a big, bulky military-level parachute, designed to slow the fall of up to a thousand kilograms of cargo dropped from an aircraft.  You have no clue how to put all the straps back in their place.",
     "weight": "113400 g",
@@ -3945,7 +3963,7 @@
   },
   {
     "id": "pallet",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "wooden pallet" },
     "description": "This is a heavy and bulky 40x48 inch palette.",
     "weight": "28 kg",
@@ -3955,7 +3973,8 @@
     "color": "brown"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "training_dummy_light",
     "symbol": "@",
     "color": "brown",
@@ -3970,7 +3989,8 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "training_dummy_heavy",
     "symbol": "@",
     "color": "light_gray",
@@ -3985,7 +4005,8 @@
     "melee_damage": { "bash": 14 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "archery_target_box",
     "symbol": "@",
     "color": "brown",
@@ -4001,7 +4022,7 @@
   },
   {
     "id": "cash_register",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "symbol": "$",
     "color": "dark_gray",

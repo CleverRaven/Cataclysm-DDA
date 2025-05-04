@@ -84,7 +84,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string_view )
+void bodygraph::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );
@@ -340,7 +340,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
+    auto center_txt_start = [&first_win_width]( std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
