@@ -267,13 +267,7 @@ double func_jmath::eval( const_dialogue const &d ) const
 double var::eval( const_dialogue const &d ) const
 {
     if( diag_value const *ret = maybe_read_var_value( varinfo, d ); ret ) {
-        try {
-            return ret->dbl( d );
-        } catch( math::exception &ex ) {
-            throw math::runtime_error(
-                R"(Type mismatch in variable "%s" with value "%s": %s)", varinfo.name,
-                ret->to_string(), ex.what() );
-        }
+        return ret->dbl( d, varinfo.name );
     }
     return 0;
 }

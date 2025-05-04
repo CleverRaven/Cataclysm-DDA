@@ -60,7 +60,8 @@ T _convert( diag_value::legacy_value const &val )
 }
 
 template<typename C, bool at_runtime = false, typename R = C const &>
-constexpr R _diag_value_helper( diag_value::impl_t const &data, const_dialogue const &/* d */ = {} )
+constexpr R _diag_value_helper( diag_value::impl_t const &data, const_dialogue const &/* d */ = {},
+                                std::string_view key = {} )
 {
     return std::visit( overloaded{
         []( std::monostate const &/* std */ ) -> R
@@ -68,7 +69,7 @@ constexpr R _diag_value_helper( diag_value::impl_t const &data, const_dialogue c
             static C const null_R{};
             return null_R;
         },
-        []( auto const & v ) -> R
+        [key]( auto const & v ) -> R
         {
             if constexpr( std::is_same_v<std::decay_t<decltype( v )>, C> )
             {
@@ -81,13 +82,13 @@ constexpr R _diag_value_helper( diag_value::impl_t const &data, const_dialogue c
                 return _diag_value_helper<C, at_runtime, R>( *v.converted );
             } else if constexpr( at_runtime )
             {
-                throw math::runtime_error( "Type mismatch in diag_value: requested %s, got %s", _str_type_of( C{} ),
-                                           _str_type_of( v ) );
+                throw math::runtime_error(
+                    R"(Type mismatch in diag_value %s: requested %s, got %s)", key,
+                    _str_type_of( C{} ), _str_type_of( v ) );
             } else
             {
-
-                debugmsg( "Type mismatch in diag_value: requested %s, got %s", _str_type_of( C{} ),
-                          _str_type_of( v ) );
+                debugmsg( R"(Type mismatch in diag_value %s: requested %s, got %s)", key,
+                          _str_type_of( C{} ), _str_type_of( v ) );
                 static C const null_R{};
                 return null_R;
             }
@@ -165,14 +166,14 @@ bool diag_value::is_dbl() const
     return std::holds_alternative<double>( data );
 }
 
-double diag_value::dbl() const
+double diag_value::dbl( std::string_view key ) const
 {
-    return _diag_value_helper<double, false, double>( data );
+    return _diag_value_helper<double, false, double>( data, {}, key );
 }
 
-double diag_value::dbl( const_dialogue const &d ) const
+double diag_value::dbl( const_dialogue const &d, std::string_view key ) const
 {
-    return _diag_value_helper<double, true, double>( data, d );
+    return _diag_value_helper<double, true, double>( data, d, key );
 }
 
 bool diag_value::is_tripoint() const
@@ -180,14 +181,14 @@ bool diag_value::is_tripoint() const
     return std::holds_alternative<tripoint_abs_ms>( data );
 }
 
-tripoint_abs_ms const &diag_value::tripoint() const
+tripoint_abs_ms const &diag_value::tripoint( std::string_view key ) const
 {
-    return _diag_value_helper<tripoint_abs_ms>( data );
+    return _diag_value_helper<tripoint_abs_ms>( data, {}, key );
 }
 
-tripoint_abs_ms const &diag_value::tripoint( const_dialogue const &d ) const
+tripoint_abs_ms const &diag_value::tripoint( const_dialogue const &d, std::string_view key ) const
 {
-    return _diag_value_helper<tripoint_abs_ms, true>( data, d );
+    return _diag_value_helper<tripoint_abs_ms, true>( data, d, key );
 }
 
 bool diag_value::is_str() const
@@ -195,14 +196,14 @@ bool diag_value::is_str() const
     return std::holds_alternative<std::string>( data );
 }
 
-std::string const &diag_value::str() const
+std::string const &diag_value::str( std::string_view key ) const
 {
-    return _diag_value_helper<std::string>( data );
+    return _diag_value_helper<std::string>( data, {}, key );
 }
 
-std::string const &diag_value::str( const_dialogue const &d ) const
+std::string const &diag_value::str( const_dialogue const &d, std::string_view key ) const
 {
-    return _diag_value_helper<std::string, true>( data, d );
+    return _diag_value_helper<std::string, true>( data, d, key );
 }
 
 bool diag_value::is_array() const
@@ -215,14 +216,14 @@ bool diag_value::is_empty() const
     return std::holds_alternative<std::monostate>( data );
 }
 
-diag_array const &diag_value::array() const
+diag_array const &diag_value::array( std::string_view key ) const
 {
-    return _diag_value_helper<diag_array>( data );
+    return _diag_value_helper<diag_array>( data, {}, key );
 }
 
-diag_array const &diag_value::array( const_dialogue const &d ) const
+diag_array const &diag_value::array( const_dialogue const &d, std::string_view key ) const
 {
-    return _diag_value_helper<diag_array, true>( data, d );
+    return _diag_value_helper<diag_array, true>( data, d, key );
 }
 
 bool operator==( diag_value::legacy_value const &lhs, diag_value::legacy_value const &rhs )

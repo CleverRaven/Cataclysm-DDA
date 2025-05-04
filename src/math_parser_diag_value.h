@@ -68,17 +68,18 @@ struct diag_value {
     bool is_empty() const;
 
     // These functions show a debugmsg on type mismatches
-    double dbl() const;
-    std::string const &str() const;
-    diag_array const &array() const;
-    tripoint_abs_ms const &tripoint() const;
+    // key is only used in the mismatch error message
+    double dbl( std::string_view key = {} ) const;
+    std::string const &str( std::string_view key = {} ) const;
+    diag_array const &array( std::string_view key = {} ) const;
+    tripoint_abs_ms const &tripoint( std::string_view key = {} ) const;
 
     // These functions throw a math::runtime_error on type mismatches
     // and are meant to be used only inside EOC and math code
-    double dbl( const_dialogue const &d ) const;
-    std::string const &str( const_dialogue const &d ) const;
-    diag_array const &array( const_dialogue const &d ) const;
-    tripoint_abs_ms const &tripoint( const_dialogue const &d ) const;
+    double dbl( const_dialogue const &d, std::string_view key = {} ) const;
+    std::string const &str( const_dialogue const &d, std::string_view key = {} ) const;
+    diag_array const &array( const_dialogue const &d, std::string_view key = {} ) const;
+    tripoint_abs_ms const &tripoint( const_dialogue const &d, std::string_view key = {} ) const;
 
     std::string to_string( bool i18n = false ) const;
 
