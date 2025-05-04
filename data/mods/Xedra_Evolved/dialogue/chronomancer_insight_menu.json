@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN",
-    "dynamic_line": "Current Insight: <u_val:xedra_chronomancer_insight_count>",
+    "dynamic_line": "As a chronomancer, you have a nigh-unique ability to alter the flow of time to your benefit.  However, in order to improve your abilities you must have insight into time.\n\nYou may gain chronal insight in several ways:\n #1: Using any chronomancy spell will temporarily allow you to gain insight on killing any enemy for a short time based on the difficulty of the spell.\n #2: Killing time altered creatures, such as monochrome zombies, will give you immediate insight based on the difficulty of that enemy.\n #3: You will gain a small amount of insight every day, proportionally increased by the amount of negative temporal traits you have.\n\n Current Insight: <u_val:xedra_chronomancer_insight_count>",
     "//": "Insight cost is difficulty x 10 for all chronomancy spells.",
     "responses": [
       {
