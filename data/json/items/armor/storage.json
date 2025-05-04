@@ -3450,6 +3450,7 @@
         "max_item_length": "150 cm",
         "min_item_length": "60 cm",
         "moves": 200,
+        "rigid": false,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the seabag.",
         "ripoff": 3,
