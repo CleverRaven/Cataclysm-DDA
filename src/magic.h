@@ -347,8 +347,8 @@ class spell_type
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
 
-        std::function<bool( const_dialogue const & )> condition;
-        bool has_condition = false;
+        std::function<bool( const_dialogue const & )> condition; // NOLINT(cata-serialize)
+        bool has_condition = false; // NOLINT(cata-serialize)
 
         std::set<mtype_id> targeted_monster_ids;
 
