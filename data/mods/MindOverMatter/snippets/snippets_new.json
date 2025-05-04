@@ -152,6 +152,7 @@
     "type": "snippet",
     "category": "lab_file_biokinesis",
     "//": "Phavian designation for biokinetic study is BURNT NOVEMBER.  Designation for use in combat is VERDANT HAND",
+    "//2": "Testing report prefix is B",
     "text": [
       {
         "name": "AAR ID# V78-08",
@@ -189,6 +190,7 @@
     "type": "snippet",
     "category": "lab_file_clairsentience",
     "//": "Phavian designation for clairsentience study is NOBLE HORIZON.  Phavian designation for use of clairsentience to find appropriate portal targets for immersion dives is COLD BELOW",
+    "//2": "Testing report prefix is N",
     "text": [
       {
         "name": "Notes scribbled on notebook paper",
@@ -197,7 +199,7 @@
         "text": "I'm looking up at the sky.  I can see the same constellations on Earth, but they're shimmering somehow, like there's a haze or a fog or something between us.  Then, the stars start to slowly go out.  Not in a wave, but randomly--one here, one there, faster and faster until the entire sky was dark.  Then the moon disappeared as well and everything went black.\n\nI'm standing on the edge of a cliff.  Below me is the churning sea, the waters black under the stormclouds.  The sea rises slowly as rain falls in sheets, lightning striking the waters.  They break over the edge of the cliff, then over my head.  I drown.\n\nI am standing in a forest.  The trees rustle all around me and the birds sing, and then clouds pass over the sun.  The sun dims and then starts to go black.  It's an eclipse.  The light fades and all the birdsong dies.  I stand in pitch blackness with the rustle of leaves around me."
       },
       {
-        "name": "testing report I2-8129",
+        "name": "testing report N2-8129",
         "id": "lab_file_clairsentience_02",
         "weight": 800,
         "text": "Subject O21 was placed blindfolded in a completely dark room with a deck of shuffled playing cards, instructed to remove the blindfold, and asked to sort them in standard order: clubs, diamonds, hearts, spades, each in numerical order.  Task was completed in 6:03 with 18/52 cards in the proper order and minor to major ordering errors in all other cards.  Subject was then asked to drink from the coffee cup in the room.  Cup was placed on a shelf above the door to prevent movement around the room from discovering it, but task was completed in 1:14, with the only difficulty being subject's height (158 cm) making it harder to reach the shelf.  Subject was then asked to cross the room to the table, pick up the paper, and read the sequence of numbers written on it.  Subject was unable to do so, only correctly reciting the first two digits.\n\nExperiment does uphold the thesis that successful NOBLE HORIZON mathematicians perceive their surroundings through means other than light.  As O21 was unable to read the document, their sense is not \"sight\" as such.  Further experimentation to determine its limits is necessary."
@@ -226,9 +228,10 @@
     "type": "snippet",
     "category": "lab_file_electrokinesis",
     "//": "Phavian designation for electrokinetic study is RUBY LOOP",
+    "//2": "Testing report prefix is R",
     "text": [
       {
-        "name": "testing report B2-1711",
+        "name": "testing report R2-1711",
         "id": "lab_file_electrokinesis_01",
         "weight": 1000,
         "text": "The testing mathematician was provided with a standard smartphone and instructed to turn on and leave on the flashlight, share their location with multiple provided addresses, and repeatedly delete and re-download several very large testing files (each over 10gb in size).  During breaks, the phone was left streaming HD movies over the cellular network. nResults were very consistent; while the phone's battery rapidly drained while unattended, despite not being connected to power, the battery slowly refilled when the phone was being handled by T47, often reaching or being close to 100% when the time came for a break.\n\nFollowing this, the experiment was modified to have T47 sit and read a book in the same room, but never approach closer than two meters to the phone, which was again set to stream HD movies over the cellular network.  The phone discharged its battery and shut off completely within four hours.  Further testing shows the approximate range of the effect (in T47's case) to be 8 centimeters from their body and that barriers (both conductive and non-conductive) do not impede the effect in any way.  Attempts to use a multimeter to directly measure the strength of the effect were inconclusive, as it changed rapidly up to several times per second and often the multimeter simply could not register any current at all.  I have already submitted a request for further testing to determine the exact parameters of the effect, include its strength and the full variety of devices subject to it, and will submit an update with my results as soon as I have them.\n-Charlotte Manning\nResearcher"
@@ -256,7 +259,7 @@
         "name": "I am the One",
         "id": "lab_file_electrokinesis_05",
         "weight": 900,
-        "text": "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\nHandwritten below in red are the words, \"Refer I32 for psychological evaluation.\""
+        "text": "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\n*Handwritten below in red are the words, \"Refer I32 for psychological evaluation.\"*"
       }
     ]
   },
@@ -264,6 +267,7 @@
     "type": "snippet",
     "category": "lab_file_photokinesis",
     "//": "Phavian designation for photokinetic study is CRYPTIC FORGE",
+    "//2": "Testing report prefix is C",
     "text": [
       {
         "name": "incident report: 884001",
@@ -271,16 +275,23 @@
         "weight": 1000,
         "text": "At 1405 during a routine CRYPTIC FORGE test, mathematician A34 reported feeling \"strange, I don't know what\" and immediately afterwards all monitoring and testing equipment ceased transmitting.  Security responded immediately and found A34 uninjured inside the testing room, though they were forced to cut through the door since the electronic lock had failed. Subsequent investigation of network footage revealed that when attempting to radiation-sterilize various vegetables, A34 had somehow triggered an electromagnetic pulse.  When interviewed after the incident, A34 stated that, \"the energy just kept building and building and I guess it had to go somewhere.\"\n\nUnfortunately, due to the lockdowns and the prohibitive cost, as well as the disruptions it would cause other experiments and daily operations in general, any form of electromagnetic hardening is impractical.  Dr. Al-Masri has floated the possibility of attempting to train other CRYPTIC FORGE mathematicians to provide a control in case of an EMP, but at the moment, this is only theoretical as no mathematician has demonstrated the conscious abilty to produce one.  I'm sorry to say that for the moment, all we can do is hope it doesn't happen again."
       },
-      { "name": "incident report: 884001", "id": "lab_file_photokinesis_02", "weight": 800, "text": "" }
+      {
+        "name": "testing report C8-3434",
+        "id": "lab_file_photokinesis_02",
+        "weight": 1000,
+        "text": "How does CRYPTIC FORGE control darkness?  Darkness is not a thing, there are no \"skotons\" that they could emit to cancel out existing light, but that seems to the casual observer what is happening.\n\nB81 was instructed to cancel the light within a one-meter area in the center of the testing chamber. The lights were extinguished and blackout curtains hung over all observation windows.  The area was first exposed to candlelight (12 lumens), showing a distinct border of the area.  A flashlight (350 lumens) was trained on the area as well, with a similar effect, though the directional light from the flashlight was sufficient to demonstrate that light did not penetrate the area.  A high-powered flashlight (6000 lumens) shown from the corner illuminted most of the testing area and clearly delineated the borders of the area, as well as casting a shadow on the wall opposite of the light source.  Finally, the blackout curtains were removed and, after instructing B81 to close their eyes, a floodlight (118K lumens) was shone on the area, again to no effect.\n\nThe initial hypothesis, that CRYPTIC FORGE is somehow suppressing or allowing photons to \"jump\" through the area, is incorrect.  Assuming that conservation of energy is still in effect (since, without assuming that we have no basis to determine anything), it is instead possible that the photons are somehow absorbed by the affected area in a way that does not inhibit movement, in the same way that space seems mostly empty but large amounts of radiation are absorbed by cosmic dust.  Unfortunate that we don't have access to a particle accelerator to test various particles' interactions with the effect.\n\nI have already submitted a proposal to test CRYPTIC FORGE's ability to block microwaves, radio waves, X-rays, and other elements of the electromagnetic spectrum, and am waiting on success procurement of the necessary equipment.\nAdam Brenner\nResearcher"
+      },
+      { "name": "testing report R8-3434", "id": "lab_file_photokinesis_02", "weight": 500, "text": "" }
     ]
   },
   {
     "type": "snippet",
     "category": "lab_file_pyrokinesis",
     "//": "Phavian designation for pyrokinetic study is COPPER PRIME.",
+    "//2": "Testing report prefix is O",
     "text": [
       {
-        "name": "testing report I3-5523",
+        "name": "testing report O3-5523",
         "id": "lab_file_pyrokinesis_01",
         "weight": 1000,
         "text": "Z87 was instructed to kindle a flame above their palm, doing so successfully after approximately ten seconds of effort.  Measurements showed the temperature near the flame to exceed 200°C, though Z87 showed no discomfort despite his proximity.  Following instruction of testing authority, subject maintained the flame for 11 minutes and 38 seconds before it dissipated.  A second test showed similar results, though on this second attempt, Z87 could only maintain the flame for 7 minutes and 8 seconds.  While the fire burned with no apparent need for fuel, oxygen concentration measurements taken before, during, and after the test showed that the oxygen content of the room did decrease in line with the apparent size of the flame."
@@ -292,7 +303,7 @@
         "text": "Despite folk wisdom and popular belief, cauterization is ineffective at stopping bleeding or controlling infection compared to nearly any other method.  However, controlled electrocautery is used in modern medicine; can COPPER PRIME show similar levels of effectiveness?\n\nPROCEDURE: Animal testing was done on six cows in order to provide a sufficient volume of blood, since mouse or monkey subjects would be insufficient.  Three mathematicians were used, each augmented with a matrix crystal, to conduct the tests.  Each cow was immobilized and had a series of wounds inflicted using a standard surgical scalpel.\n\nRESULTS: While it was possible to stop bloodflow from non-lacerating wounds and non-arterial bleeding (mathematicians consistently failed to stop arterial bleeding), results were less than promising.  Two cows died immediately after the testing from blood loss and two of the remaining cows showed signs of infection in several of the cuts, showing a higher contamination ratio than electrocautery.  While better than a hot iron, COPPER PRIME is not of high enough effectiveness to consider using for wound treatment, and especially not if SMOKE USHER is available."
       },
       {
-        "name": "testing report N5-8346",
+        "name": "testing report O5-8346",
         "id": "lab_file_pyrokinesis_03",
         "weight": 1000,
         "text": "Dr. Richardson,\nAs you requested, I gathered three COPPER PRIME mathematicians for the experiment.  We took them to the walk-in freezer, and provided them with standard physician's examination gowns, ushered them in, and told them to individually knock on the door when they felt ready to come out.  Minimum time was 45 minutes, after which B22 knocked and asked to exit.  The longest was 3 hours, though since I31 reported symptoms of frostbite the following day, he obviously did not follow experimental protocols to exit as soon as he felt significant discomfort.  I admit that some of the fault lies with me, however--I should have chosen a more objective criteria to request exit.  For the next experiment, I intend to equip the mathematicians with temperature monitors and instruct them to leave when their internal body temperature drops to 33.5°.\n\nI'll have a full report written up in the next few days\n-Jacob Sanchez\nResearcher"
@@ -309,6 +320,7 @@
     "type": "snippet",
     "category": "lab_file_telekinesis",
     "//": "Phavian designation for telekinetic study is JUNIPER GOLD.  Phavian designation for telekinetic study for use in combat is ONYX LIGHTNING",
+    "//2": "Testing report prefix is J",
     "text": [
       {
         "name": "It's all just motion",
@@ -323,13 +335,13 @@
         "text": "Sarah,\nI read your email and you're right--it's not a law anymore if we have such an easily-demonstrable counterexample.  \"Newton's Third Conjecture\" doesn't have the same ring to it but seems more accurate.  We've done a lot of experiments to find some sort of consequences for the TKs and so far there's nothing other than the standard metabolic cost.  Netherum mathematics is work, but the mechanism of the force is unclear.  We've already tried both a scale and water displacement and neither of them showed any measurable counterforce.  That leaves a few possibilities:/n1)There is no counterforce.  That breaks classical mechanics in half but frankly we're already at that point anyway.\n2)The counterforce is exerted elsewhere, such as the Netherum.  This is basically just handwavium, \"well, we can't see it but it must be out there.\"  Must it?  Plus then the counterforce isn't actually acting on the origin point anyway unless you buy Dr. Ho's ridiculous \"The soul is a Nether construct\" theory.\n3)The counterforce applies in some way we aren't looking for, like, I don't know, DNA damage or other microscopic-level areas.  We already had comprehensive checkups and didn't find anything, but we're not entirely sure what we're looking for.\n\n\"we're not entirely sure what we're looking for\" is basically the theme of this whole project, honestly.  It's amazing we've discovered as much as we have.\n\n-Neha"
       },
       {
-        "name": "testing report B8-9123",
+        "name": "testing report J8-9123",
         "id": "lab_file_telekinesis_03",
         "weight": 800,
         "text": ".00: No penetration\n9mm: No penetration\n10mm: No penetration\n.357: No penetration\n.22: No penetration\n.308: No penetration\n.30-06: No penetration\n.50: Mathematician refused to continue with experiment despite repeated entreaties from supervisors."
       },
       {
-        "name": "testing report I4-7707",
+        "name": "testing report J4-7707",
         "id": "lab_file_telekinesis_04",
         "weight": 1000,
         "text": "Dr. Richardson,\nPer request, we assessed the ability of three JUNIPER GOLD mathematicians to affect very small masses.  Subjects were ordered to look into a microscope at water flora, then at bacterial samples, and then at images from electron microscopes.  While it makes intuitive sense that larger masses would require more effort and control to manipulate through telekinesis, its actual behavior does not always follow logical constraints--see the way that barriers react to external forces.  In this experiment, we found that manipulating water flora was possible but bacterial samples and electron microscopes both failed.  Our initial hypothesis was that direct observation was required, but the bacterial test provided that is not sufficient to explain JUNIPER GOLD's limitations.  It is currently unclear if this is a psychological limitation or something inherent to JUNIPER GOLD.  Further testing with a wider variety of mathematicians is required.\nMadeline Robbins\nResearcher"
@@ -352,9 +364,10 @@
     "type": "snippet",
     "category": "lab_file_telepathy",
     "//": "Phavian designation for telepathic study is GRAY DAWN.  Phavian designating for use of telepathy for internal security is GLASS ANVIL",
+    "//2": "Testing report prefix is G",
     "text": [
       {
-        "name": "testing report C3-6204",
+        "name": "testing report G3-6204",
         "id": "lab_file_telepathy_01",
         "text": "Subject is female, of East Asian descent, age 35 years.  In good health.\n\nInitial test using standard deck of playing cards.  Subject and experimenter facing away from each other, with opaque curtain blocking line of sight.  Prompt was triggered by a light on subject's desk to prevent drawing any information from experimenter's tone of voice or word choice.  Experimenter drew ten cards and asked subject to state number and suit.  Cards are shuffled back into the deck after each guess to prevent already-drawn cards from affecting future guesses.\n\nResults: Subject guessed two of ten correct on the first test and three of ten correct on the second test, versus control who guessed a single card correct on the first test and zero correct on the second test.  Very promising initial results."
       },
@@ -374,7 +387,7 @@
         "text": "We've been trying to find the medium that telepathy works by and have come up empty.  It works, it's replicable, that means it's amenable to the scientific method, right?  Okay.  It's not affected by gravity.  It's not affected by the atmosphere, since people in sealed rooms or environment suits can still communicate with others.  It's not affected by physical barriers, neither lead not steel nor a tinfoil hat.  It's not affected by light lag, either, so we finally have proof that FTL is possible at least for some things.  We've tried to send messages into the past but so far no luck--maybe we don't have a large enough distance between receivers?  Without an amplifier the range is still very short, so we can't do a two-way test.  We put the data into Melchior and didn't get any conclusive reply.\n\nI'll report back in two weeks as scheduled.  I refuse to throw up my hands and say \"It's magic, who knows how it works?\"  If it affects the physical world it must obey some set of physical laws."
       },
       {
-        "name": "testing report N2-7394",
+        "name": "testing report G2-7394",
         "id": "lab_file_telepathy_05",
         "text": "1) Subject native Arabic speaker.  Asked to think of word sequence in English.  Mathematician successfully determined sequence word.  Asked to think of word sequence in Arabic, mathematician unable to determine word boundaries and isolate words.\n2) Subject native English speaker.  Asked to attempt to think of Chinese poem (phonetic transcription provided).  Mathematician able to isolate word on second attempt.\n3) Subject native English speaker.  Asked to think of word randomly-generated using English phonemes.  Mathematician able to isolate word on second attempt.\n4) Subject native French speaker; also fluent in German, English, and Italian with some ability in Romanian, Latin, and Russian.  Asked to think of a word sequence in Russian.  Mathematician unable to isolate sequence word despite six attempts.\n6) Subject native Yiddish speaker.  Asked to think of word in German, which the subject did not speak.  Mathematician able to isolate word on third attempt.\n7) Subject native English speaker.  Asked to think of word sequence in Sindarian, the invented language from \"The Lord of the Rings\".  Mathematician unable to isolate word despite six attempts.\n\nUnfortunately, a deficit of mathematicians who lack English fluency limits the range of our experiments.  Nonetheless, the results are consistent with there being no universal language of thought."
       },
@@ -400,6 +413,7 @@
     "type": "snippet",
     "category": "lab_file_teleportation",
     "//": "Phavian designation for teleportation study is LOST RAIN",
+    "//2": "Testing report prefix is L",
     "text": [
       {
         "name": "On Time Travel",
@@ -414,13 +428,13 @@
         "text": "The basic question is, are we better than the boys over in VERDANT HAND, and the answer is yes.  They're faster but we don't even need to cross the distance.  They hit harder but we build up twice the momentum in half the time.\n\nOkay, I admit, we can't actual replicate the theoretical avoidance strategy due to the obvious downsides of a failed experiment--and anyway, I really don't think anyone has the reaction time unless they're NOBLE HORIZON and thus aren't actually reacting to anything--but we put K52 up against some of the biggest meatheads (if you'll excuse the phrase) from security we had.  K52 is maybe 95 pounds soaking wet and absolutely could not hold up in a fight against even one of our fine volunteers in an actual combat situation.  Well, this wasn't an actual combat situation, but I instructed the security personnel to incapacitate K52 as quickly as possible.  Fifteen seconds later, she had disarmed and disabled all three attackers and we had to slow-mo the footage to even see what had happened.  The most impressive feat was when she blinked behind Jorgenson to avoid a grapple attempt and kicked him in the back of the knee.  You could tell from his expression he really thought he had her.\n\nI think we're ready to roll this out to any other LOST RAIN mathematicians who want the training.  This isn't going to help any in-phase situations but looking at what's going on we'll probably need it here at home too."
       },
       {
-        "name": "testing report I4-9469",
+        "name": "testing report L4-9469",
         "id": "lab_file_teleportation_03",
         "weight": 1000,
         "text": "Testing began with an area two meters square, marked on the floor by electrical tape.  A robot set to travel at a constant speed of 0.1 m/s, verified before the experiment began, was set on one side of the testing area before LOST RAIN mathematician D85 used his abilities on the area.  The robot traversed the space in 16 seconds, verified by both its internal measuring software and external measurements.  We repeated the experiment with a request to extend the relative distance, causing the robot to take 25 seconds to traverse the space.  It is currently unclear whether the disparity in relative distance change is a property of LOST RAIN itself or of D85's abilities.\n\nThe only difficulty was caused when Dr. Caldwell crossed through the marked space before D85 had ceased maintaining the distortion and almost immediately collapsed.  She was rushed to the infirmary but in the end was discharged after tests showed that she had fainted but suffered no lasting damage.  Dr. Caldwell explained she had experienced severe vertigo on entering the area, possibly caused by a defect in proprioception caused by actual distance being different than perceived distance.  I have submitted a proposal to further test this characteristic of LOST RAIN--see attached."
       },
       {
-        "name": "testing report B4-2567",
+        "name": "testing report L4-2567",
         "id": "lab_file_teleportation_04",
         "weight": 1000,
         "text": "Attempt 1: Move pencil at least 400 cm: Successful\nAttempt 2: Move pencil at least 2 m: Failed\nAttempt 3: Move pencil inside sealed, clear plastic bag to outside the bag: Successful\nAttempt 4: Move pencil inside sealed, opaque plastic bag outside the bag: Failed\nAttempt 5: Move eraser without moving the rest of the pencil: Failed\nAttempt 6: Rotate pencil during transit of at least 400 cm so that eraser previously facing the door is now facing away from the door: Successful\nAttempt 7: Move pencil 400 cm into pencil sharpener: Successful\nAttempt 8: Move pencil at least 400 cm into bucket of water: Successful\nAttempt 9: Move pencil at least 400 cm into block of ice: Failed\nAttempt 10: Move stationary pencil 400 cm so that it arrives at destination with upward velocity: Failed\nAttempt 11: Preserve velocity of falling pencil after moving it at least 400 cm: Successful\nAttempt 12: Move pencil gripped firmly in hand at least 400 cm: Successful"
@@ -444,6 +458,7 @@
     "type": "snippet",
     "category": "lab_file_vitakinesis",
     "//": "Phavian designation for vitakinetic study is SMOKE USHER",
+    "//2": "Testing report prefix is S",
     "text": [
       {
         "name": "SMOKE USHER anti-agapic properties (revised estimate)",
