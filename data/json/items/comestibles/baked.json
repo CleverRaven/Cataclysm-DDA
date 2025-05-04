@@ -66,7 +66,7 @@
     "comestible_type": "FOOD",
     "symbol": "8",
     "calories": 150,
-    "description": "A a French pastry made of a small choux pastry case stacked on top of a larger one, both filled with crème pâtissière, flavoured with chocolate.  Each case is topped with a ganache of chocolate, then attached to each other using piped buttercream icing.  Named the religieuse because when made properly, the pastries look like nuns in habits.",
+    "description": "A a French pastry made of a small choux pastry case stacked on top of a larger one, both filled with crème pâtissière, flavored with chocolate.  Each case is topped with a ganache of chocolate, then attached to each other using piped buttercream icing.  Named the religieuse because when made properly, the pastries look like nuns in habits.",
     "price": "87 cent",
     "price_postapoc": "43 cent",
     "material": [ "bread", "sugar" ],
