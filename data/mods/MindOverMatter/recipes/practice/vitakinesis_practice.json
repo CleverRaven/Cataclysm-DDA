@@ -51,7 +51,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALTH",
-        "condition": { "math": [ "u_spell_level('vita_health_power') >= 1" ] },
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_health_power", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -80,7 +80,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SLOW_BLEEDING",
-        "condition": { "math": [ "u_spell_level('vita_slow_bleeding') >= 1" ] },
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_slow_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -109,6 +109,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_CONCENTRATED_HEALING",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_concentrated_healing", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -161,6 +162,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STAUNCHING",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_stop_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -213,6 +215,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HURT",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_hurt_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -265,6 +268,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_health_power_ally", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -317,6 +321,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_remove_poison", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -370,6 +375,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SLEEP",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_sleeping_trance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -423,6 +429,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_cure_disease", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -476,6 +483,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_stop_infection", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -529,6 +537,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_healing_trance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -582,7 +591,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS",
-        "condition": { "math": [ "u_spell_level('vita_purge_rads') >= 1" ] },
+        "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_purge_rads') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "vita_purge_rads", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -611,6 +620,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_attack_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -664,6 +674,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_blood_purge", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -717,6 +728,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_banish_illness", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -770,6 +782,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_super_heal", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -823,7 +836,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE",
-        "condition": { "math": [ "u_spell_level('vita_limb_restore') >= 1" ] },
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_limb_restore", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -853,6 +866,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_DEGENERATING_TOUCH",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_degenerating_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },
@@ -906,6 +920,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH",
+        "condition": { "u_has_trait": "VITAKINETIC" },
         "effect": [
           { "set_string_var": "vita_return_from_death", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP" },

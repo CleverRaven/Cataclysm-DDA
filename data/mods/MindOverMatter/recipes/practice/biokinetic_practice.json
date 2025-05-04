@@ -51,6 +51,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_overcome_pain", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -82,6 +83,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_physical_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -113,6 +115,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_breathe_skin", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -165,6 +168,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_flexibility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -217,6 +221,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_DASH",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_dash", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -270,6 +275,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_armor_skin", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -323,6 +329,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_climate_control", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -376,6 +383,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ADRENALINE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_adrenaline", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -429,6 +437,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_enhance_mobility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -482,6 +491,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_hammerhand", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -535,6 +545,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_reflex_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -588,6 +599,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_sealed_system", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -641,6 +653,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_metabolism_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -694,6 +707,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_VITAMINOSIS",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_vitaminosis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -747,6 +761,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_GUIDED_EVOLUTION",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_guided_evolution", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -800,6 +815,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_combat_dance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -853,6 +869,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_perfected_motion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },
@@ -906,6 +923,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS",
+        "condition": { "u_has_trait": "BIOKINETIC" },
         "effect": [
           { "set_string_var": "biokin_hurricane_blows", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_BIOKIN_POWER_SETUP" },

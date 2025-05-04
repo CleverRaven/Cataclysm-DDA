@@ -53,7 +53,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BLINK",
-        "condition": { "math": [ "u_spell_level('teleport_blink') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_blink", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -82,7 +82,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_SLOW",
-        "condition": { "math": [ "u_spell_level('teleport_slow') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_slow", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -111,6 +111,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_PHASE",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_phase", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -163,6 +164,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_ITEM_APPORT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_item_apport", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -215,6 +217,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_STRIDE",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_stride", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -267,6 +270,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_SWAP",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_transpose", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -320,6 +324,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_displacement", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -373,6 +378,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_REACTIVE_DISPLACEMENT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_reactive_displacement", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -426,6 +432,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_COLLAPSE",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_collapse", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -478,6 +485,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_WARPED_STRIKES",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_warped_strikes", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -530,6 +538,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_EPHEMERAL_WALK",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_ephemeral_walk", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -583,6 +592,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_farstep", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -636,6 +646,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BANISH",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_banish", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -689,6 +700,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_LOCI_ESTABLISHMENT",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_loci_establishment", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -743,7 +755,7 @@
       {
         "id": "EOC_PRACTICE_TELEPORT_LOCI_TECHNIQUET",
         "//": "EOC is intentionally missing false effect since the loci technique power is learned via the loci establishment EOC rather than on its own.",
-        "condition": { "math": [ "u_spell_level('teleport_loci_technique') >= 1" ] },
+        "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_loci_technique') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "teleport_loci_technique", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -773,6 +785,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_gateway", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -826,6 +839,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_dilated_gateway",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_dilated_gateway", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -879,6 +893,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_RELOCATION",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_relocation", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -932,6 +947,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BREACH",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_summon", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -984,7 +1000,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_WARPER_COMBAT",
-        "condition": { "math": [ "u_spell_level('teleport_warper_combat') >= 1" ] },
+        "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_warper_combat') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "teleport_warper_combat", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
@@ -1014,6 +1030,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_REALITY_TEAR",
+        "condition": { "u_has_trait": "TELEPORTER" },
         "effect": [
           { "set_string_var": "teleport_reality_tear", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPORT_POWER_SETUP" },
