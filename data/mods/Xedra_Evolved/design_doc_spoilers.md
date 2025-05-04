@@ -40,8 +40,8 @@ Hedge Magick is designed to represent minor tricks and simple charms, things lik
 
 Principles of Hedge Magick:
 - Anyone can learn hedge magick. 
-- Hedge magick has no levels and does not fail. If you have the ingredients and appropriate conditions it succeeds, and if you don't it fails.
-- Hedge magick requires either components, particular conditions like a time of day or location, or (often) both.
+- Hedge magick has no levels and does not fail. If you have the ingredients and appropriate conditions it succeeds, and if you don't it can't be attempted at all.
+- Hedge magick requires either components, particular conditions like a time of day or location, extensive periods of time to enact, and occasionally all three.
 - Hedge magick requires extensive study to learn. Most hedge magick the survivor is likely to find developed from first principles by recluses and weirdos, and the survivor has to interpret those notes into a decipherable magickal formula.
 - Existing hedge magick was often developed by looking at real-world occultism, but this is less importan than keeping hedge magick's power level low--real-world occultists make some absolutely wild claims of their power.
 
