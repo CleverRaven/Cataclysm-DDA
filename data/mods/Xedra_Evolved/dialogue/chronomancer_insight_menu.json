@@ -1067,6 +1067,7 @@
         ],
         "topic": "TALK_CHRONOMANCER_TRAIT_MENU_SELECT"
       },
+      { "text": "Options", "topic": "TALK_CHRONOMANCER_MENU_SETTINGS" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
@@ -1179,6 +1180,31 @@
       },
       {
         "text": "Go Back.",
+        "effect": [ { "set_string_var": "", "target_var": { "context_val": "chronomancer_menu_additional_details" } } ],
+        "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN"
+      },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CHRONOMANCER_MENU_SETTINGS",
+    "dynamic_line": "Chronomancy Settings:",
+    "responses": [
+      {
+        "text": "Disable Insight Gain Messages.",
+        "topic": "TALK_CHRONOMANCER_MENU_SETTINGS",
+        "condition": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages == 0" ] },
+        "effect": [ { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages = 1" ] } ]
+      },
+      {
+        "text": "Enable Insight Gain Messages.",
+        "topic": "TALK_CHRONOMANCER_MENU_SETTINGS",
+        "condition": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages == 1" ] },
+        "effect": [ { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages = 0" ] } ]
+      },
+      {
+        "text": "Main Menu.",
         "effect": [ { "set_string_var": "", "target_var": { "context_val": "chronomancer_menu_additional_details" } } ],
         "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN"
       },
