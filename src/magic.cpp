@@ -347,6 +347,11 @@ void spell_type::load( const JsonObject &jo, std::string_view src )
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
+    }
+
     optional( jo, was_loaded, "extra_effects", additional_spells );
 
     optional( jo, was_loaded, "affected_body_parts", affected_bps );
@@ -1654,6 +1659,27 @@ bool spell::is_valid_target( spell_target t ) const
     return type->valid_targets[t];
 }
 
+bool spell::valid_by_condition( const Creature &caster, const Creature &target ) const
+{
+    if( type->has_condition ) {
+        const_dialogue d( get_const_talker_for( caster ), get_const_talker_for( target ) );
+        return type->condition( d );
+    } else {
+        return true;
+    }
+}
+
+bool spell::valid_by_condition( const Creature &caster ) const
+{
+    if( type->has_condition ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->condition( d );
+    } else {
+        return true;
+    }
+}
+
+
 bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
 {
     bool valid = false;
@@ -1668,11 +1694,13 @@ bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) 
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
+        valid = valid && valid_by_condition( caster, *cr );
     } else if( get_map().veh_at( p ) ) {
-        valid = is_valid_target( spell_target::vehicle ) ||
-                is_valid_target( spell_target::ground );
+        valid = is_valid_target( spell_target::vehicle ) || is_valid_target( spell_target::ground );
+        valid = valid && valid_by_condition( caster );
     } else {
         valid = is_valid_target( spell_target::ground );
+        valid = valid && valid_by_condition( caster );
     }
     return valid;
 }
