@@ -7676,73 +7676,30 @@
     "id": "hitman",
     "name": { "male": "Hitman", "female": "Hitwoman" },
     "requirement": "achievement_kill_100_monsters",
-    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "description": "You did the wet work for a gang, mafia, or whatever person had enough money.  You were no trained assassin, but you know how to shoot a gun and get out of dodge quickly.",
     "npc_background": "BG_survival_story_CRIMINAL",
-    "points": 6,
-    "skills": [
-      { "level": 5, "name": "gun" },
-      { "level": 5, "name": "pistol" },
-      { "level": 4, "name": "melee" },
-      { "level": 4, "name": "stabbing" },
-      { "level": 4, "name": "unarmed" },
-      { "level": 4, "name": "dodge" },
-      { "level": 4, "name": "speech" }
-    ],
-    "proficiencies": [
-      "prof_gunsmithing_basic",
-      "prof_spotting",
-      "prof_wp_syn_armored",
-      "prof_auto_pistols_familiar",
-      "prof_auto_pistols_pro",
-      "prof_unarmed_familiar",
-      "prof_unarmed_pro",
-      "prof_gross_anatomy"
-    ],
+    "points": 4,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
+    "proficiencies": [ "prof_auto_pistols_familiar", "prof_driver" ],
     "items": {
       "both": {
         "entries": [
           { "item": "sunglasses" },
-          { "item": "platinum_watch" },
-          { "item": "knit_scarf_loose" },
-          { "item": "gloves_liner" },
-          { "item": "polaroid_photo" },
-          { "item": "suppressor" },
-          { "item": "tele_sight_pistol" },
+          { "item": "hat_ball" },
+          { "item": "gloves_medical" },
+          { "item": "sneakers" },
           { "group": "charged_cell_phone" },
+          { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
-          { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
-        ]
-      },
-      "male": {
-        "entries": [
-          { "item": "briefs" },
+          { "item": "longshirt" },
           { "item": "socks" },
-          { "item": "dress_shoes" },
-          { "item": "bowhat" },
-          { "item": "suit" },
-          { "item": "tie_necktie" },
-          { "item": "tieclip" },
-          { "item": "leather_belt" },
-          { "item": "briefcase" },
-          { "item": "cufflinks_intricate" }
+          { "item": "jeans" },
+          { "item": "glock_17", "ammo-item": "9mm", "charges": 17 },
+          { "item": "glock17_17", "ammo-item": "9mm", "charges": 17, "container-item": "bbholster" }
         ]
       },
-      "female": {
-        "entries": [
-          { "item": "panties" },
-          { "item": "bra" },
-          { "item": "stockings", "variant": "stockings_black" },
-          { "item": "garter_belt" },
-          { "item": "heels" },
-          { "item": "hat_cotton" },
-          { "item": "dress" },
-          { "item": "purse" },
-          { "item": "platinum_ear" },
-          { "item": "platinum_necklace" },
-          { "item": "platinum_hairpin" }
-        ]
-      }
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
     },
     "missions": [ "MISSION_ASSASSINATION" ]
   },
