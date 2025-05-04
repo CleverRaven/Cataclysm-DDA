@@ -50,7 +50,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_PULL",
-        "condition": { "math": [ "u_spell_level('telekinetic_pull') >= 1" ] },
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_pull", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -79,7 +79,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_PUSH",
-        "condition": { "math": [ "u_spell_level('telekinetic_push') >= 1" ] },
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_push", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -108,6 +108,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_NOISEMAKER",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_noise", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -160,6 +161,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_slam_down", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -212,6 +214,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_MOMENTUM",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_momentum", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -265,6 +268,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_SLOWFALL",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_slowfall", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -318,6 +322,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_wave", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -371,6 +376,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_WATER_WALKING",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_water_walk", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -424,6 +430,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_LIFTING_FIELD",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_lifting_field", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -477,6 +484,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_strength", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -530,6 +538,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_hammer", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -583,6 +592,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_vehicle_lift", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -636,6 +646,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_BARRIER",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -689,6 +700,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_BLAST",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_explosion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -742,6 +754,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_LEVITATION",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_levitation", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -793,6 +806,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_move_large_weight", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -846,6 +860,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_AEGIS",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_aegis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },
@@ -899,6 +914,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER",
+        "condition": { "u_has_trait": "TELEKINETIC" },
         "effect": [
           { "set_string_var": "telekinetic_earthshaker", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEKIN_POWER_SETUP" },

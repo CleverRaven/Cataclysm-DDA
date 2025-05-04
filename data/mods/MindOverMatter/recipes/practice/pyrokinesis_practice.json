@@ -46,7 +46,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLASH",
-        "condition": { "math": [ "u_spell_level('pyrokinetic_flash') >= 1" ] },
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -75,7 +75,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAMES",
-        "condition": { "math": [ "u_spell_level('pyrokinetic_eruption') >= 1" ] },
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_eruption", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -104,6 +104,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CAUTERIZE",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_cauterize", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -156,6 +157,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_quell_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -208,6 +210,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_call_flames", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -261,6 +264,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_CLOAK",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_cloak", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -314,6 +318,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_flamethrower", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -367,6 +372,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_LANCE",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_lance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -420,6 +426,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_thermogenesis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -473,6 +480,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_AURA",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_aura", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -526,6 +534,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_FLAME_IMMUNITY",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_flame_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -579,6 +588,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_BLAST",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -632,6 +642,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_AOE_BLAST",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_aoe_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },
@@ -685,6 +696,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PYROKIN_INCINERATION",
+        "condition": { "u_has_trait": "PYROKINETIC" },
         "effect": [
           { "set_string_var": "pyrokinetic_incineration", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_PYROKIN_POWER_SETUP" },

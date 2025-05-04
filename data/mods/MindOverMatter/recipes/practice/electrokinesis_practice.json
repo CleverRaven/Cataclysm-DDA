@@ -53,7 +53,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SPARK_SIGHT",
-        "condition": { "math": [ "u_spell_level('electrokinetic_see_electric') >= 1" ] },
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_see_electric", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -86,7 +86,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SHOCK_TOUCH",
-        "condition": { "math": [ "u_spell_level('electrokinetic_shock_touch') >= 1" ] },
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_shock_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -119,6 +119,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_ZAP_ENEMIES",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_zap_enemies", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -175,6 +176,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_MELEE_ATTACKS",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_melee_attacks", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -231,6 +233,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_PERSONAL_BATTERY",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_personal_battery", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -288,6 +291,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_PARALYSIS",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_paralysis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -345,6 +349,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_HACKING_INTERFACE",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_hacking_interface", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -402,6 +407,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_reduce_pain", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -459,6 +465,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BOLT",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_lightning_bolt", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -516,6 +523,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_RECHARGE_VEHICLE",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_recharge_vehicle", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -573,6 +581,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_speed_boost", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -630,6 +639,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_pain_immune", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -687,6 +697,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_KILL_ROBOT",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_kill_robot", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -744,6 +755,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_ROBOT_INTERFACE",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_robot_interface", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -801,6 +813,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_AURA",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_lightning_aura", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -858,6 +871,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BLAST",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_lightning_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },
@@ -915,6 +929,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_REVIVE",
+        "condition": { "u_has_trait": "ELECTROKINETIC" },
         "effect": [
           { "set_string_var": "electrokinetic_revive", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_ELECTROKIN_POWER_SETUP" },

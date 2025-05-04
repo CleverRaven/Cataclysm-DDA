@@ -53,7 +53,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_BETTER_SENSES",
-        "condition": { "math": [ "u_spell_level('clair_better_senses') >= 1" ] },
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_better_senses", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -86,7 +86,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
-        "condition": { "math": [ "u_spell_level('clair_speed_reading') >= 1" ] },
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_speed_reading", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -119,6 +119,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_danger_sense", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -175,6 +176,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_night_vision", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -231,6 +233,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_spot_weakness", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -287,7 +290,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
-        "condition": { "math": [ "u_spell_level('clair_sense_rads') >= 1" ] },
+        "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_sense_rads') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "clair_sense_rads", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -320,6 +323,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_see_auras", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -377,6 +381,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_ranged_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -434,6 +439,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_voyance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -491,6 +497,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_dodge_power", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -548,6 +555,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_craft_bonus", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -605,6 +613,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_see_map", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -662,6 +671,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_perfect_shot", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -719,6 +729,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_clear_sight", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -776,6 +787,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_astral_projection", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -833,6 +845,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_group_tactics", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -890,6 +903,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_omniscience", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },

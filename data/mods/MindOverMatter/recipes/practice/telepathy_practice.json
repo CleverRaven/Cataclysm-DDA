@@ -44,7 +44,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
-        "condition": { "math": [ "u_spell_level('telepathic_concentration') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_concentration", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -71,7 +71,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
-        "condition": { "math": [ "u_spell_level('telepathic_mind_sense') >= 1" ] },
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_mind_sense", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -98,6 +98,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -148,6 +149,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_MESMERIZE",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_mesmerize", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -198,6 +200,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_morale", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -249,6 +252,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -300,6 +304,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_animal_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -351,6 +356,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_confusion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -402,6 +408,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -453,6 +460,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_fear", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -504,6 +512,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_blast_radius", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -555,6 +564,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_beast_taming", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -606,6 +616,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
@@ -657,6 +668,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",
+        "condition": { "u_has_trait": "TELEPATH" },
         "effect": [
           { "set_string_var": "telepathic_network", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP" },
