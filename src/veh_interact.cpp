@@ -3370,7 +3370,14 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             // Finally, put all the results somewhere (we wanted to wait until this
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
-            put_into_vehicle_or_drop( you, item_drop_reason::deliberate, resulting_items );
+            std::vector<item_location> locs = put_into_vehicle_or_drop_ret_locs( you,
+                                              item_drop_reason::deliberate,
+                                              resulting_items );
+            if( you.is_npc() ) {
+                for( const item_location &itl : locs ) {
+                    you.may_activity_occupancy_after_end_items_loc.push_back( itl );
+                }
+            }
             break;
         }
         case 'u': {

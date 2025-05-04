@@ -6996,17 +6996,30 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     for( int i = 0; i != log_quan; ++i ) {
         item obj( itype_log, calendar::turn );
         obj.set_var( "activity_var", who.name );
-        here.add_item_or_charges( pos, obj );
+        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
+
     }
     for( int i = 0; i != stick_quan; ++i ) {
         item obj( itype_stick_long, calendar::turn );
         obj.set_var( "activity_var", who.name );
-        here.add_item_or_charges( pos, obj );
+        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
     }
     for( int i = 0; i != splint_quan; ++i ) {
         item obj( itype_splinter, calendar::turn );
         obj.set_var( "activity_var", who.name );
-        here.add_item_or_charges( pos, obj );
+        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
+        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
+        if( loc ) {
+            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
     }
     here.ter_set( pos, ter_t_dirt );
     who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
