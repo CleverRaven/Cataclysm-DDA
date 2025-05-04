@@ -108,7 +108,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XEDRA_CHRONOMANCER_PARADOX_INSIGHT",
     "effect": [
-      { "math": [ "_insight_gain = u_hp('ALL') / 4" ] },
+      { "math": [ "_insight_gain = u_hp('ALL') / 6" ] },
       { "math": [ "n_vitamin('xedra_chronomancer_insight') += _insight_gain" ] },
       {
         "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
