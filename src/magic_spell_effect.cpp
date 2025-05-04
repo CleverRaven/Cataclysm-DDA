@@ -1901,7 +1901,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             }
         }
 
-        caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
+        caster.add_msg_if_player( m_good, string_format( _( "The %s disappears." ), mon->name() ) );
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &here, &caster );
