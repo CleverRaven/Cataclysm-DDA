@@ -7,7 +7,7 @@
     "default_faction": "science",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "HUMAN" ],
+    "species": [ "FERAL", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -88,5 +88,19 @@
       }
     ],
     "death_drops": "feral_agent_p90_death_drops"
+  },
+  {
+    "id": "mon_feral_flickering",
+    "type": "MONSTER",
+    "name": "flickering stabber",
+    "copy-from": "mon_feral_maid_knife",
+    "description": "This masked person is holding a bloody knife but more concerningly seems to flicker in and out of existence anytime you aren't directly looking at it.",
+    "melee_skill": 3,
+    "special_attacks": [ { "id": "feral_weapon_knife_chef" }, [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
+    "upgrades": { "half_life": 360, "into_group": "GROUP_CHRONO_FERAL_UPGRADE" },
+    "zombify_into": "mon_zombie_monochrome",
+    "extend": { "flags": [ "CLIMBS", "STUN_IMMUNE" ] },
+    "//": "Need to make upgrade group and a death drop group.  Also need higher levels of flickering zombies and for one of those higher levels to haunt the PC after death by creating a possession spell that affects the pc and when they are near other types of zombies the zombies will randomly upgrade into a possessed zombie that will parrot accusations of responsiblity for the zombies death.  'You left me behind to die!' also will have hard to shoot flag.",
+    "death_drops": "flickering_feral_death_drops"
   }
 ]
