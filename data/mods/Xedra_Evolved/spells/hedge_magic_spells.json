@@ -477,8 +477,8 @@
   {
     "id": "hedge_astral_projection",
     "type": "SPELL",
-    "name": "To Cast Forth The Spirit",
-    "description": "After a period of trance and meditation, send out your disembodied spirit .",
+    "name": "To Project the Etheric Form",
+    "description": "After a period of trance and meditation, send out your disembodied spirit to wander the world.  Use of this ritual is <color_yellow>very tiring</color> and you will become increasingly more weary the longer you remain out of your body.",
     "message": "You settle down and slip into a trance.",
     "flags": [ "NO_FAIL" ],
     "valid_targets": [ "self" ],
@@ -513,7 +513,7 @@
   {
     "id": "hedge_astral_projection_return",
     "type": "SPELL",
-    "name": "[Ψ]Follow the Silver Cord",
+    "name": "Follow the Silver Cord",
     "description": "Follow the silver cord back to your body.",
     "message": "",
     "flags": [ "SOMATIC", "NO_FAIL", "NON_MAGICAL", "SILENT", "NO_HANDS", "NO_LEGS" ],

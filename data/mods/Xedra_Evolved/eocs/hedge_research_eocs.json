@@ -836,10 +836,10 @@
               { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
               {
                 "u_run_inv_eocs": "random",
-                "search_data": [ { "id": "spellbook_hedge_abramelin_the_mage" } ],
+                "search_data": [ { "id": "spellbook_hedge_psychic_defense" } ],
                 "true_eocs": [
                   {
-                    "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_WRITE_VALUES_2",
+                    "id": "EOC_HEDGE_RESEARCH_PSYCHIC_DEFENSE_WRITE_VALUES_2",
                     "effect": [ { "math": [ "n_already_failed_research = 1" ] } ]
                   }
                 ]
