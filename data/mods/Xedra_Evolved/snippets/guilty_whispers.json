@@ -1,0 +1,38 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_whispering" ],
+    "sound": "\"Moaning growing weaker and weaker underneath wet thuds.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_whispering" ],
+    "sound": "\"You left me to die!\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_whispering" ],
+    "sound": "\"I'll kill you this time.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_whispering" ],
+    "sound": "\"I saw what you did during the riots.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_whispering" ],
+    "sound": "\"How could you do those things?.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_whispering" ],
+    "sound": "\"We'll die together this time.\"",
+    "volume": 8
+  }
+]
