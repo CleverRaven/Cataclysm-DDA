@@ -2504,7 +2504,8 @@
     "id": "suit_bostonchan",
     "replace": "blazer",
     "variant": "bostonchan"
-  }
+  },
+  {
     "id": "light_grip",
     "type": "MIGRATION",
     "replace": "grip"
