@@ -567,7 +567,8 @@
         "append": true,
         "description": "This one is bright blue and styled to cosplay Boston-Chan.",
         "looks_like": "suit_bostonchan",
-        "color": "blue"
+        "color": "blue",
+        "weight": 0
       }
     ]
   },
