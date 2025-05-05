@@ -566,7 +566,6 @@
         "name": { "str": "Boston-Chan blazer" },
         "append": true,
         "description": "This one is bright blue and styled to cosplay Boston-Chan.",
-        "looks_like": "suit_bostonchan",
         "color": "blue",
         "weight": 0
       }
