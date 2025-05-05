@@ -797,6 +797,7 @@ Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species
 Aftershock: Merge aftershock and aftershock exoplanet.
 Aftershock: Heat Crashed Ship.
 Mod Conflicts
+[Xedra Evolved] Add design docs for easier collaboration
 
 
 ## Balance:
@@ -892,6 +893,7 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
+World sliders rebalanced to offer differing gameplay experiences
 
 
 ## Bugfixes:

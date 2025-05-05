@@ -1174,6 +1174,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_burnt",
+    "name": "burnt wall",
+    "looks_like": "t_wall_wood_broken",
+    "description": "Whatever this wall used to be made of, it's little more than charred remains now.",
+    "symbol": "#",
+    "color": "black",
+    "move_cost": 0,
+    "coverage": 35,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "ash", "count": [ 200, 500 ] }, { "item": "scrap", "count": [ 2, 5 ] } ]
+    },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 5, 10 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 5, 20 ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_wall_log_half",
     "name": "half-built log wall",
     "looks_like": "t_wall_log",

@@ -2061,18 +2061,22 @@ class item : public visitable
         /** Check if item can have a fault, and if yes, applies it. This version do not print a message, use item_location version instead
          * `force`, if true, bypasses the check and applies the fault item do not define
          */
-        void set_fault( const fault_id &fault_id, bool force = false );
+        bool set_fault( const fault_id &f_id, bool force = false, bool message = true );
 
         /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
         * `force`, if true, bypasses the check and applies the fault item do not define
         */
-        void set_random_fault_of_type( const std::string &fault_type, bool force = false );
+        void set_random_fault_of_type( const std::string &fault_type, bool force = false,
+                                       bool message = true );
 
         /** Removes the fault from the item, if such is presented. */
         void remove_fault( const fault_id &fault_id );
 
         /** Checks all the faults in item, and if there is any of this type, removes it. */
         void remove_single_fault_of_type( const std::string &fault_type );
+
+        // Check if adding this fault is possible
+        bool can_have_fault( const fault_id &f_id );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
@@ -2086,6 +2090,8 @@ class item : public visitable
 
         /** Does this item have the specified vitamin? */
         bool has_vitamin( const vitamin_id &vitamin ) const;
+
+        std::string get_fault_description( const fault_id &f_id ) const;
 
         /** Does this item have the specified fault? */
         bool has_fault( const fault_id &fault ) const;

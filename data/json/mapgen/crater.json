@@ -19,7 +19,6 @@
     "weight": "4400 g",
     "volume": "10 L",
     "price": "0 cent",
-    "to_hit": -5,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_red",

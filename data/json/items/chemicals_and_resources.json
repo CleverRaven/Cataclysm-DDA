@@ -1770,7 +1770,7 @@
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",

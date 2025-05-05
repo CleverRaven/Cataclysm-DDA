@@ -383,23 +383,6 @@
     "flags": [ "CLASSIC", "WATER" ]
   },
   {
-    "id": "mx_pond_swamp",
-    "type": "map_extra",
-    "name": { "str": "bog" },
-    "description": "Small bog is here.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp" },
-    "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC", "WATER" ]
-  },
-  {
-    "id": "mx_pond_swamp_2",
-    "type": "map_extra",
-    "copy-from": "mx_pond_swamp",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp_2" },
-    "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC", "WATER" ]
-  },
-  {
     "id": "mx_trees",
     "type": "map_extra",
     "name": { "str": "Stand of trees" },
