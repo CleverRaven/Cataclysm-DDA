@@ -2513,5 +2513,19 @@
     "id": "breacher_grip",
     "type": "MIGRATION",
     "replace": "grip"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tshirt",
+    "from_variant": "baseball_fan_tshirt",
+    "replace": "tshirt",
+    "variant": "tshirt_sportsfan"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tshirt",
+    "from_variant": "football_fan_tshirt",
+    "replace": "tshirt",
+    "variant": "tshirt_sportsfan"
   }
 ]
