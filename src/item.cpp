@@ -7846,7 +7846,7 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
 
     }
 
-    if( faults_by_type.size() != 0 ) {
+    if( !faults_by_type.empty() ) {
         set_fault( *faults_by_type.pick(), force, message );
     }
 
