@@ -24,6 +24,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
@@ -982,6 +983,7 @@ void process_explosions()
             // or have a vehicle run into a crater suddenly appearing just in front of it.
             process_explosions_in_progress = true;
             m.load( origo, true, false );
+            swap_map swap( m );
             m.spawn_monsters( true, true );
             g->load_npcs( &m );
             process_explosions_in_progress = false;

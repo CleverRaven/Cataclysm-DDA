@@ -33,6 +33,7 @@
 #include "coordinates.h"
 #include "crafting.h"
 #include "crafting_gui.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -2696,6 +2697,8 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
         //Check items in improvised shelters at hide site
         tinymap target_bay;
         target_bay.load( forest, false );
+        // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+        swap_map swap( *target_bay.cast_to_map() );
 
         units::volume total_import_volume;
         units::mass total_import_mass;
@@ -4916,6 +4919,8 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
     target_bay.load( omt_tgt, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *target_bay.cast_to_map() );
     int harvested = 0;
     int total = 0;
     const tripoint_omt_ms mapmin{ 0, 0, omt_tgt.z() };
@@ -4962,6 +4967,8 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
                       bool force_cut_trunk )
 {
     smallmap target_bay;
+    // Redundant as long as map operations used aren't using get_map() transitively, but this makes it safe to do so later.
+    swap_map swap( *target_bay.cast_to_map() );
     target_bay.load( omt_tgt, false );
     int harvested = 0;
     int total = 0;
@@ -5006,6 +5013,8 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
 {
     tinymap target_bay;
     target_bay.load( omt_tgt, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *target_bay.cast_to_map() );
     units::mass harvested_m = 0_gram;
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
@@ -5193,6 +5202,8 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
 {
     tinymap target_bay;
     target_bay.load( omt_tgt, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *target_bay.cast_to_map() );
     target_bay.ter_set( relay_site_stash, ter_t_improvised_shelter );
     for( drop_location it : itms_rem ) {
         item *i = it.first.get_item();

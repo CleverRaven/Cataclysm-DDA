@@ -46,6 +46,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -3555,6 +3556,7 @@ static void map_extra()
                                               _( "Select location to spawn map extra." ), true ) );
         if( !where_omt.is_invalid() ) {
             smallmap mx_map;
+            swap_map swap( *mx_map.cast_to_map() );
             mx_map.load( where_omt, false );
             MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
             g->load_npcs();
