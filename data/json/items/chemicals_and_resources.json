@@ -2226,7 +2226,7 @@
     "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals."
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "exodii_ceramic_patch",
     "category": "chems",
     "price": "5000 cent",
