@@ -27,6 +27,7 @@
 #include "math_parser_func.h"
 #include "math_parser_impl.h"
 #include "math_parser_jmath.h"
+#include "math_parser_lex.h"
 #include "math_parser_type.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -66,7 +67,7 @@ std::optional<double> get_number( std::string_view token )
         return val;
     }
 
-    return get_constant( token );
+    return {};
 }
 
 constexpr std::optional<pmath_func> get_function( std::string_view token )
@@ -163,8 +164,6 @@ struct parse_state {
     expect expected = expect::operand;
     expect previous = expect::eof;
     bool allows_prefix_unary = true;
-    bool instring = false;
-    std::string_view strpos;
 };
 
 bool is_function( op_t const &op )
@@ -471,7 +470,9 @@ class math_exp::math_exp_impl
         math_type_t type = math_type_t::ret;
 
         void _parse( std::string_view str );
-        void parse_string( std::string_view token, std::string_view full );
+        void parse_string( std::string_view token );
+        void parse_number( std::string_view token );
+        void parse_id( std::string_view token );
         void parse_bin_op( pbin_op const &op, std::string_view pos );
         void parse_ass_op( pass_op const &op, std::string_view pos );
         void parse_diag_f( std::string_view symbol, scoped_diag_proto const &token );
@@ -503,35 +504,19 @@ void math_exp::math_exp_impl::maybe_first_argument()
 
 void math_exp::math_exp_impl::_parse( std::string_view str )
 {
-    constexpr std::string_view expression_separators = "+-*/^,()[]%':><=!?";
     state = {};
-    for( std::string_view const token : tokenize( str, expression_separators ) ) {
+    math::lexer lex( str );
+    for( math::token const &lexed : lex.tokens() ) {
+        std::string_view token = lexed.str;
         parse_position = token;
-        if( state.instring || token == "'" ) {
-            parse_string( token, str );
+        if( lexed.type == math::token_t::string ) {
+            parse_string( token );
 
-        } else if( std::optional<double> val = get_number( token ); val ) {
-            state.validate( parse_state::expect::operand );
-            maybe_first_argument();
-            output.emplace( *val );
-            state.set( parse_state::expect::oper );
+        } else if( lexed.type == math::token_t::id ) {
+            parse_id( token );
 
-        } else if( std::optional<pmath_func> ftoken = get_function( token ); ftoken ) {
-            state.validate( parse_state::expect::operand );
-            maybe_first_argument();
-            ops.emplace( *ftoken, token );
-            arity.emplace( ( *ftoken )->symbol, ( *ftoken )->num_params, arity_t::type_t::func );
-            state.set( parse_state::expect::lparen );
-
-        } else if( jmath_func_id jmfid( token ); jmfid.is_valid() ) {
-            state.validate( parse_state::expect::operand );
-            maybe_first_argument();
-            ops.emplace( jmfid, token );
-            arity.emplace( token, jmfid->num_params, arity_t::type_t::func );
-            state.set( parse_state::expect::lparen );
-
-        } else if( std::optional<scoped_diag_proto> fproto = _get_dialogue_func( token ); fproto ) {
-            parse_diag_f( token, *fproto );
+        } else if( lexed.type == math::token_t::number ) {
+            parse_number( token );
 
         } else if( std::optional<punary_op> op = get_unary_op( token ); op && state.allows_prefix_unary ) {
             state.validate( parse_state::expect::operand );
@@ -559,11 +544,11 @@ void math_exp::math_exp_impl::_parse( std::string_view str )
         } else if( token == "]" ) {
             parse_rbracket( token );
 
+        } else if( token == "." ) {
+            throw math::syntax_error( "Misplaced dot" );
+
         } else {
-            state.validate( parse_state::expect::operand );
-            maybe_first_argument();
-            new_var( token );
-            state.set( parse_state::expect::oper );
+            throw math::syntax_error( "Unknown operator %s", token );
         }
     }
     state.validate( parse_state::expect::eof );
@@ -587,25 +572,59 @@ void math_exp::math_exp_impl::_parse( std::string_view str )
     output.pop();
 }
 
-void math_exp::math_exp_impl::parse_string( std::string_view token, std::string_view full )
+void math_exp::math_exp_impl::parse_string( std::string_view token )
 {
-    if( !state.instring ) {
+    state.validate( parse_state::expect::operand );
+    maybe_first_argument();
+    if( arity.empty() || !arity.top().stringy ) {
+        throw math::syntax_error( "String arguments can only be used in dialogue functions" );
+    }
+
+    std::string str( token );
+    str.erase( std::remove( str.begin(), str.end(), '\\' ), str.end() );
+
+    output.emplace( std::in_place_type_t<std::string>(), str );
+
+    state.set( parse_state::expect::oper, false );
+}
+
+void math_exp::math_exp_impl::parse_number( std::string_view token )
+{
+    if( std::optional<double> val = get_number( token ); val ) {
         state.validate( parse_state::expect::operand );
         maybe_first_argument();
-        if( arity.empty() || !arity.top().stringy ) {
-            throw math::syntax_error( "String arguments can only be used in dialogue functions" );
-        }
-        state.instring = true;
-        state.strpos = token;
-        state.set( parse_state::expect::string, false );
-    } else if( token == "'" ) {
-        // FIXME: write a better tokenizer that returns the entire quoted string as a single token
-        output.emplace( std::in_place_type_t<std::string>(), full, state.strpos.data() - full.data() + 1,
-                        token.data() - state.strpos.data() - 1 );
-        state.instring = false;
-        state.set( parse_state::expect::oper, false );
+        output.emplace( *val );
+        state.set( parse_state::expect::oper );
     } else {
-        // skip tokens inside string
+        throw math::syntax_error( R"(Malformed number "%s")", token );
+    }
+}
+
+void math_exp::math_exp_impl::parse_id( std::string_view token )
+{
+    state.validate( parse_state::expect::operand );
+    maybe_first_argument();
+
+    if( std::optional<pmath_func> ftoken = get_function( token ); ftoken ) {
+        ops.emplace( *ftoken, token );
+        arity.emplace( ( *ftoken )->symbol, ( *ftoken )->num_params, arity_t::type_t::func );
+        state.set( parse_state::expect::lparen );
+
+    } else if( jmath_func_id jmfid( token ); jmfid.is_valid() ) {
+        ops.emplace( jmfid, token );
+        arity.emplace( token, jmfid->num_params, arity_t::type_t::func );
+        state.set( parse_state::expect::lparen );
+
+    } else if( std::optional<scoped_diag_proto> fproto = _get_dialogue_func( token ); fproto ) {
+        parse_diag_f( token, *fproto );
+
+    } else {
+        if( std::optional<double> val = get_constant( token ); val ) {
+            output.emplace( *val );
+        } else {
+            new_var( token );
+        }
+        state.set( parse_state::expect::oper );
     }
 }
 
@@ -916,7 +935,6 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
         type = var_type::context;
         scoped = scoped.substr( 1 );
     }
-    validate_string( scoped, " \'" );
     output.emplace( std::in_place_type_t<var>(), type, std::string{ scoped } );
 }
 
@@ -941,15 +959,6 @@ std::string math_exp::math_exp_impl::error( std::string_view str, std::string_vi
     offset = std::max<std::ptrdiff_t>( 0, offset - 1 );
     // NOLINTNEXTLINE(cata-translate-string-literal): debug message
     return string_format( "\n%s\n\n%.80s\n%*s▲▲▲\n", mess, str, offset, " " );
-}
-
-void math_exp::math_exp_impl::validate_string( std::string_view str, std::string_view badlist )
-{
-    std::string_view::size_type const pos = str.find_first_of( badlist );
-    if( pos != std::string_view::npos ) {
-        // NOLINTNEXTLINE(cata-translate-string-literal): debug message
-        throw math::syntax_error( R"(Stray " %c " inside %s operand "%s")", str[pos], str );
-    }
 }
 
 math_exp::math_exp( math_exp_impl impl_ )

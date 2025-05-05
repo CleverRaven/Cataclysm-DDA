@@ -37,6 +37,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -46,7 +47,6 @@
 #include "smart_controller_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "uilist.h"
 #include "units.h"
@@ -892,13 +892,7 @@ void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
         int amount = 0;
-        const std::string popupmsg = string_format( _( "Move how many?  [Have %d] (0 to cancel)" ), count );
-
-        amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 5 )
-                 .only_digits( true )
-                 .query_int();
+        query_int( amount, false, _( "Move how many?  [Have %d] (0 to cancel)" ), count );
 
         if( amount > 0 ) {
             int actual_amount = std::min( amount, count );

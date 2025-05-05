@@ -19,7 +19,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 50" ] },
-      { "u_message": "You gain a large amount of insight into the workings of time!", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a large amount of insight into the workings of time!", "type": "info" }
+      }
     ]
   },
   {
@@ -48,7 +51,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 10" ] },
-      { "u_message": "You gain a medium amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a medium amount of insight into the workings of time.", "type": "info" }
+      }
     ]
   },
   {
@@ -78,7 +84,10 @@
     },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 5" ] },
-      { "u_message": "You gain a small amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a small amount of insight into the workings of time.", "type": "info" }
+      }
     ]
   },
   {
@@ -89,7 +98,22 @@
     "condition": { "u_has_effect": "effect_chronomancy_field" },
     "effect": [
       { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
-      { "u_message": "You gain a tiny amount of insight into the workings of time.", "type": "info" }
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "u_message": "You gain a tiny amount of insight into the workings of time.", "type": "info" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_PARADOX_INSIGHT",
+    "effect": [
+      { "math": [ "_insight_gain = u_hp('ALL') / 6" ] },
+      { "math": [ "n_vitamin('xedra_chronomancer_insight') += _insight_gain" ] },
+      {
+        "if": { "math": [ "global_xedra_chronomancy_setting_hide_insight_messages != 1" ] },
+        "then": { "npc_message": "Observing this paradox gave you <context_val:insight_gain> Insight into time", "type": "info" }
+      }
     ]
   },
   {

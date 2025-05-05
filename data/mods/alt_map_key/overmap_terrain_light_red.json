@@ -58,15 +58,15 @@
     ],
     "copy-from": "hospital_1",
     "name": "hospital",
-    "sym": "h",
-    "color": "i_light_red"
+    "sym": "H",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "office_dentist" ],
     "copy-from": "office_dentist",
     "name": "dentist office",
-    "sym": "d",
+    "sym": "D",
     "color": "light_red"
   },
   {
@@ -74,7 +74,7 @@
     "id": [ "office_dentist_roof" ],
     "copy-from": "office_dentist_roof",
     "name": "dentist office roof",
-    "sym": "d",
+    "sym": "D",
     "color": "light_red"
   },
   {
@@ -82,7 +82,7 @@
     "id": [ "s_pharm", "s_pharm_1" ],
     "copy-from": "s_pharm",
     "name": "pharmacy",
-    "sym": "p",
+    "sym": "P",
     "color": "light_red"
   },
   {
@@ -90,7 +90,7 @@
     "id": [ "s_pharm_roof", "s_pharm_roof_1" ],
     "copy-from": "s_pharm_roof",
     "name": "pharmacy roof",
-    "sym": "p",
+    "sym": "P",
     "color": "light_red"
   },
   {
@@ -98,7 +98,7 @@
     "id": [ "office_doctor", "office_doctor_1", "office_doctor_2" ],
     "copy-from": "office_doctor",
     "name": "doctor's office",
-    "sym": "d",
+    "sym": "D",
     "color": "light_red"
   },
   {
@@ -113,7 +113,7 @@
     ],
     "copy-from": "office_doctor_roof",
     "name": "doctor's office roof",
-    "sym": "d",
+    "sym": "D",
     "color": "light_red"
   },
   {
@@ -121,7 +121,7 @@
     "id": [ "drug_lab", "bandit_drug_lab" ],
     "copy-from": "drug_lab",
     "name": "drug lab",
-    "sym": "d",
+    "sym": "D",
     "color": "light_red"
   },
   {
@@ -129,7 +129,7 @@
     "id": "drug_lab_roof",
     "copy-from": "drug_lab_roof",
     "name": "drug lab roof",
-    "sym": "d",
+    "sym": "D",
     "color": "light_red"
   },
   {
@@ -137,7 +137,7 @@
     "id": "veterinarian",
     "copy-from": "veterinarian",
     "name": "animal clinic",
-    "sym": "a",
+    "sym": "A",
     "color": "light_red"
   },
   {
@@ -145,7 +145,7 @@
     "id": "veterinarian_roof",
     "copy-from": "generic_city_building_roof",
     "name": "animal clinic roof",
-    "sym": "a",
+    "sym": "A",
     "color": "light_red"
   }
 ]

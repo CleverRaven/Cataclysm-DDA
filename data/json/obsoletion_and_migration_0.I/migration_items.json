@@ -2505,4 +2505,18 @@
     "replace": "blazer",
     "variant": "bostonchan"
   }
+    "id": "light_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "pistol_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "breacher_grip",
+    "type": "MIGRATION",
+    "replace": "grip"
+  }
 ]
