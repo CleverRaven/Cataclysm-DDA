@@ -3339,7 +3339,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "price_postapoc": "35 USD",
-    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "melee_damage": { "bash": 5, "stab": 28 }
