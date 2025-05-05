@@ -93,10 +93,10 @@
       "p365_mag",
       "swbodyguard_mag",
       "glock36_mag",
+      "glock40mag_9",
       "glock43_mag",
       "glock43x/48_mag",
-      "glock42_mag",
-      "glock40mag_9"
+      "glock42_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
