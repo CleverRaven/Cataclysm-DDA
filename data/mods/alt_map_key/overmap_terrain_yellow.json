@@ -4,7 +4,7 @@
     "id": [ "shelter_under", "shelter_under_vandal", "shelter_under_unfinished", "shelter_under_infested" ],
     "copy-from": "shelter_under",
     "name": "evac shelter basement A-23",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -12,7 +12,7 @@
     "id": [ "shelter_roof" ],
     "copy-from": "shelter_roof",
     "name": "evac shelter roof A-23",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -20,7 +20,7 @@
     "id": [ "shelter", "shelter_vandal", "shelter_unfinished", "shelter_survivor" ],
     "copy-from": "shelter",
     "name": "evac shelter A-23",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -28,7 +28,7 @@
     "id": [ "shelter_infested" ],
     "copy-from": "shelter_infested",
     "name": "evac shelter A-23",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -36,7 +36,7 @@
     "id": [ "shelter_under_1", "shelter_under_1_vandal", "shelter_under_1_unfinished", "shelter_under_1_infested" ],
     "copy-from": "shelter_under_1",
     "name": "evac shelter basement B-05",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -44,7 +44,7 @@
     "id": [ "shelter_roof_1" ],
     "copy-from": "shelter_roof_1",
     "name": "evac shelter roof B-05",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -52,7 +52,7 @@
     "id": [ "shelter_1", "shelter_1_vandal", "shelter_1_unfinished", "shelter_1_survivor" ],
     "copy-from": "shelter_1",
     "name": "evac shelter B-05",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -60,7 +60,7 @@
     "id": [ "shelter_1_infested" ],
     "copy-from": "shelter_1_infested",
     "name": "evac shelter B-05",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -68,7 +68,7 @@
     "id": [ "shelter_under_1b", "shelter_under_1b_vandal", "shelter_under_1b_unfinished", "shelter_under_1b_infested" ],
     "copy-from": "shelter_under_1b",
     "name": "evac shelter basement B-19",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -76,7 +76,7 @@
     "id": [ "shelter_roof_1b" ],
     "copy-from": "shelter_roof_1b",
     "name": "evac shelter roof B-19",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -84,7 +84,7 @@
     "id": [ "shelter_1b", "shelter_1b_vandal", "shelter_1b_unfinished", "shelter_1b_survivor" ],
     "copy-from": "shelter_1b",
     "name": "evac shelter B-19",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -92,7 +92,7 @@
     "id": [ "shelter_1b_infested" ],
     "copy-from": "shelter_1b_infested",
     "name": "evac shelter roof B-19",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -100,7 +100,7 @@
     "id": [ "shelter_under_2", "shelter_under_2_vandal", "shelter_under_2_unfinished", "shelter_under_2_infested" ],
     "copy-from": "shelter_under_2",
     "name": "evac shelter basement C-41",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -108,7 +108,7 @@
     "id": [ "shelter_roof_2" ],
     "copy-from": "shelter_roof_2",
     "name": "evac shelter roof C-41",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -116,7 +116,7 @@
     "id": [ "shelter_2", "shelter_2_vandal", "shelter_2_unfinished", "shelter_2_survivor" ],
     "copy-from": "shelter_2",
     "name": "evac shelter C-41",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -124,7 +124,7 @@
     "id": [ "shelter_2_infested" ],
     "copy-from": "shelter_2_infested",
     "name": "evac shelter C-41",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -132,7 +132,7 @@
     "id": "fema_entrance",
     "copy-from": "fema_entrance",
     "name": "FEMA camp entrance checkpoint",
-    "sym": "f",
+    "sym": "F",
     "color": "yellow"
   },
   {
@@ -650,8 +650,8 @@
     ],
     "copy-from": "nuclear_plant_0_0_0",
     "name": "nuclear plant",
-    "sym": "n",
-    "color": "i_yellow"
+    "sym": "N",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -665,7 +665,7 @@
     ],
     "copy-from": "ws_fire_lookout_tower_base",
     "name": "fire lookout tower",
-    "sym": "f",
+    "sym": "F",
     "color": "yellow"
   },
   {
@@ -673,7 +673,7 @@
     "id": "sub_station",
     "copy-from": "sub_station",
     "name": "subway station",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -681,7 +681,7 @@
     "id": "sub_station_roof",
     "copy-from": "sub_station_roof",
     "name": "subway station roof",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -689,7 +689,7 @@
     "id": "sewer_sub_station",
     "copy-from": "sewer_sub_station",
     "name": "subway station (sewer level)",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -697,7 +697,7 @@
     "id": "underground_sub_station",
     "copy-from": "underground_sub_station",
     "name": "subway station (underground level)",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -705,48 +705,48 @@
     "id": [ "town_hall_0_0_0", "town_hall_1_0_0", "town_hall_0_1_0", "town_hall_1_1_0" ],
     "copy-from": "town_hall_0_0_0",
     "name": "town hall",
-    "sym": "t",
-    "color": "i_yellow"
+    "sym": "T",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "town_hall_0_0_1", "town_hall_1_0_1", "town_hall_0_1_1", "town_hall_1_1_1" ],
     "copy-from": "town_hall_0_0_1",
     "name": "town hall",
-    "sym": "t",
-    "color": "i_yellow"
+    "sym": "T",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof", "town_hall_1_1_upper_roof" ],
     "copy-from": "town_hall_0_0_roof",
     "name": "town hall roof",
-    "sym": "t",
-    "color": "i_yellow"
+    "sym": "T",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_38", "retirement_community_39", "retirement_community_40" ],
     "copy-from": "retirement_community_38",
     "name": "administration building",
-    "sym": "a",
-    "color": "i_yellow"
+    "sym": "A",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_b_37", "retirement_community_b_38" ],
     "copy-from": "retirement_community_b_37",
     "name": "administration building basement",
-    "sym": "a",
-    "color": "i_yellow"
+    "sym": "A",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "retirement_community_2f_38", "retirement_community_2f_39", "retirement_community_2f_40" ],
     "copy-from": "retirement_community_2f_38",
     "name": "administration building roof",
-    "sym": "a",
-    "color": "i_yellow"
+    "sym": "A",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -763,8 +763,8 @@
     ],
     "copy-from": "evac_center_7",
     "name": "refugee center",
-    "sym": "r",
-    "color": "i_yellow"
+    "sym": "R",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -784,8 +784,8 @@
     ],
     "copy-from": "evac_center_7_z1",
     "name": "refugee center roof",
-    "sym": "r",
-    "color": "i_yellow"
+    "sym": "R",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -801,31 +801,31 @@
     ],
     "copy-from": "robofachq_meteorology0",
     "name": "meteorology station",
-    "sym": "m",
-    "color": "i_yellow"
+    "sym": "M",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_subcc_a0", "robofachq_subcc_a1", "robofachq_subcc_a2", "robofachq_subcc_a3" ],
     "copy-from": "robofachq_subcc_a0",
     "name": "subway C&C",
-    "sym": "s",
-    "color": "i_yellow"
+    "sym": "S",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_subline_a0", "robofachq_subline_a1", "robofachq_subline_a2", "robofachq_subline_a3" ],
     "copy-from": "robofachq_subline_a0",
     "name": "hidden terminal",
-    "sym": "s",
-    "color": "i_yellow"
+    "sym": "S",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "cs_open_sewer", "cs_open_sewer_roof", "cs_open_sewer_undergound" ],
     "copy-from": "cs_open_sewer",
     "name": "open sewer",
-    "sym": "o",
+    "sym": "O",
     "color": "yellow"
   },
   {
@@ -833,7 +833,7 @@
     "id": [ "post_office", "post_office_1" ],
     "copy-from": "post_office",
     "name": "post office",
-    "sym": "p",
+    "sym": "P",
     "color": "yellow"
   },
   {
@@ -841,7 +841,7 @@
     "id": [ "post_office_roof", "post_office_roof_1" ],
     "copy-from": "post_office_roof",
     "name": "post office roof",
-    "sym": "p",
+    "sym": "P",
     "color": "yellow"
   },
   {
@@ -859,8 +859,8 @@
     ],
     "copy-from": "prison_1_1",
     "name": "prison",
-    "sym": "p",
-    "color": "i_yellow"
+    "sym": "P",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -984,16 +984,16 @@
     ],
     "copy-from": "prison_1_b_1",
     "name": "prison",
-    "sym": "p",
-    "color": "i_yellow"
+    "sym": "P",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "sewage_treatment_0_0_0", "sewage_treatment_1_0_0", "sewage_treatment_0_1_0", "sewage_treatment_1_1_0" ],
     "copy-from": "sewage_treatment_0_0_0",
     "name": "sewage treatment plant",
-    "sym": "s",
-    "color": "i_yellow"
+    "sym": "S",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1005,8 +1005,8 @@
     ],
     "copy-from": "sewage_treatment_1_0_roof",
     "name": "sewage treatment plant roof",
-    "sym": "s",
-    "color": "i_yellow"
+    "sym": "S",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1020,15 +1020,15 @@
     ],
     "copy-from": "sewage_treatment_0_0_-1",
     "name": "sewage treatment plant - underground",
-    "sym": "s",
-    "color": "i_yellow"
+    "sym": "S",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": "sai",
     "copy-from": "sai",
     "name": "serving area interface",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -1036,7 +1036,7 @@
     "id": "solar_farm",
     "copy-from": "solar_farm",
     "name": "solar farm",
-    "sym": "s",
+    "sym": "S",
     "color": "yellow"
   },
   {
@@ -1044,7 +1044,7 @@
     "id": "pwr_sub_s",
     "copy-from": "pwr_sub_s",
     "name": "electric substation",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -1052,7 +1052,7 @@
     "id": "pwr_sub_s_roof",
     "copy-from": "pwr_sub_s_roof",
     "name": "electric substation roof",
-    "sym": "e",
+    "sym": "E",
     "color": "yellow"
   },
   {
@@ -1060,24 +1060,24 @@
     "id": [ "pwr_large_entrance", "pwr_large_2", "pwr_large_3", "pwr_large_4" ],
     "copy-from": "pwr_large_entrance",
     "name": "electric substation",
-    "sym": "e",
-    "color": "i_yellow"
+    "sym": "E",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "pwr_large_entrance_roof", "pwr_large_2_roof" ],
     "copy-from": "pwr_large_entrance_roof",
     "name": "electric substation roof",
-    "sym": "e",
-    "color": "i_yellow"
+    "sym": "E",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": "pump_station_1",
     "copy-from": "generic_city_building",
     "name": "pump station",
-    "sym": "p",
-    "color": "i_yellow"
+    "sym": "P",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
@@ -1085,31 +1085,31 @@
     "copy-from": "pump_station_1_roof",
     "vision_levels": "roof_or_air",
     "name": "pump station roof",
-    "sym": "p",
-    "color": "i_yellow"
+    "sym": "P",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": "pump_station_2",
     "copy-from": "pump_station_2",
     "name": "pump station",
-    "sym": "p",
-    "color": "i_yellow"
+    "sym": "P",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "pump_station_3", "pump_station_4", "pump_station_5" ],
     "copy-from": "pump_station_3",
     "name": "pump station",
-    "sym": "p",
-    "color": "i_yellow"
+    "sym": "P",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": "lighthouse_ground",
     "copy-from": "lighthouse_ground",
     "name": "lighthouse",
-    "sym": "l",
+    "sym": "L",
     "color": "yellow"
   },
   {
@@ -1117,7 +1117,7 @@
     "id": [ "lighthouse_z1", "lighthouse_z2", "lighthouse_z4", "lighthouse_z5", "lighthouse_roof" ],
     "copy-from": "lighthouse_z1",
     "name": "lighthouse",
-    "sym": "l",
+    "sym": "L",
     "color": "yellow"
   },
   {
@@ -1125,7 +1125,7 @@
     "id": "lighthouse_z3",
     "copy-from": "lighthouse_z3",
     "name": "lighthouse",
-    "sym": "l",
+    "sym": "L",
     "color": "yellow"
   },
   {
@@ -1133,7 +1133,7 @@
     "id": "lighthouse_small_ground",
     "copy-from": "lighthouse_small_ground",
     "name": "lighthouse",
-    "sym": "l",
+    "sym": "L",
     "color": "yellow"
   },
   {
@@ -1141,7 +1141,7 @@
     "id": [ "lighthouse_small_z1", "lighthouse_small_z2", "lighthouse_small_z3", "lighthouse_small_z4", "lighthouse_small_roof" ],
     "copy-from": "lighthouse_small_z1",
     "name": "lighthouse",
-    "sym": "l",
+    "sym": "L",
     "color": "yellow"
   },
   {
@@ -1149,7 +1149,7 @@
     "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
     "copy-from": "wind_turbine_ground",
     "name": "wind turbine",
-    "sym": "w",
+    "sym": "W",
     "color": "yellow"
   },
   {
@@ -1157,7 +1157,7 @@
     "id": [ "wind_turbine_nacelle" ],
     "copy-from": "wind_turbine_nacelle",
     "name": "wind turbine",
-    "sym": "w",
+    "sym": "W",
     "color": "yellow"
   },
   {
@@ -1165,7 +1165,7 @@
     "id": [ "fire_station", "fire_station_1" ],
     "copy-from": "fire_station",
     "name": "fire station",
-    "sym": "f",
+    "sym": "F",
     "color": "yellow"
   },
   {
@@ -1173,7 +1173,7 @@
     "id": [ "fire_station_roof", "fire_station_roof_1" ],
     "copy-from": "fire_station_roof",
     "name": "fire station roof",
-    "sym": "f",
+    "sym": "F",
     "color": "yellow"
   },
   {
@@ -1181,7 +1181,7 @@
     "id": "s_vfw",
     "copy-from": "s_vfw",
     "name": "veterans of foreign wars",
-    "sym": "w",
+    "sym": "W",
     "color": "yellow"
   },
   {
@@ -1189,7 +1189,7 @@
     "id": "s_vfw_roof",
     "copy-from": "s_vfw_roof",
     "name": "veterans of foreign wars center roof",
-    "sym": "w",
+    "sym": "W",
     "color": "yellow"
   }
 ]

@@ -4,7 +4,7 @@
     "id": [ "s_gun_a" ],
     "copy-from": "s_gun_a",
     "name": "gun store",
-    "sym": "g",
+    "sym": "G",
     "color": "red"
   },
   {
@@ -12,7 +12,7 @@
     "id": [ "s_gun_a_roof" ],
     "copy-from": "s_gun_a_roof",
     "name": "gun store roof",
-    "sym": "g",
+    "sym": "G",
     "color": "red"
   },
   {
@@ -20,23 +20,23 @@
     "id": [ "s_gun_b_range", "s_gun_b_store" ],
     "copy-from": "s_gun_b_range",
     "name": "gun store",
-    "sym": "g",
-    "color": "i_red"
+    "sym": "G",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_gun_b_roof", "s_gun_b_range_roof" ],
     "copy-from": "s_gun_b_roof",
     "name": "gun store roof",
-    "sym": "g",
-    "color": "i_red"
+    "sym": "G",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "police", "police_1", "police_2" ],
     "copy-from": "police",
     "name": "police station",
-    "sym": "p",
+    "sym": "P",
     "color": "red"
   },
   {
@@ -44,7 +44,7 @@
     "id": [ "police_roof", "police_roof_1", "police_roof_2", "police_upper_roof_2" ],
     "copy-from": "police_roof",
     "name": "police station roof",
-    "sym": "p",
+    "sym": "P",
     "color": "red"
   },
   {
@@ -52,7 +52,7 @@
     "id": "police_2ndfloor_1",
     "copy-from": "police_2ndfloor_1",
     "name": "police station 2nd floor",
-    "sym": "p",
+    "sym": "P",
     "color": "red"
   },
   {
@@ -77,8 +77,8 @@
     ],
     "copy-from": "police_dept_u000",
     "name": "police department",
-    "sym": "p",
-    "color": "i_red"
+    "sym": "P",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -94,31 +94,31 @@
     ],
     "copy-from": "police_dept_u002",
     "name": "police department roof",
-    "sym": "p",
-    "color": "i_red"
+    "sym": "P",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "police_dept_skyway", "police_dept_skyway_roof" ],
     "copy-from": "police_dept_skyway",
     "name": "police department skybridge",
-    "sym": "p",
-    "color": "i_red"
+    "sym": "P",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "police_dept_b00", "police_dept_b10", "police_dept_b01", "police_dept_b11" ],
     "copy-from": "police_dept_b00",
     "name": "police department garage",
-    "sym": "p",
-    "color": "i_red"
+    "sym": "P",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_airsoft" ],
     "copy-from": "s_airsoft",
     "name": "airsoft store",
-    "sym": "a",
+    "sym": "A",
     "color": "red"
   },
   {
@@ -126,7 +126,7 @@
     "id": [ "s_airsoft_roof" ],
     "copy-from": "s_airsoft_roof",
     "name": "airsoft store roof",
-    "sym": "a",
+    "sym": "A",
     "color": "red"
   },
   {
@@ -134,16 +134,16 @@
     "id": "s_gas_b11",
     "copy-from": "s_gas_b11",
     "name": "bunker reception",
-    "sym": "b",
-    "color": "i_red"
+    "sym": "B",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_b20", "s_gas_b21" ],
     "copy-from": "s_gas_b20",
     "name": "bunker",
-    "sym": "b",
-    "color": "i_red"
+    "sym": "B",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -272,8 +272,8 @@
     ],
     "copy-from": "aircraft_carrier_1a",
     "name": "aircraft carrier",
-    "sym": "a",
-    "color": "i_red"
+    "sym": "A",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -320,15 +320,15 @@
     ],
     "copy-from": "aircraft_carrier_1a_-1",
     "name": "aircraft carrier",
-    "sym": "a",
-    "color": "i_red"
+    "sym": "A",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": "fema_military_building",
     "copy-from": "fema_military_building",
     "name": "FEMA camp outpost",
-    "sym": "f",
+    "sym": "F",
     "color": "red"
   },
   {
@@ -336,7 +336,7 @@
     "id": "lmoe",
     "copy-from": "lmoe",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -344,7 +344,7 @@
     "id": "lmoe_prepperquest",
     "copy-from": "lmoe_prepperquest",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -352,7 +352,7 @@
     "id": "lmoe_under",
     "copy-from": "lmoe_under",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -360,7 +360,7 @@
     "id": "lmoe_under_empty",
     "copy-from": "lmoe_under_empty",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -368,7 +368,7 @@
     "id": "lmoe_under_empty_prepperquest",
     "copy-from": "lmoe_under_empty_prepperquest",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -376,7 +376,7 @@
     "id": "lmoe_zombie",
     "copy-from": "lmoe_zombie",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -384,7 +384,7 @@
     "id": "lmoe_zombie_under_empty",
     "copy-from": "lmoe_zombie_under_empty",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -392,7 +392,7 @@
     "id": "cabin_prepper_shelter",
     "copy-from": "cabin_prepper_shelter",
     "name": "LMOE shelter",
-    "sym": "l",
+    "sym": "L",
     "color": "red"
   },
   {
@@ -400,7 +400,7 @@
     "id": "bunker",
     "copy-from": "bunker",
     "name": "military bunker",
-    "sym": "b",
+    "sym": "B",
     "color": "red"
   },
   {
@@ -408,7 +408,7 @@
     "id": "bunker_basement_1",
     "copy-from": "bunker_basement_1",
     "name": "military bunker",
-    "sym": "b",
+    "sym": "B",
     "color": "red"
   },
   {
@@ -416,7 +416,7 @@
     "id": "bunker_roof",
     "copy-from": "bunker_roof",
     "name": "military bunker",
-    "sym": "b",
+    "sym": "B",
     "color": "red"
   },
   {
@@ -424,7 +424,7 @@
     "id": "outpost",
     "copy-from": "outpost",
     "name": "military outpost",
-    "sym": "o",
+    "sym": "O",
     "color": "red"
   },
   {
@@ -432,7 +432,7 @@
     "id": [ "outpost_roof" ],
     "copy-from": "outpost_roof",
     "name": "military outpost roof",
-    "sym": "o",
+    "sym": "O",
     "color": "red"
   },
   {
@@ -440,7 +440,7 @@
     "id": [ "silo_roof", "silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale" ],
     "copy-from": "silo_roof",
     "name": "missile silo",
-    "sym": "m",
+    "sym": "M",
     "color": "red"
   },
   {
@@ -459,31 +459,31 @@
     ],
     "copy-from": "deserter_city_gate",
     "name": "deserter outpost",
-    "sym": "d",
-    "color": "i_red"
+    "sym": "D",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "shootingrange_1a", "shootingrange_2a" ],
     "copy-from": "shootingrange_1a",
     "name": "shooting range",
-    "sym": "s",
-    "color": "i_red"
+    "sym": "S",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": "shootingrange_1a_roof",
     "copy-from": "shootingrange_1a",
     "name": "shooting range roof",
-    "sym": "s",
-    "color": "i_red"
+    "sym": "S",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "isolated_house_farm_gunsmith", "isolated_house_farm_roof_gunsmith" ],
     "copy-from": "isolated_house_farm_gunsmith",
     "name": "gunsmith's home",
-    "sym": "g",
+    "sym": "G",
     "color": "red"
   },
   {
@@ -491,8 +491,8 @@
     "id": [ "gunshow_0", "gunshow_1", "gunshow_0_roof", "gunshow_1_roof" ],
     "copy-from": "gunshow_0",
     "name": "gun show",
-    "sym": "g",
-    "color": "i_red"
+    "sym": "G",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -512,8 +512,8 @@
     ],
     "copy-from": "fort_1a",
     "name": "bastion fort",
-    "sym": "b",
-    "color": "i_red"
+    "sym": "B",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -533,8 +533,8 @@
     ],
     "copy-from": "fort_1a_1",
     "name": "bastion fort",
-    "sym": "b",
-    "color": "i_red"
+    "sym": "B",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -554,15 +554,15 @@
     ],
     "copy-from": "helipad_nw",
     "name": "military helipad",
-    "sym": "h",
-    "color": "i_red"
+    "sym": "H",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mil_base_7i" ],
     "copy-from": "helipad_nw",
     "name": "military helipad",
-    "sym": "h",
+    "sym": "H",
     "color": "red"
   },
   {
@@ -595,7 +595,7 @@
     ],
     "copy-from": "mil_base_2d",
     "name": "military base",
-    "sym": "m",
+    "sym": "M",
     "color": "red"
   },
   {
@@ -663,7 +663,7 @@
     ],
     "copy-from": "mil_base_tunnels_a",
     "name": "military base tunnels",
-    "sym": "m",
+    "sym": "M",
     "color": "red"
   },
   {
@@ -690,7 +690,7 @@
     ],
     "copy-from": "mil_base_1b",
     "name": "military base watchtower",
-    "sym": "w",
+    "sym": "W",
     "color": "red"
   },
   {
@@ -698,7 +698,7 @@
     "id": [ "mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4" ],
     "copy-from": "mil_base_3i",
     "name": "military base radio tower",
-    "sym": "r",
+    "sym": "R",
     "color": "red"
   }
 ]

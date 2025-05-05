@@ -4,7 +4,7 @@
     "id": [ "paintball_field", "paintball_field_1" ],
     "copy-from": "paintball_field",
     "name": "paintball field",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -12,7 +12,7 @@
     "id": [ "paintball_field_roof", "paintball_field_roof_1" ],
     "copy-from": "paintball_field_roof",
     "name": "paintball field roof",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -20,7 +20,7 @@
     "id": [ "gambling_hall", "gambling_hall_1" ],
     "copy-from": "gambling_hall",
     "name": "gambling hall",
-    "sym": "g",
+    "sym": "G",
     "color": "blue"
   },
   {
@@ -28,7 +28,7 @@
     "id": [ "gambling_hall_roof", "gambling_hall_upper_roof", "gambling_hall_roof_1" ],
     "copy-from": "gambling_hall_roof",
     "name": "gambling hall roof",
-    "sym": "g",
+    "sym": "G",
     "color": "blue"
   },
   {
@@ -49,7 +49,7 @@
     ],
     "copy-from": "pool",
     "name": "pool",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -103,15 +103,15 @@
     ],
     "copy-from": "convention_0_0_0",
     "name": "convention center",
-    "sym": "c",
-    "color": "i_blue"
+    "sym": "C",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "animalshelter",
     "copy-from": "animalshelter",
     "name": "animal shelter",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -119,7 +119,7 @@
     "id": "animalshelter_roof",
     "copy-from": "animalshelter_roof",
     "name": "animal shelter roof",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -127,7 +127,7 @@
     "id": "animalpound",
     "copy-from": "animalpound",
     "name": "animal pound",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -135,7 +135,7 @@
     "id": "animalpound_roof",
     "copy-from": "animalpound_roof",
     "name": "animal pound roof",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -143,7 +143,7 @@
     "id": [ "station_radio", "station_radio_1" ],
     "copy-from": "station_radio",
     "name": "radio station",
-    "sym": "r",
+    "sym": "R",
     "color": "blue"
   },
   {
@@ -151,7 +151,7 @@
     "id": [ "station_radio_roof", "station_radio_roof_1" ],
     "copy-from": "station_radio_roof",
     "name": "radio station roof",
-    "sym": "r",
+    "sym": "R",
     "color": "blue"
   },
   {
@@ -166,7 +166,7 @@
     ],
     "copy-from": "station_radio_tower_even",
     "name": "radio tower",
-    "sym": "r",
+    "sym": "R",
     "color": "blue"
   },
   {
@@ -182,7 +182,7 @@
     ],
     "copy-from": "radio_tower",
     "name": "radio tower",
-    "sym": "r",
+    "sym": "R",
     "color": "blue"
   },
   {
@@ -199,7 +199,7 @@
     ],
     "copy-from": "wasp_tower",
     "name": "radio tower",
-    "sym": "r",
+    "sym": "R",
     "color": "blue"
   },
   {
@@ -207,8 +207,8 @@
     "id": [ "p_resort_1nw", "p_resort_pm" ],
     "copy-from": "p_resort_1nw",
     "name": "private resort",
-    "sym": "p",
-    "color": "i_blue"
+    "sym": "P",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -246,15 +246,15 @@
     ],
     "copy-from": "p_resort_0nw",
     "name": "private resort",
-    "sym": "p",
-    "color": "i_blue"
+    "sym": "P",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3", "s_air_atc_4" ],
     "copy-from": "control_tower_0",
     "name": "control tower",
-    "sym": "c",
+    "sym": "C",
     "color": "blue"
   },
   {
@@ -262,7 +262,7 @@
     "id": "control_tower_roof",
     "copy-from": "control_tower_roof",
     "name": "control tower roof",
-    "sym": "c",
+    "sym": "C",
     "color": "blue"
   },
   {
@@ -270,7 +270,7 @@
     "id": "s_air_term",
     "copy-from": "s_air_term",
     "name": "private airport terminal",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -278,7 +278,7 @@
     "id": "s_air_term_roof",
     "copy-from": "s_air_term_roof",
     "name": "private airport terminal roof",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -286,7 +286,7 @@
     "id": "waiting_area",
     "copy-from": "waiting_area",
     "name": "regional airport terminal",
-    "sym": "r",
+    "sym": "R",
     "color": "blue"
   },
   {
@@ -294,7 +294,7 @@
     "id": "waiting_area_roof",
     "copy-from": "waiting_area_roof",
     "name": "regional airport terminal roof",
-    "sym": "r",
+    "sym": "R",
     "color": "blue"
   },
   {
@@ -302,7 +302,7 @@
     "id": "lancenter",
     "copy-from": "lancenter",
     "name": "LAN center",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -310,7 +310,7 @@
     "id": "lancenter_roof",
     "copy-from": "lancenter_roof",
     "name": "LAN center roof",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -318,7 +318,7 @@
     "id": "lancenter_1",
     "copy-from": "lancenter_1",
     "name": "LAN center",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -326,7 +326,7 @@
     "id": "lancenter_roof_1",
     "copy-from": "lancenter_roof_1",
     "name": "LAN center roof",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -334,7 +334,7 @@
     "copy-from": "skate_park",
     "type": "overmap_terrain",
     "name": "skate park",
-    "sym": "s",
+    "sym": "S",
     "color": "blue"
   },
   {
@@ -342,7 +342,7 @@
     "id": [ "pavilion", "pavilion_1" ],
     "copy-from": "pavilion",
     "name": "pavilion",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -350,7 +350,7 @@
     "id": "trailer_public_10",
     "copy-from": "trailer_public_10",
     "name": "pavilion",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -358,7 +358,7 @@
     "id": [ "pavilion_roof", "pavilion_roof_1", "trailer_public_10_roof" ],
     "copy-from": "pavilion_roof",
     "name": "pavilion roof",
-    "sym": "p",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -367,14 +367,14 @@
     "type": "overmap_terrain",
     "name": "fishing pond",
     "sym": "#",
-    "color": "i_blue"
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "s_arcade",
     "copy-from": "s_arcade",
     "name": "arcade",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -382,7 +382,7 @@
     "id": "s_arcade_roof",
     "copy-from": "s_arcade_roof",
     "name": "arcade roof",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -390,7 +390,7 @@
     "id": "cs_internet_cafe",
     "copy-from": "cs_internet_cafe",
     "name": "internet cafe",
-    "sym": "i",
+    "sym": "I",
     "color": "blue"
   },
   {
@@ -398,7 +398,7 @@
     "id": [ "cs_internet_cafe_roof", "cs_internet_cafe_upper_roof" ],
     "copy-from": "cs_internet_cafe_roof",
     "name": "internet cafe roof",
-    "sym": "i",
+    "sym": "I",
     "color": "blue"
   },
   {
@@ -406,7 +406,7 @@
     "id": "bowling_alley",
     "copy-from": "bowling_alley",
     "name": "bowling alley",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -414,7 +414,7 @@
     "id": "bowling_alley_roof",
     "copy-from": "bowling_alley_roof",
     "name": "bowling alley roof",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -422,7 +422,7 @@
     "id": "gym",
     "copy-from": "gym",
     "name": "boxing gym",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -430,7 +430,7 @@
     "id": [ "gym_roof", "gym_upper_roof" ],
     "copy-from": "gym_roof",
     "name": "boxing gym roof",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -438,7 +438,7 @@
     "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2ndFloor_1" ],
     "copy-from": "gym_fitness",
     "name": "fitness gym",
-    "sym": "f",
+    "sym": "F",
     "color": "blue"
   },
   {
@@ -446,7 +446,7 @@
     "id": [ "gym_fitness_roof", "gym_fitness_roof_1" ],
     "copy-from": "gym_fitness_roof",
     "name": "fitness gym roof",
-    "sym": "f",
+    "sym": "F",
     "color": "blue"
   },
   {
@@ -454,7 +454,7 @@
     "id": "mortuary",
     "copy-from": "mortuary",
     "name": "mortuary",
-    "sym": "m",
+    "sym": "M",
     "color": "blue"
   },
   {
@@ -462,7 +462,7 @@
     "id": "mortuary_roof",
     "copy-from": "mortuary_roof",
     "name": "mortuary roof",
-    "sym": "m",
+    "sym": "M",
     "color": "blue"
   },
   {
@@ -470,7 +470,7 @@
     "id": "trailer_hub_10",
     "copy-from": "trailer_hub_10",
     "name": "administration building",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -478,7 +478,7 @@
     "id": "trailer_hub_10_roof",
     "copy-from": "trailer_hub_10_roof",
     "name": "administration building roof",
-    "sym": "a",
+    "sym": "A",
     "color": "blue"
   },
   {
@@ -486,7 +486,7 @@
     "id": [ "dojo", "dojo_1" ],
     "copy-from": "dojo",
     "name": "dojo",
-    "sym": "d",
+    "sym": "D",
     "color": "blue"
   },
   {
@@ -494,7 +494,7 @@
     "id": [ "dojo_roof", "dojo_upper_roof", "dojo_roof_1", "dojo_upper_roof_1" ],
     "copy-from": "dojo_roof",
     "name": "dojo roof",
-    "sym": "d",
+    "sym": "D",
     "color": "blue"
   },
   {
@@ -502,7 +502,7 @@
     "id": [ "s_laundromat", "s_laundromat_1" ],
     "copy-from": "s_laundromat",
     "name": "laundromat",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -510,7 +510,7 @@
     "id": [ "s_laundromat_roof", "s_laundromat_roof_1" ],
     "copy-from": "s_laundromat_roof",
     "name": "laundromat roof",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -518,7 +518,7 @@
     "id": "trailer_commercial_00",
     "copy-from": "trailer_commercial_00",
     "name": "laundromat roof",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -526,7 +526,7 @@
     "id": "trailer_commercial_00_roof",
     "copy-from": "trailer_commercial_00_roof",
     "name": "laundromat",
-    "sym": "l",
+    "sym": "L",
     "color": "blue"
   },
   {
@@ -534,7 +534,7 @@
     "id": [ "bank", "bank_1" ],
     "copy-from": "bank",
     "name": "bank",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -542,7 +542,7 @@
     "id": [ "bank_roof", "bank_roof_1" ],
     "copy-from": "bank",
     "name": "bank roof",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -550,7 +550,7 @@
     "id": [ "smoke_lounge", "smoke_lounge_1" ],
     "copy-from": "smoke_lounge",
     "name": "smoking lounge",
-    "sym": "s",
+    "sym": "S",
     "color": "blue"
   },
   {
@@ -558,7 +558,7 @@
     "id": [ "smoke_lounge_roof", "smoke_lounge_roof_1" ],
     "copy-from": "smoke_lounge_roof",
     "name": "smoking lounge roof",
-    "sym": "s",
+    "sym": "S",
     "color": "blue"
   },
   {
@@ -566,7 +566,7 @@
     "id": [ "s_cosmetic" ],
     "copy-from": "s_cosmetic",
     "name": "cosmetics store",
-    "sym": "c",
+    "sym": "C",
     "color": "blue"
   },
   {
@@ -574,7 +574,7 @@
     "id": [ "s_cosmetic_roof" ],
     "copy-from": "s_cosmetic_roof",
     "name": "cosmetics store roof",
-    "sym": "c",
+    "sym": "C",
     "color": "blue"
   },
   {
@@ -582,7 +582,7 @@
     "id": [ "barber_shop" ],
     "copy-from": "barber_shop",
     "name": "barber shop",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -590,7 +590,7 @@
     "id": [ "barber_shop_roof" ],
     "copy-from": "barber_shop_roof",
     "name": "barber shop roof",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -598,7 +598,7 @@
     "id": [ "stripclub", "stripclub_1", "stripclub_2" ],
     "copy-from": "stripclub",
     "name": "strip club",
-    "sym": "s",
+    "sym": "S",
     "color": "blue"
   },
   {
@@ -606,7 +606,7 @@
     "id": [ "stripclub_roof", "stripclub_roof_1", "stripclub_roof_2" ],
     "copy-from": "generic_city_building_roof",
     "name": "strip club roof",
-    "sym": "s",
+    "sym": "S",
     "color": "blue"
   },
   {
@@ -614,7 +614,7 @@
     "id": [ "music_venue", "music_venue_1" ],
     "copy-from": "music_venue",
     "name": "music venue",
-    "sym": "m",
+    "sym": "M",
     "color": "blue"
   },
   {
@@ -622,7 +622,7 @@
     "id": [ "music_venue_roof", "music_venue_1_roof", "music_venue_1_roof_top" ],
     "copy-from": "music_venue_roof",
     "name": "music venue roof",
-    "sym": "m",
+    "sym": "M",
     "color": "blue"
   },
   {
@@ -630,7 +630,7 @@
     "id": [ "volleyball_court" ],
     "copy-from": "volleyball_court",
     "name": "volleyball court",
-    "sym": "v",
+    "sym": "V",
     "color": "blue"
   },
   {
@@ -638,7 +638,7 @@
     "id": [ "tennis_court" ],
     "copy-from": "tennis_court",
     "name": "tennis court",
-    "sym": "t",
+    "sym": "T",
     "color": "blue"
   },
   {
@@ -646,7 +646,7 @@
     "id": [ "baskeball_court" ],
     "copy-from": "baskeball_court",
     "name": "basketball court",
-    "sym": "b",
+    "sym": "B",
     "color": "blue"
   },
   {
@@ -654,7 +654,7 @@
     "id": "natural_spring",
     "copy-from": "natural_spring",
     "name": "natural spring",
-    "sym": "n",
+    "sym": "N",
     "color": "blue"
   },
   {
@@ -698,8 +698,8 @@
     ],
     "copy-from": "karting_0_0_0",
     "name": "go-kart track",
-    "sym": "g",
-    "color": "i_blue"
+    "sym": "G",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -715,16 +715,16 @@
     ],
     "copy-from": "movietheater_0_0",
     "name": "movie theater",
-    "sym": "m",
-    "color": "i_blue"
+    "sym": "M",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "movietheater_1_0",
     "copy-from": "movietheater_1_0",
     "name": "movie theater entrance",
-    "sym": "m",
-    "color": "i_blue"
+    "sym": "M",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -740,8 +740,8 @@
     ],
     "copy-from": "miniaturerailway_0_0_0",
     "name": "miniature railway",
-    "sym": "m",
-    "color": "i_blue"
+    "sym": "M",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -761,8 +761,8 @@
     ],
     "copy-from": "luna_park_0_0_0",
     "name": "miniature railway park",
-    "sym": "m",
-    "color": "i_blue"
+    "sym": "M",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -780,40 +780,40 @@
     ],
     "copy-from": "golfcourse_00",
     "name": "golf course",
-    "sym": "g",
-    "color": "i_blue"
+    "sym": "G",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "golfcourse_31",
     "copy-from": "golfcourse_31",
     "name": "golf course service building",
-    "sym": "g",
-    "color": "i_blue"
+    "sym": "G",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "golfcourse_31_2ndfloor",
     "copy-from": "golfcourse_31_2ndfloor",
     "name": "golf course bar",
-    "sym": "g",
-    "color": "i_blue"
+    "sym": "G",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "golfcourse_31_roof",
     "copy-from": "golfcourse_31_roof",
     "name": "golf course service building roof",
-    "sym": "g",
-    "color": "i_blue"
+    "sym": "G",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": [ "zoo_2_0", "zoo_3_0" ],
     "copy-from": "zoo_2_0",
     "name": "zoo entrance",
-    "sym": "z",
-    "color": "i_blue"
+    "sym": "Z",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -833,16 +833,16 @@
     ],
     "copy-from": "zoo_0_1",
     "name": "zoo",
-    "sym": "z",
-    "color": "i_blue"
+    "sym": "Z",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": [ "zoo_3_2_basement", "zoo_3_3_basement" ],
     "copy-from": "zoo_3_2_basement",
     "name": "zoo",
-    "sym": "z",
-    "color": "i_blue"
+    "sym": "Z",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -866,8 +866,8 @@
     ],
     "copy-from": "zoo_0_0_roof",
     "name": "zoo roof",
-    "sym": "z",
-    "color": "i_blue"
+    "sym": "Z",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -884,8 +884,8 @@
     ],
     "copy-from": "s_baseballfield_a1",
     "name": "baseball field",
-    "sym": "b",
-    "color": "i_blue"
+    "sym": "B",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -926,8 +926,8 @@
     ],
     "copy-from": "football_field_a1",
     "name": "football field",
-    "sym": "f",
-    "color": "i_blue"
+    "sym": "F",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -1067,8 +1067,8 @@
     ],
     "copy-from": "stadium_0_1",
     "name": "stadium",
-    "sym": "s",
-    "color": "i_blue"
+    "sym": "S",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -1083,7 +1083,7 @@
     ],
     "copy-from": "stadium_football_2_1",
     "name": "stadium entrance",
-    "sym": "s",
-    "color": "i_blue"
+    "sym": "S",
+    "color": "blue"
   }
 ]
