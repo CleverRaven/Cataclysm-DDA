@@ -218,7 +218,7 @@
   },
   {
     "id": "exodii_ingot_lc_steel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "enormous steel ingot" },
     "description": "A monolithic block of low carbon steel.",
