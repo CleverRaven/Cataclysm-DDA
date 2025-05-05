@@ -576,7 +576,14 @@
     "id": "EOC_HEDGE_ASTRAL_PROJECTION_TOO_MUCH_WEARINESS_ENDS",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
-    "condition": { "compare_string": [ "weary_5", { "context_val": "effect" } ] },
+    "condition": {
+      "or": [
+        { "compare_string": [ "weary_5", { "context_val": "effect" } ] },
+        { "compare_string": [ "weary_6", { "context_val": "effect" } ] },
+        { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
+        { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+      ]
+    },
     "effect": [ { "run_eocs": "EOC_HEDGE_ASTRAL_PROJECTION_DEACTIVATE" } ]
   },
   {
