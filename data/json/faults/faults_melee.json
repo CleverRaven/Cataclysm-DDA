@@ -113,7 +113,7 @@
     "id": "fault_spearhead_broken",
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken head" },
-    "description": "The head of this tool is comppletely broken.  The only way to repair such damage to make a new one.",
+    "description": "The head of this tool is comppletely broken.  The only way to repair such damage is to make a new one.",
     "block_faults": [ "fault_spearhead_fracture", "fault_spearhead_warped", "fault_spearhead_chipping", "fault_spearhead_bent_socket" ],
     "melee_damage_mod": [ { "damage_id": "stab", "multiply": 0.1 } ],
     "affected_by_degradation": true
