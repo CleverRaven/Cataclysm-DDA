@@ -1724,6 +1724,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
     bits.set( tname::segments::ACTIVE, active == rhs.active );
+    bits.set( tname::segments::ACTIVITY_OCCUPANCY, get_var( "activity_var",
+              "" ) == rhs.get_var( "activity_var", "" ) );
     bits.set( tname::segments::FILTHY, is_filthy() == rhs.is_filthy() );
     bits.set( tname::segments::WETNESS, _stacks_wetness( *this, rhs, precise ) );
     bits.set( tname::segments::WEAPON_MODS, _stacks_weapon_mods( *this, rhs ) );
@@ -1752,7 +1754,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id", "activity_var" };
     bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
@@ -1904,6 +1906,7 @@ void item::remove_var( const std::string &key )
 diag_value const &item::get_value( const std::string &name ) const
 {
     return global_variables::_common_get_value( name, item_vars );
+
 }
 
 diag_value const *item::maybe_get_value( const std::string &name ) const
@@ -5836,6 +5839,13 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
                                              "and has <info>%d</info> sides." ),
                                           static_cast<int>( this->get_var( "die_num_sides",
                                                   0 ) ) ) );
+    }
+    diag_value const *activity_var_may = maybe_get_value( "activity_var" );
+    if( activity_var_may != nullptr && activity_var_may->is_str() ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "* This item is currently used by %s" ),
+                               activity_var_may->str() ) );
     }
 
 }
