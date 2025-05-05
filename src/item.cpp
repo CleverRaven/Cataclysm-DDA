@@ -2604,12 +2604,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             std::string faults;
             for( const weighted_object<int, fault_id> &fault : type->faults ) {
                 const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
-                if( has_fault( fault.obj ) ) {
-                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
-                                        weight_percent ), c_yellow );
-                } else {
-                    faults += fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight, weight_percent );
-                }
+                faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
+                                    weight_percent ), has_fault( fault.obj ) ? c_yellow : c_white );
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
         }
