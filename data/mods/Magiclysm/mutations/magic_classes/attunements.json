@@ -948,13 +948,13 @@
     "enchantments": [
       {
         "encumbrance_modifier": [
-          { "part": "mouth", "multiply": 0.4 },
-          { "part": "arm_r", "multiply": 0.4 },
-          { "part": "arm_l", "multiply": 0.4 },
-          { "part": "hand_r", "multiply": 0.4 },
-          { "part": "hand_l", "multiply": 0.4 },
-          { "part": "leg_r", "multiply": 0.4 },
-          { "part": "leg_l", "multiply": 0.4 }
+          { "part": "mouth", "multiply": -0.6 },
+          { "part": "arm_r", "multiply": -0.6 },
+          { "part": "arm_l", "multiply": -0.6 },
+          { "part": "hand_r", "multiply": -0.6 },
+          { "part": "hand_l", "multiply": -0.6 },
+          { "part": "leg_r", "multiply": -0.6 },
+          { "part": "leg_l", "multiply": -0.6 }
         ]
       }
     ],
