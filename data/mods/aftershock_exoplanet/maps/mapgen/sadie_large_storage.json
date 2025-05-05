@@ -58,7 +58,7 @@
         "E": "f_sink",
         "F": "f_chair",
         "G": "f_locker",
-        "H": "f_table",
+        "H": "f_metal_table",
         "I": "f_sofa",
         "M": [ "f_crate_c", "f_cardboard_box" ]
       },

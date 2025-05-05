@@ -36,7 +36,7 @@ unsigned int font_config::imgui_config() const
     return ret;
 }
 
-static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::string_view hinting )
+static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( std::string_view hinting )
 {
     if( hinting == "Auto" ) {
         return ImGuiFreeTypeBuilderFlags_ForceAutoHint;

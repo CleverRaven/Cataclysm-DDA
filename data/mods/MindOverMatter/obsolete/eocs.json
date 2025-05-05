@@ -79,5 +79,10 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
+    "effect": [  ]
   }
 ]

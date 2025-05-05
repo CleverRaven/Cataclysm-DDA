@@ -1,0 +1,241 @@
+[
+  {
+    "id": "mx_pond_swamp",
+    "type": "map_extra",
+    "name": { "str": "bog" },
+    "description": "Small bog is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp" },
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "CLASSIC", "WATER" ]
+  },
+  {
+    "id": "mx_pond_swamp_2",
+    "type": "map_extra",
+    "copy-from": "mx_pond_swamp",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp_2" },
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "CLASSIC", "WATER" ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_saltwater_shallow",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_swater_sh" },
+      "furniture": { " ": [ "f_region_water_plant", [ "f_null", 10 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pond_saltwater_deep",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_swater_dp" },
+      "furniture": { " ": [ "f_region_water_plant", [ "f_null", 10 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_pond_swamp",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "     ????????????????   ",
+        "   ???????????????????  ",
+        "   ?**]]]]]*]***]]]]??  ",
+        "  ???**************]??  ",
+        "  ???*************]]??  ",
+        "  ????***[[[*******]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[[[[[[**]]??  ",
+        "  ???***[[[~~~[[**]]??  ",
+        "  ??****[[[~~~[[***]??  ",
+        "  ??]***[[~~~~[[***]??  ",
+        "  ??]***[[~~~~[[**]]??  ",
+        "  ??]***[[~[[[[[**]]??  ",
+        "  ??]***[[[[[[[[**]]??  ",
+        "  ??]*****[[******]]??  ",
+        "  ??]**************]??  ",
+        "  ??]**************]??  ",
+        "  ????]??]]]]]]]]]]]??  ",
+        "  ????????]]]????????   ",
+        "  ?????????????????     ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        " ": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_saltwater_deep", 2 ],
+            [ "pond_dirt", 4 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "*": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "?": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_dirt", 5 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "[": {
+          "chunks": [ [ "pond_saltwater_deep", 4 ], [ "pond_saltwater_shallow", 4 ], [ "pond_underbrush", 1 ], [ "pond_rocks", 1 ] ]
+        },
+        "]": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "~": {
+          "chunks": [
+            [ "pond_saltwater_deep", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        }
+      },
+      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear", "?": "f_clear", " ": "f_clear" },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_SWAMP", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_pond_swamp_2",
+    "object": {
+      "rows": [
+        "                        ",
+        "         ??             ",
+        "         ???            ",
+        "          ???? ?        ",
+        "          ?????         ",
+        "        ]]]**]]]]       ",
+        "        ]]*****]]]      ",
+        "       ]***[******]     ",
+        "      ]]***[[[[****]    ",
+        "     ]]***[[[[*****]    ",
+        "     ?**[[~~~~[****]]   ",
+        "     ]**[[~~~~[****]]   ",
+        "    ]]***[~~~~[***]]]   ",
+        "    ]]***[~~~~[[]]]     ",
+        "    ]]****[[[[**]???    ",
+        "     ]]***[[***]]???    ",
+        "     ]]]]*****]]  ? ?   ",
+        "       ??]]****]        ",
+        "           **           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        " ": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_saltwater_deep", 2 ],
+            [ "pond_dirt", 4 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "*": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "?": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 3 ],
+            [ "pond_dirt", 5 ],
+            [ "pond_grass", 6 ],
+            [ "pond_shrub", 1 ],
+            [ "pond_tree", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_tree_young", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "[": {
+          "chunks": [ [ "pond_saltwater_deep", 4 ], [ "pond_saltwater_shallow", 4 ], [ "pond_underbrush", 1 ], [ "pond_rocks", 1 ] ]
+        },
+        "]": {
+          "chunks": [
+            [ "pond_saltwater_shallow", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        },
+        "~": {
+          "chunks": [
+            [ "pond_saltwater_deep", 8 ],
+            [ "pond_dirt", 1 ],
+            [ "pond_grass", 1 ],
+            [ "pond_tree_willow", 1 ],
+            [ "pond_underbrush", 1 ],
+            [ "pond_rocks", 1 ]
+          ]
+        }
+      },
+      "furniture": { "~": "f_clear", "*": "f_clear", "[": "f_clear", "]": "f_clear", "?": "f_clear", " ": "f_clear" },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_SWAMP", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 }
+      ]
+    }
+  }
+]

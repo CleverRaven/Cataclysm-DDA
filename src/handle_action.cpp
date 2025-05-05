@@ -76,6 +76,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "panels.h"
+#include "pathfinding.h"
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
@@ -2356,9 +2357,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
                         destination_preview =
-                            here.route( player_character.pos_bub(), auto_travel_destination,
-                                        player_character.get_pathfinding_settings(),
-                                        player_character.get_path_avoid() );
+                            here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );

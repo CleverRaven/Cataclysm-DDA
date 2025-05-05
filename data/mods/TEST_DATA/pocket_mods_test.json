@@ -27,7 +27,8 @@
   },
   {
     "id": "debug_gun_no_mag_well",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "debug gun without mag well" },
     "copy-from": "rifle_auto",
     "description": "Just a debug gun.",
@@ -50,14 +51,16 @@
   },
   {
     "id": "debug_gun_with_mag_well",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": "debug gun with mag well",
     "copy-from": "debug_gun_no_mag_well",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "ammo_restriction": { "223": 20 } } ]
   },
   {
     "id": "debug_tool_no_pockets",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "debug tool with no pockets",
     "description": "debug",
     "symbol": "(",
@@ -66,14 +69,16 @@
   },
   {
     "id": "debug_tool_one_pocket",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": "debug tool with one pocket",
     "copy-from": "debug_tool_no_pockets",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2L" } ]
   },
   {
     "id": "debug_retool_container_no_mag_well",
-    "type": "TOOLMOD",
+    "type": "ITEM",
+    "subtypes": [ "TOOLMOD" ],
     "name": "debug toolmod to add container",
     "description": "debug",
     "symbol": "(",
@@ -83,7 +88,8 @@
   },
   {
     "id": "debug_retool_mag_well",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "debug gunmod to add/alter magazine well" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a standard 16-inch barrel chambered for .223 Remington ammunition.",
     "weight": "2268 g",

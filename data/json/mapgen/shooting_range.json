@@ -4,6 +4,7 @@
     "type": "mapgen",
     "om_terrain": [ [ "shootingrange_1a" ], [ "shootingrange_2a" ] ],
     "object": {
+      "fill_ter": "t_region_groundcover_barren",
       "rows": [
         "........................",
         "........................",
@@ -64,7 +65,8 @@
         "c": "f_counter",
         "d": "f_desk",
         "s": "f_sign",
-        "/": "f_wooden_flagpole"
+        "/": "f_wooden_flagpole",
+        "O": "f_dirtmound_tall"
       },
       "terrain": {
         "-": "t_thconc_floor",
@@ -84,8 +86,7 @@
         "c": "t_thconc_floor",
         "d": "t_floor",
         "f": "t_floor",
-        "w": "t_thconc_floor",
-        "O": "t_dirtmound"
+        "w": "t_thconc_floor"
       },
       "place_items": [
         { "chance": 10, "item": "ammo_common_boxed_used", "x": 6, "y": 9 },

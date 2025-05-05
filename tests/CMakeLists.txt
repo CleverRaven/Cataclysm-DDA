@@ -41,6 +41,8 @@ if (BUILD_TESTING)
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
             set_tests_properties(cata.tiles.gha-${n} PROPERTIES LABELS "gha")
         endforeach()
+        catch_discover_tests(cata_test-tiles
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
 
     if (CURSES)

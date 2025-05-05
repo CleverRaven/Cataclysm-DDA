@@ -35,6 +35,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "omdata.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -2586,12 +2587,17 @@ std::string Character::mutation_name( const trait_id &mut ) const
 
 std::string Character::mutation_desc( const trait_id &mut ) const
 {
+    std::string description;
     auto it = cached_mutations.find( mut );
     if( it != cached_mutations.end() && it->second.variant != nullptr ) {
-        return mut->desc( it->second.variant->id );
+        description = mut->desc( it->second.variant->id );
+    } else {
+        description = mut->desc();
     }
 
-    return mut->desc();
+    parse_tags( description, *this, *this );
+
+    return description;
 }
 
 void Character::customize_appearance( customize_appearance_choice choice )

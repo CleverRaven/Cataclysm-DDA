@@ -1647,7 +1647,7 @@ void overmapbuffer::despawn_monster( const monster &critter )
     }
 }
 
-overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string_view pattern )
+overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, std::string_view pattern )
 {
     t_notes_vector result;
     for( auto &it : overmaps ) {
@@ -1673,7 +1673,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     return result;
 }
 
-overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string_view pattern )
+overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, std::string_view pattern )
 {
     overmapbuffer::t_extras_vector result;
     for( auto &it : overmaps ) {

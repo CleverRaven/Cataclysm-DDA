@@ -77,6 +77,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "current_map.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
@@ -461,6 +462,7 @@ game::game() :
     scent_ptr( *this ),
     achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained, achievement_failed, true ),
     m( *map_ptr ),
+    current_map( *current_map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
@@ -473,6 +475,7 @@ game::game() :
     tileset_zoom( DEFAULT_TILESET_ZOOM ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
+    current_map.set( &m );
     first_redraw_since_waiting_started = true;
     reset_light_level();
     events().subscribe( &*stats_tracker_ptr );
@@ -987,7 +990,7 @@ bool game::start_game()
     here.build_map_cache( level );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.pos_abs_omt().xy(),
-                           get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
+                           get_scenario()->get_distance_initial_visibility(), 0 );
 
     const int city_size = get_option<int>( "CITY_SIZE" );
     if( get_scenario()->get_reveal_locale() && city_size > 0 ) {
@@ -1219,6 +1222,8 @@ vehicle *game::place_vehicle_nearby(
             // try place vehicle there.
             tinymap target_map;
             target_map.load( goal, false );
+            // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+            swap_map swap( *target_map.cast_to_map() );
             const tripoint_omt_ms tinymap_center( SEEX, SEEY, goal.z() );
             static constexpr std::array<units::angle, 4> angles = {{
                     0_degrees, 90_degrees, 180_degrees, 270_degrees
@@ -4508,8 +4513,8 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-
-                if( !get_map().route( u.pos_bub(), critter->pos_bub(), pf_settings ).empty() ) {
+                const pathfinding_target pf_t = pathfinding_target::point( critter->pos_bub() );
+                if( !get_map().route( u.pos_bub(), pf_t, pf_settings ).empty() ) {
                     return critter;
                 }
                 continue;
@@ -4900,7 +4905,7 @@ void game::cleanup_dead()
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = critter_tracker->active_npc.erase( it );
             } else {
-                it++;
+                ++it;
             }
         }
     }
@@ -7906,7 +7911,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         if( is_dangerous_tile( p ) ) {
             continue;
         }
-        const route_t route = here.route( who.pos_bub(), p,
+        const route_t route = here.route( who.pos_bub(), pathfinding_target::point( p ),
         who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
             return is_dangerous_tile( p );
         } );
@@ -12187,10 +12192,11 @@ void game::water_affect_items( Character &ch ) const
             loc->deactivate();
             // TODO: Maybe different types of wet faults? But I can't think of any.
             // This just means it's still too wet to use.
-            loc->set_fault( faults::random_of_type( "wet" ) ) ;
+            // TODO2: add fault types to electronics, remove `force` argument from here
+            loc->set_random_fault_of_type( "wet", true );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_fault( faults::random_of_type( "shorted" ) );
+                loc->set_random_fault_of_type( "shorted", true );
             }
         } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
@@ -13245,7 +13251,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
             ( *it )->on_unload();
             it = critter_tracker->active_npc.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 
@@ -13498,10 +13504,8 @@ void game::display_scent()
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_SCENT );
     } else {
-        int div;
-        bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
-        if( !got_value || div < 1 ) {
-            add_msg( _( "Never mind." ) );
+        int div = 0;
+        if( !query_int( div, false, _( "Set scent map sensitivity to?" ) ) || div != 0 ) {
             return;
         }
         shared_ptr_fast<game::draw_callback_t> scent_cb = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -14620,7 +14624,7 @@ avatar &get_avatar()
 
 map &get_map()
 {
-    return g->m;
+    return g->current_map.get_map();
 }
 
 map &reality_bubble()

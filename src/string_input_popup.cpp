@@ -334,12 +334,13 @@ void string_input_popup::query( const bool loop, const bool draw_only )
 }
 
 template<typename T>
-T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+std::optional<T> query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
 {
     do {
-        ret_val<T> result = try_parse_integer<T>( p.query_string( loop, draw_only ), true );
-        if( p.canceled() ) {
-            return 0;
+        const std::string &queried_string = p.query_string( loop, draw_only );
+        ret_val<T> result = try_parse_integer<T>( queried_string, true );
+        if( p.canceled() || queried_string.empty() ) {
+            return std::nullopt;
         }
         if( result.success() ) {
             return result.value();
@@ -350,12 +351,12 @@ T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
     return 0;
 }
 
-int string_input_popup::query_int( const bool loop, const bool draw_only )
+std::optional<int> string_input_popup::query_int( const bool loop, const bool draw_only )
 {
     return query_int_impl<int>( *this, loop, draw_only );
 }
 
-int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
+std::optional<int64_t> string_input_popup::query_int64_t( const bool loop, const bool draw_only )
 {
     return query_int_impl<int64_t>( *this, loop, draw_only );
 }

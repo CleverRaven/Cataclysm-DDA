@@ -32,7 +32,7 @@ void ascii_art::load_ascii_art( const JsonObject &jo, const std::string &src )
     ascii_art_factory.load( jo, src );
 }
 
-void ascii_art::load( const JsonObject &jo, const std::string_view )
+void ascii_art::load( const JsonObject &jo, std::string_view )
 {
     assign( jo, "id", id );
 

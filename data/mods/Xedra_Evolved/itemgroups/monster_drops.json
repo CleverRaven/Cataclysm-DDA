@@ -311,6 +311,16 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "revenant_death_drops",
+    "entries": [
+      { "group": "default_zombie_clothes", "prob": 100, "damage": [ 1, 3 ] },
+      { "group": "default_zombie_items", "count": [ 1, 3 ], "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "bone_human", "count": 1, "prob": 10, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "renfield_death_drops",
     "entries": [
       { "group": "default_zombie_clothes", "prob": 100 },

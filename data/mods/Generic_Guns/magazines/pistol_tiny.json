@@ -2,7 +2,8 @@
   {
     "id": "pistol_tiny_mag",
     "copy-from": "ruger_mk4_mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": "target pistol magazine",
     "description": "A flush fitting magazine for use with target pistols, capable of feeding 10 tiny pistol cartridges.",
     "ammo_type": [ "ammo_pistol_tiny" ],

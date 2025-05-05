@@ -34,7 +34,7 @@ void magic_type::load_magic_type( const JsonObject &jo, const std::string &src )
 }
 
 
-void magic_type::load( const JsonObject &jo, const std::string_view src )
+void magic_type::load( const JsonObject &jo, std::string_view src )
 {
     src_mod = mod_id( src );
 

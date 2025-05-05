@@ -45,7 +45,7 @@
         "3": "f_stool",
         "5": "f_locker",
         "6": "f_reinforced_displaycase_locked",
-        "7": "f_table"
+        "7": "f_metal_table"
       },
       "items": {
         "j": { "item": "SUS_office_filing_cabinet", "chance": 40 },

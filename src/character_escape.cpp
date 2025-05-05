@@ -49,6 +49,7 @@ static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_DOWNED_RECOVERY( "DOWNED_RECOVERY" );
 
 static const limb_score_id limb_score_balance( "balance" );
@@ -77,14 +78,16 @@ void Character::try_remove_downed()
     int chance = ( get_dex() + get_arm_str() / 2.0 ) * get_limb_score( limb_score_balance ) * 10.0;
     // Always 2,5% chance to stand up
     chance += has_flag( json_flag_DOWNED_RECOVERY ) ? 20 : 1;
-    if( !x_in_y( chance, 40 ) ) {
-        add_msg_if_player( _( "You struggle to stand." ) );
-    } else {
-        add_msg_player_or_npc( m_good,
-                               has_flag( json_flag_DOWNED_RECOVERY ) ? _( "You deftly roll to your feet." ) : _( "You stand up." ),
-                               has_flag( json_flag_DOWNED_RECOVERY ) ? _( "<npcname> deftly rolls to their feet." ) :
-                               _( "<npcname> stands up." ) );
-        remove_effect( effect_downed );
+    if( !has_flag( json_flag_CANNOT_MOVE ) ) {
+        if( !x_in_y( chance, 40 ) ) {
+            add_msg_if_player( _( "You struggle to stand." ) );
+        } else {
+            add_msg_player_or_npc( m_good,
+                                   has_flag( json_flag_DOWNED_RECOVERY ) ? _( "You deftly roll to your feet." ) : _( "You stand up." ),
+                                   has_flag( json_flag_DOWNED_RECOVERY ) ? _( "<npcname> deftly rolls to their feet." ) :
+                                   _( "<npcname> stands up." ) );
+            remove_effect( effect_downed );
+        }
     }
 }
 

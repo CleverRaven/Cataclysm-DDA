@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_synthetic_meat",
     "copy-from": "meat",
     "name": { "str_sp": "synthetic meat" },
@@ -8,14 +9,16 @@
     "parasites": 0
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_jerky",
     "copy-from": "jerky",
     "name": { "str_sp": "meat flakes" },
     "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "curry_meat",
     "looks_like": "soup_meat",
     "name": { "str_sp": "ramen" },
@@ -40,7 +43,8 @@
     "fun": 8
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "id": "flesh_golem_heart",
     "name": { "str": "seeping heart" },

@@ -572,7 +572,11 @@
     "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "has_beta", "npc_is_character" ] },
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
-      { "npc_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }
+      {
+        "npc_mutate_category": { "context_val": "dart_mutation_category" },
+        "use_vitamins": false,
+        "true_random": true
+      }
     ]
   },
   {

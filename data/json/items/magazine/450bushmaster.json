@@ -1,7 +1,8 @@
 [
   {
     "id": "450_ar15mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": ".450 Bushmaster 4-round conversion magazine" },
     "description": "An aluminum box magazine containing a single four round stack of .450 Bushmaster cartridges, engineered to fit and feed appropriately converted AR-platform rifles.",
     "weight": "226 g",
@@ -18,7 +19,8 @@
   },
   {
     "id": "ruger_arr_mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Ruger American Rifle 3-round magazine" },
     "description": "A detachable polymer box magazine, capable of containing three rounds of .450 Bushmaster and compatible with appropriately chambered American Ranch Rifles.",
     "weight": "78 g",

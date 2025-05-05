@@ -1,7 +1,8 @@
 [
   {
     "id": "buckle_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "steel buckle" },
     "description": "A steel buckle, like the kind usually found on belts.",
@@ -16,7 +17,8 @@
   },
   {
     "id": "button_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "plastic button" },
     "description": "A plastic button, usually found on clothing.",
@@ -33,7 +35,8 @@
   {
     "id": "button_steel",
     "copy-from": "button_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "steel button" },
     "description": "A steel button, usually found on clothing.",
     "weight": "8 g",
@@ -44,7 +47,8 @@
   {
     "id": "button_bronze",
     "copy-from": "button_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "bronze button" },
     "description": "A bronze button, found on ancient clothing.",
     "weight": "10 g",
@@ -55,7 +59,8 @@
   {
     "id": "button_wood",
     "copy-from": "button_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "wooden button" },
     "description": "A crude wooden button, usually found on very old clothing.",
     "material": [ "wood" ]
@@ -63,13 +68,15 @@
   {
     "id": "snapfastener_steel",
     "copy-from": "button_steel",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "steel snap fastener" },
     "description": "A steel snap fastener, usually found on clothing."
   },
   {
     "id": "touch_fastener",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "touch fastener" },
     "description": "A pair of cloth strips, one of which has tiny hooks and another with tiny loops.  Useful as a fastener for clothing and footwear.",
@@ -85,14 +92,16 @@
   {
     "id": "zipper_long_plastic",
     "copy-from": "zipper_short_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "long plastic zipper" },
     "description": "A long zipper made from plastic, usually found on clothing.",
     "proportional": { "weight": 3, "volume": 3, "price": 3 }
   },
   {
     "id": "zipper_short_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "short plastic zipper" },
     "description": "A short zipper made from plastic, usually found on footwear or clothing pockets.",

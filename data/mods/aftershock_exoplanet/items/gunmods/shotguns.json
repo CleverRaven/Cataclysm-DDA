@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_magnetic_choke",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "magnetic choke" },
     "//": "Yes lead isn't magnetic, no I don't care.",
     "description": "A choke that uses a powerful cross-shaped electromagnet to pull the shot cloud together, greatly reducing the spread of shot.  Prevents the use of slugs.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "afs_shotgun_gauss",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "shotgun gauss array" },
     "//": "Flechettes should be made a distinct ammo type, but that would break other vanilla shotguns. Change should happen when aftershock becomes total conversion.",
     "description": "A tuned set of electromagnets that accelerate projectiles to a much higher velocity than normal, increasing range and damage.  The required modifications are invasive and cannot be removed once installed.",

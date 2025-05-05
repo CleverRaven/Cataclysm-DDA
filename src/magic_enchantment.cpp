@@ -197,7 +197,7 @@ bool string_id<enchantment>::is_valid() const
 
 template<typename TKey>
 void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
-                            const std::string_view array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+                            std::string_view array_key, const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
                             std::map<TKey, dbl_or_var> &mult_map )
 {
     if( !is_child && jo.has_array( array_key ) ) {
@@ -227,7 +227,7 @@ void load_add_and_multiply( const JsonObject &jo, const bool &is_child,
 }
 
 template<typename TKey>
-void load_add_and_multiply( const JsonObject &jo, const std::string_view array_key,
+void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
                             const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
@@ -260,7 +260,7 @@ void enchantment::reset()
 }
 
 enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
-        const std::string_view src,
+        std::string_view src,
         std::string &inline_id )
 {
     if( jv.test_string() ) {
@@ -405,7 +405,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void enchantment::load( const JsonObject &jo, const std::string_view,
+void enchantment::load( const JsonObject &jo, std::string_view,
                         const std::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
@@ -507,7 +507,7 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
     }
 }
 
-void enchant_cache::load( const JsonObject &jo, const std::string_view,
+void enchant_cache::load( const JsonObject &jo, std::string_view,
                           const std::optional<std::string> &inline_id )
 {
     enchantment::load( jo, "", inline_id, true );

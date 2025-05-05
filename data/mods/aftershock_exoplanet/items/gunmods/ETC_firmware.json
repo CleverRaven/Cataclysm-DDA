@@ -1,7 +1,8 @@
 [
   {
     "id": "firmware_overpressure",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "looks_like": "electrolaser_conversion",
     "name": { "str_sp": "ETC firmware (overpressure)" },
     "description": "Custom firmware for the electrical ignition system of caseless firearms.  Tweaks the ignition timing to maximize pressure in the chamber, increasing muzzle velocity and armor penetration at the cost of increased wear on the weapon.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "firmware_subsonic",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "copy-from": "firmware_overpressure",
     "name": { "str_sp": "ETC firmware (subsonic)" },
     "description": "Custom firmware for the electrical ignition system of caseless firearms.  Tweaks the ignition timing to ensure that fired bullets remain subsonic, reducing noise at the cost of range and armor penetration.",
@@ -32,7 +34,8 @@
   },
   {
     "id": "firmware_incendiary",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "copy-from": "firmware_overpressure",
     "name": { "str_sp": "ETC firmware (incendiary)" },
     "description": "Custom firmware for the electrical ignition system of caseless firearms.  Increases the potency of the heat ignition system, causing bullets to melt and be subsequently fired as globules of superheated metal.  The projectiles will set targets on fire, at the cost of direct damage, range, and weapon durability.",

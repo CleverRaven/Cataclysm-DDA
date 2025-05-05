@@ -6,7 +6,8 @@
     "default": "crystallized_mana"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "crystallized_mana",
     "category": "spare_parts",
     "price": "10 USD",
@@ -24,7 +25,8 @@
   },
   {
     "id": "small_mana_crystal",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "category": "spare_parts",
     "name": { "str": "small mana crystal" },
     "description": "This is a small mana crystal specifically designed to be attached to wand tips.",

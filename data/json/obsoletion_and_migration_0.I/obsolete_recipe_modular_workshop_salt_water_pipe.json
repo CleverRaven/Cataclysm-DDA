@@ -1,5 +1,6 @@
 [
   {
+    "//00": "OBSOLETION NOTE: when this file is deleted, C++ faction camp code from #55026 that generates pipelines can also be deleted.",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmw_2_salt_water_pipe_swamp",
@@ -14,7 +15,7 @@
     "//1": "coded to be picked up by code specific to this functionality. Also note that the non orthogonal orientations",
     "//2": "use the blueprint faction_expansion_salt_water_pipe_swamp_NE instead.",
     "blueprint_name": "salt water pipe construction",
-    "blueprint_requires": [ { "id": "fbmw_2" } ],
+    "blueprint_requires": [ { "id": "nonexistent_id_to_hide_construction" } ],
     "blueprint_provides": [ { "id": "fbmw_2_salt_water_pipe_swamp" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_salt_water_pipe_swamp" } ],
     "//3": "1 salt water well, 4 pits, and filling up 3 pits (the last one is for the well). 6 h, 40 m * 3, 30 m * 4, 150 m * 4",

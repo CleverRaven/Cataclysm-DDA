@@ -3,7 +3,8 @@
     "id": "mark19",
     "copy-from": "launcher_base",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Mark 19 grenade launcher" },
     "description": "A heavy, tripod-mounted belt-fed grenade launcher used by the US Military since the start of the Cold War all the way to the Cataclysm, and if you can find some 40mm grenades, maybe even beyond.",
     "weight": "35200 g",
@@ -32,12 +33,12 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 2, "NPC_AVOID" ] ],
     "flags": [ "MOUNTED_GUN" ],
     "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt40mm" ] } ],
     "melee_damage": { "bash": 14 }

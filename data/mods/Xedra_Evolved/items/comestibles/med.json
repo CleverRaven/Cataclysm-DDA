@@ -1,7 +1,8 @@
 [
   {
     "id": "extra_str_aspirin",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "eXtra strength aspirin" },
     "description": "Alchemically altered aspirin.  Take to relieve pain and injury.",
@@ -23,7 +24,8 @@
   },
   {
     "id": "truckstop_viagra",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "horny rhino pill" },
     "description": "DOES YOUR PARTNER FIND YOUR LACK OF SEXUAL POTENCY PATHETIC?!??!  SMASH YOUR BEDROOM LIKE A WILD ANIMAL ALL NIGHT LONG!!!  -ingredients not confirmed with the FDA.",
@@ -45,7 +47,8 @@
   },
   {
     "id": "blood_of_saints",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "blood of the saints" },
     "description": "A rare substance of uncertain origins.  Causes you to mutate.",
     "price": "2500 USD",

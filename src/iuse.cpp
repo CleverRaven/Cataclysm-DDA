@@ -3528,7 +3528,7 @@ std::optional<int> iuse::c4( Character *p, item *it, const tripoint_bub_ms & )
     int time = 0;
     bool got_value = false;
     if( p->is_avatar() ) {
-        got_value = query_int( time, _( "Set the timer to how many seconds (0 to cancel)?" ) );
+        got_value = query_int( time, false, _( "Set the timer to how many seconds (0 to cancel)?" ) );
         if( !got_value || time <= 0 ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return std::nullopt;
@@ -3672,7 +3672,7 @@ std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint_bub
 std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to ___ turns (0 to cancel)?" ) );
+    bool got_value = query_int( time, false, _( "Set the timer to ___ turns (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return std::nullopt;
@@ -5616,7 +5616,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
     return 0;
 }
 
-static int get_quality_from_string( const std::string_view s )
+static int get_quality_from_string( std::string_view s )
 {
     const ret_val<int> try_quality = try_parse_integer<int>( s, false );
     if( try_quality.success() ) {

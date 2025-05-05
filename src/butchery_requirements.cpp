@@ -50,7 +50,7 @@ bool butchery_requirements::is_valid() const
     return butchery_req_factory.is_valid( this->id );
 }
 
-void butchery_requirements::load( const JsonObject &jo, const std::string_view )
+void butchery_requirements::load( const JsonObject &jo, std::string_view )
 {
     for( const JsonMember member : jo.get_object( "requirements" ) ) {
         float modifier = std::stof( member.name() );

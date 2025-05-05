@@ -28,6 +28,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -1589,6 +1590,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
                                       player_character.pos_abs_omt(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+
+    swap_map swap( *bay.cast_to_map() );
     for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
@@ -1661,6 +1665,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
+
     for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
@@ -2806,6 +2813,8 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
 {
     tinymap bay;
     bay.load( site, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
     for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {

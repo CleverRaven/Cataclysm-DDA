@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "afs_82mm_flashbulb",
     "price": "700 USD",
     "price_postapoc": "120 USD",

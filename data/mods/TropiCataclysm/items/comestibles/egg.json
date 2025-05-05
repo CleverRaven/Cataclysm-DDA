@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_rhea",
     "name": { "str": "greater rhea egg" },
     "spoils_in": "25 days",
@@ -9,7 +10,8 @@
     "rot_spawn": { "monster": "mon_rhea_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_toucan",
     "name": { "str": "toco toucan egg" },
     "spoils_in": "9 days",
@@ -17,7 +19,8 @@
     "rot_spawn": { "monster": "mon_toucan_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_parrot",
     "name": { "str": "white-eyed parakeet egg" },
     "spoils_in": "13 days",
@@ -25,7 +28,8 @@
     "rot_spawn": { "monster": "mon_parrot_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_macaw",
     "name": { "str": "blue-and-yellow macaw egg" },
     "spoils_in": "13 days",
@@ -33,35 +37,40 @@
     "rot_spawn": { "monster": "mon_macaw_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_finch_saffron",
     "name": { "str": "saffron finch egg" },
     "copy-from": "egg_waxwing",
     "rot_spawn": { "monster": "mon_finch_saffron_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_great_kiskadee",
     "name": { "str": "great kiskadee egg" },
     "copy-from": "egg_bluejay",
     "rot_spawn": { "monster": "mon_great_kiskadee_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_rufous_hornero",
     "name": { "str": "rufous hornero egg" },
     "copy-from": "egg_waxwing",
     "rot_spawn": { "monster": "mon_rufous_hornero_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_tinamou",
     "name": { "str": "small-billed tinamou egg" },
     "copy-from": "egg_bluejay",
     "rot_spawn": { "monster": "mon_tinamou_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_seriema",
     "name": { "str": "red-legged seriema egg" },
     "spoils_in": "15 days",
@@ -69,7 +78,8 @@
     "rot_spawn": { "monster": "mon_seriema_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_chachalaca",
     "name": { "str": "Chaco chachalaca egg" },
     "spoils_in": "12 days",
@@ -77,7 +87,8 @@
     "rot_spawn": { "monster": "mon_chachalaca_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_guan",
     "name": { "str": "dusky-legged guan egg" },
     "spoils_in": "14 days",
@@ -85,14 +96,16 @@
     "rot_spawn": { "monster": "mon_guan_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_curassow",
     "name": { "str": "bare-faced curassow egg" },
     "copy-from": "egg_crow",
     "rot_spawn": { "monster": "mon_curassow_chick" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_constrictor",
     "name": "snake egg",
     "copy-from": "egg_chicken",
@@ -100,7 +113,8 @@
     "rot_spawn": { "group": "GROUP_EGG_CONSTRICTOR" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_lizard",
     "name": "lizard egg",
     "copy-from": "egg_chicken",
@@ -108,7 +122,8 @@
     "rot_spawn": { "group": "GROUP_EGG_LIZARD" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_monitor",
     "name": "varanid egg",
     "copy-from": "egg_chicken",
@@ -116,7 +131,8 @@
     "rot_spawn": { "group": "GROUP_EGG_MONITOR" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_iguana",
     "name": "iguana egg",
     "copy-from": "egg_chicken",
@@ -124,7 +140,8 @@
     "rot_spawn": { "group": "GROUP_EGG_IGUANA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_turtle",
     "name": "turtle egg",
     "copy-from": "egg_chicken",
@@ -132,7 +149,8 @@
     "rot_spawn": { "group": "GROUP_EGG_TURTLE" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_snapper",
     "name": "iguana egg",
     "copy-from": "egg_chicken",
@@ -140,7 +158,8 @@
     "rot_spawn": { "group": "GROUP_EGG_IGUANA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_tortoise",
     "name": "iguana egg",
     "copy-from": "egg_chicken",
@@ -148,7 +167,8 @@
     "rot_spawn": { "group": "GROUP_EGG_IGUANA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_termite",
     "name": "termite egg",
     "copy-from": "ant_egg",
@@ -156,7 +176,8 @@
     "rot_spawn": { "monster": "mon_termite_nymph" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "triffid_pod",
     "name": { "str": "triffid pod" },
     "weight": "278 g",
@@ -179,7 +200,8 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fungal_pod",
     "name": { "str": "fungal pod" },
     "weight": "278 g",
@@ -202,14 +224,16 @@
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_fish_alien",
     "name": { "str_sp": "alien roe" },
     "copy-from": "egg_fish",
     "description": "Common roe from an unknown alien creature."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_salamander",
     "name": { "str": "cluster of salamander eggs", "str_pl": "clusters of salamander eggs" },
     "copy-from": "egg_proxy_frog",
@@ -217,7 +241,8 @@
     "rot_spawn": { "group": "GROUP_EGG_SALAMANDER" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_tadfish",
     "name": { "str": "cluster of tadfish eggs", "str_pl": "clusters of tadfish eggs" },
     "copy-from": "egg_proxy_frog",
@@ -225,70 +250,80 @@
     "rot_spawn": { "group": "GROUP_EGG_TADFISH" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_lungfish",
     "name": { "str_sp": "lungfish roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_LUNGFISH" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_eel_electric",
     "name": { "str_sp": "electric eel roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_EEL_ELECTRIC" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_pacu",
     "name": { "str_sp": "pacu roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_PACU" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_tambaqui",
     "name": { "str_sp": "tambaqui roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_TAMBAQUI" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_piranha",
     "name": { "str_sp": "piranha roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_PIRANHA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_arowana",
     "name": { "str_sp": "arowana roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_AROWANA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_arapaima",
     "name": { "str_sp": "arapaima roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_ARAPAIMA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_piraiba",
     "name": { "str_sp": "piraiba roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_PIRAIBA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_pleco",
     "name": { "str_sp": "pleco roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_PLECO" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_gar",
     "name": { "str_sp": "gar roe" },
     "copy-from": "egg_fish",
@@ -296,63 +331,72 @@
     "rot_spawn": { "group": "GROUP_EGG_GAR" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_tucunare",
     "name": { "str_sp": "tucunaré roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_TUCUNARE" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_discus",
     "name": { "str_sp": "discus roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_DISCUS" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_angelfish",
     "name": { "str_sp": "angelfish roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_ANGELFISH" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_koi",
     "name": { "str_sp": "koi roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_KOI" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_tilapia",
     "name": { "str_sp": "tilapia roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_TILAPIA" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_sabalo",
     "name": { "str_sp": "sabalo roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_SABALO" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_oscar",
     "name": { "str_sp": "oscar roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_OSCAR" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_guapote",
     "name": { "str_sp": "guapote roe" },
     "copy-from": "egg_fish",
     "rot_spawn": { "group": "GROUP_EGG_GUAPOTE" }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_mayaheros",
     "name": { "str_sp": "mayaheros roe" },
     "copy-from": "egg_fish",

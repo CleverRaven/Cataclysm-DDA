@@ -1610,8 +1610,9 @@ bool mattack::triffid_heartbeat( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
             false );
+    const pathfinding_target pf_t = pathfinding_target::point( z_pos );
     if( rl_dist( z_pos, pos ) > 5 &&
-        !here.route( pos, z_pos, root_pathfind ).empty() ) {
+        !here.route( pos, pf_t, root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
         for( const tripoint_bub_ms &dest : here.points_in_radius( z_pos, 3 ) ) {
             if( g->is_empty( dest ) && one_in( 4 ) ) {
@@ -1622,7 +1623,7 @@ bool mattack::triffid_heartbeat( monster *z )
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while( here.route( pos, z_pos, root_pathfind ).empty() &&
+        while( here.route( pos, pf_t, root_pathfind ).empty() &&
                tries < 20 ) {
             point_bub_ms p( rng( pos.x(), z_pos.x() - 3 ),
                             rng( pos.y(), z_pos.y() - 3 ) );

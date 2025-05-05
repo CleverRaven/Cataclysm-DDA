@@ -11,6 +11,7 @@
         "f_region_forest_dense": { "f_wildweed": 30, "f_wildcorn": 30, "f_wildbeans": 30 }
       }
     },
+    "map_extras": { "forest_water": { "extras": { "mx_pond_swamp": 240, "mx_pond_swamp_2": 240 } } },
     "forest_mapgen_settings": {
       "forest_thick": {
         "terrains": [
@@ -27,7 +28,17 @@
           "stream_end"
         ]
       },
-      "forest_water": { "terrains": [ "forest_water" ] }
+      "forest_water": {
+        "terrains": [ "forest_water" ],
+        "components": {
+          "water": {
+            "sequence": 3,
+            "chance": 2,
+            "clear_types": false,
+            "types": { "t_swater_sh": 6, "t_swater_dp": 1, "t_water_murky": 12 }
+          }
+        }
+      }
     },
     "forest_trail_settings": { "trailheads": { "trailhead_basic": 1 } },
     "overmap_feature_flag_settings": {

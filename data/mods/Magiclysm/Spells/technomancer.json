@@ -809,13 +809,11 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_CONJURE_UPS_EFFECT_POWER_ITEMS_DISTRIBUTION",
-            "condition": {
-              "and": [ { "math": [ "n_val('power') < n_val('power_max')" ] }, { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] } ]
-            },
+            "condition": { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] },
             "effect": [
               {
                 "if": { "math": [ "u_technomancer_conjure_ups_max_indv_power >= 1" ] },
@@ -857,11 +855,10 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_CONJURE_UPS_EFFECT_GET_ITEM_COUNT_2",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
             "effect": [ { "math": [ "u_technomancer_conjure_ups_item_count++" ] } ]
           }
         ]

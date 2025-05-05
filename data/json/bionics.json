@@ -801,8 +801,12 @@
     "name": { "str": "WearMan" },
     "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "USES_BIONIC_POWER" ],
-    "passive_pseudo_items": [ "internal_mp3" ]
+    "flags": [ "USES_BIONIC_POWER", "BIONIC_TOGGLED" ],
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": "1 s",
+    "activated_eocs": [ "EOC_BIONIC_WEARMAN_SELECTOR" ],
+    "deactivated_eocs": [ "EOC_BIONIC_WEARMAN_REMOVAL" ]
   },
   {
     "id": "bio_voice_b",

@@ -94,7 +94,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
-  "description": "Nothing gets you down!",    // In-game description.
+  "description": "Nothing gets you down!",    // In-game description. Supports snippets and u/global variables
   "starting_trait": true,                     // Can be selected at character creation (default: false).
   "random_at_chargen": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that (default: true).
   "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.

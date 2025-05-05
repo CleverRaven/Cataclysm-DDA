@@ -82,6 +82,7 @@
 #include "options.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
@@ -2895,7 +2896,7 @@ bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool for
         }
     }
 
-    std::vector<tripoint_bub_ms> new_path = get_map().route( pos_bub(), p,
+    std::vector<tripoint_bub_ms> new_path = get_map().route( pos_bub(), pathfinding_target::point( p ),
                                             get_pathfinding_settings( no_bashing ),
                                             get_path_avoid() );
     if( new_path.empty() ) {
@@ -5048,16 +5049,7 @@ void npc::go_to_omt_destination()
     }
     tripoint_bub_ms sm_tri = here.get_bub( project_to<coords::ms>( omt_path.back() ) );
     tripoint_bub_ms centre_sub = sm_tri + point( SEEX, SEEY );
-    if( !here.passable_through( centre_sub ) ) {
-        auto candidates = here.points_in_radius( centre_sub, 2 );
-        for( const tripoint_bub_ms &elem : candidates ) {
-            if( here.passable_through( elem ) ) {
-                centre_sub = elem;
-                break;
-            }
-        }
-    }
-    path = here.route( pos_bub(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
+    path = here.route( *this, pathfinding_target::radius( centre_sub, 2 ) );
     add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", get_name(), omt_pos.to_string_writable(),
                    goal.to_string_writable() );
 

@@ -1,7 +1,8 @@
 [
   {
     "id": "panacea",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "Panaceus", "str_pl": "Panaceii" },
     "symbol": "!",
@@ -27,7 +28,8 @@
     "name": { "str_sp": "heat retention cream" },
     "description": "Rub this on your skin when you are expecting exposure to extreme cold temperatures.  Cannot protect from instant frostbite.  Smells like the inside of a sheep.",
     "use_action": { "type": "cast_spell", "spell_id": "cream_prot_cold", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "weight": "265 g",
     "volume": "250 ml",
     "fun": -1,
@@ -44,7 +46,8 @@
     "name": { "str_sp": "heat retention cream xtreme" },
     "description": "This product was advertised before the Cataclysm for extreme cold environment protection.  You remember a demonstration involving a woman coating her hand in this and plunging it in liquid nitrogen for a second.  You're pretty sure that was staged.",
     "use_action": { "type": "cast_spell", "spell_id": "cream_greater_prot_cold", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "weight": "265 g",
     "volume": "250 ml",
     "fun": -3,
@@ -57,7 +60,8 @@
     "price": "50 USD"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "atomic_butter",
     "name": { "str_sp": "atomic butter" },
     "weight": "14180 mg",

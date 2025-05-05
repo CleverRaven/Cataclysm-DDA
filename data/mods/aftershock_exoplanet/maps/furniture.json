@@ -14,7 +14,35 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+      "items": [
+        { "item": "pipe", "count": 10 },
+        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
+        { "item": "five-point_harness" }
+      ]
+    },
+    "required_str": 20
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_ship_seat",
+    "name": "ship seat",
+    "copy-from": "f_seat_airplane",
+    "looks_like": "f_afs_shuttle_seat",
+    "description": "A cushioned, adjustable seat with an integrated safety harness.  Normally seen within spaceships of all sizes.",
+    "symbol": "H",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 10 },
+        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
+        { "item": "five-point_harness" }
+      ]
     },
     "required_str": 20
   },
@@ -1376,7 +1404,11 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+      "items": [
+        { "item": "pipe", "count": 10 },
+        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
+        { "item": "five-point_harness" }
+      ]
     },
     "required_str": 20
   },
@@ -1395,7 +1427,11 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+      "items": [
+        { "item": "pipe", "count": 10 },
+        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
+        { "item": "five-point_harness" }
+      ]
     },
     "required_str": 20
   }

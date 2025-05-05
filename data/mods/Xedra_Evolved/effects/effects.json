@@ -514,6 +514,8 @@
       "sleepiness_min": [ 10 ],
       "sleepiness_max": [ 20 ],
       "sleepiness_chance": [ 9000 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 9000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 9000 ]
@@ -524,6 +526,8 @@
       "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
       "sleepiness_chance": [ -300 ],
+      "health_min": [ -1 ],
+      "health_chance": [ -1000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
@@ -602,6 +606,37 @@
     "id": "effect_dhampir_empowered_blood_indicator",
     "name": [ "Empowered Blood" ],
     "desc": [ "Your blood hums with power, allowing you to access more of your vampiric abilities." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dhampir_enervated_blood",
+    "name": [ "Enervated Blood" ],
+    "desc": [
+      "You have used up much of the power in your blood, and are slightly listless as a result.  In addition, some of your vampiric powers will not function as well, or at all, until the power returns to your blood."
+    ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "SLEEPINESS",
+            "multiply": { "math": [ "0.05 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * 0.001), 0, 1)" ] }
+          },
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "math": [ "-0.025 + clamp(( (u_vitamin('human_blood_vitamin') + 500) * -0.00025), -0.5, 0)" ] }
+          }
+        ]
+      }
+    ],
+    "removes_effects": [ "withering" ]
   },
   {
     "type": "effect_type",
@@ -697,6 +732,14 @@
                 "1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1)"
               ]
             }
+          },
+          {
+            "value": "OVERKILL_DAMAGE",
+            "add": {
+              "math": [
+                "-10 + (vampire_total_tier_one_traits_plus_potency() * -1) + (vampire_total_tier_two_traits() * -2) + (vampire_total_tier_three_traits() * -3) + (vampire_total_tier_four_traits_plus_potence() * -4)  + (vampire_total_tier_five_traits_plus_cauldron() * -5)"
+              ]
+            }
           }
         ]
       }
@@ -746,6 +789,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_health_bonus",
+    "//": "Hidden effect, grants dhampirs and vampires bonus health when at positive blood",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 3 ], "health_tick": [ 3600 ] }
   },
   {
     "type": "effect_type",
@@ -818,6 +869,27 @@
       }
     ],
     "flags": [ "HARDTOHIT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampiric_stealth_bonus",
+    "name": [ "Cloak of Shadows" ],
+    "desc": [ "You are clouding nearby minds and are harder to spot in dim light or darkness." ],
+    "enchantments": [
+      {
+        "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min(30 + ((vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.4) + (vampire_total_tier_three_traits() * 0.55) + (vampire_total_tier_four_traits_plus_potence() * 0.75) + (vampire_total_tier_five_traits_plus_cauldron() * 1)), 60)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -2156,7 +2228,7 @@
             "distance": { "math": [ "u_val('perception') * 2" ] },
             "precise": true,
             "ignores_aiming_cone": true,
-            "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
+            "descriptions": [ { "id": "vamnpire_sense", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
           }
         ]
       }

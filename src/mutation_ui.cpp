@@ -44,7 +44,7 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
     wattroff( win, BORDER_COLOR );
 }
 
-static const auto shortcut_desc = []( const std::string_view comment, const std::string &keys )
+static const auto shortcut_desc = []( std::string_view comment, const std::string &keys )
 {
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };

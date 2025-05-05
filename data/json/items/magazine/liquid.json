@@ -2,7 +2,8 @@
   {
     "id": "pressurized_tank",
     "//": "Tileset whitelist for flame or chemical throwers.",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "8 L pressurized fuel tank" },
     "description": "A pressurized 8 L canister designed to feed a flamethrower.  A date code stamped into the aluminum indicates that this was made in the 1970's.",
     "weight": "11600 g",
@@ -20,7 +21,8 @@
   {
     "id": "pressurized_tank_modern",
     "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "9 L pressurized fuel tank" },
     "description": "A 9 L pressurized carbon fiber cylinder designed to feed a flamethrower.",
     "weight": "9800 g",

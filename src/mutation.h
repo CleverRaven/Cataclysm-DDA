@@ -363,6 +363,7 @@ struct mutation_branch {
         translation raw_desc;
     public:
         std::string name( const std::string &variant = "" ) const;
+        // Stored description of mutation. Character::mutation_desc() should be prioritized over this, if possible, for parse_tags support
         std::string desc( const std::string &variant = "" ) const;
 
         /**

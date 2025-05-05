@@ -155,7 +155,6 @@
     "type": "overmap_terrain",
     "abstract": "speedway_road_abstract",
     "copy-from": "road_abstract",
-    "color": "light_gray",
     "see_cost": "none",
     "extras": "build",
     "mondensity": 2,

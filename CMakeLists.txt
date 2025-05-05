@@ -432,6 +432,8 @@ if (NOT MSVC)
 endif()
 
 if(TESTS)
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tests/catch/contrib)
+    include(Catch)
     add_subdirectory(tests)
 endif()
 

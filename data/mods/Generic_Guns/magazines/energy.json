@@ -1,7 +1,8 @@
 [
   {
     "id": "gg_plasma_mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "copy-from": "caotel_plasma_ring",
     "name": { "str": "plasma condenser" },
     "description": "A bulky magazine that holds a dozen plasma cells.  It will be automatically expelled by the weapon once the ammo inside has been fired."

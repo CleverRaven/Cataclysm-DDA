@@ -82,7 +82,7 @@
         "8": "f_washer",
         "9": "f_dryer",
         "á": "f_rack",
-        "½": "f_table"
+        "½": "f_metal_table"
       },
       "items": { "á": { "item": "afs_tools_electric_repair", "chance": 60, "repeat": [ 1, 3 ] } },
       "place_monster": [
@@ -200,7 +200,7 @@
       "furniture": {
         "á": "f_planter",
         "â": "f_rack",
-        "ä": "f_table",
+        "ä": "f_metal_table",
         "é": "f_rack",
         "ê": "f_rack",
         "ë": "f_rack",
@@ -305,7 +305,7 @@
         "W": "t_carpet_metal_red",
         "6": "t_carpet_metal_red"
       },
-      "furniture": { "á": "f_bookcase", "2": "f_bathtub", "6": "f_table" },
+      "furniture": { "á": "f_bookcase", "2": "f_bathtub", "6": "f_metal_table" },
       "items": { "á": { "item": "homebooks", "repeat": [ 2, 3 ] } },
       "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true } },
       "place_monster": [
@@ -396,7 +396,7 @@
         "W": "t_carpet_metal_red",
         "6": "t_carpet_metal_red"
       },
-      "furniture": { "á": "f_bookcase", "2": "f_bathtub", "6": "f_table" },
+      "furniture": { "á": "f_bookcase", "2": "f_bathtub", "6": "f_metal_table" },
       "items": { "á": { "item": "homebooks", "repeat": [ 2, 3 ] } },
       "place_monster": [
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 4, 13 ], "y": [ 2, 23 ], "pack_size": [ 1, 3 ], "chance": 30 },
@@ -496,7 +496,7 @@
         "6": "f_small_satellite_dish",
         "7": "f_vent_pipe",
         "8": "f_roof_turbine_vent",
-        "½": "f_table",
+        "½": "f_metal_table",
         "¾": "f_entertainment_center"
       },
       "items": { "á": { "item": "homebooks", "repeat": [ 2, 3 ] } },

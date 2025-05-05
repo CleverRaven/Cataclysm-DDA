@@ -1073,7 +1073,7 @@ std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar
     return std::make_pair( weight_text, weight_color );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string_view
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( std::string_view
         note_text )
 {
     std::string ter_sym = "N";

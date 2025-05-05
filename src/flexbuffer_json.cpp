@@ -294,7 +294,7 @@ void JsonObject::report_unvisited() const
 #endif
 }
 
-void JsonObject::error_no_member( const std::string_view member ) const
+void JsonObject::error_no_member( std::string_view member ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
     std::string source_path = [&] {
@@ -355,7 +355,7 @@ void JsonObject::throw_error( const std::string &err ) const
     Json::throw_error( path_, 0, err );
 }
 
-void JsonObject::throw_error_at( const std::string_view member, const std::string &err ) const
+void JsonObject::throw_error_at( std::string_view member, const std::string &err ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( member );
     if( member_opt.has_value() ) {

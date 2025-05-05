@@ -1,0 +1,247 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_N",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%% %%",
+        "%   %",
+        "%  G%",
+        "%=KK%",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_earthbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 3, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 3, "chance": 70, "repeat": [ 2, 4 ] },
+        { "group": "feral_vampire_nest_dead_bodies", "x": 1, "y": 2, "chance": 70 }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_S",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%GKK%",
+        "%   %",
+        "%=  %",
+        "%% %%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_earthbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 1, "chance": 70, "repeat": [ 2, 4 ] },
+        { "group": "feral_vampire_nest_dead_bodies", "x": 1, "y": 2, "chance": 70, "repeat": [ 1, 3 ] }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_E",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%GKK%",
+        "%    ",
+        "%=  %",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_sandbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 1, "chance": 70, "repeat": [ 2, 4 ] },
+        { "group": "feral_vampire_nest_dead_bodies", "x": 1, "y": 2, "chance": 70, "repeat": [ 1, 3 ] }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_W",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%GKK%",
+        "    %",
+        "%=  %",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_sandbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 1, "chance": 70, "repeat": [ 2, 4 ] },
+        { "group": "feral_vampire_nest_dead_bodies", "x": 3, "y": 2, "chance": 70, "repeat": [ 1, 3 ] }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 0, 3 ] } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_electronics_open",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "CyT..C",
+        "C====C",
+        "C=EE=C",
+        ".===&.",
+        ".h==Af",
+        "BBB..f"
+      ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "f": "t_floor",
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_sofa",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "f": "f_table",
+        "h": "f_chair",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "place_item": [
+        { "item": "television", "x": 5, "y": 5, "chance": 100 },
+        { "item": "laptop", "x": 1, "y": 5, "chance": 90 },
+        { "item": "multitool", "x": 0, "y": 5, "chance": 100 },
+        { "item": "breadboard", "x": 1, "y": 5, "chance": 95 },
+        { "item": "voltmeter", "x": 1, "y": 5, "chance": 90 },
+        { "item": "multimeter", "x": 1, "y": 5, "chance": 90 }
+      ],
+      "items": {
+        "C": [
+          { "item": "elecsto_homapl", "chance": 30, "repeat": [ 0, 3 ] },
+          { "item": "elecsto_persele", "chance": 20, "repeat": [ 0, 2 ] },
+          { "item": "elecsto_diy", "chance": 60, "repeat": [ 2, 4 ] }
+        ],
+        "f": [
+          { "item": "electronics", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "elecsto_entapl", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "elecsto_stor", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "B": [
+          { "item": "elecsto_diy", "chance": 60, "repeat": [ 1, 4 ] },
+          { "item": "elecsto_books", "chance": 40, "repeat": [ 1, 2 ] }
+        ],
+        "&": [ { "item": "feral_vampire_nest_dead_bodies", "chance": 50 } ]
+      },
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 1, 6 ] } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 95 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_sewing_open",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "BBT..C",
+        "Bh===C",
+        "B=Af=C",
+        ".==f=.",
+        "Ed=f=C",
+        "yE&..C"
+      ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_floor",
+        "B": "t_floor",
+        "C": "t_floor",
+        "y": "t_floor",
+        "T": "t_floor",
+        "E": "t_floor",
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
+      "furniture": {
+        "A": "f_stool",
+        "B": "f_workbench",
+        "E": "f_armchair",
+        "C": "f_rack_wood",
+        "T": "f_floor_lamp",
+        "d": "f_mannequin",
+        "b": "f_bench",
+        "f": "f_table",
+        "h": "f_chair",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "items": {
+        "C": [
+          { "item": "SUS_tailoring_materials", "chance": 80, "repeat": [ 3, 6 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "f": [
+          { "item": "SUS_tailoring_materials", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
+        ],
+        "d": [
+          { "item": "pants", "chance": 100 },
+          { "item": "shirts", "chance": 100 },
+          { "item": "leather_shop_accessories", "chance": 10 }
+        ],
+        "B": [
+          { "item": "SUS_tailoring_tool_drawer", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+        ],
+        "&": [ { "item": "feral_vampire_nest_dead_bodies", "chance": 50 } ]
+      },
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 1, 6 ] } ],
+      "place_monster": [ { "monster": "mon_vampire_feral", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 95 } ]
+    }
+  }
+]

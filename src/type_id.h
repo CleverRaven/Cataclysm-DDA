@@ -103,6 +103,9 @@ using fault_id = string_id<fault>;
 class fault_fix;
 using fault_fix_id = string_id<fault_fix>;
 
+class fault_group;
+using fault_group_id = string_id<fault_group>;
+
 struct field_type;
 using field_type_id = int_id<field_type>;
 using field_type_str_id = string_id<field_type>;

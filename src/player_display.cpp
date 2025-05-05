@@ -649,7 +649,7 @@ static void draw_traits_info( const catacurses::window &w_info, const Character 
     werase( w_info );
     if( line < traitslist.size() ) {
         const trait_and_var &cur = traitslist[line];
-        std::string trait_desc = cur.desc();
+        std::string trait_desc = you.mutation_desc( cur.trait );
         if( !you.purifiable( cur.trait ) ) {
             trait_desc +=
                 _( "\n<color_yellow>This trait is an intrinsic part of you now, purifier won't be able to remove it.</color>" );
@@ -1548,7 +1548,8 @@ void Character::disp_info( bool customize_character )
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string name = _effect_it.second.disp_name();
-            effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
+            effect_name_and_text.emplace_back( name,
+                                               _effect_it.second.disp_desc() + '\n' + _effect_it.second.disp_mod_source_info() );
         }
     }
     if( get_perceived_pain() > 0 ) {

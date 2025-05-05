@@ -1279,7 +1279,7 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string_view phrase ) const
+    const std::vector<std::string> &strings, std::string_view phrase ) const
 {
     std::vector<std::string> filtered_strings;
 

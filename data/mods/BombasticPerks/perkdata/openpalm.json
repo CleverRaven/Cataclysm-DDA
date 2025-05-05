@@ -1,7 +1,8 @@
 [
   {
     "id": "integrated_hand_openpalm",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "callused hands" },
     "description": "You've dealt so many blows your hands are rough with calluses.  The edge of your hand is sharp enough to cut paper.",

@@ -1,7 +1,7 @@
 [
   {
     "id": "jug_cooler",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "water cooler jug" },
     "looks_like": "bottle_plastic",
@@ -25,7 +25,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "many_years_old_newspaper",
     "category": "books",
     "copy-from": "many_years_old_newspaper",
@@ -34,7 +34,7 @@
     "description": "A single sheet of newspaper broadsheet.  The date on it is so old it seems actually impossible for it to have lasted this long in such good condition.  Most of the information on there is shockingly uninteresting for an artifact so old, but one thing catches your eye briefly."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "years_old_newspaper",
     "category": "books",
     "copy-from": "years_old_newspaper",
@@ -43,7 +43,7 @@
     "description": "A single sheet of newspaper broadsheet.  The date on it suggests it's decades old, but miraculously it appears to be much newer.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "one_year_old_newspaper",
     "copy-from": "one_year_old_newspaper",
     "category": "books",
@@ -52,7 +52,7 @@
     "description": "A single sheet of newspaper broadsheet.  It doesn't look like any newspaper you're familiar with and the text on it makes no sense…"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "months_old_newspaper",
     "category": "books",
     "copy-from": "months_old_newspaper",
@@ -61,7 +61,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed a few years ago.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "weeks_old_newspaper",
     "category": "books",
     "copy-from": "weeks_old_newspaper",
@@ -70,7 +70,7 @@
     "description": "A single sheet of newspaper broadsheet.  There seems to be an important article about a missing person."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "newest_newspaper",
     "category": "books",
     "copy-from": "newest_newspaper",
@@ -79,7 +79,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed within the last few months.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "survnote",
     "category": "books",
     "copy-from": "survnote",

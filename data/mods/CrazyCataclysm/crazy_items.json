@@ -1,7 +1,8 @@
 [
   {
     "id": "granade",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Granade" },
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "granade_act",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "active Granade" },
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
@@ -43,7 +45,8 @@
   {
     "id": "bio_chest_gun",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Ionic Overload Generator CBM" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
     "price": "2 kUSD 200 USD",
@@ -60,7 +63,8 @@
   },
   {
     "id": "bio_ion_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Ionic Overload Generator" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast that goes through various targets.  The energy shot ignites oxygen creating fires as it moves and an explosion on impact.",
     "weight": "2950 g",
@@ -85,7 +89,8 @@
   {
     "id": "yeet_cannon",
     "copy-from": "pistol_base",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Yeet Cannon" },
     "description": "You can YEET all the bullets with this baby.  YEET them right into all of the zombies in your path, all the hulks, the spiders, and those damned mole rats.",
     "weight": "709 g",
@@ -109,7 +114,8 @@
   },
   {
     "id": "firekatana_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Rising Sun" },
     "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katana, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
@@ -136,7 +142,8 @@
   },
   {
     "id": "firekatana_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Rising Sun" },
     "description": "This is a katana that glows with the fury and heat of the SUN!  Well, okay it's not THAT hot, but getting hit with it still stings like the dickens.  Use to shut off the gas.",
@@ -169,7 +176,8 @@
   },
   {
     "id": "zweifire_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flammenschwert (aus)", "str_pl": "flammenschwerter (aus)" },
     "//": "All of this is SUPPOSED to be in German.",
@@ -197,7 +205,8 @@
   },
   {
     "id": "red_jeans",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "red jeans" },
     "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
     "weight": "600 g",
@@ -246,7 +255,8 @@
   },
   {
     "id": "zweifire_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "flammenschwert", "str_pl": "flammenschwerter" },
     "//": "All of this is SUPPOSED to be in German.",
@@ -284,7 +294,7 @@
     "tool_ammo": [ "gasoline" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "battletorch_done",
     "name": { "str": "burnt out Louisville Slaughterer" },
     "description": "A sturdy wood bat, wrapped in flame-resistant Nomex fabric.  Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patches.",
@@ -301,7 +311,8 @@
   },
   {
     "id": "battletorch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Louisville Slaughterer" },
     "description": "This is sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  Light it, and the ball game will REALLY heat up.  You'll need a lighter or matches to light it.",
@@ -329,7 +340,8 @@
   },
   {
     "id": "battletorch_lit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "Louisville Slaughterer" },
     "description": "This is a sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  It is burning brightly, and makes it much easier to see the baselines at night games (It also makes the umpire FAR more likely to call a ball instead of a strike).",
@@ -361,7 +373,8 @@
   {
     "id": "flu_shot_fun",
     "copy-from": "flu_shot",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "flu shot" },
     "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_batrachian", 2300 ] ],
@@ -371,7 +384,7 @@
   {
     "id": "family_photo",
     "copy-from": "family_photo",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "blurry picture of a scowling cartoon ape" },
     "description": "Allegedly very important.",
@@ -381,7 +394,7 @@
   {
     "id": "old_key",
     "copy-from": "old_key",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "penultimate key" },
     "description": "This opens the Blob Door.  Better hold on to it.",
@@ -391,7 +404,7 @@
     "color": "dark_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bread_sword",
     "symbol": "/",
     "color": "brown",
@@ -412,7 +425,7 @@
   {
     "id": "rocket_can_drink",
     "copy-from": "can_drink",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rocket can" },
     "description": "A beverage can shaped like a rocket with a peeling label that reads 'POWERTHIRST: ROCKET CAN EDITION'.  Its tagline claims that it contains everything you've ever wanted.",
     "symbol": "^",
@@ -436,7 +449,7 @@
   {
     "id": "aux_pressurized_tank",
     "looks_like": "pressurized_tank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "0.5L pressurized fuel tank" },
     "description": "A pressurized 0.5L canister built crafting into a small auxiliary flamethrower.",
     "weight": "100 g",
@@ -448,7 +461,8 @@
     "color": "light_gray"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "party_rock",
     "symbol": "*",
     "color": "pink",
@@ -471,7 +485,8 @@
   {
     "id": "akmag90",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "AK 90-round magazine" },
     "description": "A homemade AK magazine made out of welding magazines together.  Looks really stupid, and doesn't work.",
     "weight": "978 g",
@@ -492,7 +507,8 @@
     "id": "draco_mini",
     "copy-from": "draco_mini",
     "name": { "str": "Small AK pistol" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified.",
     "variant_type": "gun",
     "variants": [
@@ -513,7 +529,8 @@
     "id": "draco",
     "copy-from": "draco",
     "name": { "str": "AK pistol" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel.",
     "variant_type": "gun",
     "variants": [
@@ -534,7 +551,8 @@
     "id": "aksemi",
     "copy-from": "aksemi",
     "name": { "str": "AK-47 rifle" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "Civilian-legal clones of the AK-47, with no ability to fire full-auto.  Despite lacking that ability, they're still reliable and useful rifles, even if much rarer ammo and magazine wise than the more common AR-15 platform.",
     "variant_type": "gun",
     "variants": [
@@ -571,7 +589,8 @@
     "id": "ak47",
     "copy-from": "ak47",
     "name": { "str": "AKM rifle" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
     "variant_type": "gun",
     "variants": [
@@ -592,7 +611,8 @@
     "id": "mk47",
     "copy-from": "mk47",
     "name": { "str": "American AK rifle" },
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
     "variant_type": "gun",
     "variants": [
@@ -613,7 +633,8 @@
     "id": "draco_micro",
     "copy-from": "draco_micro",
     "looks_like": "draco",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Miniscule AK pistol" },
     "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Nano Draco, the smallest, with a 1\" barrel.  Good luck.",
     "variant_type": "gun",
@@ -659,7 +680,7 @@
   },
   {
     "id": "diamond_sword",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "blue",
     "name": { "str": "Diamond Sword" },
@@ -677,7 +698,8 @@
   {
     "id": "ceramic_plate",
     "copy-from": "ceramic_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ceramic plate" },
     "longest_side": "20 cm",
@@ -692,7 +714,8 @@
   },
   {
     "id": "destroyed_ceramic_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "ceramic_plate",
     "name": { "str": "compromised ceramic plate" },
     "description": "A ceramic dinner plate that's been shattered.",
@@ -702,7 +725,7 @@
   {
     "id": "coin_half_dollar",
     "copy-from": "coin_half_dollar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "currency",
     "name": { "str": "50 Cent coin" },
     "description": "A fifty-cent coin, featuring a portrait of famed rapper 50 Cent.  On the back is the date of minting, and the G-Unit symbol."
@@ -710,7 +733,8 @@
   {
     "id": "pride_flag",
     "copy-from": "pride_flag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pride flag" },
     "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
     "variant_type": "generic",

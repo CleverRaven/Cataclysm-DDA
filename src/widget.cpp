@@ -470,7 +470,7 @@ int widget_custom_var::get_var_value( const avatar &ava ) const
     return static_cast<int>( value.evaluate( d ) );
 }
 
-void widget::load( const JsonObject &jo, const std::string_view )
+void widget::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );

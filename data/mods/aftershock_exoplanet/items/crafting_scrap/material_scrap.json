@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_material_1",
     "copy-from": "afs_scrap_1",
     "name": { "str": "composite alloy" },
@@ -8,7 +8,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_material_2",
     "copy-from": "afs_scrap_2",
     "name": { "str": "vacuum cast carbide" },
@@ -16,7 +16,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_material_3",
     "copy-from": "afs_scrap_1",
     "name": { "str": "nanoprinted alloy" },
@@ -24,7 +24,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_material_4",
     "copy-from": "afs_scrap_4",
     "name": { "str": "crystal forged neutrite" },
@@ -32,7 +32,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_material_5",
     "copy-from": "afs_scrap_5",
     "name": { "str": "phase uneven matter" },

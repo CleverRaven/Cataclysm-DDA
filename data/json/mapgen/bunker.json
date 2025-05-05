@@ -137,7 +137,7 @@
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_basement_palette" ],
       "terrain": {
-        ".": "t_dirt",
+        ".": "t_soil",
         " ": "t_floor",
         "|": "t_wall_metal",
         "*": "t_door_metal_locked",

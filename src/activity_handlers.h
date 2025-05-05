@@ -186,6 +186,11 @@ enum class item_drop_reason : int {
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                map *here, const tripoint_bub_ms &where, bool force_ground = false );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+        const std::list<item> &items );
+std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
+        const std::list<item> &items, map *here, const tripoint_bub_ms &where,
+        bool force_ground = false );
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
                                         map *here, const tripoint_bub_ms &where );
@@ -283,6 +288,8 @@ int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_b
                     const units::volume &capacity );
 int move_cost_inv( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 
+void clean_may_activity_occupancy_items_var( Character &you );
+void clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( Character &you );
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 finish_functions;

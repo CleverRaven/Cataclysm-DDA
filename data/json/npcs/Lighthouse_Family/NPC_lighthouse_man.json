@@ -140,11 +140,7 @@
         "text": "Yes.  First floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "1", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z1" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 1 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z1" } ]
         },
         "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
@@ -152,11 +148,7 @@
         "text": "Yes.  Second floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "2", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z2" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 2 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z2" } ]
         },
         "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
@@ -164,11 +156,7 @@
         "text": "Yes.  Third floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "3", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z3" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 3 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z3" } ]
         },
         "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
@@ -176,22 +164,14 @@
         "text": "Yes.  Fourth floor is clear.",
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
-          "and": [
-            { "compare_string": [ "4", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z4" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 4 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z4" } ]
         },
         "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Top floor is clear.",
         "condition": {
-          "and": [
-            { "compare_string": [ "5", { "npc_val": "count_cleaning_lighthouse_man" } ] },
-            "at_safe_space",
-            { "npc_at_om_location": "lighthouse_z5" }
-          ]
+          "and": [ { "math": [ "n_count_cleaning_lighthouse_man == 5 " ] }, "at_safe_space", { "npc_at_om_location": "lighthouse_z5" } ]
         },
         "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] },
         "topic": "TALK_lighthouse_man_cleaned_done"
@@ -200,7 +180,7 @@
         "text": "Looks like that's over.",
         "condition": {
           "and": [
-            { "compare_string": [ "6", { "npc_val": "count_cleaning_lighthouse_man" } ] },
+            { "math": [ "n_count_cleaning_lighthouse_man == 6 " ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_ground" }
           ]
@@ -340,7 +320,7 @@
     "name": { "str": "House cleaning" },
     "description": "Clean lighthouse from <zombies> with Mikhail.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "compare_string": [ "7", { "npc_val": "count_cleaning_lighthouse_man" } ] },
+    "goal_condition": { "math": [ "n_count_cleaning_lighthouse_man == 7 " ] },
     "difficulty": 0,
     "value": 5000,
     "start": {

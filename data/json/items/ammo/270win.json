@@ -1,7 +1,8 @@
 [
   {
     "abstract": "270win_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".270 Winchester abstract", "//~": "NO_I18N" },
     "description": ".270 Winchester ammunition with a 130gr full metal jacket bullet.  It is a powerful round capable of taking down large targets with ease.",
     "//": "This is .270 FMJ.  270 win is so exclusively used for hunting that FMJ ammo basically doesn't exist. This is just here for the BBTI data.",
@@ -91,7 +92,8 @@
   {
     "id": "270win_jsp",
     "copy-from": "270win_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".270 Winchester JSP" },
     "description": ".270 Winchester ammunition with a 130gr soft point bullet.  The .270 round was not initially successful, but over a few decades it became one of the most popular rifle cartridges for hunting and silhouette shooting.  It is a powerful round capable of taking down large targets with ease.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
@@ -99,7 +101,8 @@
   {
     "id": "bp_270win_jsp",
     "copy-from": "270win_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".270 Winchester JSP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -113,7 +116,8 @@
   {
     "id": "reloaded_270win_jsp",
     "copy-from": "270win_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".270 Winchester JSP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -122,7 +126,8 @@
   {
     "id": "reloaded_270win_fmj",
     "copy-from": "270win_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".270 Winchester FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -131,7 +136,8 @@
   {
     "id": "bp_270win_fmj",
     "copy-from": "reloaded_270win_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".270 Winchester FMJ, black powder" },
     "proportional": {
       "price": 0.3,

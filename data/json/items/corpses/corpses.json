@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse",
     "symbol": "%",
     "color": "white",
@@ -32,7 +32,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rmi2_corpse",
     "symbol": "%",
     "color": "white",
@@ -46,7 +46,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_human",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -54,7 +54,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_male",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -63,7 +63,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_female",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -74,7 +74,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_boy",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -84,7 +84,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_girl",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -94,7 +94,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_child_calm",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -104,7 +104,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_child_gunned",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -124,7 +124,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_oldwoman_jewelry",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -136,7 +136,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_bloody",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -145,7 +145,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_painful",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -154,7 +154,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_scorched",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -164,7 +164,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_stabbed",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -192,7 +192,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_gunned",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -203,7 +203,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_halved_upper",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -214,7 +214,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_half_beheaded",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -225,7 +225,7 @@
     "material": [ "hflesh" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_gunned",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
@@ -267,7 +267,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_generic_infected",
     "//": "Died due to an untreated, infected wound.",
     "copy-from": "corpse",
@@ -295,7 +295,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_void_mummified",
     "symbol": "%",
     "color": "white",

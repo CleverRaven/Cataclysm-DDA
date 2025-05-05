@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "84x246mm_he",
     "//": "84mm HE 441D RS. Ref:TC 3-22.84.  35494gr projectile traveling at 787.4fps.",
     "price": "700 USD",
@@ -25,7 +26,8 @@
     "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_84x246HE", "NEVER_MISFIRES" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "84x246mm_hedp",
     "copy-from": "84x246mm_he",
     "//": "84mm HEDP 502 RS.",
@@ -44,7 +46,8 @@
     "effects": [ "SPECIAL_COOKOFF", "EXPLOSIVE_84x246HEDP", "NEVER_MISFIRES" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "84x246mm_smoke",
     "copy-from": "84x246mm_he",
     "//": "84mm SMOKE 469C.  35340gr projectile traveling at 787.4 fps.",

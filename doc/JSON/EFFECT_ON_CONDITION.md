@@ -3472,7 +3472,6 @@ Store string from `set_string_var` in the variable object `target_var`
 | "title" | optional | string, [variable object](#variable-object) | The title of the input popup window, can be localized (e.g., `"title": { "i18n": true, "str": "Input a value:" }`). |
 | "description" | optional | string, [variable object](#variable-object) | The description of the input popup window, can be localized. |
 | "default_text" | optional | string, [variable object](##variable-object) | The default text in the input popup window, can be localized. |
-
 | "width" | optional | integer | The character length of the input box. Default is 20. |
 | "identifier" | optional | string | Input boxes with the same identifier share input history. Default is `""`. |
 | "only_digits" | optional | boolean | Whether the input is purely numeric. Default is false. |
@@ -4081,10 +4080,6 @@ adds [ your strength stat ] amount of faction trust
 ```jsonc
 { "u_add_faction_trust": { "math": [ "u_val('strength')" ] } }
 ```
-
-
-#### `u_lose_faction_trust`
-same as `u_add_faction_trust`, not used in favor of `u_add_faction_trust` with negative number
 
 #### `u_message`, `npc_message`, `message`
 Display a text message in the log. `u_message` and `npc_message` display a message only if you or NPC is avatar. `message` always displays a message.
@@ -4788,6 +4783,48 @@ Force you consume drug item
 { "u_activate": "consume_drug" }
 ```
 
+#### `u_set_fault`, `npc_set_fault`
+Applies a fault on item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_fault" / "npc_set_fault" | **mandatory** | string or [variable object](#variable-object) | id of a fault applied |
+| "force" | optional | bool | if true, the fault is applied onto item even if item do not define it as possible fault. Default false | 
+| "message" | optional | bool | if truem the fault would print a message defined in fault `message` field. Default true | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
+
+##### Examples
+Beta talker adds `fault_electronic_blown_capacitor` as it's fault
+```jsonc
+{ "npc_set_fault": "fault_electronic_blown_capacitor" }
+```
+
+#### `u_set_random_fault_of_type`, `npc_set_random_fault_of_type`
+Picks a random fault from a type, and applies it onto item
+
+| Syntax | Optionality | Value  | Info |
+| ------ | ----------- | ------ | ---- | 
+| "u_set_random_fault_of_type" / "npc_set_random_fault_of_type" | **mandatory** | string or [variable object](#variable-object) | type of a fault applied |
+| "force" | optional | bool | if true, the fault is applied onto item even if item do not define it as possible fault. Default false | 
+| "message" | optional | bool | if truem the fault would print a message defined in fault `message` field. Default true | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ | ❌ |
+
+##### Examples
+Beta talker adds a random fault from `shorted` type as it's fault
+```jsonc
+{ "npc_set_random_fault_of_type": "shorted" }
+```
+
 ## Map effects
 
 #### `map_spawn_item`
@@ -5212,6 +5249,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "excluded_flags" | string, [variable object](#variable-object) or array of strings or variable objects | excludes items from the list by flags they have |
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
 | "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
+| "is_chargeable" | boolean | filter the list of items by whether or not they are chargeable.  `true` will only return electrical items that can hold more charge.  `false` will only return electrical items that cannot hold more charge (ie, fully charged items or ups / bionic items).
 | "worn_only" | boolean | return only items you you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
@@ -5247,6 +5285,7 @@ Examples:
           { "wielded_only": true },
           { "held_only": true },
           { "uses_energy": true },
+          { "is_chargeable": true },
           { "condition": { "math": [ "rand(1)" ] } }, // since 0 for conditions is evaluated as "false", this would randomly discard ~half of items from picked
           { "condition": { "math": [ "n_calories() >= 200" ] } }, // can check beta talker for it's specific properties via math
           { "condition": { "and": [ { "math": [ "n_calories() >= 200" ] }, { "math": [ "n_calories() <= 500" ] } ] } }, // and even as range!

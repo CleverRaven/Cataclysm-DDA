@@ -1,7 +1,8 @@
 [
   {
     "id": "fireman_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "firefighter belt" },
     "description": "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
     "weight": "210 g",
@@ -66,7 +67,8 @@
   {
     "abstract": "judo_belt_abstract",
     "repairs_like": "scarf",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "judo belt template", "//~": "NO_I18N" },
     "description": { "str": "This is a template for judo belts.  If found in a game, it is a bug.", "//~": "NO_I18N" },
     "weight": "200 g",
@@ -82,7 +84,8 @@
   {
     "id": "judo_belt_black",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "black belt" },
     "description": "A belt worn by martial arts practitioners, advertising a master.",
     "color": "dark_gray"
@@ -90,7 +93,8 @@
   {
     "id": "judo_belt_blue",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "blue belt" },
     "description": "A belt worn by martial arts practitioners, advertising a strong intermediate.",
     "color": "blue"
@@ -98,7 +102,8 @@
   {
     "id": "judo_belt_brown",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "brown belt" },
     "description": "A belt worn by martial arts practitioners, advertising a near-master.",
     "color": "brown"
@@ -106,7 +111,8 @@
   {
     "id": "judo_belt_green",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "green belt" },
     "description": "A belt worn by martial arts practitioners, advertising an intermediate.",
     "color": "green"
@@ -114,7 +120,8 @@
   {
     "id": "judo_belt_orange",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "orange belt" },
     "description": "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
     "color": "light_red"
@@ -122,7 +129,8 @@
   {
     "id": "judo_belt_white",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "white belt" },
     "description": "A belt worn by martial arts practitioners, advertising a novice.",
     "color": "white"
@@ -130,14 +138,16 @@
   {
     "id": "judo_belt_yellow",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "yellow belt" },
     "description": "A belt worn by martial arts practitioners, advertising a moderate novice.",
     "color": "yellow"
   },
   {
     "id": "leather_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather belt" },
     "description": "A leather belt.  Designed to look good and hold up a pair of pants, but you should be able to attach a small tool or weapon to one of the belt loops.",
     "weight": "150 g",
@@ -228,7 +238,8 @@
   },
   {
     "id": "obi_gi",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "obi" },
     "description": "A broad, black obi gi.",
     "weight": "200 g",
@@ -241,7 +252,8 @@
   },
   {
     "id": "police_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "police duty belt" },
     "description": "A black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
@@ -316,7 +328,8 @@
   },
   {
     "id": "santa_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "broad belt" },
     "description": "A broad, buckled leather belt, commonly used by bearded men on Christmas.  Usually worn over a red jacket.",
     "weight": "150 g",
@@ -346,7 +359,8 @@
   },
   {
     "id": "tool_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tool belt" },
     "description": "A common belt with pockets, loops and sheaths to store up to seven tools or blades.  Widely used by handymen and electricians.",
     "weight": "1000 g",
@@ -440,7 +454,8 @@
   },
   {
     "id": "webbing_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "MOLLE webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.  MOLLE-compatible pouches can be attached to the webbing for extra storage.",
     "weight": "210 g",
@@ -521,7 +536,8 @@
   },
   {
     "id": "suspenders_cloth",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
     "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
     "weight": "250 g",
@@ -539,7 +555,8 @@
   },
   {
     "id": "suspenders_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather suspenders", "str_pl": "pairs of leather suspenders" },
     "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
     "material": [ "leather", "steel" ],
@@ -548,7 +565,8 @@
   },
   {
     "id": "suspenders_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "holster suspenders", "str_pl": "pairs of holster suspenders" },
     "description": "A pair of leather suspenders with a holster placed near the stomach.",
     "copy-from": "suspenders_leather",

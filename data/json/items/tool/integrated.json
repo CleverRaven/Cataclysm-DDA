@@ -1,7 +1,8 @@
 [
   {
     "id": "internal_gasoline_tank",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "container",
     "name": { "str": "internal gasoline tank" },
     "description": "The internal tank for a gasoline fuel cell bionic.",
@@ -26,7 +27,8 @@
   },
   {
     "id": "internal_ethanol_tank",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "container",
     "name": { "str": "internal ethanol tank" },
     "description": "The internal ethanol tank for an ethanol burner bionic.",
@@ -51,7 +53,8 @@
   },
   {
     "id": "internal_oil_tank",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "container",
     "name": { "str": "internal oil tank" },
     "description": "The internal oil tank for an oil generator bionic.",
@@ -76,7 +79,8 @@
   },
   {
     "id": "internal_battery_compartment",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "internal battery compartment" },
     "description": "The internal compartment for holding medium sized batteries, for a battery system bionic.",
     "volume": "750 ml",
@@ -98,7 +102,8 @@
   },
   {
     "id": "toolset",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "100 g",
     "volume": "75 ml",
@@ -152,7 +157,8 @@
   },
   {
     "id": "integrated_welder",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "100 g",
     "volume": "50 ml",
@@ -218,7 +224,8 @@
   },
   {
     "id": "integrated_multimeter",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "50 g",
     "volume": "25 ml",
@@ -247,7 +254,8 @@
   },
   {
     "id": "integrated_electrokit",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "weight": "50 g",
     "volume": "25 ml",

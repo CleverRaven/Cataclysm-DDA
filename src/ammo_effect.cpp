@@ -58,7 +58,7 @@ int_id<ammo_effect>::int_id( const ammo_effect_str_id &id ) : _id( id.id() )
 {
 }
 
-void ammo_effect::load( const JsonObject &jo, const std::string_view )
+void ammo_effect::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "trigger_chance", trigger_chance, 1 );
 

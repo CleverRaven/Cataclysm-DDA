@@ -292,7 +292,14 @@ void _serialize( diag_value::impl_t const &data, JsonOut &jsout )
         },
         [&jsout]( double v )
         {
-            jsout.write( v );
+            if( std::isfinite( v ) ) {
+                jsout.write( v );
+            } else {
+                // inf and nan aren't allowed in JSON
+                jsout.start_object();
+                jsout.member( "dbl", std::to_string( v ) );
+                jsout.end_object();
+            }
         },
         [&jsout]( std::string const & v )
         {
@@ -351,6 +358,11 @@ void diag_value::deserialize( const JsonValue &jsin )
             std::string str;
             jo.read( "str", str );
             data = str;
+        } else if( jo.has_member( "dbl" ) ) {
+            // inf and nan
+            std::string str;
+            jo.read( "dbl", str );
+            data = std::stof( str );
         }
     }
 }

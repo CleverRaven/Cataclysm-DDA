@@ -212,7 +212,7 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
     return filter_from_string<item>( filter, basic_item_filter );
 }
 
-std::pair<std::string, std::string> get_both( const std::string_view a )
+std::pair<std::string, std::string> get_both( std::string_view a )
 {
     size_t split_mark = a.find( ';' );
     return std::pair( std::string( a.substr( 0, split_mark ) ),

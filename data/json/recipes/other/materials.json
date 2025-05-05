@@ -990,38 +990,6 @@
     "components": [ [ [ "thread", 50 ] ] ]
   },
   {
-    "result": "sheet_cotton",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "spinningwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "50 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 50 ] ] ]
-  },
-  {
-    "result": "sheet_cotton",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "electric_spinwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "50 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "electric_spinwheel", 101 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 50 ] ] ]
-  },
-  {
     "result": "sheet_cotton_patchwork",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

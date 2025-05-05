@@ -1,7 +1,8 @@
 [
   {
     "id": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE FMJ" },
     "description": ".50 Action Express ammunition loaded with a 325-grain jacketed flat-nose bullet, primarily for use in the Desert Eagle pistol.",
     "weight": "35 g",
@@ -73,7 +74,8 @@
   {
     "id": "50ae_jhp",
     "copy-from": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE JHP" },
     "description": ".50 Action Express ammunition loaded with a 300-grain jacketed hollowpoint bullet, primarily for use in the Desert Eagle pistol.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
@@ -81,7 +83,8 @@
   {
     "id": "reloaded_50ae_jhp",
     "copy-from": "50ae_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -90,7 +93,8 @@
   {
     "id": "reloaded_50ae_fmj",
     "copy-from": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -99,7 +103,8 @@
   {
     "id": "bp_50ae_jhp",
     "copy-from": "50ae_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -113,7 +118,8 @@
   {
     "id": "bp_50ae_fmj",
     "copy-from": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -127,7 +133,8 @@
   {
     "id": "matchhead_50ae_jhp",
     "copy-from": "bp_50ae_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_50ae_jhp",
@@ -136,7 +143,8 @@
   {
     "id": "matchhead_50ae_fmj",
     "copy-from": "bp_50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 AE FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_50ae_fmj",

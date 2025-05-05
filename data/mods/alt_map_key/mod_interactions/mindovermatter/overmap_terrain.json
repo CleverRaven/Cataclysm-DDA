@@ -1,0 +1,241 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_brick_blockA2",
+      "lab_surface_brick_blockA3",
+      "lab_surface_brick_blockA4",
+      "lab_surface_brick_blockB2",
+      "lab_surface_brick_blockB3",
+      "lab_surface_brick_blockB4",
+      "lab_surface_brick_blockC4",
+      "lab_surface_brick_blockD2",
+      "lab_surface_brick_blockD3",
+      "lab_surface_brick_blockD4",
+      "lab_surface_brick_blockE2",
+      "lab_surface_brick_blockE3",
+      "lab_surface_brick_blockE4"
+    ],
+    "copy-from": "lab_surface_brick_blockA2",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_core",
+    "copy-from": "alien_meadow_core",
+    "sym": ",",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_join",
+    "copy-from": "alien_meadow_join",
+    "sym": ",",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_end",
+    "copy-from": "alien_meadow_end",
+    "sym": ",",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "phavan_office_skyscraper_lab_lower_nw",
+      "phavan_office_skyscraper_lab_lower_ne",
+      "phavan_office_skyscraper_lab_lower_sw",
+      "phavan_office_skyscraper_lab_lower_se",
+      "phavan_office_skyscraper_lab_middle_nw",
+      "phavan_office_skyscraper_lab_middle_ne",
+      "phavan_office_skyscraper_lab_middle_sw",
+      "phavan_office_skyscraper_lab_middle_se",
+      "phavan_office_skyscraper_lab_upper_nw",
+      "phavan_office_skyscraper_lab_upper_ne",
+      "phavan_office_skyscraper_lab_upper_sw",
+      "phavan_office_skyscraper_lab_upper_se"
+    ],
+    "copy-from": "phavan_office_skyscraper_lab_lower_nw",
+    "sym": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "psi_phavian_lab_blockA0",
+      "psi_phavian_lab_blockA1",
+      "psi_phavian_lab_blockB0",
+      "psi_phavian_lab_blockB1",
+      "psi_phavian_lab_blockC0",
+      "psi_phavian_lab_blockC1",
+      "psi_phavian_lab_blockC2",
+      "psi_phavian_lab_blockD0",
+      "psi_phavian_lab_blockD1",
+      "psi_phavian_lab_blockE0",
+      "psi_phavian_lab_blockE1"
+    ],
+    "copy-from": "psi_phavian_lab_blockA0",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "psi_phavian_lab_blockA2",
+      "psi_phavian_lab_blockA3",
+      "psi_phavian_lab_blockA4",
+      "psi_phavian_lab_blockB2",
+      "psi_phavian_lab_blockB3",
+      "psi_phavian_lab_blockB4",
+      "psi_phavian_lab_blockC4",
+      "psi_phavian_lab_blockD2",
+      "psi_phavian_lab_blockD3",
+      "psi_phavian_lab_blockD4",
+      "psi_phavian_lab_blockE2",
+      "psi_phavian_lab_blockE3",
+      "psi_phavian_lab_blockE4"
+    ],
+    "copy-from": "psi_phavian_lab_blockA2",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "psi_phavian_lab_blockC3",
+    "copy-from": "psi_phavian_lab_blockC3",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "psi_phavian_lab_block2A2",
+      "psi_phavian_lab_block2A3",
+      "psi_phavian_lab_block2A4",
+      "psi_phavian_lab_block2B2",
+      "psi_phavian_lab_block2B3",
+      "psi_phavian_lab_block2B4",
+      "psi_phavian_lab_block2C3",
+      "psi_phavian_lab_block2C4",
+      "psi_phavian_lab_block2D2",
+      "psi_phavian_lab_block2D3",
+      "psi_phavian_lab_block2D4",
+      "psi_phavian_lab_block2E2",
+      "psi_phavian_lab_block2E3",
+      "psi_phavian_lab_block2E4"
+    ],
+    "copy-from": "psi_phavian_lab_block2A2",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "psi_phavian_lab_block3A2",
+      "psi_phavian_lab_block3A3",
+      "psi_phavian_lab_block3A4",
+      "psi_phavian_lab_block3B2",
+      "psi_phavian_lab_block3B3",
+      "psi_phavian_lab_block3B4",
+      "psi_phavian_lab_block3C3",
+      "psi_phavian_lab_block3C4",
+      "psi_phavian_lab_block3D2",
+      "psi_phavian_lab_block3D3",
+      "psi_phavian_lab_block3D4",
+      "psi_phavian_lab_block3E2",
+      "psi_phavian_lab_block3E3",
+      "psi_phavian_lab_block3E4"
+    ],
+    "copy-from": "psi_phavian_lab_block3A2",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "psi_phavian_lab_block4A2",
+      "psi_phavian_lab_block4A3",
+      "psi_phavian_lab_block4A4",
+      "psi_phavian_lab_block4B2",
+      "psi_phavian_lab_block4B3",
+      "psi_phavian_lab_block4B4",
+      "psi_phavian_lab_block4C3",
+      "psi_phavian_lab_block4C4",
+      "psi_phavian_lab_block4D2",
+      "psi_phavian_lab_block4D3",
+      "psi_phavian_lab_block4D4",
+      "psi_phavian_lab_block4E2",
+      "psi_phavian_lab_block4E3",
+      "psi_phavian_lab_block4E4"
+    ],
+    "copy-from": "psi_phavian_lab_block4A2",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "psi_phavian_lab_block5A2",
+      "psi_phavian_lab_block5B2",
+      "psi_phavian_lab_block5A3",
+      "psi_phavian_lab_block5A4",
+      "psi_phavian_lab_block5B3",
+      "psi_phavian_lab_block5B4",
+      "psi_phavian_lab_block5C3",
+      "psi_phavian_lab_block5C4",
+      "psi_phavian_lab_block5D2",
+      "psi_phavian_lab_block5D3",
+      "psi_phavian_lab_block5D4",
+      "psi_phavian_lab_block5E2",
+      "psi_phavian_lab_block5E3",
+      "psi_phavian_lab_block5E4"
+    ],
+    "copy-from": "psi_phavian_lab_block5A2",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "psi_phavian_lab_basementD1_hidden_psi_lab_stairs", "psi_phavian_lab_basementE1" ],
+    "copy-from": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nether_crystal_field" ],
+    "copy-from": "nether_crystal_field",
+    "sym": "*",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "office_cubical_phavian" ],
+    "copy-from": "office_cubical_phavian",
+    "sym": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "office_cubical_phavian_roof" ],
+    "copy-from": "office_cubical_phavian_roof",
+    "sym": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "office_cubical_phavian_basement" ],
+    "copy-from": "office_cubical_phavian_basement",
+    "sym": "B",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "office_cubical_phavian_subbasement" ],
+    "copy-from": "office_cubical_phavian_subbasement",
+    "sym": "B",
+    "color": "light_gray"
+  }
+]

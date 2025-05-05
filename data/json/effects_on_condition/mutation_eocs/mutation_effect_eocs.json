@@ -585,7 +585,11 @@
         "target_var": { "context_val": "radiation_mutation_category" },
         "parse_tags": true
       },
-      { "u_mutate_category": { "context_val": "radiation_mutation_category" }, "use_vitamins": false }
+      {
+        "u_mutate_category": { "context_val": "radiation_mutation_category" },
+        "use_vitamins": false,
+        "true_random": true
+      }
     ]
   },
   {

@@ -47,7 +47,7 @@ const string_id<construction_category> &int_id<construction_category>::id() cons
     return all_construction_categories.convert( *this );
 }
 
-void construction_category::load( const JsonObject &jo, const std::string_view )
+void construction_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
 }

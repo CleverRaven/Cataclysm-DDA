@@ -100,7 +100,7 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
     return val;
 }
 
-void character_modifier::load( const JsonObject &jo, const std::string_view )
+void character_modifier::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "description", desc );

@@ -108,7 +108,7 @@
         "T": "f_toilet",
         "w": "f_workbench",
         "S": "f_sink",
-        "t": "f_table",
+        "t": "f_metal_table",
         "C": "f_crate_c",
         "1": "f_arcfurnace_empty",
         "2": "f_hydraulic_press",

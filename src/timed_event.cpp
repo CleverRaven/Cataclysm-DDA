@@ -404,7 +404,7 @@ void timed_event_manager::process()
             it->actualize();
             it = events.erase( it );
         } else {
-            it++;
+            ++it;
         }
     }
 }

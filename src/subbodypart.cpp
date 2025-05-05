@@ -63,7 +63,7 @@ void sub_body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     sub_body_part_factory.load( jo, src );
 }
 
-void sub_body_part_type::load( const JsonObject &jo, const std::string_view )
+void sub_body_part_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );

@@ -1,7 +1,8 @@
 [
   {
     "id": "380_FMJ",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP FMJ" },
     "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider for self-defense.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "ascii_picture": "380_FMJ",
@@ -49,7 +50,8 @@
   {
     "id": "380_JHP",
     "copy-from": "380_FMJ",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP JHP" },
     "description": ".380 ACP ammunition with a 95gr jacketed hollow point bullet.  It is a popular round for small concealable backup pistols, and often the weakest recommended defensive caliber.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -2 } }
@@ -57,7 +59,8 @@
   {
     "id": "380_p",
     "copy-from": "380_FMJ",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP +P" },
     "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  This defensive loading is designed to maximize performance and tends to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "price": "1 USD 90 cent",
@@ -70,7 +73,8 @@
   {
     "id": "bp_380_FMJ",
     "copy-from": "380_FMJ",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -84,7 +88,8 @@
   {
     "id": "bp_380_JHP",
     "copy-from": "380_JHP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -98,7 +103,8 @@
   {
     "id": "reloaded_380_FMJ",
     "copy-from": "380_FMJ",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -107,7 +113,8 @@
   {
     "id": "reloaded_380_JHP",
     "copy-from": "380_JHP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -116,7 +123,8 @@
   {
     "id": "reloaded_380_p",
     "copy-from": "380_p",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".380 ACP +P, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -125,7 +133,8 @@
   {
     "id": "matchhead_380_FMJ",
     "copy-from": "bp_380_FMJ",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".380 ACP FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -135,7 +144,8 @@
   {
     "id": "matchhead_380_JHP",
     "copy-from": "bp_380_JHP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".380 ACP JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

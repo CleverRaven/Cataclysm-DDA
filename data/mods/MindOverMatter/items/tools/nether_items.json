@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "chaos_stone",
     "name": { "str_sp": "compressed chaos" },
     "color": "magenta",

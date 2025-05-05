@@ -67,6 +67,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "talker.h"
@@ -1021,7 +1022,11 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
             }
         }
     }
-    return practice( making.skill_used, num_practice_ticks, skill_cap, true );
+
+    SkillLevel &level = get_skill_level_object( making.skill_used );
+    const int old_level = level.level();  // Real level, not XP-based theoretical
+    practice( making.skill_used, num_practice_ticks, skill_cap, true );
+    return level.level() > old_level;
 }
 
 bool Character::craft_proficiency_gain( const item &craft, const time_duration &time )
@@ -1030,6 +1035,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
         return false;
     }
+
     const recipe &making = craft.get_making();
 
     struct learn_subject {
@@ -1041,7 +1047,8 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
     std::vector<Character *> all_crafters = get_crafting_helpers();
     all_crafters.push_back( this );
 
-    bool player_gained_prof = false;
+    bool this_character_gained = false;
+
     for( Character *p : all_crafters ) {
         std::vector<learn_subject> subjects;
         for( const recipe_proficiency &prof : making.proficiencies ) {
@@ -1058,30 +1065,35 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         }
 
         if( subjects.empty() ) {
-            player_gained_prof = false;
             continue;
         }
+
         const time_duration learn_time = time / subjects.size();
 
-        bool gained_prof = false;
         for( const learn_subject &subject : subjects ) {
             int helper_bonus = 1;
             for( const Character *other : all_crafters ) {
                 if( p != other && other->has_proficiency( subject.proficiency ) ) {
-                    // Other characters who know the proficiency help you learn faster
                     helper_bonus = 2;
                 }
             }
-            gained_prof |= p->practice_proficiency( subject.proficiency,
-                                                    subject.time_multiplier * learn_time * helper_bonus,
-                                                    subject.max_experience );
+
+            bool gained = p->practice_proficiency(
+                              subject.proficiency,
+                              subject.time_multiplier * learn_time * helper_bonus,
+                              subject.max_experience
+                          );
+
+            if( p == this ) {
+                this_character_gained |= gained;
+            }
         }
-        // This depends on the player being the last element in the iteration
-        player_gained_prof = gained_prof;
     }
 
-    return player_gained_prof;
+    return this_character_gained;
 }
+
+
 
 float Character::get_recipe_weighted_skill_average( const recipe &making ) const
 {

@@ -8,6 +8,7 @@
 #include <imgui/imgui_freetype.h>
 
 #include "catacharset.h"
+#include "cached_options.h"
 #include "color.h"
 #include "input.h"
 #include "output.h"
@@ -585,7 +586,18 @@ void cataimgui::client::end_frame()
 void cataimgui::client::process_input( void *input )
 {
     if( any_window_shown() ) {
-        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+        const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
+        if( no_mouse ) {
+            switch( evt->type ) {
+                case SDL_MOUSEMOTION:
+                case SDL_MOUSEWHEEL:
+                case SDL_MOUSEBUTTONDOWN:
+                case SDL_MOUSEBUTTONUP:
+                    return;
+            }
+        }
+        ImGui_ImplSDL2_ProcessEvent( evt );
     }
 }
 
@@ -667,7 +679,7 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
-static void PushOrPopColor( const std::string_view seg, int minimumColorStackSize )
+static void PushOrPopColor( std::string_view seg, int minimumColorStackSize )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, report_color_error::yes );
     switch( tag.type ) {

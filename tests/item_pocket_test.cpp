@@ -2339,7 +2339,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
@@ -2367,7 +2367,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
@@ -2393,7 +2393,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
@@ -2417,7 +2417,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.item_loc = suit;
             u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
-                    nullptr, -1, nullptr, liquid_target );
+                    nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
@@ -2446,7 +2446,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             for( item *&it : suit->all_items_top() ) {
                 u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
-                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 CHECK( u.get_moves() == 0 );
                 CHECK( it->charges == 0 );
                 suit->remove_item( *it );
@@ -2471,7 +2471,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             for( item *&it : suit->all_items_top() ) {
                 u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
-                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 if( u.get_moves() == 0 && it->charges == 0 ) {
                     suit->remove_item( *it );
                 }

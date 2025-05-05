@@ -525,7 +525,8 @@ static medical_column draw_effects_summary( const int column_count, Character &y
         if( name.empty() ) {
             continue;
         }
-        effects_column.add_column_line( selection_line( name, eff.disp_desc(), max_width ) );
+        effects_column.add_column_line( selection_line( name,
+                                        eff.disp_desc() + '\n' + eff.disp_mod_source_info(), max_width ) );
     }
 
     const float bmi = you.get_bmi_fat();

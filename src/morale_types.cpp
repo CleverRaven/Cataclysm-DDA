@@ -38,7 +38,7 @@ void morale_type_data::reset()
     morale_data.reset();
 }
 
-void morale_type_data::load( const JsonObject &jo, const std::string_view )
+void morale_type_data::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "text", text );

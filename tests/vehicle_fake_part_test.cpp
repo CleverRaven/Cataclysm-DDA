@@ -11,6 +11,7 @@
 #include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "pathfinding.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "tileray.h"
@@ -339,9 +340,10 @@ TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
     validate_part_count( *veh, 0, 315_degrees, 11, 6, 5 );
+    const tripoint_bub_ms src  = { test_origin - point( 2, 0 ) };
+    const tripoint_bub_ms dest = { test_origin + point( 2, 0 ) };
     std::vector<tripoint_bub_ms> route = here.route(
-            tripoint_bub_ms( test_origin - point( 2, 0 ) ),
-            tripoint_bub_ms( test_origin + point( 2, 0 ) ),
+            src, pathfinding_target::point( dest ),
             you.get_pathfinding_settings() );
     REQUIRE( !route.empty() );
     CAPTURE( route );

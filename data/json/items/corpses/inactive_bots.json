@@ -1,7 +1,8 @@
 [
   {
     "id": "bot_EMP_hack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive EMP hack" },
     "description": "An inactive EMP hack.  Manhacks are fist-sized robots that fly through the air.  This one contains an EMP grenade and attacks by flying at its target and detonating.  Use this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "2 kg",
@@ -27,7 +28,8 @@
   },
   {
     "id": "bot_c4_hack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive C-4 hack" },
     "description": "An inactive C-4 hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a C-4 demolition charge and attacks by flying at its target and detonating.  Use this item to reprogram and activate the C-4 hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "3750 g",
@@ -53,7 +55,8 @@
   },
   {
     "id": "bot_flashbang_hack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive flashbang hack" },
     "description": "An inactive flashbang hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a flashbang and attacks by flying at its target and detonating.  Use this item to reprogram and activate the flashbang hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "1750 g",
@@ -79,7 +82,8 @@
   },
   {
     "id": "bot_gasbomb_hack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive tear gas hack" },
     "description": "An inactive tear gas hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a tear gas canister and attacks by flying at its target and releasing the gas.  Use this item to reprogram and activate the tear gas hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "3 kg",
@@ -105,7 +109,8 @@
   },
   {
     "id": "bot_grenade_hack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive grenade hack" },
     "description": "An inactive grenade hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a grenade and attacks by flying at its target and detonating.  Use this item to reprogram and activate the grenade hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "2 kg",
@@ -131,7 +136,8 @@
   },
   {
     "id": "bot_antimateriel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive M2HB autonomous CROWS II", "str_pl": "inactive M2HB autonomous CROWS II turrets" },
     "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
     "weight": "172 kg",
@@ -152,7 +158,8 @@
   },
   {
     "id": "bot_manhack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive manhack" },
     "description": "An inactive manhack, a fist-sized robot that flies through the air.  This one is covered with whirring blades and attacks by throwing itself against its target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "1500 g",
@@ -178,7 +185,8 @@
   },
   {
     "id": "bot_rifleturret",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive autonomous M249 CROWS II", "str_pl": "inactive autonomous M249 CROWS II turrets" },
     "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M249.",
     "weight": "172 kg",
@@ -199,7 +207,8 @@
   },
   {
     "id": "bot_crows_m240",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive autonomous M240 CROWS II", "str_pl": "inactive autonomous M240 CROWS II turrets" },
     "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M240.",
     "weight": "172 kg",
@@ -220,7 +229,8 @@
   },
   {
     "id": "bot_turret_riot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive riot control turret" },
     "description": "An inactive riot control turret.  Using this item involves loading the unit with the 40x46mm M1006 sponge rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
     "weight": "125 kg",
@@ -241,7 +251,8 @@
   },
   {
     "id": "bot_turret",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive turret" },
     "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret), turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the turret will then identify you as a friendly, and attack all enemies with its SMG.",
     "weight": "40750 g",
@@ -262,7 +273,8 @@
   },
   {
     "id": "bot_secubot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive TALON UGV" },
     "description": "An inactive TALON UGV equipped with an M16A4.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm you do NOT want to give the robot), turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its rifle.",
     "weight": "40750 g",
@@ -285,7 +297,8 @@
   },
   {
     "id": "bot_talon_m202a1",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive M202A1 TALON UGV" },
     "description": "An inactive TALON UGV equipped with an M202A1.  Using this item involves loading the unit with the M235 rockets in your inventory (if you wish to divide your ammunition, set aside whatever M235 rockets you do NOT want to give the robot), turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its M202A1.",
     "weight": "40750 g",
@@ -308,7 +321,8 @@
   },
   {
     "id": "bot_secubot_liberty",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive TALON UGV Liberty Edition", "str_pl": "inactive TALON UGVs Liberty Edition" },
     "description": "This bot has had tubes welded above the original guns that allow it to shoot fireworks in order to blind and stun attackers.  With fireworks being harder to come by then the ammo for the original weapons, the best option would be to convert it back to it's original guns.  It should be easy enough to give it back the use of the original M16A4.",
     "weight": "40750 g",
@@ -331,7 +345,8 @@
   },
   {
     "id": "bot_nursebot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive nurse bot" },
     "description": "An inactive nurse bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.",
     "volume": "62500 ml",
@@ -354,7 +369,8 @@
   },
   {
     "id": "bot_grocerybot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive grocery bot" },
     "description": "An inactive grocery bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the grocery bot will then identify you as a friendly, roam around or follow you.",
     "volume": "62500 ml",
@@ -377,7 +393,8 @@
   },
   {
     "id": "bot_grocerybot_busted",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive busted grocery bot" },
     "description": "An inactive grocery bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the grocery bot will then identify you as a friendly, roam around or follow you.",
     "volume": "62500 ml",
@@ -400,7 +417,8 @@
   },
   {
     "id": "bot_broken_cyborg",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive broken cyborg" },
     "description": "A deactivated broken cyborg, the last shreds of its humanity still rotting away.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the cyborg will then follow you and attack enemies.  You monster.",
     "weight": "81500 g",
@@ -425,7 +443,8 @@
   },
   {
     "id": "bot_prototype_cyborg",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive prototype cyborg" },
     "description": "A deactivated prototype cyborg, glimpses of humanity can still be seen in its empty eyes.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the cyborg will then follow you and attack enemies.  You monster.",
     "weight": "81500 g",
@@ -450,7 +469,8 @@
   },
   {
     "id": "bot_hazmatbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive cleaner bot" },
     "description": "An inactive cleaner bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the cleaner bot will respond to future commands.",
     "weight": "81500 g",
@@ -475,7 +495,8 @@
   {
     "id": "bot_molebot",
     "looks_like": "broken_molebot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive demining bot" },
     "description": "An inactive demining robot.  Using this item involves placing it on the ground and turning it on.",
     "weight": "81500 g",
@@ -500,7 +521,8 @@
   {
     "id": "bot_skitterbot",
     "looks_like": "broken_skitterbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive skitterbot" },
     "description": "An inactive skitterbot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will race towards enemies and shock them.",
     "//": "Volume and weight based on Boston Dynamics Spot.",
@@ -526,7 +548,8 @@
   {
     "id": "bot_robofac_skittergun",
     "looks_like": "broken_skitterbot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive exterminatron" },
     "description": "An inactive Hub 01 exterminatron.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and reloaded successfully, the robot will track you while providing fire-support.",
     "//": "Volume and weight based on Boston Dynamics Spot.",
@@ -552,7 +575,8 @@
   {
     "id": "bot_science_bot",
     "looks_like": "broken_science_bot",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive lab defense bot" },
     "description": "An inactive experimental robot plundered from a science lab.  It resembles a human-sized spider and was designed to deploy manhacks.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will race towards enemies and deploy a variety of experimental devices.",
     "weight": "100 kg",
@@ -576,7 +600,8 @@
   },
   {
     "id": "bot_turret_searchlight",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive milspec searchlight" },
     "description": "An inactive military-grade automated searchlight.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the searchlight will then identify you as an ally, survey the area, and illuminate approaching hostiles.  Seems to have an unhealthy fascination with you.",
     "weight": "120 kg",
@@ -600,7 +625,8 @@
   },
   {
     "id": "bot_dispatch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive dispatch", "str_pl": "inactive dispatches" },
     "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
@@ -623,7 +649,8 @@
   },
   {
     "id": "bot_dispatch_military",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive military dispatch", "str_pl": "inactive military dispatches" },
     "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
@@ -646,7 +673,8 @@
   },
   {
     "id": "bot_turret_speaker",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive loudspeaker" },
     "description": "An inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the loudspeaker will continuously shout pre-recorded messages.",
     "weight": "100 kg",
@@ -669,7 +697,8 @@
   },
   {
     "id": "bot_tazer_hack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive taser hack" },
     "description": "An inactive taser hack.  Manhacks are fist-sized robots that fly through the air.  This one has a taser and attacks by flying at its target and delivering an electric shock.  Use this item to reprogram and release the taser hack.  Electronics and computer skills determine if the targeting matrix is reprogrammed successfully.",
     "weight": "1600 g",
@@ -695,7 +724,8 @@
   },
   {
     "id": "bot_yrax_trifacet",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive trifacet" },
     "description": "A featureless quartz pyramid that, although obviously artificial, shows no real indication of ever having been an advanced robot.  Perhaps you could try reactivating it?",
     "weight": "30 kg",
@@ -709,7 +739,8 @@
     "flags": [ "SINGLE_USE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "bot_yrax_triakis",
     "symbol": ",",
     "color": "light_gray",
@@ -725,7 +756,8 @@
   },
   {
     "id": "bot_golden_monolith",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "I",
     "name": { "str": "inactive golden monolith" },
     "description": "A large golden monolith.  Carefully carved asymmetric edges betray its artificial origin.",
@@ -745,7 +777,8 @@
   },
   {
     "id": "bot_yrax_delta",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": ",",
     "name": { "str": "inactive delta" },
     "description": "A small piece of inscrutable alloy shaped like an arrow's broadhead.  It looks like a robot boomerang.",
@@ -766,7 +799,8 @@
   },
   {
     "id": "bot_lab_security_drone_GR",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive security drone" },
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
@@ -792,7 +826,8 @@
   },
   {
     "id": "bot_lab_security_drone_GM",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive security drone" },
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
@@ -818,7 +853,8 @@
   },
   {
     "id": "bot_lab_security_drone_YM",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive security drone" },
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
@@ -844,7 +880,8 @@
   },
   {
     "id": "bot_lab_security_drone_BM",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive security drone" },
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
@@ -870,7 +907,8 @@
   },
   {
     "id": "bot_lab_security_drone_BM2",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive security drone" },
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
@@ -896,7 +934,8 @@
   },
   {
     "id": "bot_lab_security_drone_BS",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive security drone" },
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
@@ -923,7 +962,8 @@
   {
     "id": "bot_robofac_camspy",
     "looks_like": "broken_robofac_camspy",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "inactive camspy", "str_pl": "inactive camspies" },
     "description": "An inactive camspy.  Using this item involves turning it on and launching it.  If reprogrammed and rewired successfully, the camspy will then keep watch for intruders.",
     "weight": "40750 g",

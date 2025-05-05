@@ -2,7 +2,8 @@
   {
     "id": "pistol_magnum_automag",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "hand cannon" },
     "description": "This large pistol is almost as heavy as a small carbine, and just about as powerful too.  Chambered in hard hitting magnum calibers, it is suitable for hunting medium game, humans, or offsetting any of one's perceived deficiencies.  Though traditionally such magnums are revolvers, this one is a magazine fed semi-automatic.",
@@ -35,12 +36,12 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
     ],
     "pocket_data": [
       {
@@ -57,7 +58,8 @@
   {
     "id": "pistol_magnum_levergun",
     "copy-from": "henry_big_boy",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "magnum levergun" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammunition.",
@@ -67,7 +69,8 @@
   {
     "id": "pistol_magnum_pipe_levergun",
     "copy-from": "henry_big_boy",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "handmade magnum carbine" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commercial magnum pistol magazines, and locks with a rudimentary lever-action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
@@ -105,7 +108,8 @@
   {
     "id": "pistol_magnum_pipe",
     "copy-from": "ashot",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "pipe magnum" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
@@ -117,7 +121,8 @@
   {
     "id": "pistol_magnum_revolver",
     "copy-from": "sw629",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "hunting magnum" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "Early handgun hunters helped develop this revolver's magnum ammunition from standard calibers, which needed heavier revolvers to safely fire it.  These revolvers' cylinders can thus chamber both magnum and standard pistol ammunition.  You could take medium to large game with this hefty piece.",

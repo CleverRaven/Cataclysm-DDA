@@ -1631,6 +1631,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_floor_burnt",
+    "name": "burnt floor",
+    "description": "Whatever this floor used to be made of, it's little more than charred remains now.",
+    "symbol": ".",
+    "looks_like": "t_dirtfloor",
+    "color": "black",
+    "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "COLLAPSES", "INDOORS" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "//COMMENT": "I don't know, charcoal breaking sounds? Onomatopoeia is outside my skillset!",
+      "sound": "crunch!",
+      "sound_fail": "twang!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_null"
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_floor_paper",
     "name": "paper floor",
     "description": "A floor made of ambiguous pulpy matter, covered in sticky wasp saliva.  It has, or at least had, a roof of similar a material.",

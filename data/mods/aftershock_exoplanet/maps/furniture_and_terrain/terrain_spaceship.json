@@ -145,6 +145,7 @@
     "description": "This patch of hull has more holes in it than an ancient terran cheese.  It may provide some cover or it might get shot through.",
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
+    "looks_like": "f_plane_wreckage",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "PERMEABLE", "MINEABLE" ],
     "symbol": "#",
     "color": "white",
@@ -167,6 +168,7 @@
     "name": "gunship hull",
     "description": "A closed hatch in the wall of a spaceship.",
     "roof": "t_metal_flat_roof",
+    "looks_like": "t_afs_space_ship_hatch_c",
     "copy-from": "t_wall_metal",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "symbol": "#",
@@ -196,6 +198,7 @@
     "symbol": "_",
     "color": "white",
     "close": "t_afs_gun_ship_hull_hatch_c",
+    "looks_like": "t_afs_space_ship_hatch_o",
     "bash": {
       "str_min": 150,
       "str_max": 500,

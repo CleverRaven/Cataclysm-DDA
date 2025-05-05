@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fungus_mutated",
     "name": { "str": "mutant fungus", "str_pl": "mutant fungi" },
     "weight": "119 g",

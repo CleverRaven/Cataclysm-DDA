@@ -43,7 +43,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE_2",
+            "id": "EOC_PERFECTED_MOTION_WATER_RUN_CONTINUANCE",
             "condition": {
               "and": [
                 { "u_is_on_terrain_with_flag": "SWIMMABLE" },
@@ -58,7 +58,7 @@
             },
             "effect": [
               { "u_message": "You are moving too slowly and fall into the water.", "type": "bad" },
-              { "u_lose_effect": "effect_biokin_perfected_motion" }
+              { "run_eocs": "EOC_BIOKIN_REMOVE_PERFECTED_MOTION" }
             ]
           }
         ]

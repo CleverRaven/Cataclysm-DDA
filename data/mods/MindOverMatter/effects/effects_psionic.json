@@ -1457,6 +1457,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_paralysis",
+    "name": [ "Neural Spasms" ],
+    "desc": [ "Your muscles are twitching and won't obey you!" ],
+    "remove_message": "Your spasms stop.",
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "CANNOT_MOVE", "CANNOT_ATTACK", "NO_PSIONICS", "NO_SPELLCASTING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_electrokin_reduce_pain",
     "name": [ "Pain Suppression" ],
     "desc": [ "When it hurts, it won't hurt as much." ],

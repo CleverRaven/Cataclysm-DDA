@@ -98,6 +98,7 @@ class map;
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
+struct pathfinding_target;
 template<typename T>
 struct weighted_int_list;
 struct field_proc_data;
@@ -715,15 +716,23 @@ class map
          * Calculate the best path using A*
          *
          * @param f The source location from which to path.
-         * @param t The destination to which to path.
+         * @param target The destination to which to path.
          * @param settings Structure describing pathfinding parameters.
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
-        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const pathfinding_target &target,
                                             const pathfinding_settings &settings,
         const std::function<bool( const tripoint_bub_ms & )> &avoid = []( const tripoint_bub_ms & ) {
             return false;
         } ) const;
+
+        /**
+         * Calculate the best path using A*
+         *
+         * @param who The creature to find a path for.
+         * @param target The destination to which to path.
+         */
+        std::vector<tripoint_bub_ms> route( const Creature &who, const pathfinding_target &target ) const;
 
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.

@@ -289,7 +289,7 @@ void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
     scent_factory.load( jo, src );
 }
 
-void scent_type::load( const JsonObject &jo, const std::string_view )
+void scent_type::load( const JsonObject &jo, std::string_view )
 {
     assign( jo, "id", id );
     assign( jo, "receptive_species", receptive_species );

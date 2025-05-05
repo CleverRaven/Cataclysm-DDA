@@ -1,7 +1,8 @@
 [
   {
     "id": "helmet_dino",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dinosaur skull helmet" },
     "description": "The top part of a dinosaur skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols.",
     "weight": "1 kg",
@@ -17,7 +18,8 @@
   },
   {
     "id": "helmet_ceratopsian",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "spiky dinosaur skull helmet" },
     "description": "The top part of a spiky dinosaur skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols.",
     "weight": "1 kg",
@@ -34,7 +36,8 @@
   },
   {
     "id": "helmet_dino_pred",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dinosaur predator skull helmet" },
     "description": "The top part of a dinosaur skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols.",
     "weight": "1 kg",

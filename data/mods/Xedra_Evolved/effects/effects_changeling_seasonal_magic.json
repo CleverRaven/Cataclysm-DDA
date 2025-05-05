@@ -315,7 +315,7 @@
                 "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.2) + (u_skill('deduction') * 0.5)), 25)"
               ]
             },
-            "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
+            "descriptions": [ { "id": "wizard_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
           }
         ]
       }

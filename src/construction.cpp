@@ -20,6 +20,7 @@
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -590,7 +591,8 @@ construction_id construction_menu( const bool blueprint )
                     continue;
                 }
                 // Update the cached availability of components and tools in the requirement object
-                current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component );
+                current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component, 1,
+                        craft_flags::none, false );
 
                 std::vector<std::string> current_buffer;
 
@@ -1136,7 +1138,8 @@ bool player_can_build( Character &you, const read_only_visitable &inv, const con
     }
 
     // check for construction spot can be skipped by using can_construct_skip
-    return con.requirements->can_make_with_inventory( inv, is_crafting_component ) &&
+    return con.requirements->can_make_with_inventory( inv, is_crafting_component, 1, craft_flags::none,
+            false ) &&
            ( can_construct_skip || can_construct( con ) );
 }
 

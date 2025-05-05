@@ -56,7 +56,7 @@
         "w": "t_wall_prefab_metal",
         "F": "t_wall_clearcrete_alarm"
       },
-      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench", "B": "f_table" },
+      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench", "B": "f_metal_table" },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
@@ -131,7 +131,15 @@
         "w": "t_wall_log",
         "F": "t_fence_barbed"
       },
-      "furniture": { "&": "f_trashcan", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "a": "f_trashcan", "b": "f_bench", "B": "f_table" },
+      "furniture": {
+        "&": "f_trashcan",
+        "C": "f_chair",
+        "D": "f_desk",
+        "H": "f_sofa",
+        "a": "f_trashcan",
+        "b": "f_bench",
+        "B": "f_metal_table"
+      },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },

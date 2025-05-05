@@ -21,11 +21,6 @@
   },
   {
     "type": "recipe",
-    "result": "u_shotgun_mod",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "llink",
     "obsolete": true
   },
