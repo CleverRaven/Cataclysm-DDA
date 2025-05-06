@@ -1,4 +1,5 @@
 // Monster movement code; essentially, the AI
+#include "coords_fwd.h"
 #include "monster.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -1531,58 +1532,67 @@ tripoint_bub_ms monster::scent_move()
     return random_entry( smoves, next );
 }
 
-int monster::calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+int monster::calc_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                             bool ignore_fields ) const
 {
-    int movecost = 0;
-
     map &here = get_map();
-    const int source_cost = here.move_cost( f, nullptr, ignore_fields );
-    const int dest_cost = here.move_cost( t, nullptr, ignore_fields );
-    // Digging and flying monsters ignore terrain cost
-    if( flies() || ( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, t ) ) ) {
-        movecost = 100;
-        // Swimming monsters move super fast in water
-    } else if( swims() ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, f ) ) {
-            movecost += 25;
-        } else {
-            movecost += 50 * source_cost;
+    int modifier = 0;
+
+    // from tile should never be digable
+    const bool digs_from = digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, from );
+    const bool digs_to = digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to );
+    const bool swims_from = swims() && here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, from );
+    const bool swims_to = swims() && here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to );
+    const bool ignore_furn_from = climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, from );
+    const bool ignore_furn_to = climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to );
+
+    const vehicle *ignored_vehicle_from = climbs() &&
+                                          here.veh_at( to ) ? &here.veh_at( from )->vehicle() : nullptr;
+    const vehicle *ignored_vehicle_to = climbs() &&
+                                        here.veh_at( to ) ? &here.veh_at( to )->vehicle() : nullptr;
+
+    const bool via_ramp = false;
+
+    const bool ignore_ter_from = flies() || swims_from || digs_from;
+    const bool ignore_ter_to = flies() || swims_to || digs_to ;
+
+    for( const tripoint_bub_ms where : {
+             from, to
+         } ) {
+        if( flies() ) {
+            modifier += 2;          // default 100 movecost
+            continue;
+        } else if( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, where ) ) {
+            modifier += get_dig_mod();
+        } else if( climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, where ) ) {
+            modifier += get_climb_mod();   // basic climbing cost. should probably be handeled somewhere else?
+        } else if( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, where ) ) {
+            modifier += get_swim_mod();
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, t ) ) {
-            movecost += 25;
-        } else {
-            movecost += 50 * dest_cost;
-        }
-    } else if( can_submerge() ) {
-        // No-breathe monsters have to walk underwater slowly
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, f ) ) {
-            movecost += 250;
-        } else {
-            movecost += 50 * source_cost;
-        }
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, t ) ) {
-            movecost += 250;
-        } else {
-            movecost += 50 * dest_cost;
-        }
-        movecost /= 2;
-    } else if( climbs() ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, f ) ) {
-            movecost += 150;
-        } else {
-            movecost += 50 * source_cost;
-        }
-        if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, t ) ) {
-            movecost += 150;
-        } else {
-            movecost += 50 * dest_cost;
-        }
-        movecost /= 2;
-    } else {
-        movecost = ( ( 50 * source_cost ) + ( 50 * dest_cost ) ) / 2.0;
     }
 
+    // swimmers and diggers ignore terraincost. TODO: map::move_cost returns 0 if its invalid. check?
+    const int cost1 = ignore_ter_from ? 0 : here.move_cost( from, ignored_vehicle_from,
+                      ignore_fields, ignore_furn_from );
+    const int cost2 = ignore_ter_to ? 0 : here.move_cost( to, ignored_vehicle_to,
+                      ignore_fields, ignore_furn_to );
+
+    int movecost = std::max( cost1 + cost2 + modifier, 1 ) * 25;
+
+    if( flies() || from.z() == to.z() ) {
+        add_msg_debug( debugmode::DF_MONMOVE, "%s movecost: %i", name(), movecost );
+        return movecost;
+    }
+
+    // Inter-z-level movement by foot (not flying)
+    if( !here.valid_move( from, to, false, false, via_ramp ) ) {
+        return 0;
+    }
+
+    // TODO: Penalize for using stairs
+    // result should not return 0 as it would be considered failed
+
+    add_msg_debug( debugmode::DF_MONMOVE, "%s movecost: %i", name(), movecost );
     return movecost;
 }
 

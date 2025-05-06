@@ -1420,7 +1420,25 @@ bool monster::can_dig() const
 
 bool monster::digs() const
 {
-    return has_flag( mon_flag_DIGS );
+    return has_flag( mon_flag_DIGS ) || type->move_skills.dig.has_value() ;
+}
+
+int monster::get_dig_mod() const
+{
+    const int max_penalty = 10;            // * 50 means max movecost of 500 with 0 skill
+    if( type->move_skills.dig.has_value() ) {
+        int percentile = type->move_skills.dig.value() * ( max_penalty / 10 );
+        return max_penalty - percentile;
+    }
+    if( type->move_skills.dig.has_value() ) {
+        return type->move_skills.dig.value();
+    } else if( has_flag( mon_flag_DIGS ) ) {
+        // only for backwards compatibility. In future move away from flags
+        return 2;
+    }
+
+    // cannot dig
+    return -1;
 }
 
 bool monster::flies() const
@@ -1430,13 +1448,47 @@ bool monster::flies() const
 
 bool monster::climbs() const
 {
-    return has_flag( mon_flag_CLIMBS );
+    return has_flag( mon_flag_CLIMBS ) || type->move_skills.climb.has_value();
+}
+
+int monster::get_climb_mod() const
+{
+    const int max_penalty = 10;            // * 50 means max movecost of 500 with 0 skill
+    if( type->move_skills.climb.has_value() ) {
+        int percentile = type->move_skills.climb.value() * ( max_penalty / 10 );
+        return max_penalty - percentile;
+    } else if( has_flag( mon_flag_CLIMBS ) ) {
+        // only for backwards compatibility. In future move away from flags
+        // was: 150 / 50 = 3
+        return 3;
+    }
+
+    // cannot climb
+    return -1;
 }
 
 bool monster::swims() const
 {
-    return has_flag( mon_flag_SWIMS );
+    return has_flag( mon_flag_SWIMS ) || type->move_skills.swim.has_value();
 }
+
+int monster::get_swim_mod() const
+{
+    const int max_penalty = 10;            // * 50 means max movecost of 500 with 0 skill
+    if( type->move_skills.swim.has_value() ) {
+        int percentile = type->move_skills.swim.value() * ( max_penalty / 10 );
+        return max_penalty - percentile;
+
+    } else if( has_flag( mon_flag_SWIMS ) ) {
+        // only for backwards compatibility. In future move away from flags
+        // vanilla fish have fastest possible swimspeed
+        return 0;
+    }
+
+    // cannot swim
+    return -1;
+}
+
 
 bool monster::can_act() const
 {

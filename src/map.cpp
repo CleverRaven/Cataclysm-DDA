@@ -2398,7 +2398,7 @@ bool map::is_open_air( const tripoint_bub_ms &p ) const
 // Move cost: 3D
 
 int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
-                    const bool ignore_fields ) const
+                    const bool ignore_fields, const bool ignore_furn ) const
 {
     // To save all of the bound checks and submaps fetching, we extract it
     // here instead of using furn(), field_at() and ter().
@@ -2420,7 +2420,8 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( furniture, terrain, ( !ignore_fields ? field : nofield ), veh, part );
+    return move_cost_internal( ( ignore_furn ? furn_t() : furniture ), terrain,
+                               ( !ignore_fields ? field : nofield ), veh, part );
 }
 
 bool map::impassable( const tripoint_bub_ms &p ) const
