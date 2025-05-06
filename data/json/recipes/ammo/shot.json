@@ -625,7 +625,7 @@
     "skills_required": [ "shotgun", 1 ],
     "time": "1 m",
     "batch_time_factors": [ 60, 5 ],
-    "book_learn": [[ "manual_shotgun", 3 ] ],
+    "book_learn": [ [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "autolearn":true,
     "tools": [ [ [ "surface_heat", 1, "LIST" ]],      [ [ "candle" , 5 ] ]   ],
