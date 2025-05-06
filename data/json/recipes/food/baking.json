@@ -124,7 +124,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
-    "difficulty": 7,
+    "difficulty": 9,
     "time": "2 hours",
     "batch_time_factors": [ 40, 1 ],
     "charges": 10,
