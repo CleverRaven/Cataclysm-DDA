@@ -1,0 +1,105 @@
+[
+  {
+    "id": "xe_jotunn_chassis",
+    "name": "Heavy Combat Chassis",
+    "weight": "100 kg",
+    "price": "15000 USD",
+    "description": "A pristine chassis for Exodii combat units collaquially referred to on this Earth as Jotunn.  A requirement for many heavy weapons that cannot be mounted on a standard bionic chassis or unaugmented body.  Impossible to salvage from a corpse post-installation, these units are manufactured sparingly by most Exodii nodes.  Installing this CBM will drastically alter the chakras, meridians, mystical pathways, soul, whatever thing inside of a person that allows them to use magick.  It will remove your magickal abilities or if you are irreversibly supernatural, fail to install.",
+    "canceled_mutations": [
+      "VAMPIRE",
+      "VAMPIRE2",
+      "VAMPIRE3",
+      "EATER",
+      "DREAMER",
+      "INVENTOR",
+      "DREAMSMITH",
+      "JEKYLL",
+      "STRONGBACK",
+      "ROBUST",
+      "BADBACK",
+      "REGEN",
+      "WINGS_BIRD",
+      "WINGS_INSECT",
+      "LARGE",
+      "LARGE_OK",
+      "HUGE_OK",
+      "HUGE",
+      "WINGS_BAT",
+      "WINGS_BUTTERFLY",
+      "ACIDBLOOD"
+    ],
+    "mutation_conflicts": [
+      "VAMPIRE4",
+      "VAMPIRE5",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "NOHEAL",
+      "SLOWHEALER3",
+      "FLIMSY3",
+      "FLIMSY2",
+      "REGEN_LIZ",
+      "CHITIN",
+      "CHITIN2",
+      "CHITIN3",
+      "CHITIN_FUR",
+      "CHITIN_FUR2",
+      "CHITIN_FUR3",
+      "CHITIN_MOLTED",
+      "CHITIN_MOLTED2",
+      "CHITIN_MOLTED3",
+      "CRUSTACEAN_CARAPACE",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "GASTROPOD_FOOT",
+      "AMORPHOUS",
+      "SMALL",
+      "SMALL2",
+      "SMALL_OK",
+      "SHELL",
+      "SHELL2",
+      "SHELL3"
+    ],
+    "cant_remove_reason": "This CBM has replaced so much of your body that you couldn't survive its removal.",
+    "enchantments": [ "ENCH_COMBAT_CHASSIS" ]
+  },
+  {
+    "id": "xe_micro_missiles",
+    "type": "bionic",
+    "name": { "str": "Micro Missile Launcher" },
+    "description": "A chassis mounted micro-missile rack provides you with four shots before it must be reloaded.  It requires a combat chassis to mount but you can choose to stack as many as will fit.",
+    "occupied_bodyparts": [ [ "combat_chassis", 8 ] ],
+    "dupes_allowed": true,
+    "fake_weapon": "xe_micro_missiles",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "act_cost": "15 J"
+  },
+  {
+    "id": "xe_energetic_shell",
+    "type": "bionic",
+    "name": { "str": "Vafþrúðnir's Shell" },
+    "description": "A design pulled from deep in a nether labyrinth, Vafþrúðnir supposedly traded his sanity for this design to keep his people safe after his passing.\n\nActivating the shield will create a shell crafted of riddles from languages across the dimensions capable of negating a modest amount of damage.",
+    "occupied_bodyparts": [ [ "combat_chassis", 15 ] ],
+    "active_flags": [ "BIO_SHIELD_ACTIVE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "1 kJ",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [
+      {
+        "id": "bio_vafþrúðnir_shell_activate",
+        "effect": {
+          "run_eocs": "EOC_xe_bio_start_shell",
+          "variables": {
+            "shield_max_hp": "120",
+            "shield_regen": "1",
+            "shield_regen_rate": "2",
+            "success_message": "A shell of words materializes between you and the world.",
+            "failure_message": "What do you wish to have but lack?  What could protect you now but won't?"
+          }
+        }
+      }
+    ],
+    "processed_eocs": [ "EOC_bio_update_ui" ],
+    "deactivated_eocs": [ "EOC_bio_stop_shell" ]
+  }
+]
+
