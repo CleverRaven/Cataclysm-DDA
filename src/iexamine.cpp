@@ -3038,6 +3038,8 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
                     if( loc ) {
                         you.may_activity_occupancy_after_end_items_loc.push_back( loc );
                     }
+                } else {
+                    here.add_item_or_charges( you.pos_bub(), i );
                 }
             }
             here.furn_set( examp, furn_str_id( fp->base ) );
