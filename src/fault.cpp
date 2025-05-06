@@ -173,6 +173,11 @@ double fault::price_mod() const
     return price_modifier;
 }
 
+int fault::degradation_mod() const
+{
+    return degradation_mod_;
+}
+
 std::vector<std::tuple<int, float, damage_type_id>> fault::melee_damage_mod() const
 {
     return melee_damage_mod_;
@@ -220,6 +225,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "block_faults", block_faults );
     optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );
+    optional( jo, was_loaded, "degradation_mod", degradation_mod_, 0 );
     optional( jo, was_loaded, "affected_by_degradation", affected_by_degradation_, false );
 
     if( jo.has_array( "melee_damage_mod" ) ) {

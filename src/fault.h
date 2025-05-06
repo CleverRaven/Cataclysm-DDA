@@ -81,6 +81,8 @@ class fault
         std::string item_suffix() const;
         std::string message() const;
         double price_mod() const;
+        // having this faults adds this much of temporary (will be removed when fault is fixed) degradation
+        int degradation_mod() const;
         // int is additive (default 0), float is multiplier (default 1)
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod() const;
         // int is additive (default 0), float is multiplier (default 1)
@@ -107,6 +109,7 @@ class fault
         std::set<std::string> flags;
         std::set<fault_id> block_faults;
         double price_modifier = 1.0;
+        int degradation_mod_ = 0;
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod_;
         std::vector<std::tuple<int, float, damage_type_id>> armor_mod_;
         // todo add tool_quality_mod_; axe with no handle won't axe

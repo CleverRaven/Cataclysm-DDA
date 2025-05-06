@@ -15,6 +15,7 @@
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_1" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 12, "cut": 1 }
   },
   {
@@ -34,6 +35,7 @@
     "flags": [ "BELT_CLIP", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_SWORDS" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "melee_damage": { "bash": 16, "cut": 2 }
   },
   {
@@ -52,6 +54,7 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 12, "cut": 4 }
   },
   {
@@ -71,6 +74,7 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 6, "cut": 18 }
   },
   {
@@ -91,6 +95,7 @@
     "weapon_category": [ "GREAT_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
+    "faults": [ { "fault_group": "staff_long" } ],
     "melee_damage": { "bash": 12, "cut": 20 }
   },
   {
@@ -124,6 +129,7 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
     "techniques": [ "WBLOCK_2" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 22 }
   },
   {
@@ -157,6 +163,7 @@
     "weapon_category": [ "GREAT_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -20 ] ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 7 } ],
     "melee_damage": { "bash": 8, "cut": 32 }
   },
   {
@@ -177,6 +184,7 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
     "techniques": [ "WBLOCK_2" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 7, "cut": 23 }
   },
   {
@@ -199,6 +207,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_SWORDS" ],
     "category": "weapons",
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 7 } ],
     "melee_damage": { "bash": 20, "cut": 30 }
   },
   {
@@ -221,6 +230,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "category": "weapons",
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "stab": 22 }
   },
   {
@@ -243,6 +253,7 @@
     "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "variant_type": "generic",
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 2 } ],
     "variants": [
       {
         "id": "switchblade_balisong",
@@ -276,6 +287,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 2 } ],
     "melee_damage": { "stab": 12 }
   },
   {
@@ -297,6 +309,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ], [ "SCREW", 1 ], [ "PRYING_NAIL", 1 ], [ "LEATHER_AWL", 2 ] ],
     "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 12 }
   },
   {
@@ -329,6 +342,7 @@
       "NO_SALVAGE",
       "CONDUCTIVE"
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 22 },
     "location": "bayonet lug",
@@ -395,6 +409,7 @@
       "NO_SALVAGE",
       "CONDUCTIVE"
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 20 },
     "location": "bayonet lug",
@@ -448,6 +463,7 @@
       "NO_SALVAGE",
       "CONDUCTIVE"
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 21 },
     "location": "bayonet lug",
@@ -493,6 +509,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "cut": 12 }
   },
   {
@@ -516,6 +533,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 27 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 21 }
   },
   {
@@ -572,6 +590,7 @@
         "description": "A hidden handle compartment.  Unscrew the compass to access."
       }
     ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 14 }
   },
   {
@@ -628,6 +647,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 19 }
   },
   {
@@ -649,6 +669,7 @@
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "LEATHER_AWL", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "stab": 6 },
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "SHIVS" ]
   },
   {
@@ -696,6 +717,7 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 18 }
   },
   {
@@ -752,6 +774,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 3 } ],
     "melee_damage": { "stab": 10 }
   },
   {
@@ -773,6 +796,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general" } ],
     "melee_damage": { "stab": 12 }
   },
   {
@@ -794,6 +818,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 2 } ],
     "melee_damage": { "stab": 17 }
   },
   {
@@ -816,6 +841,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 4 } ],
     "melee_damage": { "cut": 16 }
   },
   {
@@ -840,6 +866,7 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 4 } ],
     "melee_damage": { "cut": 21 }
   },
   {
@@ -905,6 +932,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "cut": 11 }
   },
   {
@@ -952,6 +980,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 27 }
   },
   {
@@ -1020,6 +1049,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "stab": 19 }
   },
   {
@@ -1077,6 +1107,7 @@
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "cut": 20 }
   },
   {
@@ -1158,6 +1189,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 29 }
   },
   {
@@ -1265,6 +1297,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 30 }
   },
   {
@@ -1363,6 +1396,7 @@
     "weapon_category": [ "LONG_THRUSTING_SWORDS" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 11, "stab": 36 }
   },
   {
@@ -1462,6 +1496,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "LONG_SWORDS", "LONG_THRUSTING_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 9, "cut": 36 }
   },
   {
@@ -1564,6 +1599,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 30 }
   },
   {
@@ -1641,6 +1677,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
@@ -1663,6 +1700,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 9, "cut": 27 }
   },
   {
@@ -1685,6 +1723,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 8, "cut": 24 }
   },
   {
@@ -1708,6 +1747,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 21 }
   },
   {
@@ -1732,6 +1772,7 @@
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "PUMP_RAIL_COMPATIBLE", "SHEATH_SWORD" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 7, "stab": 21 },
     "location": "bayonet lug",
@@ -1776,6 +1817,7 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 2, "stab": 18 }
   },
   {
@@ -1845,6 +1887,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 2, "cut": 32 }
   },
   {
@@ -1947,6 +1990,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
     "weapon_category": [ "LONG_THRUSTING_SWORDS", "GREAT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 10, "cut": 36 }
   },
   {
@@ -2023,6 +2067,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 3 } ],
     "melee_damage": { "stab": 10 }
   },
   {
@@ -2045,6 +2090,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 4 } ],
     "melee_damage": { "stab": 16 }
   },
   {
@@ -2103,6 +2149,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
     "weapon_category": [ "GREAT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 46 }
   },
   {
@@ -2177,6 +2224,7 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 1, "stab": 2 }
   },
   {
@@ -2227,6 +2275,7 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 3, "stab": 7 }
   },
   {
@@ -2279,6 +2328,7 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
@@ -2344,6 +2394,7 @@
     "flags": [ "CRUTCHES" ],
     "weapon_category": [ "BATONS" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "faults": [ { "fault_group": "staff_short" } ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -2364,6 +2415,7 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 2, "stab": 25 }
   },
   {
@@ -2410,6 +2462,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
@@ -2512,6 +2565,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 3, "stab": 29 }
   },
   {
@@ -2604,6 +2658,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "LONG_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 33 }
   },
   {
@@ -2699,6 +2754,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 6, "cut": 30 }
   },
   {
@@ -2745,6 +2801,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 27 }
   },
   {
@@ -2847,6 +2904,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
     "weapon_category": [ "GREAT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 14, "cut": 35 }
   },
   {
@@ -2926,6 +2984,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -14 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 26 }
   },
   {
@@ -2981,6 +3040,7 @@
     "longest_side": "180 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
+    "faults": [ { "fault_group": "handle_long" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 4, "cut": 26 }
   },
   {
@@ -3178,6 +3238,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ],
+    "faults": [ { "fault_group": "blade_general" } ],
     "melee_damage": { "stab": 14 }
   },
   {
@@ -3196,6 +3257,7 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "techniques": [ "WBLOCK_1" ],
     "melee_damage": { "bash": 3, "stab": 14 },
+    "faults": [ { "fault_group": "blade_general" } ],
     "weapon_category": [ "SHIVS" ]
   },
   {
@@ -3214,6 +3276,7 @@
     "price": "200 USD",
     "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
+    "faults": [ { "fault_group": "blade_general" } ],
     "melee_damage": { "bash": 2, "cut": 15 }
   },
   {
@@ -3282,6 +3345,7 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "faults": [ { "fault_group": "blade_general" } ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 5, "cut": 20 },
     "location": "bayonet lug",
@@ -3341,6 +3405,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 34 }
   },
   {
@@ -3411,6 +3476,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 5, "cut": 41 }
   },
   {

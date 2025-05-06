@@ -893,7 +893,11 @@ int item::damage() const
 
 int item::degradation() const
 {
-    return degradation_;
+    int ret = degradation_;
+    for( fault_id f : faults ) {
+        ret += f.obj().degradation_mod();
+    }
+    return ret;
 }
 
 void item::rand_degradation()
@@ -2600,12 +2604,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             std::string faults;
             for( const weighted_object<int, fault_id> &fault : type->faults ) {
                 const int weight_percent = static_cast<float>( fault.weight ) / type->faults.get_weight() * 100;
-                if( has_fault( fault.obj ) ) {
-                    faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
-                                        weight_percent ), c_yellow );
-                } else {
-                    faults += fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight, weight_percent );
-                }
+                faults += colorize( fault.obj.str() + string_format( " (%d, %d%%)\n", fault.weight,
+                                    weight_percent ), has_fault( fault.obj ) ? c_yellow : c_white );
             }
             info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
         }
@@ -7846,9 +7846,8 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
 
     }
 
-    const fault_id f = *faults_by_type.pick();
-    if( f ) {
-        set_fault( f, force, message );
+    if( !faults_by_type.empty() ) {
+        set_fault( *faults_by_type.pick(), force, message );
     }
 
 }
@@ -9426,6 +9425,9 @@ bool item::mod_damage( int qty )
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
+
+        // TODO: think about better way to telling the game what faults should be applied when
+        set_random_fault_of_type( "mechanical_damage" );
 
         return destroy;
     }
