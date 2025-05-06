@@ -56,7 +56,7 @@
     "name": { "str_sp": "split hop rhizomes" },
     "description": "A split hop rhizome root, needs to be planted to grow into a proper hop rhizome",
     "weight": "19 g",
-    "price": "20 cent",
+    "price": "10 cent",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "volume": "25 ml",
     "plant_name": "split hops",
