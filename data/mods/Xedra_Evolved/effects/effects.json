@@ -2320,6 +2320,42 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_astral_projection",
+    "name": [ "Etheric Form" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "PHASE_DISTANCE", "add": 2 }
+        ]
+      }
+    ],
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_FLYING",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WATERWALKING",
+      "NO_SPELLCASTING"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_protect_the_mind",
+    "name": [ "Ordered Mind" ],
+    "desc": [ "Your mind is set in order, walled and guarded." ],
+    "rating": "good",
+    "flags": [ "MAGICAL_MIND_PROTECTION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_skinchanged_penalties",
     "name": [ "Skinchanged Mind" ],
     "desc": [ "You're starting to get used to being an animal.  Even enjoy it." ],

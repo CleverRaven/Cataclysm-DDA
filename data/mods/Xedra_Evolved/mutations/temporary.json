@@ -493,5 +493,15 @@
       "SYLPH",
       "UNDINE"
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "ASTRAL_PROJECTION_APPEARANCE",
+    "name": { "str": "Astral Form", "//~": "NO_I18N" },
+    "description": { "str": "You're a disembodied mind so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "mon_hologram", "tile_category": "monster" }
   }
 ]
