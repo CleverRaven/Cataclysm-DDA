@@ -79,7 +79,7 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT", "FREE_TO_EXAMINE" ],
+    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT", "FREE_TO_EXAMINE", "EASY_DECONSTRUCT" ],
     "max_volume": "120 ml",
     "deconstruct": { "furn_set": "f_bulletin", "items": [ { "item": "paper", "count": 4 } ] },
     "bash": {
