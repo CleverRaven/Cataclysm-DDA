@@ -275,6 +275,6 @@
     "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 3 },
     "recoil": 1500,
     "effects": [ "COOKOFF" ],
-    "delete": { "effects": [ "NEVER_MISFIRES" ]}
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]
