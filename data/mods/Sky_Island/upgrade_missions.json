@@ -2088,7 +2088,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2610,7 +2610,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
@@ -2953,7 +2953,7 @@
       [ [ "hinge", 5 ] ],
       [ [ "nail", 20 ] ],
       [ [ "nuts_bolts", 15 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
       [ [ "cordage", 5, "LIST" ] ]
     ]
   },
