@@ -73,7 +73,7 @@
     "id": "f_bulletin_evac",
     "name": "evac shelter info board",
     "looks_like": "f_bulletin",
-    "description": "A wide wooden frame with a sheet of corkboard inside, which resides a bunch of tacked on papers giving emergency safety information that's basically useless at this point considering the situation, and among other things, a map pointing to the nearest refugee center.  You should take a closer look. ",
+    "description": "A wide wooden frame with a sheet of corkboard inside, which resides a bunch of tacked on papers giving emergency safety information that's basically useless at this point considering the situation, and among other things, a map pointing to the nearest refugee center.  You should take a closer look.",
     "symbol": "6",
     "color": "blue",
     "move_cost_mod": -1,
