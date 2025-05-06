@@ -627,12 +627,9 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "manual_shotgun", 3 ] ],
     "charges": 1,
-    "autolearn":true,
-    "tools": [ [ [ "surface_heat", 1, "LIST" ]],      [ [ "candle" , 5 ] ]   ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }],
-    "components": [
-       [ [ "shot_bird", 1 ] ]
- 
-      ]
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ], [ [ "candle", 5 ] ] ],
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "shot_bird", 1 ] ] ]
   }
 ]
