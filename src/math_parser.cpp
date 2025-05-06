@@ -19,6 +19,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "condition.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
@@ -31,6 +32,7 @@
 #include "math_parser_type.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "point.h"
 
 namespace
 {
@@ -116,6 +118,7 @@ struct parse_state {
     enum class expect : int {
         oper = 0,
         operand,
+        identifier, // like operand but without brackets
         lparen,  // operand alias used for functions
         rparen,
         lbracket,
@@ -128,6 +131,7 @@ struct parse_state {
             // *INDENT-OFF*
             case expect::oper: return "operator";
             case expect::operand: return "operand";
+            case expect::identifier: return "identifier";
             case expect::lparen: return "left parenthesis";
             case expect::rparen: return "right parenthesis";
             case expect::lbracket: return "left bracket";
@@ -142,6 +146,9 @@ struct parse_state {
     void validate( expect next ) const {
         if( ( previous == expect::lparen && next == expect::rparen ) ||
             ( previous == expect::operand && next == expect::rbracket && allows_prefix_unary ) ) {
+            return;
+        }
+        if( expected == expect::identifier && next == expect::operand ) {
             return;
         }
         expect const alias =
@@ -173,9 +180,15 @@ bool is_function( op_t const &op )
            std::holds_alternative<scoped_diag_proto>( op );
 }
 
+bool is_identifier( thingie const &thing )
+{
+    return std::holds_alternative<var>( thing.data );
+}
+
 bool is_assign_target( thingie const &thing )
 {
     return std::holds_alternative<var>( thing.data ) ||
+           std::holds_alternative<dot_oper>( thing.data ) ||
            ( std::holds_alternative<func_diag>( thing.data ) &&
              std::get<func_diag>( thing.data ).fa != nullptr );
 }
@@ -290,6 +303,50 @@ oper::oper( thingie l_, thingie r_, binary_op::f_t op_ ):
 double oper::eval( const_dialogue const &d ) const
 {
     return ( *op )( l->eval( d ), r->eval( d ) );
+}
+
+dot_oper::dot_oper( var_info v_, std::string_view m_ ) : v( std::move( v_ ) )
+{
+    if( m_ != "x" && m_ != "y" && m_ != "z" ) {
+        throw math::syntax_error( R"(Unknown tripoint member "%s" - valid options: x, y, z)", m_ );
+    }
+
+    member = m_.front();
+}
+
+double dot_oper::eval( const_dialogue const &d ) const
+{
+    tripoint_abs_ms const &tri = read_var_value( v, d ).tripoint( d );
+    switch( member ) {
+        case 'x':
+            return tri.x();
+        case 'y':
+            return tri.y();
+        case 'z':
+            return tri.z();
+        default:
+            throw math::runtime_error( "invalid dot oper" );
+    }
+}
+
+void dot_oper::assign( dialogue &d, double val ) const
+{
+    tripoint_abs_ms tri = read_var_value( v, d ).tripoint( d );
+    switch( member ) {
+        case 'x':
+            tri.x() = val;
+            break;
+        case 'y':
+            tri.y() = val;
+            break;
+        case 'z':
+            tri.z() = val;
+            break;
+        default:
+            throw math::runtime_error( "invalid dot oper" );
+    }
+
+    write_var_value( v.type, v.name, &d, tri );
 }
 
 kwarg::kwarg( std::string_view key_, thingie val_ )
@@ -544,9 +601,6 @@ void math_exp::math_exp_impl::_parse( std::string_view str )
         } else if( token == "]" ) {
             parse_rbracket( token );
 
-        } else if( token == "." ) {
-            throw math::syntax_error( "Misplaced dot" );
-
         } else {
             throw math::syntax_error( "Unknown operator %s", token );
         }
@@ -639,7 +693,11 @@ void math_exp::math_exp_impl::parse_bin_op( pbin_op const &op, std::string_view 
         new_oper();
     }
     ops.emplace( op, pos );
-    state.set( parse_state::expect::operand, true );
+    if( op->symbol == "." ) {
+        state.set( parse_state::expect::identifier, false );
+    } else {
+        state.set( parse_state::expect::operand, true );
+    }
     if( op->symbol == "?" ) {
         parse_lparen( pos, arity_t::type_t::ternary );
     }
@@ -856,6 +914,20 @@ void math_exp::math_exp_impl::new_oper()
                 } else {
                     throw math::syntax_error( "Misplaced colon" );
                 }
+            } else if( v->symbol == "." ) {
+                if( !is_identifier( lhs ) ) {
+                    throw math::syntax_error( "lhs of dot operator must be a variable" );
+                }
+                var_info const &l = std::get<var>( lhs.data ).varinfo;
+
+                if( !is_identifier( rhs ) ) {
+                    throw math::syntax_error( "rhs of dot operator must be an identifier" );
+                }
+                var_info const &v = std::get<var>( rhs.data ).varinfo;
+                std::string_view n = v.name;
+
+                output.emplace( std::in_place_type_t<dot_oper>(), l, n );
+
             } else {
                 parse_position = op.pos;
                 _validate_operand( lhs, v->symbol );

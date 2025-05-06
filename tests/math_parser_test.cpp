@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "global_vars.h"
@@ -20,6 +21,7 @@
 #include "math_parser_func.h"
 #include "math_parser_type.h"
 #include "npc.h"
+#include "point.h"
 #include "talker.h"
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
@@ -210,6 +212,18 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.parse( "_test_str_len_((['1',('2')]))" ) ); // pointless parens
     CHECK( testexp.eval( d ) == Approx( 2 ) );
 
+    // dot operator
+    get_globals().set_global_value( "mytripoint", tripoint_abs_ms{ 1, 2, 3 } );
+    CHECK( testexp.parse( "mytripoint.x" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    CHECK( testexp.parse( "mytripoint.y" ) );
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
+    CHECK( testexp.parse( "mytripoint.z" ) );
+    CHECK( testexp.eval( d ) == Approx( 3 ) );
+    CHECK( testexp.parse( "mytripoint.z = 4" ) );
+    testexp.eval( d );
+    CHECK( get_globals().get_global_value( "mytripoint" ).tripoint().z() == 4 );
+
     // failed validation
     // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
     std::string dmsg = capture_debugmsg_during( [&testexp, &d]() {
@@ -296,6 +310,12 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "_test_diag_([a=+])" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':0=0?1:2)" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':a=2)" ) );
+
+        CHECK_FALSE( testexp.parse( "mytripoint.(z)" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.2" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.w" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.+x" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.rand(1)" ) );
     } );
 }
 
