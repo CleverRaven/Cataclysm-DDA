@@ -70,6 +70,59 @@
   },
   {
     "type": "furniture",
+    "id": "f_bulletin_evac",
+    "name": "evac shelter info board",
+    "looks_like": "f_bulletin",
+    "description": "A wide wooden frame with a sheet of corkboard inside, whih resides a bunch of tacked on papers giving emergency safety informations that's basically useless at this point considering the situation, and among other things, a map pointing to the nearest refugee center.  You should take a closer look. ",
+    "symbol": "6",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT", "FREE_TO_EXAMINE" ],
+    "max_volume": "120 ml",
+    "deconstruct": { "furn_set": "f_bulletin", "items": [ { "item": "paper", "count": 4 } ] },
+    "bash": {
+      "str_min": 3,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 4, 6 ] },
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "paper", "count": [ 1, 4 ] }
+      ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_EVAC_BOARD_FALSE",
+          "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" },
+          "effect": [
+            {
+              "u_message": "You study the board.  It shows a similar set of directions to the ones you already have.  You cross-reference them and don't learn anything new.",
+              "popup": true
+            }
+          ]
+        },
+        {
+          "id": "EOC_EVAC_BOARD",
+          "condition": { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+          "effect": [
+            {
+              "u_message": "You study the board.  One of the paper shows a map and address for the nearest refugee center among others.  You take note of the map on the board and mark the likely location to your map.",
+              "popup": true
+            },
+            { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }
+          ]
+        }
+      ]
+    }
+  },  
+  {
+    "type": "furniture",
     "id": "f_sign_stop",
     "name": "stop sign",
     "symbol": "P",
