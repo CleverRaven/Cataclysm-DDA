@@ -41,6 +41,7 @@
 #include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -3644,6 +3645,8 @@ void map_add_item( item &it, tripoint_abs_ms target_pos )
     } else {
         tinymap target_bay;
         target_bay.load( project_to<coords::omt>( target_pos ), false );
+        // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+        swap_map swap( *target_bay.cast_to_map() );
         target_bay.add_item_or_charges( target_bay.get_omt( target_pos ), it );
     }
 }

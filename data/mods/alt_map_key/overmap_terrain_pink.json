@@ -4,7 +4,7 @@
     "id": [ "shipwreck_river_1", "shipwreck_river_2", "shipwreck_river_3", "shipwreck_river_4" ],
     "copy-from": "shipwreck_river_1",
     "name": "shipwreck",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -21,16 +21,16 @@
     ],
     "copy-from": "irradiator_1_1",
     "name": "irradiation plant",
-    "sym": "i",
-    "color": "i_pink"
+    "sym": "I",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_8",
     "copy-from": "irradiator_1_8",
     "name": "irradiation plant",
-    "sym": "i",
-    "color": "i_pink"
+    "sym": "I",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -46,23 +46,23 @@
     ],
     "copy-from": "irradiator_1_1_roof",
     "name": "irradiation plant",
-    "sym": "i",
-    "color": "i_pink"
+    "sym": "I",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "irradiator_1_8_roof",
     "copy-from": "irradiator_1_8_roof",
     "name": "irradiation plant",
-    "sym": "i",
-    "color": "i_pink"
+    "sym": "I",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "corpse_surface",
     "copy-from": "corpse_surface",
     "name": "monster corpse",
-    "sym": "m",
+    "sym": "M",
     "color": "pink"
   },
   {
@@ -70,7 +70,7 @@
     "id": "corpse_tentacle_surface_entry",
     "copy-from": "corpse_tentacle_surface_entry",
     "name": "monster corpse",
-    "sym": "m",
+    "sym": "M",
     "color": "pink"
   },
   {
@@ -78,7 +78,7 @@
     "id": "corpse_tentacle_entry",
     "copy-from": "corpse_bowels_empty_edge",
     "name": "monster corpse tentacle",
-    "sym": "m",
+    "sym": "M",
     "color": "pink"
   },
   {
@@ -93,32 +93,32 @@
     ],
     "copy-from": "corpse_bowels_neck_right",
     "name": "monster corpse bowels",
-    "sym": "b",
-    "color": "i_light_red"
+    "sym": "B",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "corpse_bowels_mid" ],
     "copy-from": "corpse_bowels_mid",
     "name": "monster corpse bowels",
-    "sym": "b",
-    "color": "i_light_red"
+    "sym": "B",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
     "id": "corpse_bowels_tentacle_edge",
     "copy-from": "corpse_bowels_tentacle_edge",
     "name": "monster corpse bowels",
-    "sym": "e",
-    "color": "i_red"
+    "sym": "E",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "corpse_neck", "corpse_neck_center" ],
     "copy-from": "corpse_neck",
     "name": "monster corpse neck",
-    "sym": "n",
-    "color": "i_red"
+    "sym": "N",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -139,8 +139,8 @@
     ],
     "copy-from": "corpse_head",
     "name": "monster corpse head",
-    "sym": "h",
-    "color": "i_red"
+    "sym": "H",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -155,7 +155,7 @@
     ],
     "copy-from": "sealab_small_roof",
     "name": "freshwater research station",
-    "sym": "f",
+    "sym": "F",
     "color": "pink"
   },
   {
@@ -220,8 +220,8 @@
     ],
     "copy-from": "robofachq_roof_a1",
     "name": "hub 01",
-    "sym": "h",
-    "color": "i_pink"
+    "sym": "H",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -241,47 +241,47 @@
     ],
     "copy-from": "nursing_home_lab1",
     "name": "nursing home lab",
-    "sym": "n",
-    "color": "i_pink"
+    "sym": "N",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mi-go_camp1", "mi-go_camp1-1" ],
     "copy-from": "mi-go_camp1",
     "name": "mi-go encampment",
-    "sym": "m",
-    "color": "i_pink"
+    "sym": "M",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp2",
     "copy-from": "mi-go_camp2",
-    "sym": "m",
-    "color": "i_pink"
+    "sym": "M",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp2-1",
     "copy-from": "mi-go_camp2-1",
     "name": "mi-go spire",
-    "sym": "m",
-    "color": "i_pink"
+    "sym": "M",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp2-2",
     "copy-from": "mi-go_camp2-2",
     "name": "mi-go landing platform",
-    "sym": "m",
-    "color": "i_pink"
+    "sym": "M",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "mi-go_camp2-3",
     "copy-from": "mi-go_camp2-3",
     "name": "mi-go landing roof",
-    "sym": "m",
-    "color": "i_pink"
+    "sym": "M",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -297,7 +297,7 @@
     ],
     "copy-from": "barry_mi-go_scout_tower_1",
     "name": "mi-go scout tower",
-    "sym": "m",
+    "sym": "M",
     "color": "pink"
   },
   {
@@ -305,7 +305,7 @@
     "id": "mi-go_portal",
     "copy-from": "mi-go_portal",
     "name": "mi-go structure",
-    "sym": "m",
+    "sym": "M",
     "color": "pink"
   },
   {
@@ -313,7 +313,7 @@
     "id": "mi-go_portal_roof",
     "copy-from": "mi-go_portal_roof",
     "name": "mi-go structure roof",
-    "sym": "m",
+    "sym": "M",
     "color": "pink"
   },
   {
@@ -321,7 +321,7 @@
     "id": [ "temple_stairs", "temple_underground_1", "temple_underground_2", "temple_underground_3", "temple_underground_4" ],
     "copy-from": "temple_stairs",
     "name": "strange temple",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -329,7 +329,7 @@
     "id": "temple_finale",
     "copy-from": "temple_finale",
     "name": "strange temple",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -337,7 +337,7 @@
     "id": [ "toxic_dump", "toxic_dump_roof" ],
     "copy-from": "toxic_dump",
     "name": "toxic waste dump",
-    "sym": "t",
+    "sym": "T",
     "color": "pink"
   },
   {
@@ -358,15 +358,15 @@
     ],
     "copy-from": "haz_sar_1_1",
     "name": "hazardous waste sarcophagus",
-    "sym": "h",
-    "color": "i_pink"
+    "sym": "H",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "c_cave_entrance",
     "copy-from": "c_cave_entrance",
     "name": "river cave entrance",
-    "sym": "r",
+    "sym": "R",
     "color": "pink"
   },
   {
@@ -393,15 +393,15 @@
     ],
     "copy-from": "hive_edge_00",
     "name": "bee hive",
-    "sym": "b",
-    "color": "i_pink"
+    "sym": "B",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "fungal_bloom",
     "copy-from": "fungal_bloom",
     "name": "fungal bloom",
-    "sym": "f",
+    "sym": "F",
     "color": "pink"
   },
   {
@@ -409,7 +409,7 @@
     "id": "fungal_tower",
     "copy-from": "fungal_tower",
     "name": "fungal tower",
-    "sym": "f",
+    "sym": "F",
     "color": "pink"
   },
   {
@@ -417,7 +417,7 @@
     "id": "fungal_flowers",
     "copy-from": "fungal_flowers",
     "name": "fungal flowers",
-    "sym": "f",
+    "sym": "F",
     "color": "pink"
   },
   {
@@ -425,7 +425,7 @@
     "id": "anthill",
     "copy-from": "anthill",
     "name": "anthill",
-    "sym": "a",
+    "sym": "A",
     "color": "pink"
   },
   {
@@ -433,7 +433,7 @@
     "id": "exo_safehouse_stone_0",
     "copy-from": "exo_safehouse_stone_0",
     "name": "unusual stone barn",
-    "sym": "u",
+    "sym": "U",
     "color": "pink"
   },
   {
@@ -441,7 +441,7 @@
     "id": "exo_safehouse_stone_1",
     "copy-from": "exo_safehouse_stone_1",
     "name": "unusual stone barn",
-    "sym": "u",
+    "sym": "U",
     "color": "pink"
   },
   {
@@ -449,7 +449,7 @@
     "id": "exo_safehouse_stone_2",
     "copy-from": "exo_safehouse_stone_2",
     "name": "unusual stone barn roof",
-    "sym": "u",
+    "sym": "U",
     "color": "pink"
   },
   {
@@ -457,7 +457,7 @@
     "id": "exo_warehouse_1",
     "copy-from": "exo_warehouse_1",
     "name": "strange warehouse",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -465,7 +465,7 @@
     "id": "exo_warehouse_2",
     "copy-from": "exo_warehouse_2",
     "name": "strange warehouse",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -489,8 +489,8 @@
     ],
     "copy-from": "exodii_base_x0y0z0",
     "name": "rocky butte",
-    "sym": "r",
-    "color": "i_pink"
+    "sym": "R",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -498,8 +498,8 @@
     "copy-from": "exodii_base_x0y3z0",
     "vision_levels": "large_outcropping",
     "name": "ground-level entrance",
-    "sym": "g",
-    "color": "i_pink"
+    "sym": "G",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -571,15 +571,15 @@
     ],
     "copy-from": "exodii_base_x0y0z1",
     "name": "scrap metal encampment",
-    "sym": "s",
-    "color": "i_pink"
+    "sym": "S",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "slimepit_z0",
     "copy-from": "slimepit_z0",
     "name": "slime pit",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -587,7 +587,7 @@
     "id": "slimepit_z-1",
     "copy-from": "slimepit_z-1",
     "name": "slime pit",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -595,7 +595,7 @@
     "id": "slimepit_z-2",
     "copy-from": "slimepit_z-2",
     "name": "slime pit",
-    "sym": "s",
+    "sym": "S",
     "color": "pink"
   },
   {
@@ -603,8 +603,8 @@
     "id": "triffid_grove",
     "copy-from": "triffid_grove",
     "name": "triffid grove",
-    "sym": "t",
-    "color": "i_pink"
+    "sym": "T",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
@@ -621,31 +621,31 @@
     ],
     "copy-from": "triffid_roots",
     "name": "triffid roots",
-    "sym": "t",
-    "color": "i_pink"
+    "sym": "T",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "triffid_finale",
     "copy-from": "triffid_finale",
     "name": "triffid heart",
-    "sym": "t",
-    "color": "i_pink"
+    "sym": "T",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": [ "triffid_grove_z3", "triffid_grove_z2" ],
     "copy-from": "triffid_grove_z3",
     "name": "triffid grove trunk",
-    "sym": "t",
-    "color": "i_pink"
+    "sym": "T",
+    "color": "pink"
   },
   {
     "type": "overmap_terrain",
     "id": "triffid_grove_roof",
     "copy-from": "triffid_grove_roof",
     "name": "triffid grove roof",
-    "sym": "t",
-    "color": "i_pink"
+    "sym": "T",
+    "color": "pink"
   }
 ]

@@ -151,15 +151,26 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.parse( "((((((((5+7)*7.123)-3)-((5+7)-(7.123*3)))-((5*(7-(7.123*3)))/((5*7)+(7.123+3))))-((((5+7)-(7.123*3))+((5/7)+(7.123+3)))+(((5*7)+(7.123+3))*((5/7)/(7.123-3)))))-(((((5/7)-(7.321/3))*((5-7)+(7.321+3)))*(((5-7)-(7.321+3))+((5-7)*(7.321/3))))*((((5-7)+(7.321+3))-((5*7)*(7.321+3)))-(((5-7)*(7.321/3))/(5+((7/7.321)+3)))))))" ) );
     CHECK( testexp.eval( d ) == Approx( 87139.7243098 ) );
 
+    // locale-independent decimal point
+    CHECK( testexp.parse( "2 * 1.5" ) );
+    CHECK( testexp.eval( d ) == Approx( 3 ) );
+    CHECK( testexp.parse( "2 * .5" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    // E-notation
+    CHECK( testexp.parse( ".5e1" ) );
+    CHECK( testexp.eval( d ) == Approx( .5e1 ) );
+    CHECK( testexp.parse( ".5e1+1" ) );
+    CHECK( testexp.eval( d ) == Approx( .5e1 + 1 ) );
+    CHECK( testexp.parse( "1.5E+10 + 1" ) );
+    CHECK( testexp.eval( d ) == Approx( 1.5e+10 + 1 ) );
+    CHECK( testexp.parse( "1.5e-10+1" ) );
+    CHECK( testexp.eval( d ) == Approx( 1.5e-10 + 1 ) );
+
     // nan and inf
     CHECK( testexp.parse( "1 / 0" ) );
     CHECK( std::isinf( testexp.eval( d ) ) );
     CHECK( testexp.parse( "-1 ^ 0.5" ) );
     CHECK( std::isnan( testexp.eval( d ) ) );
-
-    // locale-independent decimal point
-    CHECK( testexp.parse( "2 * 1.5" ) );
-    CHECK( testexp.eval( d ) == Approx( 3 ) );
 
     // diag functions. _test_diag adds up all the (kw)args except for "test_unused_kwarg"
     CHECK( testexp.parse( "_test_diag_(1, 2, 3*4)" ) ); // mixed arg types
@@ -183,6 +194,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 21 ) );
     CHECK( testexp.parse( "_test_str_len_(['1','2'], '1': ['one','two'])" ) );  // str array
     CHECK( testexp.eval( d ) == Approx( 8 ) );
+    CHECK( testexp.parse( "_test_str_len_(['don\\'t'])" ) );  // escaped quote
+    CHECK( testexp.eval( d ) == Approx( 5 ) );
     CHECK( testexp.parse( "_test_diag_([1,2,3], 'blorg': [4,5,_test_diag_([6,7,8], '2':[9])])" ) );  // yo dawg
     CHECK( testexp.eval( d ) == Approx( 45 ) );
     CHECK( testexp.parse( "_test_diag_([[0,-1],[2,0],[3,4]])" ) );  // nested arrays
@@ -201,6 +214,14 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
     std::string dmsg = capture_debugmsg_during( [&testexp, &d]() {
         CHECK_FALSE( testexp.parse( "2+" ) );
+        CHECK_FALSE( testexp.parse( "2e" ) );
+        CHECK_FALSE( testexp.parse( "2e+" ) );
+        CHECK_FALSE( testexp.parse( "2e1.1" ) );
+        CHECK_FALSE( testexp.parse( "2e+1.1" ) );
+        CHECK_FALSE( testexp.parse( "1.2.3" ) );
+        CHECK_FALSE( testexp.parse( "." ) );
+        CHECK_FALSE( testexp.parse( "1+." ) );
+        CHECK_FALSE( testexp.parse( "2stupiddogs" ) );
         CHECK_FALSE( testexp.parse( ")" ) );
         CHECK_FALSE( testexp.parse( "(" ) );
         CHECK_FALSE( testexp.parse( "[" ) );
@@ -261,7 +282,7 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         }
         CHECK( expected_array );
         CHECK_FALSE( testexp.parse( "'1':'2'" ) );
-        CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
+        CHECK_FALSE( testexp.parse( "2 2*2" ) ); // missing operator
         CHECK_FALSE( testexp.parse( "2+++2" ) );
         CHECK_FALSE( testexp.parse( "1=2" ) );
         CHECK_FALSE( testexp.parse( "1===2" ) );

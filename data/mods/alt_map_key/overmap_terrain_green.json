@@ -4,7 +4,7 @@
     "id": [ "s_grocery", "s_grocery_1" ],
     "copy-from": "s_grocery",
     "name": "grocery store",
-    "sym": "g",
+    "sym": "G",
     "color": "green"
   },
   {
@@ -12,7 +12,7 @@
     "id": [ "s_grocery_roof", "s_grocery_roof_1" ],
     "copy-from": "s_grocery_roof",
     "name": "grocery store roof",
-    "sym": "g",
+    "sym": "G",
     "color": "green"
   },
   {
@@ -20,7 +20,7 @@
     "id": "trailer_commercial_10",
     "copy-from": "trailer_commercial_10",
     "name": "convenience store",
-    "sym": "c",
+    "sym": "C",
     "color": "green"
   },
   {
@@ -28,7 +28,7 @@
     "id": "trailer_commercial_10_roof",
     "copy-from": "trailer_commercial_10_roof",
     "name": "convenience store roof",
-    "sym": "c",
+    "sym": "C",
     "color": "green"
   },
   {
@@ -36,7 +36,7 @@
     "id": "s_liquor",
     "copy-from": "s_liquor",
     "name": "liquor store",
-    "sym": "l",
+    "sym": "L",
     "color": "green"
   },
   {
@@ -44,7 +44,7 @@
     "id": "s_liquor_roof",
     "copy-from": "s_liquor_roof",
     "name": "liquor store roof",
-    "sym": "l",
+    "sym": "L",
     "color": "green"
   },
   {
@@ -52,7 +52,7 @@
     "id": "s_diner",
     "copy-from": "s_diner",
     "name": "diner",
-    "sym": "d",
+    "sym": "D",
     "color": "green"
   },
   {
@@ -60,7 +60,7 @@
     "id": [ "s_diner_2ndfloor", "s_diner_roof" ],
     "copy-from": "s_diner_2ndfloor",
     "name": "diner",
-    "sym": "d",
+    "sym": "D",
     "color": "green"
   },
   {
@@ -68,7 +68,7 @@
     "id": [ "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
     "copy-from": "s_restaurant",
     "name": "restaurant",
-    "sym": "r",
+    "sym": "R",
     "color": "green"
   },
   {
@@ -84,7 +84,7 @@
     ],
     "copy-from": "s_restaurant_foodplace_roof",
     "name": "restaurant roof",
-    "sym": "r",
+    "sym": "R",
     "color": "green"
   },
   {
@@ -101,7 +101,7 @@
     ],
     "copy-from": "s_restaurant_fast",
     "name": "fast food restaurant",
-    "sym": "f",
+    "sym": "F",
     "color": "green"
   },
   {
@@ -118,7 +118,7 @@
     ],
     "copy-from": "s_restaurant_fast_roof",
     "name": "fast food restaurant roof",
-    "sym": "f",
+    "sym": "F",
     "color": "green"
   },
   {
@@ -126,7 +126,7 @@
     "id": [ "s_restaurant_coffee", "s_restaurant_coffee_1", "s_restaurant_coffee_2" ],
     "copy-from": "s_restaurant_coffee",
     "name": "coffee shop",
-    "sym": "c",
+    "sym": "C",
     "color": "green"
   },
   {
@@ -134,7 +134,7 @@
     "id": [ "s_restaurant_coffee_roof", "s_restaurant_coffee_roof_1", "s_restaurant_coffee_roof_2" ],
     "copy-from": "s_restaurant_coffee_roof",
     "name": "coffee shop",
-    "sym": "c",
+    "sym": "C",
     "color": "green"
   },
   {
@@ -142,7 +142,7 @@
     "id": [ "s_teashop", "s_teashop_1" ],
     "copy-from": "s_teashop",
     "name": "teashop",
-    "sym": "t",
+    "sym": "T",
     "color": "green"
   },
   {
@@ -150,7 +150,7 @@
     "id": [ "s_teashop_roof", "s_teashop_roof_1", "s_teashop_upper_roof_1" ],
     "copy-from": "s_teashop_roof",
     "name": "teashop roof",
-    "sym": "t",
+    "sym": "T",
     "color": "green"
   },
   {
@@ -158,7 +158,7 @@
     "id": [ "bar", "bar_1" ],
     "copy-from": "bar",
     "name": "bar",
-    "sym": "b",
+    "sym": "B",
     "color": "green"
   },
   {
@@ -166,7 +166,7 @@
     "id": [ "bar_roof", "bar_roof_1" ],
     "copy-from": "bar_roof",
     "name": "bar roof",
-    "sym": "b",
+    "sym": "B",
     "color": "green"
   },
   {
@@ -174,7 +174,7 @@
     "id": [ "s_pizza_parlor", "s_pizza_parlor_1" ],
     "copy-from": "s_pizza_parlor",
     "name": "pizza parlor",
-    "sym": "p",
+    "sym": "P",
     "color": "green"
   },
   {
@@ -182,7 +182,7 @@
     "id": [ "s_pizza_parlor_roof", "s_pizza_parlor_roof_1" ],
     "copy-from": "s_pizza_parlor_roof",
     "name": "pizza parlor roof",
-    "sym": "p",
+    "sym": "P",
     "color": "green"
   },
   {
@@ -197,7 +197,7 @@
     "id": [ "roadstop_b", "roadstop_b_roof" ],
     "copy-from": "roadstop_b",
     "name": "roadside foodcart",
-    "sym": "f",
+    "sym": "F",
     "color": "green"
   },
   {
@@ -205,7 +205,7 @@
     "id": "orchard_tree_apple",
     "copy-from": "orchard_tree_apple",
     "name": "apple orchard",
-    "sym": "a",
+    "sym": "A",
     "color": "green"
   },
   {
@@ -213,7 +213,7 @@
     "id": "orchard_processing",
     "copy-from": "orchard_processing",
     "name": "processing",
-    "sym": "p",
+    "sym": "P",
     "color": "green"
   },
   {
@@ -221,7 +221,7 @@
     "id": "orchard_stall",
     "copy-from": "orchard_stall",
     "name": "stall",
-    "sym": "s",
+    "sym": "S",
     "color": "green"
   },
   {
@@ -229,7 +229,7 @@
     "id": "orchard_processing_roof",
     "copy-from": "orchard_processing_roof",
     "name": "processing roof",
-    "sym": "p",
+    "sym": "P",
     "color": "green"
   },
   {
@@ -237,7 +237,7 @@
     "id": "orchard_stall_roof",
     "copy-from": "orchard_stall_roof",
     "name": "stall roof",
-    "sym": "s",
+    "sym": "S",
     "color": "green"
   },
   {
@@ -245,7 +245,7 @@
     "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ],
     "copy-from": "orchard",
     "name": "orchard",
-    "sym": "o",
+    "sym": "O",
     "color": "green"
   },
   {
@@ -253,7 +253,7 @@
     "id": [ "candy_shop", "candy_shop_1" ],
     "copy-from": "candy_shop",
     "name": "candy shop",
-    "sym": "c",
+    "sym": "C",
     "color": "green"
   },
   {
@@ -261,7 +261,7 @@
     "id": [ "candy_shop_roof", "candy_shop_roof_1" ],
     "copy-from": "candy_shop_roof",
     "name": "candy shop roof",
-    "sym": "c",
+    "sym": "C",
     "color": "green"
   },
   {
@@ -269,7 +269,7 @@
     "id": "bakery",
     "copy-from": "bakery",
     "name": "bakery",
-    "sym": "b",
+    "sym": "B",
     "color": "green"
   },
   {
@@ -277,7 +277,7 @@
     "id": "bakery_roof",
     "copy-from": "bakery_roof",
     "name": "bakery roof",
-    "sym": "b",
+    "sym": "B",
     "color": "green"
   },
   {
@@ -285,7 +285,7 @@
     "id": "bakery_upper_roof",
     "copy-from": "bakery_upper_roof",
     "name": "bakery roof",
-    "sym": "b",
+    "sym": "B",
     "color": "green"
   },
   {
@@ -293,7 +293,7 @@
     "id": "icecream_shop",
     "name": "icecream shop",
     "copy-from": "icecream_shop",
-    "sym": "i",
+    "sym": "I",
     "color": "green"
   },
   {
@@ -301,7 +301,7 @@
     "id": "icecream_shop_roof",
     "name": "icecream shop roof",
     "copy-from": "icecream_shop_roof",
-    "sym": "i",
+    "sym": "I",
     "color": "green"
   },
   {
@@ -317,7 +317,7 @@
     "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ],
     "copy-from": "s_butcher",
     "name": "butcher shop",
-    "sym": "b",
+    "sym": "B",
     "color": "green"
   },
   {
@@ -325,7 +325,7 @@
     "id": [ "s_butcher_roof", "s_butcher_roof_1", "s_butcher_roof_2", "s_butcher_upper_roof", "s_butcher_upper_roof_1" ],
     "copy-from": "s_butcher_roof",
     "name": "butcher shop roof",
-    "sym": "b",
+    "sym": "B",
     "color": "green"
   },
   {
@@ -333,7 +333,7 @@
     "id": [ "moonshine_still", "moonshine_still_1", "moonshine_still_2" ],
     "copy-from": "moonshine_still",
     "name": "moonshine still",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -341,7 +341,7 @@
     "id": [ "moonshine_still_roof", "moonshine_still_roof_1", "moonshine_still_roof_2" ],
     "copy-from": "moonshine_still_roof",
     "name": "moonshine still roof",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -349,7 +349,7 @@
     "id": "sugar_house",
     "copy-from": "sugar_house",
     "name": "sugar house",
-    "sym": "s",
+    "sym": "S",
     "color": "green"
   },
   {
@@ -357,7 +357,7 @@
     "id": "sugar_house_roof",
     "copy-from": "sugar_house_roof",
     "name": "sugar house roof",
-    "sym": "s",
+    "sym": "S",
     "color": "green"
   }
 ]

@@ -13,8 +13,8 @@
     ],
     "copy-from": "bandit_camp_1",
     "name": "wooden fort",
-    "sym": "w",
-    "color": "i_brown"
+    "sym": "W",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -93,7 +93,7 @@
     "id": "ranch_camp_57",
     "copy-from": "ranch_camp_57",
     "name": "silo",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -101,7 +101,7 @@
     "id": "ranch_camp_57_silo",
     "copy-from": "ranch_camp_57_silo",
     "name": "silo",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -109,7 +109,7 @@
     "id": "ranch_camp_57_silocap",
     "copy-from": "ranch_camp_57_silocap",
     "name": "silo cap",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -117,7 +117,7 @@
     "id": "ranch_camp_65_roof",
     "copy-from": "ranch_camp_65_roof",
     "name": "barn roof",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -125,7 +125,7 @@
     "id": "ranch_camp_66",
     "copy-from": "ranch_camp_66",
     "name": "barn",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -133,7 +133,7 @@
     "id": "ranch_camp_66_roof",
     "copy-from": "ranch_camp_66_roof",
     "name": "barn roof",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -141,7 +141,7 @@
     "id": "cave",
     "copy-from": "cave",
     "name": "cave",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -149,7 +149,7 @@
     "id": "cave_rat",
     "copy-from": "cave_rat",
     "name": "rat cave",
-    "sym": "r",
+    "sym": "R",
     "color": "brown"
   },
   {
@@ -157,7 +157,7 @@
     "id": "cave_underground",
     "copy-from": "cave_underground",
     "name": "cave",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -165,7 +165,7 @@
     "id": "cave_rat_underground",
     "copy-from": "cave_rat_underground",
     "name": "rat cave",
-    "sym": "r",
+    "sym": "R",
     "color": "brown"
   },
   {
@@ -173,7 +173,7 @@
     "id": [ "nest_dermatik", "nest_dermatik_roof" ],
     "copy-from": "nest_dermatik",
     "name": "mound of dirt",
-    "sym": "m",
+    "sym": "M",
     "color": "brown"
   },
   {
@@ -181,7 +181,7 @@
     "id": "spider_pit",
     "copy-from": "spider_pit",
     "name": "spider pit",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   },
   {
@@ -189,7 +189,7 @@
     "id": "spider_pit_under",
     "copy-from": "spider_pit_under",
     "name": "spider pit",
-    "sym": "s",
+    "sym": "S",
     "color": "white"
   },
   {
@@ -197,7 +197,7 @@
     "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
     "copy-from": "chemical_lab_ocu",
     "name": "cabin",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -205,7 +205,7 @@
     "id": [ "campsite", "campsite_a" ],
     "copy-from": "campsite",
     "name": "campsite",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -213,7 +213,7 @@
     "id": "campsite_cabin_incomplete",
     "copy-from": "campsite_cabin_incomplete",
     "name": "incomplete cabin",
-    "sym": "i",
+    "sym": "I",
     "color": "brown"
   },
   {
@@ -221,7 +221,7 @@
     "id": "campsite_cabin_incomplete_roof",
     "copy-from": "campsite_cabin_incomplete_roof",
     "name": "incomplete cabin roof",
-    "sym": "i",
+    "sym": "I",
     "color": "brown"
   },
   {
@@ -229,7 +229,7 @@
     "id": [ "campsite_field_biker", "campsite_field_biker_destroyed" ],
     "copy-from": "campsite_field_biker",
     "name": "field campsite",
-    "sym": "f",
+    "sym": "F",
     "color": "brown"
   },
   {
@@ -237,7 +237,7 @@
     "id": [ "hunter_shack", "hunter_shack_1" ],
     "copy-from": "hunter_shack",
     "name": "swamp shack",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -245,7 +245,7 @@
     "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "copy-from": "hunter_shack_roof",
     "name": "swamp shack roof",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -253,24 +253,24 @@
     "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ],
     "copy-from": "campground_1a",
     "name": "campground",
-    "sym": "c",
-    "color": "i_brown"
+    "sym": "C",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "campground_roof",
     "copy-from": "campground_roof",
     "name": "campground roof",
-    "sym": "c",
-    "color": "i_brown"
+    "sym": "C",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "godco_1", "godco_2", "godco_3", "godco_4", "godco_5", "godco_6", "godco_7", "godco_8", "godco_9" ],
     "copy-from": "godco_1",
     "name": "church retreat",
-    "sym": "c",
-    "color": "i_brown"
+    "sym": "C",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -290,8 +290,8 @@
     ],
     "copy-from": "godco_1_1",
     "name": "church retreat roof",
-    "sym": "c",
-    "color": "i_brown"
+    "sym": "C",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -310,7 +310,7 @@
     ],
     "copy-from": "cabin",
     "name": "cabin",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -318,7 +318,7 @@
     "id": [ "cabin_liam" ],
     "copy-from": "cabin_liam",
     "name": "cabin",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -337,7 +337,7 @@
     ],
     "copy-from": "cabin_roof",
     "name": "cabin roof",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -345,7 +345,7 @@
     "id": [ "cabin_lake", "lake_cabin_boathouse", "cabin_strange" ],
     "copy-from": "cabin_lake",
     "name": "cabin",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -353,7 +353,7 @@
     "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ],
     "copy-from": "cabin_lake_roof",
     "name": "cabin roof",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -361,7 +361,7 @@
     "id": "cabin_strange_b",
     "copy-from": "cabin_strange_b",
     "name": "cabin basement",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -369,7 +369,7 @@
     "id": "cabin_strange_roof",
     "copy-from": "cabin_strange_roof",
     "name": "cabin roof",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -377,7 +377,7 @@
     "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
     "copy-from": "cabin_lakeside",
     "name": "lakeside cabin",
-    "sym": "l",
+    "sym": "L",
     "color": "brown"
   },
   {
@@ -392,7 +392,7 @@
     ],
     "copy-from": "cabin_lakeside_roof",
     "name": "lakeside cabin roof",
-    "sym": "l",
+    "sym": "L",
     "color": "brown"
   },
   {
@@ -400,32 +400,32 @@
     "id": [ "lodge_ground1", "lodge_ground2" ],
     "copy-from": "lodge_ground1",
     "name": "hunting lodge",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodge_ground_glooscap1", "lodge_ground_glooscap2" ],
     "copy-from": "lodge_ground_glooscap1",
     "name": "hunting lodge",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
     "copy-from": "lodge_2ndfloor1",
     "name": "second floor hunting lodge",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lodge_roof1", "lodge_roof2" ],
     "copy-from": "lodge_roof1",
     "name": "hunting lodge roof",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -437,15 +437,15 @@
     ],
     "copy-from": "lodge_basement_residential1",
     "name": "hunting lodge basement",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "yard",
     "copy-from": "yard",
     "name": "yard",
-    "sym": "y",
+    "sym": "Y",
     "color": "brown"
   },
   {
@@ -453,7 +453,7 @@
     "id": "house_farm",
     "copy-from": "house_farm",
     "name": "rural house",
-    "sym": "r",
+    "sym": "R",
     "color": "brown"
   },
   {
@@ -461,7 +461,7 @@
     "id": "house_farm_roof",
     "copy-from": "house_farm_roof",
     "name": "rural house roof",
-    "sym": "r",
+    "sym": "R",
     "color": "brown"
   },
   {
@@ -469,7 +469,7 @@
     "id": [ "survivor_forest_camp" ],
     "copy-from": "survivor_forest_camp",
     "name": "survivor forest camp",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -477,8 +477,8 @@
     "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1", "state_park_1_0_1" ],
     "copy-from": "state_park_0_0",
     "name": "state park",
-    "sym": "s",
-    "color": "i_brown"
+    "sym": "S",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -510,15 +510,15 @@
     ],
     "copy-from": "GMLODGE1_1",
     "name": "Militia Lodge",
-    "sym": "m",
-    "color": "i_brown"
+    "sym": "M",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "ws_survivor_bunker_f0", "ws_survivor_bunker_f-1" ],
     "copy-from": "ws_survivor_bunker_f0",
     "name": "survivor's bunker",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -526,7 +526,7 @@
     "id": "ws_survivor_camp",
     "copy-from": "ws_survivor_camp",
     "name": "survivor's camp",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -534,7 +534,7 @@
     "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
     "copy-from": "pottery_cottage",
     "name": "potters cottage",
-    "sym": "p",
+    "sym": "P",
     "color": "brown"
   },
   {
@@ -542,7 +542,7 @@
     "id": [ "pottery_cottage_basement" ],
     "copy-from": "pottery_cottage_basement",
     "name": "basement",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -550,7 +550,7 @@
     "copy-from": "hunting_blind",
     "type": "overmap_terrain",
     "name": "hunting blind",
-    "sym": "h",
+    "sym": "H",
     "color": "brown"
   },
   {
@@ -558,47 +558,47 @@
     "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ],
     "copy-from": "lumbermill_0_0",
     "name": "lumbermill",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lumbermill_0_0_roof", "lumbermill_0_1_roof", "lumbermill_1_0_roof", "lumbermill_1_1_roof" ],
     "copy-from": "lumbermill_0_0_roof",
     "name": "lumbermill roof",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
     "copy-from": "lumbermill_0_0_ocu",
     "name": "lumbermill",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lumberyard_0_0", "lumberyard_0_1", "lumberyard_1_0", "lumberyard_1_1" ],
     "copy-from": "lumberyard_0_0",
     "name": "lumberyard",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "lumberyard_0_0_roof", "lumberyard_0_1_roof", "lumberyard_1_0_roof", "lumberyard_1_1_roof" ],
     "copy-from": "lumberyard_0_0_roof",
     "name": "lumberyard roof",
-    "sym": "l",
-    "color": "i_brown"
+    "sym": "L",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "desolatebarn",
     "copy-from": "desolatebarn",
     "name": "desolate barn",
-    "sym": "d",
+    "sym": "D",
     "color": "brown"
   },
   {
@@ -615,7 +615,7 @@
     ],
     "copy-from": "riverside_dwelling",
     "name": "riverside dwelling",
-    "sym": "r",
+    "sym": "R",
     "color": "brown"
   },
   {
@@ -623,7 +623,7 @@
     "id": "cabin_isherwood",
     "copy-from": "cabin_isherwood",
     "name": "cabin",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -663,7 +663,7 @@
     "id": [ "farm_dairy_twd_5", "farm_dairy_twd_6" ],
     "copy-from": "farm_dairy_twd_5",
     "name": "barn",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -671,7 +671,7 @@
     "id": "farm_dairy_twd_12",
     "copy-from": "farm_dairy_twd_12",
     "name": "barn",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -679,7 +679,7 @@
     "id": [ "farm_dairy_twd_second_floor_5", "farm_dairy_twd_second_floor_6", "farm_dairy_twd_second_floor_12" ],
     "copy-from": "farm_dairy_twd_second_floor_5",
     "name": "barn roof",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -687,7 +687,7 @@
     "id": "coop_chicken",
     "copy-from": "coop_chicken",
     "name": "chicken coop",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -695,7 +695,7 @@
     "id": "farm_1_coop",
     "copy-from": "farm_1_coop",
     "name": "chicken coop",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -703,7 +703,7 @@
     "id": "horse_farm_isherwood_10",
     "copy-from": "horse_farm_isherwood_10",
     "name": "chicken coop",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -711,7 +711,7 @@
     "id": "farm_1_coop_roof",
     "copy-from": "farm_1_coop_roof",
     "name": "chicken coop roof",
-    "sym": "o",
+    "sym": "O",
     "color": "brown"
   },
   {
@@ -719,7 +719,7 @@
     "id": "horse_farm_isherwood_10_roof",
     "copy-from": "horse_farm_isherwood_10_roof",
     "name": "chicken coop roof",
-    "sym": "o",
+    "sym": "O",
     "color": "brown"
   },
   {
@@ -743,7 +743,7 @@
     ],
     "copy-from": "2silos",
     "name": "silo",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -751,31 +751,31 @@
     "id": "TreeFarm_1a",
     "copy-from": "TreeFarm_1a",
     "name": "tree farm",
-    "sym": "t",
-    "color": "i_brown"
+    "sym": "T",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "TreeFarm_1a_roof",
     "copy-from": "TreeFarm_1a_roof",
     "name": "tree farm",
-    "sym": "t",
-    "color": "i_brown"
+    "sym": "T",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "TreeFarm_1b",
     "copy-from": "TreeFarm_1b",
     "name": "tree farm",
-    "sym": "t",
-    "color": "i_brown"
+    "sym": "T",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": "farm_horse_carriage_house_1",
     "copy-from": "farm_horse_carriage_house_1",
     "name": "carriage house",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -783,7 +783,7 @@
     "id": "horse_farm_isherwood_4",
     "copy-from": "horse_farm_isherwood_4",
     "name": "carriage house",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -791,7 +791,7 @@
     "id": "farm_horse_carriage_house_1_roof",
     "copy-from": "farm_horse_carriage_house_1_roof",
     "name": "carriage house roof",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -799,7 +799,7 @@
     "id": "horse_farm_isherwood_4_roof",
     "copy-from": "horse_farm_isherwood_4_roof",
     "name": "carriage house roof",
-    "sym": "c",
+    "sym": "C",
     "color": "brown"
   },
   {
@@ -807,7 +807,7 @@
     "id": [ "farm_1_greenhouse", "farm_horse_greenhouse" ],
     "copy-from": "farm_1_greenhouse",
     "name": "greenhouse",
-    "sym": "g",
+    "sym": "G",
     "color": "brown"
   },
   {
@@ -815,7 +815,7 @@
     "id": "horse_farm_isherwood_9",
     "copy-from": "horse_farm_isherwood_9",
     "name": "greenhouse",
-    "sym": "g",
+    "sym": "G",
     "color": "brown"
   },
   {
@@ -823,7 +823,7 @@
     "id": [ "farm_1_greenhouse_roof", "farm_horse_greenhouse_roof" ],
     "copy-from": "farm_1_greenhouse_roof",
     "name": "greenhouse roof",
-    "sym": "g",
+    "sym": "G",
     "color": "brown"
   },
   {
@@ -831,7 +831,7 @@
     "id": "horse_farm_isherwood_9_roof",
     "copy-from": "horse_farm_isherwood_9_roof",
     "name": "greenhouse roof",
-    "sym": "g",
+    "sym": "G",
     "color": "brown"
   },
   {
@@ -839,7 +839,7 @@
     "id": "farm_horse_stable_1",
     "copy-from": "farm_horse_stable_1",
     "name": "stable",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -847,7 +847,7 @@
     "id": "horse_farm_isherwood_7",
     "copy-from": "horse_farm_isherwood_7",
     "name": "stable",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -855,7 +855,7 @@
     "id": "farm_horse_stable_1_hayloft",
     "copy-from": "farm_horse_stable_1_hayloft",
     "name": "stable hayloft",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -863,7 +863,7 @@
     "id": "horse_farm_isherwood_7_hayloft",
     "copy-from": "horse_farm_isherwood_7_hayloft",
     "name": "stable hayloft",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -871,7 +871,7 @@
     "id": "farm_horse_stable_1_roof",
     "copy-from": "farm_horse_stable_1_roof",
     "name": "stable roof",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -879,7 +879,7 @@
     "id": "horse_farm_isherwood_7_roof",
     "copy-from": "horse_farm_isherwood_7_roof",
     "name": "stable roof",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -941,7 +941,7 @@
     "id": [ "farm_horse_ring_1", "farm_horse_ring_2", "farm_horse_ring_3", "farm_horse_ring_4" ],
     "copy-from": "farm_horse_ring_1",
     "name": "ring",
-    "sym": "r",
+    "sym": "R",
     "color": "brown"
   },
   {
@@ -949,7 +949,7 @@
     "id": [ "paddock_trailhead_2" ],
     "copy-from": "paddock_trailhead_2",
     "name": "trailhead",
-    "sym": "t",
+    "sym": "T",
     "color": "brown"
   },
   {
@@ -957,7 +957,7 @@
     "id": [ "trailhead", "trailhead_shack_z0", "trailhead_outhouse_z0" ],
     "copy-from": "trailhead",
     "name": "trailhead",
-    "sym": "t",
+    "sym": "T",
     "color": "brown"
   },
   {
@@ -965,7 +965,7 @@
     "id": [ "trailhead_shack_z1", "trailhead_outhouse_z1" ],
     "copy-from": "trailhead_shack_z1",
     "name": "trailhead roof",
-    "sym": "t",
+    "sym": "T",
     "color": "brown"
   },
   {
@@ -973,7 +973,7 @@
     "id": "smokehouse",
     "copy-from": "smokehouse",
     "name": "smokehouse",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -981,7 +981,7 @@
     "id": "smokehouse_roof",
     "copy-from": "smokehouse_roof",
     "name": "smokehouse roof",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -989,7 +989,7 @@
     "id": "rural_outbuilding",
     "copy-from": "rural_outbuilding",
     "name": "outbuilding",
-    "sym": "o",
+    "sym": "O",
     "color": "brown"
   },
   {
@@ -997,7 +997,7 @@
     "id": "rural_outbuilding_roof",
     "copy-from": "rural_outbuilding_roof",
     "name": "outbuilding roof",
-    "sym": "o",
+    "sym": "O",
     "color": "brown"
   },
   {
@@ -1005,8 +1005,8 @@
     "id": [ "dairy_farm_NW", "dairy_farm_NE", "dairy_farm_SE", "dairy_farm_SW" ],
     "copy-from": "dairy_farm_NW",
     "name": "dairy farm",
-    "sym": "d",
-    "color": "i_brown"
+    "sym": "D",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
@@ -1020,7 +1020,7 @@
     ],
     "copy-from": "dairy_farm_isherwood_NW",
     "name": "dairy farm",
-    "sym": "d",
+    "sym": "D",
     "color": "brown"
   },
   {
@@ -1028,15 +1028,15 @@
     "id": [ "dairy_farm_SE_roof", "dairy_farm_SW_roof" ],
     "copy-from": "dairy_farm_SE_roof",
     "name": "dairy farm roof",
-    "sym": "d",
-    "color": "i_brown"
+    "sym": "D",
+    "color": "brown"
   },
   {
     "type": "overmap_terrain",
     "id": [ "dairy_farm_isherwood_SE_roof", "dairy_farm_isherwood_SW_roof" ],
     "copy-from": "dairy_farm_isherwood_SE_roof",
     "name": "dairy farm roof",
-    "sym": "d",
+    "sym": "D",
     "color": "brown"
   },
   {
@@ -1044,7 +1044,7 @@
     "id": [ "farm_3_roof" ],
     "copy-from": "farm_3_roof",
     "name": "barn roof",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -1052,7 +1052,7 @@
     "id": [ "farm_isherwood_3_roof" ],
     "copy-from": "farm_isherwood_3_roof",
     "name": "barn roof",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -1060,7 +1060,7 @@
     "id": "farm_isherwood_3_hayloft",
     "copy-from": "farm_isherwood_3_hayloft",
     "name": "barn hayloft",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -1068,7 +1068,7 @@
     "id": [ "farm_3" ],
     "copy-from": "farm_3",
     "name": "barn",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -1076,7 +1076,7 @@
     "id": [ "farm_isherwood_3" ],
     "copy-from": "farm_isherwood_3",
     "name": "barn",
-    "sym": "b",
+    "sym": "B",
     "color": "brown"
   },
   {
@@ -1084,7 +1084,7 @@
     "id": [ "farm_stills_4", "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
     "copy-from": "farm_stills_4",
     "name": "farm",
-    "sym": "f",
+    "sym": "F",
     "color": "brown"
   },
   {
@@ -1109,7 +1109,7 @@
     "id": [ "farm_stills_7", "farm_stills_7_roof" ],
     "copy-from": "farm_stills_7",
     "name": "stills",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   },
   {
@@ -1117,7 +1117,7 @@
     "id": "farm_stills_11",
     "copy-from": "farm_stills_11",
     "name": "orchard",
-    "sym": "o",
+    "sym": "O",
     "color": "brown"
   },
   {
@@ -1207,7 +1207,7 @@
     "id": "standing_stones",
     "copy-from": "standing_stones",
     "name": "standing stones",
-    "sym": "s",
+    "sym": "S",
     "color": "brown"
   }
 ]

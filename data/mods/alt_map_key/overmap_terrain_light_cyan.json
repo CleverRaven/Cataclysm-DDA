@@ -4,7 +4,7 @@
     "id": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ],
     "copy-from": "s_hardware",
     "name": "hardware store",
-    "sym": "h",
+    "sym": "H",
     "color": "light_cyan"
   },
   {
@@ -12,7 +12,7 @@
     "id": [ "s_hardware_roof", "s_hardware_roof_1", "s_hardware_roof_2", "s_hardware_roof_3" ],
     "copy-from": "s_hardware_roof",
     "name": "hardware store roof",
-    "sym": "h",
+    "sym": "H",
     "color": "light_cyan"
   },
   {
@@ -20,7 +20,7 @@
     "id": [ "s_weldingstore" ],
     "copy-from": "s_weldingstore",
     "name": "welding store",
-    "sym": "w",
+    "sym": "W",
     "color": "light_cyan"
   },
   {
@@ -28,7 +28,7 @@
     "id": [ "s_weldingstore_roof" ],
     "copy-from": "s_weldingstore_roof",
     "name": "welding store roof",
-    "sym": "w",
+    "sym": "W",
     "color": "light_cyan"
   },
   {
@@ -43,8 +43,8 @@
     ],
     "copy-from": "hdwr_large_0_0_0",
     "name": "home improvement superstore",
-    "sym": "h",
-    "color": "i_light_cyan"
+    "sym": "H",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
@@ -59,39 +59,39 @@
     ],
     "copy-from": "hdwr_large_0_0_1",
     "name": "home improvement superstore roof",
-    "sym": "h",
-    "color": "i_light_cyan"
+    "sym": "H",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "landscapingsupplyco_1a",
     "copy-from": "landscapingsupplyco_1a",
     "name": "landscaping supply co",
-    "sym": "l",
-    "color": "i_light_cyan"
+    "sym": "L",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "landscapingsupplyco_1b",
     "copy-from": "landscapingsupplyco_1b",
     "name": "landscaping supply co",
-    "sym": "l",
-    "color": "i_light_cyan"
+    "sym": "L",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "landscapingsupplyco_1b_roof",
     "copy-from": "landscapingsupplyco_1b_roof",
     "name": "landscaping supply co roof",
-    "sym": "l",
-    "color": "i_light_cyan"
+    "sym": "L",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ],
     "copy-from": "s_electronics",
     "name": "electronics store",
-    "sym": "e",
+    "sym": "E",
     "color": "light_cyan"
   },
   {
@@ -99,7 +99,7 @@
     "id": [ "s_electronics_roof", "s_electronics_roof_1", "s_electronicstore_roof" ],
     "copy-from": "s_electronics_roof",
     "name": "electronics store roof",
-    "sym": "e",
+    "sym": "E",
     "color": "light_cyan"
   },
   {
@@ -107,7 +107,7 @@
     "id": "s_electronicstore_2ndfloor",
     "copy-from": "s_electronicstore_2ndfloor",
     "name": "electronics store 2nd floor",
-    "sym": "e",
+    "sym": "E",
     "color": "light_cyan"
   },
   {
@@ -115,39 +115,39 @@
     "id": [ "public_works_NE", "public_works_NW", "public_works_SE" ],
     "copy-from": "public_works_NE",
     "name": "public works",
-    "sym": "p",
-    "color": "i_light_cyan"
+    "sym": "P",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_SW",
     "copy-from": "public_works_SW",
     "name": "public works",
-    "sym": "p",
-    "color": "i_light_cyan"
+    "sym": "P",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
     "copy-from": "public_works_NE_roof",
     "name": "public works roof",
-    "sym": "p",
-    "color": "i_light_cyan"
+    "sym": "P",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "public_works_SW_roof",
     "copy-from": "public_works_SW_roof",
     "name": "public works roof",
-    "sym": "p",
-    "color": "i_light_cyan"
+    "sym": "P",
+    "color": "light_cyan"
   },
   {
     "type": "overmap_terrain",
     "id": "warehouse",
     "copy-from": "warehouse",
     "name": "warehouse",
-    "sym": "w",
+    "sym": "W",
     "color": "light_cyan"
   },
   {
@@ -155,7 +155,7 @@
     "id": "warehouse_roof",
     "copy-from": "warehouse_roof",
     "name": "warehouse roof",
-    "sym": "w",
+    "sym": "W",
     "color": "light_cyan"
   },
   {
@@ -163,7 +163,7 @@
     "id": "home_improvement",
     "copy-from": "home_improvement",
     "name": "home improvement store",
-    "sym": "h",
+    "sym": "H",
     "color": "light_cyan"
   },
   {
@@ -171,7 +171,7 @@
     "id": "home_improvement_roof",
     "copy-from": "home_improvement_roof",
     "name": "home improvement store roof",
-    "sym": "h",
+    "sym": "H",
     "color": "light_cyan"
   },
   {
@@ -179,7 +179,7 @@
     "id": [ "isolated_house_farm_blacksmith", "isolated_house_farm_roof_blacksmith" ],
     "copy-from": "isolated_house_farm_blacksmith",
     "name": "blacksmith's home",
-    "sym": "b",
+    "sym": "B",
     "color": "light_cyan"
   }
 ]

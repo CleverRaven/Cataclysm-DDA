@@ -440,17 +440,10 @@ class map_notes_callback : public uilist_callback
                             return true;
                         }
                         const int max_amount = 20;
+                        int amount = clamp( danger_radius, 0, max_amount );
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                        const std::string popupmsg = string_format( _( "Danger radius in overmap squares? (0-%d)" ),
-                                                     max_amount );
-                        string_input_popup pop;
-                        const int amount = pop
-                                           .title( popupmsg )
-                                           .width( 20 )
-                                           .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
-                                           .only_digits( true )
-                                           .query_int();
-                        if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
+                        if( query_int( amount, true, _( "Danger radius in overmap squares? (0-%d)" ), max_amount )
+                            && amount >= 0 && amount <= max_amount ) {
                             overmap_buffer.mark_note_dangerous( note_location(), amount, true );
                             menu->ret = UILIST_MAP_NOTE_EDITED;
                             return true;
@@ -1744,8 +1737,10 @@ static void modify_horde_func( tripoint_abs_omt &curs )
     switch( smenu.ret ) {
         case 0:
             new_value = chosen_group.interest;
-            query_int( new_value, _( "Set interest to what value?  Currently %d" ), chosen_group.interest );
-            chosen_group.set_interest( new_value );
+            if( query_int( new_value, false, _( "Set interest to what value?  Currently %d" ),
+                           chosen_group.interest ) ) {
+                chosen_group.set_interest( new_value );
+            }
             break;
         case 1:
             horde_destination = ui::omap::choose_point( _( "Select a target destination for the horde." ),
@@ -1757,8 +1752,10 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             break;
         case 2:
             new_value = chosen_group.population;
-            query_int( new_value, _( "Set population to what value?  Currently %d" ), chosen_group.population );
-            chosen_group.population = new_value;
+            if( query_int( new_value, false, _( "Set population to what value?  Currently %d" ),
+                           chosen_group.population ) ) {
+                chosen_group.population = new_value;
+            }
             break;
         case 3:
             debug_menu::wishmonstergroup_mon_selection( chosen_group );
@@ -1768,7 +1765,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             // Screw it we hardcode a popup, if you really want to use this you're welcome to improve it
             popup( _( "Set behavior to which enum value?  Currently %d.  \nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ),
                    static_cast<int>( chosen_group.behaviour ) );
-            query_int( new_value, "" );
+            query_int( new_value, false, "" );
             chosen_group.behaviour = static_cast<mongroup::horde_behaviour>( new_value );
             break;
         case 5:
@@ -2108,17 +2105,10 @@ static tripoint_abs_omt display()
                 }
                 if( has_note ) {
                     const int max_amount = 20;
+                    int amount = clamp( danger_radius, 0, max_amount );
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    const std::string popupmsg = string_format( _( "Danger radius in overmap squares? (0-%d)" ),
-                                                 max_amount );
-                    string_input_popup pop;
-                    const int amount = pop
-                                       .title( popupmsg )
-                                       .width( 20 )
-                                       .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
-                                       .only_digits( true )
-                                       .query_int();
-                    if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
+                    if( query_int( amount, true, _( "Danger radius in overmap squares? (0-%d)" ),
+                                   max_amount ) && amount >= 0 && amount <= max_amount ) {
                         overmap_buffer.mark_note_dangerous( curs, amount, true );
                     }
                 }

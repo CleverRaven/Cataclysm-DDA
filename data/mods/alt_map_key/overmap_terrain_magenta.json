@@ -13,23 +13,23 @@
     ],
     "copy-from": "farm_supply_1",
     "name": "farm supply store",
-    "sym": "s",
-    "color": "i_magenta"
+    "sym": "S",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "farm_supply_roof_1", "farm_supply_roof_2", "farm_supply_roof_3", "farm_supply_roof_4" ],
     "copy-from": "farm_supply_roof_1",
     "name": "farm supply store",
-    "sym": "s",
-    "color": "i_magenta"
+    "sym": "S",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": "s_sports",
     "copy-from": "s_sports",
     "name": "sporting goods store",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -37,7 +37,7 @@
     "id": "s_sports_roof",
     "copy-from": "s_sports_roof",
     "name": "sporting goods store roof",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -45,7 +45,7 @@
     "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
     "copy-from": "s_clothes",
     "name": "clothing store",
-    "sym": "c",
+    "sym": "C",
     "color": "magenta"
   },
   {
@@ -62,7 +62,7 @@
     ],
     "copy-from": "s_clothes_roof",
     "name": "clothing store",
-    "sym": "c",
+    "sym": "C",
     "color": "magenta"
   },
   {
@@ -70,7 +70,7 @@
     "id": [ "s_fabricstore" ],
     "copy-from": "generic_city_building",
     "name": "fabric store",
-    "sym": "f",
+    "sym": "F",
     "color": "magenta"
   },
   {
@@ -78,7 +78,7 @@
     "id": [ "s_fabricstore_roof" ],
     "copy-from": "generic_city_building_roof",
     "name": "fabric store roof",
-    "sym": "f",
+    "sym": "F",
     "color": "magenta"
   },
   {
@@ -86,7 +86,7 @@
     "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ],
     "copy-from": "pawn",
     "name": "pawn shop",
-    "sym": "p",
+    "sym": "P",
     "color": "magenta"
   },
   {
@@ -94,7 +94,7 @@
     "id": [ "pawn_roof", "pawn_roof_1", "pawn_pf_roof" ],
     "copy-from": "pawn_roof",
     "name": "pawn shop roof",
-    "sym": "p",
+    "sym": "P",
     "color": "magenta"
   },
   {
@@ -102,7 +102,7 @@
     "id": "cs_sex_shop",
     "copy-from": "cs_sex_shop",
     "name": "sex shop",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -110,7 +110,7 @@
     "id": "cs_sex_shop_roof",
     "copy-from": "cs_sex_shop_roof",
     "name": "sex shop roof",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -118,7 +118,7 @@
     "id": "s_camping",
     "name": "outdoorsman's store",
     "copy-from": "s_camping",
-    "sym": "o",
+    "sym": "O",
     "color": "magenta"
   },
   {
@@ -126,7 +126,7 @@
     "id": "s_camping_roof",
     "name": "outdoorsman's store",
     "copy-from": "s_camping_roof",
-    "sym": "o",
+    "sym": "O",
     "color": "magenta"
   },
   {
@@ -134,7 +134,7 @@
     "id": "s_hunting",
     "copy-from": "s_hunting",
     "name": "hunting supply store",
-    "sym": "h",
+    "sym": "H",
     "color": "magenta"
   },
   {
@@ -142,7 +142,7 @@
     "id": "s_hunting_roof",
     "copy-from": "s_hunting_roof",
     "name": "hunting supply store roof",
-    "sym": "h",
+    "sym": "H",
     "color": "magenta"
   },
   {
@@ -150,7 +150,7 @@
     "id": "s_games",
     "copy-from": "s_games",
     "name": "gaming store",
-    "sym": "g",
+    "sym": "G",
     "color": "magenta"
   },
   {
@@ -158,7 +158,7 @@
     "id": "s_games_roof",
     "copy-from": "s_games_roof",
     "name": "gaming store roof",
-    "sym": "g",
+    "sym": "G",
     "color": "magenta"
   },
   {
@@ -179,31 +179,31 @@
     ],
     "copy-from": "city_block2_1",
     "name": "urban city block",
-    "sym": "u",
-    "color": "i_magenta"
+    "sym": "U",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "strip_mall_1", "strip_mall_2", "strip_mall_3", "strip_mall_4" ],
     "copy-from": "strip_mall_1",
     "name": "strip mall",
-    "sym": "s",
-    "color": "i_magenta"
+    "sym": "S",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "strip_mall_roof_1", "strip_mall_roof_2", "strip_mall_roof_3", "strip_mall_roof_4" ],
     "copy-from": "strip_mall_roof_1",
     "name": "strip mall roof",
-    "sym": "s",
-    "color": "i_magenta"
+    "sym": "S",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "craft_shop", "craft_shop_1", "craft_shop_2", "craft_shop_3" ],
     "copy-from": "craft_shop",
     "name": "craft shop",
-    "sym": "c",
+    "sym": "C",
     "color": "magenta"
   },
   {
@@ -211,7 +211,7 @@
     "id": "craft_shop_upper_roof",
     "copy-from": "craft_shop_upper_roof",
     "name": "craft shop upper roof",
-    "sym": "c",
+    "sym": "C",
     "color": "magenta"
   },
   {
@@ -219,7 +219,7 @@
     "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2", "craft_shop_roof_3" ],
     "copy-from": "craft_shop_roof",
     "name": "craft shop roof",
-    "sym": "c",
+    "sym": "C",
     "color": "magenta"
   },
   {
@@ -227,7 +227,7 @@
     "id": [ "craft_shop_2ndfloor_2", "craft_shop_2ndfloor_3" ],
     "copy-from": "craft_shop_2ndfloor_2",
     "name": "craft shop 2nd floor",
-    "sym": "c",
+    "sym": "C",
     "color": "magenta"
   },
   {
@@ -235,7 +235,7 @@
     "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
     "copy-from": "mil_surplus",
     "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
-    "sym": "m",
+    "sym": "M",
     "color": "magenta"
   },
   {
@@ -243,7 +243,7 @@
     "id": "s_thrift",
     "copy-from": "s_thrift",
     "name": "thrift store",
-    "sym": "t",
+    "sym": "T",
     "color": "magenta"
   },
   {
@@ -251,7 +251,7 @@
     "id": "s_thrift_roof",
     "copy-from": "s_thrift_roof",
     "name": "thrift store roof",
-    "sym": "t",
+    "sym": "T",
     "color": "magenta"
   },
   {
@@ -259,7 +259,7 @@
     "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ],
     "copy-from": "mil_surplus_roof",
     "name": { "str": "mil. surplus roof", "//NOLINT(cata-text-style)": "not a period" },
-    "sym": "m",
+    "sym": "M",
     "color": "magenta"
   },
   {
@@ -267,7 +267,7 @@
     "id": "s_dive_shop",
     "name": "dive shop",
     "copy-from": "s_dive_shop",
-    "sym": "d",
+    "sym": "D",
     "color": "magenta"
   },
   {
@@ -275,7 +275,7 @@
     "id": "s_dive_shop_roof",
     "name": "dive shop roof",
     "copy-from": "s_dive_shop_roof",
-    "sym": "d",
+    "sym": "D",
     "color": "magenta"
   },
   {
@@ -283,7 +283,7 @@
     "id": "salon",
     "copy-from": "salon",
     "name": "salon",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -291,7 +291,7 @@
     "id": "salon_roof",
     "copy-from": "salon_roof",
     "name": "salon roof",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -299,7 +299,7 @@
     "id": "s_music",
     "copy-from": "s_music",
     "name": "music store",
-    "sym": "m",
+    "sym": "M",
     "color": "magenta"
   },
   {
@@ -307,7 +307,7 @@
     "id": "s_music_roof",
     "copy-from": "s_music_roof",
     "name": "music store roof",
-    "sym": "m",
+    "sym": "M",
     "color": "magenta"
   },
   {
@@ -324,16 +324,16 @@
     ],
     "copy-from": "megastore_0_0_0",
     "name": "megastore",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": "megastore_1_2_0",
     "copy-from": "megastore_1_2_0",
     "name": "megastore",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -350,8 +350,8 @@
     ],
     "copy-from": "megastore_0_0_1",
     "name": "megastore, second floor",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -367,23 +367,23 @@
     ],
     "copy-from": "megastore_0_0_roof",
     "name": "megastore roof",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": "megastore_1_1_roof",
     "copy-from": "megastore_1_1_roof",
     "name": "megastore roof",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "id": [ "small_storage_units", "small_storage_units_1" ],
     "copy-from": "small_storage_units",
     "type": "overmap_terrain",
     "name": "small storage units",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -391,7 +391,7 @@
     "id": [ "small_storage_units_roof", "small_storage_units_roof_1" ],
     "copy-from": "small_storage_units_roof",
     "name": "small storage units roof",
-    "sym": "s",
+    "sym": "S",
     "color": "magenta"
   },
   {
@@ -399,7 +399,7 @@
     "id": "s_jewelry",
     "copy-from": "s_jewelry",
     "name": "jewelry store",
-    "sym": "j",
+    "sym": "J",
     "color": "magenta"
   },
   {
@@ -407,7 +407,7 @@
     "id": "s_jewelry_roof",
     "copy-from": "s_jewelry_roof",
     "name": "jewelry store roof",
-    "sym": "j",
+    "sym": "J",
     "color": "magenta"
   },
   {
@@ -415,7 +415,7 @@
     "id": "s_antique",
     "copy-from": "s_antique",
     "name": "antique store",
-    "sym": "a",
+    "sym": "A",
     "color": "magenta"
   },
   {
@@ -423,7 +423,7 @@
     "id": "s_antique_roof",
     "copy-from": "s_antique_roof",
     "name": "antique store roof",
-    "sym": "a",
+    "sym": "A",
     "color": "magenta"
   },
   {
@@ -431,7 +431,7 @@
     "id": "s_gardening",
     "copy-from": "s_gardening",
     "name": "gardening supply",
-    "sym": "g",
+    "sym": "G",
     "color": "magenta"
   },
   {
@@ -439,7 +439,7 @@
     "id": "s_gardening_roof",
     "copy-from": "s_gardening_roof",
     "name": "gardening supply roof",
-    "sym": "g",
+    "sym": "G",
     "color": "magenta"
   },
   {
@@ -447,7 +447,7 @@
     "id": "furniture",
     "copy-from": "furniture",
     "name": "furniture store",
-    "sym": "f",
+    "sym": "F",
     "color": "magenta"
   },
   {
@@ -455,7 +455,7 @@
     "id": [ "furniture_roof", "furniture_upper_roof" ],
     "copy-from": "furniture_roof",
     "name": "furniture store roof",
-    "sym": "f",
+    "sym": "F",
     "color": "magenta"
   },
   {
@@ -463,7 +463,7 @@
     "copy-from": "dispensary",
     "type": "overmap_terrain",
     "name": "dispensary",
-    "sym": "d",
+    "sym": "D",
     "color": "magenta"
   },
   {
@@ -471,7 +471,7 @@
     "id": [ "dispensary_roof", "dispensary_roof_1", "dispensary_roof_2" ],
     "copy-from": "dispensary_roof",
     "name": "dispensary roof",
-    "sym": "d",
+    "sym": "D",
     "color": "magenta"
   },
   {
@@ -479,7 +479,7 @@
     "id": "headshop",
     "copy-from": "headshop",
     "name": "head shop",
-    "sym": "h",
+    "sym": "H",
     "color": "magenta"
   },
   {
@@ -487,7 +487,7 @@
     "id": [ "headshop_roof", "headshop_upper_roof" ],
     "copy-from": "headshop_roof",
     "name": "head shop roof",
-    "sym": "h",
+    "sym": "H",
     "color": "magenta"
   },
   {
@@ -495,7 +495,7 @@
     "id": [ "dollarstore", "dollarstore_1" ],
     "copy-from": "dollarstore",
     "name": "dollar store",
-    "sym": "d",
+    "sym": "D",
     "color": "magenta"
   },
   {
@@ -503,7 +503,7 @@
     "id": [ "dollarstore_roof", "dollarstore_roof_1" ],
     "copy-from": "dollarstore_roof",
     "name": "dollar store roof",
-    "sym": "d",
+    "sym": "D",
     "color": "magenta"
   },
   {
@@ -511,7 +511,7 @@
     "id": [ "s_petstore", "s_petstore_1", "s_petstore_2" ],
     "copy-from": "s_petstore",
     "name": "pet supply store",
-    "sym": "p",
+    "sym": "P",
     "color": "magenta"
   },
   {
@@ -519,7 +519,7 @@
     "id": [ "s_petstore_roof", "s_petstore_roof_1", "s_petstore_roof_2" ],
     "copy-from": "s_petstore_roof",
     "name": "pet supply store roof",
-    "sym": "p",
+    "sym": "P",
     "color": "magenta"
   },
   {
@@ -533,8 +533,8 @@
     ],
     "copy-from": "large_storage_units_3",
     "name": "storage units",
-    "sym": "s",
-    "color": "i_magenta"
+    "sym": "S",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -547,48 +547,48 @@
     ],
     "copy-from": "large_storage_units_roof_3",
     "name": "storage units roof",
-    "sym": "s",
-    "color": "i_magenta"
+    "sym": "S",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mall_a_3", "mall_b_3" ],
     "copy-from": "mall_a_3",
     "name": "mall - loading bay",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mall_a_3_roof", "mall_upper_roof_3" ],
     "copy-from": "mall_a_3_roof",
     "name": "mall - loading bay roof",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": "mall_upper_roof_4",
     "copy-from": "mall_upper_roof_4",
     "name": "mall - loading bay roof",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mall_a_4", "mall_b_4", "mall_a_5", "mall_b_5" ],
     "copy-from": "mall_a_4",
     "name": "mall - utilities",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mall_a_4_roof", "mall_a_5_roof" ],
     "copy-from": "mall_a_4_roof",
     "name": "mall - utilities roof",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -608,24 +608,24 @@
     ],
     "name": "mall - entrance",
     "copy-from": "mall_a_14",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mall_a_29", "mall_b_29" ],
     "copy-from": "mall_a_29",
     "name": "mall - food court",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
     "id": [ "mall_a_20", "mall_b_20", "mall_a_20_roof", "mall_a_29_roof" ],
     "copy-from": "mall_a_20",
     "name": "mall - food court roof",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -760,8 +760,8 @@
       "mall_upper_roof_51"
     ],
     "copy-from": "mall_a_11",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   },
   {
     "type": "overmap_terrain",
@@ -778,7 +778,7 @@
     ],
     "copy-from": "mall_a_58_basement",
     "name": "mall - subway station",
-    "sym": "m",
-    "color": "i_magenta"
+    "sym": "M",
+    "color": "magenta"
   }
 ]

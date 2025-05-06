@@ -416,6 +416,7 @@ Dont show liquids from held or worn container
 Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
 Debug option to view used palette symbols
+Add option to disable mouse
 
 
 ## Mods:
@@ -798,6 +799,8 @@ Aftershock: Merge aftershock and aftershock exoplanet.
 Aftershock: Heat Crashed Ship.
 Mod Conflicts
 [Xedra Evolved] Add design docs for easier collaboration
+[Xedra Evolved] Add feral vampires, put them in house nests + caves
+[The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
 
 
 ## Balance:
@@ -1243,6 +1246,7 @@ Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
+Can't craft batches so big that they vanish when the game has nowhere to put them
 
 
 ## Performance:
