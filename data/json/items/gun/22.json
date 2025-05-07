@@ -713,5 +713,25 @@
         "description": "A very popular handgun, the SR22 is a more conventional pistol than Ruger's other famous .22 LR handguns, the Ruger Standards.  While .22 LR is still capable of killing, the very short barrel brings that into question."
       }
     ]
+  },
+  {
+    "id": "glock_44",
+    "copy-from": "gun_base_22_semi_pistol",
+    "looks_like": "glock19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 44" },
+    "description": "A Glock chambered in .22LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
+    "weight": "358 g",
+    "volume": "398 ml",
+    "longest_side": "212 mm",
+    "barrel_length": "108 mm",
+    "price": "380 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel", "plastic" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 580,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock44_mag" ] } ]
   }
 ]

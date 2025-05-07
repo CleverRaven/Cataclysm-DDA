@@ -50,6 +50,24 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 10, "357sig": 10 } } ]
   },
   {
+    "id": "glock40mag_9",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Glock 27 magazine" },
+    "description": "A compact, light-weight polymer magazine with a 9 round capacity.  It cannot fit .357 SIG rounds like its counterparts, but it can still fit inside the larger .40 Glocks.",
+    "weight": "55 g",
+    "volume": "85 ml",
+    "longest_side": "11 cm",
+    "price": "32 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "40" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 9 } } ]
+  },
+  {
     "id": "px4_40mag",
     "//": "Audited with ImageJ.  Weight from Beretta 12rd ratio.",
     "looks_like": "glock17_17",

@@ -413,6 +413,48 @@
     ]
   },
   {
+    "id": "glock_30",
+    "copy-from": "gun_base_45_semi_pistol",
+    "looks_like": "glock_17",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 30" },
+    "description": "A Glock compact pistol chambered in .45 ACP.  Accepts the same magazines as its older brothers.",
+    "weight": "675 g",
+    "volume": "422 ml",
+    "longest_side": "177 mm",
+    "barrel_length": "96 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "magazine_well": "107 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glock_21mag_10", "glock_21mag", "glock_21mag26" ]
+      }
+    ]
+  },
+  {
+    "id": "glock_36",
+    "copy-from": "gun_base_45_semi_pistol",
+    "looks_like": "glock_17",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 36" },
+    "description": "A Glock subcompact pistol chambered in .45 ACP.  Due to its slim construction, it only accepts Glock 36 magazines.",
+    "weight": "565 g",
+    "volume": "370 ml",
+    "longest_side": "177 mm",
+    "barrel_length": "96 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "107 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock36_mag" ] } ]
+  },
+  {
     "id": "greasegun",
     "copy-from": "gun_base_45_semi_rifle",
     "looks_like": "hk_mp5",

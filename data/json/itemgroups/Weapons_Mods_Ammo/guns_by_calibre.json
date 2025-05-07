@@ -7,6 +7,11 @@
     "items": [
       { "group": "nested_glock_17", "prob": 73 },
       { "group": "nested_glock_19", "prob": 100 },
+      { "group": "nested_glock_26", "prob": 14 },
+      { "group": "nested_glock_34", "prob": 11 },
+      { "group": "nested_glock_43", "prob": 13 },
+      { "group": "nested_glock_43x", "prob": 51 },
+      { "group": "nested_glock_48", "prob": 19 },
       { "group": "nested_p365", "prob": 161 },
       { "group": "nested_m9", "prob": 22 },
       { "group": "nested_px4", "prob": 5 },
@@ -40,7 +45,8 @@
       { "group": "nested_ruger_mk4", "prob": 113 },
       { "group": "nested_ruger_charger", "prob": 16 },
       { "group": "nested_1911_22", "prob": 100 },
-      { "group": "nested_sw617", "prob": 46 }
+      { "group": "nested_sw617", "prob": 46 },
+      { "group": "nested_glock_44", "prob": 13 }
     ]
   },
   {
@@ -48,6 +54,8 @@
     "id": "guns_pistol_common_45",
     "items": [
       { "group": "nested_glock_21", "prob": 14 },
+      { "group": "nested_glock_30", "prob": 10 },
+      { "group": "nested_glock_36", "prob": 3 },
       { "group": "nested_m1911", "prob": 100 },
       { "group": "nested_walther_ppq_45", "prob": 1 },
       { "group": "nested_hptjhp", "prob": 2 },
@@ -60,7 +68,8 @@
     "items": [
       { "group": "nested_rugerlcp", "prob": 231 },
       { "group": "nested_hptcf380", "prob": 100 },
-      { "group": "nested_swbodyguard", "prob": 1673 }
+      { "group": "nested_swbodyguard", "prob": 1673 },
+      { "group": "nested_glock_42", "prob": 439 }
     ]
   },
   {
@@ -68,6 +77,8 @@
     "id": "guns_pistol_common_40",
     "items": [
       { "group": "nested_glock_22", "prob": 100 },
+      { "group": "nested_glock_23", "prob": 61 },
+      { "group": "nested_glock_27", "prob": 75 },
       { "group": "nested_px4_40", "prob": 20 },
       { "group": "nested_hi_power_40", "prob": 3 },
       { "group": "nested_hptjcp", "prob": 29 }
@@ -192,6 +203,11 @@
     "items": [
       { "item": "glock_17", "prob": 7, "charges": [ 0, -1 ] },
       { "item": "glock_19", "prob": 100, "charges": [ 0, -1 ] },
+      { "item": "glock_26", "prob": 14, "charges": [ 0, -1 ] },
+      { "item": "glock_34", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "glock_43", "prob": 13, "charges": [ 0, -1 ] },
+      { "item": "glock_43x", "prob": 51, "charges": [ 0, -1 ] },
+      { "item": "glock_48", "prob": 19, "charges": [ 0, -1 ] },
       { "item": "p365", "prob": 161, "charges": [ 0, -1 ] },
       { "item": "m9", "variant": "m9", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "px4", "prob": 5, "charges": [ 0, -1 ] },
@@ -220,6 +236,7 @@
       { "item": "ruger_mk4", "prob": 16, "charges": [ 0, -1 ] },
       { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] },
       { "item": "cp33", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "glock_44", "prob": 13, "charges": [ 0, -1 ] },
       { "item": "sw617", "prob": 8, "charges": [ 0, -1 ] }
     ]
   },
@@ -228,6 +245,8 @@
     "id": "guns_pistol_common_everyday_carry_45",
     "items": [
       { "item": "glock_21", "prob": 2, "charges": [ 0, -1 ] },
+      { "item": "glock_30", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "glock_36", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "m1911", "prob": 13, "charges": [ 0, -1 ] },
       { "item": "walther_ppq_45", "prob": 1, "charges": [ 0, -1 ] },
       { "item": "hptjhp", "prob": 1, "charges": [ 0, -1 ] },
@@ -240,7 +259,8 @@
     "items": [
       { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] },
       { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] },
-      { "item": "swbodyguard", "prob": 1673, "charges": [ 0, -1 ] }
+      { "item": "swbodyguard", "prob": 1673, "charges": [ 0, -1 ] },
+      { "item": "glock_42", "prob": 439, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -248,6 +268,8 @@
     "id": "guns_pistol_common_everyday_carry_40",
     "items": [
       { "item": "glock_22", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "glock_23", "prob": 61, "charges": [ 0, -1 ] },
+      { "item": "glock_27", "prob": 75, "charges": [ 0, -1 ] },
       { "item": "px4_40", "prob": 20, "charges": [ 0, -1 ] },
       { "item": "hi_power_40", "prob": 1, "charges": [ 0, -1 ] },
       { "item": "hptjcp", "prob": 3, "charges": [ 0, -1 ] }
@@ -325,6 +347,11 @@
     "items": [
       { "item": "glock_17", "prob": 73 },
       { "item": "glock_19", "prob": 100 },
+      { "item": "glock_26", "prob": 14 },
+      { "item": "glock_34", "prob": 11 },
+      { "item": "glock_43", "prob": 13 },
+      { "item": "glock_43x", "prob": 51 },
+      { "item": "glock_48", "prob": 19 },
       { "item": "p365", "prob": 161 },
       { "item": "m9", "variant": "m9", "prob": 22 },
       { "item": "px4", "prob": 5 },
@@ -358,7 +385,8 @@
       { "item": "ruger_mk4", "prob": 113 },
       { "item": "ruger_charger", "prob": 16 },
       { "item": "1911_22", "prob": 100 },
-      { "item": "sw617", "prob": 46 }
+      { "item": "sw617", "prob": 46 },
+      { "item": "glock_44", "prob": 13 }
     ]
   },
   {
@@ -366,6 +394,8 @@
     "id": "guns_pistol_common_display_45",
     "items": [
       { "item": "glock_21", "prob": 14 },
+      { "item": "glock_21", "prob": 10 },
+      { "item": "glock_36", "prob": 3 },
       { "item": "m1911", "prob": 100 },
       { "item": "walther_ppq_45", "prob": 1 },
       { "item": "hptjhp", "prob": 2 },
@@ -375,13 +405,20 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_380",
-    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 }, { "item": "swbodyguard", "prob": 1673 } ]
+    "items": [
+      { "item": "rugerlcp", "prob": 231 },
+      { "item": "hptcf380", "prob": 100 },
+      { "item": "swbodyguard", "prob": 1673 },
+      { "item": "glock_42", "prob": 439 }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_40",
     "items": [
       { "item": "glock_22", "prob": 100 },
+      { "item": "glock_23", "prob": 61 },
+      { "item": "glock_27", "prob": 75 },
       { "item": "px4_40", "prob": 20 },
       { "item": "hi_power_40", "prob": 3 },
       { "item": "hptjcp", "prob": 29 }
