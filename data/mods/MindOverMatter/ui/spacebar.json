@@ -192,7 +192,11 @@
           "//~": "NO_I18N"
         },
         "condition": {
-          "and": [ { "math": [ "u_vitamin('vitamin_psionic_drain') <= 194" ] }, { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" } ]
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') <= 194" ] },
+            { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
         }
       },
       {
@@ -203,6 +207,7 @@
         },
         "condition": {
           "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 195" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain') < 215" ] },
             { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
@@ -217,6 +222,7 @@
         },
         "condition": {
           "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 215" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain') < 235" ] },
             { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
@@ -230,7 +236,11 @@
           "//~": "NO_I18N"
         },
         "condition": {
-          "and": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 235" ] }, { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" } ]
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 235" ] },
+            { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
         }
       },
       {

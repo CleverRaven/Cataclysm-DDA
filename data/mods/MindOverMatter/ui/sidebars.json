@@ -210,7 +210,11 @@
         "id": "visible_torrential_1",
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
-          "and": [ { "math": [ "u_vitamin('vitamin_psionic_drain') <= 194" ] }, { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" } ]
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') <= 194" ] },
+            { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
         }
       },
       {
@@ -218,6 +222,7 @@
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
           "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 195" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain') < 215" ] },
             { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
@@ -229,6 +234,7 @@
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
           "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
             { "math": [ "u_vitamin('vitamin_psionic_drain') >= 215" ] },
             { "math": [ "u_vitamin('vitamin_psionic_drain') < 235" ] },
             { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
@@ -239,7 +245,11 @@
         "id": "visible_torrential_3",
         "text": { "str": "<color_white>T Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ T</color>", "//~": "NO_I18N" },
         "condition": {
-          "and": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 235" ] }, { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" } ]
+          "and": [
+            { "not": { "u_has_any_effect": [ "effect_noetic_resilience" ] } },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 235" ] },
+            { "u_has_effect": "PSI_TORRENTIAL_CHANNELING_active" }
+          ]
         }
       },
       {
