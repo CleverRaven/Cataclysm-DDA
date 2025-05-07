@@ -1817,11 +1817,15 @@
       {
         "id": "picture",
         "name": { "str": "picture t-shirt" },
+        "append": true,
+        "expand_snippets": true,
         "description": "This one has a picture on it, <clothing_picture>"
       },
       {
         "id": "text",
         "name": { "str": "text print t-shirt" },
+        "append": true,
+        "expand_snippets": true,
         "description": "This one has some text on it, it says \"<clothing_text>\""
       },
       {
@@ -1835,12 +1839,14 @@
         "id": "linux",
         "name": { "str": "linux t-shirt" },
         "append": true,
+        "expand_snippets": true,
         "description": "This one has a joke in the form of <linux_joke>."
       },
       {
         "id": "band",
         "name": { "str": "band t-shirt" },
         "append": true,
+        "expand_snippets": true,
         "description": "This one is merch for a music band and has <music_band_graphic>"
       },
       {
