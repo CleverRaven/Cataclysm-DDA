@@ -39,6 +39,12 @@
         "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-172-9558 A363\n1000 CRTG 9 MM\nBALL M882</color>"
       },
       {
+        "id": "ammunition_can_30_9mm_P_1000",
+        "name": { "str": "1000 9x19mm FMJ ammo can" },
+        "weight": 0,
+        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-663-9409\n1000 CRTG 9 MM\nBALL M1152</color>"
+      },
+      {
         "id": "ammunition_can_30_9mm_jhp_1000",
         "name": { "str": "1000 9x19mm JHP ammo can" },
         "weight": 0,
