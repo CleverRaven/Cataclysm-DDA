@@ -12843,7 +12843,14 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     std::vector<item *> removed_items;
-    for( item *contained : all_items_ptr( pocket_type::CONTAINER ) ) {
+    const std::list<item *> temp_contained_list = all_items_ptr( pocket_type::CONTAINER );
+    std::list<item *> contained_list;
+    // Reverse the list, as it's created from the top down, but we have to remove items
+    // from the bottom up in order for the references to remain valid until used.
+    for( item *contained : temp_contained_list ) {
+        contained_list.emplace_front( contained );
+    }
+    for( item *contained : contained_list ) {
         if( contained->use_amount_internal( it, quantity, used, filter ) ) {
             removed_items.push_back( contained );
         }
