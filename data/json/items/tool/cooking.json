@@ -1241,7 +1241,7 @@
       "//": "2 weeks for cristallizing sugar, based on the real-life example"
     },
     "flags": [ "NO_SALVAGE" ]
-  }
+  },
   {
     "id": "split_seed_hops",
     "type": "ITEM",
