@@ -266,7 +266,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str": "wax slug" },
-    "description": "a round of 12 gauge birdshot that has had wax poured into the shot, and a cut made near the base. attempts to mimmic a slug.",
+    "description": "A round of 12 gauge birdshot that has had a cut made near the base, and had wax poured into the shot to mimic the performance of a proper slug.",
     "ascii_picture": "shot_slug",
     "price": "0 USD",
     "price_postapoc": "2 USD",
