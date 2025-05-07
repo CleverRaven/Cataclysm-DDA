@@ -6673,7 +6673,7 @@ void vehicle::refresh( const bool remove_fakes )
     // guarantee that the fake parts were removed before being added
     if( remove_fakes && !has_tag( "wreckage" ) && !is_appliance() ) {
         // Calling add_fake_part can change that container, so iterate over a copy instead.
-        const decltype(relative_parts) copy_of_relative_parts = relative_parts;
+        const decltype( relative_parts ) copy_of_relative_parts = relative_parts;
         // add all the obstacles first
         for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
