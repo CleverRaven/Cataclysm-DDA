@@ -1092,7 +1092,7 @@
     "subtype": "hobby",
     "id": "soccer_expert",
     "name": "Soccer (Expert)",
-    "description": "You were on trial at a professional club, ready to get a contract. What a great opportunity for you, if only your coaches were still alive.",
+    "description": "You were on trial at a professional club, ready to get a contract.  What a great opportunity for you, if only your coaches were still alive.",
     "points": 8,
     "skills": [ { "level": 5, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
