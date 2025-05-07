@@ -368,6 +368,11 @@
         "id": "akbayonet",
         "name": { "str": "AK bayonet" },
         "description": "A 6H4 bayonet for Kalashnikov pattern rifles, usually imported military surplus from eastern bloc countries.  The blade is made of stainless steel and the handle of a lightweight and durable plastic.  It features a middling metal saw on the spine of the blade, and can function as a wire cutter as well.  Though it is quite sturdy, it can't hold an edge very well."
+      },
+      {
+        "id": "exodiibayonet",
+        "name": { "str": "L-backswerda" },
+        "description": "A bayonet, although not of any model you're familiar with.  Despite differences in appearance it seems analogous to any other bayonet - The chrome shaded blade is worn but well-maintained, with a grooved edge on its back to act as a sawing implement.  The handle and guard have some additional mechanisms installed to help affix it to a variety of firearms."
       }
     ],
     "//": "An M9 Bayonet.",
@@ -3298,50 +3303,5 @@
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 3 ] ] }
-  },
-  {
-    "id": "exodii_bayonet",
-    "type": "GENERIC",
-    "name": { "str": "H-backswerda" },
-    "description": "A straight, featureless blade with a faded chrome shine and a thick handle, the sharp tip suggesting its meant for puncturing rather than slicing.  The Exodii have installed a mechanism into the guard to mount it as a bayonet on their preferred firearms, serving more as a standoff device for them than a primary weapon.  Despite that, its long enough to serve as a decent sized sword by itself.",
-    "material": [ "ch_steel", "fiberglass" ],
-    "weight": "100 g",
-    "volume": "1310 ml",
-    "color": "white",
-    "longest_side": "100 cm",
-    "repairs_with": [ "lc_steel" ],
-    "gunmod_data": {
-      "location": "bayonet lug",
-      "mod_targets": [ "pamd68", "pamd71z", "pamd68mountable" ],
-      "is_bayonet": true,
-      "blacklist_mod": [
-        "crafted_suppressor",
-        "filter_suppressor",
-        "shot_suppressor",
-        "suppressor",
-        "suppressor_compact",
-        "m203",
-        "m203_mod",
-        "m320_mod_mod",
-        "m320_mod",
-        "M6_shotgun",
-        "m26_mass",
-        "m26_mass_mod",
-        "masterkey",
-        "masterkey_mod",
-        "u_shotgun",
-        "u_shotgun_mod"
-      ],
-      "install_time": "10 s"
-    },
-    "symbol": "/",
-    "looks_like": "jian",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "price_postapoc": "35 USD",
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
-    "melee_damage": { "bash": 5, "stab": 28 }
   }
 ]
