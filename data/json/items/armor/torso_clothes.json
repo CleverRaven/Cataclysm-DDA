@@ -1055,7 +1055,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "warmth": 5,
-    "material_thickness": 0.1,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE" ],
     "armor": [ { "breathability": "SECOND_SKIN", "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ],
     "variant_type": "generic",
