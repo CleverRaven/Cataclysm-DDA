@@ -1081,7 +1081,7 @@
     "subtype": "hobby",
     "id": "soccer",
     "name": "Soccer (Intermediate)",
-    "description": "Your fondness for the beautiful game shows with your flairs, skills and tackles. Whether you can go past the backline of the undead is a question yet to be answered.",
+    "description": "Your fondness for the beautiful game shows with your flairs, skills and tackles.  Whether you can go past the backline of the undead is a question yet to be answered.",
     "points": 5,
     "skills": [ { "level": 3, "name": "dodge" }, { "level": 1, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic" ],
