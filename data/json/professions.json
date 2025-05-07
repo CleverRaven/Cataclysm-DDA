@@ -15,7 +15,14 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_glock19_fed",
-    "entries": [ { "item": "glock_19", "variant": "glock_19_cop", "charges": 15, "contents-item": [ "red_dot_sight" ] } ]
+    "entries": [
+      {
+        "item": "glock_19",
+        "variant": "glock_19_cop",
+        "charges": 15,
+        "contents-item": [ "red_dot_sight", "sights_mount_pistol" ]
+      }
+    ]
   },
   {
     "type": "item_group",

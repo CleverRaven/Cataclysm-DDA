@@ -34,6 +34,8 @@
       { "item": "p365_mag", "prob": 161 },
       { "item": "glock17_10", "prob": 48 },
       { "item": "glockmag_10", "prob": 52 },
+      { "item": "glock43_mag", "prob": 16 },
+      { "item": "glock43x/48_mag", "prob": 13 },
       { "item": "m9mag_10rd", "prob": 20 },
       { "item": "px4mag_10rd", "prob": 20 },
       { "item": "usp9mag_10rd", "prob": 20 },
@@ -105,6 +107,7 @@
       { "item": "22_ar15mag_10", "prob": 8 },
       { "item": "ruger1022mag", "prob": 100 },
       { "item": "cp33_mag", "prob": 5 },
+      { "item": "glock44_mag", "prob": 2 },
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
@@ -194,6 +197,7 @@
     "items": [
       { "item": "glock_21mag_10", "prob": 100 },
       { "item": "thompson_mag", "prob": 21 },
+      { "item": "glock36_mag", "prob": 40 },
       { "item": "usc10mag", "prob": 18 },
       { "group": "magazines_45_1911", "prob": 1107 },
       { "item": "usp45mag", "prob": 30 },
@@ -292,6 +296,7 @@
     "items": [
       { "group": "magazines_hipoint380", "prob": 44 },
       { "item": "rugerlcpmag", "prob": 100 },
+      { "item": "glock42_mag", "prob": 24 },
       { "item": "swbodyguard_mag", "prob": 724 },
       { "item": "hpt3895mag_10rd", "prob": 4 }
     ]
