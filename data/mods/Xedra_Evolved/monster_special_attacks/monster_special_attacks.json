@@ -180,17 +180,18 @@
     "id": "EOC_guilty_whispers_curse",
     "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "has_beta", "npc_is_character" ] },
     "effect": [
-      { "add_effect": "haunting_whispers" },
+      { "add_effect": "effect_haunting_whispers" },
       { "run_eocs": "EOC_haunting_whispers_program" }
       ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_haunting_whispers_program",
+    "recurrence": "45 seconds",
     "condition": { "and": [ { "math": [ "u_mon_species_nearby( 'FERAL', 'radius': 25, 'attitude': 'both') > 0" ] }, [ "n_monsters_nearby('mon_whispering_stabber') < 1" ] "u_has_effect", "haunting_whispers" ] },
     "effect": [
       { "npc_cast_spell": "guilty_whispers_possession" },
-      { "run_eocs": "EOC_haunting_whispers_program" }
+      { "run_eocs": "EOC_haunting_whispers_program2" }
       ]
   },
   {

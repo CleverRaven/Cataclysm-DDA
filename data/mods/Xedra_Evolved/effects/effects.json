@@ -2493,6 +2493,13 @@
     "name": [ "" ],
     "desc": [ "" ]
   },
+    {
+    "type": "effect_type",
+    "id": "effect_haunting_whispers",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
   {
     "type": "effect_type",
     "id": "effect_hedge_increase_healing_rate",

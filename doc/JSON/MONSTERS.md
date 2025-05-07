@@ -220,7 +220,7 @@ Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movi
 
 A list of species ids. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
 
-In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
+In mainline game it can be HUMAN, FERAL, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
 ## "volume"
 (string, required)
