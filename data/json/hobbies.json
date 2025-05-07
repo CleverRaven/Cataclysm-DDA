@@ -1082,10 +1082,10 @@
     "id": "soccer",
     "name": "Soccer (Intermediate)",
     "description": "Your fondness for the beautiful game shows with your flairs, skills and tackles.  Whether you can go past the backline of the undead is a question yet to be answered.",
-    "points": 5,
+    "points": 4,
     "skills": [ { "level": 3, "name": "dodge" }, { "level": 1, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic" ],
-    "traits": [ "TOUGH", "QUICK", "FLEET" ]
+    "traits": [ "QUICK", "FLEET" ]
   },
   {
     "type": "profession",
@@ -1093,10 +1093,10 @@
     "id": "soccer_expert",
     "name": "Soccer (Expert)",
     "description": "You were on trial at a professional club, ready to get a contract.  What a great opportunity for you, if only your coaches were still alive.",
-    "points": 8,
+    "points": 7,
     "skills": [ { "level": 5, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
-    "traits": [ "TOUGH", "QUICK", "FLEET", "PAINRESIST" ]
+    "traits": [ "QUICK", "FLEET", "PAINRESIST" ]
   },
   {
     "type": "profession",
