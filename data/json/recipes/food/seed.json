@@ -492,7 +492,7 @@
     "result": "split_seed_hops",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "seed_hops", 1 ] ] ]
+    "components": [ [ [ "seed_hops", 1 ] ] ],
     "charges": 2
   }
 ]
