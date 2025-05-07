@@ -5864,7 +5864,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tshirt", "variant": "tux" },
+          { "item": "tshirt" },
           { "item": "jacket_light" },
           { "item": "jeans" },
           { "item": "socks" },

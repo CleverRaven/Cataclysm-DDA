@@ -98,7 +98,7 @@
           { "item": "knit_scarf" },
           { "item": "leather_belt" },
           { "item": "primitive_knife", "container-item": "sheath" },
-          { "item": "tshirt", "variant": "start_a_cult_tshirt" },
+          { "item": "tshirt" },
           { "item": "onyx_silver_bracelet", "variant": "dark_bracelet" },
           { "item": "onyx_silver_ring", "variant": "dark_ring" }
         ]
