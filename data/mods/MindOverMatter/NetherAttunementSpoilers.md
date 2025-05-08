@@ -70,14 +70,14 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Mutation](#mutation) | 2 |
 | [Reality Tear](#reality-tear)* | 1 |
 
-Consequences marked with * require you to be under the effect of Nether Conduit or Observed for them to trigger.
+* require you to be under the effect of Nether Conduit or Observed for them to trigger.
 
 ## Consequence Descriptions
 The effect of many consequences are amplified by your current attunement vitamin, in severity and/or in length of the effect. Chances listed below do not take into account the increased chance based on the difficulty of the power used.
 
 ### Headache
 Minimum Attunement: 1  
-Chance: 0.5% - 33%  
+Chance: 0.5% to 33%  
 Description: You gain a headache that lasts based on the strength of your attunement  
 <sub>[Back to List](#attunement-consequences)</sub>
 
