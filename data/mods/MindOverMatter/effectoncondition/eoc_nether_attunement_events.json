@@ -674,7 +674,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 130) * 1.5), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 130) * 1.5), 0, 90) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
               ]
             },
             "y": 1000
@@ -707,7 +707,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 125) * 1.5), 0, 130) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 375) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 235) * 5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 125) * 1.5), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 140) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 235) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
               ]
             },
             "y": 1000
