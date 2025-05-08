@@ -2518,5 +2518,18 @@
     "id": "breacher_grip",
     "type": "MIGRATION",
     "replace": "grip"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sheriffshirt",
+    "from_variant": "sheriff",
+    "replace": "postman_shirt",
+    "variant": "sheriff"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "swat_shirt",
+    "replace": "postman_shirt",
+    "variant": "swat"
   }
 ]

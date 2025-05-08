@@ -1421,6 +1421,24 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
       }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic",
+        "name": { "str": "mail carrier shirt" },
+        "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it."
+      },
+      {
+        "id": "sheriff",
+        "name": { "str": "mail carrier shirt" },
+        "description": "A tan button-down shirt with long sleeves."
+      },
+      {
+        "id": "swat",
+        "name": { "str": "SWAT shirt" },
+        "description": "A charcoal button-down shirt with long sleeves.  Has a patch with the word \"SWAT\" affixed on one shoulder."
+      }
     ]
   },
   {
@@ -1508,45 +1526,6 @@
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
     ]
-  },
-  {
-    "id": "sheriffshirt",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "sheriff's shirt" },
-    "description": "A tan button-down shirt with long sleeves.",
-    "weight": "250 g",
-    "volume": "750 ml",
-    "variants": [
-      { "id": "sheriff", "name": { "str": "sheriff's shirt" }, "description": "A tan button-down shirt with long sleeves." },
-      {
-        "id": "swat_shirt",
-        "name": { "str": "SWAT shirt" },
-        "description": "A charcoal button-down shirt with long sleeves.  Has a patch with the word \"SWAT\" affixed on one shoulder."
-      }
-    ],
-    "price": "11 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress_shirt",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 3, 5 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 3, 3 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "650 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "15 cm",
-        "moves": 80
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ]
   },
   {
     "id": "shirt_straw",
