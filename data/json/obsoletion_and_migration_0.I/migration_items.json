@@ -2528,7 +2528,8 @@
   },
   {
     "type": "MIGRATION",
-    "id": "swat_shirt",
+    "id": "sheriffshirt",
+    "from_variant": "swat_shirt",
     "replace": "postman_shirt",
     "variant": "swat"
   }
