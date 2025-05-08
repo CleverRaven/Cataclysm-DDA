@@ -125,7 +125,7 @@
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "difficulty": 9,
-    "time": "2 hours",
+    "time": "4 hours",
     "batch_time_factors": [ 40, 1 ],
     "charges": 10,
     "book_learn": [ [ "baking_book", 5 ] ],
