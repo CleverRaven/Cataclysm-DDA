@@ -633,7 +633,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE",
-    "//": "Base is 1.5% chance from 80 attunement to 120 attunement, then scaling up 0.1% per attunement up to 7.5% chance at 180 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
+    "//": "Base is 1.5% chance from 80 attunement to 120 attunement, then scaling up 0.2% per attunement up to 13.5% chance at 180 attunement, then scaling up 0.35% chance per attunement up to 38% chance at max, plus 1/10th the Difficulty squared.",
     "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 85" ] },
     "effect": [
       {
@@ -641,7 +641,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 3 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 2), 0, 120) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 3.5 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
               ]
             },
             "y": 1000
@@ -729,7 +729,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK",
-    "//": "Base is 1% chance from 85 attunement to 120 attunement, then scaling up 0.1% per attunement up to 8% chance at 190 attunement, then scaling up 0.35% chance per attunement up to 29% chance at max, plus 1/10th the Difficulty squared.",
+    "//": "Base is 2% chance from 85 attunement to 120 attunement, then scaling up 0.15% per attunement up to 12.5% chance at 190 attunement, then scaling up 0.35% chance per attunement up to 33.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
@@ -742,7 +742,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 1.5 ), 0, 105) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
               ]
             },
             "y": 1000
@@ -812,7 +812,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 70) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 3.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
               ]
             },
             "y": 1000
