@@ -345,7 +345,6 @@
         [ "EOC_NETHER_EFFECT_CHECK_BIOKIN_METABOLIC_INVERSION", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_ELECTROKINETIC_POWER_DRAIN", 5 ],
         [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 5 ],
-        [ "EOC_NETHER_EFFECT_CHECK_PYROKINETIC_FOG", 5 ],
         [ "EOC_NETHER_EFFECT_CHECK_EXTRA_KCAL", 6 ],
         [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 8 ],
         [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 5 ],
@@ -530,7 +529,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0, 80) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 2 ), 0, 80) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 3 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 2 ), 0, 80) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 3 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
               ]
             },
             "y": 1000
@@ -610,7 +609,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ((u_vitamin('vitamin_psionic_drain') * 1.5) - 135), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 2.5 ), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 135 ) * 1.5), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 2.5 ), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
               ]
             },
             "y": 1000
@@ -707,7 +706,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 125) * 1.5), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 140) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 235) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 125) * 1.5), 0, 75) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 180) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 235) * 5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
               ]
             },
             "y": 1000
@@ -911,7 +910,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( (( u_vitamin('vitamin_psionic_drain') * 2) - 150), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 4 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') - 150 ) * 2), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 4 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
               ]
             },
             "y": 1000
