@@ -653,8 +653,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                                              zpt.x() >= HALF_MAPSIZE_X + SEEX || zpt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
                     g->update_map( zpt.x(), zpt.y() );
                     // update_map invalidates bubble positions on a shift. Refetch invalidated positions.
-                    zpt = z.pos_bub( here );
+                    monster_pos == z.pos_bub();
                     target_pos = target->pos_bub( here );
+                    zpt = target_pos;
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
