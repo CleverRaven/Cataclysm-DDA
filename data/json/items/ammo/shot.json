@@ -272,7 +272,7 @@
     "price_postapoc": "2 USD",
     "range": 16,
     "dispersion": 200,
-    "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 3 },
+    "damage": { "damage_type": "bullet", "amount": 48, "armor_penetration": 0 },
     "recoil": 1500,
     "effects": [ "COOKOFF" ],
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
