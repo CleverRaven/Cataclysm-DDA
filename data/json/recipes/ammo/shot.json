@@ -615,7 +615,7 @@
     "components": [ [ [ "incendiary", 25 ] ] ]
   },
   {
-    "result": "cut_slug",
+    "result": "wax_slug",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
