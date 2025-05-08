@@ -6,8 +6,7 @@
     "cannot_cast_flags": [ "GRAB", "NO_HEDGE_MAGICK", "NO_SPELLCASTING" ],
     "cannot_cast_message": "You can't perform any of your rituals now!",
     "failure_cost_percent": 0.0,
-    "max_book_level": 0,
-    "failure_chance_formula_id": "xe_fey_seasonal_magick_summer_failure_chance"
+    "max_book_level": 0
   },
   {
     "id": "hedge_ward_off_rain",
