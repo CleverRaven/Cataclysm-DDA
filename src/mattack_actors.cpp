@@ -640,7 +640,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             std::set_intersection( neighbors.begin(), neighbors.end(), candidates.begin(), candidates.end(),
                                    std::inserter( intersect, intersect.begin() ) );
             tripoint_bub_ms target_square = random_entry<std::set<tripoint_bub_ms>>( intersect );
-            if( z.can_move_to( target_square ) ) {
+            if( !intersect.empty() && z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
                 tripoint_bub_ms zpt = monster_pos;
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
