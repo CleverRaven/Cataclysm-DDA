@@ -1104,7 +1104,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 190) * 2), 0, 190) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 190) * 2), 0, 60) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
               ]
             },
             "y": 1000
@@ -1208,7 +1208,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 200) * 2.5), 0, 195) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 230) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 195) * 2.5), 0, 87.5) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 230) * 4 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
               ]
             },
             "y": 1000
@@ -1233,7 +1233,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 200) * 2), 0, 200) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 2), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 4.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
               ]
             },
             "y": 1000
@@ -1288,7 +1288,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "(clamp( ((u_vitamin('vitamin_psionic_drain') - 235) * 2), 0, 15) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30"
+                "(clamp( ((u_vitamin('vitamin_psionic_drain') - 235) * 2), 0, 30) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30"
               ]
             },
             "y": 1000
