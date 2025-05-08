@@ -6,7 +6,7 @@ Every time you activate a power, you have a chance to gain attunement vitamin ba
 
 ## Amount of Attunement Gained
 If this check passes, you then gain some amount of attunement vitamin that is controlled by a variety of factors. When you have no ranks of attunement, you gain attunement vitamin based on the number of powers you are concentrating on plus a small random amount. When you have any ranks of attunement, you will gain attunement vitamin based on the difficulty of the power, your attunement rank and the number of powers you are concentrating on. This latter part is why you gain later attunement ranks faster, the more attunement ranks you have the more attunement vitamin you gain in a self amplifying cycle.
-When you have torrential channeling or noetic resilience active, you will gain less attunement vitamin from power usage and the attunement vitamin you do gain is not affected by your current attunement rank, protecting you from the self amplifying effect of attunement.
+When you have extended channeling or noetic resilience active, you will gain less attunement vitamin from power usage and the attunement vitamin you do gain is not affected by your current attunement rank, protecting you from the self amplifying effect of attunement.
 
 ## Attunement Power Scaling
 All powers scale based on your attunement vitamin. When you have no ranks, your powers are 75% as effective. At maximum attunement rank, your powers are 300% as effective. Ranks 1-12 are visible in game on the attunement sidebar widget and in the `@` screen as the `Nether Attunement [#]` effect.
@@ -37,7 +37,7 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 - Current attunement vitamin
   - The higher your attunement vitamin, the greater the chance. This chance is scaled at different rates depending on how high your attunement vitamin is and varies from consequence to consequence.
 - Difficulty of power used
-  - The formula for this `(difficulty / 10)^2` and is the same for every consequence. Stronger powers come with more chance at consequences
+  - The formula for this `(difficulty ^ 2) / 10` and is the same for every consequence. Stronger powers come with more chance at consequences
 
 | Consequence | Weight |
 | :--- | ---: |
@@ -102,7 +102,7 @@ Description: Your health goes up or down by a small amount
 ### Vomit
 Minimum Attunement: 2  
 Chance: 2% to 35.75%  
-Description: You on yourself and surroundings  
+Description: You vomit on yourself and surroundings  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Nosebleed
@@ -156,7 +156,7 @@ Description: When using the ephemeral walk power, you become incorporeal for a b
 ### Teleport Lock
 Minimum Attunement: 4  
 Chance: 2% to 33.5%  
-Description: You are unable to use your teleporter powers for a brief period based on your attunement vitamin  
+Description: You are unable to teleport yourself for a brief period based on your attunement vitamin  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Metabolic Inversion
@@ -180,7 +180,7 @@ Description: You have lowered strength and dexterity along with increased stamin
 ### KCal Consumption
 Minimum Attunement: 5  
 Chance: 4% to 38%  
-Description: You lose some of your stored KCal  
+Description: The KCal consumption of your powers is tripled
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Attenuation
@@ -198,7 +198,7 @@ Description: You have trouble breathing, lowering your breathing and lifting sco
 ### Force Wave
 Minimum Attunement: 6  
 Chance: 3% to 30%  
-Description: A wave of force knocks you and everything around you down  
+Description: When using a telekinetic power, a wave of force knocks you and everything around you down  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Teleport Misjump
@@ -234,7 +234,7 @@ Description: This consequence can only activate if you have the Observed or Neth
 ### Mutation
 Minimum Attunement: 12  
 Chance: 3% to 6%  
-Description: You gain a random negative mutation  
+Description: You gain a random negative mental or psychological mutation  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Reality Tear
