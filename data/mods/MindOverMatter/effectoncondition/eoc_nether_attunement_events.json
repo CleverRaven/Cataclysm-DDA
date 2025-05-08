@@ -261,14 +261,16 @@
               "cases": [
                 { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling = 0.75" ] } },
                 { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling = 1" ] } },
-                { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.05" ] } },
-                { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.1" ] } },
-                { "case": 85, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.17" ] } },
-                { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.25" ] } },
-                { "case": 145, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.35" ] } },
-                { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.5" ] } },
-                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.75" ] } },
-                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling = 2" ] } },
+                { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.04" ] } },
+                { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.08" ] } },
+                { "case": 75, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.13" ] } },
+                { "case": 95, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.19" ] } },
+                { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.26" ] } },
+                { "case": 135, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.35" ] } },
+                { "case": 155, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.45" ] } },
+                { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.60" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.8" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling = 2.1" ] } },
                 { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling = 3" ] } },
                 { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling = 4" ] } }
               ]
@@ -276,9 +278,9 @@
             "false_effect": {
               "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
               "cases": [
-                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.5" ] } },
-                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.75" ] } },
-                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling = 2" ] } },
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.6" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling = 1.8" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling = 2.1" ] } },
                 { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling = 3" ] } },
                 { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling = 4" ] } }
               ]
