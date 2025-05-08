@@ -5864,7 +5864,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tshirt", "variant": "tux" },
+          { "item": "tshirt" },
           { "item": "jacket_light" },
           { "item": "jeans" },
           { "item": "socks" },
@@ -6282,7 +6282,7 @@
       "both": {
         "entries": [
           { "item": "jacket_jean" },
-          { "item": "tshirt", "variant": "power" },
+          { "item": "tshirt", "variant": "band" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -6314,7 +6314,7 @@
         "magazine": 100,
         "entries": [
           { "item": "mbag" },
-          { "item": "tshirt", "variant": "power" },
+          { "item": "tshirt", "variant": "band" },
           { "item": "shorts_cargo" },
           { "item": "socks" },
           { "item": "sneakers" },

@@ -149,8 +149,7 @@
   {
     "id": "linuxtshirt",
     "type": "MIGRATION",
-    "replace": "tshirt",
-    "variant": "tux"
+    "replace": "tshirt"
   },
   {
     "id": "tshirt_tour",
