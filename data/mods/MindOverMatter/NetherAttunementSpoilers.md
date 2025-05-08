@@ -2,7 +2,7 @@
 Nether attunement is gained primarily from activating or concentrating on powers. Nether attunement is tracked via a vitamin and each rank of nether attunement corresponds to a certain amount of the attunement vitamin. Overall gain is not linear, when you have no attunement ranks, vitamin gain is slower but when you have any ranks of attunement, you gain more vitamin, faster.
 
 ## Chance to Gain Attunement
-Every time you activate a power, you have a chance to gain attunement vitamin based on the difficulty of the power, how many powers you activated recently and how many powers you are concentrating on. When you have no ranks of attunement, the chance to gain attunement vitamin based on recent power usage is lower.
+Every time you activate a power, you have a chance to gain attunement vitamin based on the difficulty of the power, how many powers you activated recently and how many powers you are concentrating on. The base chance is the difficulty of the power squared, modified by the other factors. When you have no ranks of attunement, the chance to gain attunement vitamin based on recent power usage is lower.
 
 ## Amount of Attunement Gained
 If this check passes, you then gain some amount of attunement vitamin that is controlled by a variety of factors. When you have no ranks of attunement, you gain attunement vitamin based on the number of powers you are concentrating on plus a small random amount. When you have any ranks of attunement, you will gain attunement vitamin based on the difficulty of the power, your attunement rank and the number of powers you are concentrating on. This latter part is why you gain later attunement ranks faster, the more attunement ranks you have the more attunement vitamin you gain in a self amplifying cycle.
