@@ -960,9 +960,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "petfood", petfood );
 
-    // if its not present, load will insert default values
-    JsonObject jo_move_skills = jo.get_object( "move_skills" );
-    move_skills.load( jo_move_skills );
+    optional( jo, was_loaded, "move_skills", move_skills );
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );

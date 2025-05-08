@@ -1,5 +1,4 @@
 // Monster movement code; essentially, the AI
-#include "coords_fwd.h"
 #include "monster.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -1565,19 +1564,33 @@ int monster::calc_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &
         } else if( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, where ) ) {
             modifier += get_dig_mod();
         } else if( climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, where ) ) {
-            modifier += get_climb_mod();   // basic climbing cost. should probably be handeled somewhere else?
+            furn_t furniture = here.furn( where ).obj();
+            int furn_mod = 0;
+            if( furniture.id ) {
+                if( furniture.has_flag( "BRIDGE" ) ) {
+                    furn_mod = 2 + std::max( furniture.movecost, 0 );
+                } else {
+                    furn_mod = std::max( furniture.movecost, 0 );
+                }
+            }
+            // 0 or lower move_cost_mod for furniture is impassable
+            if( !furn_mod ) {
+                return 0;
+            }
+            // basic climbing cost. should probably be handeled somewhere else?
+            modifier += furn_mod * get_climb_mod();
         } else if( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, where ) ) {
             modifier += get_swim_mod();
         }
     }
 
     // swimmers and diggers ignore terraincost. TODO: map::move_cost returns 0 if its invalid. check?
-    const int cost1 = ignore_ter_from ? 0 : here.move_cost( from, ignored_vehicle_from,
-                      ignore_fields, ignore_furn_from );
-    const int cost2 = ignore_ter_to ? 0 : here.move_cost( to, ignored_vehicle_to,
-                      ignore_fields, ignore_furn_to );
+    const int cost_from = ignore_ter_from ? 0 : here.move_cost( from, ignored_vehicle_from,
+                          ignore_fields, ignore_furn_from );
+    const int cost_to = ignore_ter_to ? 0 : here.move_cost( to, ignored_vehicle_to,
+                        ignore_fields, ignore_furn_to );
 
-    int movecost = std::max( cost1 + cost2 + modifier, 1 ) * 25;
+    int movecost = std::max( cost_from + cost_to + modifier, 1 ) * 25;
 
     if( flies() || from.z() == to.z() ) {
         add_msg_debug( debugmode::DF_MONMOVE, "%s movecost: %i", name(), movecost );
@@ -1604,9 +1617,13 @@ int monster::calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t
 
     map &here = get_map();
     if( climbs() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, t ) ) {
+
+        // TODO: here.climb_difficulty returns the lowest difficulty tile around you, not the tile we want to climb to.
         const int diff = here.climb_difficulty( f );
+
+        // TODO: monsters with lower skill cannot climb more difficult
         if( diff <= 10 ) {
-            return 150;
+            return get_climb_mod() * 50;
         }
     }
 

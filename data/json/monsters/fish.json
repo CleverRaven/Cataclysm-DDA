@@ -185,6 +185,7 @@
     "weight": "40750 g",
     "hp": 30,
     "speed": 150,
+    "move_skills": { "swim": 7 },
     "dodge": 8,
     "material": [ "flesh" ],
     "symbol": "F",
@@ -200,7 +201,7 @@
     "harvest": "fish_large",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fry",
@@ -216,6 +217,7 @@
     "weight": "1 g",
     "hp": 1,
     "speed": 150,
+    "move_skills": { "swim": 1 },
     "dodge": 10,
     "material": [ "flesh" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
@@ -230,7 +232,7 @@
     "melee_training_cap": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is smashed to non-recognizable pieces." },
-    "flags": [ "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "SMELLS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "abstract": "mon_fry_mutant",
@@ -245,6 +247,7 @@
     "weight": "275 g",
     "hp": 3,
     "speed": 150,
+    "move_skills": { "swim": 1 },
     "dodge": 8,
     "material": [ "flesh" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
@@ -259,7 +262,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mutant_fish",
     "dissect": "dissect_fish_sample_single",
-    "flags": [ "SEES", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_fish_brown_trout",
