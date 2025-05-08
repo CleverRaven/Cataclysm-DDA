@@ -180,7 +180,7 @@ Description: You have lowered strength and dexterity along with increased stamin
 ### KCal Consumption
 Minimum Attunement: 5  
 Chance: 4% to 38%  
-Description: The KCal consumption of your powers is tripled
+Description: The KCal consumption of your powers is tripled  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Attenuation
@@ -228,7 +228,7 @@ Description: All of your active powers are cancelled and you are unable to activ
 ### Hounds of Tindalos
 Minimum Attunement: 10  
 Chance: 3% to 8%  
-Description: This consequence can only activate if you have the Observed or Nether Conduit effect. You summon the Hounds of Tindalos 
+Description: This consequence can only activate if you have the Observed or Nether Conduit effect. You summon the Hounds of Tindalos  
 <sub>[Back to List](#attunement-consequences)</sub>
  
 ### Mutation
