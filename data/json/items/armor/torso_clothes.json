@@ -1826,7 +1826,7 @@
         "name": { "str": "text print t-shirt" },
         "append": true,
         "expand_snippets": true,
-        "description": "This one has some text on it, it says \"<clothing_text>\""
+        "description": "This one has some text on it, it says \"<clothing_text>\"."
       },
       {
         "id": "flag_shirt",
