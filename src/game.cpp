@@ -324,11 +324,11 @@ static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
+static const mod_id MOD_INFORMATION_StatsThroughSkills( "StatsThroughSkills" );
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_no_fungal_growth( "no_fungal_growth" );
 static const mod_id MOD_INFORMATION_sees_player_hitbutton( "sees_player_hitbutton" );
 static const mod_id MOD_INFORMATION_sees_player_retro( "sees_player_retro" );
-static const mod_id MOD_INFORMATION_StatsThroughSkills( "StatsThroughSkills" );
 
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
