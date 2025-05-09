@@ -1539,6 +1539,26 @@ tripoint_bub_ms monster::scent_move()
 int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                             const tripoint_bub_ms &to ) const
 {
+    auto get_filtered_fieldcost = [&]( const field & field ) {
+        int cost = 0;
+        // filter fields wethere they are ignored
+        for( const std::pair<const field_type_id, field_entry> ft : field ) {
+            if( !is_immune_field( ft.first ) ) {
+                const int mc = ft.second.get_intensity_level().move_cost;
+                if( mc >= 0 ) {
+                    cost += mc;
+                } else {
+                    debugmsg( "%s cannot pass through field %s. monster::calc_movecost expects to be called with valid destination.",
+                              get_name(), ft.first->get_name() );
+                    return -1;
+                }
+            }
+        }
+        return cost;
+    };
+
+
+
     add_msg_debug( debugmode::DF_MONMOVE, "\n%s movecost from: (%i, %i, %i) to (%i, %i, %i)", name(),
                    from.x(), from.y(), from.z(),
                    to.x(), to.y(), to.z() );
@@ -1553,6 +1573,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
         add_msg_debug( debugmode::DF_MONMOVE, "%s calculating: (%i, %i, %i)", name(),
                        where.x(), where.y(), where.z() );
 
+        // TODO: field_effects?
         if( flies() ) {
             cost += 2;
             continue;
@@ -1577,18 +1598,20 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                            where.x(), where.y(), where.z(), terrain.name(), terrain.movecost );
         }
 
-        // if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ||
-        //     field.total_move_cost() < 0 ) {
-        //     debugmsg( "%s cannot move to %s. monster::calc_movecost expects to be called with valid destination.",
-        //               get_name(), terrain.name() );
-        //     return 0;
-        // }
-
         // vehicle
-        // TODO: make monsters with climbing be faster in vehicles? Fieldeffects?
+        // TODO: make monsters with climbing be faster in vehicles?
         if( veh != nullptr ) {
             const vpart_position vp( const_cast<vehicle &>( *veh ), part );
-            return vp.get_movecost();               // vehicle movement ignores the rest
+            int veh_movecost = vp.get_movecost();               // vehicle movement ignores the rest
+            int fieldcost = get_filtered_fieldcost( field );
+            if( veh_movecost > 0 && fieldcost >= 0 ) {
+                cost += veh_movecost + fieldcost;
+                continue;
+            } else {
+                debugmsg( "%s cannot move to %s. monster::calc_movecost expects to be called with valid destination.",
+                          get_name(), veh_movecost ? veh->disp_name() :  field.displayed_field_type().id().str() );
+                return 0;
+            }
         }
 
         //terrain
@@ -1603,8 +1626,15 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             }
             cost += terrain.movecost * swimmod;
 
+            // furniture can also have DIGGABLE (most prominently plants),
+            // but I dont think you should be able to dig through it if the terrain isn't.
         } else if( digging() && terrain.has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+
+            // is terrain movecost a good aproximation for "ground hardness?"
             cost += terrain.movecost * get_dig_mod();
+
+            // digging monsters ignore furniture/fieldeffects/vehicles
+            continue;
 
         } else if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ||
                    ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) && where == from ) ) {
@@ -1642,22 +1672,15 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             }
         }
 
-        // filter fields wethere they are ignored
-        for( const std::pair<const field_type_id, field_entry> ft : field ) {
-            if( !is_immune_field( ft.first ) ) {
-                const int mc = ft.second.get_intensity_level().move_cost;
-                if( mc >= 0 ) {
-                    cost += mc;
-                } else {
-                    debugmsg( "%s cannot pass through field %s. monster::calc_movecost expects to be called with valid destination.",
-                              get_name(), ft.first->get_name() );
-                    return 0;
-                }
-            }
+        int fieldcost = get_filtered_fieldcost( field );
+        if( fieldcost < 0 ) {
+            return 0;
         }
+        cost += fieldcost;
     }
 
     int movecost = std::max( tilecosts[from] + tilecosts[to], 1 ) * 25;
+
 
     add_msg_debug( debugmode::DF_MONMOVE, "%s t1:%i  t2:%i movecost: %i", name(), tilecosts[from],
                    tilecosts[to], movecost );
