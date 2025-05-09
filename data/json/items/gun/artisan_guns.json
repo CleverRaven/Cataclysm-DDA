@@ -106,5 +106,24 @@
     "weapon_category": [ "AUTOMATIC_PISTOLS", "SHIVS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ],
     "melee_damage": { "stab": 16 }
-  }
+  },  
+  {
+    "id": "m1911_bespoke",
+    "copy-from": "gun_base_45_semi_pistol",
+    "looks_like": "m1911",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Dessert Warrior" },
+    "description": "A 1911 pistol chambered in .45 ACP and assembled by Jay.  This one has a threaded barrel, sight mount, underbarrel rail, and an obnoxiously pink donut livery. ",
+    "ascii_picture": "m1911",
+    "weight": "1120 g",
+    "volume": "454 ml",
+    "longest_side": "245 mm",
+    "barrel_length": "127 mm",
+    "price": "2000 USD",
+    "material": [ "steel", "plastic" ],
+    "dispersion": 480,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "muzzle", 1 ] ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ]
+  },
 ]
