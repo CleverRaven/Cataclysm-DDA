@@ -1428,12 +1428,9 @@ int monster::get_dig_mod() const
     if( type->move_skills.dig.has_value() ) {
         int percentile = type->move_skills.dig.value() * ( max_obstacle_penalty / 10 );
         return max_obstacle_penalty - percentile;
-    }
-    if( type->move_skills.dig.has_value() ) {
-        return type->move_skills.dig.value();
     } else if( has_flag( mon_flag_DIGS ) ) {
         // only for backwards compatibility. In future move away from flags
-        return 2;
+        return 1;
     }
 
     // cannot dig
@@ -1457,8 +1454,7 @@ int monster::get_climb_mod() const
         return max_obstacle_penalty - percentile;
     } else if( has_flag( mon_flag_CLIMBS ) ) {
         // only for backwards compatibility. In future move away from flags
-        // was: 150 / 50 = 3
-        return 3;
+        return 1;
     }
 
     // cannot climb
