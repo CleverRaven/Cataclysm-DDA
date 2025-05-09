@@ -78,6 +78,7 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
+static const flag_id json_flag_AQUATIC( "AQUATIC" );
 static const flag_id json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
@@ -1539,7 +1540,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                             const tripoint_bub_ms &to ) const
 {
 
-    // im sure you can optimize this
+    // I'm sure you can optimize this
     auto get_filtered_fieldcost = [&]( const field & field ) {
         int cost = 0;
         // filter fields wethere they are ignored
@@ -1599,14 +1600,19 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                            where.x(), where.y(), where.z(), terrain.name(), terrain.movecost );
         }
 
-        // vehicle
-        // TODO: make monsters with climbing be faster in vehicles?
-        if( veh != nullptr ) {
+        // vehicle. Aquatic monsters cant enter boats.
+        if( veh && has_flag( json_flag_AQUATIC ) ) {
+            debugmsg( "%s cannot enter %s, as its aquatic. monster::calc_movecost expects to be called with valid destination.",
+                      get_name(), veh->disp_name() );
+            return 0;
+        } else if( veh != nullptr ) {
+            // TODO: make monsters with climbing be faster in vehicles?
             const vpart_position vp( const_cast<vehicle &>( *veh ), part );
-            int veh_movecost = vp.get_movecost();               // vehicle movement ignores the rest
+            int veh_movecost = vp.get_movecost();
             int fieldcost = get_filtered_fieldcost( field );
             if( veh_movecost > 0 && fieldcost >= 0 ) {
                 cost += veh_movecost + fieldcost;
+                // vehicle movement ignores the rest
                 continue;
             } else {
                 debugmsg( "%s cannot move to %s. monster::calc_movecost expects to be called with valid destination.",
@@ -1619,13 +1625,18 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
         if( terrain.movecost < 0 ) {
             continue;
         } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
-            // cannot swim or walk underwater
+            // cannot swim or walk underwater. Aquatic monsters cant enter boats.
             if( swimmod < 0 ) {
                 debugmsg( "%s cannot swim or move in %s. monster::calc_movecost expects to be called with valid destination.",
-                          get_name(), terrain.name() );
+                          get_name(), veh ? veh->disp_name() : terrain.name() );
                 return 0;
+            } else if( swims() ) {
+                // swimmers dont care about terraincost/other effects
+                return swimmod;
+            } else {
+                cost += terrain.movecost * swimmod;
             }
-            cost += terrain.movecost * swimmod;
+
 
             // furniture can also have DIGGABLE (most prominently plants),
             // but I dont think you should be able to dig through it if the terrain isn't.
@@ -1949,8 +1960,6 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
             destination = find_closest_stair( tripoint_bub_ms( p ), ter_furn_flag::TFLAG_GOES_UP );
         }
     }
-
-
 
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = get_creature_tracker().creature_at( destination, is_hallucination() );
