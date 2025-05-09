@@ -650,7 +650,7 @@ class monster : public Creature
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint_bub_ms> path;
 
-        // 10 * 50 means max movecost of 500 with 0 skill
+        // 10 means max movecost of 500 * terrain-difficulty with 0 skill
         static const int max_obstacle_penalty = 10;
 
         // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.

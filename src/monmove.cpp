@@ -1600,12 +1600,8 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                            where.x(), where.y(), where.z(), terrain.name(), terrain.movecost );
         }
 
-        // vehicle. Aquatic monsters cant enter boats.
-        if( veh && has_flag( json_flag_AQUATIC ) ) {
-            debugmsg( "%s cannot enter %s, as its aquatic. monster::calc_movecost expects to be called with valid destination.",
-                      get_name(), veh->disp_name() );
-            return 0;
-        } else if( veh != nullptr ) {
+        // vehicle. Aquatic monsters swim under boats, ignoring its movecost.
+        if( veh != nullptr && !has_flag( json_flag_AQUATIC ) ) {
             // TODO: make monsters with climbing be faster in vehicles?
             const vpart_position vp( const_cast<vehicle &>( *veh ), part );
             int veh_movecost = vp.get_movecost();
