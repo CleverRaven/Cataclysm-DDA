@@ -22,6 +22,7 @@
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -269,8 +270,7 @@ class monster : public Creature
         bool die_if_drowning( const tripoint_bub_ms &at_pos, int chance = 1 );
 
         tripoint_bub_ms scent_move();
-        int calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
-                           bool ignore_fields = false ) const;
+        int calc_movecost( const map &here, const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const;
         int calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const;
 
         bool is_immune_field( const field_type_id &fid ) const override;
@@ -644,6 +644,9 @@ class monster : public Creature
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint_bub_ms> path;
+
+        // 10 * 50 means max movecost of 500 with 0 skill
+        static const int max_obstacle_penalty = 10;
 
         // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.
         time_point pathfinding_cd = calendar::turn;

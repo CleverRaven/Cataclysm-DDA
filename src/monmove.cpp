@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <list>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -16,6 +17,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -49,6 +51,7 @@
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "viewer.h"
@@ -135,6 +138,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     return Creature::is_immune_field( fid );
 }
 
+
 static bool z_is_valid( int z )
 {
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
@@ -161,6 +165,7 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         }
     }
 
+    // diggin monster can ONLY move underground?
     if( digs() && !here->has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
         !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
@@ -1531,81 +1536,131 @@ tripoint_bub_ms monster::scent_move()
     return random_entry( smoves, next );
 }
 
-int monster::calc_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
-                            bool ignore_fields ) const
+int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
+                            const tripoint_bub_ms &to ) const
 {
-    map &here = get_map();
-    int modifier = 0;
+    add_msg_debug( debugmode::DF_MONMOVE, "\n%s movecost from: (%i, %i, %i) to (%i, %i, %i)", name(),
+                   from.x(), from.y(), from.z(),
+                   to.x(), to.y(), to.z() );
+    const vehicle *ignored_vehicle = nullptr;
 
-    // from tile should never be digable
-    const bool digs_from = digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, from );
-    const bool digs_to = digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to );
-    const bool swims_from = swims() && here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, from );
-    const bool swims_to = swims() && here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to );
-    const bool ignore_furn_from = climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, from );
-    const bool ignore_furn_to = climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to );
+    std::map<tripoint_bub_ms, int> tilecosts = {{from, 0}, {to, 1}};
 
-    const vehicle *ignored_vehicle_from = climbs() &&
-                                          here.veh_at( to ) ? &here.veh_at( from )->vehicle() : nullptr;
-    const vehicle *ignored_vehicle_to = climbs() &&
-                                        here.veh_at( to ) ? &here.veh_at( to )->vehicle() : nullptr;
+    // modifiers that get applied to both locations
+    for( auto& [where, cost] : tilecosts ) {
+        // flying creatures ignore all terrain/furniture.
+        // TODO: field efefcts?
+        add_msg_debug( debugmode::DF_MONMOVE, "%s calculating: (%i, %i, %i)", name(),
+                       where.x(), where.y(), where.z() );
 
-    const bool via_ramp = false;
-
-    const bool ignore_ter_from = flies() || swims_from || digs_from;
-    const bool ignore_ter_to = flies() || swims_to || digs_to ;
-
-    for( const tripoint_bub_ms where : {
-             from, to
-         } ) {
         if( flies() ) {
-            modifier += 2;          // default 100 movecost
+            cost += 2;
             continue;
-        } else if( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, where ) ) {
-            modifier += get_dig_mod();
-        } else if( climbs() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, where ) ) {
-            furn_t furniture = here.furn( where ).obj();
-            int furn_mod = 0;
-            if( furniture.id ) {
-                if( furniture.has_flag( "BRIDGE" ) ) {
-                    furn_mod = 2 + std::max( furniture.movecost, 0 );
-                } else {
-                    furn_mod = std::max( furniture.movecost, 0 );
-                }
-            }
-            // 0 or lower move_cost_mod for furniture is impassable
-            if( !furn_mod ) {
+        }
+        // my implementation of map::movecost
+        // TODO: move to map to make same submap optimizations as map::movecost
+        const furn_t &furniture = here.furn( where ).obj();
+        const ter_t &terrain = here.ter( where ).obj();
+        const field &field = here.field_at( where );
+        const optional_vpart_position vp = here.veh_at( where );
+        vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
+        const int part = veh ? vp->part_index() : -1;
+        const int swimmod = get_swim_mod();
+
+        if( furniture.id && furniture.movecost > 0 ) {
+            add_msg_debug( debugmode::DF_MONMOVE, "%s furn at: (%i, %i, %i): %s, movemod:%i", name(),
+                           where.x(), where.y(), where.z(), furniture.name(), furniture.movecost );
+        }
+
+        if( terrain.id && terrain.movecost > 0 ) {
+            add_msg_debug( debugmode::DF_MONMOVE, "%s terrain at: (%i, %i, %i): %s, movemod:%i", name(),
+                           where.x(), where.y(), where.z(), terrain.name(), terrain.movecost );
+        }
+
+        // if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ||
+        //     field.total_move_cost() < 0 ) {
+        //     debugmsg( "%s cannot move to %s. monster::calc_movecost expects to be called with valid destination.",
+        //               get_name(), terrain.name() );
+        //     return 0;
+        // }
+
+        // vehicle
+        // TODO: make monsters with climbing be faster in vehicles? Fieldeffects?
+        if( veh != nullptr ) {
+            const vpart_position vp( const_cast<vehicle &>( *veh ), part );
+            return vp.get_movecost();               // vehicle movement ignores the rest
+        }
+
+        //terrain
+        if( terrain.movecost < 0 ) {
+            continue;
+        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+            // cannot swim or walk underwater
+            if( swimmod < 0 ) {
+                debugmsg( "%s cannot swim or move in %s. monster::calc_movecost expects to be called with valid destination.",
+                          get_name(), terrain.name() );
                 return 0;
             }
-            // basic climbing cost. should probably be handeled somewhere else?
-            modifier += furn_mod * get_climb_mod();
-        } else if( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, where ) ) {
-            modifier += get_swim_mod();
+            cost += terrain.movecost * swimmod;
+
+        } else if( digging() && terrain.has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
+            cost += terrain.movecost * get_dig_mod();
+
+        } else if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ||
+                   ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) && where == from ) ) {
+            if( climbs() ) {
+                cost += terrain.movecost * get_climb_mod();
+            } else {
+                debugmsg( "%s cannot climb over %s. monster::calc_movecost expects to be called with valid destination.",
+                          get_name(), terrain.name() );
+                return 0;
+            }
+        } else {
+            cost += terrain.movecost;
+        }
+
+        // furniture
+        if( furniture.id ) {
+            if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ||
+                ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) ) ) {
+                if( climbs() ) {
+                    cost += furniture.movecost * get_climb_mod();
+                } else {
+                    debugmsg( "%s cannot climb over %s. monster::calc_movecost expects to be called with valid destination.",
+                              get_name(), furniture.name() );
+                    return 0;               // cannot climb
+                }
+
+            } else {
+                if( furniture.has_flag( "BRIDGE" ) ) {
+                    // if its a bridge, we dont care about the terrain-cost
+                    cost = furniture.movecost + 2;
+                } else {
+                    cost += furniture.movecost;
+                }
+
+            }
+        }
+
+        // filter fields wethere they are ignored
+        for( const std::pair<const field_type_id, field_entry> ft : field ) {
+            if( !is_immune_field( ft.first ) ) {
+                const int mc = ft.second.get_intensity_level().move_cost;
+                if( mc >= 0 ) {
+                    cost += mc;
+                } else {
+                    debugmsg( "%s cannot pass through field %s. monster::calc_movecost expects to be called with valid destination.",
+                              get_name(), ft.first->get_name() );
+                    return 0;
+                }
+            }
         }
     }
 
-    // swimmers and diggers ignore terraincost. TODO: map::move_cost returns 0 if its invalid. check?
-    const int cost_from = ignore_ter_from ? 0 : here.move_cost( from, ignored_vehicle_from,
-                          ignore_fields, ignore_furn_from );
-    const int cost_to = ignore_ter_to ? 0 : here.move_cost( to, ignored_vehicle_to,
-                        ignore_fields, ignore_furn_to );
+    int movecost = std::max( tilecosts[from] + tilecosts[to], 1 ) * 25;
 
-    int movecost = std::max( cost_from + cost_to + modifier, 1 ) * 25;
-
-    if( flies() || from.z() == to.z() ) {
-        add_msg_debug( debugmode::DF_MONMOVE, "%s movecost: %i", name(), movecost );
-        return movecost;
-    }
-
-    // Inter-z-level movement by foot (not flying)
-    if( !here.valid_move( from, to, false, false, via_ramp ) ) {
-        return 0;
-    }
-
-    // TODO: Penalize for using stairs
-    // result should not return 0 as it would be considered failed
-
-    add_msg_debug( debugmode::DF_MONMOVE, "%s movecost: %i", name(), movecost );
+    add_msg_debug( debugmode::DF_MONMOVE, "%s t1:%i  t2:%i movecost: %i", name(), tilecosts[from],
+                   tilecosts[to], movecost );
     return movecost;
 }
 
@@ -1871,29 +1926,29 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
         }
     }
 
+
+
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = get_creature_tracker().creature_at( destination, is_hallucination() );
     const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at(
                 destination );
+
+    // do we need this anymore?
     if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, destination ) ) {
         if( ( !here.passable_skip_fields( destination ) || ( !impassable_field_ids.empty() &&
                 !is_immune_fields( impassable_field_ids ) ) ) && critter == nullptr ) {
             if( flies() ) {
                 mod_moves( -get_speed() );
                 force = true;
-                if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
-                    add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
-                                            here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
-                                            here.tername( p ) );
-                }
+                add_msg_debug( debugmode::DF_MONMOVE, "The %1$s climbs over the %2$s.", name(),
+                               here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
+                               here.tername( p ) );
             } else if( climbs() ) {
                 mod_moves( -get_speed() * 1.5 );
                 force = true;
-                if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
-                    add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
-                                            here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
-                                            here.tername( p ) );
-                }
+                add_msg_debug( debugmode::DF_MONMOVE, "The %1$s climbs over the %2$s.", name(),
+                               here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
+                               here.tername( p ) );
             }
         }
     }
@@ -1913,11 +1968,9 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
         // and the same regardless of the distance measurement mode.
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
-                           static_cast<float>( climbs() &&
-                                               here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos,
-                                                       destination ) : calc_movecost( pos,
-                                                               destination, ( !impassable_field_ids.empty() &&
-                                                                       is_immune_fields( impassable_field_ids ) ) ) );
+                           static_cast<float>( climbs() && here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ?
+                                               calc_climb_cost( pos, destination ) :
+                                               calc_movecost( here, pos, destination ) );
         if( cost > 0.0f ) {
             mod_moves( -static_cast<int>( std::ceil( cost ) ) );
         } else {
@@ -2423,9 +2476,9 @@ int monster::turns_to_reach( const point_bub_ms &p )
             // the doors intact.
             return 999;
         } else if( i == 0 ) {
-            turns += static_cast<double>( calc_movecost( pos_bub(), next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( here, pos_bub(), next ) ) / get_speed();
         } else {
-            turns += static_cast<double>( calc_movecost( path[i - 1], next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( here, path[i - 1], next ) ) / get_speed();
         }
     }
 

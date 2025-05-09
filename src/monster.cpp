@@ -1425,10 +1425,9 @@ bool monster::digs() const
 
 int monster::get_dig_mod() const
 {
-    const int max_penalty = 10;            // * 50 means max movecost of 500 with 0 skill
     if( type->move_skills.dig.has_value() ) {
-        int percentile = type->move_skills.dig.value() * ( max_penalty / 10 );
-        return max_penalty - percentile;
+        int percentile = type->move_skills.dig.value() * ( max_obstacle_penalty / 10 );
+        return max_obstacle_penalty - percentile;
     }
     if( type->move_skills.dig.has_value() ) {
         return type->move_skills.dig.value();
@@ -1453,10 +1452,9 @@ bool monster::climbs() const
 
 int monster::get_climb_mod() const
 {
-    const int max_penalty = 10;            // * 50 means max movecost of 500 with 0 skill
     if( type->move_skills.climb.has_value() ) {
-        int percentile = type->move_skills.climb.value() * ( max_penalty / 10 );
-        return max_penalty - percentile;
+        int percentile = type->move_skills.climb.value() * ( max_obstacle_penalty / 10 );
+        return max_obstacle_penalty - percentile;
     } else if( has_flag( mon_flag_CLIMBS ) ) {
         // only for backwards compatibility. In future move away from flags
         // was: 150 / 50 = 3
@@ -1474,15 +1472,17 @@ bool monster::swims() const
 
 int monster::get_swim_mod() const
 {
-    const int max_penalty = 10;            // * 50 means max movecost of 500 with 0 skill
     if( type->move_skills.swim.has_value() ) {
-        int percentile = type->move_skills.swim.value() * ( max_penalty / 10 );
-        return max_penalty - percentile;
+        int percentile = type->move_skills.swim.value() * ( max_obstacle_penalty / 10 );
+        return max_obstacle_penalty - percentile;
 
     } else if( has_flag( mon_flag_SWIMS ) ) {
         // only for backwards compatibility. In future move away from flags
         // vanilla fish have fastest possible swimspeed
         return 0;
+    } else if( can_submerge() ) {
+        // monsters that can submerge can walk underwater. Simulated with min swimskill
+        return max_obstacle_penalty;
     }
 
     // cannot swim
