@@ -1,5 +1,4 @@
 #pragma once
-#include <sys/types.h>
 #ifndef CATA_SRC_MTYPE_H
 #define CATA_SRC_MTYPE_H
 

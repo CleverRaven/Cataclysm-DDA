@@ -17,7 +17,6 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -1539,17 +1538,19 @@ tripoint_bub_ms monster::scent_move()
 int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                             const tripoint_bub_ms &to ) const
 {
+
+    // im sure you can optimize this
     auto get_filtered_fieldcost = [&]( const field & field ) {
         int cost = 0;
         // filter fields wethere they are ignored
-        for( const std::pair<const field_type_id, field_entry> ft : field ) {
-            if( !is_immune_field( ft.first ) ) {
-                const int mc = ft.second.get_intensity_level().move_cost;
+        for( const auto [field_id, field_entry] : field ) {
+            if( !is_immune_field( field_id ) ) {
+                const int mc = field_entry.get_intensity_level().move_cost;
                 if( mc >= 0 ) {
                     cost += mc;
                 } else {
                     debugmsg( "%s cannot pass through field %s. monster::calc_movecost expects to be called with valid destination.",
-                              get_name(), ft.first->get_name() );
+                              get_name(), field_id->get_name() );
                     return -1;
                 }
             }
@@ -1663,7 +1664,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
             } else {
                 if( furniture.has_flag( "BRIDGE" ) ) {
-                    // if its a bridge, we dont care about the terrain-cost
+                    // if its a bridge, we dont care about the terrain-cost, so override
                     cost = furniture.movecost + 2;
                 } else {
                     cost += furniture.movecost;
