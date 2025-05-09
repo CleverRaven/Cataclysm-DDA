@@ -174,11 +174,17 @@ class monster : public Creature
         bool digging() const override;  // digs() or can_dig() and diggable terrain
         bool can_dig() const;
         bool digs() const;
+
+        /** @returns dig modifier. -1 if unable */
         int get_dig_mod() const;
         bool flies() const;
         bool climbs() const;
+
+        /** @returns climb modifier. -1 if unable */
         int get_climb_mod() const;
         bool swims() const;
+
+        /** @returns swim modifier. -1 if unable */
         int get_swim_mod() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
