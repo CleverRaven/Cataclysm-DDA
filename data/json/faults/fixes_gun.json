@@ -59,7 +59,7 @@
     "name": "Clean fouling and lubricate",
     "success_msg": "You clean and lubricate your %s.",
     "time": "60 m",
-    "faults_removed": [ "fault_gun_dirt","fault_gun_blackpowder", "fault_gun_unlubricated" ],
+    "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder", "fault_gun_unlubricated" ],
     "skills": { "mechanics": 1 },
     "set_variables": { "dirt": 0, "rust_timer": 0 },
     "requirements": [ [ "gun_cleaning_bp", 1 ], [ "gun_lubrication", 1 ] ],
