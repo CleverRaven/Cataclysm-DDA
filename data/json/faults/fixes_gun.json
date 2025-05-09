@@ -5,7 +5,7 @@
     "name": "Clean fouling",
     "success_msg": "You clean your %s.",
     "time": "50 m",
-    "faults_removed": [ "fault_gun_dirt","fault_gun_blackpowder" ],
+    "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder" ],
     "faults_added": [ "fault_gun_unlubricated" ],
     "skills": { "mechanics": 1 },
     "set_variables": { "dirt": 0 },
