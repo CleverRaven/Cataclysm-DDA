@@ -1058,48 +1058,33 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "sports jersey" },
-    "//": "Genuine team merch, and priced like it!",
-    "description": "A shirt made of cotton, printed with the name and logo of a sports team.",
-    "weight": "480 g",
-    "volume": "2250 ml",
+    "description": "A lightweight, breathable shirt made from synthetic fabric, designed for athletic performance and team identification.",
+    "weight": "150 g",
+    "volume": "500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
+    "material": [ "nylon", "lycra" ],
     "symbol": "[",
     "looks_like": "tshirt",
-    "color": "yellow",
-    "warmth": 12,
+    "warmth": 5,
     "material_thickness": 0.3,
-    "snippet_category": [
-      { "id": "decatur", "text": "A pro thunderball jersey made of cotton, printed with the logo of the Decatur Fist." },
-      {
-        "id": "squamish",
-        "text": "A 43-man squamish jersey made of cotton, printed with the logo of the Gainesville Veeblefetzers."
-      },
-      { "id": "london", "text": "A zero-G football jersey made of cotton, printed with the logo of the London Jets." },
-      {
-        "id": "endsville",
-        "text": "A football jersey made of cotton, printed with the logo of the Endsville Fluffycats."
-      },
-      { "id": "tokyo", "text": "A baseball jersey made of cotton, printed with the logo of the Tokyo Samurai." },
-      { "id": "basin", "text": "A basketball jersey made of cotton, printed with the logo of the Basin City Blues." },
-      {
-        "id": "deathrace",
-        "text": "A death race jersey made of cotton, printed with Frankenstein's logo and signature."
-      },
-      {
-        "id": "houston",
-        "text": "A rollerball jersey made of cotton, printed with the logo of the Houston Energy Corporation."
-      },
-      {
-        "id": "monroeville",
-        "text": "A hockey jersey made of cotton, printed with the logo of the Monroeville Zombies."
-      },
-      { "id": "rugby", "text": "A rugby jersey made of cotton, printed with the logo of the Canberra Drop Bears." },
-      { "id": "volleyball", "text": "A volleyball jersey made of cotton, printed with the logo of the Ooarai Ducks." }
-    ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "breathability": "SECOND_SKIN", "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic",
+        "name": { "str": "sports jersey" },
+        "description": "A lightweight, breathable shirt made from synthetic fabric, designed for athletic performance and team identification."
+      },
+      {
+        "id": "sportsteam",
+        "name": { "str": "sports team jersey" },
+        "append": true,
+        "expand_snippets": true,
+        "description": "This one is printed with the name and logo of the <sports_team>"
+      }
+    ]
   },
   {
     "id": "leotard",

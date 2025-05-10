@@ -1218,7 +1218,7 @@
           { "item": "basketball" },
           { "item": "sports_drink" },
           { "item": "runner_bag" },
-          { "item": "jersey", "snippets": [ "basin" ] },
+          { "item": "jersey", "variant": "sportsteam" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1254,7 +1254,7 @@
           { "item": "football", "custom-flags": [ "auto_wield" ] },
           { "item": "knee_pads" },
           { "item": "sports_drink" },
-          { "item": "jersey", "snippets": [ "endsville" ] },
+          { "item": "jersey", "variant": "sportsteam" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
