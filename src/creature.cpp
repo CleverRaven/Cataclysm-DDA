@@ -462,6 +462,11 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
     return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
 }
 
+bool Creature::is_immune_fields( map &here, const tripoint_bub_ms &pos ) const
+{
+    return is_immune_fields( here.get_impassable_field_type_ids_at( pos ) );
+}
+
 bool Creature::is_immune_fields( const std::vector<field_type_id> &fields ) const
 {
     for( const field_type_id fi : fields ) {
