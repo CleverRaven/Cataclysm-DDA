@@ -4,6 +4,7 @@
 #include "options.h"
 #include "input.h"
 #include "output.h"
+#include "text_snippets.h"
 #include "ui_manager.h"
 
 #if defined(TILES)
@@ -18,6 +19,8 @@
 #else
 #include "cursesdef.h"
 #endif // TILES
+
+#include "cata_imgui.h"
 
 struct ui_state {
     ui_adaptor *ui;
@@ -34,6 +37,8 @@ struct ui_state {
 #endif
     std::string context;
     std::string step;
+    std::string snippet;
+    float snippet_height;
 };
 
 static ui_state *gLUI = nullptr;
@@ -44,19 +49,49 @@ static void redraw()
     ImVec2 pos = { 0.5f, 0.5f };
     ImGui::SetNextWindowPos( ImGui::GetMainViewport()->Size * pos, ImGuiCond_Always, { 0.5f, 0.5f } );
     ImGui::SetNextWindowSize( gLUI->window_size );
-    ImGui::PushStyleVar( ImGuiStyleVar_WindowBorderSize, 0.0f );
+    ImGui::PushStyleVar( ImGuiStyleVar_WindowBorderSize, 1.0f );
+    ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, {0.0f, 0.0f} );
     ImGui::PushStyleColor( ImGuiCol_WindowBg, { 0.0f, 0.0f, 0.0f, 1.0f } );
     if( ImGui::Begin( "Loading…", nullptr,
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
-        ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
+        // first draw the snippet, putting some space before and after to ensure it wraps nicely and isn’t super wide
+        float empty_space = 0.125f * gLUI->splash_size.x;
+        ImGui::Indent( empty_space );
+        ImGui::BeginGroup();
+        cataimgui::TextColoredParagraph( c_light_cyan, gLUI->snippet, std::nullopt,
+                                         ImGui::GetWindowWidth() - empty_space );
+        ImGui::EndGroup();
+        // draw a debug rectangle around it
+        ImGui::GetForegroundDrawList()->AddRect( ImGui::GetItemRectMin(), ImGui::GetItemRectMax(),
+                IM_COL32( 255, 0, 255, 255 ) );
+        auto actual_text_size = ImGui::GetItemRectSize();
+        ImGui::Unindent( empty_space );
+        // move back to the top of the window
+        ImGui::SetCursorPos( {0.0f, 0.0f} );
+        // draw the image over top of the text
+        ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size, {0.0f, 0.0f}, {1.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f, 1.0f} );
+        // now display the loading status
         float w = ImGui::CalcTextSize( gLUI->context.c_str() ).x + ImGui::CalcTextSize( " " ).x +
                   ImGui::CalcTextSize( gLUI->step.c_str() ).x;
-        ImGui::SetCursorPosX( ( ( ImGui::GetWindowWidth() - w ) * 0.5f ) );
+        ImGui::SetCursorPosX( ( ImGui::GetWindowWidth() - w ) * 0.5f );
         ImGui::Text( "%s %s", gLUI->context.c_str(), gLUI->step.c_str() );
+        ImGui::NewLine();
+        // finally draw the snippet but this time centered in the window
+        empty_space = 0.5 * ( gLUI->splash_size.x - actual_text_size.x );
+        ImGui::Indent( empty_space );
+        ImGui::BeginGroup();
+        cataimgui::TextColoredParagraph( c_light_cyan, gLUI->snippet, std::nullopt,
+                                         ImGui::GetWindowWidth() - empty_space );
+        ImGui::EndGroup();
+        // draw another debug rectangle around it
+        ImGui::GetForegroundDrawList()->AddRect( ImGui::GetItemRectMin(), ImGui::GetItemRectMax(),
+                IM_COL32( 255, 0, 255, 255 ) );
+        ImGui::Unindent( empty_space );
     }
     ImGui::End();
     ImGui::PopStyleColor();
+    ImGui::PopStyleVar();
     ImGui::PopStyleVar();
 #else
     int x = ( TERMX - static_cast<int>( gLUI->splash_width ) ) / 2;
@@ -93,6 +128,11 @@ static void update_state( const std::string &context, const std::string &step )
             resize();
         } );
 
+        // static const std::string snippet = string_format( _( "Tip of the day: %s" ), SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated() );
+        static const std::string snippet =
+            "I think that you should figure out the size of the snippet first, then subtract it from the size of the viewport when computing max_size. That would eliminate the * 0.9 hack. The image would then be scaled to fit the remaining available space. One way to do this would be to write a function called measure_colored_text that does all the same things as draw_colored_text but doesn’t actually draw it. It would just add up the bounding boxes and return the final one.";
+
+        gLUI->snippet = snippet;
 #ifdef TILES
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
@@ -118,8 +158,9 @@ static void update_state( const std::string &context, const std::string &step )
             }
         }
         SDL_Surface_Ptr surf = load_image( gLUI->chosen_load_img.get_unrelative_path().u8string().c_str() );
-        // leave some space for the loading text...
-        ImVec2 max_size = ImGui::GetMainViewport()->Size * 0.9;
+        // reserve room for a few lines of text
+        float text_height = 5.0f * ImGui::GetTextLineHeightWithSpacing();
+        ImVec2 max_size = ImGui::GetMainViewport()->Size - ImVec2{0.0f, text_height};
         // preserve aspect ratio by finding the longest **relative** side and scaling both sides by its ratio to max_size
         // scales both "up" and "down"
         float width_ratio = static_cast<float>( surf->w ) / max_size.x;
@@ -129,7 +170,7 @@ static void update_state( const std::string &context, const std::string &step )
                               static_cast<float>( surf->h ) / longest_side_ratio
                             };
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
-        gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
+        gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, text_height };
 #else
         std::string splash = PATH_INFO::title( get_holiday_from_time() );
         if( get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
