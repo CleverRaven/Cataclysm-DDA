@@ -2532,5 +2532,11 @@
     "from_variant": "swat_shirt",
     "replace": "postman_shirt",
     "variant": "swat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "subsuit_xl",
+    "replace": "jumpsuit_pocketless",
+    "variant": "orange"
   }
 ]

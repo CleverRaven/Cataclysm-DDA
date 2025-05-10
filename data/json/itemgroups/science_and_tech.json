@@ -470,7 +470,7 @@
     "items": [
       { "group": "supplies_reagents_lab", "prob": 20 },
       [ "jumpsuit", 20 ],
-      [ "subsuit_xl", 1 ],
+      { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 1 },
       [ "gloves_rubber", 20 ],
       [ "apron_plastic", 20 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
@@ -569,7 +569,7 @@
       [ "cotton_patchwork", 1 ],
       [ "scissors_medical", 50 ],
       [ "boots_rubber", 20 ],
-      [ "subsuit_xl", 4 ],
+      { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 4 },
       { "item": "cotton_patchwork", "prob": 1, "custom-flags": [ "FILTHY" ] },
       { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges": [ 1, -1 ] },
