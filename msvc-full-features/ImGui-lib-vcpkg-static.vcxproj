@@ -51,6 +51,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\third-party\ImGuiFileDialog\CustomFont.h" />
+    <ClInclude Include="..\src\third-party\ImGuiFileDialog\CustomImGuiFileDialogConfig.h" />
+    <ClInclude Include="..\src\third-party\ImGuiFileDialog\CustomImWidgetsConfig.h" />
+    <ClInclude Include="..\src\third-party\ImGuiFileDialog\ImGuiFileDialog.h" />
+    <ClInclude Include="..\src\third-party\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="..\src\third-party\ImGuiFileDialog\ImWidgets.h" />
     <ClInclude Include="..\src\third-party\imgui\imconfig.h" />
     <ClInclude Include="..\src\third-party\imgui\imgui.h" />
     <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdl2.h" />
@@ -65,6 +71,9 @@
     <ClInclude Include="..\src\third-party\imtui\imtui.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\third-party\ImGuiFileDialog\CustomFont.cpp" />
+    <ClCompile Include="..\src\third-party\ImGuiFileDialog\ImGuiFileDialog.cpp" />
+    <ClCompile Include="..\src\third-party\ImGuiFileDialog\ImWidgets.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_draw.cpp" />
