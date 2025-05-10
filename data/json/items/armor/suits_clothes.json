@@ -405,24 +405,51 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
-    "id": "jumpsuit",
+    "id": "jumpsuit_pocketless",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "jumpsuit" },
-    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "name": { "str": "pocketless jumpsuit" },
+    "description": "A thin, short-sleeved jumpsuit without pockets, similar to those worn by prisoners.  Not very encumbering.",
     "weight": "610 g",
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "yellow",
+    "looks_like": "jumpsuit",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
     ],
+    "warmth": 15,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white jumpsuit" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
+        "id": "orange",
+        "name": { "str": "orange jumpsuit" },
+        "append": true,
+        "description": "This one is orange.",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
+    "copy-from": "jumpsuit_pocketless",
+    "id": "jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "jumpsuit" },
+    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -453,9 +480,24 @@
         "moves": 100
       }
     ],
-    "warmth": 15,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "extend": { "flags": [ "POCKETS" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white jumpsuit" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
+        "id": "green",
+        "name": { "str": "green jumpsuit" },
+        "append": true,
+        "description": "This one is green.",
+        "color": "green"
+      }
+    ]
   },
   {
     "id": "jumpsuit_xl",

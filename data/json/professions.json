@@ -4566,7 +4566,7 @@
     "npc_background": "BG_survival_story_PRISONER",
     "points": -1,
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
+      "both": { "items": [ "sneakers", "socks", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
@@ -4586,7 +4586,7 @@
       { "level": 2, "name": "traps" }
     ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "both": { "items": [ "sneakers", "socks", "glass_shiv", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -4603,7 +4603,7 @@
     "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "stabbing" }, { "level": 2, "name": "unarmed" } ],
     "traits": [ "KILLER" ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
+      "both": { "items": [ "sneakers", "socks", "glass_shiv", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
@@ -4633,8 +4633,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
-          { "item": "striped_pants" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "knife_rm42", "container-item": "gartersheath1" },
@@ -4655,7 +4654,7 @@
     "points": 0,
     "skills": [ { "level": 4, "name": "speech" }, { "level": 3, "name": "computer" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "rock_sock" ],
+      "both": { "items": [ "sneakers", "socks", "rock_sock", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
@@ -4672,8 +4671,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
-          { "item": "striped_pants" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "adderall" },
@@ -4697,7 +4695,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "striped_pants" },
           { "item": "sneakers" },
           { "item": "socks" },
@@ -4721,7 +4719,7 @@
     "traits": [ "ANIMALEMPATH" ],
     "pets": [ { "name": "mon_black_rat", "amount": 13 } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "fried_seeds" ],
+      "both": { "items": [ "sneakers", "socks", "fried_seeds", { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
