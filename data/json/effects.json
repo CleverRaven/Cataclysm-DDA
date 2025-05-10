@@ -2269,6 +2269,63 @@
   },
   {
     "type": "effect_type",
+    "id": "insecticide_eyes",
+    "name": [ "Insecticide In Eyes" ],
+    "desc": [ "Your eyes have been exposed to an insecticide." ],
+    "rating": "bad",
+    "apply_message": "Droplets of insecticide make contact with your eyes.",
+    "miss_messages": [ [ "The sting of the poison disrupts your vision", 1 ] ],
+    "decay_messages": [ [ "The burning in your eyes subsides.", "good" ] ],
+    "max_duration": "15 m",
+    "resist_effects": [ "steroid_eye" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "base_mods": {
+      "dex_mod": [ -1 ],
+      "per_mod": [ -3 ],
+      "pain_amount": [ 2 ],
+      "health_chance": [ 1 ],
+      "health_chance_bot": [ 5 ],
+      "health_amount": [ -1 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9 },
+      { "limb_score": "reaction", "modifier": 0.9 },
+      { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 0.75 },
+      { "limb_score": "night_vis", "modifier": 0.5, "resist_modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "insecticide_mouth",
+    "name": [ "Insecticide In Mouth" ],
+    "desc": [ "Your mouth has been exposed to an insecticide." ],
+    "rating": "bad",
+    "apply_message": "The insecticide vapor gets into your mouth and nasal passage.",
+    "miss_messages": [ [ "You flinch from the sickening poison", 1 ] ],
+    "decay_messages": [ [ "The inner passages of your face still ache but the burning and retching have ceased.", "good" ] ],
+    "harmful_cough": true,
+    "max_duration": "5 m",
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "cough_chance": [ 10 ],
+      "vomit_chance": [ 200 ],
+      "pain_amount": [ 2 ],
+      "health_chance": [ 1 ],
+      "health_chance_bot": [ 5 ],
+      "health_amount": [ -1 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 }, { "limb_score": "breathing", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "boomered",
     "name": [ "Boomered" ],
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
