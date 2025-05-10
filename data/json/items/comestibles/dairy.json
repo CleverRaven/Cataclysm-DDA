@@ -108,7 +108,7 @@
     "weight": "257 g",
     "color": "magenta",
     "spoils_in": "20 hours",
-    "container": "cup_plastic",
+    "container": "cup_plastic_yoghurt",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 150,
