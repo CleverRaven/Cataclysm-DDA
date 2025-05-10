@@ -88,7 +88,7 @@
     "id": "EOC_WARG_FOOD_ISNT_REAL",
     "//": "Are you a goblin? If not are you holding Warg food? No you aren't, that's regular meat.",
     "type": "effect_on_condition",
-    "recurrence": [ "3 seconds", "5 seconds"  ],
+    "recurrence": [ "3 seconds", "5 seconds" ],
     "condition": { "and": [ { "not": { "u_has_trait": "THRESH_SPECIES_GOBLIN" } }, { "u_has_item": "warg_food" } ] },
     "global": true,
     "run_for_npcs": true,
