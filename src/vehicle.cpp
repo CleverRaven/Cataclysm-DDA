@@ -2709,6 +2709,18 @@ std::optional<vpart_reference> vpart_position::obstacle_at_part() const
     return part;
 }
 
+int vpart_position::get_movecost() const
+{
+
+    if( obstacle_at_part() ) {
+        return 0;
+    } else if( part_with_feature( VPFLAG_AISLE, true ) ) {
+        return 2;
+    } else {
+        return 8;
+    }
+}
+
 std::optional<vpart_reference> vpart_position::part_displayed() const
 {
     int part_id = vehicle().part_displayed_at( mount_pos(), true );
