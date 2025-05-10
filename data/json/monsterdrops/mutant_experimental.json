@@ -32,7 +32,7 @@
           { "group": "lab_files_biology", "prob": 5 }
         ]
       },
-      { "item": "jumpsuit" }
+      { "item": "jumpsuit_pocketless", "variant": "orange" }
     ]
   }
 ]
