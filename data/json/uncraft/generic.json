@@ -235,7 +235,7 @@
     "components": [ [ [ "zinc_metal", 3780 ] ] ]
   },
   {
-    "result": "exodii_ingot_steel",
+    "result": "exodii_ingot_lc_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",

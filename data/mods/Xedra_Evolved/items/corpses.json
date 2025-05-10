@@ -47,7 +47,7 @@
     "category": "other",
     "description": "A broken Exodii Jotunn walker.  Still looks incredibly intimidating despite being permanently inoperative, due to the sheer size, mass, and protruding weapons.  Could be gutted for parts.",
     "price": "10 USD",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "volume": "410 L",
     "weight": "498 kg",
     "to_hit": -3,

@@ -103,7 +103,7 @@
         "distribution": [
           { "item": "exodii_ingot_aluminum", "prob": 30 },
           { "item": "exodii_ingot_plastic", "prob": 10 },
-          { "item": "exodii_ingot_steel", "prob": 50 },
+          { "item": "exodii_ingot_lc_steel", "prob": 50 },
           { "item": "exodii_ingot_copper", "prob": 50 },
           { "item": "exodii_ingot_lead", "prob": 30 },
           { "item": "exodii_ingot_tin", "prob": 10 },

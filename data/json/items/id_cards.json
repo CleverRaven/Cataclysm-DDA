@@ -348,7 +348,7 @@
     "price": "0 cent",
     "volume": "250 ml",
     "weight": "500 g",
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "qt_steel" ],
     "flags": [ "TRADER_AVOID" ],
     "price_postapoc": "0 cent",
     "category": "keys"
