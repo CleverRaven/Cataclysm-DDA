@@ -3,7 +3,7 @@
     "id": "762_51",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x51mm M80" },
+    "name": { "str_sp": "7.62x51mm NATO M80" },
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
     "ascii_picture": "308",
     "weight": "18 g",
@@ -136,7 +136,7 @@
     "copy-from": "762_51",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x51mm, black powder" },
+    "name": { "str_sp": "7.62x51mm NATO, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -151,7 +151,7 @@
     "copy-from": "762_51_incendiary",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x51mm tracer, black powder" },
+    "name": { "str_sp": "7.62x51mm NATO tracer, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -176,7 +176,7 @@
     "copy-from": "762_51",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x51mm, reloaded" },
+    "name": { "str_sp": "7.62x51mm NATO, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -186,7 +186,7 @@
     "copy-from": "762_51_incendiary",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "7.62x51mm tracer, reloaded" },
+    "name": { "str_sp": "7.62x51mm NATO tracer, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
