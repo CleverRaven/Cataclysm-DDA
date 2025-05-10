@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "global_vars.h"
@@ -20,6 +21,7 @@
 #include "math_parser_func.h"
 #include "math_parser_type.h"
 #include "npc.h"
+#include "point.h"
 #include "talker.h"
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
@@ -151,15 +153,26 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.parse( "((((((((5+7)*7.123)-3)-((5+7)-(7.123*3)))-((5*(7-(7.123*3)))/((5*7)+(7.123+3))))-((((5+7)-(7.123*3))+((5/7)+(7.123+3)))+(((5*7)+(7.123+3))*((5/7)/(7.123-3)))))-(((((5/7)-(7.321/3))*((5-7)+(7.321+3)))*(((5-7)-(7.321+3))+((5-7)*(7.321/3))))*((((5-7)+(7.321+3))-((5*7)*(7.321+3)))-(((5-7)*(7.321/3))/(5+((7/7.321)+3)))))))" ) );
     CHECK( testexp.eval( d ) == Approx( 87139.7243098 ) );
 
+    // locale-independent decimal point
+    CHECK( testexp.parse( "2 * 1.5" ) );
+    CHECK( testexp.eval( d ) == Approx( 3 ) );
+    CHECK( testexp.parse( "2 * .5" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    // E-notation
+    CHECK( testexp.parse( ".5e1" ) );
+    CHECK( testexp.eval( d ) == Approx( .5e1 ) );
+    CHECK( testexp.parse( ".5e1+1" ) );
+    CHECK( testexp.eval( d ) == Approx( .5e1 + 1 ) );
+    CHECK( testexp.parse( "1.5E+10 + 1" ) );
+    CHECK( testexp.eval( d ) == Approx( 1.5e+10 + 1 ) );
+    CHECK( testexp.parse( "1.5e-10+1" ) );
+    CHECK( testexp.eval( d ) == Approx( 1.5e-10 + 1 ) );
+
     // nan and inf
     CHECK( testexp.parse( "1 / 0" ) );
     CHECK( std::isinf( testexp.eval( d ) ) );
     CHECK( testexp.parse( "-1 ^ 0.5" ) );
     CHECK( std::isnan( testexp.eval( d ) ) );
-
-    // locale-independent decimal point
-    CHECK( testexp.parse( "2 * 1.5" ) );
-    CHECK( testexp.eval( d ) == Approx( 3 ) );
 
     // diag functions. _test_diag adds up all the (kw)args except for "test_unused_kwarg"
     CHECK( testexp.parse( "_test_diag_(1, 2, 3*4)" ) ); // mixed arg types
@@ -183,6 +196,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 21 ) );
     CHECK( testexp.parse( "_test_str_len_(['1','2'], '1': ['one','two'])" ) );  // str array
     CHECK( testexp.eval( d ) == Approx( 8 ) );
+    CHECK( testexp.parse( "_test_str_len_(['don\\'t'])" ) );  // escaped quote
+    CHECK( testexp.eval( d ) == Approx( 5 ) );
     CHECK( testexp.parse( "_test_diag_([1,2,3], 'blorg': [4,5,_test_diag_([6,7,8], '2':[9])])" ) );  // yo dawg
     CHECK( testexp.eval( d ) == Approx( 45 ) );
     CHECK( testexp.parse( "_test_diag_([[0,-1],[2,0],[3,4]])" ) );  // nested arrays
@@ -197,10 +212,30 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.parse( "_test_str_len_((['1',('2')]))" ) ); // pointless parens
     CHECK( testexp.eval( d ) == Approx( 2 ) );
 
+    // dot operator
+    get_globals().set_global_value( "mytripoint", tripoint_abs_ms{ 1, 2, 3 } );
+    CHECK( testexp.parse( "mytripoint.x" ) );
+    CHECK( testexp.eval( d ) == Approx( 1 ) );
+    CHECK( testexp.parse( "mytripoint.y" ) );
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
+    CHECK( testexp.parse( "mytripoint.z" ) );
+    CHECK( testexp.eval( d ) == Approx( 3 ) );
+    CHECK( testexp.parse( "mytripoint.z = 4" ) );
+    testexp.eval( d );
+    CHECK( get_globals().get_global_value( "mytripoint" ).tripoint().z() == 4 );
+
     // failed validation
     // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
     std::string dmsg = capture_debugmsg_during( [&testexp, &d]() {
         CHECK_FALSE( testexp.parse( "2+" ) );
+        CHECK_FALSE( testexp.parse( "2e" ) );
+        CHECK_FALSE( testexp.parse( "2e+" ) );
+        CHECK_FALSE( testexp.parse( "2e1.1" ) );
+        CHECK_FALSE( testexp.parse( "2e+1.1" ) );
+        CHECK_FALSE( testexp.parse( "1.2.3" ) );
+        CHECK_FALSE( testexp.parse( "." ) );
+        CHECK_FALSE( testexp.parse( "1+." ) );
+        CHECK_FALSE( testexp.parse( "2stupiddogs" ) );
         CHECK_FALSE( testexp.parse( ")" ) );
         CHECK_FALSE( testexp.parse( "(" ) );
         CHECK_FALSE( testexp.parse( "[" ) );
@@ -261,7 +296,7 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         }
         CHECK( expected_array );
         CHECK_FALSE( testexp.parse( "'1':'2'" ) );
-        CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
+        CHECK_FALSE( testexp.parse( "2 2*2" ) ); // missing operator
         CHECK_FALSE( testexp.parse( "2+++2" ) );
         CHECK_FALSE( testexp.parse( "1=2" ) );
         CHECK_FALSE( testexp.parse( "1===2" ) );
@@ -275,6 +310,12 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "_test_diag_([a=+])" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':0=0?1:2)" ) );
         CHECK_FALSE( testexp.parse( "_test_diag_('1':a=2)" ) );
+
+        CHECK_FALSE( testexp.parse( "mytripoint.(z)" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.2" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.w" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.+x" ) );
+        CHECK_FALSE( testexp.parse( "mytripoint.rand(1)" ) );
     } );
 }
 

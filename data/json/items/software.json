@@ -2,7 +2,7 @@
   {
     "id": "abstract_software",
     "copy-from": "abstract_efile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "software",
     "name": { "str_sp": "abstract software", "//~": "NO_I18N" },
     "description": { "str": "Copy from this for any software", "//~": "NO_I18N" },
@@ -11,7 +11,7 @@
   {
     "id": "software_useless",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "misc software" },
     "description": "A miscellaneous piece of hobby software.  Probably useless.",
     "price": "3 USD",
@@ -21,7 +21,7 @@
   {
     "id": "software_hacking",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "hackPRO" },
     "description": "A piece of hacking software.",
     "price": "8 USD",
@@ -31,7 +31,7 @@
   {
     "id": "software_medical",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "MediSoft" },
     "description": "A piece of medical software.",
     "price": "6 USD",
@@ -41,7 +41,7 @@
   {
     "id": "software_math",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "MatheMAX" },
     "description": "A piece of mathematical software.",
     "price": "5 USD",
@@ -51,7 +51,7 @@
   {
     "id": "software_blood_data",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "infection data" },
     "description": "Medical data on zombie blood.",
     "price": "2 USD",
@@ -61,7 +61,7 @@
   {
     "id": "software_lab_data",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "lab data" },
     "description": "Research archives from a government laboratory.",
     "price": "2 USD",
@@ -71,7 +71,7 @@
   {
     "id": "software_encryption_codes",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "encryption codes" },
     "description": "There are numerous security keys with dates for potential future access to encrypted archived data.",
     "price": "2 USD",
@@ -81,7 +81,7 @@
   {
     "id": "software_archived_data",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "archive data" },
     "description": "Extremely compressed research data, observation and experiment statistics.  The only pattern you manage to recognize is an increase in the amount of report closer to the Cataclysm, but also a reduction in the number of facilities still submitting reports.",
     "price": "2 USD",
@@ -91,7 +91,7 @@
   {
     "id": "software_electronics_reference",
     "copy-from": "abstract_software",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": "400 USD",
@@ -100,7 +100,7 @@
   },
   {
     "abstract": "abstract_efile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "e_files",
     "symbol": "o",
     "name": { "str": "abstract electronic file", "//~": "NO_I18N" },
@@ -115,7 +115,7 @@
   {
     "abstract": "abstract_efile_copiable",
     "copy-from": "abstract_efile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
     "description": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
@@ -125,7 +125,7 @@
   {
     "abstract": "abstract_efile_read",
     "copy-from": "abstract_efile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": { "str": "abstract read electronic file", "//~": "NO_I18N" },
     "description": {
@@ -137,7 +137,7 @@
   {
     "id": "efile_junk",
     "copy-from": "abstract_efile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": "junk file",
     "description": "A useless piece of electronic data.",
@@ -147,7 +147,7 @@
   {
     "id": "efile_lore",
     "copy-from": "abstract_efile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": "questionable media file",
     "description": "You kept this file on the off-chance that it might be interesting, but you need to take a more thorough look to find out what's inside.",
@@ -157,7 +157,7 @@
   {
     "id": "efile_map",
     "copy-from": "abstract_efile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": "map cache",
     "description": "Information about nearby locations stored from previous use.",
@@ -168,7 +168,7 @@
   {
     "abstract": "abstract_efile_recipes",
     "copy-from": "abstract_efile_copiable",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": { "str": "abstract recipe catalog", "//~": "NO_I18N" },
     "description": { "str": "for any collection of recipes", "//~": "NO_I18N" },
@@ -179,7 +179,7 @@
   {
     "id": "efile_recipes",
     "copy-from": "abstract_efile_recipes",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": "recipe catalog",
     "description": "This is a filtered collection of PDFs, images, and texts that contains instructions for making useful items.  Any electronic recipe catalogs will be added to this one.",
@@ -196,7 +196,7 @@
   {
     "id": "efile_recipes_science",
     "copy-from": "abstract_efile_recipes",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": "scientific recipe catalog",
     "use_action": [ "VIEW_RECIPES" ],
@@ -212,7 +212,7 @@
   {
     "id": "efile_recipes_medical",
     "copy-from": "abstract_efile_recipes",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": "medical recipe catalog",
     "use_action": [ "VIEW_RECIPES" ],
@@ -228,7 +228,7 @@
   {
     "id": "efile_photos",
     "copy-from": "abstract_efile_copiable",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "o",
     "name": { "str": "photo gallery", "str_pl": "photo galleries" },
     "description": "A varied collection of detailed photos.  Any collections of this kind will be added to this one.",

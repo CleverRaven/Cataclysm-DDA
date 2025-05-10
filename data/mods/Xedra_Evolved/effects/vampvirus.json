@@ -20,6 +20,7 @@
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
+              { "u_lose_trait": "VAMPIRE_BLOOD_ARTS" },
               { "u_lose_trait": "EYEGLEAM" },
               { "u_lose_trait": "BLOOD_FUN" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
@@ -34,6 +35,7 @@
               { "u_lose_trait": "COAGULANTWEAVE" },
               { "u_lose_trait": "BLOODHEAL" },
               { "u_lose_trait": "VAMPIRIC_DODGE" },
+              { "u_lose_trait": "VAMPIRIC_STEALTH_BONUS" },
               { "u_lose_trait": "VAMPIRE_FEAR_GAZE" },
               { "u_lose_trait": "VAMPIRE_WALK_ON_WALLS" },
               { "u_lose_trait": "VAMPIRE_BEAST_CLAWS" },
@@ -194,7 +196,9 @@
                           "VAMPIRIC_STRENGTH",
                           "VAMPIRIC_RESILIENCE",
                           "VAMPIRE_HEIGHTENED_SENSES",
-                          "VAMPIRE_SILENT_MOVE"
+                          "VAMPIRE_SILENT_MOVE",
+                          "VAMPIRE_HEALTH_BONUS",
+                          "VAMPIRE_SENSE_CHILDREN_OF_THE_NIGHT"
                         ],
                         "type": "mutation",
                         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
@@ -204,6 +208,7 @@
                     ],
                     "false_effect": [
                       { "u_add_trait": "VAMPIRE" },
+                      { "u_add_trait": "VAMPIRE_BLOOD_ARTS" },
                       {
                         "u_message": "You suddenly understand that drinking someones blood will make you feel better than you've ever felt before in your life."
                       }
@@ -233,6 +238,7 @@
                         "BLOODHEAL",
                         "COAGULANTWEAVE",
                         "VAMPIRIC_DODGE",
+                        "VAMPIRIC_STEALTH_BONUS",
                         "VAMPIRE_FEAR_GAZE",
                         "VAMPIRE_FEIGN_DEATH",
                         "VAMPIRE_WALK_ON_WALLS",
@@ -272,7 +278,17 @@
                   "condition": { "u_has_trait": "VAMPIRE3" },
                   "effect": [
                     {
-                      "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
+                      "u_roll_remainder": [
+                        "BLOODHASTE",
+                        "MAGICFORBLOOD",
+                        "HYPNOTIC_GAZE",
+                        "BLOODBANK",
+                        "VAMPIRE_COMMAND_BEAST",
+                        "VAMPIRE_EARTH_SLUMBER",
+                        "VAMPIRE_CARDIO_BONUS",
+                        "VAMPIRE_MOTION_ALARM",
+                        "VAMPIRE_BONUS_HP"
+                      ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                       "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]

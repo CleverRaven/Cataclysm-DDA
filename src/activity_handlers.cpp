@@ -63,6 +63,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "map_selector.h"
 #include "martialarts.h"
 #include "math_parser_diag_value.h"
 #include "memory_fast.h"
@@ -966,10 +967,11 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
             obj.set_flag( flg );
         }
         for( const fault_id &flt : entry.faults ) {
-            obj.faults.emplace( flt );
+            obj.set_fault( flt );
         }
         if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
             obj.set_var( "activity_var", you.name );
+
         }
         objs.push_back( obj );
     }
@@ -1219,7 +1221,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
-                    obj.faults.emplace( flt );
+                    obj.remove_fault( flt );
                 }
 
                 // TODO: smarter NPC liquid handling
@@ -1232,7 +1234,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             } else if( drop->count_by_charges() ) {
                 std::vector<item> objs = create_charge_items( drop, roll, entry, corpse_item, you );
                 for( item &obj : objs ) {
-                    here.add_item_or_charges( you.pos_bub(), obj );
+                    item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), obj );
+                    if( loc ) {
+                        you.may_activity_occupancy_after_end_items_loc.push_back( loc );
+                    }
                 }
             } else {
                 item obj( drop, calendar::turn );
@@ -1247,13 +1252,16 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
-                    obj.faults.emplace( flt );
+                    obj.remove_fault( flt );
                 }
                 if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", you.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
-                    here.add_item_or_charges( you.pos_bub(), obj );
+                    item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), obj );
+                    if( loc ) {
+                        you.may_activity_occupancy_after_end_items_loc.push_back( loc );
+                    }
                 }
             }
             you.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
@@ -1294,7 +1302,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 ruined_parts.set_var( "activity_var", you.name );
             }
             for( int i = 0; i < item_charges; ++i ) {
-                here.add_item_or_charges( you.pos_bub(), ruined_parts );
+                item_location loc = here.add_item_or_charges_ret_loc( you.pos_bub(), ruined_parts );
+                if( loc ) {
+                    you.may_activity_occupancy_after_end_items_loc.push_back( loc );
+                }
             }
         }
     }
@@ -1670,11 +1681,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( act_ref.targets.at( 0 ), liquid, true );
+                you->pour_into( act_ref.targets.at( 0 ), liquid, true, true );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( here.get_bub( act_ref.coords.at( 1 ) ) ) ) {
-                    iexamine::pour_into_keg( here.get_bub( act_ref.coords.at( 1 ) ), liquid );
+                    iexamine::pour_into_keg( here.get_bub( act_ref.coords.at( 1 ) ), liquid, false );
                 } else {
                     here.add_item_or_charges( here.get_bub( act_ref.coords.at( 1 ) ), liquid );
                     you->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
@@ -1887,6 +1898,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     if( resume_for_multi_activities( *you ) ) {
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", you->name );
+            you->may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( pos )},
+                    &elem );
         }
     }
 }
@@ -2789,10 +2802,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     you->invalidate_crafting_inventory();
 
     for( const ::fault_id &id : fix.faults_removed ) {
-        target.faults.erase( id );
+        target.remove_fault( id );
     }
     for( const ::fault_id &id : fix.faults_added ) {
-        target.set_fault( id );
+        target.set_fault( id, true, false );
     }
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
@@ -2934,30 +2947,32 @@ void activity_handlers::atm_do_turn( player_activity *, Character *you )
 static void rod_fish( Character *you, const std::vector<monster *> &fishables )
 {
     map &here = get_map();
+    constexpr auto caught_corpse = []( Character * you, map & here, const mtype & corpse_type ) {
+        item corpse = item::make_corpse( corpse_type.id,
+                                         calendar::turn + rng( 0_turns,
+                                                 3_hours ) );
+        corpse.set_var( "activity_var", you->name );
+        item_location loc = here.add_item_or_charges_ret_loc( you->pos_bub(), corpse );
+        you->add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname() );
+        if( loc ) {
+            you->may_activity_occupancy_after_end_items_loc.push_back( loc );
+        }
+    };
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     GROUP_FISH, true );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( you->pos_bub(), item::make_corpse( fish_mon,
-                                  calendar::turn + rng( 0_turns,
-                                          3_hours ) ) );
-        you->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
+        caught_corpse( you, here, fish_mon.obj() );
     } else {
         monster *chosen_fish = random_entry( fishables );
         chosen_fish->fish_population -= 1;
         if( chosen_fish->fish_population <= 0 ) {
             g->catch_a_monster( chosen_fish, you->pos_bub(), you, 50_hours );
         } else {
-            here.add_item_or_charges( you->pos_bub(), item::make_corpse( chosen_fish->type->id,
-                                      calendar::turn + rng( 0_turns,
-                                              3_hours ) ) );
-            you->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
-        }
-    }
-    for( item &elem : here.i_at( you->pos_bub() ) ) {
-        if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
-            elem.set_var( "activity_var", you->name );
+            if( chosen_fish->type != nullptr ) {
+                caught_corpse( you, here, *( chosen_fish->type ) );
+            }
         }
     }
 }
@@ -3520,6 +3535,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
     if( resume_for_multi_activities( *you ) ) {
         for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", you->name );
+            you->may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{here.get_abs( pos )},
+                    &elem );
         }
     }
 }
@@ -3828,8 +3845,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     // still get some experience for trying
                     exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
                     spell_being_cast.gain_exp( *you, exp_gained );
-                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                            spell_being_cast.xp() );
+                    if( exp_gained != 0 ) {
+                        you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                                spell_being_cast.xp() );
+                    }
                 }
                 if( act->get_value( 2 ) != 0 ) {
                     spell_being_cast.consume_spell_cost( *you, false );
@@ -3881,8 +3900,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
                         spell_being_cast.gain_exp( *you, exp_gained );
-                        you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                                spell_being_cast.xp() );
+                        if( exp_gained != 0 ) {
+                            you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                                    spell_being_cast.xp() );
+                        }
                     }
                     if( spell_being_cast.get_level() != old_level ) {
                         // Level 0-1 message is printed above - notify player when leveling up further

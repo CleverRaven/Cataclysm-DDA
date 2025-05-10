@@ -108,7 +108,7 @@ void option_slider::check_consistency()
     }
 }
 
-void option_slider::load( const JsonObject &jo, const std::string_view )
+void option_slider::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     optional( jo, was_loaded, "default", _default_level, 0 );
@@ -2206,6 +2206,10 @@ void options_manager::add_options_interface()
     add_option_group( "interface", Group( "mouse_cont_opts", to_translation( "Mouse control options" ),
                                           to_translation( "Options regarding mouse control." ) ),
     [&]( const std::string & page_id ) {
+        add( "ENABLE_MOUSE", page_id, to_translation( "Enable mouse" ),
+             to_translation( "Enable input from mouse." ),
+             true, COPT_NO_HIDE
+           );
         add( "ENABLE_JOYSTICK", page_id, to_translation( "Enable joystick" ),
              to_translation( "If true, enable input from joystick." ),
              true, COPT_CURSES_HIDE
@@ -2221,6 +2225,7 @@ void options_manager::add_options_interface()
             { "hidekb", to_translation( "HideKB" ) }
         },
         "show", COPT_CURSES_HIDE );
+        get_option( "HIDE_CURSOR" ).setPrerequisite( "ENABLE_MOUSE" );
 
         add( "EDGE_SCROLL", page_id, to_translation( "Edge scrolling" ),
         to_translation( "Edge scrolling with the mouse." ), {
@@ -2230,6 +2235,7 @@ void options_manager::add_options_interface()
             { 10, to_translation( "Fast" ) },
         },
         30, 30, COPT_CURSES_HIDE );
+        get_option( "EDGE_SCROLL" ).setPrerequisite( "ENABLE_MOUSE" );
     } );
 
 }
@@ -2763,12 +2769,8 @@ void options_manager::add_options_world_default()
          COPT_ALWAYS_HIDE, "%i%%"
        );
 
-    add_empty_line();
-
-    add( "EVOLUTION_INVERSE_MULTIPLIER", "world_default",
-         to_translation( "Monster evolution slowdown" ),
-         to_translation( "A multiplier for the time between monster upgrades.  For example a value of 2.00 would cause evolution to occur at half speed.  Set to 0.00 to turn off monster upgrades." ),
-         0.0, 100, 1.0, 0.01
+    add( "EVOLUTION_INVERSE_MULTIPLIER", "world_default", translation(), translation(),
+         0.0, 100, 1.0, 0.01, COPT_ALWAYS_HIDE
        );
 
     add_empty_line();
@@ -2844,50 +2846,9 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add_option_group( "debug", Group( "chargen_point_opts",
-                                      to_translation( "Character generation points options" ),
-                                      to_translation( "Options regarding character generation points." ) ),
-    [&]( const std::string & page_id ) {
-        add( "INITIAL_STAT_POINTS", page_id, to_translation( "Initial stat points" ),
-             to_translation( "Initial points available to spend on stats on character generation." ),
-             0, 1000, 6
-           );
-
-        add( "INITIAL_TRAIT_POINTS", page_id, to_translation( "Initial trait points" ),
-             to_translation( "Initial points available to spend on traits on character generation." ),
-             0, 1000, 0
-           );
-
-        add( "INITIAL_SKILL_POINTS", page_id, to_translation( "Initial skill points" ),
-             to_translation( "Initial points available to spend on skills on character generation." ),
-             0, 1000, 2
-           );
-
-        add( "MAX_TRAIT_POINTS", page_id, to_translation( "Maximum trait points" ),
-             to_translation( "Maximum trait points available for character generation." ),
-             0, 1000, 12
-           );
-    } );
-
-    add_empty_line();
-
     add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
          to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
          false
-       );
-
-    add_empty_line();
-
-    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
-         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
-       );
-
-    add_empty_line();
-
-    add( "PROFICIENCY_TRAINING_SPEED", "debug", to_translation( "Proficiency training speed" ),
-         to_translation( "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
        );
 
     add_empty_line();
@@ -4077,6 +4038,8 @@ void options_manager::update_options_cache()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+    cata::options::mouse.enabled = ::get_option<bool>( "ENABLE_MOUSE" );
+    cata::options::mouse.hidekb = ::get_option<std::string>( "HIDE_CURSOR" ) == "hidekb";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 
     cata::options::damage_indicators.clear();

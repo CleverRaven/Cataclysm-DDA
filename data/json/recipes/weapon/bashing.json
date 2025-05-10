@@ -925,7 +925,7 @@
     "skills_required": [ "bashing", 1 ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing", "required": true },
       { "proficiency": "prof_toolsmithing" }
     ],
     "difficulty": 3,

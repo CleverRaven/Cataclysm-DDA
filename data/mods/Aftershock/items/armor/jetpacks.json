@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_jetpack",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "rocket pack" },
     "description": "A back mounted rocket pack, its well worn superalloy nozzles seem to suggest great age.  Units like this one are rarely used by elite military forces and by scavenger-explorers hoping to find high value salvage.  Not powerful enough to enable true flight within a gravity well, but it may still be used to perform short jumps and air-dashes.",
     "weight": "4350 g",

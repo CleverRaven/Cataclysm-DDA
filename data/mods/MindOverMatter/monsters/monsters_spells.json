@@ -208,25 +208,6 @@
     "range_increment": 1
   },
   {
-    "id": "electrokinetic_paralysis_monster",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Neural Spasms Monster", "//~": "NO_I18N" },
-    "description": { "str": "Cause an electrical burst in the target's nervous system, stunning them briefly.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
-    "max_level": 20,
-    "effect": "attack",
-    "effect_str": "stunned",
-    "shape": "blast",
-    "min_duration": 100,
-    "max_duration": 400,
-    "min_range": 3,
-    "max_range": 23,
-    "range_increment": 1
-  },
-  {
     "id": "electrokinetic_revive_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Revivification Monster", "//~": "NO_I18N" },

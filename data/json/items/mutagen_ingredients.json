@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "abstract": "mutagen_sample",
     "symbol": "q",
     "color": "red",
@@ -15,7 +15,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "alpha_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -25,7 +25,7 @@
     "material": [ "hflesh", "hblood", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "batrachian_sample",
     "copy-from": "mutagen_sample",
     "color": "green",
@@ -35,7 +35,7 @@
     "material": [ "slime", "blood" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "beast_sample",
     "copy-from": "mutagen_sample",
     "color": "light_red",
@@ -45,7 +45,7 @@
     "material": [ "flesh", "blood", "bone", "fur" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bird_sample",
     "copy-from": "mutagen_sample",
     "color": "cyan",
@@ -55,7 +55,7 @@
     "material": [ "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cattle_sample",
     "copy-from": "mutagen_sample",
     "color": "brown",
@@ -65,7 +65,7 @@
     "material": [ "flesh", "gutskin" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cephalopod_sample",
     "copy-from": "mutagen_sample",
     "color": "black",
@@ -75,7 +75,7 @@
     "material": [ "flesh", "slime" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chimera_sample",
     "copy-from": "mutagen_sample",
     "color": "white",
@@ -85,7 +85,7 @@
     "material": [ "gutskin", "bone", "fur" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "elfa_sample",
     "copy-from": "mutagen_sample",
     "color": "light_green",
@@ -95,7 +95,7 @@
     "material": [ "veggy", "hblood" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "feline_sample",
     "copy-from": "mutagen_sample",
     "color": "light_gray",
@@ -105,7 +105,7 @@
     "material": [ "fur", "blood" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fish_sample",
     "copy-from": "mutagen_sample",
     "color": "yellow",
@@ -115,7 +115,7 @@
     "material": [ "blood", "water" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "gastropod_sample",
     "copy-from": "mutagen_sample",
     "color": "brown_cyan",
@@ -125,7 +125,7 @@
     "material": [ "chitin", "slime" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "human_sample",
     "copy-from": "mutagen_sample",
     "color": "black_red",
@@ -135,7 +135,7 @@
     "material": [ "hflesh", "hblood" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "insect_sample",
     "copy-from": "mutagen_sample",
     "color": "brown",
@@ -145,7 +145,7 @@
     "material": [ "iflesh", "chitin" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lizard_sample",
     "copy-from": "mutagen_sample",
     "color": "green_cyan",
@@ -155,7 +155,7 @@
     "material": [ "flesh", "blood" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lupine_sample",
     "copy-from": "mutagen_sample",
     "color": "brown",
@@ -165,7 +165,7 @@
     "material": [ "fur", "flesh", "blood" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "medical_sample",
     "copy-from": "mutagen_sample",
     "color": "magenta",
@@ -174,7 +174,7 @@
     "material": [ "hflesh", "iron" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mouse_sample",
     "copy-from": "mutagen_sample",
     "color": "brown",
@@ -184,7 +184,7 @@
     "material": [ "flesh", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plant_sample",
     "copy-from": "mutagen_sample",
     "color": "green",
@@ -194,7 +194,7 @@
     "material": [ "veggy", "wood" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "raptor_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -204,7 +204,7 @@
     "material": [ "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rabbit_sample",
     "copy-from": "mutagen_sample",
     "color": "light_gray",
@@ -214,7 +214,7 @@
     "material": [ "flesh", "fur" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "rat_sample",
     "copy-from": "mutagen_sample",
     "color": "brown",
@@ -224,7 +224,7 @@
     "material": [ "fur", "bone" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "slime_sample",
     "copy-from": "mutagen_sample",
     "color": "light_green",
@@ -234,7 +234,7 @@
     "material": [ "slime" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "spider_sample",
     "copy-from": "mutagen_sample",
     "color": "dark_gray",
@@ -244,7 +244,7 @@
     "material": [ "chitin", "fur" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "troglobite_sample",
     "copy-from": "mutagen_sample",
     "color": "light_gray",
@@ -254,7 +254,7 @@
     "material": [ "flesh", "soil" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ursine_sample",
     "copy-from": "mutagen_sample",
     "color": "brown",
@@ -264,7 +264,7 @@
     "material": [ "flesh", "fur", "gutskin" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "crustacean_sample",
     "copy-from": "mutagen_sample",
     "color": "red",
@@ -274,7 +274,7 @@
     "material": [ "flesh", "chitin" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chiropteran_sample",
     "copy-from": "mutagen_sample",
     "color": "brown",

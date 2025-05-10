@@ -212,7 +212,7 @@
         "b": { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] },
         "}": { "item": "novels", "chance": 30, "repeat": [ 1, 2 ] },
         "%": { "item": "SUS_trash_trashcan_public", "chance": 80 },
-        "#": { "item": "behindcounter", "chance": 20 },
+        "a": { "item": "behindcounter", "chance": 20 },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_vehicles": [

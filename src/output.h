@@ -471,11 +471,12 @@ inline query_ynq_result query_ynq( const char *const msg, Args &&... args )
     return query_ynq( string_format( msg, std::forward<Args>( args )... ) );
 }
 
-bool query_int( int &result, const std::string &text );
+//text query for getting integer input
+bool query_int( int &result, bool show_default, const std::string &text );
 template<typename ...Args>
-inline bool query_int( int &result, const char *const msg, Args &&... args )
+inline bool query_int( int &result, bool show_default, const char *const msg, Args &&... args )
 {
-    return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
+    return query_int( result, show_default, string_format( msg, std::forward<Args>( args )... ) );
 }
 
 std::vector<std::string> get_hotkeys( std::string_view s );

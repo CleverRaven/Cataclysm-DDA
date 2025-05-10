@@ -15,6 +15,7 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "current_map.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -374,6 +375,8 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
     // Now prepare the initial map (change terrain etc.)
     tinymap player_start;
     player_start.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *player_start.cast_to_map() );
     prepare_map( player_start );
     player_start.save();
 }
@@ -534,6 +537,8 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 {
     tinymap m;
     m.load( omtstart, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *m.cast_to_map() );
     m.build_outside_cache( m.get_abs_sub().z() );
     point_bub_ms player_pos = get_player_character().pos_bub().xy();
     const point_bub_ms u( player_pos.x() % HALF_MAPSIZE_X, player_pos.y() % HALF_MAPSIZE_Y );

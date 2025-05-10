@@ -1,7 +1,7 @@
 [
   {
     "id": "spellbook_hedge_farm",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Goody Osborne's Booke of Remedies", "str_pl": "copies of Goody Osborne's Booke of Remedies" },
     "description": "This purports to be the 'Reale and True Acounting of the Works and Devices of Sarah Osbourne, a Most Puissant Wiche', but you're pretty sure it's all a front and it was actually written within the last couple decades.  There are some pretty detailed descriptions of rituals in here, mixed among diary entries and accounts of fanciful meetings in the woods.",
     "weight": "1200 g",
@@ -86,7 +86,8 @@
   },
   {
     "id": "spellbook_hedge_farm_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies", "//~": "NO_I18N" },
@@ -95,7 +96,7 @@
   },
   {
     "id": "spellbook_hedge_ward_demons",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Malleus Maleficarum", "str_pl": "copies of Malleus Maleficarum" },
     "description": "A hardcover translation of the infamous 15th century book used as a reference work for witchcraft trials for centuries.  This translation seems to have some handwritten notes in some of the margins.",
     "weight": "721 g",
@@ -180,7 +181,8 @@
   },
   {
     "id": "spellbook_hedge_ward_demons_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum", "//~": "NO_I18N" },
@@ -189,7 +191,7 @@
   },
   {
     "id": "spellbook_hedge_doctor_book",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "The Cunning Book of Home and Hearth", "str_pl": "copies of The Cunning Book of Home and Hearth" },
     "description": "This mass-market paperback purports to pass down the ancient traditional secrets of English cunning folk, though if that were true, they probably could have gotten more than $12.95 for it.  There are a lot of descriptions of rituals and procedures in here, though--maybe some of them deserve further investigation.",
     "weight": "537 g",
@@ -274,7 +276,8 @@
   },
   {
     "id": "spellbook_hedge_doctor_book_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth", "//~": "NO_I18N" },
@@ -283,7 +286,7 @@
   },
   {
     "id": "spellbook_hedge_blood_book",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula",
       "str_pl": "copies of Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula"
@@ -371,7 +374,8 @@
   },
   {
     "id": "spellbook_hedge_blood_book_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers", "//~": "NO_I18N" },
@@ -380,7 +384,7 @@
   },
   {
     "id": "spellbook_hedge_ward_dreams",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "Ward your Dreams for a Good Night's Sleep!",
       "str_pl": "copies of Ward your Dreams for a Good Night's Sleep!"
@@ -468,7 +472,8 @@
   },
   {
     "id": "spellbook_hedge_ward_dreams_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep", "//~": "NO_I18N" },
@@ -477,7 +482,7 @@
   },
   {
     "id": "spellbook_hedge_snare_changelings",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Monas Hieroglyphica", "str_pl": "copies of Monas Hieroglyphica" },
     "description": "This is a thin reproduction of John Dee's Monas Hieroglyphica.  A complicated work whose meaning has long been lost without access to the occult oral tradition of it's time.  It's possible that some remnants of that oral tradition still exist today, but it is unknown if they would be able to fully interpret this spellbook.",
     "weight": "83 g",
@@ -562,7 +567,8 @@
   },
   {
     "id": "spellbook_hedge_snare_changelings_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings", "//~": "NO_I18N" },
@@ -571,7 +577,8 @@
   },
   {
     "id": "spellbook_hedge_clairvoyance_cone",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Parchment of sight beyond sight", "str_pl": "Parchments of sight beyond sight" },
     "description": "A short parchment that will supposedly teach you how to see through walls.",
@@ -588,7 +595,7 @@
   {
     "id": "spellbook_hedge_bathhouse_midnight",
     "//": "divination spells are appropriate here too",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia",
       "str_pl": "copies of The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia"
@@ -675,7 +682,8 @@
   },
   {
     "id": "spellbook_hedge_bathhouse_midnight_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight", "//~": "NO_I18N" },
@@ -687,7 +695,7 @@
   },
   {
     "id": "spellbook_hedge_abramelin_the_mage",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "The Book of the Sacred Magic of Abramelin the Mage",
       "str_pl": "copies of The Book of the Sacred Magic of Abramelin the Mage"
@@ -774,7 +782,8 @@
   },
   {
     "id": "spellbook_hedge_abramelin_the_mage_spell_stub",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage", "//~": "NO_I18N" },
@@ -790,5 +799,106 @@
         "hedge_invisibility_magic_square"
       ]
     }
+  },
+  {
+    "id": "spellbook_hedge_psychic_defense",
+    "type": "ITEM",
+    "name": {
+      "str": "Psychic Self-Defense: The Classic Instruction Manual for Protecting Yourself Against Paranormal Attack",
+      "str_pl": "copies of Psychic Self-Defense: The Classic Instruction Manual for Protecting Yourself Against Paranormal Attack"
+    },
+    "description": "A very popular 20th century occult book about protecting yourself against psychic attack, haunting, vampirism (the psychic kind, not the kind with fangs), and other otherworldly phenomenon.",
+    "weight": "318 g",
+    "volume": "800 ml",
+    "price": "25 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Study the occult text.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_RESEARCH_FPSYCHIC_DEFENSE",
+          "//": "Max research time before failure is 45 hours. Average result of 270 after 45 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_psychic_defense != 1" ] },
+          "effect": [
+            { "set_string_var": "spellbook_hedge_psychic_defense", "target_var": { "u_val": "latest_studied_occult_text_name" } },
+            {
+              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_PSYCHIC_DEFENSE_COMPLETION",
+              "target_var": { "u_val": "latest_completion_eoc" }
+            },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 162000" ] },
+            {
+              "u_run_inv_eocs": "random",
+              "search_data": [ { "id": "spellbook_hedge_psychic_defense" } ],
+              "true_eocs": [
+                {
+                  "id": "EOC_HEDGE_RESEARCH_PSYCHIC_DEFENSE_SET_DIFFICULTY",
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 320" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 352" ] } ]
+                },
+                {
+                  "id": "EOC_HEDGE_RESEARCH_PSYCHIC_DEFENSE_READ_VALUES",
+                  "effect": [
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
+                  ]
+                }
+              ]
+            },
+            { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
+            { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
+            {
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_PSYCHIC_DEFENSE",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            },
+            {
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            }
+          ],
+          "false_effect": [
+            { "u_spawn_item": "spellbook_hedge_psychic_defense_stub", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_HEDGE_USING_PSYCHIC_DEFENSE",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "spellbook_hedge_psychic_defense_stub" } ],
+                      "true_eocs": [ { "id": "EOC_HEDGE_USING_PSYCHIC_DEFENSE_ACTIVATE", "effect": { "u_activate": "learn_spell" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_remove_item_with": "spellbook_hedge_psychic_defense_stub" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "spellbook_hedge_psychic_defense_stub",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "copy-from": "magic_square_base",
+    "name": {
+      "str_sp": "The Real Actual Psychic Self-Defense: The Classic Instruction Manual for Protecting Yourself Against Paranormal Attack",
+      "//~": "NO_I18N"
+    },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_astral_projection", "hedge_protect_the_mind" ] }
   }
 ]

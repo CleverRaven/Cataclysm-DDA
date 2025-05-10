@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_rifle_storage",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "back_holster",
     "looks_like": "slingpack",
     "color": "light_gray",
@@ -15,7 +16,8 @@
   },
   {
     "id": "exo_melee_storage",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "bscabbard",
     "looks_like": "bscabbard",
     "color": "light_gray",
@@ -29,7 +31,8 @@
   },
   {
     "id": "exo_large_storage",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "backpack_tactical_large",
     "looks_like": "backpack",
     "color": "light_gray",
@@ -43,7 +46,8 @@
   },
   {
     "id": "exo_medium_storage",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "fanny",
     "looks_like": "holster",
     "color": "green",
@@ -57,7 +61,8 @@
   },
   {
     "id": "exo_small_storage",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "leather_pouch",
     "looks_like": "holster",
     "symbol": "[",
@@ -71,7 +76,8 @@
   },
   {
     "id": "exo_large_ammo_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "tacvest",
     "looks_like": "tacvest",
     "symbol": "[",
@@ -85,7 +91,8 @@
   },
   {
     "id": "exo_small_ammo_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "legrig",
     "symbol": "[",
     "color": "dark_gray",
@@ -95,7 +102,8 @@
   },
   {
     "id": "exo_large_holster",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit quick draw holster" },
     "description": "This module holds a single sidearm and will recharge an energy weapon.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
@@ -130,7 +138,8 @@
   },
   {
     "id": "exo_sheath",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit blade sheath" },
     "description": "This module holds a single knife or small blade.  Automatically opens when the exosuit's pilot reaches for it.",

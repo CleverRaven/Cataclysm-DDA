@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_kelp",
     "copy-from": "spinach",
     "name": { "str_sp": "kelp" },
@@ -8,7 +9,8 @@
     "volume": "166 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "afs_soup_veggy",
     "looks_like": "water",
     "name": { "str_sp": "vegan ramen" },
@@ -33,7 +35,8 @@
   },
   {
     "id": "afs_kibble",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "spiced chops" },
     "description": "Kibble made for humans.  A heavy dressing of spices makes it impossible to discern the original flavors it might have had.",

@@ -1,7 +1,7 @@
 [
   {
     "id": "envelope",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "envelope" },
     "looks_like": "paper",
@@ -26,7 +26,7 @@
   },
   {
     "id": "letter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "letter" },
     "looks_like": "paper",
@@ -109,7 +109,7 @@
   },
   {
     "id": "postcard",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "postcard" },
     "looks_like": "paper",
@@ -125,7 +125,7 @@
   },
   {
     "id": "gift_card",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "gift card" },
     "looks_like": "cash_card",
@@ -179,7 +179,7 @@
   },
   {
     "id": "greeting_card",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "greeting card" },
     "looks_like": "paper",

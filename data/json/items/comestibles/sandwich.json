@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_cheese_grilled",
     "name": { "str": "grilled cheese sandwich", "str_pl": "grilled cheese sandwiches" },
     "weight": "156 g",
@@ -22,7 +23,8 @@
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_egg_salad",
     "name": { "str": "egg salad sandwich", "str_pl": "egg salad sandwiches" },
     "weight": "156 g",
@@ -43,7 +45,8 @@
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_deluxe",
     "name": { "str": "deluxe sandwich", "str_pl": "deluxe sandwiches" },
     "conditional_names": [
@@ -84,7 +87,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_reuben",
     "name": { "str": "reuben sandwich", "str_pl": "reuben sandwiches" },
     "conditional_names": [
@@ -120,7 +124,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_cucumber",
     "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "weight": "120 g",
@@ -140,7 +145,8 @@
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_cheese",
     "name": { "str": "cheese sandwich", "str_pl": "cheese sandwiches" },
     "weight": "106 g",
@@ -160,7 +166,8 @@
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_jam",
     "name": { "str": "jam sandwich", "str_pl": "jam sandwiches" },
     "weight": "140 g",
@@ -181,7 +188,8 @@
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_jam_cheese",
     "name": { "str": "jam and cheese sandwich", "str_pl": "jam and cheese sandwiches" },
     "weight": "140 g",
@@ -209,7 +217,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_jam_butter",
     "name": { "str": "jam and butter sandwich", "str_pl": "jam and butter sandwiches" },
     "weight": "154 g",
@@ -237,7 +246,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_fairy",
     "name": { "str_sp": "fairy bread" },
     "weight": "56 g",
@@ -257,7 +267,8 @@
     "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_honey",
     "name": { "str": "honey sandwich", "str_pl": "honey sandwiches" },
     "weight": "142 g",
@@ -277,7 +288,8 @@
     "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_sauce",
     "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
     "copy-from": "bread",
@@ -292,7 +304,8 @@
     "fun": 2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_veggy",
     "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
     "weight": "189 g",
@@ -313,7 +326,8 @@
     "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_veggy_cheese",
     "name": { "str": "vegetable sandwich with cheese", "str_pl": "vegetable sandwiches with cheese" },
     "weight": "189 g",
@@ -341,7 +355,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_t",
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
@@ -373,7 +388,8 @@
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pb",
     "name": { "str": "peanut butter sandwich", "str_pl": "peanut butter sandwiches" },
     "weight": "204 g",
@@ -393,7 +409,8 @@
     "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbj",
     "name": { "str": "PB&J sandwich", "str_pl": "PB&J sandwiches" },
     "weight": "204 g",
@@ -414,7 +431,8 @@
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbh",
     "name": { "str": "PB&H sandwich", "str_pl": "PB&H sandwiches" },
     "weight": "207 g",
@@ -435,7 +453,8 @@
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbm",
     "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
     "weight": "205 g",
@@ -455,7 +474,8 @@
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fish_sandwich",
     "name": { "str": "fish sandwich", "str_pl": "fish sandwiches" },
     "weight": "201 g",
@@ -474,7 +494,8 @@
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fish_bagel",
     "name": { "str": "fish and spinach bagel" },
     "weight": "251 g",
@@ -493,7 +514,8 @@
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lobster_roll",
     "name": { "str": "lobster roll" },
     "copy-from": "fish_sandwich",
@@ -503,7 +525,8 @@
     "fun": 30
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blt",
     "name": { "str": "BLT" },
     "weight": "220 g",
@@ -532,7 +555,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chicken_sandwich",
     "name": { "str": "chicken sandwich", "str_pl": "chicken sandwiches" },
     "weight": "187 g",
@@ -558,7 +582,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbf",
     "name": { "str": "Fluffernutter sandwich", "str_pl": "Fluffernutter sandwiches" },
     "weight": "204 g",

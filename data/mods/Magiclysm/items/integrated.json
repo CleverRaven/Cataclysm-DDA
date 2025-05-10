@@ -2,7 +2,8 @@
   {
     "id": "integrated_goblin_teeth",
     "copy-from": "integrated_fangs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "goblin teeth" },
     "description": "A set of goblin teeth, small but needle-sharp.",
@@ -12,7 +13,8 @@
   {
     "id": "integrated_lizardfolk_teeth",
     "copy-from": "integrated_fangs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "lizardfolk teeth" },
     "description": "A set of lizardfolk teeth, made for biting chunks of out their prey.",
@@ -21,7 +23,8 @@
   },
   {
     "id": "integrated_antlers",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "deer antlers" },
     "description": "You have a majestic crown of antlers.",
@@ -46,7 +49,8 @@
   },
   {
     "id": "integrated_scaled_hands",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "talons" },
     "description": "Your scales have grown to cover your hands and elongate the tips in to jagged claws that can be serviceable as cutting and piercing weapons in unarmed combat.",
@@ -72,7 +76,8 @@
   },
   {
     "id": "integrated_demon_claws",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "talons" },
     "description": "Your index fingers have become talons.  They make for wicked natural daggers.  Unfortunately, they get in the way of everything including gloves.",
@@ -98,7 +103,8 @@
   },
   {
     "id": "integrated_dragon_talons_black",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "talons" },
     "description": "All of your fingers have developed into huge scaled talons.  They prevent wearing gloves, but you can use them to powerful effect in melee combat and you appear to have uncovered some secrets about black dragons.",
@@ -124,7 +130,8 @@
   },
   {
     "id": "integrated_black_dragonscale",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "Black dragon scales" },
     "description": "Thin but as tough as titanium, your draconic black scale can even withstand bullets from small firearms",
