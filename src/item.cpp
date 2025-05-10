@@ -8870,19 +8870,26 @@ bool item::ready_to_revive( map &here, const tripoint_bub_ms &pos ) const
     if( damage_level() > 0 ) {
         age_in_hours /= ( damage_level() + 1 );
     }
-    int rez_factor = 48 - age_in_hours;
+
+    int revive_time = type->revive_time;
+    if( revive_time <= 0 ) { 
+    revive_time = 48;
+    }
+
+    int rez_factor = revive_time - age_in_hours;
     if( age_in_hours > 6 && ( rez_factor <= 0 || one_in( rez_factor ) ) ) {
-        // If we're a special revival zombie, wait to get up until the player is nearby.
-        const bool isReviveSpecial = has_flag( flag_REVIVE_SPECIAL );
-        if( isReviveSpecial ) {
-            const int distance = rl_dist( pos, get_player_character().pos_bub() );
-            if( distance > 3 ) {
-                return false;
-            }
-            if( !one_in( distance + 1 ) ) {
-                return false;
-            }
+    // If we're a special revival zombie, wait to get up until the player is nearby.
+    const bool isReviveSpecial = has_flag( flag_REVIVE_SPECIAL );
+    if( isReviveSpecial ) {
+        const int distance = rl_dist( pos, get_player_character().pos_bub() );
+        if( distance > 3 ) {
+            return false;
         }
+        if( !one_in( distance + 1 ) ) {
+            return false;
+        }
+    }
+}
 
         return true;
     }
