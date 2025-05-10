@@ -1827,7 +1827,6 @@
     "material": [ "lc_steel", "exodii_ceramic", "copper" ],
     "symbol": ";",
     "color": "dark_gray",
-    "tool_ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "2500 W" } ],
     "melee_damage": { "bash": 20 }

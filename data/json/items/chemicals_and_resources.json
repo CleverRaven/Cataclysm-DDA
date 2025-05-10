@@ -2239,7 +2239,6 @@
     "volume": "500 ml",
     "weight": "65 g",
     "ammo_type": "components",
-    "count": 50,
     "melee_damage": { "bash": 1 }
   }
 ]
