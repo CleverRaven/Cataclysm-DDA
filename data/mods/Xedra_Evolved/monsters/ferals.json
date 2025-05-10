@@ -206,4 +206,20 @@
     "death_function": { "eoc": "EOC_possessing_singularity_death" },
     "death_drops": "flickering_feral_death_drops"
   },
+  {
+    "id": "mon_endless_victim",
+    "type": "MONSTER",
+    "name": { "str": "panicked person" },
+    "description": "This hysterical individual has a faint, yet fading, glint of intelligence in their bloodshot eyes.  They sometimes scream in fear and behave clearly irrationally.  This will quite likely cause their demise at the hands of the undead horde rather quickly.",
+    "copy-from": "mon_civilian_panic",
+    "chat_topics": [ "TALK_HORROR_PANIC" ],
+    "special_attacks": [ [ "PARROT_AT_DANGER", 0 ] ],
+    "//": "They are human after all",
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
+    "upgrades": { "half_life": 20, "age_grow": 1, "into_group": "GROUP_HORROR_UPGRADE" },
+    "death_drops": "default_zombie_death_drops",
+    "zombify_into": "mon_endless_victim",
+    "revive_time": 16000,
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "CONVERSATION", "GUILT_HUMAN" ]
+  }
 ]
