@@ -847,33 +847,6 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
   },
   {
-    "id": "subsuit_xl",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "subject suit" },
-    "description": "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points… maybe you don't want to know who wore it.  Provides nominal storage and is not very encumbering.",
-    "weight": "810 g",
-    "volume": "5 L",
-    "price": "110 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "jumpsuit",
-    "color": "yellow",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 3, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 2, 2 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 60, "encumbrance": [ 2, 5 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
-    ],
-    "warmth": 15,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SOFT" ]
-  },
-  {
     "id": "union_suit",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
