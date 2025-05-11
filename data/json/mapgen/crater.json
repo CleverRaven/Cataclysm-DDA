@@ -2,8 +2,12 @@
   {
     "type": "palette",
     "id": "crater_palette",
-    "terrain": { "0": "t_region_groundcover_barren" },
-    "nested": { ".": { "chunks": [ "close_to_impact" ] }, "?": { "chunks": [ "less_close_to_impact" ] } }
+    "terrain": {
+      ".": [ [ "t_region_groundcover_barren", 4 ], "t_null" ],
+      "?": [ [ "t_region_groundcover_barren", 2 ], "t_null" ],
+      "0": "t_region_groundcover_barren"
+    },
+    "nested": { ".": { "chunks": [ [ "rubble", 10 ], [ "null", 3 ] ] }, "?": { "chunks": [ [ "rubble", 3 ], [ "null", 10 ] ] } }
   },
   {
     "id": "crater_bomb",
@@ -24,41 +28,6 @@
     "countdown_action": { "type": "explosion", "explosion": { "power": 25000, "max_noise": 0 } },
     "flags": [ "BOMB", "TRADER_AVOID" ],
     "melee_damage": { "bash": 20 }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "close_to_impact",
-    "//": "Places the terrain map first so it dismantles existing furniture before potentially placing rubble",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_nested": [
-        { "chunks": [ [ "terrain_first", 4 ], [ "null", 1 ] ], "x": 0, "y": 0 },
-        { "chunks": [ [ "rubble", 10 ], [ "null", 3 ] ], "x": 0, "y": 0 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "less_close_to_impact",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_nested": [
-        { "chunks": [ [ "terrain_first", 2 ], [ "null", 1 ] ], "x": 0, "y": 0 },
-        { "chunks": [ [ "rubble", 3 ], [ "null", 10 ] ], "x": 0, "y": 0 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "terrain_first",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "terrain": { " ": "t_region_groundcover_barren" },
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
-    }
   },
   {
     "type": "mapgen",
