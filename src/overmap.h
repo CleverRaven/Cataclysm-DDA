@@ -443,8 +443,7 @@ class overmap
         // Save per-player overmap view data.
         void serialize_view( std::ostream &fout ) const;
     private:
-        void generate( const overmap *north, const overmap *east,
-                       const overmap *south, const overmap *west,
+        void generate( const std::vector<const overmap *> &neighbor_overmaps,
                        overmap_special_batch &enabled_specials );
         bool generate_sub( int z );
         bool generate_over( int z );
@@ -473,20 +472,17 @@ class overmap
         void place_forests();
         void place_lakes();
         void place_oceans();
-        void place_rivers( const overmap *north, const overmap *east, const overmap *south,
-                           const overmap *west );
+        void place_rivers( const std::vector<const overmap *> &neighbor_overmaps );
         void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
 
-        void place_roads( const overmap *north, const overmap *east, const overmap *south,
-                          const overmap *west );
+        void place_roads( const std::vector<const overmap *> &neighbor_overmaps );
 
-        void place_railroads( const overmap *north, const overmap *east, const overmap *south,
-                              const overmap *west );
+        void place_railroads( const std::vector<const overmap *> &neighbor_overmaps );
 
-        void populate_connections_out_from_neighbors( const overmap *north, const overmap *east,
-                const overmap *south, const overmap *west );
+        void populate_connections_out_from_neighbors( const std::vector<const overmap *>
+                &neighbor_overmaps );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist, int town_size,

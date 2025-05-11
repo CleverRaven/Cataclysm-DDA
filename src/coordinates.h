@@ -3,6 +3,7 @@
 #define CATA_SRC_COORDINATES_H
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstddef>
 #include <functional>
@@ -179,6 +180,8 @@ class coord_point_ob_rel
         static const coord_point_ob<Point, Origin, Scale> south_west;
         static const coord_point_ob<Point, Origin, Scale> west;
         static const coord_point_ob<Point, Origin, Scale> north_west;
+        static const std::array<coord_point_ob<Point, Origin, Scale>, 4> adjacent_cardinal;
+        static const std::array<coord_point_ob<Point, Origin, Scale>, 8> adjacent_all;
 };
 
 template<typename Point, origin Origin, scale Scale>
@@ -354,6 +357,30 @@ const coord_point_ob<Point, Origin, Scale>
 coord_point_ob_3d<Point, Origin, Scale>::below
     =
         coord_point_ob<Point, Origin, Scale>( Point::below );
+
+//adjacent points, cardinal directions only, clockwise starting north
+template<typename Point, origin Origin, scale Scale>
+const std::array<coord_point_ob<Point, Origin, Scale>, 4>
+coord_point_ob_rel<Point, Origin, Scale>::adjacent_cardinal = {
+    coord_point_ob<Point, Origin, Scale>::north,
+    coord_point_ob<Point, Origin, Scale>::east,
+    coord_point_ob<Point, Origin, Scale>::south,
+    coord_point_ob<Point, Origin, Scale>::west
+};
+
+//adjacent points, cardinal and ordinal directions, left-to-right and top-to-bottom
+template<typename Point, origin Origin, scale Scale>
+const std::array<coord_point_ob<Point, Origin, Scale>, 8>
+coord_point_ob_rel<Point, Origin, Scale>::adjacent_all = {
+    coord_point_ob<Point, Origin, Scale>::northwest,
+    coord_point_ob<Point, Origin, Scale>::north,
+    coord_point_ob<Point, Origin, Scale>::northeast,
+    coord_point_ob<Point, Origin, Scale>::west,
+    coord_point_ob<Point, Origin, Scale>::east,
+    coord_point_ob<Point, Origin, Scale>::southwest,
+    coord_point_ob<Point, Origin, Scale>::south,
+    coord_point_ob<Point, Origin, Scale>::southeast
+};
 
 template<typename Point, origin Origin, scale Scale>
 class coord_point_ib : public coord_point_ob<Point, Origin, Scale>
