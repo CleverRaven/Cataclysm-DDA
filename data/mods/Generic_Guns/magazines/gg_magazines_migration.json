@@ -91,7 +91,12 @@
       "sp2022mag_15rd_9mm",
       "hpt3895mag_10rd",
       "p365_mag",
-      "swbodyguard_mag"
+      "swbodyguard_mag",
+      "glock36_mag",
+      "glock40mag_9",
+      "glock43_mag",
+      "glock43x/48_mag",
+      "glock42_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
@@ -210,7 +215,8 @@
       "cp33_mag_50",
       "ruger_mk4_mag",
       "1911_22_mag",
-      "sr22_mag"
+      "sr22_mag",
+      "glock44_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"

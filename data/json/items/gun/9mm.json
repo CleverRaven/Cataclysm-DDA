@@ -54,13 +54,20 @@
       {
         "id": "glock_19",
         "name": { "str": "Glock 19 pistol" },
-        "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right."
+        "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right.",
+        "weight": 100
       },
       {
         "id": "glock_19_cop",
-        "name": { "str": "Glock 19M MOS" },
-        "description": "A close relative to the stock Glock 19, this all-black pistol features a specialized mount for a red dot sight, extended mag release, and a 4.02-inch Marksman barrel.  It is most commonly used by law enforcement, and is the current standard-issue sidearm of the FBI.",
+        "name": { "str": "Glock 19M" },
+        "description": "A Glock 19 developed specially for the FBI, with all black internals and match grade components.  It was nearly impossible to find on the civilian market before the Cataclysm, now it is completely irreplacable.",
         "weight": 0
+      },
+      {
+        "id": "glock_45",
+        "name": { "str": "Glock 45 pistol" },
+        "description": "The Glock 45 is practically identical to the Glock 19, the main difference being that the grip is styled to be closer to that of the Glock 17.",
+        "weight": 77
       }
     ],
     "ascii_picture": "glock_19",
@@ -89,6 +96,121 @@
         ]
       }
     ]
+  },
+  {
+    "id": "glock_26",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 26" },
+    "description": "A Glock subcompact pistol chambered in 9mm Luger.  Despite its tiny size, it can fit the magazines of its larger brothers.",
+    "weight": "550 g",
+    "volume": "348 ml",
+    "longest_side": "165 mm",
+    "barrel_length": "87 mm",
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "price": "690 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "glock_34",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 34" },
+    "description": "A large, stylish Glock chambered in 9mm.  Developed for accuracy, this pistol is used by competition shooters, law enforcement, and even the Baba Yaga.",
+    "weight": "655 g",
+    "volume": "427 ml",
+    "longest_side": "224 mm",
+    "barrel_length": "135 mm",
+    "price": "630 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 380,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glock17_10", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
+      }
+    ]
+  },
+  {
+    "id": "glock_43",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 43" },
+    "description": "A 9x19mm Glock of diminutive proportions.  Unfortunately it is incompatible with other 9mm Glock magazines.",
+    "weight": "460 g",
+    "volume": "279 ml",
+    "longest_side": "159 mm",
+    "barrel_length": "87 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43_mag" ] } ]
+  },
+  {
+    "id": "glock_43x",
+    "//": "This one uses 10 round doublestack mags, which are incompatible with the standard variant",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 43X" },
+    "description": "A 9mm compact Glock.  Despite its name, it does not accept the magazines of the Glock 43.",
+    "weight": "461 g",
+    "volume": "279 ml",
+    "longest_side": "165 mm",
+    "barrel_length": "87 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "dispersion": 480,
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43x/48_mag" ] } ]
+  },
+  {
+    "id": "glock_48",
+    "copy-from": "gun_base_9mm_semi_pistol",
+    "looks_like": "glock_19",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Glock 48" },
+    "description": "A 9mm, slimline Glock.  Designed for concealed carry, and accepts the magazine from a Glock 43x, but not the base 43.",
+    "weight": "524 g",
+    "volume": "331 ml",
+    "longest_side": "185 mm",
+    "barrel_length": "106 mm",
+    "price": "570 USD",
+    "material": [ "plastic", "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "dispersion": 480,
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock43x/48_mag" ] } ]
   },
   {
     "id": "hk_mp5",

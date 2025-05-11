@@ -103,7 +103,6 @@
 #include "scent_map.h"
 #include "shop_cons_rate.h"
 #include "skill.h"
-#include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "speed_description.h"
@@ -312,7 +311,6 @@ void DynamicDataLoader::initialize()
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
     add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
-    add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
@@ -696,7 +694,6 @@ void DynamicDataLoader::unload_data()
     shopkeeper_blacklist::reset();
     shopkeeper_cons_rates::reset();
     Skill::reset();
-    skill_boost::reset();
     SNIPPET.clear_snippets();
     magic_type::reset_all();
     spell_type::reset_all();
