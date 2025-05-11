@@ -4125,7 +4125,7 @@
     "npc_background": "BG_survival_story_EVACUEE",
     "points": -1,
     "items": {
-      "both": [ "subsuit_xl" ],
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
