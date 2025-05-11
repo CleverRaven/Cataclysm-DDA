@@ -1,7 +1,8 @@
 [
   {
     "id": "clown_wig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "clown wig" },
     "description": "A colorful and ridiculous wig fit for a clown.",
     "weight": "125 g",
@@ -19,7 +20,8 @@
   },
   {
     "id": "clown_nose",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "clown nose" },
     "description": "A red latex nose often worn by clowns.  Squeezing the nose makes it honk.",
     "weight": "100 g",
@@ -41,7 +43,8 @@
   },
   {
     "id": "crown_golden",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "golden crown" },
     "description": "A delicate golden crown featuring flowering trees.",
     "weight": "1000 g",
@@ -53,12 +56,12 @@
     "looks_like": "hat_cotton",
     "color": "yellow",
     "material_thickness": 2,
-    "flags": [ "SUPER_FANCY" ],
     "armor": [ { "encumbrance": 20, "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "crown_golden_survivor",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "golden crown" },
     "description": "A golden crown for the monarch of survivors.",
     "weight": "1000 g",
@@ -70,12 +73,12 @@
     "looks_like": "crown_golden",
     "color": "yellow",
     "material_thickness": 2,
-    "flags": [ "FANCY" ],
     "armor": [ { "encumbrance": 20, "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "mouthpiece",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "protective mouthpiece" },
     "description": "A protective piece of equipment commonly used by athletes, worn inside the mouth to protect your teeth.",
@@ -93,7 +96,8 @@
   },
   {
     "id": "tie_skinny",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "skinny tie" },
     "description": "A skinny black and white checkered necktie.",
     "weight": "12 g",
@@ -102,12 +106,12 @@
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "dark_gray"
   },
   {
     "id": "sleeping_bag_roll",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "sleeping_bag",
     "name": { "str": "rolled sleeping bag" },
     "description": "A large sleeping bag that covers you head to toe, with a strap for carrying it on your back when not in use.  This one is medium weight.  Activate it to unroll it so you can use it for warmth.",
@@ -119,7 +123,8 @@
   },
   {
     "id": "sleeping_bag_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur sleeping bag" },
     "description": "A large sleeping bag lined with fur, with a strap for carrying it on your back when not in use.  Who needs a tent?  It is currently unrolled; activate it roll it up for easy storage.",
     "weight": "1175 g",
@@ -150,7 +155,8 @@
   },
   {
     "id": "sleeping_bag_fur_roll",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "sleeping_bag_fur",
     "name": { "str": "rolled fur sleeping bag" },
     "description": "A large sleeping bag lined with fur, with a strap for carrying it on your back when not in use.  Who needs a tent?  Activate it to unroll it so you can use it for warmth.",
@@ -161,7 +167,8 @@
   },
   {
     "id": "tie_bow",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bow tie" },
     "description": "A simple black bow tie.  Best worn with a suit.",
     "weight": "5 g",
@@ -170,12 +177,12 @@
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "black",
-    "flags": [ "FANCY" ]
+    "color": "black"
   },
   {
     "id": "tie_clipon",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "clip-on tie" },
     "description": "A clip-on necktie with blue and silver stripes.  It's quick and easy to put on, and really, who's going to know the difference?",
     "weight": "10 g",
@@ -184,12 +191,12 @@
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "blue",
-    "flags": [ "FANCY" ]
+    "color": "blue"
   },
   {
     "id": "tie_necktie",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "necktie" },
     "description": "An ordinary green necktie.  Knowing how to properly tie it takes some practice, but it's an important skill to learn.  Clip-ons are for children.",
     "weight": "15 g",
@@ -198,12 +205,12 @@
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "green",
-    "flags": [ "FANCY" ]
+    "color": "green"
   },
   {
     "id": "vampire_fangs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "vampire fangs" },
     "description": "A pair of white vampire fangs made of plastic.",
     "weight": "23 g",
@@ -220,7 +227,8 @@
   },
   {
     "id": "veil_wedding",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "wedding veil" },
     "description": "A lacy white wedding veil.",
     "weight": "78 g",
@@ -233,12 +241,13 @@
     "color": "white",
     "material_thickness": 0.01,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE" ],
+    "flags": [ "OUTER", "OVERSIZE" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "tarp",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tarpaulin" },
     "description": "A plastic sheet with several grommets for securing it with rope or cord.  Useful for improvised rain protection.",
     "weight": "1244 g",
@@ -263,7 +272,8 @@
   },
   {
     "id": "tefillin_hand_l",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tefillin (left arm)", "str_pl": "sets of tefillin (left arm)" },
     "description": "A set of leather straps attached to a wooden box, to fulfill the commandment written in Deuteronomy that states \"And you shall set these words of Mine upon your heart and upon your soul, and bind them for a sign upon your hand and they shall be for ornaments between your eyes.\"  This one is for the left arm.",
     "weight": "250 g",
@@ -281,7 +291,8 @@
   },
   {
     "id": "tefillin_hand_r",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tefillin (right arm)", "str_pl": "sets of tefillin (right arm)" },
     "description": "A set of leather straps attached to a wooden box, to fulfill the commandment written in Deuteronomy that states \"And you shall set these words of Mine upon your heart and upon your soul, and bind them for a sign upon your hand and they shall be for ornaments between your eyes.\"  This one is for the right arm.",
     "weight": "250 g",
@@ -299,7 +310,8 @@
   },
   {
     "id": "tefillin_head",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "tefillin (head)", "str_pl": "sets of tefillin (head)" },
     "description": "A set of leather straps attached to a wooden box, to fulfill the commandment written in Deuteronomy that states \"And you shall set these words of Mine upon your heart and upon your soul, and bind them for a sign upon your hand and they shall be for ornaments between your eyes.\"  This one is for the forehead.",
     "weight": "200 g",
@@ -316,7 +328,8 @@
   },
   {
     "id": "bostonchan_wig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Boston-Chan wig" },
     "description": "A long blue hair wig for the Boston-Chan costume.",
     "weight": "125 g",
@@ -334,7 +347,8 @@
   },
   {
     "id": "dog_tag",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "dog tag" },
     "description": "Two oval disks attached to a chain, worn by military personnel for identification.",
     "variants": [

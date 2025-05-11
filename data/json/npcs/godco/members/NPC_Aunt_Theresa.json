@@ -12,18 +12,12 @@
       "TALK_GODCO_Theresa_Firstmeet"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Theresa_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Theresa_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "What's it like living here?", "topic": "TALK_GODCO_Theresa_Mood" },
       { "text": "Is there anything I can help you with?", "topic": "TALK_GODCO_Theresa_Help" },
       {
         "text": "How've things been since <the_cataclysm>?",
-        "condition": {
-          "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] }, { "math": [ "n_npc_value()", ">=", "3" ] } ]
-        },
+        "condition": { "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] }, { "math": [ "n_npc_value() >= 3" ] } ] },
         "topic": "TALK_GODCO_Theresa_Cataclysm"
       },
       { "text": "Do you knit at all?  I noticed you have sewing needles.", "topic": "TALK_GODCO_Theresa_Knit" }
@@ -36,10 +30,10 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "I have no interest in dealing with you, unnatural abomination.  Keep away from me.",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "What are you doing around here?  I don't want to talk to you.",
         "no": {
-          "math": [ "n_npc_value()", ">=", "3" ],
+          "math": [ "n_npc_value() >= 3" ],
           "yes": "&Theresa looks up from her knitting, with a sparkle in her eyes.  \"Come on in, <granny_name_g>.  I'm glad to see you again, have a seat.\"",
           "no": {
             "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ],
@@ -65,7 +59,7 @@
         "text": "Hello, Theresa.  How are you doing?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -76,7 +70,7 @@
         "text": "Hello, Theresa.  How are you doing?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_theresa" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -87,7 +81,7 @@
         "text": "<end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -102,7 +96,7 @@
         "text": "Fuck you then, I'm leaving.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -129,7 +123,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_scarf" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('1 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('1 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "long_knit_scarf" } ],
@@ -140,7 +134,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_blanket" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "blanket" } ],
@@ -151,7 +145,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_quilt" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('7 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('7 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "quilt" } ],
@@ -228,7 +222,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 5 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_scarf", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 5 }
         ],
         "topic": "TALK_DONE"
@@ -238,7 +232,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 10 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_blanket", "value": "yes" },
-          { "math": [ "n_timer_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 10 }
         ],
         "topic": "TALK_DONE"
@@ -248,7 +242,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 30 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_quilt", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 30 }
         ],
         "topic": "TALK_DONE"

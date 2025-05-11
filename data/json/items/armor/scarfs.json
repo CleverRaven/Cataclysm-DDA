@@ -1,7 +1,8 @@
 [
   {
     "id": "cowl_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "knit cowl" },
     "description": "A snuggly woolen cowl.  It's one of those stylish and bulky cowls you see in fashion magazines.",
     "weight": "272 g",
@@ -15,12 +16,13 @@
     "warmth": 40,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth" ] } ]
   },
   {
     "id": "headscarf",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "headscarf" },
     "description": "A loose cloth worn over the head and around the neck.",
     "weight": "70 g",
@@ -39,7 +41,8 @@
   },
   {
     "id": "keffiyeh",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "keffiyeh" },
     "description": "A type of headdress traditionally used in the Middle East.  It can be used in different ways to protect the head and mouth from the elements.",
     "weight": "425 g",
@@ -58,7 +61,8 @@
   },
   {
     "id": "patchwork_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -78,7 +82,8 @@
   },
   {
     "id": "patchwork_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -104,7 +109,8 @@
   },
   {
     "id": "patchwork_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -124,7 +130,8 @@
   },
   {
     "id": "long_patchwork_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -144,7 +151,8 @@
   },
   {
     "id": "long_patchwork_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -170,7 +178,8 @@
   },
   {
     "id": "long_patchwork_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -190,7 +199,8 @@
   },
   {
     "id": "knit_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -210,7 +220,8 @@
   },
   {
     "id": "knit_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -236,7 +247,8 @@
   },
   {
     "id": "knit_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -256,7 +268,8 @@
   },
   {
     "id": "long_knit_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -276,7 +289,8 @@
   },
   {
     "id": "long_knit_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -302,7 +316,8 @@
   },
   {
     "id": "long_knit_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -322,7 +337,8 @@
   },
   {
     "id": "scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -342,7 +358,8 @@
   },
   {
     "id": "scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -368,7 +385,8 @@
   },
   {
     "id": "scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -388,7 +406,8 @@
   },
   {
     "id": "scarf_long",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -408,7 +427,8 @@
   },
   {
     "id": "scarf_long_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -434,7 +454,8 @@
   },
   {
     "id": "scarf_long_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -454,7 +475,8 @@
   },
   {
     "id": "scarf_fur",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -474,7 +496,8 @@
   },
   {
     "id": "scarf_fur_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -500,7 +523,8 @@
   },
   {
     "id": "scarf_fur_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -520,7 +544,8 @@
   },
   {
     "id": "scarf_fur_long",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -540,7 +565,8 @@
   },
   {
     "id": "scarf_fur_long_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -566,7 +592,8 @@
   },
   {
     "id": "scarf_fur_long_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -586,7 +613,8 @@
   },
   {
     "id": "scarf_faux_fur",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -606,7 +634,8 @@
   },
   {
     "id": "scarf_faux_fur_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "repairs_like": "scarf_faux_fur",
     "category": "clothing",
     "symbol": "[",
@@ -633,7 +662,8 @@
   },
   {
     "id": "scarf_faux_fur_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -653,7 +683,8 @@
   },
   {
     "id": "scarf_faux_fur_long",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -673,7 +704,8 @@
   },
   {
     "id": "scarf_faux_fur_long_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "repairs_like": "scarf_faux_fur_long",
     "category": "clothing",
     "symbol": "[",
@@ -700,7 +732,8 @@
   },
   {
     "id": "scarf_faux_fur_long_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -720,7 +753,8 @@
   },
   {
     "id": "marloss_scarf",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "keffiyeh",
     "looks_like": "scarf",
     "name": { "str": "cyan scarf" },
@@ -729,7 +763,8 @@
   },
   {
     "id": "grass_keffiyeh",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "grass keffiyeh" },
     "description": "A grass sheet with cords to wear it like a Middle Eastern headdress.  It's a bit itchy, but can keep your head and mouth a bit warmer if there's nothing in the way.",
     "weight": "152 g",
@@ -748,7 +783,8 @@
   },
   {
     "id": "nun_wimple",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "wimple" },
     "description": "A loose cloth headwrap and veil.  Typically worn by Christian nuns.",
     "weight": "70 g",
@@ -766,7 +802,8 @@
   },
   {
     "id": "tallit_gadol",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "symbol": "[",
     "color": "blue",

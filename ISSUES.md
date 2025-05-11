@@ -48,7 +48,7 @@ You can update issues with labels using comment-commands. First, open a PR addin
 
 ### Questions
 
-You should direct your questions to the forum or ask on IRC. You should also read the included documentation and additional text files, e.g. [COMPILING.md](doc/COMPILING/COMPILING.md) if you have problems building.
+You should direct your questions to the forum or ask on IRC. You should also read the included documentation and additional text files, e.g. [COMPILING.md](doc/c++/COMPILING.md) if you have problems building.
 
 ## Bounties
 

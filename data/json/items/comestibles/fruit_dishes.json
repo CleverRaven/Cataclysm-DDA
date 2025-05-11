@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "strawberries_cooked",
     "name": { "str_sp": "cooked strawberry" },
     "copy-from": "strawberries",
@@ -21,7 +22,8 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fruit_leather",
     "name": { "str_sp": "fruit leather" },
     "conditional_names": [
@@ -31,11 +33,13 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
       { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
@@ -46,6 +50,7 @@
       { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -57,6 +62,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
@@ -78,7 +84,8 @@
     "fun": 3
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blueberries_cooked",
     "name": { "str_sp": "cooked blueberry" },
     "copy-from": "blueberries",
@@ -98,7 +105,8 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_peach",
     "name": { "str_sp": "peaches in syrup" },
     "weight": "251 g",
@@ -119,7 +127,8 @@
     "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "900 μg" ], [ "calcium", "7500 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "can_pineapple",
     "name": { "str_sp": "canned pineapple" },
     "weight": "246 g",
@@ -139,7 +148,8 @@
     "vitamins": [ [ "vitC", "18900 μg" ], [ "iron", "1 mg" ], [ "calcium", "36900 μg" ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lemonade_powder",
     "name": { "str_sp": "lemonade drink mix" },
     "weight": "19 g",
@@ -155,26 +165,29 @@
     "material": [ "powder", "fruit" ],
     "primary_material": "powder",
     "volume": "25 ml",
-    "flags": [ "EDIBLE_FROZEN", "SOFT" ],
+    "flags": [ "EDIBLE_FROZEN", "SOFT", "WATER_DISSOLVE" ],
     "vitamins": [ [ "vitC", 7 ], [ "fruit_allergen", 1 ] ],
     "fun": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "orangeade_powder",
     "name": { "str_sp": "orangeade drink mix" },
     "copy-from": "lemonade_powder",
     "description": " Can be mixed with water to make orange juice."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "grapeade_powder",
     "name": { "str_sp": "grapeade drink mix" },
     "copy-from": "lemonade_powder",
     "description": " Can be mixed with water to make grape juice."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fruit_cooked",
     "name": { "str_sp": "cooked fruit" },
     "conditional_names": [
@@ -184,6 +197,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID", "condition": "coconut_flesh", "name": { "str_sp": "%s, coconut" } },
       { "type": "COMPONENT_ID", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
@@ -191,6 +205,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lulo", "name": { "str_sp": "%s, lulo" } },
@@ -200,6 +215,7 @@
       { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -211,6 +227,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
@@ -234,7 +251,8 @@
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "jam_fruit",
     "name": { "str_sp": "fruit jam" },
     "conditional_names": [
@@ -243,12 +261,14 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "banana", "name": { "str_sp": "%s, banana" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
       { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
@@ -259,6 +279,7 @@
       { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -270,6 +291,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
@@ -293,7 +315,8 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_fruit",
     "name": { "str_sp": "dehydrated fruit" },
     "conditional_names": [
@@ -304,6 +327,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID", "condition": "cholla_bud", "name": { "str_sp": "%s, cholla bud" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "coconut", "name": { "str_sp": "%s, coconut" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
@@ -312,6 +336,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
       { "type": "COMPONENT_ID", "condition": "juice_pulp", "name": { "str_sp": "%s, juice pulp" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
@@ -324,6 +349,7 @@
       { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -335,6 +361,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
@@ -357,7 +384,8 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_fruit",
     "name": { "str_sp": "rehydrated fruit" },
     "conditional_names": [
@@ -368,6 +396,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID", "condition": "cholla_bud", "name": { "str_sp": "%s, cholla bud" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "coconut", "name": { "str_sp": "%s, coconut" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
@@ -376,6 +405,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
       { "type": "COMPONENT_ID", "condition": "juice_pulp", "name": { "str_sp": "%s, juice pulp" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
@@ -388,6 +418,7 @@
       { "type": "COMPONENT_ID", "condition": "melon", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -399,6 +430,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
@@ -418,7 +450,8 @@
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "apple_sugar",
     "name": { "str_sp": "fruit slice" },
     "conditional_names": [
@@ -428,12 +461,14 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "banana", "name": { "str_sp": "%s, banana" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lulo", "name": { "str_sp": "%s, lulo" } },
@@ -443,6 +478,7 @@
       { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -454,6 +490,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
@@ -473,7 +510,8 @@
     "vitamins": [ [ "iron", 2 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "apple_canned",
     "name": { "str_sp": "canned fruit" },
     "conditional_names": [
@@ -484,11 +522,13 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lulo", "name": { "str_sp": "%s, lulo" } },
@@ -498,6 +538,7 @@
       { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -509,6 +550,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
@@ -530,7 +572,8 @@
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pumpkin_yeast_bread",
     "name": { "str_sp": "pumpkin yeast bread" },
     "weight": "15 g",
@@ -549,7 +592,8 @@
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "hardtack_pudding",
     "looks_like": "biscuit",
     "name": { "str": "hardtack pudding" },
@@ -572,7 +616,8 @@
     "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "jerusalem_artichoke_fruitmash",
     "looks_like": "veggy_salad",
     "name": { "str_sp": "Jerusalem artichoke fruit dessert" },
@@ -593,7 +638,8 @@
     "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "brandied_fruit",
     "name": { "str_sp": "brandied fruit" },
     "conditional_names": [
@@ -604,11 +650,13 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID", "condition": "chokeberries", "name": { "str_sp": "%s, chokeberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "guayaba", "name": { "str_sp": "%s, guava" } },
+      { "type": "COMPONENT_ID", "condition": "hobbleberries", "name": { "str_sp": "%s, hobbleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "huckleberries", "name": { "str_sp": "%s, huckleberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "kiwi", "name": { "str_sp": "%s, kiwi" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lulo", "name": { "str_sp": "%s, lulo" } },
@@ -618,6 +666,7 @@
       { "type": "COMPONENT_ID", "condition": "mayapple", "name": { "str_sp": "%s, mayapple" } },
       { "type": "COMPONENT_ID", "condition": "melon_chunks", "name": { "str_sp": "%s, melon" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mulberries", "name": { "str_sp": "%s, mulberry" } },
+      { "type": "COMPONENT_ID", "condition": "nannyberries", "name": { "str_sp": "%s, nannyberries" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "orange", "name": { "str_sp": "%s, orange" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "papaya", "name": { "str_sp": "%s, papaya" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "peach", "name": { "str_sp": "%s, peach" } },
@@ -629,6 +678,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
+      { "type": "COMPONENT_ID", "condition": "tupelo_fruit", "name": { "str_sp": "%s, tupelo fruit" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],

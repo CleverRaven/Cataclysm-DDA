@@ -1,7 +1,8 @@
 [
   {
     "id": "antarvasa",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "antarvasa" },
     "description": "A traditional, ankle-length Buddhist skirt.  The bottom protrudes, and appears in the rough shape of a triangle.",
     "weight": "500 g",
@@ -36,7 +37,8 @@
   },
   {
     "id": "b_shorts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "basketball shorts" },
     "description": "A pair of basketball shorts.  Comfortable and light.",
     "weight": "190 g",
@@ -83,7 +85,8 @@
   },
   {
     "id": "breeches",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "breeches" },
     "description": "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  Comfortable, but lacks pockets.",
     "weight": "520 g",
@@ -109,7 +112,8 @@
   },
   {
     "id": "cheerleader_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "cheerleader skirt" },
     "description": "A breezy red cheerleader skirt.  Easy to move in, and of an acceptable length for most real cheerleading.",
     "weight": "100 g",
@@ -130,7 +134,8 @@
   },
   {
     "id": "cheerleader_skirt_short",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "short cheerleader skirt" },
     "description": "A very short and breezy red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to safely practice cheerleading in this.",
     "weight": "70 g",
@@ -150,7 +155,8 @@
   },
   {
     "id": "fishing_waders",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
     "description": "Waterproof plastic fishing waders with a single large front pocket.",
     "weight": "1360 g",
@@ -183,7 +189,8 @@
   },
   {
     "id": "hot_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "hot pants" },
     "description": "A simple pair of short shorts.",
     "weight": "92 g",
@@ -200,7 +207,8 @@
   },
   {
     "id": "hot_pants_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "fur hot pants" },
     "description": "A simple pair of fur short shorts.",
     "weight": "118 g",
@@ -218,7 +226,8 @@
   },
   {
     "id": "hot_pants_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "leather hot pants" },
     "description": "A simple pair of leather short shorts.",
     "weight": "106 g",
@@ -236,7 +245,8 @@
   },
   {
     "id": "jeans",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "jeans" },
     "description": "A pair of jeans with two deep pockets.",
     "weight": "600 g",
@@ -291,7 +301,8 @@
   },
   {
     "id": "jeans_ripped",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "ripped jeans", "str_pl": "pairs of ripped jeans" },
     "description": "A pair of jeans that has been ripped over the knees.  It may have been fashionable before Cataclysm, but it's just a pair of sub-par jeans now.",
     "weight": "580 g",
@@ -352,7 +363,8 @@
   },
   {
     "id": "jeans_vintage",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "vintage jeans" },
     "description": "A pair of vintage jeans that has started to lose its color.  It appears to be slightly heavier and thicker; but hey, don't let that stop you from wearing the fashion of the olden days!",
     "weight": "700 g",
@@ -396,7 +408,7 @@
     "warmth": 15,
     "material_thickness": 0.8,
     "//": "Mediumweight 12 oz denim jeans.",
-    "flags": [ "VARSIZE", "POCKETS", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS" ],
     "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
     "snippet_category": [
       {
@@ -419,7 +431,8 @@
   },
   {
     "id": "jeans_skinny",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "skinny jeans" },
     "description": "A pair of skinny jeans with two pockets.",
     "weight": "500 g",
@@ -472,57 +485,9 @@
     "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "jeans_red",
-    "type": "ARMOR",
-    "name": { "str_sp": "red jeans" },
-    "description": "A pair of tight-fitting candy-apple-red jeans with two deep pockets.",
-    "weight": "600 g",
-    "volume": "2 L",
-    "price": "50 USD",
-    "price_postapoc": "1 USD 50 cent",
-    "material": [ "denim" ],
-    "symbol": "[",
-    "looks_like": "jeans",
-    "color": "red",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "19 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "19 cm",
-        "moves": 80
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1080 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "165 mm",
-        "moves": 100
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1080 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "165 mm",
-        "moves": 100
-      }
-    ],
-    "warmth": 10,
-    "material_thickness": 0.65,
-    "//": "Lightweight 10 oz denim jeans.",
-    "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
-  },
-  {
     "id": "kilt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "kilt" },
     "description": "No true Scotsman would leave home without his kilt.  Kilts lack pockets and thus a belt and sporran are necessary accessories.",
     "weight": "500 g",
@@ -543,7 +508,8 @@
   },
   {
     "id": "kilt_utility",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "utility kilt" },
     "description": "Common in America, the utility kilt takes the traditional woolen kilt and constructs it out of cotton canvas and then adds a pocket that would never be on a traditional kilt.",
     "weight": "500 g",
@@ -573,7 +539,8 @@
   },
   {
     "id": "kilt_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather kilt" },
     "description": "No true Scotsman would leave home without his kilt.",
     "weight": "1814 g",
@@ -603,7 +570,8 @@
   },
   {
     "id": "leggings",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leggings", "str_pl": "pairs of leggings" },
     "description": "Skin-tight nylon leggings, sometimes used when exercising, that keep your legs nice and warm.",
     "weight": "155 g",
@@ -712,7 +680,8 @@
   },
   {
     "id": "loincloth",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "loincloth" },
     "description": "Rags stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "75 g",
@@ -729,7 +698,8 @@
   },
   {
     "id": "loincloth_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fur loincloth" },
     "description": "A fur pelt tied into a loincloth.  Covers your modesty, but not much else.  Now you are a true barbarian warrior.",
     "weight": "250 g",
@@ -747,7 +717,8 @@
   },
   {
     "id": "loincloth_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather loincloth" },
     "description": "Leather patches stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "550 g",
@@ -764,7 +735,8 @@
   },
   {
     "id": "loincloth_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "wool loincloth" },
     "description": "Bits of wool stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "56 g",
@@ -782,7 +754,8 @@
   },
   {
     "id": "nanoskirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "nanoskirt" },
     "description": "Apparently the microskirt wasn't short enough.",
     "weight": "115 g",
@@ -799,7 +772,8 @@
   },
   {
     "id": "pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "pants" },
     "description": "A pair of khaki pants.  Slightly warmer than jeans.",
     "weight": "560 g",
@@ -902,17 +876,10 @@
         "weight": 10
       },
       {
-        "id": "pants_stone",
-        "name": { "str": "stone-gray pants", "str_pl": "pairs of stone-gray pants" },
+        "id": "pants_gray",
+        "name": { "str": "gray pants", "str_pl": "pairs of gray pants" },
         "description": "A business-like set of stone-gray trousers for business-like people, these pants are the same hue as concrete and are relatively warm.",
         "color": "light_gray",
-        "weight": 10
-      },
-      {
-        "id": "pants_beige",
-        "name": { "str": "beige pants", "str_pl": "pairs of beige pants" },
-        "description": "A pair of modest, beige-colored pants with a dirty white undertone.  These trousers are somewhat warmer than jeans.",
-        "color": "dark_gray",
         "weight": 10
       },
       {
@@ -931,23 +898,9 @@
       },
       {
         "id": "pants_hot_pink",
-        "name": { "str": "hot-pink sweatpants", "str_pl": "pairs of hot-pink sweatpants" },
+        "name": { "str": "hot-pink pants", "str_pl": "pairs of hot-pink pants" },
         "description": "Flaunting an almost aggressively vibrant shade of bright pink, this pair of soft, plush pants is slightly warmer than far duller jeans and makes a bold statement to any onlookers: human, zombie, or otherwise.  Though, perhaps dressing up like an anthropomorphic Easter egg isn't, in retrospect, the wisest way to prolong your time on this earth.",
         "color": "pink",
-        "weight": 8
-      },
-      {
-        "id": "pants_pebble ",
-        "name": { "str": "pebble-khaki pants", "str_pl": "pairs of pebble-khaki pants" },
-        "description": "A pair of comfortable pants dyed pebble-khaki, a type of hue consisting of muted grays and browns.",
-        "color": "dark_gray",
-        "weight": 8
-      },
-      {
-        "id": "pants_ivory",
-        "name": { "str": "ivory pants", "str_pl": "pairs of ivory pants" },
-        "description": "A pair of clear, creamy-hued ivory-colored pants, from which the inevitable splashes of zombie gore will be nigh-impossible to wash off.  The trousers are slightly warmer than jeans and provide a fashionable touch to your ventures in the ruins of New England.",
-        "color": "white",
         "weight": 8
       },
       {
@@ -958,67 +911,11 @@
         "weight": 8
       },
       {
-        "id": "pants_olive_khaki",
-        "name": { "str": "olive-khaki pants", "str_pl": "pairs of olive-khaki pants" },
-        "description": "A rustic blend of greenish browns characterizes this set of casual pants, along with a pair of deep pockets and a padded construction that makes them warmer than regular jeans.",
-        "color": "green",
-        "weight": 8
-      },
-      {
         "id": "pants_od",
         "name": { "str": "olive-drab pants", "str_pl": "pairs of olive-drab pants" },
         "description": "While these aren't US-issued military trousers or even civilian tactical pants, this article of clothing possesses a blend of dark greens, browns, and blacks identical to the camouflage pattern of Vietnam-era army uniforms.  Slightly warmer than regular jeans, it's a decent piece of faux-military kit for those unwilling to shill out on a pair of actual BDU pants.",
         "color": "green",
         "weight": 8
-      },
-      {
-        "id": "pants_turquoise",
-        "name": { "str": "turquoise pants", "str_pl": "pairs of turquoise pants" },
-        "description": "A pair of casual, greenish-blue trousers with deep pockets.  With the potential to be commendably fashionable and elegant given the right accompanying accents, the pants are a shade warmer than regular jeans.",
-        "color": "green",
-        "weight": 8
-      },
-      {
-        "id": "pants_ecru",
-        "name": { "str": "ecru pants", "str_pl": "pairs of ecru pants" },
-        "description": "A pair of moderately warm and comfortable ecru pants dyed a pale, grayish yellow color.",
-        "color": "light_gray",
-        "weight": 6
-      },
-      {
-        "id": "pants_fawn_khaki",
-        "name": { "str": "fawn-khaki pants", "str_pl": "pairs of fawn-khaki pants" },
-        "description": "A pair of comfortable, light, delicate brown trousers dyed the same warm hue as young deer fawns.",
-        "color": "brown",
-        "weight": 6
-      },
-      {
-        "id": "pants_camel_khaki",
-        "name": { "str": "camel-khaki pants", "str_pl": "pairs of camel-khaki pants" },
-        "description": "Classy and stylish, this pair of warm, business-like trousers is dyed a neutral shade of camel.  A sophisticated pair of pants for only the most sophisticated of folks.",
-        "color": "brown",
-        "weight": 6
-      },
-      {
-        "id": "pants_coffee",
-        "name": { "str": "coffee-brown pants", "str_pl": "pairs of coffee-brown pants" },
-        "description": "Dyed a rich shade of deep brown reminiscent of a piping-hot coffee, this pair of comfortable pants is excellent at concealing stains, whether from dropped food, spilled beverages, or, nowadays, dried blood.",
-        "color": "brown",
-        "weight": 6
-      },
-      {
-        "id": "pants_moss",
-        "name": { "str": "moss-green trackpants", "str_pl": "pairs of moss-green trackpants" },
-        "description": "A comfortable, earthy pair of soft green pants with a muted hue, they're slightly warmer than regular jeans and would blend in well against a backdrop of woodland moss.",
-        "color": "green",
-        "weight": 6
-      },
-      {
-        "id": "pants_paprika",
-        "name": { "str": "paprika-red pants", "str_pl": "pairs of paprika-red pants" },
-        "description": "Vibrant and bold, this pair of comfortable and statement-making trousers is dyed an energetic, spicy red color.  Somewhat warmer than regular jeans, you hope that wearing them won't increase your visual resemblance to a stuffed chili pepper.",
-        "color": "red",
-        "weight": 6
       },
       {
         "id": "pants_woodland",
@@ -1070,20 +967,6 @@
         "weight": 6
       },
       {
-        "id": "pants_ocean",
-        "name": { "str": "ocean-camo pants", "str_pl": "pairs of ocean-camo pants" },
-        "description": "Printed with a camouflage pattern most commonly associated with naval vessels or aircraft, this pair of pants is festooned with a wide array of blue hues and disruptive lines, with a touch of light gray also making its presence known.  Warmer than jeans and possessing a number of deep pockets, this comfortable pair of trousers would do an admirable job of concealing you in maritime environments.  You have yet to come up with a reason why you'd ever be in a maritime environment.",
-        "color": "blue",
-        "weight": 6
-      },
-      {
-        "id": "pants_river",
-        "name": { "str": "river-camo pants", "str_pl": "pairs of river-camo pants" },
-        "description": "Employed by anglers and river-side hunters for camouflage in freshwater habitats, this pair of bootcut trousers incorporates shades of green, brown, blue, and gray, along with sizable pockets and a construction favoring heat retention.",
-        "color": "green",
-        "weight": 6
-      },
-      {
         "id": "pants_arctic",
         "name": { "str": "arctic-camo pants", "str_pl": "pairs of arctic-camo pants" },
         "description": "Featuring a camouflage pattern consisting of white, shades of gray, and a slight tinge of brown, this pair of rugged pants is fit for snowy tundra and polar regions—or it would be, had the garment not been only moderately warmer than jeans.  You have yet to grasp their point for existing.",
@@ -1105,158 +988,11 @@
         "weight": 6
       },
       {
-        "id": "pants_plum",
-        "name": { "str": "plum-purple trackpants", "str_pl": "pairs of plum-purple trackpants" },
-        "description": "With its fabric dyed a relatively pretty shade of deep reddish purple, this pair of pants not only looks good but also provides a level of practicality only befitting its role as sports wear, coming equipped with an elastic waistband and zip-up pockets.",
-        "color": "blue",
-        "weight": 6
-      },
-      {
-        "id": "pants_nude",
-        "name": { "str": "nude trackpants", "str_pl": "pairs of nude trackpants" },
-        "description": "While this plush pair of pink, flesh-colored trousers doesn't, thankfully, possess any unmentionables in and of itself, it will almost certainly make you look like you're striding about with your legs, caboose, and immodesty on display if it's too tight.  Who knows, perhaps it would be enough to blind some poor, unfortunate zombies.",
-        "color": "pink",
-        "weight": 4
-      },
-      {
-        "id": "pants_dusty_pink",
-        "name": { "str": "dusty-pink pants", "str_pl": "pairs of dusty-pink pants" },
-        "description": "A pair of delicately colored and fashionable pants dyed a pale, soft pink hue, much like cherry blossoms.",
-        "color": "pink",
-        "weight": 4
-      },
-      {
-        "id": "pants_periwinkle_blue",
-        "name": { "str": "periwinkle-blue pants", "str_pl": "pairs of periwinkle-blue pants" },
-        "description": "Dyed a light shade of almost sky-blue, this soft pair of trousers is both comfortable and warmer than regular jeans.",
-        "color": "blue",
-        "weight": 4
-      },
-      {
-        "id": "pants_grape",
-        "name": { "str": "grape-purple pants", "str_pl": "pairs of grape-purple pants" },
-        "description": "Stylish and refined-looking, this pair of elegant trousers is dyed a rich purple hue, like fresh, glistening grapes.  You wonder if that makes you look more or less appetizing to the zombies.",
-        "color": "blue",
-        "weight": 4
-      },
-      {
-        "id": "pants_ice_blue",
-        "name": { "str": "ice-blue sweatpants", "str_pl": "pairs of ice-blue sweatpants" },
-        "description": "Soft, cool, and subtle, this pair of comfortable trousers sports a serene blue hue—a shade of azure as cold as the flesh of mankind's corpses.",
-        "color": "blue",
-        "weight": 4
-      },
-      {
-        "id": "pants_baby_blue",
-        "name": { "str": "baby-blue pants", "str_pl": "pairs of baby-blue pants" },
-        "description": "Dyed the characteristic color of youth and whimsy, the gentle hue of this set of ethereal-blue pants offers recollections of dreamy, playful youth—a dream that no one upon this forsaken earth will ever know again.",
-        "color": "blue",
-        "weight": 4
-      },
-      {
-        "id": "pants_emerald",
-        "name": { "str": "emerald-green pants", "str_pl": "pairs of emerald-green pants" },
-        "description": "There isn't such a thing as too shiny, or at least there wasn't for the maker of this particular pair of vibrant green pants.  Composed from glossy cotton dyed with a subtle blue cast and equipped with a pair of sizable pockets, it would be fashionable were it not for the fact that dawning them makes the wearer look like a post-apocalyptic leprechaun.",
-        "color": "green",
-        "weight": 4
-      },
-      {
-        "id": "pants_royal_blue",
-        "name": { "str": "royal-blue pants", "str_pl": "pairs of royal-blue pants" },
-        "description": "A centuries-old gift from the United Kingdom, this pair of comfortable trousers is dyed a classic shade of deep, vivid blue.",
-        "color": "blue",
-        "weight": 4
-      },
-      {
-        "id": "pants_teal",
-        "name": { "str": "teal pants", "str_pl": "pairs of teal pants" },
-        "description": "Dyed a predominantly greenish hue of deep cyan, this pair of pants is both comfortable and warmer than regular jeans.",
-        "color": "cyan",
-        "weight": 4
-      },
-      {
-        "id": "pants_ash_gray",
-        "name": { "str": "ash-gray pants", "str_pl": "pairs of ash-gray pants" },
-        "description": "A set of comfortable and smart-looking pants dyed a similar shade to volcanic ash: a pale, low-saturation grayish green color.",
-        "color": "light_gray",
-        "weight": 4
-      },
-      {
-        "id": "pants_fuchsia",
-        "name": { "str": "fuchsia pants", "str_pl": "pairs of fuchsia pants" },
-        "description": "A bright, fashionable, and charming-looking pair of reddish purple trousers, with two deep pockets and a construction that favors heat retention more than regular jeans.",
-        "color": "red",
-        "weight": 4
-      },
-      {
-        "id": "pants_coral",
-        "name": { "str": "coral-pink pants", "str_pl": "pairs of coral-pink pants" },
-        "description": "Dyed a soft shade of pink strongly verging upon an orange hue, this pair of trousers would look right at home against a backdrop of vibrant sea coral.",
-        "color": "pink",
-        "weight": 4
-      },
-      {
-        "id": "pants_chartreuse",
-        "name": { "str": "chartreuse-green pants", "str_pl": "pairs of chartreuse-green pants" },
-        "description": "An almost fluorescent set of yellowish-green pants with two deep pockets.  Considering that chartreuse has better night-visibility than most other colors, these pants, apart from being a nightmare to match with other hues, would probably be an ill-advised choice to don if you wish to keep your legs attached to your body.",
-        "color": "green",
-        "weight": 4
-      },
-      {
         "id": "pants_orange",
         "name": { "str": "orange trackpants", "str_pl": "pairs of orange trackpants" },
         "description": "Reminiscent of the color of flames, this pair of cotton trackpants is, perhaps optimistically, dyed a muted shade of burned orange.",
         "color": "red",
         "weight": 4
-      },
-      {
-        "id": "pants_regimental_blue",
-        "name": { "str": "regimental-blue pants", "str_pl": "pairs of regimental-blue pants" },
-        "description": "A pair of spiffy, bluish-purple trousers with deep pockets.  You feel smart and well-put-together just looking at it.",
-        "color": "blue",
-        "weight": 4
-      },
-      {
-        "id": "pants_corvette",
-        "name": { "str": "corvette-red pants", "str_pl": "pairs of corvette-red pants" },
-        "description": "The classic color of vintage Corvette muscle cars, this pair of vibrant trousers is dyed an eye-bleedingly bright shade of crimson, a color in which they will shortly be bathed should any resident of the Cataclysm mangle you after spotting you by virtue of the cartoonishly energetic shade that these pants flaunt.",
-        "color": "red",
-        "weight": 4
-      },
-      {
-        "id": "pants_poppy",
-        "name": { "str": "poppy-red pants", "str_pl": "pairs of poppy-red pants" },
-        "description": "A fine choice to have donned during Veterans Day, this pair of warm, insulated trousers are dyed a pinkish red hue.  Perhaps it would be fitting to wear them again, for while in this war there aren't any poppies blowing between crosses, the heaps of dead are certainly high.",
-        "color": "red",
-        "weight": 4
-      },
-      {
-        "id": "pants_mauve",
-        "name": { "str": "mauve sweatpants", "str_pl": "pairs of mauve sweatpants" },
-        "description": "A pale mix of purple and pink, this pair of cotton sweatpants is not only comfortable and practical, with a set of spacious pockets, a drawstring waistband, and elastic cuffs, but also a smidge warmer than jeans.",
-        "color": "blue",
-        "weight": 4
-      },
-      {
-        "id": "pants_lemon",
-        "name": { "str": "lemon-yellow pants", "str_pl": "pairs of lemon-yellow pants" },
-        "description": "A set of bewilderingly bright pants dyed a cheery shade of creamy yellow and sown with a set of deep pockets.  You are confused both as to which pre-Cataclysm fashion trend spawned this abomination and why its hue doesn't look like the actual fruit.",
-        "color": "yellow",
-        "weight": 2
-      },
-      {
-        "id": "pants_mustard",
-        "name": { "str": "mustard-yellow pants", "str_pl": "pairs of mustard-yellow pants" },
-        "description": "The world's a butchered hamburger of dead flesh, and you're the condiment.  At least, that's what you'll look like if you choose to stride about in this set of comfortable, insulated trousers, their fabric dyed a deep yellow and touched up by rich brown undertones.",
-        "color": "yellow",
-        "weight": 2
-      },
-      {
-        "id": "pants_canary",
-        "name": { "str": "canary-yellow pants", "str_pl": "pairs of canary-yellow pants" },
-        "description": "Much like the bird from which the hue of this pair of pants derives its name, this set of trousers is dyed a warm and extremely vibrant hue of yellow.  Equipped with deep pockets and warmer than regular jeans, you feel relatively sure that wearing this would let you be seen by any survivors, zombies, or even the ISS, if it's still in orbit.",
-        "color": "yellow",
-        "weight": 2
       },
       {
         "id": "pants_flag",
@@ -1269,7 +1005,8 @@
   },
   {
     "id": "pants_army",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "army pants" },
     "description": "A tough pair of pants lined with pockets.  Favored by the military.",
     "weight": "720 g",
@@ -1357,7 +1094,8 @@
   },
   {
     "id": "pants_cargo",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "cargo pants" },
     "description": "A pair of pants lined with pockets, offering lots of storage.",
     "weight": "670 g",
@@ -1419,7 +1157,8 @@
   },
   {
     "id": "pants_checkered",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "checkered pants" },
     "description": "In a pinch, these pants can be used for an impromptu game of checkers.",
     "weight": "630 g",
@@ -1467,7 +1206,8 @@
   },
   {
     "id": "pants_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "fur pants" },
     "description": "A hefty pair of fur-lined pants.",
     "weight": "920 g",
@@ -1517,7 +1257,8 @@
   },
   {
     "id": "pants_faux_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "pants_fur",
     "name": { "str_sp": "faux fur pants" },
     "description": "A pair of long cotton pants lined with warm imitation fur.",
@@ -1526,7 +1267,8 @@
   },
   {
     "id": "trousers_ninja",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "ninja trousers" },
     "description": "A pair of black trousers with calf and waistband ties.  Comfortable to use but lacks pockets.",
     "weight": "400 g",
@@ -1544,7 +1286,8 @@
   },
   {
     "id": "pants_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "leather pants" },
     "description": "A pair of black leather pants.  Very tough, but cumbersome and without much storage.",
     "weight": "980 g",
@@ -1579,7 +1322,8 @@
   },
   {
     "id": "pants_ski",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "ski pants" },
     "description": "A pair of pants meant for alpine skiing.",
     "weight": "450 g",
@@ -1628,7 +1372,8 @@
   },
   {
     "id": "police_breeches",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "police breeches" },
     "description": "A pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
     "weight": "560 g",
@@ -1652,7 +1397,8 @@
   },
   {
     "id": "postman_shorts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "mail carrier shorts" },
     "description": "A pair of dark blue shorts, the kind used by postal service workers.",
     "weight": "230 g",
@@ -1713,7 +1459,8 @@
   },
   {
     "id": "santa_shorts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Santa shorts" },
     "description": "A pair of red shorts with white trim.  For when Santa is on summer vacation.",
     "weight": "230 g",
@@ -1739,7 +1486,8 @@
   },
   {
     "id": "santa_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Santa pants" },
     "description": "A pair of red pants with white faux fur trim, commonly used by bearded men on Christmas.  Somewhat warm and has two deep pockets.",
     "weight": "800 g",
@@ -1788,7 +1536,8 @@
   },
   {
     "id": "shorts",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "shorts" },
     "description": "A pair of khaki shorts.",
     "weight": "230 g",
@@ -1850,7 +1599,8 @@
   },
   {
     "id": "shorts_cargo",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "cargo shorts" },
     "description": "A pair of shorts lined with pockets, offering decent storage.",
     "weight": "340 g",
@@ -1926,7 +1676,8 @@
   },
   {
     "id": "shorts_denim",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "jorts" },
     "description": "A pair of denim shorts.",
     "weight": "260 g",
@@ -1980,7 +1731,8 @@
   },
   {
     "id": "skirt_denim",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "jean skirt" },
     "description": "A blue skirt made from denim.",
     "//": "supossed to be a 10 oz denim skirt",
@@ -2002,7 +1754,8 @@
   },
   {
     "id": "skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
     "weight": "225 g",
@@ -2107,7 +1860,8 @@
   },
   {
     "id": "skirt_long",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "long skirt" },
     "description": "A long skirt with no pockets.  Slightly more cumbersome but warmer than a normal skirt.",
     "weight": "500 g",
@@ -2125,7 +1879,8 @@
   },
   {
     "id": "skirt_grass",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "grass skirt" },
     "description": "A primitive skirt made from grass.  Not actually useful for much other than looking like a tribal person.",
     "weight": "72 g",
@@ -2146,7 +1901,8 @@
   },
   {
     "id": "skirt_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "leather skirt" },
     "description": "A very short leather skirt, clearly designed to look good, not be practical.",
     "weight": "230 g",
@@ -2172,7 +1928,8 @@
   },
   {
     "id": "striped_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "striped pants" },
     "description": "A pair of pants with horizontal black and white stripes.",
     "weight": "560 g",
@@ -2220,7 +1977,8 @@
   },
   {
     "id": "technician_pants_gray",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "work pants", "str_pl": "pairs of work pants" },
     "description": "A pair of gray canvas work pants.",
     "weight": "1040 g",
@@ -2273,7 +2031,8 @@
   },
   {
     "id": "winter_pants_army",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "army winter pants" },
     "description": "A tough pair of pants lined with pockets, thickly padded for warmth.  Favored by the military.",
     "weight": "1000 g",
@@ -2336,7 +2095,8 @@
   },
   {
     "id": "zubon_gi",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "zubon" },
     "description": "Plain white zubon for use in martial arts.",
     "weight": "150 g",
@@ -2354,7 +2114,8 @@
   },
   {
     "id": "pants_hiking",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hiking pants", "str_pl": "pairs of hiking pants" },
     "description": "A water-resistant pair of lightweight, flexible hiking pants with a good number of pockets.",
     "weight": "250 g",
@@ -2409,7 +2170,8 @@
   },
   {
     "id": "pants_tactical",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "//": "Based on Vertx Cutback Technical Pants, https://vertx.com/cutback-pants",
     "name": { "str": "tactical pants", "str_pl": "pairs of tactical pants" },
     "description": "Coated in more pockets than is probably either necessary or healthy and looking like they belong within a SWAT locker, these rugged combat pants possess a water-repellent coating, tough double-stitched seams, reinforced belt loops, and articulated knees.",
@@ -2584,7 +2346,8 @@
   },
   {
     "id": "skirt_bostonchan",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Boston-Chan skirt" },
     "description": "A short skirt for the Boston-Chan costume.",
     "weight": "230 g",

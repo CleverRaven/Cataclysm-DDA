@@ -12,25 +12,25 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Felicity_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "What's it like living here?", "topic": "TALK_GODCO_Felicity_Mood" },
       {
         "text": "How's your family?",
         "topic": "TALK_GODCO_Felicity_Family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Is there anything I can do for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "How's the manuscript coming?",
-        "condition": { "math": [ "time_since(n_timer_trade_writing_manuscript)", "<", "time('30 d')" ] },
+        "condition": { "math": [ "time_since(n_timer_trade_writing_manuscript) < time('30 d')" ] },
         "topic": "TALK_GODCO_Felicity_Manuscript_InProgress"
       },
       {
         "text": "How's the manuscript coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_trade_writing_manuscript)", ">=", "time('30 d')" ] },
+            { "math": [ "time_since(n_timer_trade_writing_manuscript) >= time('30 d')" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_gave_u_manuscript" } ] } }
           ]
         },
@@ -43,7 +43,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "Please, go away.  I don't want to talk to you right now.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ],
@@ -78,7 +78,7 @@
         "text": "Hi Felicity.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
           ]
         },
@@ -88,7 +88,7 @@
         "text": "What's all that about?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
           ]
         },
@@ -167,6 +167,48 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_Olwen",
     "dynamic_line": "Olwen's a bright girl, always has been.  She studied electricity and computer science when she was in college, found a job with a research and development firm.  My girl's a fiancee now, her and Julian were going to get married in a few months.  She might teach you something, if you ask.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Felicity_Olwen_Love0",
+        "condition": { "math": [ "godco_julian_wedding == 0" ] }
+      },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Felicity_Olwen_Love1",
+        "condition": { "math": [ "godco_julian_wedding == 1" ] }
+      },
+      {
+        "text": "What do you think about her love life with Julian in here?",
+        "topic": "TALK_GODCO_Felicity_Olwen_Love2",
+        "condition": { "math": [ "godco_julian_wedding == 2" ] }
+      },
+      { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Olwen_Love0",
+    "dynamic_line": "She is feeling down since her relationship with Julian seems to have been put on pause by <the_cataclysm>, but I heard Julian talking about making a proper confession with some rings and everything, maybe you could ask him about it?",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Olwen_Love1",
+    "dynamic_line": "She is feeling great since receiving her ring from Julian, I can't stop smiling seeing her flourishing here even after everything that happened…",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Olwen_Love2",
+    "dynamic_line": "I just helped her trying on her wedding dress!  She will look gorgeous in that dress.  I can't wait to see her smile when the day arrives, she already goes from here and there with a smile from ear to ear…",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Felicity_3" },
       { "text": "<end_talking_leave>  Bye, Felicity.", "topic": "TALK_DONE" }

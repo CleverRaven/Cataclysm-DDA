@@ -134,110 +134,14 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MISSION_LUMBERMILL_GET_6_BLANKETS_done",
-    "global": true,
-    "condition": {
-      "or": [
-        { "u_has_items": { "item": "blanket", "count": 6 } },
-        { "u_has_items": { "item": "fur_blanket", "count": 6 } },
-        { "u_has_items": { "item": "electric_blanket", "count": 6 } },
-        { "u_has_items": { "item": "quilt", "count": 6 } },
-        { "u_has_items": { "item": "quilt_patchwork", "count": 6 } }
-      ]
-    },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "sell_blanket",
-            "condition": { "u_has_items": { "item": "blanket", "count": 6 } },
-            "effect": { "u_sell_item": "blanket", "count": 6 }
-          },
-          {
-            "id": "sell_fur_blanket",
-            "condition": { "u_has_items": { "item": "fur_blanket", "count": 6 } },
-            "effect": { "u_sell_item": "fur_blanket", "count": 6 }
-          },
-          {
-            "id": "sell_electric_blanket",
-            "condition": { "u_has_items": { "item": "electric_blanket", "count": 6 } },
-            "effect": { "u_sell_item": "electric_blanket", "count": 6 }
-          },
-          {
-            "id": "sell_quilt",
-            "condition": { "u_has_items": { "item": "quilt", "count": 6 } },
-            "effect": { "u_sell_item": "quilt", "count": 6 }
-          },
-          {
-            "id": "sell_quilt_patchwork",
-            "condition": { "u_has_items": { "item": "quilt_patchwork", "count": 6 } },
-            "effect": { "u_sell_item": "quilt_patchwork", "count": 6 }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MISSION_GODCO_TROPHY2_done",
-    "global": true,
-    "condition": {
-      "or": [
-        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
-      ]
-    },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "sell_egg_spider_cellar",
-            "condition": { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
-            "effect": { "u_sell_item": "egg_spider_cellar", "count": 1 }
-          },
-          {
-            "id": "sell_egg_spider_jumping",
-            "condition": { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
-            "effect": { "u_sell_item": "egg_spider_jumping", "count": 1 }
-          },
-          {
-            "id": "sell_egg_spider_trapdoor",
-            "condition": { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
-            "effect": { "u_sell_item": "egg_spider_trapdoor", "count": 1 }
-          },
-          {
-            "id": "sell_egg_spider_web",
-            "condition": { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
-            "effect": { "u_sell_item": "egg_spider_web", "count": 1 }
-          },
-          {
-            "id": "sell_egg_spider_widow",
-            "condition": { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
-            "effect": { "u_sell_item": "egg_spider_widow", "count": 1 }
-          },
-          {
-            "id": "sell_egg_spider_wolf",
-            "condition": { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } },
-            "effect": { "u_sell_item": "egg_spider_wolf", "count": 1 }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_BANDIT_ASSASSIN",
     "recurrence": [ "60 days", "100 days" ],
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('hells_raiders')", "<", "-40" ] },
-        { "math": [ "faction_like('hells_raiders')", ">", "-60" ] },
-        { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
+        { "math": [ "faction_like('hells_raiders') < -40" ] },
+        { "math": [ "faction_like('hells_raiders') > -60" ] },
+        { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -249,7 +153,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 1, "min_radius": 15, "max_radius": 25 },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -259,9 +163,9 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('hells_raiders')", "<", "-60" ] },
-        { "math": [ "faction_like('hells_raiders')", ">", "-90" ] },
-        { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
+        { "math": [ "faction_like('hells_raiders') < -60" ] },
+        { "math": [ "faction_like('hells_raiders') > -90" ] },
+        { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 15" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -283,8 +187,8 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('hells_raiders')", "<", "-90" ] },
-        { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
+        { "math": [ "faction_like('hells_raiders') < -90" ] },
+        { "math": [ "u_bandit_assassins_sent <= 10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -306,8 +210,8 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "faction_like('old_guard')", "<", "-45" ] },
-        { "math": [ "u_government_assassins_sent", "<=", "6" ] },
+        { "math": [ "faction_like('old_guard') < -45" ] },
+        { "math": [ "u_government_assassins_sent <= 6" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
@@ -386,20 +290,23 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": "u_is_underwater",
+    "//": "I would assume that Mycus spores are a bit sticky to keep them from coming off, so this has a chance to be removed instead of a guarantee.",
     "effect": [
       {
-        "run_eocs": {
-          "id": "EOC_REMOVE_HARD_THINGS_CHECK",
-          "global": false,
-          "eoc_type": "EVENT",
-          "required_event": "avatar_moves",
-          "condition": { "x_in_y_chance": { "x": 1, "y": 10 } },
-          "//": "I would assume that Mycus spores are a bit sticky to keep them from coming off, so this has a chance to be removed instead of a garuntee.",
-          "effect": [ { "u_lose_effect": "spores" } ]
-        }
+        "if": { "and": [ { "u_has_effect": "spores" }, { "x_in_y_chance": { "x": 1, "y": 10 } } ] },
+        "then": [
+          { "u_message": "You scrub your body extensively, and spores are finally gone.", "type": "good" },
+          { "u_lose_effect": "spores" }
+        ]
       },
-      { "u_lose_effect": "boomered" },
-      { "u_lose_effect": "corroding" }
+      {
+        "if": { "u_has_effect": "boomered" },
+        "then": [ { "u_message": "You wash the bile from your face.", "type": "good" }, { "u_lose_effect": "boomered" } ]
+      },
+      {
+        "if": { "u_has_effect": "corroding" },
+        "then": [ { "u_message": "You wash the acid from your body.", "type": "good" }, { "u_lose_effect": "corroding" } ]
+      }
     ]
   },
   {
@@ -408,12 +315,7 @@
     "global": true,
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": {
-      "and": [ { "math": [ "old_guard_rep_scouting", "==", "1" ] }, { "u_near_om_location": "exodii_base_x0y3z0", "range": 0 } ]
-    },
-    "effect": [
-      { "math": [ "old_guard_rep_scouting", "=", "0" ] },
-      { "u_add_var": "missions_old_guard_u_scouted_exodii", "value": "yes" }
-    ]
+    "condition": { "and": [ { "math": [ "old_guard_rep_scouting == 1" ] }, { "u_near_om_location": "exodii_base_x0y3z0", "range": 0 } ] },
+    "effect": [ { "math": [ "old_guard_rep_scouting = 0" ] }, { "u_add_var": "missions_old_guard_u_scouted_exodii", "value": "yes" } ]
   }
 ]

@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "house_crack1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,7 +31,7 @@
         "....___.___._..%%..._._.",
         ".................._....."
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -49,10 +48,10 @@
         ",": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "`": "t_concrete",
         "/": "t_window_boarded",
-        "F": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "-": "t_linoleum_white",
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "$": "t_chainfence",
         "~": "t_thconc_floor",
         "_": "t_region_soil",
@@ -64,14 +63,14 @@
         { "chance": 35, "item": "harddrugs", "x": 9, "y": 6 },
         { "chance": 45, "item": "harddrugs", "x": 11, "y": [ 5, 6 ] },
         { "chance": 40, "item": "alcohol", "x": 6, "y": 11 },
-        { "chance": 25, "item": "trash", "x": 9, "y": 20 },
-        { "chance": 25, "item": "trash", "x": 16, "y": 17 },
-        { "chance": 25, "item": "trash", "x": 4, "y": [ 17, 18 ] },
-        { "chance": 25, "item": "trash", "x": 6, "y": 13 },
-        { "chance": 25, "item": "trash", "x": 8, "y": [ 9, 10 ] },
-        { "chance": 25, "item": "trash", "x": 4, "y": 9 },
-        { "chance": 25, "item": "trash", "x": 6, "y": 7 },
-        { "chance": 25, "item": "trash", "x": 9, "y": 5 }
+        { "chance": 25, "item": "SUS_trash_floor", "x": 9, "y": 20 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 16, "y": 17 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 4, "y": [ 17, 18 ] },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 6, "y": 13 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 8, "y": [ 9, 10 ] },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 4, "y": 9 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 6, "y": 7 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 9, "y": 5 }
       ]
     }
   },
@@ -127,7 +126,6 @@
     "method": "json",
     "om_terrain": "house_crack2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -156,7 +154,7 @@
         "....___.___._..%%..._._.",
         ".................._....."
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -174,10 +172,10 @@
         "Y": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         ",": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "`": "t_concrete",
-        "F": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "-": "t_linoleum_white",
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "$": "t_chainfence",
         "~": "t_thconc_floor",
         "_": "t_region_soil",
@@ -194,15 +192,15 @@
         { "chance": 25, "item": "harddrugs", "x": 9, "y": 6 },
         { "chance": 55, "item": "harddrugs", "x": 11, "y": [ 5, 6 ] },
         { "chance": 30, "item": "alcohol", "x": 6, "y": 11 },
-        { "chance": 25, "item": "trash", "x": 9, "y": 20 },
-        { "chance": 25, "item": "trash", "x": 16, "y": 17 },
-        { "chance": 25, "item": "trash", "x": 4, "y": [ 17, 18 ] },
-        { "chance": 25, "item": "trash", "x": 6, "y": 13 },
-        { "chance": 25, "item": "trash", "x": 8, "y": [ 9, 10 ] },
-        { "chance": 25, "item": "trash", "x": 4, "y": 9 },
-        { "chance": 25, "item": "trash", "x": 6, "y": 7 },
-        { "chance": 25, "item": "trash", "x": 9, "y": 5 },
-        { "chance": 25, "item": "trash", "x": 18, "y": 4 }
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 9, "y": 20 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 16, "y": 17 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 4, "y": [ 17, 18 ] },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 6, "y": 13 },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 8, "y": [ 9, 10 ] },
+        { "chance": 25, "item": "SUS_trash_floor", "x": 4, "y": 9 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 6, "y": 7 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 9, "y": 5 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 18, "y": 4 }
       ]
     }
   },
@@ -210,7 +208,6 @@
     "method": "json",
     "om_terrain": "house_crack3",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -239,7 +236,7 @@
         "._%_;$$$$$$$;$$$$$$$;___",
         "__.__%.._%..%_.___._____"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -248,17 +245,16 @@
         "{": "t_region_groundcover_urban",
         "W": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
-        "#": "t_adobe_brick_wall",
         "`": "t_concrete",
-        "F": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "4": "t_linoleum_white",
-        "5": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "-": "t_linoleum_white",
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "4": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "5": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "9": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "$": "t_chainfence",
         "~": "t_thconc_floor",
         "K": "t_thconc_floor",
@@ -274,10 +270,10 @@
         { "chance": 15, "item": "child_items", "x": 6, "y": 16 },
         { "chance": 10, "item": "softdrugs", "x": 17, "y": 12 },
         { "chance": 15, "item": "hardware_bulk", "x": 14, "y": 12 },
-        { "chance": 10, "item": "trash", "x": 10, "y": 12 },
-        { "chance": 10, "item": "trash", "x": 15, "y": 8 },
-        { "chance": 10, "item": "trash", "x": 19, "y": 6 },
-        { "chance": 10, "item": "trash", "x": 7, "y": 6 },
+        { "chance": 10, "item": "SUS_trash_floor", "x": 10, "y": 12 },
+        { "chance": 10, "item": "SUS_trash_floor", "x": 15, "y": 8 },
+        { "chance": 10, "item": "SUS_trash_floor", "x": 19, "y": 6 },
+        { "chance": 10, "item": "SUS_trash_floor", "x": 7, "y": 6 },
         { "chance": 30, "item": "methlab", "x": [ 8, 9 ], "y": 20 },
         { "chance": 30, "item": "methlab", "x": 10, "y": 19 },
         { "chance": 15, "item": "harddrugs", "x": 7, "y": 8 },
@@ -285,11 +281,11 @@
         { "chance": 25, "item": "alcohol", "x": 5, "y": 11 },
         { "chance": 10, "item": "hardware_plumbing", "x": 14, "y": 13 },
         { "chance": 10, "item": "camping", "x": 15, "y": 13 },
-        { "chance": 35, "item": "trash", "x": 6, "y": 21 },
-        { "chance": 35, "item": "trash", "x": 19, "y": [ 20, 21 ] },
-        { "chance": 35, "item": "trash", "x": 8, "y": 10 },
-        { "chance": 35, "item": "trash", "x": 10, "y": 9 },
-        { "chance": 35, "item": "trash", "x": 21, "y": 7 }
+        { "chance": 35, "item": "SUS_trash_floor", "x": 6, "y": 21 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 19, "y": [ 20, 21 ] },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 8, "y": 10 },
+        { "chance": 35, "item": "SUS_trash_trashcan", "x": 10, "y": 9 },
+        { "chance": 35, "item": "SUS_trash_trashcan", "x": 21, "y": 7 }
       ]
     }
   },
@@ -342,7 +338,7 @@
         "       |............|   ",
         "       |............|   ",
         "    ||||............|   ",
-        "    |F.g............|   ",
+        "    |â.g............|   ",
         "    |...............|   ",
         "    |...............|   ",
         "    |...............|   ",
@@ -361,7 +357,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "standard_and_variant_domestic_basement_palette" ]
     }
   }
 ]

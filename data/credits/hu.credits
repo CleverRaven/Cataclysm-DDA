@@ -6,31 +6,31 @@
 <color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Jelenlegi fő fejlesztők:</color>
-<color_yellow>anoobindisguise</color> - Relentless bugfixing and polish across most areas of the game.
-<color_yellow>GuardianDll</color> - Random changes in game, random changes in mods.
-<color_yellow>irwiss</color> - Massive bugfixing and code hardening.
-<color_yellow>Maleclypse</color> - Lead Merger for this release cycle and many enhancements to Xedra Evolved.
+<color_yellow>anoobindisguise</color> - Nyughatatlan hibajavítás és simítások a játék legtöbb területén.
+<color_yellow>GuardianDll</color> -Random változtatások a játékban, és random változtatások a módokban.
+<color_yellow>irwiss</color> - Jelentős hibajavítások és kódbiztosítás.
+<color_yellow>Maleclypse</color> - Vezető összeolvasztó ehhez a kiadási ciklushoz és számos fejlesztés a Xedra Evolvedhez.
 
 <color_white>Külön köszönet:</color>
-<color_yellow>anothersimulacrum</color> - For solving difficult problems.
-<color_yellow>akrieger</color> - The Slowdown Smasher.
-<color_yellow>Fris0uman</color> - For managing the tilesets and more.
-<color_yellow>John-Candlebury</color> - For boss fights and Isolation Protocols.
-<color_yellow>Night-Pryanik</color> - For making colds and the flu finally make sense.
-<color_yellow>PatrikLundell</color> - Massive and sorely needed overhauls to faction camp content and infrastructure.
-<color_yellow>Procyonae</color> - For so much mapgen improvements and all the backporting.
-<color_yellow>Qrox</color> - For bugfixes, reviews and infrastructure.
-<color_yellow>Ramza13</color> - For making so many modders dreams come true.
-<color_yellow>RenechCDDA</color> - For the Shadow, camp improvements and NPC Personality.
-<color_yellow>Rivet-the-Zombie</color> - For hitting 10,000 merges.
-<color_yellow>Standing-Storm</color> - For the fastest 0 to 100 in several years.
-<color_yellow>Venera3</color> - For limbification progress.
+<color_yellow>anothersimulacrum</color> -Mert megoldott nehéz problémákat.  
+<color_yellow>akrieger</color> - A lelassult Zúzó.
+<color_yellow>Fris0uman</color> - A csempekészletek kezelése és még sok más.
+<color_yellow>John-Candlebury</color> -A főellenségek elleni harc és az izolációs protokoll.
+<color_yellow>Night-Pryanik</color>- Mert a megfázás és az influenza végre értelmet nyert.
+<color_yellow>PatrikLundell</color> -  A frakciótáborok tartalmának és infrastruktúrájának jelentős és nagy szükségszerű átalakítása.
+<color_yellow>Procyonae</color> - A sok mapgenerálás fejlesztésért és az összes visszaportolásért.
+<color_yellow>Qrox</color> - A hibajavítások, felülvizsgálatok és az infrastruktúra miatt.
+<color_yellow>Ramza13</color> -Mert olyan sok modder álmát váltotta valóra.
+<color_yellow>RenechCDDA</color> - Az Árnyék, a tábor fejlesztése és az NPC-k személyisége.
+<color_yellow>Rivet-the-Zombie</color> - Hogy elérte a 10,000 összeolvasztást.
+<color_yellow>Standing-Storm</color> - Mert a leggyorsabban jutott az elmúlt évek alatt 0-tól 100-ig.
+<color_yellow>Venera3</color> -A végtagok fejlődése.
 <color_yellow>ZhilkinSerg</color> - Az összes dolog összevonásáért.
 <color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>, and <color_yellow>lispcoc</color>.
 
 <color_white>Külön köszönet a művészi hozzájárulásokért::</color>
 <color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
-<color_yellow>gettingusedto</color>, and many more.
+<color_yellow>gettingusedto</color>, és még sokan mások.
 
 <color_white>Az összes közreműködő listáját lásd itt:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>

@@ -13,5 +13,10 @@
     "id": "egg_flamingo",
     "type": "MIGRATION",
     "replace": "egg_duck"
+  },
+  {
+    "id": "egg_quail",
+    "type": "MIGRATION",
+    "replace": "egg_guinea_fowl"
   }
 ]

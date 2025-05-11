@@ -921,7 +921,6 @@
     "description": "You were deep into the fashion scene, keeping up on the latest trends and even modeling clothes yourself.  Having style and good looks is just as, if not more, important to you than practicality.",
     "points": 2,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
-    "traits": [ "STYLISH" ],
     "missions": [ "MISSION_STYLISH" ]
   },
   {
@@ -1067,6 +1066,37 @@
     "skills": [ { "level": 4, "name": "throw" }, { "level": 5, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "traits": [ "TOUGH", "FLEET", "PAINRESIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "soccer_beginner",
+    "name": "Soccer (Beginner)",
+    "description": "You used to kick a ball around with your friends, having fun together.  Though it may not be the case anymore.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 1, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "soccer",
+    "name": "Soccer (Intermediate)",
+    "description": "Your fondness for the beautiful game shows with your flairs, skills and tackles.  Whether you can go past the backline of the undead is a question yet to be answered.",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "dodge" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
+    "traits": [ "QUICK", "FLEET" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "soccer_expert",
+    "name": "Soccer (Expert)",
+    "description": "You were on trial at a professional club, ready to get a contract.  What a great opportunity for you, if only your coaches were still alive.",
+    "points": 7,
+    "skills": [ { "level": 5, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
+    "traits": [ "QUICK", "FLEET", "PAINRESIST" ]
   },
   {
     "type": "profession",

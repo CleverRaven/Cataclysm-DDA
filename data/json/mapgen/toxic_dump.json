@@ -15,7 +15,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "toxic_dump" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

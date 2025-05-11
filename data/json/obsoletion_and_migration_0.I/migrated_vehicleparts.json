@@ -14,6 +14,12 @@
   {
     "type": "vehicle_part_migration",
     "//": "Remove after 0.I release",
+    "from": "generator_7500w",
+    "to": "battery_car"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "Remove after 0.I release",
     "from": "car_light_plus_battery_cell",
     "to": "battery_car"
   },

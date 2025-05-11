@@ -3,25 +3,19 @@
 #define CATA_SRC_PANELS_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
 
-#include "bodypart.h"
-#include "color.h"
 #include "coords_fwd.h"
-#include "translations.h"
-#include "widget.h"
+#include "translation.h"
+#include "type_id.h"
 
 class JsonArray;
 class JsonOut;
 class avatar;
-class Character;
-class Creature;
-class mood_face;
+class widget;
 struct point;
-enum class cardinal_direction;
 
 enum face_type : int {
     face_human = 0,

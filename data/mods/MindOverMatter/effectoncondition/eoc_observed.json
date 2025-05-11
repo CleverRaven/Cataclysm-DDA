@@ -83,7 +83,7 @@
         "true_eocs": [
           {
             "id": "EOC_CHECK_NEAR_NETHER_CRYSTAL_FOLLOWUP",
-            "effect": [ { "queue_eocs": "EOC_CHECK_NEAR_NETHER_CRYSTAL_FOLLOWUP_2", "time_in_future": "30 minutes" } ]
+            "effect": [ { "run_eocs": "EOC_CHECK_NEAR_NETHER_CRYSTAL_FOLLOWUP_2", "time_in_future": "30 minutes" } ]
           }
         ]
       }

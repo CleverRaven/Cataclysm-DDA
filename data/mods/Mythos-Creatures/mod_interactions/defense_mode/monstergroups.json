@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_MYTHOS_SPAWN",
+    "id": "GROUP_MYTHOS_SPAWN",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_rat_thing_dm" },

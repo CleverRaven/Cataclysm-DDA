@@ -34,7 +34,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_01",
     "effect": [
-      { "math": [ "xe_riddle_01", "--" ] },
+      { "math": [ "xe_riddle_01--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "All or Nothing?", "names": [ "All", "Nothing" ] }
     ]
   },
@@ -42,7 +42,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_02",
     "effect": [
-      { "math": [ "xe_riddle_02", "--" ] },
+      { "math": [ "xe_riddle_02--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Dead or Alive?", "names": [ "Dead", "Alive" ] }
     ]
   },
@@ -50,7 +50,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_03",
     "effect": [
-      { "math": [ "xe_riddle_03", "--" ] },
+      { "math": [ "xe_riddle_03--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Deep or Shallow?", "names": [ "Deep", "Shallow" ] }
     ]
   },
@@ -58,7 +58,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_04",
     "effect": [
-      { "math": [ "xe_riddle_04", "--" ] },
+      { "math": [ "xe_riddle_04--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Dusk or Dawn?", "names": [ "Dusk", "Dawn" ] }
     ]
   },
@@ -66,7 +66,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_05",
     "effect": [
-      { "math": [ "xe_riddle_05", "--" ] },
+      { "math": [ "xe_riddle_05--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Enemy or Friend?", "names": [ "Enemy", "Friend" ] }
     ]
   },
@@ -74,7 +74,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_06",
     "effect": [
-      { "math": [ "xe_riddle_06", "--" ] },
+      { "math": [ "xe_riddle_06--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Even or Odd?", "names": [ "Even", "Odd" ] }
     ]
   },
@@ -82,7 +82,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_07",
     "effect": [
-      { "math": [ "xe_riddle_07", "--" ] },
+      { "math": [ "xe_riddle_07--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Fail or Success?", "names": [ "Fail", "Success" ] }
     ]
   },
@@ -90,7 +90,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_08",
     "effect": [
-      { "math": [ "xe_riddle_08", "--" ] },
+      { "math": [ "xe_riddle_08--" ] },
       {
         "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
         "title": "Guilty or Innocent?",
@@ -102,7 +102,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_09",
     "effect": [
-      { "math": [ "xe_riddle_09", "--" ] },
+      { "math": [ "xe_riddle_09--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Hero or Coward?", "names": [ "Hero", "Coward" ] }
     ]
   },
@@ -110,7 +110,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_10",
     "effect": [
-      { "math": [ "xe_riddle_10", "--" ] },
+      { "math": [ "xe_riddle_10--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Hope or Despair?", "names": [ "Hope", "Despair" ] }
     ]
   },
@@ -118,7 +118,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_11",
     "effect": [
-      { "math": [ "xe_riddle_11", "--" ] },
+      { "math": [ "xe_riddle_11--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Inner or Outer?", "names": [ "Inner", "Outer" ] }
     ]
   },
@@ -126,7 +126,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_12",
     "effect": [
-      { "math": [ "xe_riddle_12", "--" ] },
+      { "math": [ "xe_riddle_12--" ] },
       {
         "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
         "title": "Victory or Defeat?",
@@ -138,7 +138,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_13",
     "effect": [
-      { "math": [ "xe_riddle_13", "--" ] },
+      { "math": [ "xe_riddle_13--" ] },
       {
         "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
         "title": "Madness or Sanity?",
@@ -150,7 +150,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_14",
     "effect": [
-      { "math": [ "xe_riddle_14", "--" ] },
+      { "math": [ "xe_riddle_14--" ] },
       {
         "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
         "title": "Oppressed or Oppressor?",
@@ -162,7 +162,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_15",
     "effect": [
-      { "math": [ "xe_riddle_15", "--" ] },
+      { "math": [ "xe_riddle_15--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Rapid or Slow?", "names": [ "Rapid", "Slow" ] }
     ]
   },
@@ -170,7 +170,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_16",
     "effect": [
-      { "math": [ "xe_riddle_16", "--" ] },
+      { "math": [ "xe_riddle_16--" ] },
       {
         "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
         "title": "Remember or Forget?",
@@ -182,7 +182,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_17",
     "effect": [
-      { "math": [ "xe_riddle_17", "--" ] },
+      { "math": [ "xe_riddle_17--" ] },
       {
         "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ],
         "title": "The Beginning or The End?",
@@ -194,7 +194,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_18",
     "effect": [
-      { "math": [ "xe_riddle_18", "--" ] },
+      { "math": [ "xe_riddle_18--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Truth or Lie?", "names": [ "Truth", "Lie" ] }
     ]
   },
@@ -202,7 +202,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_19",
     "effect": [
-      { "math": [ "xe_riddle_19", "--" ] },
+      { "math": [ "xe_riddle_19--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "War or Peace?", "names": [ "War", "Peace" ] }
     ]
   },
@@ -210,7 +210,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_RIDDLE_20",
     "effect": [
-      { "math": [ "xe_riddle_20", "--" ] },
+      { "math": [ "xe_riddle_20--" ] },
       { "run_eoc_selector": [ "EOC_NONE", "EOC_NONE" ], "title": "Yes or No?", "names": [ "Yes", "No" ] }
     ]
   },
@@ -429,7 +429,7 @@
     "id": "EOC_XE_RUN_GIVE_CLASS_2_AFTERMATCH",
     "effect": [
       { "u_message": "Your attempts to save anything are hopeless…", "type": "mixed" },
-      { "math": [ "magic_potential", "=", "0" ] }
+      { "math": [ "magic_potential = 0" ] }
     ]
   }
 ]

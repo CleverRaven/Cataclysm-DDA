@@ -1,22 +1,22 @@
 #include <algorithm>
 #include <functional>
 #include <list>
-#include <memory>
-#include <new>
 #include <optional>
 #include <vector>
 
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "rng.h"
@@ -27,6 +27,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_flask_hip( "flask_hip" );
@@ -59,8 +60,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     clear_avatar();
     Character &p = get_player_character();
-    p.worn.wear_item( p, item( "backpack" ), false, false );
-    p.wear_item( item( "backpack" ) ); // so we don't drop anything
+    p.worn.wear_item( p, item( itype_backpack ), false, false );
+    p.wear_item( item( itype_backpack ) ); // so we don't drop anything
     clear_map();
     map &here = get_map();
 
@@ -81,11 +82,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     // move player randomly until we find a suitable position
     constexpr int num_trials = 100;
-    for( int i = 0; i < num_trials && !suitable( p.pos_bub(), 1 ); ++i ) {
+    for( int i = 0; i < num_trials && !suitable( p.pos_bub( here ), 1 ); ++i ) {
         CHECK( !p.in_vehicle );
-        p.setpos( random_entry( closest_points_first( p.pos_bub(), 1 ) ) );
+        p.setpos( here, random_entry( closest_points_first( p.pos_bub( here ), 1 ) ) );
     }
-    REQUIRE( suitable( p.pos_bub(), 1 ) );
+    REQUIRE( suitable( p.pos_bub( here ), 1 ) );
 
     item temp_liquid( liquid_id );
     item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_null ) );
@@ -327,7 +328,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         REQUIRE( our + adj == count );
 
         map_selector sel( p.pos_bub(), 1 );
-        map_cursor cur( p.get_location() );
+        map_cursor cur( p.pos_abs() );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );
@@ -441,10 +442,10 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         // Empty the vehicle of any cargo.
         v->get_items( vp->part() ).clear();
         for( int i = 0; i != count; ++i ) {
-            v->add_item( vp->part(), obj );
+            v->add_item( here,  vp->part(), obj );
         }
 
-        vehicle_selector sel( p.pos_bub().raw(), 1 );
+        vehicle_selector sel( here,  p.pos_bub( here ), 1 );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );

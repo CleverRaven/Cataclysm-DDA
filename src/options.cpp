@@ -4,6 +4,7 @@
 #include <climits>
 #include <clocale>
 #include <iterator>
+#include <limits>
 #include <stdexcept>
 
 #include "cached_options.h"
@@ -19,6 +20,7 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"
@@ -106,7 +108,7 @@ void option_slider::check_consistency()
     }
 }
 
-void option_slider::load( const JsonObject &jo, const std::string_view )
+void option_slider::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     optional( jo, was_loaded, "default", _default_level, 0 );
@@ -195,7 +197,10 @@ static const std::map<std::string, std::pair<std::string, std::map<std::string, 
 &get_migrated_options()
 {
     static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
-    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
+    = {
+        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
+        {"MONSTER_UPGRADE_FACTOR", { "EVOLUTION_INVERSE_MULTIPLIER", {} }} //TODO: Remove after stable after world option reserialising is added, value migration done in migrateOptionValue instead
+    };
     return opt;
 }
 
@@ -304,15 +309,12 @@ static options_manager::cOpt::COPT_VALUE_TYPE get_value_type( const std::string 
 
 //add hidden external option with value
 void options_manager::add_external( const std::string &sNameIn, const std::string &sPageIn,
-                                    const std::string &sType,
-                                    const translation &sMenuTextIn, const translation &sTooltipIn )
+                                    const std::string &sType )
 {
     cOpt thisOpt;
 
     thisOpt.sName = sNameIn;
     thisOpt.sPage = sPageIn;
-    thisOpt.sMenuText = sMenuTextIn;
-    thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
     thisOpt.verbose = false;
 
@@ -324,14 +326,14 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.bDefault = false;
             break;
         case cOpt::CVT_INT:
-            thisOpt.iMin = INT_MIN;
-            thisOpt.iMax = INT_MAX;
+            thisOpt.iMin = std::numeric_limits<int>::lowest();
+            thisOpt.iMax = std::numeric_limits<int>::max();
             thisOpt.iDefault = 0;
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
-            thisOpt.fMax = FLT_MAX;
+            thisOpt.fMin = std::numeric_limits<float>::lowest();
+            thisOpt.fMax = std::numeric_limits<float>::max();
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -1338,7 +1340,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "", to_translation( "System language" ) },
     };
 
-    constexpr std::array<std::pair<const char *, const char *>, 25> language_names = {{
+    constexpr std::array<std::pair<const char *, const char *>, 26> language_names = {{
             // Note: language names are in their own language and are *not* translated at all.
             // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
             // http://en.wikipedia.org/wiki/List_of_language_names
@@ -1360,6 +1362,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "nb", R"(Norsk)" },
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
+            { "pt", R"(Português (Portugal))" },
             { "pt_BR", R"(Português (Brasil))" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
@@ -2203,6 +2206,10 @@ void options_manager::add_options_interface()
     add_option_group( "interface", Group( "mouse_cont_opts", to_translation( "Mouse control options" ),
                                           to_translation( "Options regarding mouse control." ) ),
     [&]( const std::string & page_id ) {
+        add( "ENABLE_MOUSE", page_id, to_translation( "Enable mouse" ),
+             to_translation( "Enable input from mouse." ),
+             true, COPT_NO_HIDE
+           );
         add( "ENABLE_JOYSTICK", page_id, to_translation( "Enable joystick" ),
              to_translation( "If true, enable input from joystick." ),
              true, COPT_CURSES_HIDE
@@ -2218,6 +2225,7 @@ void options_manager::add_options_interface()
             { "hidekb", to_translation( "HideKB" ) }
         },
         "show", COPT_CURSES_HIDE );
+        get_option( "HIDE_CURSOR" ).setPrerequisite( "ENABLE_MOUSE" );
 
         add( "EDGE_SCROLL", page_id, to_translation( "Edge scrolling" ),
         to_translation( "Edge scrolling with the mouse." ), {
@@ -2227,6 +2235,7 @@ void options_manager::add_options_interface()
             { 10, to_translation( "Fast" ) },
         },
         30, 30, COPT_CURSES_HIDE );
+        get_option( "EDGE_SCROLL" ).setPrerequisite( "ENABLE_MOUSE" );
     } );
 
 }
@@ -2392,6 +2401,11 @@ void options_manager::add_options_graphics()
              to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
              true, COPT_CURSES_HIDE
            );
+
+        add( "IMGUI_LOAD_CHINESE", page_id, to_translation( "Chinese glyph ranges in ImGui" ),
+             to_translation( "If true, ImGui will add glyphs of full Chinese, include zh_CN, zh_TW, ja. Use this option when your need all Chinese glyphs.  Requires restart." ),
+             false, COPT_CURSES_HIDE
+           );
     } );
 #endif // TILES
 
@@ -2428,6 +2442,11 @@ void options_manager::add_options_graphics()
              build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
            ); // populate the options dynamically
 
+        add( "CREATURE_OVERLAY_ICONS", page_id, to_translation( "Show overlay icons over creatures" ),
+             to_translation( "If true, show overlay icons over creatures such as effects, move mode and whether creatures can see the player." ),
+             true, COPT_CURSES_HIDE
+           );
+
         add( "SWAP_ZOOM", page_id, to_translation( "Zoom Threshold" ),
              to_translation( "Choose when you should swap tileset (lower is more zoomed out)." ),
              1, 4, 2, COPT_CURSES_HIDE
@@ -2437,6 +2456,7 @@ void options_manager::add_options_graphics()
         get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
         get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
+        get_option( "CREATURE_OVERLAY_ICONS" ).setPrerequisite( "USE_TILES" );
 
         add( "USE_OVERMAP_TILES", page_id, to_translation( "Use tiles to display overmap" ),
              to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
@@ -2721,62 +2741,36 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "game_world_opts", to_translation( "Game world options" ),
-                      to_translation( "Options regarding game world." ) ),
-    [&]( const std::string & page_id ) {
-        add( "CITY_SIZE", page_id, to_translation( "Size of cities" ),
-             to_translation( "A number determining how large cities are.  A higher number means larger cities.  0 disables cities, roads and any scenario requiring a city start." ),
-             0, 16, 8
-           );
+    // These optiosn are purposefully and permanently hidden. It can only be modified through the sliders when creating a new world.
+    // As such there is no name or description to show, those are blanked.
+    add( "CITY_SIZE", "world_default", translation(), translation(), 0, 16, 8, COPT_ALWAYS_HIDE
+       );
 
-        add( "CITY_SPACING", page_id, to_translation( "City spacing" ),
-             to_translation( "A number determining how far apart cities are.  A higher number means cities are further apart.  Warning, small numbers lead to very slow mapgen." ),
-             0, 8, 4
-           );
+    add( "CITY_SPACING", "world_default", translation(), translation(), 0, 8, 4, COPT_ALWAYS_HIDE
+       );
 
-        add( "SPAWN_DENSITY", page_id, to_translation( "Spawn rate scaling factor" ),
-             to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
-             0.0, 50.0, 1.0, 0.1
-           );
+    add( "SPAWN_DENSITY", "world_default", translation(), translation(), 0.0, 50.0, 1.0, 0.1,
+         COPT_ALWAYS_HIDE
+       );
 
-        add( "ITEM_SPAWNRATE", page_id, to_translation( "Item spawn scaling factor" ),
-             to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
-             0.01, 10.0, 1.0, 0.01
-           );
+    add( "ITEM_SPAWNRATE", "world_default", translation(), translation(), 0.01, 10.0, 1.0, 0.01,
+         COPT_ALWAYS_HIDE
+       );
 
-        add( "NPC_SPAWNTIME", page_id, to_translation( "Random NPC spawn time" ),
-             to_translation( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
-             0.0, 100.0, 4.0, 0.01
-           );
+    add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
+         COPT_ALWAYS_HIDE
+       );
 
-        add( "MONSTER_UPGRADE_FACTOR", page_id,
-             to_translation( "Monster evolution slowdown" ),
-             to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-             0.0, 100, 4.0, 0.01
-           );
-    } );
-    add_empty_line();
+    add( "MONSTER_SPEED", "world_default", translation(), translation(), 1, 1000, 100, COPT_ALWAYS_HIDE,
+         "%i%%"
+       );
 
-    add_option_group( "world_default", Group( "monster_props_opts",
-                      to_translation( "Monster properties options" ),
-                      to_translation( "Options regarding monster properties." ) ),
-    [&]( const std::string & page_id ) {
-        add( "MONSTER_SPEED", page_id, to_translation( "Monster speed" ),
-             to_translation( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
-             1, 1000, 100, COPT_NO_HIDE, "%i%%"
-           );
+    add( "MONSTER_RESILIENCE", "world_default", translation(), translation(), 1, 1000, 100,
+         COPT_ALWAYS_HIDE, "%i%%"
+       );
 
-        add( "MONSTER_RESILIENCE", page_id, to_translation( "Monster resilience" ),
-             to_translation( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
-             1, 1000, 100, COPT_NO_HIDE, "%i%%"
-           );
-    } );
-
-    add_empty_line();
-
-    add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
-         to_translation( "(WIP feature) Determines terrain, shops, plants, and more." ),
-    { { "default", to_translation( "default" ) } }, "default"
+    add( "EVOLUTION_INVERSE_MULTIPLIER", "world_default", translation(), translation(),
+         0.0, 100, 1.0, 0.01, COPT_ALWAYS_HIDE
        );
 
     add_empty_line();
@@ -2826,13 +2820,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "RAD_MUTATION", "world_default", to_translation( "Mutations by radiation" ),
-         to_translation( "If true, radiation causes the player to mutate." ),
-         true
-       );
-
-    add_empty_line();
-
     add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
          to_translation( "Allowed point pools for character generation." ),
     { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
@@ -2859,68 +2846,9 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add( "DISTANCE_INITIAL_VISIBILITY", "debug", to_translation( "Distance initial visibility" ),
-         to_translation( "Determines the scope, which is known in the beginning of the game." ),
-         3, 20, 15
-       );
-
-    add_empty_line();
-
-    add_option_group( "debug", Group( "chargen_point_opts",
-                                      to_translation( "Character generation points options" ),
-                                      to_translation( "Options regarding character generation points." ) ),
-    [&]( const std::string & page_id ) {
-        add( "INITIAL_STAT_POINTS", page_id, to_translation( "Initial stat points" ),
-             to_translation( "Initial points available to spend on stats on character generation." ),
-             0, 1000, 6
-           );
-
-        add( "INITIAL_TRAIT_POINTS", page_id, to_translation( "Initial trait points" ),
-             to_translation( "Initial points available to spend on traits on character generation." ),
-             0, 1000, 0
-           );
-
-        add( "INITIAL_SKILL_POINTS", page_id, to_translation( "Initial skill points" ),
-             to_translation( "Initial points available to spend on skills on character generation." ),
-             0, 1000, 2
-           );
-
-        add( "MAX_TRAIT_POINTS", page_id, to_translation( "Maximum trait points" ),
-             to_translation( "Maximum trait points available for character generation." ),
-             0, 1000, 12
-           );
-    } );
-
-    add_empty_line();
-
     add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
          to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
          false
-       );
-
-    add_empty_line();
-
-    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
-         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
-       );
-
-    add_empty_line();
-
-    add( "PROFICIENCY_TRAINING_SPEED", "debug", to_translation( "Proficiency training speed" ),
-         to_translation( "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
-       );
-
-    add_empty_line();
-
-    add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
-         to_translation(
-             "How many levels up and down the 3D field of vision reaches.  (This many levels up, this many levels down.)  "
-             "3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  "
-             "Setting this to 0 disables vertical vision.  In tiles mode this also affects how many levels up and down are "
-             "drawn on screen, and setting this to 0 displays only one level below with colored blocks instead." ),
-         0, OVERMAP_LAYERS, 4
        );
 
     add_empty_line();
@@ -2957,6 +2885,12 @@ void options_manager::add_options_debug()
              0.0, 60.0, 0.0, 0.1
            );
     } );
+
+    add_empty_line();
+
+    add( "WARN_ON_MODIFIED", "debug", to_translation( "Warn if file integrity check fails" ),
+         to_translation( "This option controls whether the game will warn when it detects that the game's data has been modified." ),
+         true );
 
     add_empty_line();
 
@@ -3333,25 +3267,24 @@ static void draw_borders_external(
         draw_border( w, BORDER_COLOR, _( "Options" ) );
     }
     // intersections
-    mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
+    wattron( w, BORDER_COLOR );
+    mvwaddch( w, point( 0, horizontal_level ), LINE_XXXO ); // |-
+    mvwaddch( w, point( getmaxx( w ) - 1, horizontal_level ), LINE_XOXX ); // -|
     for( const int &x : vert_lines ) {
-        mvwputch( w, point( x + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        mvwaddch( w, point( x + 1, getmaxy( w ) - 1 ), LINE_XXOX ); // _|_
     }
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
-    for( int i = 0; i < getmaxx( w ); ++i ) {
-        if( vert_lines.count( i ) != 0 ) {
-            // intersection
-            mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
-        } else {
-            // regular line
-            mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
-        }
+    wattron( w, BORDER_COLOR );
+    mvwhline( w, point::zero, LINE_OXOX, getmaxx( w ) ); // -
+    for( const int &x : vert_lines ) {
+        mvwaddch( w, point( x, 0 ), LINE_OXXX ); // -.-
     }
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
@@ -3609,11 +3542,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         };
 
         // Draw separation lines
-        for( int x : vert_lines ) {
-            for( int y = 0; y < iContentHeight; y++ ) {
-                mvwputch( w_options, point( x, y ), BORDER_COLOR, LINE_XOXO );
-            }
+        wattron( w_options, BORDER_COLOR );
+        for( const int &x : vert_lines ) {
+            mvwvline( w_options, point( x, 0 ), LINE_XOXO, iContentHeight );
         }
+        wattroff( w_options, BORDER_COLOR );
 
         if( recalc_startpos ) {
             // Update scroll position
@@ -3692,7 +3625,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const PageItem &curr_item = page_items[iCurrentLine];
         std::string tooltip = curr_item.fmt_tooltip( curr_item.group, cOPTIONS );
-        fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
+        fold_and_print( w_options_tooltip, point::zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
             mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
@@ -3752,33 +3685,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     current_opt.setNext();
                 } else {
                     const bool is_int = current_opt.getType() == "int";
-                    const bool is_float = current_opt.getType() == "float";
-                    const std::string old_opt_val = current_opt.getValueName();
-                    const std::string opt_val = string_input_popup()
-                                                .title( current_opt.getMenuText() )
-                                                .width( 10 )
-                                                .text( old_opt_val )
-                                                .only_digits( is_int )
-                                                .query_string();
-                    if( !opt_val.empty() && opt_val != old_opt_val ) {
-                        if( is_float ) {
-                            std::istringstream ssTemp( opt_val );
-                            // This uses the current locale, to allow the users
-                            // to use their own decimal format.
-                            float tmpFloat;
-                            ssTemp >> tmpFloat;
-                            if( ssTemp ) {
-                                current_opt.setValue( tmpFloat );
-
-                            } else {
-                                popup( _( "Invalid input: not a number" ) );
-                            }
-                        } else {
-                            // option is of type "int": string_input_popup
-                            // has taken care that the string contains
-                            // only digits, parsing is done in setValue
-                            current_opt.setValue( opt_val );
-                        }
+                    if( is_int ) {
+                        number_input_popup<int> popup( 0, current_opt.value_as<int>() );
+                        popup.set_label( current_opt.getMenuText() );
+                        int num = popup.query();
+                        current_opt.setValue( num );
+                    } else {
+                        number_input_popup<float> popup( 0, current_opt.value_as<float>() );
+                        popup.set_label( current_opt.getMenuText() );
+                        float num = popup.query();
+                        current_opt.setValue( num );
                     }
                 }
             }
@@ -4024,9 +3940,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 #else
     ( void ) terminal_size_changed;
 #endif
-
-    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
-
+    if( ingame ) {
+        refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
+    }
     return "";
 }
 
@@ -4081,6 +3997,17 @@ std::string options_manager::migrateOptionName( const std::string &name ) const
 std::string options_manager::migrateOptionValue( const std::string &name,
         const std::string &val ) const
 {
+    //TODO: Remove after stable after world option reserialising is added
+    if( name == "MONSTER_UPGRADE_FACTOR" ) {
+        const float new_value = std::stof( val ) / 4.0f;
+        std::ostringstream ssTemp;
+        ssTemp.imbue( std::locale::classic() );
+        ssTemp.precision( 2 );
+        ssTemp.setf( std::ios::fixed, std::ios::floatfield );
+        ssTemp << new_value;
+        return ssTemp.str();
+    }
+
     const auto iter = get_migrated_options().find( name );
     if( iter == get_migrated_options().end() ) {
         return val;
@@ -4101,6 +4028,7 @@ void options_manager::update_options_cache()
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
     prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
     prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
+    show_creature_overlay_icons = ::get_option<bool>( "CREATURE_OVERLAY_ICONS" );
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
@@ -4109,8 +4037,9 @@ void options_manager::update_options_cache()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+    cata::options::mouse.enabled = ::get_option<bool>( "ENABLE_MOUSE" );
+    cata::options::mouse.hidekb = ::get_option<std::string>( "HIDE_CURSOR" ) == "hidekb";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 
     cata::options::damage_indicators.clear();
@@ -4243,6 +4172,8 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "nl_NL.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
+        } else if( lang == "pt" ) {
+            std::locale::global( std::locale( "pt_PT.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {

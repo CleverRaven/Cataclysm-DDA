@@ -81,6 +81,22 @@
   },
   {
     "type": "mutation",
+    "id": "MELEE_PERK_DUELIST_COMBO",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Compound finisher" },
+    "description": "If your third attack against the same target coincides with the full combat tempo bonus, you will perform a fast and powerful finishing attack.",
+    "flags": "MELEE_PERK_DUELIST_COMBO"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_DUELIST_LUNGE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Timed lunge" },
+    "description": "Perform a ranged lunge attack with fencing and thrusting swords.  The attack will move you adjacent to the target or move you away from the target if you are already adjacent to them.  You must have exactly 1 momentum stack to perform this attack.",
+    "flags": "MELEE_PERK_DUELIST_LUNGE"
+  },
+  {
+    "type": "mutation",
     "id": "MELEE_PERK_TACKLE",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Charging Tackle" },

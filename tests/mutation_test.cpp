@@ -1,15 +1,24 @@
+#include <algorithm>
 #include <map>
+#include <memory>
+#include <set>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "creature.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "talker.h"
 #include "type_id.h"
 
 static const effect_on_condition_id effect_on_condition_changing_mutate2( "changing_mutate2" );

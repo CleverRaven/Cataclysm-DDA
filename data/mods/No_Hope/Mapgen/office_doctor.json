@@ -43,7 +43,7 @@
         "c": { "item": "gear_medical", "chance": 20, "repeat": [ 2, 4 ] },
         "e": { "item": "SUS_fridge_breakroom", "chance": 20 },
         "t": { "item": "gear_medical", "chance": 20, "repeat": [ 2, 4 ] },
-        "f": { "item": "office_paper", "chance": 20, "repeat": [ 1, 3 ] }
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 20, "repeat": [ 1, 3 ] }
       },
       "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
       "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ],
@@ -163,13 +163,13 @@
       },
       "items": {
         "B": { "item": "hospital_bed", "chance": 60 },
-        "R": { "item": "trash", "chance": 50 },
+        "R": { "item": "SUS_trash_trashcan", "chance": 50 },
         "o": { "item": "doctors_books", "chance": 20 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 20 },
         "C": { "item": "dresser", "chance": 20 },
         "O": { "item": "bionics", "chance": 20 },
         "T": { "item": "office_breakroom", "chance": 30 },
-        "f": { "item": "office_paper", "chance": 90 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
         "H": [
           { "item": "harddrugs", "chance": 20 },
           { "item": "gear_medical", "chance": 20, "repeat": [ 1, 3 ] },
@@ -261,7 +261,7 @@
       },
       "items": {
         "b": { "item": "hospital_bed", "chance": 60 },
-        "f": { "item": "office_paper", "chance": 70 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70 },
         "L": [
           { "item": "harddrugs", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "gear_medical", "chance": 20, "repeat": [ 1, 3 ] },

@@ -288,7 +288,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "prefab_roof" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

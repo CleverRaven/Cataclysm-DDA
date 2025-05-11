@@ -37,6 +37,7 @@
     <LinkToolExe>lld-link.exe</LinkToolExe>
     <!-- vcpkg passes dependecy libs via a glob pattern which lld-link doesn't accept. We have to manually enumerate the deps now. -->
     <VcpkgAutoLink>false</VcpkgAutoLink>
+    <!-- debug versions of libs often (but not always) use `d` suffix, as a convention. E.g. "SDL2-staticd.lib" -->
     <VcpkgLibSuffix></VcpkgLibSuffix>
     <VcpkgLibSuffix Condition="$(Configuration.StartsWith(Debug))">d</VcpkgLibSuffix>
   </PropertyGroup>
@@ -55,6 +56,8 @@
       <DisableSpecificWarnings>4661;4819;4146;26495;26444;26451;4068;6319;6237</DisableSpecificWarnings>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;LOCALIZE;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <ClCompile Condition="$(Configuration.StartsWith(Debug))">
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -104,9 +107,9 @@
         $(ProjectDir)vcpkg_installed\$(VcpkgTripet)\$(VcpkgTriplet)\lib;%(AdditionalLibraryDirectories)
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>
-        brotlicommon-static.lib;
-        brotlidec-static.lib;
-        brotlienc-static.lib;
+        brotlicommon.lib;
+        brotlidec.lib;
+        brotlienc.lib;
         bz2$(VcpkgLibSuffix).lib;
         FLAC.lib;
         FLAC++.lib;

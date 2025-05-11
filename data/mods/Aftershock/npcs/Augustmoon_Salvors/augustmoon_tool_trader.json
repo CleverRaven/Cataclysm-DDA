@@ -14,7 +14,7 @@
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
     "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } } ],
-    "shopkeeper_item_group": [ { "group": "afs_augustmoon_tool_trader", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
+    "shopkeeper_item_group": [ { "group": "afs_augustmoon_tool_trader", "rigid": true } ],
     "shopkeeper_price_rules": [
       { "group": "afs_augustmoon_batteries_disposable", "markup": 10 },
       { "group": "afs_augustmoon_batteries_rechargeable", "markup": 20 },
@@ -39,7 +39,8 @@
       { "item": "afs_heavy_suit_battery_cell", "count": [ 2, 5 ] },
       { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
       { "group": "afs_augustmoon_batteries_disposable", "count": [ 5, 10 ] },
-      { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 }
+      { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 },
+      { "group": "augustmoon_shop_money" }
     ]
   },
   {

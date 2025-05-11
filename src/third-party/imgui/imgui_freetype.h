@@ -2,8 +2,15 @@
 // (headers)
 
 #pragma once
-
 #include "imgui.h"      // IMGUI_API
+#ifndef IMGUI_DISABLE
+
+// Usage:
+// - Add '#define IMGUI_ENABLE_FREETYPE' in your imconfig to enable support for imgui_freetype in imgui.
+
+// Optional support for OpenType SVG fonts:
+// - Add '#define IMGUI_ENABLE_FREETYPE_PLUTOSVG' to use plutosvg (not provided). See #7927.
+// - Add '#define IMGUI_ENABLE_FREETYPE_LUNASVG' to use lunasvg (not provided). See #6591.
 
 // Forward declarations
 struct ImFontAtlas;
@@ -40,11 +47,12 @@ namespace ImGuiFreeType
 
     // Override allocators. By default ImGuiFreeType will use IM_ALLOC()/IM_FREE()
     // However, as FreeType does lots of allocations we provide a way for the user to redirect it to a separate memory heap if desired.
-    IMGUI_API void                      SetAllocatorFunctions(void* (*alloc_func)(size_t sz, void* user_data), void (*free_func)(void* ptr, void* user_data), void* user_data = NULL);
+    IMGUI_API void                      SetAllocatorFunctions(void* (*alloc_func)(size_t sz, void* user_data), void (*free_func)(void* ptr, void* user_data), void* user_data = nullptr);
 
     // Obsolete names (will be removed soon)
-    // Prefer using '#define IMGUI_ENABLE_FREETYPE'
 #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-    static inline bool BuildFontAtlas(ImFontAtlas* atlas, unsigned int flags = 0) { atlas->FontBuilderIO = GetBuilderForFreeType(); atlas->FontBuilderFlags = flags; return atlas->Build(); }
+    //static inline bool BuildFontAtlas(ImFontAtlas* atlas, unsigned int flags = 0) { atlas->FontBuilderIO = GetBuilderForFreeType(); atlas->FontBuilderFlags = flags; return atlas->Build(); } // Prefer using '#define IMGUI_ENABLE_FREETYPE'
 #endif
 }
+
+#endif // #ifndef IMGUI_DISABLE

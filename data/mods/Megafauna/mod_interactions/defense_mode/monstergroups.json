@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_MEGAFAUNA_DM",
+    "id": "GROUP_MEGAFAUNA_DM",
     "default": "mon_direwolf",
     "monsters": [
       { "monster": "mon_direwolf_dm", "weight": 10 },

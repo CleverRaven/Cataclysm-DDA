@@ -1,0 +1,36 @@
+[
+  {
+    "type": "palette",
+    "id": "radio_tower_palette",
+    "palettes": [ "parametrized_walls_palette" ],
+    "parameters": {
+      "chaingate_type": {
+        "type": "ter_str_id",
+        "scope": "overmap_special",
+        "default": { "distribution": [ [ "t_chaingate_c", 1 ], [ "t_chaingate_l", 3 ] ] }
+      }
+    },
+    "terrain": {
+      " ": "t_region_groundcover",
+      "R": "t_radio_tower",
+      "2": { "param": "chaingate_type", "fallback": "t_chaingate_l" },
+      "|": "t_chainfence",
+      "6": "t_radio_controls",
+      "_": "t_concrete",
+      "+": [ [ "t_door_c", 1 ], [ "t_door_locked", 2 ], [ "t_door_elocked", 1 ] ],
+      "4": "t_gutter_downspout",
+      "<": "t_ladder_up",
+      "a": "t_railing",
+      ",": "t_metal_floor_no_roof",
+      "≷": "t_ladder_up_down",
+      "&": "t_flat_roof",
+      "w": "t_window"
+    },
+    "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
+    "items": {
+      "C": { "item": "radio", "chance": 80, "repeat": [ 1, 2 ] },
+      "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
+      "l": { "item": "clothing_work_set", "chance": 80 }
+    }
+  }
+]

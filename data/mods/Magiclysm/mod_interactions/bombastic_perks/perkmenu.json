@@ -53,9 +53,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_animist" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_animist" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -69,9 +69,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_magus" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_magus" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -85,9 +85,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_stormshaper" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_stormshaper" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -101,9 +101,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_kelvinist" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_kelvinist" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -117,9 +117,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_earthshaper" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_earthshaper" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -133,9 +133,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_technomancer" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_technomancer" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -149,9 +149,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_druid" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_druid" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -165,9 +165,9 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "math": [ "u_num_perks", ">", "0" ] },
+        "condition": { "math": [ "u_num_perks > 0" ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": "perk_caster_level_up_biomancer" }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [ { "u_add_trait": "perk_caster_level_up_biomancer" }, { "math": [ "u_num_perks--" ] } ]
       },
       { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }

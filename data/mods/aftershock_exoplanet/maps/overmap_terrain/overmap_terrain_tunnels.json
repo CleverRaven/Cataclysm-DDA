@@ -1,0 +1,71 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel",
+    "name": "cavern",
+    "color": "light_blue",
+    "see_cost": "spaced_high",
+    "spawns": { "group": "AFS_GROUP_FAUNA_TUNNELS", "population": [ 4, 10 ], "chance": 30 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_sinkhole_surface",
+    "name": "sinkhole ",
+    "sym": "v",
+    "color": "light_blue",
+    "flags": [ "REQUIRES_PREDECESSOR" ],
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_sinkhole",
+    "name": "cavern",
+    "sym": "^",
+    "color": "light_blue",
+    "spawns": { "group": "AFS_GROUP_FAUNA_TUNNELS", "population": [ 4, 10 ], "chance": 20 },
+    "see_cost": "medium"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_ravine_edge",
+    "name": "cavern",
+    "color": "light_blue",
+    "sym": "v",
+    "see_cost": "all_clear",
+    "flags": [ "RAVINE_EDGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_river",
+    "name": "underground river",
+    "color": "blue",
+    "see_cost": "spaced_high",
+    "spawns": { "group": "AFS_GROUP_FAUNA_TUNNELS", "population": [ 4, 10 ], "chance": 30 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_river_start",
+    "name": "underground river",
+    "color": "light_blue",
+    "sym": "o",
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "afs_tunnel_lake1",
+      "afs_tunnel_lake2",
+      "afs_tunnel_lake3",
+      "afs_tunnel_lake4",
+      "afs_tunnel_lake5",
+      "afs_tunnel_lake6"
+    ],
+    "name": "underground lake",
+    "sym": "#",
+    "color": "cyan",
+    "spawns": { "group": "AFS_GROUP_FAUNA_TUNNELS", "population": [ 4, 10 ], "chance": 80 },
+    "see_cost": "none"
+  }
+]

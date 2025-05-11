@@ -31,7 +31,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "math": [ "n_npc_trust() >= 2" ] },
             { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }

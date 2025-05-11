@@ -1,0 +1,145 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_small_urban_farm_a1_floor_1",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "©©©   ©©  ©© ©© © ©  ©© ",
+        "©  ©33333  ©  © ©© ©  ©©",
+        "  //=====//    ℗℗©©©© ℗℗",
+        " //..,.,..//    ℗   ©℗℗ ",
+        "℗/.c11111../     © © ℗  ",
+        "℗/.k11111../℗     ©©    ",
+        "℗=.........//℗   ©  ©   ",
+        " =.11.1.11..#℗    ©     ",
+        " =.11,1,11.//℗   ©© ©   ",
+        " /.11,1,11./℗℗    3©    ",
+        " /.11.1.11./    ℗//!/   ",
+        " =.ck.c.ck.//  ℗℗/c,/   ",
+        " =...,.,....#℗ ℗///!//  ",
+        " =.ck.c.ck.//℗ //bb.n// ",
+        " /.11.1.11./℗  /l..,.l/ ",
+        "℗/.11,1,11./℗℗ /l....l/ ",
+        "℗=.11,1,11./)))//!/////℗",
+        "℗=.11.1.11.!.,.!.,.!,.#℗",
+        " =........./)))/</./n~#℗",
+        " ///=====!//   ///!////℗",
+        " /<..,.,.../   /❺..,.❸/ ",
+        " //222444c//   //❶❷❹❹// ",
+        "  /////////     //////  ",
+        "                        "
+      ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_exterior",
+        "afs_habitat_life_support",
+        "afs_habitat_residential_furnishing",
+        "afs_light_param_palette"
+      ],
+      "terrain": { "3": "t_region_groundcover_urban" },
+      "furniture": { "1": "f_planter", "2": "f_drone_recharge_station", "3": "f_screenmirror", "4": "f_rack" },
+      "items": { "4": { "item": "farming_tools", "chance": 20, "repeat": [ 1, 3 ] }, "k": { "item": "SUS_office_desk", "chance": 20 } },
+      "place_monster": [
+        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 },
+        { "group": "GROUP_ROBOT_FARM_HOSTILE", "x": [ 3, 9 ], "y": [ 4, 18 ], "pack_size": [ 3, 6 ], "chance": 80 }
+      ],
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_small_urban_farm_a1_floor_2",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  //=====//             ",
+        " //.......//            ",
+        " =11.jjjc../            ",
+        " =11.2,..../            ",
+        " =...jjjc..//           ",
+        " =11.2,.....#           ",
+        " =11.jjjc..//           ",
+        " /...2...../            ",
+        " ////////!!/     [[[[   ",
+        " /666777/..//    [..[   ",
+        " =....../...#   //////  ",
+        " =..,,../,,//  //U888// ",
+        " /33.33.9..=   =U..,..= ",
+        " /33.33.9..=   =o.hyh.= ",
+        " =..,,../../[[[/o.hyh./ ",
+        " =....../,,/...//////!/ ",
+        " /666777/..=[[[/>...../ ",
+        " ////////..=   //..,hc/ ",
+        " />...,..../   /4..h.k/ ",
+        " //...,...//   //55ck// ",
+        "  //=====//     //////  ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
+      "terrain": { " ": "t_open_air", "9": "t_door_metal_elocked" },
+      "furniture": {
+        "1": "f_intermodal_crate_open",
+        "2": "f_machinery_light",
+        "3": "f_sealed_intermodal_crate",
+        "4": "f_machinery_electronic",
+        "5": "f_server",
+        "6": "f_rack",
+        "7": "f_rack",
+        "8": "f_locker"
+      },
+      "items": {
+        "3": { "item": "afs_stored_veggies", "repeat": [ 3, 7 ] },
+        "6": { "item": "afs_old_food_storage", "chance": 30, "repeat": [ 3, 8 ] },
+        "7": { "item": "afs_dry_goods", "chance": 30, "repeat": [ 5, 7 ] },
+        "8": { "item": "afs_civilian_hazard_outfit", "chance": 60 },
+        "j": { "item": "afs_old_food_storage", "chance": 30, "repeat": [ 1, 2 ] },
+        "k": { "item": "SUS_office_desk", "chance": 20 },
+        "y": { "item": "dinnerware", "repeat": [ 1, 3 ], "chance": 60 }
+      },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 1, 9 ], "y": [ 2, 20 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_small_urban_farm_a1_floor_3",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  [[[[[[[[[             ",
+        " [[.......[[            ",
+        " [.111.....[            ",
+        " [.111.....[            ",
+        " [.........[[           ",
+        " [.111......[           ",
+        " [.111.....[[           ",
+        " [.........[            ",
+        " [.........[            ",
+        " [.2.......[[           ",
+        " [..........[   [[[[[[  ",
+        " [.........[[  [[....[[ ",
+        " [.2.......[   [......[ ",
+        " [.........[   [.333..[ ",
+        " [.........[   [......[ ",
+        " [.........[   [......[ ",
+        " [..3...3..[   [.4..2.[ ",
+        " [..3...3..[   [......[ ",
+        " [..3...3..[   [.4..2.[ ",
+        " [[.......[[   [[....[[ ",
+        "  [[[[[[[[[     [[[[[[  ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { " ": "t_open_air" },
+      "furniture": { "1": "f_solar_unit", "2": "f_roof_turbine_vent", "3": "f_vent_pipe", "4": "f_small_satellite_dish" }
+    }
+  }
+]

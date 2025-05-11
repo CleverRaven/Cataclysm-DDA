@@ -1,6 +1,7 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "dragon_blood",
     "name": { "str_sp": "dragon blood" },
     "weight": "1 g",
@@ -20,18 +21,19 @@
   },
   {
     "id": "blood_tainted",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "blood_tainted",
     "name": { "str_sp": "tainted blood" },
     "weight": "1048 mg",
     "volume": "1 ml",
     "symbol": "~",
-    "material": "blood_tainted",
     "category": "fuel",
     "ammo_type": "blood_tainted"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "blood",
     "copy-from": "blood",
     "name": { "str_sp": "blood" },
@@ -42,7 +44,8 @@
   },
   {
     "id": "mana_infused_blood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
     "comestible_type": "MED",
     "name": { "str_sp": "mana infused blood" },
     "description": "Blood that is filled to the brim with arcane energy.  It releases a faint blue glow.",
@@ -56,8 +59,8 @@
     "container": "flask_glass",
     "tool": "syringe",
     "quench": 50,
-    "ammo_data": { "ammo_type": "mana_infused_blood" },
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "cast_spell", "spell_id": "mana_doping", "no_fail": true, "level": 0 }
+    "use_action": { "type": "cast_spell", "spell_id": "mana_doping", "no_fail": true, "level": 0 },
+    "ammo_type": "mana_infused_blood"
   }
 ]

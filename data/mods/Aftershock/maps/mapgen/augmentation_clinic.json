@@ -60,7 +60,7 @@
         "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
-      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true } }
+      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true, "networked": true } }
     }
   },
   {
@@ -108,7 +108,7 @@
       },
       "items": {
         "B": { "item": "hospital_bed", "chance": 60 },
-        "R": { "item": "trash", "chance": 50 },
+        "R": { "item": "SUS_trash_floor", "chance": 50 },
         "o": { "item": "waitingroom", "chance": 60 },
         "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
         "C": { "item": "dresser", "chance": 75 },
@@ -117,7 +117,7 @@
           { "item": "afs_bionics_power", "repeat": [ 1, 2 ] },
           { "item": "afs_bionic_toolkit", "chance": 80 }
         ],
-        "f": { "item": "office_paper", "chance": 90 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
         "d": { "item": "office", "chance": 60 },
         "l": [
           { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
@@ -204,7 +204,7 @@
       },
       "items": {
         "b": { "item": "hospital_bed", "chance": 60 },
-        "f": { "item": "office_paper", "chance": 70 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70 },
         "L": [
           { "item": "harddrugs", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },

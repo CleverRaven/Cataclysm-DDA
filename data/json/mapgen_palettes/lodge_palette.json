@@ -73,14 +73,14 @@
         { "item": "tools_home", "chance": 30, "repeat": [ 1, 4 ] }
       ],
       "O": { "item": "livingroom", "chance": 20 },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
-        { "item": "cannedfood", "chance": 50 },
         { "item": "stash_food", "chance": 50 }
       ],
       "s": { "item": "SUS_bathroom_sink", "chance": 60 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "t": { "item": "dining", "chance": 30, "repeat": [ 1, 2 ] },
       "U": { "item": "camping", "chance": 30, "repeat": [ 1, 4 ] },
       "u": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
@@ -161,71 +161,12 @@
       "h": { "item": "cannibal_weapons", "repeat": [ 1, 4 ] },
       "L": { "item": "cannibal_food", "repeat": [ 1, 4 ] },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
-        { "item": "cannedfood", "chance": 50, "repeat": [ 3, 8 ] },
-        { "item": "stash_food", "chance": 50, "repeat": [ 3, 8 ] }
+        { "item": "stash_food", "chance": 50, "repeat": [ 1, 3 ] }
       ]
     }
-  },
-  {
-    "type": "palette",
-    "id": "basement_lodge",
-    "terrain": {
-      "|": "t_wall_w",
-      "%": "t_concrete_wall",
-      "<": "t_stairs_up",
-      "+": "t_door_c",
-      ".": "t_floor",
-      "_": "t_carpet_green",
-      "B": "t_carpet_green",
-      "/": "t_carpet_yellow",
-      "c": "t_floor",
-      "i": "t_floor",
-      "S": "t_floor",
-      "r": "t_linoleum_gray",
-      "f": "t_linoleum_gray",
-      "t": "t_floor",
-      "&": "t_floor",
-      "C": "t_floor",
-      "d": "t_floor",
-      "w": "t_floor",
-      "D": "t_floor",
-      "P": "t_floor",
-      "#": "t_floor",
-      "G": "t_floor",
-      "s": "t_floor",
-      "F": "t_linoleum_gray",
-      "W": "t_linoleum_gray",
-      "o": "t_linoleum_gray",
-      "b": "t_floor",
-      "T": "t_floor"
-    },
-    "furniture": {
-      "B": "f_bookcase",
-      "c": "f_counter",
-      "i": "f_sink",
-      "S": "f_shower",
-      "r": "f_rack",
-      "f": "f_fridge",
-      "t": "f_table",
-      "&": "f_toilet",
-      "C": "f_sofa",
-      "d": "f_dryer",
-      "w": "f_washer",
-      "D": "f_dresser",
-      "P": "f_wardrobe",
-      "#": "f_bed",
-      "G": "f_glass_cabinet",
-      "s": "f_chair",
-      "F": "f_home_furnace",
-      "W": "f_water_heater",
-      "o": "f_oven",
-      "b": "f_cupboard",
-      "T": "f_rack"
-    },
-    "toilets": { "&": {  } }
   }
 ]

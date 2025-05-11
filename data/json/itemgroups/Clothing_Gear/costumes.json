@@ -119,7 +119,7 @@
       { "item": "trenchcoat_steampunk", "prob": 15 },
       { "item": "plaguedoctor_robe", "prob": 15 },
       { "item": "nun_habit", "prob": 10 },
-      { "item": "suit_bostonchan", "prob": 20 }
+      { "item": "blazer", "variant": "bostonchan", "prob": 20 }
     ]
   },
   {
@@ -342,7 +342,7 @@
       { "item": "bodysuit_lycra", "prob": 25 },
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
-      { "item": "wolfsuit", "prob": 10 },
+      { "item": "fursuit", "prob": 15 },
       { "item": "clown_suit", "prob": 10 },
       { "item": "dragonsuit", "prob": 10 },
       { "item": "felinesuit", "prob": 10 },

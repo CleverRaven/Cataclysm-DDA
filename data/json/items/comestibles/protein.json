@@ -1,7 +1,8 @@
 [
   {
     "id": "protein_drink",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "protein drink" },
     "conditional_names": [
@@ -30,7 +31,8 @@
   },
   {
     "id": "protein_powder",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "protein powder" },
     "conditional_names": [
@@ -55,7 +57,8 @@
   },
   {
     "id": "protein_bar_evac",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str": "protein ration" },
     "//": "Inspired by, but not based on, a true story",
@@ -85,7 +88,8 @@
   {
     "id": "protein_shake",
     "copy-from": "protein_drink",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "protein shake" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green shake" } },
@@ -99,13 +103,13 @@
     "volume": "500 ml",
     "charges": 2,
     "quench": 20,
-    "relative": { "vitamins": [ [ "vitC", "20 mg" ] ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "extend": { "vitamins": [ [ "vitC", "20 mg" ], [ "fruit_allergen", 1 ] ] }
   },
   {
     "id": "protein_shake_fortified",
     "copy-from": "protein_shake",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "fortified protein shake" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "fortified soylent green shake" } },
@@ -113,11 +117,12 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
-    "relative": { "vitamins": [ [ "calcium", "52 mg" ], [ "iron", "940 μg" ], [ "vitC", "5 mg" ] ] }
+    "vitamins": [ [ "calcium", "175 mg" ], [ "iron", "940 μg" ], [ "vitC", "20 mg" ] ]
   },
   {
     "id": "milk_fortified",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "fortified milk" },
     "conditional_names": [
@@ -147,7 +152,8 @@
   {
     "id": "protein_smoothie",
     "copy-from": "milk_fortified",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "protein smoothie" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent smoothie" } },
@@ -160,8 +166,6 @@
     "fun": 5,
     "volume": "500 ml",
     "charges": 2,
-    "quench": 18,
-    "relative": { "vitamins": [ [ "vitC", 20 ] ] },
-    "vitamins": [ [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "quench": 18
   }
 ]

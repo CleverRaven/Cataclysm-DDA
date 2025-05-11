@@ -6,7 +6,7 @@
     "description": "A deformed mutant in a torn jumpsuit, looking at you with insane hatred.  Their skin is a chaotic mix of scales, fur and chitin, and their fingers end in long talons.",
     "default_faction": "lab_mutant",
     "bodytype": "human",
-    "species": [ "MUTANT" ],
+    "species": [ "MUTANT", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 150,
@@ -45,7 +45,7 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "stomach_size": 1300,
     "death_drops": "mon_mutant_experimental_death_drops",
-    "upgrades": { "half_life": 36, "into_group": "GROUP_MUTANT_EVOLVED" },
+    "upgrades": { "half_life": 144, "into_group": "GROUP_MUTANT_EVOLVED" },
     "regenerates": 1,
     "regen_morale": true,
     "zombify_into": "mon_meat_cocoon_small",
@@ -108,7 +108,7 @@
     "symbol": "M",
     "color": "brown",
     "bodytype": "horse",
-    "species": [ "MUTANT" ],
+    "species": [ "MUTANT", "HUMAN" ],
     "default_faction": "lab_mutant",
     "volume": "275 L",
     "weight": "250 kg",
@@ -323,7 +323,7 @@
     "dissect": "dissect_gastropod_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
-    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] },
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF", "PULP_PRYING" ] },
     "armor": { "bash": 22, "cut": 45, "stab": 30, "heat": 50, "bullet": 70, "electric": 6 }
   }
 ]

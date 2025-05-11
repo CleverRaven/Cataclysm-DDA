@@ -6,7 +6,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "faction_owner": [ { "id": "gods_community", "x": [ 1, 1 ], "y": [ 1, 1 ] } ],
-      "place_vehicles": [ { "vehicle": "makeshift_solar_farm", "x": 1, "y": 1, "chance": 100, "status": 0 } ]
+      "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": 0 } ]
     }
   },
   {

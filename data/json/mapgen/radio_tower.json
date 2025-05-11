@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "radio_tower" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,23 +31,13 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": "t_region_groundcover",
-        "#": "t_concrete_wall",
-        "R": "t_radio_tower",
-        "2": "t_chaingate_c",
-        "|": "t_chainfence",
-        "6": "t_radio_controls",
-        "_": "t_concrete",
-        "<": "t_stairs_up"
-      }
+      "palettes": [ "radio_tower_palette" ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "radio_tower_1" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -77,25 +66,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": "t_region_groundcover",
-        "#": "t_concrete_wall",
-        "R": "t_radio_tower",
-        "2": "t_chaingate_c",
-        "|": "t_chainfence",
-        "6": "t_radio_controls",
-        "_": "t_concrete",
-        "+": "t_door_c",
-        "4": "t_gutter_downspout",
-        "<": "t_ladder_up",
-        "w": "t_window"
-      },
-      "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
-      "items": {
-        "C": { "item": "radio", "chance": 80, "repeat": [ 1, 2 ] },
-        "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
-        "l": { "item": "clothing_work_set", "chance": 80 }
-      }
+      "palettes": [ "radio_tower_palette" ]
     }
   },
   {
@@ -130,8 +101,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down", "&": "t_flat_roof" }
+      "palettes": [ "radio_tower_palette", "roof_palette" ]
     }
   },
   {
@@ -166,8 +136,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
+      "palettes": [ "radio_tower_palette", "roof_palette" ]
     }
   },
   {
@@ -202,8 +171,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" },
+      "palettes": [ "radio_tower_palette", "roof_palette" ],
       "nested": { ",": { "chunks": [ [ "null", 190 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
@@ -239,8 +207,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" },
+      "palettes": [ "radio_tower_palette", "roof_palette" ],
       "nested": { ",": { "chunks": [ [ "null", 200 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
@@ -276,8 +243,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof" },
+      "palettes": [ "radio_tower_palette", "roof_palette" ],
       "place_nested": [
         {
           "chunks": [

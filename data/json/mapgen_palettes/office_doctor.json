@@ -2,10 +2,10 @@
   {
     "type": "palette",
     "id": "office_doctor",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       "!": "t_door_locked_interior",
-      "#": "t_wall_w",
       "$": "t_floor",
       "&": "t_floor",
       "+": "t_door_c",
@@ -71,7 +71,8 @@
       "f": "f_filing_cabinet",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } },
-    "vehicles": { "^": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 } }
+    "vehicles": { "^": { "vehicle": "medical_cart", "rotation": 0 } }
   }
 ]

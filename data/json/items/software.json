@@ -1,92 +1,239 @@
 [
   {
-    "id": "software",
-    "type": "GENERIC",
-    "name": { "str_sp": "software" },
-    "symbol": "#",
-    "container": "usb_drive",
-    "description": { "str": "IF YOU ARE SEEING THIS IT IS A BUG.", "//~": "NO_I18N" },
-    "flags": [ "IRREMOVABLE", "NO_DROP" ]
+    "id": "abstract_software",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "category": "software",
+    "name": { "str_sp": "abstract software", "//~": "NO_I18N" },
+    "description": { "str": "Copy from this for any software", "//~": "NO_I18N" },
+    "ememory_size": "1 KB"
   },
   {
     "id": "software_useless",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "misc software" },
     "description": "A miscellaneous piece of hobby software.  Probably useless.",
     "price": "3 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "64 MB"
   },
   {
     "id": "software_hacking",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "hackPRO" },
     "description": "A piece of hacking software.",
     "price": "8 USD",
-    "price_postapoc": "20 USD"
+    "price_postapoc": "20 USD",
+    "ememory_size": "128 MB"
   },
   {
     "id": "software_medical",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "MediSoft" },
     "description": "A piece of medical software.",
     "price": "6 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "128 MB"
   },
   {
     "id": "software_math",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "MatheMAX" },
     "description": "A piece of mathematical software.",
     "price": "5 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "64 MB"
   },
   {
     "id": "software_blood_data",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "infection data" },
     "description": "Medical data on zombie blood.",
     "price": "2 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "16 MB"
   },
   {
     "id": "software_lab_data",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "lab data" },
     "description": "Research archives from a government laboratory.",
     "price": "2 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "1 GB"
   },
   {
     "id": "software_encryption_codes",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "encryption codes" },
     "description": "There are numerous security keys with dates for potential future access to encrypted archived data.",
     "price": "2 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "1 MB"
   },
   {
     "id": "software_archived_data",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str_sp": "archive data" },
     "description": "Extremely compressed research data, observation and experiment statistics.  The only pattern you manage to recognize is an increase in the amount of report closer to the Cataclysm, but also a reduction in the number of facilities still submitting reports.",
     "price": "2 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "64 MB"
   },
   {
     "id": "software_electronics_reference",
-    "copy-from": "software",
-    "type": "GENERIC",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": "400 USD",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "ememory_size": "12 GB"
+  },
+  {
+    "abstract": "abstract_efile",
+    "type": "ITEM",
+    "category": "e_files",
+    "symbol": "o",
+    "name": { "str": "abstract electronic file", "//~": "NO_I18N" },
+    "description": {
+      "str": "abstract electronic file, copy-from for any item that should solely be on an electronic storage medium",
+      "//~": "NO_I18N"
+    },
+    "ememory_size": "1 KB",
+    "flags": [ "E_STORABLE", "ZERO_WEIGHT", "NO_DROP", "IRREMOVABLE" ],
+    "variables": { "browsed": "false" }
+  },
+  {
+    "abstract": "abstract_efile_copiable",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
+    "description": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
+    "ememory_size": "1 KB",
+    "extend": { "flags": [ "E_COPIABLE" ] }
+  },
+  {
+    "abstract": "abstract_efile_read",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": { "str": "abstract read electronic file", "//~": "NO_I18N" },
+    "description": {
+      "str": "abstract electronic file, copy-from for any item that should solely be on an electronic storage medium, pre-read so the device doesn't have to be browsed.",
+      "//~": "NO_I18N"
+    },
+    "variables": { "browsed": "true" }
+  },
+  {
+    "id": "efile_junk",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": "junk file",
+    "description": "A useless piece of electronic data.",
+    "ememory_size": "1 KB",
+    "//": "insert into e-device to make browsing take longer"
+  },
+  {
+    "id": "efile_lore",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": "questionable media file",
+    "description": "You kept this file on the off-chance that it might be interesting, but you need to take a more thorough look to find out what's inside.",
+    "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ] },
+    "ememory_size": "64 MB"
+  },
+  {
+    "id": "efile_map",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": "map cache",
+    "description": "Information about nearby locations stored from previous use.",
+    "ememory_size": "32 MB",
+    "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_CHECK_MAP_CACHE" ] },
+    "extend": { "flags": [ "PRESERVE_SPAWN_LOC" ] }
+  },
+  {
+    "abstract": "abstract_efile_recipes",
+    "copy-from": "abstract_efile_copiable",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": { "str": "abstract recipe catalog", "//~": "NO_I18N" },
+    "description": { "str": "for any collection of recipes", "//~": "NO_I18N" },
+    "ememory_size": "4 MB",
+    "extend": { "flags": [ "E_FILE_COLLECTION" ] },
+    "variables": { "browsed": "false" }
+  },
+  {
+    "id": "efile_recipes",
+    "copy-from": "abstract_efile_recipes",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": "recipe catalog",
+    "description": "This is a filtered collection of PDFs, images, and texts that contains instructions for making useful items.  Any electronic recipe catalogs will be added to this one.",
+    "use_action": [ "VIEW_RECIPES" ],
+    "ememory_size": "4 MB",
+    "memory_card": {
+      "data_chance": 1,
+      "recipes_chance": 1,
+      "recipes_amount": 5,
+      "recipes_categories": [ "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" ],
+      "recipes_level_max": 5
+    }
+  },
+  {
+    "id": "efile_recipes_science",
+    "copy-from": "abstract_efile_recipes",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": "scientific recipe catalog",
+    "use_action": [ "VIEW_RECIPES" ],
+    "ememory_size": "4 MB",
+    "memory_card": {
+      "data_chance": 1,
+      "recipes_chance": 1,
+      "recipes_amount": 3,
+      "recipes_categories": [ "CC_CHEM", "CC_ELECTRONIC" ],
+      "recipes_level_min": 5
+    }
+  },
+  {
+    "id": "efile_recipes_medical",
+    "copy-from": "abstract_efile_recipes",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": "medical recipe catalog",
+    "use_action": [ "VIEW_RECIPES" ],
+    "ememory_size": "4 MB",
+    "memory_card": {
+      "data_chance": 1,
+      "recipes_chance": 1,
+      "recipes_amount": 3,
+      "recipes_categories": [ "CSC_CHEM_DRUGS", "CSC_OTHER_MEDICAL" ],
+      "recipes_level_min": 3
+    }
+  },
+  {
+    "id": "efile_photos",
+    "copy-from": "abstract_efile_copiable",
+    "type": "ITEM",
+    "symbol": "o",
+    "name": { "str": "photo gallery", "str_pl": "photo galleries" },
+    "description": "A varied collection of detailed photos.  Any collections of this kind will be added to this one.",
+    "use_action": [ "VIEW_PHOTOS" ],
+    "ememory_size": "4 MB",
+    "extend": { "flags": [ "E_FILE_COLLECTION" ] }
   }
 ]

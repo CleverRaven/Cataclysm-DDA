@@ -25,13 +25,13 @@
         [ "young_leaves", 4 ],
         [ "sauerkraut", 2 ],
         [ "grape_leaves", 2 ],
-        [ "cabbage", 2 ]
+        [ "cabbage", 2 ],
+        [ "radish_taproot", 2 ]
       ],
       [
-        [ "cucumber", 1 ],
+        [ "any_salad_cucumber", 1, "LIST" ],
         [ "japanese_knotweed_stem", 2 ],
-        [ "tomato", 1 ],
-        [ "can_tomato", 1 ],
+        [ "any_tomato", 1, "LIST" ],
         [ "carrot", 2 ],
         [ "pineapple_chunks", 1 ],
         [ "cranberries", 1 ],
@@ -174,7 +174,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "2u for roasting a veggy",
-    "components": [ [ [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ] ]
+    "components": [ [ [ "any_chili_pepper", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -236,9 +236,31 @@
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
     "charges": 20,
+    "byproducts": [ [ "butternut_husk", 20 ] ],
     "qualities": [ { "id": "ANVIL", "level": 1 } ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
     "components": [ [ [ "butternut", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "vegan_butter",
+    "id_suffix": "from_butternuts",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 2 ],
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_knife_skills" },
+      { "proficiency": "prof_forage_cooking" }
+    ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
+    "components": [ [ [ "water", 10 ], [ "water_clean", 10 ] ], [ [ "butternut", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -438,16 +460,13 @@
       ],
       [
         [ "onion", 2 ],
-        [ "can_tomato", 1 ],
-        [ "tomato", 1 ],
+        [ "any_tomato", 1, "LIST" ],
         [ "jerusalem_artichoke", 1 ],
         [ "jerusalem_artichoke_boiled", 1 ],
         [ "groundnut_prepared", 1 ],
         [ "potato", 1 ],
-        [ "zucchini", 1 ],
-        [ "zucchini_cut", 1 ],
-        [ "bell_pepper", 1 ],
-        [ "bell_pepper_cut", 1 ],
+        [ "any_zucchini", 1, "LIST" ],
+        [ "any_bell_pepper", 1, "LIST" ],
         [ "pumpkin_cut", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],

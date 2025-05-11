@@ -9,19 +9,19 @@
         "id": "light",
         "text": { "str": "]>=---=---=---=< >=---=----=<>=----=---=< >=---=---=---=<[", "//~": "NO_I18N" },
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_pain()", ">=", "3" ] }, { "math": [ "u_pain()", "<", "40" ] } ] }
+        "condition": { "and": [ { "math": [ "u_pain() >= 3" ] }, { "math": [ "u_pain() < 40" ] } ] }
       },
       {
         "id": "mid",
         "text": { "str": "]>=---=---=<>=---=<<>>=----=<>=----=<<>>=---=<>=---=---=<[", "//~": "NO_I18N" },
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_pain()", ">=", "40" ] }, { "math": [ "u_pain()", "<", "60" ] } ] }
+        "condition": { "and": [ { "math": [ "u_pain() >= 40" ] }, { "math": [ "u_pain() < 60" ] } ] }
       },
       {
         "id": "haevy",
         "text": { "str": "]>=---=---=<>=---=<<>>=---=<<>>=---=<<>>=---=<>=---=---=<[", "//~": "NO_I18N" },
         "color": "red",
-        "condition": { "math": [ "u_pain()", ">=", "60" ] }
+        "condition": { "math": [ "u_pain() >= 60" ] }
       }
     ],
     "default_clause": {
@@ -39,19 +39,19 @@
         "id": "light",
         "text": { "str": "]>=---=---=---=---=<<>>=---=---=---=---=<[", "//~": "NO_I18N" },
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_pain()", ">=", "3" ] }, { "math": [ "u_pain()", "<", "40" ] } ] }
+        "condition": { "and": [ { "math": [ "u_pain() >= 3" ] }, { "math": [ "u_pain() < 40" ] } ] }
       },
       {
         "id": "mid",
         "text": { "str": "]>=---=---=<<>>=----<>----=<<>>=---=---=<[", "//~": "NO_I18N" },
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_pain()", ">=", "40" ] }, { "math": [ "u_pain()", "<", "60" ] } ] }
+        "condition": { "and": [ { "math": [ "u_pain() >= 40" ] }, { "math": [ "u_pain() < 60" ] } ] }
       },
       {
         "id": "haevy",
         "text": { "str": "]>=--=---=<<>>=---=<<>>=---=<<>>=---=--=<[", "//~": "NO_I18N" },
         "color": "red",
-        "condition": { "math": [ "u_pain()", ">=", "60" ] }
+        "condition": { "math": [ "u_pain() >= 60" ] }
       }
     ],
     "default_clause": { "text": { "str": "]>=---=---=---=---=----=---=---=---=---=<[", "//~": "NO_I18N" }, "color": "dark_gray" }

@@ -3,7 +3,7 @@
     "id": "anesthetic",
     "type": "requirement",
     "//": "Anesthetic cost removed in this mod, as autodocs do all the heavy lifting.",
-    "tools": [  ]
+    "tools": [ [  ] ]
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -13,14 +13,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "EMP_DISABLE_ELECTRONICS",
+    "name": "GAME_EMP",
     "stype": "bool",
-    "value": false
+    "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "CAPITALISM",
-    "info": "NPCs will accept your bank balance as payment in trades.",
     "stype": "bool",
     "value": true
   }

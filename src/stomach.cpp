@@ -1,13 +1,20 @@
 #include <algorithm>
 #include <cmath>
-#include <iosfwd>
+#include <memory>
+#include <ostream>
 #include <string>
+#include <string_view>
 #include <utility>
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
+#include "pimpl.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"
@@ -216,8 +223,12 @@ nutrients &nutrients::operator*=( double r )
     calories *= r;
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        // Note well: This truncates the result!
-        here = static_cast<int>( std::get<int>( here ) * r );
+        cata_assert( std::get<int>( here ) >= 0 );
+        if( std::get<int>( here ) == 0 ) {
+            continue;
+        }
+        // truncates, but always keep at least 1 (for e.g. allergies)
+        here = std::max( static_cast<int>( std::get<int>( here ) * r ), 1 );
     }
     return *this;
 }
@@ -280,7 +291,7 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-static units::volume string_to_ml( const std::string_view str )
+static units::volume string_to_ml( std::string_view str )
 {
     return units::from_milliliter( svto<int>( str.substr( 0, str.size() - 3 ) ) );
 }

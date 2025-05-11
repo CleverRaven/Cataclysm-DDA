@@ -4,7 +4,7 @@
     "id": "EOC_DREAMSMITHS_SCORE_TIMER",
     "//": "Increase the dreamsmith recipe score for `deduction` amount.  Respond for passive score gain.  Also gives lvl 1 recipes every day.",
     "recurrence": [ "20 hours", "28 hours" ],
-    "condition": { "u_has_trait": "DREAMSMITH" },
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" } ] },
     "effect": [
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "u_skill('deduction')" ] },
       {
@@ -33,22 +33,23 @@
     "type": "effect_on_condition",
     "id": "EOC_DREAMSMITHS_SCORE_TRAIN",
     "//": "Increase the dreamsmith recipe score and recipe superscore for each `training` spell cast.  Each cast increase the gain score for 1",
-    "condition": { "u_has_trait": "DREAMSMITH" },
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" } ] },
     "effect": [
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "DREAMSMITH_RECIPE_SCORE_TRAINS" ] },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS", "++" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS++" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "+=", "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER" ] },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER", "++" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_TRAINS_SUPER++" ] },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_SUPER" }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You just can't seem to figure out even the simplest principles of dreamdross.", "type": "info" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMSMITHS_RECIPES_ENCH",
     "//": "If your DREAMSMITH_RECIPE_SCORE bigger than DREAMSMITH_RECIPE_SCORE_TARGET, you take a spell, DREAMSMITH_RECIPE_SCORE is zeroed, and DREAMSMITH_RECIPE_SCORE_TARGET is increased for 25. Const 25 is respond for gap between each recipe gain. Now it's 1 casts for first gain, 6 for second, 5 for third and further.",
     "condition": {
-      "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "DREAMSMITH_RECIPE_SCORE", ">=", "DREAMSMITH_RECIPE_SCORE_TARGET" ] } ]
+      "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "DREAMSMITH_RECIPE_SCORE >= DREAMSMITH_RECIPE_SCORE_TARGET" ] } ]
     },
     "effect": [
       {
@@ -111,10 +112,15 @@
           ]
         }
       },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "25" ] }
     ],
-    "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
+    "false_effect": [
+      {
+        "u_message": "Using the dreamdross, you test out a new idea.  It fails, but you're getting closer to a breakthrough.  You can feel it.",
+        "type": "bad"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -123,7 +129,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "DREAMSMITH" },
-        { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", ">=", "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET + 1000" ] }
+        { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER >= DREAMSMITH_RECIPE_SCORE_SUPER_TARGET + 1000" ] }
       ]
     },
     "effect": [
@@ -138,7 +144,9 @@
           "dreamforged_tsurugi_speed",
           "dreamforged_q_staff_exp",
           "dreamforged_armguard_plate_gunslinger",
-          "dreamforged_bed_of_restful_repose"
+          "dreamforged_bed_of_restful_repose",
+          "xedra_dreamsmith_time_trap",
+          "xedra_dreamsmith_time_watch"
         ],
         "type": "recipe",
         "true_eocs": {
@@ -151,8 +159,78 @@
           ]
         }
       },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DREAMSMITH_CASINGS_LOW_CALIBER_RECIPE",
+    "recurrence": [ "140 hours", "192 hours" ],
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "u_skill('pistols') >= 2" ] } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "223_casing",
+          "22_casing",
+          "32_casing",
+          "38_casing",
+          "38super_casing",
+          "9mm_casing",
+          "10mm_casing",
+          "9x18mm_casing",
+          "9x21mm_casing",
+          "380_casing",
+          "40_casing",
+          "357mag_casing"
+        ],
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_CASINGS_LC_MESSAGE_POSITIVE",
+          "effect": [ { "u_message": "You realize you know suddenly how to make a low caliber bullet casing.", "type": "good" } ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DREAMSMITH_CASINGS_LARGE_CALIBER_RECIPE",
+    "recurrence": [ "140 hours", "192 hours" ],
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "u_skill('rifles') >= 3" ] } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "3006_casing",
+          "270win_casing",
+          "303_casing",
+          "300_casing",
+          "308_casing",
+          "762_51_casing",
+          "44_casing",
+          "454_casing",
+          "45_casing",
+          "45colt_casing",
+          "4570_casing",
+          "50beowulf_casing",
+          "450_casing",
+          "500_casing",
+          "50_casing",
+          "338lapua_casing",
+          "545_casing",
+          "57mm_casing",
+          "458wm_casing",
+          "762R_casing",
+          "762_casing",
+          "762_25_casing",
+          "300blk_casing",
+          "30carbine_casing"
+        ],
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_CASINGS_HC_MESSAGE_POSITIVE",
+          "effect": [ { "u_message": "You realize you know suddenly how to make a larger caliber bullet casing.", "type": "good" } ]
+        }
+      }
     ]
   }
 ]

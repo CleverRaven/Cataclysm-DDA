@@ -520,8 +520,8 @@
       "furniture": { "t": "f_table", "X": "f_trashcan" },
       "items": {
         "t": { "item": "fast_food", "chance": 33, "repeat": [ 0, 2 ] },
-        "x": { "item": "trash", "chance": 50, "repeat": [ 0, 5 ] },
-        "X": { "item": "trash", "chance": 50, "repeat": [ 0, 5 ] }
+        "x": { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 0, 5 ] },
+        "X": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 0, 5 ] }
       },
       "place_nested": [
         { "chunks": [ [ "24x24_road_curved_layby_vehicles", 1 ], [ "null", 3 ] ], "x": 0, "y": 0 },
@@ -568,6 +568,7 @@
       ],
       "palettes": [ "road_palette" ],
       "place_nested": [
+        { "chunks": [ "1x1_stop_sign" ], "x": 20, "y": 20 },
         { "chunks": [ "24x24_sidewalk_ew_long" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 12, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_esw_corner_half_e" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
@@ -719,6 +720,17 @@
           }
         },
         {
+          "chunks": [ "24x24_stop_signs", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
           "chunks": [ "24x24_marked_crosswalks" ],
           "x": 0,
           "y": 0,
@@ -738,7 +750,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "road_four_way",
+    "om_terrain": [ "road_four_way", "road_nesw_manhole" ],
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -1049,23 +1061,20 @@
             "north_west": [ "SIDEWALK" ]
           }
         },
+        {
+          "chunks": [ "24x24_stop_signs", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
         { "chunks": [ "24x24_marked_crosswalks" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_four_way_crossroad_vehicles" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "road_nesw_manhole",
-    "//": "Need to fix magical teleportation with actual aligned manhole placement",
-    "object": {
-      "fill_ter": "t_region_grass",
-      "place_nested": [
-        { "chunks": [ "24x24_road_four_way_crossroad" ], "x": 0, "y": 0 },
-        { "chunks": [ "1x1_manhole" ], "x": [ 5, 18 ], "y": [ 5, 18 ] }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

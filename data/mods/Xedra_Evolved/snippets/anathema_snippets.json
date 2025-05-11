@@ -1,0 +1,123 @@
+[
+  {
+    "type": "speech",
+    "//": "The Anathema is both vampire and vampire hunter.  This contradiction result in them speaking about both as they cannot doubt that they did the right thing.",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"One more to kill.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Your blood will contribute to a great cause, the end of all vampires.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"I've slain thousands, each stronger than you.  Do not believe that you can kill me.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"It is all necessary, yet they all failed to understand.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"They tried to stop me, so I killed them all.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Most hunters are siding with the vampires.  I know as they tried to kill me, calling me a vampire.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Standing against me is standing against humanity.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"So thirsty… Need to drink…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"I'll send you where you belong!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"The mentors still elude me.  You however, do not.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Vampires cannot truly be bargained with.  They must all die.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Never trust a vampire.  It will leave you open to their mind control.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Why did they hated me?  I only wanted to help them!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Their blood was so delicious.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"I need your blood!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"They aren't uniting against me aren't they?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"I'm just trying to kill all the vampires, and everyone trying to oppose me in this goal.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"I can't understand why vampire hunters could want me dead.  I'm one of them!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"They have started to attack me with the vampires' help!  Traitors, all of them!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_anathema" ],
+    "sound": "\"Every other vampire will die, then I'll get rid of the last one.\"",
+    "volume": 20
+  }
+]

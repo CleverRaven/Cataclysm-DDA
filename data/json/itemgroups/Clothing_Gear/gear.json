@@ -171,7 +171,7 @@
       { "group": "tools_survival", "prob": 100 },
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      [ "duct_tape", 10 ],
+      { "group": "duct_tape_roll", "prob": 10 },
       { "group": "superglue", "prob": 5 },
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],
@@ -191,7 +191,7 @@
       { "item": "cordless_drill", "prob": 30 },
       { "item": "rope_30", "prob": 50 },
       { "item": "pliers", "prob": 50 },
-      { "item": "laptop", "prob": 70 },
+      { "group": "new_laptops", "prob": 70 },
       { "item": "cable", "prob": 40 },
       { "item": "manual_traps_mil", "prob": 80 },
       { "group": "gear_eod_light_or_heavy", "prob": 100 }
@@ -255,8 +255,7 @@
       [ "hammer_sledge_engineer", 5 ],
       [ "hammer_sledge_heavy", 1 ],
       [ "shovel", 20 ],
-      { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 20, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 20 },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
       [ "tacvest", 10 ],
@@ -366,7 +365,16 @@
     "type": "item_group",
     "//": "This group is for lockers storing safety gear for woodcrafts. SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "subtype": "collection",
-    "items": [ [ "glasses_safety", 95 ], [ "mask_dust", 30 ], [ "gloves_work", 30 ], [ "apron_leather", 95 ] ]
+    "items": [
+      [ "glasses_safety", 95 ],
+      [ "mask_dust", 30 ],
+      [ "gloves_work", 30 ],
+      [ "apron_leather", 95 ],
+      [ "apron_cut_resistant", 15 ],
+      [ "chaps_cut_resistant", 25 ],
+      [ "armguard_cut_resistant", 25 ],
+      [ "balaclava_cut_resistant", 5 ]
+    ]
   },
   {
     "type": "item_group",

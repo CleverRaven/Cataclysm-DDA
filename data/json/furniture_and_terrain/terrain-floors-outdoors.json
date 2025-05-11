@@ -468,8 +468,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -493,8 +493,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -610,8 +610,8 @@
       "str_max": 1000,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "ch_steel_lump", "count": [ 1, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -652,6 +652,20 @@
   {
     "type": "terrain",
     "id": "t_stone_masonry_floor",
+    "name": "stone masonry floor",
+    "description": "A floor of carefully cut and laid stones, joined with mortar.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "connect_groups": [ "INDOORFLOOR", "ROCKFLOOR" ],
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF", "INDOORS", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_stone_masonry_floor_balcony",
     "name": "stone masonry floor",
     "description": "A floor of carefully cut and laid stones, joined with mortar.",
     "symbol": ".",

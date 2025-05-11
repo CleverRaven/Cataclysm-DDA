@@ -2,8 +2,8 @@
   {
     "id": "make_way_push",
     "type": "SPELL",
-    "name": "Make Way Push",
-    "description": "Pushes all objects outside.",
+    "name": { "str": "Make Way Push", "//~": "NO_I18N" },
+    "description": { "str": "Pushes all objects outside.", "//~": "NO_I18N" },
     "message": "",
     "effect": "area_push",
     "shape": "blast",

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farmland_straight", "farmland_turn", "farmland_U", "farmland_turn_inside" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -40,7 +39,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "hayfield_straight", "hayfield_turnL", "hayfield_end", "hayfield_turnR" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -172,7 +170,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "2silos_1" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -208,7 +205,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "2silos_2" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -244,7 +240,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "2silos_roof" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -315,7 +310,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "coop_chicken" ],
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [

@@ -1,208 +1,223 @@
 [
   {
+    "id": "EOC_LUMBERMILL_FABRICATE_cleanup",
+    "type": "effect_on_condition",
+    "effect": [
+      { "npc_lose_var": "timer_fabricate_waiting" },
+      { "npc_lose_var": "number_fabricate_price" },
+      { "npc_lose_var": "number_fabricate_wait" },
+      { "npc_lose_var": "number_fabricate_2x4" },
+      { "npc_lose_var": "number_fabricate_plank_short" },
+      { "npc_lose_var": "number_fabricate_plank_long" },
+      { "npc_lose_var": "number_fabricate_wooden_post" },
+      { "npc_lose_var": "number_fabricate_wooden_post_short" },
+      { "npc_lose_var": "number_fabricate_wooden_post_long" },
+      { "npc_lose_var": "number_fabricate_wood_panel" },
+      { "npc_lose_var": "number_fabricate_wood_sheet" },
+      { "npc_lose_var": "number_fabricate_wood_beam" },
+      { "npc_lose_var": "number_fabricate_log" }
+    ]
+  },
+  {
+    "id": "EOC_LUMBERMILL_FABRICATE_order",
+    "type": "effect_on_condition",
+    "condition": { "expects_vars": [ "name", "max" ] },
+    "effect": [
+      {
+        "set_string_var": "n_number_fabricate_<context_val:name>",
+        "target_var": { "context_val": "item" },
+        "parse_tags": true
+      },
+      { "math": [ "v_item = clamp(num_input('', v_item), 0, _max)" ] },
+      { "math": [ "n_number_fabricate_price = 0" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1   * n_number_fabricate_2x4" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "0.7 * n_number_fabricate_plank_short" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1.5 * n_number_fabricate_plank_long" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1   * n_number_fabricate_wooden_post" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "0.7 * n_number_fabricate_wooden_post_short" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1.5 * n_number_fabricate_wooden_post_long" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "8   * n_number_fabricate_wood_panel" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "16  * n_number_fabricate_wood_sheet" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "25  * n_number_fabricate_wood_beam" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "5   * n_number_fabricate_log" ] },
+      { "math": [ "n_number_fabricate_wait = max(1, ceil(n_number_fabricate_price/150))" ] }
+    ]
+  },
+  {
     "id": "TALK_LUMBERMILL_FABRICATE",
-    "//": "This is all the dialogue related to buying bulk wood. TO-DO - Use variables to refine shop system. See SCRIPT_EFFECTS.md and isolated road fabriation system.",
+    "//": "This is all the dialogue related to buying bulk wood.",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_effect": "currently_busy",
-      "yes": "We've still got a few things available, but that last order is gonna take us a while to restock.  Come back in a little while if you're looking for the big stuff.  The crew is fast, so it won't be long.  A few hours at most, I promise.",
-      "no": "Sure, we offer various specialty cuts direct to our customers in batches of 10.  Anything larger than these planks is gonna take us a while to refresh, though.  A couple hours, maybe longer if we have to source more wood.  So, what would you like?"
+      "concatenate": [
+        {
+          "math": [ "n_number_fabricate_price != 0" ],
+          "yes": "&Your current order.  Total: $<npc_val:number_fabricate_price>.  Waiting time: <npc_val:number_fabricate_wait> days.",
+          "no": "We offer various specialty cuts direct to our customers.  Here's a list of available materials.  Order waiting time depends on the amount of lumber ordered.  So, what would you like?"
+        },
+        { "math": [ "n_number_fabricate_2x4 != 0" ], "yes": "\n<item_name:2x4>: <npc_val:number_fabricate_2x4> pcs." },
+        {
+          "math": [ "n_number_fabricate_plank_short != 0" ],
+          "yes": "\n<item_name:plank_short>: <npc_val:number_fabricate_plank_short> pcs."
+        },
+        {
+          "math": [ "n_number_fabricate_plank_long != 0" ],
+          "yes": "\n<item_name:plank_long>: <npc_val:number_fabricate_plank_long> pcs."
+        },
+        {
+          "math": [ "n_number_fabricate_wooden_post != 0" ],
+          "yes": "\n<item_name:wooden_post>: <npc_val:number_fabricate_wooden_post> pcs."
+        },
+        {
+          "math": [ "n_number_fabricate_wooden_post_short != 0" ],
+          "yes": "\n<item_name:wooden_post_short>: <npc_val:number_fabricate_wooden_post_short> pcs."
+        },
+        {
+          "math": [ "n_number_fabricate_wooden_post_long != 0" ],
+          "yes": "\n<item_name:wooden_post_long>: <npc_val:number_fabricate_wooden_post_long> pcs."
+        },
+        {
+          "math": [ "n_number_fabricate_wood_panel != 0" ],
+          "yes": "\n<item_name:wood_panel>: <npc_val:number_fabricate_wood_panel> pcs."
+        },
+        {
+          "math": [ "n_number_fabricate_wood_sheet != 0" ],
+          "yes": "\n<item_name:wood_sheet>: <npc_val:number_fabricate_wood_sheet> pcs."
+        },
+        {
+          "math": [ "n_number_fabricate_wood_beam != 0" ],
+          "yes": "\n<item_name:wood_beam>: <npc_val:number_fabricate_wood_beam> pcs."
+        },
+        { "math": [ "n_number_fabricate_log != 0" ], "yes": "\n<item_name:log>: <npc_val:number_fabricate_log> pcs." }
+      ]
     },
     "responses": [
-      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
       {
-        "text": "[10$]  I'll buy some sticks.",
-        "effect": [ { "u_buy_item": "stick", "cost": 1000, "count": 10 } ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END"
+        "text": "[<item_name:2x4>, $1 a piece, max 200]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "2x4", "max": "200" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[20$]  I'll buy some long sticks.",
-        "effect": [ { "u_buy_item": "stick_long", "cost": 2000, "count": 10 } ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END"
+        "text": "[<item_name:plank_short>, $0.7 a piece, max 200]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_short", "max": "200" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[30$]  I'll buy some planks.",
-        "effect": [ { "u_buy_item": "2x4", "cost": 3000, "count": 10 } ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END"
+        "text": "[<item_name:plank_long>, $1.5 a piece, max 200]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_long", "max": "200" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[100$]  I'll buy some logs.",
-        "effect": [
-          {
-            "u_buy_item": "log",
-            "cost": 10000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_LOGS_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
-        ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_log" } }
+        "text": "[<item_name:wooden_post>, $1 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post", "max": "100" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[120$]  I'll buy some wooden panels.",
-        "effect": [
-          {
-            "u_buy_item": "wood_panel",
-            "cost": 12000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_PANEL_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
-        ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_wood_panel" } }
+        "text": "[<item_name:wooden_post_short>, $0.7 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_short", "max": "100" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[240$]  I'll buy some large wooden sheets.",
-        "effect": [
-          {
-            "u_buy_item": "wood_sheet",
-            "cost": 24000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_LARGE_PANEL_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
-        ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_wood_sheet" } }
+        "text": "[<item_name:wooden_post_long>, $1.5 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_long", "max": "100" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[350$]  I'll buy some wooden beams.",
-        "effect": [
-          {
-            "u_buy_item": "wood_beam",
-            "cost": 35000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_BEAM_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
-        ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_wood_beam" } }
-      }
+        "text": "[<item_name:wood_panel>, $8 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_panel", "max": "100" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
+      },
+      {
+        "text": "[<item_name:wood_sheet>, $16 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_sheet", "max": "100" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
+      },
+      {
+        "text": "[<item_name:wood_beam>, $25 a piece, max 50]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_beam", "max": "50" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
+      },
+      {
+        "text": "[<item_name:log>, $5 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "log", "max": "100" } },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
+      },
+      {
+        "text": "<color_light_red>[Reset.]</color>",
+        "condition": { "math": [ "n_number_fabricate_price != 0" ] },
+        "effect": { "run_eocs": [ "EOC_LUMBERMILL_FABRICATE_cleanup" ] },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
+      },
+      {
+        "text": "<color_light_green>[$<npc_val:number_fabricate_price>] That's all.  I'm ready to pay.</color>",
+        "condition": { "math": [ "n_number_fabricate_price != 0" ] },
+        "effect": {
+          "u_buy_item": "file",
+          "count": 1,
+          "cost": { "math": [ "n_number_fabricate_price * 100" ] },
+          "true_eocs": [
+            {
+              "id": "EOC_LUMBERMILL_FABRICATE_ordered",
+              "effect": [
+                { "math": [ "n_timer_fabricate_waiting = time('now')" ] },
+                {
+                  "u_message": "Your order will be ready in <npc_val:number_fabricate_wait> days.\nCome back in that time to pick up your lumber.",
+                  "popup": true
+                }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
+      },
+      { "text": "Actually, I don't want to place an order.", "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO" }
     ]
   },
   {
-    "id": "TALK_LUMBERMILL_FABRICATE_END",
-    "//": "This is all the dialogue related to buying bulk wood. TO-DO - Use variables to refine shop system. See SCRIPT_EFFECTS.md and isolated road fabriation system.",
     "type": "talk_topic",
-    "dynamic_line": "Is there anything else you want?",
+    "id": "TALK_LUMBERMILL_FABRICATE_FINISHED",
+    "dynamic_line": {
+      "math": [ "time_since(n_timer_fabricate_waiting, 'unit':'days') >= n_number_fabricate_wait" ],
+      "yes": "Let me check…  <u_name>…  Yes, all your lumber are ready, you can pick it up.",
+      "no": "Your order?  No, sorry, we're still working on it."
+    },
     "responses": [
-      { "text": "No, that's all.", "topic": "TALK_DONE" },
       {
-        "text": "[10$]  I'll buy some sticks.",
-        "effect": [ { "u_buy_item": "stick", "cost": 1000, "count": 10 } ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END"
-      },
-      {
-        "text": "[20$]  I'll buy some long sticks.",
-        "effect": [ { "u_buy_item": "stick_long", "cost": 2000, "count": 10 } ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END"
-      },
-      {
-        "text": "[30$]  I'll buy some planks.",
-        "effect": [ { "u_buy_item": "2x4", "cost": 3000, "count": 10 } ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END"
-      },
-      {
-        "text": "[100$]  I'll buy some logs.",
+        "text": "Thanks.  <end_talking_bye>",
+        "condition": { "math": [ "time_since(n_timer_fabricate_waiting, 'unit':'days') >= n_number_fabricate_wait" ] },
+        "switch": true,
         "effect": [
           {
-            "u_buy_item": "log",
-            "cost": 10000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_LOGS_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
+            "foreach": "array",
+            "var": { "context_val": "name" },
+            "target": [
+              "2x4",
+              "plank_short",
+              "plank_long",
+              "wooden_post",
+              "wooden_post_short",
+              "wooden_post_long",
+              "wood_panel",
+              "wood_sheet",
+              "wood_beam",
+              "log"
+            ],
+            "effect": [
+              {
+                "set_string_var": "n_number_fabricate_<context_val:name>",
+                "target_var": { "context_val": "item" },
+                "parse_tags": true
+              },
+              {
+                "if": { "math": [ "v_item != 0" ] },
+                "then": { "u_spawn_item": { "context_val": "name" }, "count": { "var_val": "item" } }
+              }
+            ]
+          },
+          { "run_eocs": [ "EOC_LUMBERMILL_FABRICATE_cleanup" ] }
         ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_log" } }
+        "topic": "TALK_DONE"
       },
-      {
-        "text": "[120$]  I'll buy some wooden panels.",
-        "effect": [
-          {
-            "u_buy_item": "wood_panel",
-            "cost": 12000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_PANEL_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
-        ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_wood_panel" } }
-      },
-      {
-        "text": "[240$]  I'll buy some large wooden sheets.",
-        "effect": [
-          {
-            "u_buy_item": "wood_sheet",
-            "cost": 24000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_LARGE_PANEL_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
-        ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_wood_sheet" } }
-      },
-      {
-        "text": "[350$]  I'll buy some wooden beams.",
-        "effect": [
-          {
-            "u_buy_item": "wood_beam",
-            "cost": 35000,
-            "count": 10,
-            "true_eocs": "EOC_BUY_BEAM_TRUE_EFFECT",
-            "false_eocs": "EOC_LUMBER_BUY_FALSE_EFFECT"
-          }
-        ],
-        "topic": "TALK_LUMBERMILL_FABRICATE_END",
-        "condition": { "not": { "npc_has_effect": "lumbermill_waiting_for_wood_beam" } }
-      }
+      { "text": "I see.", "switch": true, "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BUY_LOGS_TRUE_EFFECT",
-    "global": false,
-    "effect": [
-      { "npc_add_effect": "lumbermill_waiting_for_log", "duration": "2 h" },
-      { "npc_add_effect": "currently_busy", "duration": "2 h" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BUY_PANEL_TRUE_EFFECT",
-    "global": false,
-    "effect": [
-      { "npc_add_effect": "lumbermill_waiting_for_wood_panel", "duration": "3 h" },
-      { "npc_add_effect": "currently_busy", "duration": "3 h" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BUY_LARGE_PANEL_TRUE_EFFECT",
-    "global": false,
-    "effect": [
-      { "npc_add_effect": "lumbermill_waiting_for_wood_sheet", "duration": "3 h" },
-      { "npc_add_effect": "currently_busy", "duration": "3 h" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BUY_BEAM_TRUE_EFFECT",
-    "global": false,
-    "effect": [
-      { "npc_add_effect": "lumbermill_waiting_for_wood_beam", "duration": "4 h" },
-      { "npc_add_effect": "currently_busy", "duration": "4 h" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LUMBER_BUY_FALSE_EFFECT",
-    "global": false,
-    "effect": [  ]
   }
 ]

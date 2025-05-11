@@ -45,6 +45,10 @@
     "required_str": 10,
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "whack!",
+      "sound_fail": "womp!",
       "items": [
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 4, 12 ] },
@@ -85,7 +89,7 @@
     "required_str": 8,
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "charges": 10 } ]
+      "items": [ { "item": "pipe", "count": 6 }, { "item": "lc_steel_chunk", "count": 2 }, { "item": "cable", "charges": 10 } ]
     },
     "bash": {
       "str_min": 6,
@@ -110,7 +114,7 @@
     "coverage": 40,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "pipe", "count": 2 }, { "item": "steel_chunk", "count": 2 } ] },
+    "deconstruct": { "items": [ { "item": "pipe", "count": 2 }, { "item": "lc_steel_chunk", "count": 2 } ] },
     "bash": {
       "str_min": 10,
       "str_max": 15,
@@ -157,7 +161,7 @@
     "coverage": 40,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "steel_chunk", "count": 2 } ] },
+    "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lc_steel_chunk", "count": 2 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 12,

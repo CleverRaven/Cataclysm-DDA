@@ -1,0 +1,7 @@
+[
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_hole",
+    "to_ter": "t_open_air"
+  }
+]

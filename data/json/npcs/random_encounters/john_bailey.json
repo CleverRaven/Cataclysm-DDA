@@ -148,7 +148,7 @@
       "effect": [
         { "u_add_var": "u_met_John_Bailey", "value": "yes" },
         { "npc_first_topic": "TALK_RC_John_Bailey_1a" },
-        { "math": [ "n_zkc_john", "=", "2 * time_since('cataclysm', 'unit': 'days')" ] },
+        { "math": [ "n_zkc_john = 2 * time_since('cataclysm', 'unit': 'days')" ] },
         { "math": [ "n_zkc_john", "+=", "rand(10)" ] }
       ]
     },
@@ -241,7 +241,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
@@ -564,7 +564,7 @@
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Teach",
     "dynamic_line": {
-      "math": [ "npc_John_Bailey_taught", "<=", "3" ],
+      "math": [ "npc_John_Bailey_taught <= 3" ],
       "no": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
       "yes": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
     },
@@ -573,8 +573,8 @@
       {
         "text": "Sure, let's talk trade.",
         "topic": "TALK_TRAIN",
-        "condition": { "math": [ "npc_John_Bailey_taught", "<=", "3" ] },
-        "effect": { "math": [ "npc_John_Bailey_taught", "++" ] }
+        "condition": { "math": [ "npc_John_Bailey_taught <= 3" ] },
+        "effect": { "math": [ "npc_John_Bailey_taught++" ] }
       },
       { "text": "I'll bear that in mind.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "Thanks, I'll think about it.  <done_conversation_section>", "topic": "TALK_NONE" },

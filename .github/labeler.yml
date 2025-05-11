@@ -180,10 +180,12 @@
   - "**/**mapgen**"
   - "**/mapgen**"
   - "**/mapgen/**"
+  - "**/**palette**"
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
   - "data/json/regional_map_settings.json"
+  - "**/mapgen_palettes/**"
 
 "Martial Arts":
   - "**/martialart**"
@@ -253,6 +255,9 @@
 
 "Mods: Magiclysm":
   - data/mods/Magiclysm/**/*
+
+"My Sweet Cataclysm 🍬":
+  - data/mods/My_Sweet_Cataclysm/**/*
 
 "Mods: Innawood 🌲":
   - data/mods/innawood/**/*

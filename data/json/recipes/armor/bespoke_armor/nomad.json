@@ -22,7 +22,8 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_closures" }
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "xs_helmet_nomad",
@@ -76,7 +77,7 @@
       [ [ "leather", 16 ], [ "tanned_hide", 4 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ] ],
       [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ],
       [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
-      [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
+      [ [ "jeans", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
     "byproducts": [ [ "scrap_leather", 6 ], [ "denim_patch", 2 ], [ "scrap_denim", 7 ] ],
@@ -131,7 +132,7 @@
       [ [ "leather", 12 ], [ "tanned_hide", 3 ], [ "sheet_leather", 3 ], [ "sheet_leather_patchwork", 3 ] ],
       [ [ "sheet_denim", 6 ], [ "sheet_denim_patchwork", 6 ] ],
       [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
-      [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
+      [ [ "jeans", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
       [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
     "byproducts": [ [ "scrap_leather", 3 ], [ "denim_patch", 1 ], [ "scrap_denim", 3 ] ],

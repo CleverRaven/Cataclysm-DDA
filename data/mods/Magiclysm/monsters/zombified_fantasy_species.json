@@ -5,11 +5,24 @@
     "name": { "str": "zombie dwarf", "str_pl": "zombie dwarves" },
     "copy-from": "mon_zombie_tough",
     "description": "Once a dwarf, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
-    "proportional": { "speed": 0.9, "volume": 0.7, "weight": 0.9 },
+    "proportional": { "volume": 0.7, "weight": 0.9 },
+    "speed": 65,
     "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
     "vision_day": 15,
     "vision_night": 8,
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_dwarf_miner",
+    "name": { "str": "zombie dwarven miner" },
+    "copy-from": "mon_zombie_miner",
+    "description": "Once a dwarven miner, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
+    "proportional": { "hp": 1.2, "volume": 0.7, "weight": 0.9, "speed": 0.9 },
+    "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
+    "vision_day": 15,
+    "vision_night": 8,
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -20,7 +33,7 @@
     "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
     "//": "Better night vision than default zombies, but not as good as living elves.",
     "vision_night": 5,
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_ELF_UPGRADE" },
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_ELF_UPGRADE" },
     "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
@@ -50,7 +63,7 @@
     "vision_day": 3,
     "vision_night": 15,
     "death_drops": "feral_goblin_death_drops",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GOBLIN_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_GOBLIN_UPGRADE" }
   },
   {
     "id": "mon_zombie_ravenfolk",
@@ -103,7 +116,7 @@
     ],
     "vision_day": 35,
     "death_drops": "feral_ravenfolk_death_drops",
-    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE" }
+    "upgrades": { "half_life": 360, "into_group": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE" }
   },
   {
     "id": "mon_zombie_lizardfolk",
@@ -148,6 +161,6 @@
       }
     ],
     "death_drops": "feral_lizardfolk_death_drops",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE" }
   }
 ]

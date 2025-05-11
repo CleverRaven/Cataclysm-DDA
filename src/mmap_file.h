@@ -5,13 +5,13 @@
 #include <memory>
 #include <string>
 
-#include <ghc/fs_std_fwd.hpp>
+#include <filesystem>
 
 class mmap_file
 {
     public:
         static std::shared_ptr<mmap_file> map_file( const std::string &file_path );
-        static std::shared_ptr<mmap_file> map_file( const fs::path &file_path );
+        static std::shared_ptr<mmap_file> map_file( const std::filesystem::path &file_path );
 
         ~mmap_file();
 

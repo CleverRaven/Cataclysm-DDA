@@ -173,10 +173,9 @@
         "d": { "items": [ { "item": "office", "chance": 50 } ] },
         "r": {
           "items": [
-            { "item": "military", "chance": 10 },
-            { "item": "ammo_milspec", "chance": 10 },
-            { "item": "mags_milspec", "chance": 10 },
-            { "item": "guns_milspec", "chance": 10 }
+            { "item": "ammo_milspec", "chance": 14 },
+            { "item": "mags_milspec", "chance": 14 },
+            { "item": "guns_milspec", "chance": 14 }
           ]
         }
       },

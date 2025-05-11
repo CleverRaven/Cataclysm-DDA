@@ -1,0 +1,411 @@
+[
+  {
+    "//": "Summer magic should focus on: heat, light, athleticism, passionate/strong emotions, illusion, plenty.",
+    "//2": "Make sure to add each new spell to the proper research EoC in the playable_changeling_seasonal_magic_research_eocs file.",
+    "//3": "Seasonal magic can have direct damage spells, but they should always be relevantly themed to the season, accomplish some secondary effect (slowing, blinding, starting fires, terrain alteration, etc), have some limitation on targets, or otherwise be less efficient than 'Wizard casts fireball' ",
+    "id": "xe_fey_seasonal_magick_summer",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
+    "cannot_cast_message": "You can't use your glamours now!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "xe_fey_seasonal_magick_summer_failure_chance"
+  },
+  {
+    "id": "changeling_summer_light_spell",
+    "type": "SPELL",
+    "name": "Bonefire's Light",
+    "description": "Conjure up a flickering ball of orange and red light that hovers nearby and sheds a dim glow on your surroundings.  The glamour is <color_yellow>quicker to expire</color> in winter.",
+    "message": "",
+    "flags": [ "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_LIGHT_INITIATE",
+    "min_duration": {
+      "math": [
+        "( ( 38697 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 9791) + (u_skill('deduction') * 16250) ) ) * (global_what_is_the_season == 4 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 91527 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 26531) + (u_skill('deduction') * 48615) ) ) * (global_what_is_the_season == 4 ? 0.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_changeling_summer_light') > -1 ? 0 : max( ( 100 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 3) - (u_skill('deduction') * 3)), 25)"
+      ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_summer_light_fire_spell",
+    "type": "SPELL",
+    "name": "Quick-Kindle",
+    "description": "With a quick gesture, summon up a burst of heat sufficient to ignite flammable material.  The glamour <color_red>cannot be used</color> in winter.",
+    "message": "",
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_LIGHT_FIRE_INITIATE",
+    "base_energy_cost": {
+      "math": [ "max( ( 75 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (u_skill('deduction') * 2)), 25)" ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_summer_sun_glasses_spell",
+    "type": "SPELL",
+    "name": "Shading Your Eyes",
+    "description": "The true initiate of summer can gaze directly at the sun without flinching.  The glamour protects your eyes from the light of the noonday sun, as well as other sources of bright light such as flashbangs or welding torches.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_SUN_GLASSES_INITIATE",
+    "min_duration": {
+      "math": [ "58052 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 10982) + (u_skill('deduction') * 22365)" ]
+    },
+    "max_duration": {
+      "math": [ "118521 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 31825) + (u_skill('deduction') * 81682)" ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 100 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 3) - (u_skill('deduction') * 3)), 25)" ]
+    },
+    "base_casting_time": 100
+  },
+  {
+    "id": "changeling_summer_protect_from_hot_weather_spell",
+    "type": "SPELL",
+    "name": "Gift of Warm Blood",
+    "description": "A quick chant infuses the power of summer into your or your ally's blood, providing resistance against hot weather.  The glamour also provides some <color_green>protection against fire</color> in summer.",
+    "message": "A refreshing breeze picks up as you chant.",
+    "flags": [ "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_PROTECT_FROM_HOT_WEATHER",
+    "min_range": 10,
+    "min_duration": {
+      "math": [ "76628 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 14496) + (u_skill('deduction') * 29521)" ]
+    },
+    "max_duration": {
+      "math": [ "169485 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 45508) + (u_skill('deduction') * 116805)" ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 250 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (u_skill('deduction') * 2)), 100)" ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_summer_jump_distance_spell",
+    "type": "SPELL",
+    "name": "Salmon Leap",
+    "//": "TODO: If/when there is a distinction between fast running and jumps, this is a jump.",
+    "description": "Like a salmon leaping over obstacles in a river, you can make prodigious jumps.",
+    "message": "You gather yourself and leap.",
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "dash",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_type": "bash",
+    "min_range": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.25) + (u_skill('deduction') * 0.5) ) ), 12) * (global_what_is_the_season == 2 ? 1.35 : 1)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.25) + (u_skill('deduction') * 0.5) ) ), 12) * (global_what_is_the_season == 2 ? 1.35 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (u_skill('deduction') * 4)), 50)" ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_summer_fire_melee_damage_spell",
+    "type": "SPELL",
+    "name": "Burning Solar Grasp",
+    "description": "Surround your hands in ethereal flames, doing additional fire damage to targets you strike in melee.  This damage is greater when unarmed, but still transfers to any weapons you wield.  The glamour is <color_yellow>quicker to expire</color> in winter.",
+    "message": "",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "attack",
+    "effect_str": "effect_changeling_fire_melee_damage",
+    "min_duration": {
+      "math": [
+        "( ( 2285 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 915) + (u_skill('deduction') * 3045) ) ) * (global_what_is_the_season == 4 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 6185 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2025) + (u_skill('deduction') * 7185) ) ) * (global_what_is_the_season == 4 ? 0.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 4)), 120)" ]
+    },
+    "base_casting_time": 150
+  },
+  {
+    "id": "changeling_summer_slow_and_sweat_debuff_spell",
+    "type": "SPELL",
+    "name": "Punishing Summer Heat",
+    "description": "Concentrate the heat of the sun on a small area, inflicting all within with a mystical tiredness that will slow their movements.  In the winter the glamour <color_red>does not work</color> indoors or at night.",
+    "message": "The sunlight shines a little brighter.",
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "hostile", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "attack",
+    "effect_str": "effect_changeling_summer_slow_and_sweat_debuff",
+    "min_duration": {
+      "math": [
+        "( ( 5438 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2381) + (u_skill('deduction') * 3815) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 18513 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5731) + (u_skill('deduction') * 9885) ) )"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.5) + (u_skill('deduction') * 1) ) ), 25)"
+      ]
+    },
+    "max_range": 25,
+    "min_aoe": {
+      "math": [
+        "min( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.2) + (u_skill('deduction') * 0.5) ), 20)"
+      ]
+    },
+    "max_aoe": 20,
+    "base_energy_cost": {
+      "math": [
+        "max( ( 400 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 11)), 150)"
+      ]
+    },
+    "base_casting_time": 75
+  },
+  {
+    "id": "changeling_summer_run_for_long_periods_spell",
+    "type": "SPELL",
+    "name": "Outracing the Sun",
+    "description": "After using this glamour, begin running.  As long as you continue running, you will not run out of stamina.  Weaving another glamour or attacking breaks the effect.  In the winter the glamour <color_red>does not work</color> if you are indoors.",
+    "message": "",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS",
+    "base_energy_cost": {
+      "math": [ "max( ( 450 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 7)), 250)" ]
+    },
+    "base_casting_time": 100
+  },
+  {
+    "id": "changeling_summer_bonus_stamina_near_enemies_spell",
+    "type": "SPELL",
+    "name": "A Fire in the Blood",
+    "description": "Infuse the energy of the summer sun into your yourself, preparing for battle.  Your stamina will regenerate faster in proportion to the number of adjacent enemies, and you will have an easier time dodging enemy attacks.  In the winter the glamour <color_yellow>is less effective</color>.",
+    "message": "",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 6,
+    "effect": "attack",
+    "effect_str": "effect_changeling_summer_bonus_stamina_near_enemies",
+    "min_duration": {
+      "math": [
+        "( ( 3825 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 1152) + (u_skill('deduction') * 4852) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 8642 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2852) + (u_skill('deduction') * 9852) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 550 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 10)), 200)"
+      ]
+    },
+    "base_casting_time": 75
+  },
+  {
+    "id": "changeling_summer_create_thunderstorm_spell",
+    "type": "SPELL",
+    "name": "Summer Thunder",
+    "description": "Conjure up a thunderstorm, causing the sky to cloud over, rain to fall, and eventually lightning to flash.  You have no control over the storm once you set it in motion.  This glamour <color_red>will not work</color> if you are indoors or if the temperature is below freezing.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "components": "spell_components_changeling_dreamsparks_3",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_CREATE_THUNDERSTORM_INITIATE",
+    "min_duration": {
+      "math": [
+        "( ( 42810 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 11290) + (u_skill('deduction') * 20576) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 89750 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 24916) + (u_skill('deduction') * 49107) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 700 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 4) - (u_skill('deduction') * 8)), 400)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 30000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 50) - (u_skill('deduction') * 750)), 6000)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_summer_powerful_sunlight_spell",
+    "type": "SPELL",
+    "name": "Helios's Wrath",
+    "description": "Blaze with the blinding light of the sun, blinding anyone nearby capable of seeing you.  This is real sunlight and affects creatures harmed by it accordingly.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 10,
+    "components": "spell_components_changeling_dreamsparks_4",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_INITIATE",
+    "min_duration": {
+      "math": [ "( ( 595 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 152) + (u_skill('deduction') * 251) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 1520 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 382) + (u_skill('deduction') * 601) ) )" ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 900 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 10)), 600)"
+      ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_summer_powerful_sunlight_spell_aura_effects",
+    "type": "SPELL",
+    "name": { "str": "Helios's Wrath Special effects", "//~": "NO_I18N" },
+    "description": {
+      "str": "Used because auras are not currently possible.  Blind targets are harms those who die in sunlight.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "ally", "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_AURA_EFFECTS",
+    "min_aoe": 45,
+    "max_aoe": 45
+  },
+  {
+    "id": "changeling_summer_powerful_sunlight_spell_sundeath_self_damage",
+    "type": "SPELL",
+    "name": { "str": "Helios's Wrath Sundeath damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "Used because auras are not currently possible.  Causes enemies with the SUNDEATH flag to burn.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "pure",
+    "min_dot": 75,
+    "max_dot": 75,
+    "min_duration": 300,
+    "max_duration": 300
+  }
+]

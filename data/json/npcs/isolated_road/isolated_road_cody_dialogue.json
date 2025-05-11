@@ -310,7 +310,7 @@
     "id": "TALK_BLACKSMITH_BOUGHT_COOP",
     "type": "talk_topic",
     "dynamic_line": [
-      "There yah go, one co-op membership with your name on it.  Shop's in the back, keep it tidy and share if anyone else is around workin'.  Just as a heads-up, you'll need to bring your own charcoal.  There's a kiln in there too, so if you got things to burn, just throw 'em in there there and light up."
+      "There yah go, one co-op membership with your name on it.  Shop's in the back, keep it tidy and share if anyone else is around workin'.  Just as a heads-up, you'll need to bring your own charcoal.  There's a kiln in there too, so if you got things to burn, just throw 'em in there and light up."
     ],
     "responses": [
       { "text": "Thanks.", "topic": "TALK_BLACKSMITH_SERVICES" },

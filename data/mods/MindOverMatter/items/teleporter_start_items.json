@@ -2,7 +2,8 @@
   {
     "id": "mom_fusion_pistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "Ch47 Fusion Pistol" },
     "description": "The standard-issue officer's sidearm for the Imperial Navy, guaranteed manufactured on Tlalticpactli itself by scions of the Huey Calpulli, the Ch47 replaced the earlier Ch41 and is widely renowned for its accuracy and ease of maintenance.  This particular Ch47 even bears an eagle and snake on the grip, indicating it was produced in a factory in Anáhuac.  Hopefully it'll make a good melee weapon as well.",
     "melee_damage": { "bash": 5 },
@@ -26,7 +27,8 @@
   },
   {
     "id": "mom_fusion_mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Ch47 power pack" },
     "description": "A power pack for the Ch47.",
     "weight": "40 g",
@@ -41,7 +43,8 @@
   },
   {
     "id": "mom_fusion_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str": "Ch47 power cartridge" },
     "description": "Power cartridges for the Ch47.  You had better make every shot count, because there's no way you're finding any more of these.",
     "weight": "1 g",
@@ -66,7 +69,8 @@
   {
     "id": "itzcuauhtli_cape",
     "copy-from": "cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuauhtli Corps tilmàtli" },
     "description": "A formal dress cape for the Itzcuauhtli Corps in crimson and gold, with the eagle's head over a field of stars insignia on the left shoulder, worn by generations of those who sought out new worlds in service to the Huey Tlatoani and the Excan Tlahtoloyan.  You're pretty sure this is the furthest anyone wearing one has ever been from Anáhuac.",
     "delete": { "flags": [ "HOOD" ] }
@@ -74,14 +78,16 @@
   {
     "id": "itzcuauhtli_hat",
     "copy-from": "beret",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Imperial navy cap" },
     "description": "A flat crimson hat worn by members of the Imperial navy at formal events.  This one has the black circle of the Yohualli Èhecatl on it."
   },
   {
     "id": "itzcuauhtli_holster",
     "copy-from": "holster",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Ch47 holster" },
     "description": "A holster for the Ch47.  You could put one of the primitive local ranged weapons in here too, if you had to.",
     "pocket_data": [
@@ -100,22 +106,65 @@
   {
     "id": "itzcuauhtli_tunic",
     "copy-from": "dress_shirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Yohualli Ehēcatl division tunic" },
     "description": "A dress tunic, in gold and crimson, slashed with black bars.  This would immediately mark your exact rank and position to anyone else in the Imperial Navy, if you ever see another one again."
   },
   {
     "id": "itzcuauhtli_pants",
     "copy-from": "pants",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "Itzcuauhtli Corps pants" },
     "description": "A set of gold and crimson uniform pants.  The days of wearing only a maxtlatl are gone following the expansion of the empire out from Anáhuac, and considering the local climate, you're grateful for it."
   },
   {
     "id": "itzcuauhtli_boots",
     "copy-from": "boots",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "naval boots" },
     "description": "Simple black leather boots.  It's a good thing you weren't transporting a planetary tlatoani when the accident happened or you might have ended up on this gods-forsaken hellhole barefoot."
+  },
+  {
+    "id": "itzcuauhtli_wrist_computer",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "clothing",
+    "name": { "str": "māchīuhpōhualhuaztli", "str_pl": "māchīuhpōhualhuaztimeh" },
+    "description": "Your trustworthy connection to the local mātlatzālantli, the māchīuhpōhualhuaztli allows you to store and read texts through tonaltēzcatl projection, look up info, keep track of your biometrics, play games, record visuals or sound, connect with far-distant friends and family, act as a calendar and event planner, and even identify you to agents of the government or, gods forbid, the Tlamachchiuhqueh, should that become necessary.  There's nothing to connect to on this blighted world, but the other functions should still work.",
+    "weight": "30 g",
+    "volume": "100 ml",
+    "color": "cyan",
+    "sided": true,
+    "price": "500000 USD",
+    "price_postapoc": "50 USD",
+    "material": [ { "type": "nether_crystal", "portion": 5 }, { "type": "plastic", "portion": 95 } ],
+    "flags": [
+      "WATCH",
+      "WATER_FRIENDLY",
+      "ALARMCLOCK",
+      "BELTED",
+      "CALORIES_INTAKE",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE"
+    ],
+    "symbol": "[",
+    "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "MP3", "CAMERA", "CALORIES_INTAKE_TRACKER", "PORTABLE_GAME", "FITNESS_CHECK" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "512 TB"
+      }
+    ],
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   }
 ]

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_OVERMAP_H
 #define CATA_SRC_OVERMAP_H
 
+#include <stdint.h>
 #include <algorithm>
 #include <array>
 #include <climits>
@@ -13,20 +14,27 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "basecamp.h"
 #include "city.h"
-#include "coords_fwd.h"
+#include "colony.h"
+#include "color.h"
+#include "coordinates.h"
 #include "cube_direction.h"
 #include "enums.h"
-#include "game_constants.h"
+#include "hash_utils.h"
+#include "map_scale_constants.h"
 #include "mapgendata.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -35,11 +43,13 @@
 class JsonArray;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class cata_path;
 class character_id;
 class npc;
 class overmap_connection;
 struct regional_settings;
+template <typename T> struct enum_traits;
 
 namespace pf
 {
@@ -230,7 +240,7 @@ class overmap
         /**
          * @return The (local) overmap terrain coordinates of a randomly
          * chosen place on the overmap with the specific overmap terrain.
-         * Returns @ref invalid_tripoint if no suitable place has been found.
+         * Returns @ref tripoint_om_omt::invalid if no suitable place has been found.
          */
         tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target,
                                          std::optional<city> target_city = std::nullopt ) const;
@@ -293,10 +303,6 @@ class overmap
         static bool inbounds( const point_om_omt &p, int clearance = 0 ) {
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
-        /**
-         * Dummy value, used to indicate that a point returned by a function is invalid.
-         */
-        static constexpr tripoint_abs_omt invalid_tripoint{ tripoint_min };
         /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.
@@ -507,7 +513,6 @@ class overmap
                                 std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        bool build_slimepit( const tripoint_om_omt &origin, int s );
         void place_ravines();
 
         // Connection laying
@@ -532,7 +537,6 @@ class overmap
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
         std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
-        void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
         void good_river( const tripoint_om_omt &p );

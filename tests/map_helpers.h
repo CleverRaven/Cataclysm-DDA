@@ -2,15 +2,14 @@
 #ifndef CATA_TESTS_MAP_HELPERS_H
 #define CATA_TESTS_MAP_HELPERS_H
 
-#include <iosfwd>
+#include <string>
 
-#include "calendar.h"
 #include "coords_fwd.h"
 #include "type_id.h"
 
 class map;
 class monster;
-struct tripoint;
+class time_point;
 
 void wipe_map_terrain( map *target = nullptr );
 void clear_creatures();
@@ -18,6 +17,7 @@ void clear_npcs();
 void clear_fields( int zlevel );
 void clear_items( int zlevel );
 void clear_zones();
+void clear_basecamps();
 void clear_map( int zmin = -2, int zmax = 0 );
 void clear_radiation();
 void clear_map_and_put_player_underground();

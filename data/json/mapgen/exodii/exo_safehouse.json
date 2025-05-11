@@ -3,7 +3,6 @@
     "om_terrain": "exo_safehouse_stone_0",
     "//": "A medieval stone barn from the Exodii's most recently visited world, converted to a safehouse for their scouts to hole up in, and transported to our world during the portal storms.",
     "type": "mapgen",
-    "weight": 100,
     "method": "json",
     "object": {
       "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
@@ -71,7 +70,6 @@
   {
     "om_terrain": "exo_safehouse_stone_1",
     "type": "mapgen",
-    "weight": 100,
     "method": "json",
     "object": {
       "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
@@ -109,7 +107,6 @@
   {
     "om_terrain": "exo_safehouse_stone_2",
     "type": "mapgen",
-    "weight": 100,
     "method": "json",
     "object": {
       "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],

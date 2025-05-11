@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_bashing",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Batter Up!", "str_pl": "issues of Batter Up!" },
     "description": "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
@@ -44,15 +45,16 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "bashing",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "bashing",
+    "read_fun": 1
   },
   {
     "id": "manual_bashing",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "tactical baton defense manual", "str_pl": "copies of tactical baton defense manual" },
     "description": "An informative guide to self-defense using clubs and batons.  Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners.",
@@ -88,9 +90,9 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "bashing",
     "max_level": 3,
     "intelligence": 3,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "bashing"
   }
 ]

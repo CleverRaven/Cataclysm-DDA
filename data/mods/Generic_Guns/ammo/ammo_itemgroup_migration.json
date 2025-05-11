@@ -1,0 +1,577 @@
+[
+  {
+    "type": "item_group",
+    "id": "boxed_9mm",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_22lr",
+    "items": [ { "group": "boxed_pistol_tiny" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223_500",
+    "items": [ { "group": "boxed_rifle_50" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_45",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_380",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_40",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_357",
+    "items": [ { "group": "boxed_magnum" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_12",
+    "items": [ { "group": "boxed_shot" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_38",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_44",
+    "items": [ { "group": "boxed_magnum" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_3006",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_45colt",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762R",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_270",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_410",
+    "items": [ { "group": "boxed_shot" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_10mm",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_303",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_30carbine",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_32",
+    "items": [ { "group": "boxed_pistol_tiny" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_338",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_357sig",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_38super",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_450",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_454",
+    "items": [ { "group": "boxed_magnum" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_4570",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_500",
+    "items": [ { "group": "boxed_magnum" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_545",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_57",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762x25",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_9x18",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_77x58",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50AE",
+    "items": [ { "group": "boxed_magnum" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_458",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_9mm_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_22lr_used",
+    "items": [ { "group": "boxed_pistol_tiny_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_45_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_380_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_40_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_357_used",
+    "items": [ { "group": "boxed_magnum_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_12_used",
+    "items": [ { "group": "boxed_shot_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_38_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_44_used",
+    "items": [ { "group": "boxed_magnum_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_3006_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_45colt_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762R_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_270_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_410_used",
+    "items": [ { "group": "boxed_shot_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_10mm_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_303_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_30carbine_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_32_used",
+    "items": [ { "group": "boxed_pistol_tiny_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_338_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_357sig_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_38super_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_450_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_454_used",
+    "items": [ { "group": "boxed_magnum_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_4570_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_500_used",
+    "items": [ { "group": "boxed_magnum_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_545_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_57_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762x25_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_9x18_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_77x58_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50AE_used",
+    "items": [ { "group": "boxed_magnum_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_458_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_9mm_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_22lr_looted",
+    "items": [ { "group": "boxed_pistol_tiny_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_45_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_380_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_40_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_357_looted",
+    "items": [ { "group": "boxed_magnum_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_12_looted",
+    "items": [ { "group": "boxed_shot_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_38_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_44_looted",
+    "items": [ { "group": "boxed_magnum_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_3006_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_45colt_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762R_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_270_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_410_looted",
+    "items": [ { "group": "boxed_shot_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_10mm_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_303_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_30carbine_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_32_looted",
+    "items": [ { "group": "boxed_pistol_tiny_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_338_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_357sig_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_38super_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_450_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_454_looted",
+    "items": [ { "group": "boxed_magnum_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_4570_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_500_looted",
+    "items": [ { "group": "boxed_magnum_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_545_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_57_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762x25_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_9x18_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_77x58_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50AE_looted",
+    "items": [ { "group": "boxed_magnum_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_458_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  }
+]

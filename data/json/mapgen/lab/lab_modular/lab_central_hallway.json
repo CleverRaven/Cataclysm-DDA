@@ -4,7 +4,6 @@
     "//": "level -2",
     "om_terrain": [ [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP" ] ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -47,7 +46,6 @@
     "om_terrain": "lab_CORE_2x1_1DN",
     "//": "level -3",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -109,7 +107,6 @@
     "om_terrain": "lab_CORE_2x1_2DN",
     "//": "level -3",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -172,7 +169,6 @@
     "method": "json",
     "//": "level -4",
     "om_terrain": [ "underground_lab_cargo_stationA" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -217,7 +213,6 @@
     "method": "json",
     "om_terrain": [ "underground_lab_cargo_stationB" ],
     "//": "level -4",
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -250,14 +245,7 @@
       "place_vehicles": [
         { "vehicle": "miniature_train_loco_steerable", "x": 4, "y": 1, "chance": 30, "status": 0, "rotation": 270 },
         { "vehicle": "miniature_train_loco_steerable_2", "x": 4, "y": 7, "chance": 30, "status": 0, "rotation": 90 },
-        {
-          "vehicle": "miniature_train_loco_steerable_3",
-          "x": 19,
-          "y": 1,
-          "chance": 100,
-          "status": 0,
-          "rotation": 270
-        },
+        { "vehicle": "miniature_train_loco_steerable_3", "x": 19, "y": 1, "status": 0, "rotation": 270 },
         { "vehicle": "miniature_train_loco_steerable_3", "x": 19, "y": 7, "chance": 30, "status": 0, "rotation": 90 }
       ],
       "terrain": {
@@ -283,7 +271,6 @@
     "method": "json",
     "om_terrain": [ "underground_lab_central_-5W" ],
     "//": "level -5",
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -383,7 +370,6 @@
     "method": "json",
     "om_terrain": [ "underground_lab_central_-5E" ],
     "//": "level -5",
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -428,7 +414,6 @@
     "method": "json",
     "om_terrain": [ "underground_lab_central_-6W" ],
     "//": "level -6",
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -473,7 +458,6 @@
     "method": "json",
     "om_terrain": [ "underground_lab_central_-6E" ],
     "//": "level -6",
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -517,7 +501,6 @@
     "method": "json",
     "om_terrain": [ "underground_lab_central_-7W" ],
     "//": "level -6",
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -554,7 +537,6 @@
     "method": "json",
     "om_terrain": [ "underground_lab_central_-7E" ],
     "//": "level -6",
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

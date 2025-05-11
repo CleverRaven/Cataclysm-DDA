@@ -89,7 +89,7 @@
       "@": { "item": "bed", "chance": 50 },
       "Z": { "item": "afs_colonist_outfit", "chance": 100 },
       "W": { "item": "afs_colonist_outfit", "chance": 50 },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] }
     }
   }
 ]

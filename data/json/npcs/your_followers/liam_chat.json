@@ -724,7 +724,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
     "dynamic_line": {
-      "math": [ "u_hub01_completed_missions", ">=", "1" ],
+      "math": [ "u_hub01_completed_missions >= 1" ],
       "yes": "I'm thinking this kinda sounds like that intercom and their vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale.  Anyway, I bet that's where we're going.",
       "no": "I'm thinking this sounds *awesome*, and also possibly we're gonna die.  At least we'll die investigating a vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale."
     },
@@ -825,7 +825,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_discovered_robofac_intercom" } ],
       "yes": {
-        "math": [ "u_hub01_completed_missions", ">=", "1" ],
+        "math": [ "u_hub01_completed_missions >= 1" ],
         "yes": "Is that just that Hub place, with the intercom?  Not that it's not cool, but it's nothing new to us.  Woah… we've really seen some shit, haven't we.",
         "no": "It sounds to me like this might be that intercom we found out in that weird building?  I'm just guessing.  We should go confirm."
       },

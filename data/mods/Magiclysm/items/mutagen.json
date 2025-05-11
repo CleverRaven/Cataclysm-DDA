@@ -2,7 +2,8 @@
   {
     "id": "manatouched_serum",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "concentrated mana mutagenic primer" },
     "color": "light_blue",
     "description": "A very concentrated form of mana potion.",
@@ -10,13 +11,14 @@
       "type": "consume_drug",
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
+      "vitamins": [ [ "mutagen_manatouched", 500 ] ]
     }
   },
   {
     "id": "manatouched_mutagen",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "color": "light_blue",
     "description": "A mana potion mixed with mutagen.  It might help you connect with magic.",
     "name": { "str_sp": "mana mutagen" },
@@ -29,7 +31,8 @@
   {
     "id": "mutagen_black_dragon",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "color": "black",
     "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
     "name": { "str_sp": "black dragon mutagen" },
@@ -42,7 +45,8 @@
   {
     "id": "iv_black_dragon",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "black dragon mutagenic primer" },
     "description": "A super-concentrated mutagen that seems to swirl with the anger of a black dragon.  Do you dare leave your humanity behind and inject it?",
     "color": "black",
@@ -50,7 +54,7 @@
       "type": "consume_drug",
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "mutagen_black_dragon", 450, 550 ] ]
+      "vitamins": [ [ "mutagen_black_dragon", 500 ] ]
     }
   }
 ]

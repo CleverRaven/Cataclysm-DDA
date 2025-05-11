@@ -9,24 +9,35 @@
       "TALK_GODCO_Julian_Mood"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Julian_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Julian_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things here?", "topic": "TALK_GODCO_Julian_Mood" },
       { "text": "What are the advantages of being a dorm leader?", "topic": "TALK_GODCO_Julian_Leader" },
       {
+        "text": "Heard you and Olwen were some kind of lovebirds?",
+        "topic": "TALK_GODCO_Julian_Love0",
+        "condition": { "math": [ "godco_julian_wedding == 0" ] }
+      },
+      {
+        "text": "How did Olwen receive the rings?",
+        "topic": "TALK_GODCO_Julian_Love1",
+        "condition": { "math": [ "godco_julian_wedding == 1" ] }
+      },
+      {
+        "text": "Did Olwen like the dress?",
+        "topic": "TALK_GODCO_Julian_Love2",
+        "condition": { "math": [ "godco_julian_wedding == 2" ] }
+      },
+      {
         "text": "Why did you join the Church?",
         "topic": "TALK_GODCO_Julian_Church",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "I want to join the community.",
         "topic": "TALK_GODCO_Julian_Join",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
@@ -53,7 +64,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Hey…  I'm Julian, the guy in charge of this room.  Are you… planning on sticking around or somethin'?",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Why are you still around, don't you have someone else to bother?",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ],
@@ -116,7 +127,7 @@
         "topic": "TALK_GODCO_Julian_2",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
           ]
         }
@@ -126,7 +137,7 @@
         "topic": "TALK_GODCO_Julian_Angry",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
           ]
         }
@@ -160,6 +171,35 @@
     "responses": [
       { "text": "Got it.", "topic": "TALK_GODCO_Julian_Joinee" },
       { "text": "Actually, <end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Julian_Love0",
+    "dynamic_line": "Of course, our relationship was going pretty well before <the_cataclysm>.  Olwen seems to be under the weather lately, but I want to give her a great surprise and make her smile again…",
+    "responses": [
+      { "text": "Want me to help you with that surprise?", "topic": "TALK_MISSION_LIST" },
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Julian_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Julian_Love1",
+    "dynamic_line": "With a big smile and her eyes wide open!  I can't thank you enough for helping me with that, even so…  You could maybe lend your hand again to bring even more happiness to this place?",
+    "responses": [
+      { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Julian_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Julian_Love2",
+    "dynamic_line": "She loved it!  I still can't believe I will be able to provide her with a proper wedding even after everything that happened, you have been a real life saver <name_g>.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Julian_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_melon",
     "copy-from": "seed",
     "name": { "str_sp": "melon seeds" },
@@ -9,11 +10,16 @@
     "use_action": [ "SEED" ],
     "description": "Some raw melon seeds.",
     "price": "1 cent",
-    "seed_data": { "plant_name": "melon", "fruit": "melon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" },
-    "volume": "2 ml"
+    "volume": "2 ml",
+    "plant_name": "melon",
+    "fruit": "melon",
+    "fruit_div": 3,
+    "byproducts": [ "withered" ],
+    "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_banana",
     "copy-from": "seed",
     "name": { "str_sp": "banana seeds" },
@@ -22,11 +28,15 @@
     "use_action": [ "SEED" ],
     "description": "Some raw banana seeds.",
     "price": "1 cent",
-    "seed_data": { "plant_name": "banana", "fruit": "banana", "fruit_div": 3, "grow": "91 days" },
-    "volume": "2 ml"
+    "volume": "2 ml",
+    "plant_name": "banana",
+    "fruit": "banana",
+    "fruit_div": 3,
+    "grow": "91 days"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_kiwi",
     "copy-from": "seed",
     "name": { "str_sp": "kiwi seeds" },
@@ -35,7 +45,11 @@
     "use_action": [ "SEED" ],
     "description": "Some raw kiwi seeds.",
     "price": "1 cent",
-    "seed_data": { "plant_name": "kiwi", "fruit": "kiwi", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" },
-    "volume": "2 ml"
+    "volume": "2 ml",
+    "plant_name": "kiwi",
+    "fruit": "kiwi",
+    "fruit_div": 3,
+    "byproducts": [ "withered" ],
+    "grow": "91 days"
   }
 ]

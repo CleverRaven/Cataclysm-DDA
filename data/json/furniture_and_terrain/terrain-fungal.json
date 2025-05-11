@@ -86,7 +86,7 @@
     "id": "t_fungus_wall_transformed",
     "name": "fungal wall",
     "description": "The fungus here has grown thickly and tightly enough to form a solid wall.  It feels very stiff to the touch, and seems to be very strong.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,

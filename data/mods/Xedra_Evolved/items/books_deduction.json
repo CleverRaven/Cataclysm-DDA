@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_deduction",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Esoteric Investigations Weekly", "str_pl": "issues of Esoteric Investigations Weekly" },
     "description": "A magazine for occult investigators.  These types of magazines proliferated in the decade prior to the Cataclysm.",
@@ -13,15 +14,31 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "brown_green",
-    "skill": "deduction",
     "max_level": 1,
     "intelligence": 8,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "deduction",
+    "read_fun": 1
+  },
+  {
+    "id": "mag_deduction_tabloid",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "copy-from": "mag_deduction",
+    "name": { "str": "The Noon", "str_pl": "issues of The Noon" },
+    "description": "A tabloid paper with a rather unusually out-of-this-world articles even for tabloids' standard, ranging from something like an article about morticians selling the deceased's 'dreams' to the government to a sensational headline about a half-bat half-human boy causing 40-car pileup in the highway while driving away from police pursuit.  While most thought of The Noon as an amusing but otherwise mostly fake news paper in the past, the Cataclysm might bring the articles' presumably fake facts to light.",
+    "color": "red",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": "15 m",
+    "read_skill": "deduction",
+    "read_fun": 2
   },
   {
     "id": "manual_deduction",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Holmesian Guide to Magickal Practice", "str_pl": "copies of The Holmesian Guide to Magickal Practice" },
     "description": "It's big and heavy, but full of great information about esoteric investigations.",
@@ -33,15 +50,16 @@
     "looks_like": "manual_first_aid",
     "symbol": "?",
     "color": "green",
-    "skill": "deduction",
     "required_level": 2,
     "max_level": 3,
     "intelligence": 9,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "deduction"
   },
   {
     "id": "book_teens_deduction",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Scraggy-Boo and the Mystery Crew", "str_pl": "copies of Scraggy-Boo and the Mystery Crew" },
     "description": "A guide for teens interested in pursuing occult knowledge.  Readers often speak of encountering a guide in their dreams of a Russian Sheepdog, who introduces himself as Scraggy-Boo.",
@@ -52,15 +70,16 @@
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "green",
-    "skill": "deduction",
     "required_level": 1,
     "max_level": 2,
     "intelligence": 8,
-    "time": "20 m"
+    "time": "20 m",
+    "read_skill": "deduction"
   },
   {
     "id": "book_deduction_black_iron_prison",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Escaping the Black Iron Prison", "str_pl": "copies of Escaping the Black Iron Prison" },
     "description": "A hardbound book detailing numerous rituals and thought modifications in order to teach its readers how to break the shackles of mundanity.",
@@ -71,11 +90,11 @@
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "black_white",
-    "skill": "deduction",
     "required_level": 3,
     "max_level": 4,
     "intelligence": 10,
     "time": "30 m",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "read_skill": "deduction"
   }
 ]

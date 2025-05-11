@@ -1,0 +1,143 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_TOUCH_OF_FRAILTY",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( ( 5.62 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1.85) + (u_skill('deduction') * 2.53) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( ( 12.35 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3.85) + (u_skill('deduction') * 4.98) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
+        ]
+      },
+      {
+        "if": "u_is_character",
+        "then": [
+          { "u_lose_effect": "effect_changeling_autumn_touch_of_frailty_character" },
+          {
+            "u_add_effect": "effect_changeling_autumn_touch_of_frailty_character",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          }
+        ],
+        "else": [
+          { "u_lose_effect": "effect_changeling_autumn_touch_of_frailty_monster" },
+          {
+            "u_add_effect": "effect_changeling_autumn_touch_of_frailty_monster",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_SCARE_ANIMALS",
+    "//": "Exclusive species list for compatibility",
+    "condition": {
+      "and": [
+        { "not": "u_is_character" },
+        { "not": { "u_has_species": "ROBOT" } },
+        { "not": { "u_has_species": "ROBOT_FLYING" } },
+        { "not": { "u_has_species": "NETHER" } },
+        { "not": { "u_has_species": "NETHER_BURROWING" } },
+        { "not": { "u_has_species": "FERAL" } },
+        { "not": { "u_has_species": "VAMPIRE" } },
+        { "not": { "u_has_species": "RENFIELD" } },
+        { "not": { "u_has_species": "HORROR" } },
+        { "not": { "u_has_species": "ABERRATION" } },
+        { "not": { "u_has_species": "NIGHTMARE" } },
+        { "not": { "u_has_species": "MIGO" } },
+        { "not": { "u_has_species": "ZOMBIE" } },
+        { "not": { "u_has_species": "SLIME" } },
+        { "not": { "u_has_species": "PLANT" } },
+        { "not": { "u_has_species": "FUNGUS" } },
+        { "not": { "u_has_species": "CYBORG" } },
+        { "not": { "u_has_species": "CHANGELING" } },
+        { "not": { "u_has_species": "ARVORE" } },
+        { "not": { "u_has_species": "HOMULLUS" } },
+        { "not": { "u_has_species": "IERDE" } },
+        { "not": { "u_has_species": "SALAMANDER" } },
+        { "not": { "u_has_species": "SYLPH" } },
+        { "not": { "u_has_species": "UNDINE" } }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "not": { "u_has_effect": "effect_changeling_autumn_scare_animals" } },
+        "then": [
+          {
+            "math": [
+              "u_val('morale')",
+              "-=",
+              "(25 + ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 2) + (u_skill('deduction') * 4) ) ) * global_what_is_the_season == 1 ? 0.5 : 1"
+            ]
+          },
+          { "u_add_effect": "effect_changeling_autumn_scare_animals", "duration": "5 minutes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG",
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
+    "effect": [
+      { "u_message": "A thick fog begins to rise.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 1" ] },
+      { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "run_eocs": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( 458.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 79.52) + (u_skill('deduction') * 153.71) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+            ]
+          },
+          {
+            "math": [
+              "( ( 915.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 216.85) + (u_skill('deduction') * 398.52) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 0" ] },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
+    "effect": [
+      { "if": "u_is_outside", "then": { "u_message": "The thick fog begins to disperse.", "type": "neutral" } },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_FREEZE_IN_PLACE",
+    "effect": [
+      { "u_add_effect": "effect_changeling_autumn_freeze_in_place_target", "duration": "PERMANENT" },
+      { "npc_add_effect": "effect_changeling_autumn_freeze_in_place_self", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER", "time_in_future": 0, "alpha_talker": "npc" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_FREEZE_IN_PLACE_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_changeling_autumn_freeze_in_place_self", { "context_val": "effect" } ] },
+    "effect": [ { "u_cast_spell": { "id": "changeling_autumn_freeze_in_place_remover" } } ]
+  }
+]

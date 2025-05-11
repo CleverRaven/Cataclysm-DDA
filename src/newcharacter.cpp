@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <initializer_list>
@@ -21,17 +22,21 @@
 #include "addiction.h"
 #include "bionics.h"
 #include "calendar_ui.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
+#include "input_enums.h"
 #include "item.h"
 #include "json.h"
 #include "loading_ui.h"
@@ -45,17 +50,20 @@
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "player_difficulty.h"
+#include "point.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
@@ -64,9 +72,10 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units_utility.h"
 #include "veh_type.h"
@@ -75,6 +84,7 @@
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
+static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
@@ -151,11 +161,11 @@ void tab_manager::draw( const catacurses::window &w )
     window_pos = point( getbegx( w ), getbegy( w ) );
     draw_border_below_tabs( w );
 
-    for( int i = 1; i < TERMX - 1; i++ ) {
-        mvwputch( w, point( i, 5 ), BORDER_COLOR, LINE_OXOX );
-    }
-    mvwputch( w, point( 0, 5 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( TERMX - 1, 5 ), BORDER_COLOR, LINE_XOXX ); // -|
+    wattron( w, BORDER_COLOR );
+    mvwaddch( w, point( 0, 5 ), LINE_XXXO ); // |-
+    mvwhline( w, point( 1, 5 ), LINE_OXOX, TERMX - 2 ); // -
+    mvwaddch( w, point( TERMX - 1, 5 ), LINE_XOXX ); // -|
+    wattroff( w, BORDER_COLOR );
 }
 
 bool tab_manager::handle_input( const std::string &action, const input_context &ctxt )
@@ -563,7 +573,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
                     }
                     break;
                 }
-            /* fallthrough */
+                [[fallthrough]];
             case 5:
                 if( allow_stats ) {
                     switch( rng( 1, 4 ) ) {
@@ -582,7 +592,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
                     }
                     break;
                 }
-            /* fallthrough */
+                [[fallthrough]];
             case 6:
             case 7:
             case 8:
@@ -668,22 +678,21 @@ void Character::add_profession_items()
 
     //storage items may not be added first, so a second attempt is needed
     attempt_add_items( prof_items, try_adding_again );
-    prof_items.clear();
-    attempt_add_items( try_adding_again, prof_items );
-    //if there's one item left that still can't be added, attempt to wield it
-    if( prof_items.size() == 1 ) {
-        item last_item = prof_items.front();
-        if( !has_wield_conflicts( last_item ) ) {
-            bool success_wield = wield( last_item );
-            if( success_wield ) {
-                prof_items.pop_front();
+    if( !try_adding_again.empty() ) {
+        prof_items.clear();
+        attempt_add_items( try_adding_again, prof_items );
+        //if there's one item left that still can't be added, attempt to wield it
+        if( prof_items.size() == 1 ) {
+            item last_item = prof_items.front();
+            if( !has_wield_conflicts( last_item ) ) {
+                bool success_wield = wield( last_item );
+                if( success_wield ) {
+                    prof_items.pop_front();
+                }
             }
         }
     }
-    if( !prof_items.empty() ) {
-        debugmsg( "Failed to place %d items in inventory for profession %s", prof_items.size(),
-                  prof->gender_appropriate_name( male ) );
-    }
+
     recalc_sight_limits();
     calc_encumbrance();
 }
@@ -801,7 +810,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // Don't apply the default backgrounds on a template
-    if( type != character_type::TEMPLATE ) {
+    if( type != character_type::TEMPLATE &&
+        !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
     }
 
@@ -890,6 +900,16 @@ void Character::set_skills_from_hobbies( bool no_override )
     }
 }
 
+void Character::set_recipes_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const recipe_id &recipeID : profession->recipes() ) {
+            const recipe &r = recipe_dictionary::get_craft( recipeID->result() );
+            learn_recipe( &r );
+        }
+    }
+}
+
 void Character::set_proficiencies_from_hobbies()
 {
     for( const profession *profession : hobbies ) {
@@ -937,7 +957,8 @@ void Character::initialize( bool learn_recipes )
     set_skills_from_hobbies();
 
     // setup staring bank money
-    cash = rng( -200000, 200000 );
+    cash = prof->starting_cash().value_or( rng( -200000, 200000 ) );
+
     randomize_heartrate();
 
     //set stored kcal to a normal amount for your height
@@ -993,13 +1014,17 @@ void Character::initialize( bool learn_recipes )
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
+    // Add hobby recipes
+    set_recipes_from_hobbies();
+
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &branch = mut.obj();
         if( branch.starts_active ) {
-            my_mutations[mut].powered = true;
+            cached_mutations[mut].powered = true;
         }
     }
+    trait_flag_cache.clear();
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
@@ -1107,7 +1132,7 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
 
 template <class Compare>
 static void draw_filter_and_sorting_indicators( const catacurses::window &w,
-        const input_context &ctxt, const std::string_view filterstring, const Compare &sorter )
+        const input_context &ctxt, std::string_view filterstring, const Compare &sorter )
 {
     const char *const sort_order = sorter.sort_by_points ? _( "default" ) : _( "name" );
     const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
@@ -1155,7 +1180,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = freeWidth > 15;
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_description = catacurses::newwin( TERMY - iHeaderHeight - iHelpHeight - 1,
                                             TERMX - iSecondColumn - 1, point( iSecondColumn, iHeaderHeight ) );
         ui.position_from_window( w );
@@ -1255,7 +1280,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
             }
         }
 
-        fold_and_print( w_description, point_zero, getmaxx( w_description ),
+        fold_and_print( w_description, point::zero, getmaxx( w_description ),
                         COL_SKILL_USED, description );
 
         // Helptext points tab
@@ -1279,7 +1304,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     } while( true );
 }
 
-static std::string assemble_stat_details( avatar &u, const unsigned char sel )
+static std::string assemble_stat_details( avatar &u, int sel )
 {
     std::string description_str;
     switch( sel ) {
@@ -1440,7 +1465,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     const int max_stat_points = pool == pool_type::FREEFORM ? 20 : MAX_STAT;
     const int min_stat_points = 4;
 
-    unsigned char sel = 0;
+    int sel = 0;
 
     const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
     std::string warning_text; // Used to move warnings from the header to the details pane
@@ -1460,7 +1485,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         const int thirds = std::min( ( TERMX - 4 ) / 3, 38 );  // to allign scrollbar with the traits tab
         iSecondColumn = std::max( thirds, utf8_width( pools_to_string( u, pool ), true ) + 2 );
         const size_t iContentHeight = TERMY - iHeaderHeight - iHelpHeight - 1;
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
                                              point( iSecondColumn, iHeaderHeight ) );
         details_recalc = true;
@@ -1473,6 +1498,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     u.reset();
@@ -1525,6 +1551,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         u.reset_stats();
+        u.recalc_speed_bonus();
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         if( details_recalc ) {
@@ -1548,18 +1575,19 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         wnoutrefresh( w );
-        ui.set_cursor( w_details_pane, point_zero );
+        ui.set_cursor( w_details_pane, point::zero );
         details.draw( COL_STAT_NEUTRAL );
     } );
 
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        const unsigned char id_for_curr_description = sel;
+        const int id_for_curr_description = sel;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( details.handle_navigation( action, ctxt ) ) {
+        } else if( details.handle_navigation( action, ctxt )
+                   || navigate_ui_list( action, sel, 1, 4, true ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" ) {
             if( *stats[sel] > min_stat_points ) {
@@ -1571,10 +1599,6 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 ( *stats[sel] )++;
                 details_recalc = true;
             }
-        } else if( action == "DOWN" ) {
-            sel = ( sel + 1 ) % 4;
-        } else if( action == "UP" ) {
-            sel = ( sel + 3 ) % 4;
         }
         if( sel != id_for_curr_description ) {
             details_recalc = true;
@@ -1781,7 +1805,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_details_pane = catacurses::newwin( iDetailHeight, TERMX - 1,
                                              point( 0, TERMY - iDetailHeight - 1 ) );
         ui.position_from_window( w );
@@ -1807,14 +1831,17 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
 
         tabs.draw( w );
+        wattron( w, BORDER_COLOR );
         for( int i = 1; i < 3; ++i ) {
-            mvwputch( w, point( i * page_width, iHeaderHeight - 1 ), BORDER_COLOR, LINE_OXXX );  // '┬'
+            mvwaddch( w, point( i * page_width, iHeaderHeight - 1 ), LINE_OXXX );  // '┬'
         }
+        wattroff( w, BORDER_COLOR );
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
@@ -1965,7 +1992,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         wnoutrefresh( w );
-        ui.set_cursor( w_details_pane, point_zero );
+        ui.set_cursor( w_details_pane, point::zero );
         // color is never visible (COL_TR_NEUT), text is already colorized
         details.draw( COL_TR_NEUT );
     } );
@@ -2163,6 +2190,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 filterstring.clear();
                 recalc_traits = true;
             }
+        } else if( action == "RANDOMIZE" ) {
+            iCurrentLine[iCurWorkingPage] = rng( 0, traits_size[iCurWorkingPage] - 1 );
         }
         if( iCurWorkingPage != iPrevWorkingPage || iCurrentLine[iCurWorkingPage] != iPrevLine ) {
             details_recalc = true;
@@ -2375,7 +2404,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     // Profession spells
     if( !sorted_profs[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Profession spells:" ), COL_HEADER ) + "\n";
-        for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
+        for( const std::pair<const spell_id, int> &spell_pair : sorted_profs[cur_id]->spells() ) {
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
@@ -2386,6 +2415,15 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += mission_type::get( mission_id )->tname() + "\n";
         }
     }
+
+    // Profession money
+    std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
+
+    if( cash.has_value() ) {
+        assembled += "\n" + colorize( _( "Profession money:" ), COL_HEADER ) + "\n";
+        assembled += format_money( cash.value() ) + "\n";
+    }
+
     return assembled;
 }
 
@@ -2462,7 +2500,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     scrollbar list_sb;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_details_pane = catacurses::newwin( iContentHeight, TERMX / 2 - 1, point( TERMX / 2,
                                              iHeaderHeight ) );
         details_recalc =  true;
@@ -2532,7 +2570,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, profs_length, sorted_profs.size() } );
         std::string cur_prof_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -2582,7 +2620,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
-        ui.set_cursor( w_details_pane, point_zero );
+        ui.set_cursor( w_details_pane, point::zero );
         details.draw( c_light_gray );
     } );
 
@@ -2783,7 +2821,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     // Background spells
     if( !sorted_hobbies[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Background spells:" ), COL_HEADER ) + "\n";
-        for( const std::pair<spell_id, int> spell_pair : sorted_hobbies[cur_id]->spells() ) {
+        for( const std::pair<const spell_id, int> &spell_pair : sorted_hobbies[cur_id]->spells() ) {
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
@@ -2818,7 +2856,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_details_pane = catacurses::newwin( iContentHeight, TERMX / 2 - 1, point( TERMX / 2,
                                              iHeaderHeight ) );
         details_recalc = true;
@@ -2887,7 +2925,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, hobbies_length, sorted_hobbies.size() } );
         std::string cur_hob_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -2925,7 +2963,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
-        ui.set_cursor( w_details_pane, point_zero );
+        ui.set_cursor( w_details_pane, point::zero );
         details.draw( c_light_gray );
     } );
 
@@ -3172,7 +3210,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHelpHeight - iHeaderHeight - 1;
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_list = catacurses::newwin( iContentHeight, iSecondColumn - 1, point( 1, iHeaderHeight ) );
         w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
                                              point( iSecondColumn, iHeaderHeight ) );
@@ -3315,7 +3353,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
         wnoutrefresh( w );
         wnoutrefresh( w_list );
-        ui.set_cursor( w_details_pane, point_zero );
+        ui.set_cursor( w_details_pane, point::zero );
         details.draw( c_light_gray );
     } );
 
@@ -3528,7 +3566,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w = catacurses::newwin( TERMY, TERMX, point::zero );
         const int second_column_w = TERMX / 2 - 1;
         point origin = point( second_column_w + 1, iHeaderHeight );
         w_details_pane = catacurses::newwin( iContentHeight, second_column_w, origin );
@@ -3601,7 +3639,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, scens_length, sorted_scens.size() } );
         std::string current_scenario_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -3653,7 +3691,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
-        ui.set_cursor( w_details_pane, point_zero );
+        ui.set_cursor( w_details_pane, point::zero );
         details.draw( c_light_gray );
     } );
 
@@ -3780,7 +3818,7 @@ static void draw_name( ui_adaptor &ui, const catacurses::window &w_name,
                        const bool no_name_entered )
 {
     werase( w_name );
-    mvwprintz( w_name, point_zero,
+    mvwprintz( w_name, point::zero,
                highlight ? COL_SELECT : c_light_gray, _( "Name:" ) );
     const point opt_pos( 1 + utf8_width( _( "Name:" ) ), 0 );
     if( highlight ) {
@@ -3804,7 +3842,7 @@ static void draw_gender( ui_adaptor &ui, const catacurses::window &w_gender,
     const point female_pos = male_pos + point( 2 + utf8_width( _( "Male" ) ), 0 );
 
     werase( w_gender );
-    mvwprintz( w_gender, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Gender:" ) );
+    mvwprintz( w_gender, point::zero, highlight ? COL_SELECT : c_light_gray, _( "Gender:" ) );
     if( highlight && you.male ) {
         ui.set_cursor( w_gender, male_pos );
     }
@@ -3824,7 +3862,7 @@ static void draw_outfit( ui_adaptor &ui, const catacurses::window &w_outfit, con
     const point female_pos = male_pos + point( 2 + utf8_width( _( "Male" ) ), 0 );
 
     werase( w_outfit );
-    mvwprintz( w_outfit, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Outfit:" ) );
+    mvwprintz( w_outfit, point::zero, highlight ? COL_SELECT : c_light_gray, _( "Outfit:" ) );
     if( highlight && outfit ) {
         ui.set_cursor( w_outfit, male_pos );
     }
@@ -3842,7 +3880,7 @@ static void draw_height( ui_adaptor &ui, const catacurses::window &w_height,
                          const avatar &you, const bool highlight )
 {
     werase( w_height );
-    mvwprintz( w_height, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Height:" ) );
+    mvwprintz( w_height, point::zero, highlight ? COL_SELECT : c_light_gray, _( "Height:" ) );
     const point opt_pos( 1 + utf8_width( _( "Height:" ) ), 0 );
     if( highlight ) {
         ui.set_cursor( w_height, opt_pos );
@@ -3855,7 +3893,7 @@ static void draw_age( ui_adaptor &ui, const catacurses::window &w_age,
                       const avatar &you, const bool highlight )
 {
     werase( w_age );
-    mvwprintz( w_age, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Age:" ) );
+    mvwprintz( w_age, point::zero, highlight ? COL_SELECT : c_light_gray, _( "Age:" ) );
     const point opt_pos( 1 + utf8_width( _( "Age:" ) ), 0 );
     if( highlight ) {
         ui.set_cursor( w_age, opt_pos );
@@ -3868,7 +3906,7 @@ static void draw_blood( ui_adaptor &ui, const catacurses::window &w_blood,
                         const avatar &you, const bool highlight )
 {
     werase( w_blood );
-    mvwprintz( w_blood, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Blood type:" ) );
+    mvwprintz( w_blood, point::zero, highlight ? COL_SELECT : c_light_gray, _( "Blood type:" ) );
     const point opt_pos( 1 + utf8_width( _( "Blood type:" ) ), 0 );
     if( highlight ) {
         ui.set_cursor( w_blood, opt_pos );
@@ -3891,7 +3929,7 @@ static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
     }
 
     werase( w_location );
-    mvwprintz( w_location, point_zero, highlight ? COL_SELECT : c_light_gray,
+    mvwprintz( w_location, point::zero, highlight ? COL_SELECT : c_light_gray,
                _( "Starting location:" ) );
     const point opt_pos( utf8_width( _( "Starting location:" ) ) + 1, 0 );
     if( highlight ) {
@@ -3998,16 +4036,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = freeWidth > 15;
-        const int beginx2 = 46;
+        const int beginx2 = 52;
         const int ncol2 = 40;
-        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
+        const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 90;
         const int ncol3 = TERMX - beginx3 - 2;
         const int beginx4 = TERMX <= 130 ? TERMX - TERMX / 5 : 128;
         const int ncol4 = TERMX - beginx4 - 2;
         const int ncol_small = ( TERMX / 2 ) - 2;
         const int begin_sncol = TERMX / 2;
         if( isWide ) {
-            w = catacurses::newwin( TERMY, TERMX, point_zero );
+            w = catacurses::newwin( TERMY, TERMX, point::zero );
             w_name = catacurses::newwin( 2, ncol2 + 2, point( 2, 6 ) );
             w_gender = catacurses::newwin( 1, ncol2 + 2, point( 2, 7 ) );
             w_outfit = catacurses::newwin( 1, ncol2 + 1, point( 2, 8 ) );
@@ -4023,13 +4061,13 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_hobbies = catacurses::newwin( TERMY - 11 - 11, ncol4, point( beginx4, 10 ) );
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
-            w_skills = catacurses::newwin( TERMY - 11, 23, point( 22, 10 ) );
+            w_skills = catacurses::newwin( TERMY - 11, 27, point( 22, 10 ) );
             w_height = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
             w_age = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
             w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 8 ) );
             ui.position_from_window( w );
         } else {
-            w = catacurses::newwin( TERMY, TERMX, point_zero );
+            w = catacurses::newwin( TERMY, TERMX, point::zero );
             w_name = catacurses::newwin( 1, ncol_small, point( 2, 5 ) );
             w_gender = catacurses::newwin( 1, ncol_small, point( 2, 6 ) );
             w_outfit = catacurses::newwin( 1, ncol_small, point( 2, 7 ) );
@@ -4131,20 +4169,17 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         draw_points( w, pool, you );
 
         //Draw the line between editable and non-editable stuff.
-        for( int i = 0; i < getmaxx( w ); ++i ) {
-            if( i == 0 ) {
-                mvwputch( w, point( i, 9 ), BORDER_COLOR, LINE_XXXO );
-            } else if( i == getmaxx( w ) - 1 ) {
-                wputch( w, BORDER_COLOR, LINE_XOXX );
-            } else {
-                wputch( w, BORDER_COLOR, LINE_OXOX );
-            }
-        }
+        wattron( w, BORDER_COLOR );
+        mvwaddch( w, point( 0,                9 ), LINE_XXXO ); // |-
+        mvwhline( w, point( 1,                9 ), LINE_OXOX, getmaxx( w ) - 2 ); // |
+        mvwaddch( w, point( getmaxx( w ) - 1, 9 ), LINE_XOXX );  // -|
+        wattroff( w, BORDER_COLOR );
         wnoutrefresh( w );
 
         werase( w_stats );
         std::vector<std::string> vStatNames;
-        mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
+        vStatNames.reserve( 4 );
+        mvwprintz( w_stats, point::zero, COL_HEADER, _( "Stats:" ) );
         vStatNames.emplace_back( _( "Strength:" ) );
         vStatNames.emplace_back( _( "Dexterity:" ) );
         vStatNames.emplace_back( _( "Intelligence:" ) );
@@ -4163,7 +4198,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         if( isWide ) {
             werase( w_traits );
-            mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
+            mvwprintz( w_traits, point::zero, COL_HEADER, _( "Traits: " ) );
             std::vector<trait_and_var> current_traits = you.get_mutations_variants();
             std::sort( current_traits.begin(), current_traits.end(), trait_var_display_sort );
             if( current_traits.empty() ) {
@@ -4180,7 +4215,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         if( isWide ) {
             werase( w_skills );
-            mvwprintz( w_skills, point_zero, COL_HEADER, _( "Skills:" ) );
+            mvwprintz( w_skills, point::zero, COL_HEADER, _( "Skills:" ) );
 
             auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
                 const int level_a = you.get_skill_level_object( a.ident() ).exercised_level();
@@ -4253,7 +4288,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
                 return a->activated && !b->activated;
             } );
-            mvwprintz( w_bionics, point_zero, COL_HEADER, _( "Bionics:" ) );
+            mvwprintz( w_bionics, point::zero, COL_HEADER, _( "Bionics:" ) );
             if( prof_CBMs.empty() ) {
                 mvwprintz( w_bionics, point( utf8_width( _( "Bionics:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
             } else {
@@ -4290,20 +4325,22 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 }
             }
 
-            mvwprintz( w_proficiencies, point_zero, COL_HEADER, _( "Proficiencies:" ) );
+            mvwprintz( w_proficiencies, point::zero, COL_HEADER, _( "Proficiencies:" ) );
             if( prof_proficiencies.empty() ) {
-                mvwprintz( w_proficiencies, point_south, c_light_red, _( "None!" ) );
+                mvwprintz( w_proficiencies, point::south, c_light_red, _( "None!" ) );
             } else {
+                wattron( w_proficiencies, c_light_gray );
                 for( const proficiency_id &prof : prof_proficiencies ) {
-                    wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
+                    wprintw( w_proficiencies, "\n" + trim_by_length( prof->name(), 18 ) );
                 }
+                wattroff( w_proficiencies, c_light_gray );
             }
             wnoutrefresh( w_proficiencies );
         }
 
         // Helptext description window
         werase( w_guide );
-        fold_and_print( w_guide, point_zero, getmaxx( w_guide ), c_light_gray, help_text );
+        fold_and_print( w_guide, point::zero, getmaxx( w_guide ), c_light_gray, help_text );
         wnoutrefresh( w_guide );
 
         char_creation::draw_name( ui, w_name, you, current_selector == char_creation::NAME,
@@ -4321,24 +4358,24 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         const vproto_id prof_veh = you.prof->vehicle();
         if( isWide ) {
             if( scen_veh ) {
-                mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (scenario): " ) );
+                mvwprintz( w_vehicle, point::zero, c_light_gray, _( "Starting vehicle (scenario): " ) );
                 wprintz( w_vehicle, c_white, "%s", scen_veh->name );
             } else if( prof_veh ) {
-                mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (profession): " ) );
+                mvwprintz( w_vehicle, point::zero, c_light_gray, _( "Starting vehicle (profession): " ) );
                 wprintz( w_vehicle, c_white, "%s", prof_veh->name );
             } else {
-                mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle: " ) );
+                mvwprintz( w_vehicle, point::zero, c_light_gray, _( "Starting vehicle: " ) );
                 wprintz( w_vehicle, c_light_red, _( "None!" ) );
             }
         } else {
             if( scen_veh ) {
-                mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Starting vehicle (scenario): " ) );
+                mvwprintz( w_vehicle, point::zero, COL_HEADER, _( "Starting vehicle (scenario): " ) );
                 wprintz( w_vehicle, c_light_gray, "\n%s", scen_veh->name );
             } else if( prof_veh ) {
-                mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Starting vehicle (profession): " ) );
+                mvwprintz( w_vehicle, point::zero, COL_HEADER, _( "Starting vehicle (profession): " ) );
                 wprintz( w_vehicle, c_light_gray, "\n%s", prof_veh->name );
             } else {
-                mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Starting vehicle: " ) );
+                mvwprintz( w_vehicle, point::zero, COL_HEADER, _( "Starting vehicle: " ) );
                 wprintz( w_vehicle, c_light_red, _( "None!" ) );
             }
         }
@@ -4354,7 +4391,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             }
         }
         if( isWide ) {
-            mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
+            mvwprintz( w_addictions, point::zero, c_light_gray, _( "Starting addictions: " ) );
             if( prof_addictions.empty() ) {
                 wprintz( w_addictions, c_light_red, _( "None!" ) );
             } else {
@@ -4365,7 +4402,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 }
             }
         } else {
-            mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
+            mvwprintz( w_addictions, point::zero, COL_HEADER, _( "Starting addictions: " ) );
             if( prof_addictions.empty() ) {
                 wprintz( w_addictions, c_light_red, _( "None!" ) );
             } else {
@@ -4380,17 +4417,17 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         wnoutrefresh( w_addictions );
 
         werase( w_scenario );
-        mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
+        mvwprintz( w_scenario, point::zero, COL_HEADER, _( "Scenario: " ) );
         wprintz( w_scenario, c_light_gray, get_scenario()->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_scenario );
 
         werase( w_profession );
-        mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession: " ) );
+        mvwprintz( w_profession, point::zero, COL_HEADER, _( "Profession: " ) );
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
 
         werase( w_calendar );
-        mvwprintz( w_calendar, point_zero, COL_HEADER, _( "Start of cataclysm:" ) );
+        mvwprintz( w_calendar, point::zero, COL_HEADER, _( "Start of cataclysm:" ) );
         wprintz( w_calendar, c_light_gray, "\n" );
         wprintz( w_calendar, c_light_gray, to_string( get_scenario()->start_of_cataclysm() ) );
         wprintz( w_calendar, c_light_gray, "\n" );
@@ -4401,13 +4438,15 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         if( isWide ) {
             werase( w_hobbies );
-            mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Background: " ) );
+            mvwprintz( w_hobbies, point::zero, COL_HEADER, _( "Background: " ) );
             if( you.hobbies.empty() ) {
-                mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
+                mvwprintz( w_hobbies, point::south, c_light_red, _( "None!" ) );
             } else {
+                wattron( w_hobbies, c_light_gray );
                 for( const profession *prof : you.hobbies ) {
-                    wprintz( w_hobbies, c_light_gray, "\n%s", prof->gender_appropriate_name( you.male ) );
+                    wprintw( w_hobbies, "\n%s", prof->gender_appropriate_name( you.male ) );
                 }
+                wattroff( w_hobbies, c_light_gray );
             }
             wnoutrefresh( w_hobbies );
         }
@@ -4671,23 +4710,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::AGE: {
-                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
-                    .text( string_format( "%d", you.base_age() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_age();
+                    if( query_int( result, false, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
                         you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
                 case char_creation::HEIGHT: {
-                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
-                                                min_allowed_height,
-                                                max_allowed_height ) )
-                    .text( string_format( "%d", you.base_height() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_height();
+                    if( query_int( result, false, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                   min_allowed_height, max_allowed_height ) && result > 0 ) {
                         you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
                     }
                     break;
@@ -4769,7 +4801,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
         bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
-    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
+    result.reserve( my_mutations.size() + old_mutation_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         const mutation_branch &mut = t.first.obj();
         if( include_hidden || mut.player_display ) {
@@ -4779,7 +4811,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
         }
     }
     if( !ignore_enchantments ) {
-        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
+        for( const trait_id &ench_trait : old_mutation_cache->get_mutations() ) {
             if( include_hidden || ench_trait->player_display ) {
                 bool found = false;
                 for( const trait_id &exist : result ) {
@@ -4799,30 +4831,36 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
     return result;
 }
 
+std::vector<trait_id> Character::get_functioning_mutations( bool include_hidden,
+        bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
+{
+    std::vector<trait_id> result;
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    result.reserve( test.size() );
+    for( const std::pair<const trait_id, trait_data> &t : test ) {
+        if( t.second.corrupted == 0 ) {
+            const mutation_branch &mut = t.first.obj();
+            if( include_hidden || mut.player_display ) {
+                if( filter == nullptr || filter( mut ) ) {
+                    result.push_back( t.first );
+                }
+            }
+        }
+    }
+    return result;
+}
+
 std::vector<trait_and_var> Character::get_mutations_variants( bool include_hidden,
         bool ignore_enchantments ) const
 {
     std::vector<trait_and_var> result;
-    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
-    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
-        if( include_hidden || t.first.obj().player_display ) {
-            const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
-            result.emplace_back( t.first, variant );
-        }
-    }
-    if( !ignore_enchantments ) {
-        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
-            if( include_hidden || ench_trait->player_display ) {
-                bool found = false;
-                for( const trait_and_var &exist : result ) {
-                    if( exist.trait == ench_trait ) {
-                        found = true;
-                        break;
-                    }
-                }
-                if( !found ) {
-                    result.emplace_back( ench_trait, "" );
-                }
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    result.reserve( test.size() );
+    for( const std::pair<const trait_id, trait_data> &t : test ) {
+        if( t.second.corrupted == 0 ) {
+            if( include_hidden || t.first.obj().player_display ) {
+                const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
+                result.emplace_back( t.first, variant );
             }
         }
     }
@@ -4835,11 +4873,17 @@ void Character::clear_mutations()
         my_traits.erase( *my_traits.begin() );
     }
     while( !my_mutations.empty() ) {
-        const trait_id trait = my_mutations.begin()->first;
         my_mutations.erase( my_mutations.begin() );
+    }
+    while( !my_mutations_dirty.empty() ) {
+        my_mutations_dirty.erase( my_mutations_dirty.begin() );
+    }
+    while( !cached_mutations.empty() ) {
+        const trait_id trait = cached_mutations.begin()->first;
+        cached_mutations.erase( cached_mutations.begin() );
         mutation_loss_effect( trait );
     }
-    cached_mutations.clear();
+    old_mutation_cache->clear();
     recalc_sight_limits();
     calc_encumbrance();
 }
@@ -4869,14 +4913,14 @@ void Character::add_traits()
 trait_id Character::random_good_trait()
 {
     return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points > 0;
+        return mb.points > 0 && mb.random_at_chargen;
     } );
 }
 
 trait_id Character::random_bad_trait()
 {
     return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points < 0;
+        return mb.points < 0 && mb.random_at_chargen;
     } );
 }
 

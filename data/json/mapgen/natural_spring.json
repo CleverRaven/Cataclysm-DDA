@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "natural_spring",
-    "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
       "predecessor_mapgen": "forest_thick",

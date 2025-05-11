@@ -10,7 +10,6 @@
 // They should be updated when the corresponding option is changed (in
 // options.cpp).
 
-extern int fov_3d_z_range;
 extern bool keycode_mode;
 extern bool log_from_top;
 extern int message_ttl;
@@ -20,6 +19,7 @@ extern bool prevent_occlusion_retract;
 extern bool prevent_occlusion_transp;
 extern float prevent_occlusion_min_dist;
 extern float prevent_occlusion_max_dist;
+extern bool show_creature_overlay_icons;
 extern bool use_tiles;
 extern bool use_far_tiles;
 extern bool use_pinyin_search;
@@ -33,6 +33,10 @@ extern int pixel_minimap_a;
 namespace cata::options
 {
 extern std::vector<std::string> damage_indicators;
+extern struct mouse_t {
+    bool enabled: 1;
+    bool hidekb: 1;
+} mouse;
 } // namespace cata::options
 
 // test_mode is not a regular game option; it's true when we are running unit

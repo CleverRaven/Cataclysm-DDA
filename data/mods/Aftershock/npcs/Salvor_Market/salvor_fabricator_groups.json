@@ -1,0 +1,189 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_trade",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_salvor_fabricator_scraps" },
+      { "group": "afs_salvor_fabricator_tools" },
+      { "group": "afs_salvor_fabricator_combat_gear" },
+      { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
+      { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
+      { "group": "afs_augustmoon_batteries_disposable", "count": [ 5, 10 ] },
+      { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 },
+      { "group": "augustmoon_shop_money" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_scraps",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_common_biomaterial_scrapgroup", "prob": 30, "count": [ 3, 5 ] },
+      { "group": "afs_common_energy_storage_scrapgroup", "prob": 70, "count": [ 5, 8 ] },
+      { "group": "afs_common_heat_scrapgroup", "prob": 70, "count": [ 5, 8 ] },
+      { "group": "afs_common_magnet_scrapgroup", "prob": 70, "count": [ 5, 8 ] },
+      { "group": "afs_common_circuitry_scrapgroup", "prob": 90, "count": [ 6, 15 ] },
+      { "group": "afs_common_material_scrapgroup", "prob": 90, "count": [ 8, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_tools",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_salvor_fabricator_tools_general" },
+      { "group": "afs_salvor_fabricator_tools_cooking" },
+      { "group": "afs_salvor_fabricator_tools_electronics" },
+      { "group": "afs_salvor_fabricator_tools_appliances" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_combat_gear",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_salvor_fabricator_makeshift_armor" },
+      { "group": "afs_salvor_fabricator_makeshift_weapons" },
+      { "group": "afs_salvor_fabricator_makeshift_ammo" },
+      { "group": "afs_salvor_fabricator_makeshift_grenades" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_makeshift_armor",
+    "subtype": "collection",
+    "items": [
+      { "item": "xl_helmet_scrap", "prob": 40 },
+      { "item": "helmet_scrap_xs", "prob": 40 },
+      { "item": "helmet_scrap", "prob": 70 },
+      { "item": "xl_cuirass_scrap", "prob": 40 },
+      { "item": "xs_cuirass_scrap", "prob": 40 },
+      { "item": "cuirass_scrap", "prob": 70 },
+      { "item": "armguard_scrap", "prob": 70 },
+      { "item": "legguard_scrap", "prob": 70 },
+      { "item": "xl_boots_scrap", "prob": 40 },
+      { "item": "xs_boots_scrap", "prob": 40 },
+      { "item": "boots_scrap", "prob": 70 },
+      { "item": "afs_titanium_vest", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_makeshift_weapons",
+    "subtype": "collection",
+    "items": [
+      { "item": "laser_rifle_cheap", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "makeshift_scrambler", "prob": 30 },
+      { "item": "afs_launcher_salvaged", "prob": 10 },
+      { "item": "afs_makeshift_fusion_gun", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_makeshift_ammo",
+    "subtype": "collection",
+    "items": [ { "item": "afs_bootleg_cartridge", "prob": 60, "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_makeshift_grenades",
+    "subtype": "collection",
+    "items": [
+      { "item": "afs_electroshock_grenade_1", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "grenade_cryo", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "afs_oxygen_bomb", "prob": 30, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_tools_general",
+    "//": "Some general tools that aren't especially hard to find or overly useful.",
+    "subtype": "collection",
+    "items": [
+      { "item": "flashlight", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "heavy_flashlight", "prob": 30 },
+      { "item": "hammer", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "screwdriver", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "screwdriver_set", "prob": 30 },
+      { "item": "wrench", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "cordless_impact_wrench", "prob": 30 },
+      { "item": "wrench_large", "prob": 60 },
+      { "item": "wrench_small", "prob": 60 },
+      { "item": "socket_wrench_set", "prob": 30 },
+      { "item": "multitool", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "xacto", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "utility_knife_folding", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "pipe_cleaner", "prob": 30 },
+      { "item": "angle_grinder", "prob": 20 },
+      { "item": "crash_axe", "prob": 20 },
+      { "item": "crowbar", "prob": 20 },
+      { "item": "geiger_off", "prob": 20 },
+      { "item": "small_repairkit", "prob": 10 },
+      { "item": "hacksaw", "prob": 10 },
+      { "item": "chisel", "prob": 5 },
+      { "item": "hammer_sledge", "prob": 20 },
+      { "item": "hammer_sledge_short", "prob": 20 },
+      { "item": "e_tool", "prob": 10 },
+      { "item": "afs_plasma_torch", "prob": 40 },
+      { "item": "goggles_welding", "prob": 40, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_tools_cooking",
+    "//": "Some tools to assist in cooking while out and about. She makes a point of keeping these sorts of things available.",
+    "subtype": "collection",
+    "items": [
+      { "item": "hotplate", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "pot", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "steel_pan", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "military_mess_kit", "prob": 30 },
+      { "item": "multi_cooker", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_tools_electronics",
+    "//": "Tools for crafting and maintaining electronics. Less available in general since their usefulness in the field is limited.",
+    "subtype": "collection",
+    "items": [
+      { "item": "soldering_iron", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "soldering_iron_portable", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "multimeter", "prob": 20 },
+      { "item": "voltmeter", "prob": 20 },
+      { "item": "solder_wire", "prob": 50, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_tools_appliances",
+    "//": "Appliances to setting up a small little outpost. She stocks these decently well for Salvors lacking the skill to fabricate them on their own.",
+    "subtype": "collection",
+    "items": [
+      { "item": "afs_battery_charger", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "afs_survival_heater", "prob": 40 },
+      { "item": "afs_tripod_light", "prob": 80, "count": [ 3, 8 ] },
+      { "item": "afs_survival_battery", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "foot_locker_recharge_station", "prob": 30, "count": [ 1, 2 ] },
+      { "item": "cot", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "rollmat", "prob": 80, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_fabricator_tools_aftershock",
+    "//": "Just a group for all aftershock tools she sells, prevents her marking them up to oblivion.",
+    "items": [
+      { "item": "afs_battery_charger" },
+      { "item": "afs_survival_heater" },
+      { "item": "afs_tripod_light" },
+      { "item": "afs_survival_battery" },
+      { "item": "multi_cooker" },
+      { "item": "afs_40g_plasma_civ" },
+      { "item": "afs_plasma_torch" }
+    ]
+  }
+]

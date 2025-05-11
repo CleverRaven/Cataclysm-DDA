@@ -1,0 +1,201 @@
+[
+  {
+    "//": "Aftershock - cryo pod room",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 120,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "|--------|....|--------|",
+        "|xP-CC-Px|....|xP-CC-Px|",
+        "|........|...6|........|",
+        "|x......c|....|c......x|",
+        "|x......c|-LL-|c......x|",
+        "|........|6..&|........|",
+        "|......................|",
+        "|....cc.........cc.....|",
+        "|l...hx.........xh....l|",
+        "|....cc.........cc.....|",
+        "|......................|",
+        "|........C....C........|",
+        "|.......CP....PC.......|",
+        "|Wh..................hW|",
+        "|Rc..................cR|",
+        "|Wh..................hW|",
+        "|.......CP....PC.......|",
+        "|........C....C........|",
+        "|l....................l|",
+        "|l...cc.........cc....l|",
+        "|....hx.........xh.....|",
+        "|....cc.........cc.....|",
+        "|........rlllr.........|",
+        "|----------------------|"
+      ],
+      "palettes": [ "lab_palette_aftershock" ],
+      "furniture": { "7": "f_console", "P": "f_cooling_pylon", "C": "f_cryo_pod", "&": "f_trashcan", "W": "f_workbench", "R": "f_crispr" },
+      "terrain": { "*": "t_thconc_floor" },
+      "place_traps": [ { "trap": "tr_cryo_pod_switch", "x": [ 5 ], "y": [ 8 ] } ],
+      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ],
+      "mapping": {
+        "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 10 } ] },
+        "C": { "items": [ { "item": "afs_weapons_rare", "chance": 3 } ] },
+        "c": {
+          "items": [
+            { "item": "afs_scrapgroup", "chance": 60 },
+            { "item": "surgery", "chance": 10 },
+            { "item": "chem_lab", "chance": 10 },
+            { "item": "schematics", "chance": 5 }
+          ]
+        }
+      },
+      "computers": {
+        "6": {
+          "name": "Cryopod Live Specimen Testing",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_cryo_pod_switch",
+    "name": "cryo pod switch",
+    "color": "brown",
+    "symbol": "+",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "cryo_pod_open",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "cryo_pod_open",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 35 ] ],
+          "x": 9,
+          "y": 6
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 35 ] ],
+          "x": 14,
+          "y": 11
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 10 ], [ "open_cryo_pod4", 5 ], [ "null", 30 ] ],
+          "x": 8,
+          "y": 7
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 10 ], [ "null", 35 ] ],
+          "x": 15,
+          "y": 12
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 35 ] ],
+          "x": 8,
+          "y": 11
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 35 ] ],
+          "x": 15,
+          "y": 16
+        },
+        {
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 35 ] ],
+          "x": 9,
+          "y": 12
+        }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_palette_aftershock",
+    "furniture": {
+      "6": "f_console",
+      "x": "f_console_broken",
+      "b": "f_bed",
+      "l": "f_locker",
+      "X": [ "f_cardboard_box", "f_crate_c" ],
+      "r": "f_rack",
+      "d": "f_desk",
+      "s": "f_dresser",
+      "h": "f_chair",
+      "f": "f_fridge",
+      "t": "f_metal_table",
+      "i": "f_filing_cabinet",
+      "c": "f_counter",
+      "S": "f_sink",
+      "T": "f_toilet",
+      "#": "f_null",
+      "]": "f_bookcase",
+      "^": "f_rubble_rock"
+    },
+    "terrain": {
+      "g": "t_reinforced_glass",
+      "G": "t_reinforced_door_glass_lab_c",
+      ".": "t_thconc_floor",
+      ",": "t_strconc_floor",
+      "-": "t_concrete_wall",
+      "|": "t_concrete_wall",
+      "+": "t_door_glass_frosted_lab_c",
+      "W": "t_door_lab_c",
+      "M": "t_door_metal_lab_c",
+      "L": "t_door_metal_locked",
+      "#": "t_rock",
+      "C": "t_thconc_floor",
+      "P": "t_thconc_floor"
+    },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
+    "toilets": { "T": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "lab_loot_research",
+    "mapping": {
+      "c": {
+        "items": [
+          { "item": "tools_science", "chance": 10 },
+          { "item": "dissection", "chance": 10 },
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "mut_lab", "chance": 2 }
+        ]
+      },
+      "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
+      "X": {
+        "items": [
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "mut_lab", "chance": 2 },
+          { "item": "robots", "chance": 5 },
+          { "item": "science", "chance": 5 },
+          { "item": "sewage_plant", "chance": 5 },
+          { "item": "harddrugs", "chance": 5 },
+          { "item": "softdrugs", "chance": 5 }
+        ]
+      },
+      "d": { "items": [ { "item": "office", "chance": 20 }, { "item": "science", "chance": 5 } ] },
+      "h": { "item": [ { "item": "coat_lab", "chance": 5 } ] },
+      "]": { "items": [ { "item": "manuals", "chance": 10 }, { "item": "textbooks", "chance": 10 } ] },
+      "l": {
+        "items": [
+          { "item": "office", "chance": 10 },
+          { "item": "science", "chance": 10 },
+          { "item": "harddrugs", "chance": 3 },
+          { "item": "softdrugs", "chance": 3 },
+          { "item": "dresser", "chance": 3 },
+          { "item": "lab_torso", "chance": 3 },
+          { "item": "lab_pants", "chance": 3 }
+        ]
+      }
+    }
+  }
+]

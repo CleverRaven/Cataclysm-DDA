@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_MAYBE_MIL",
+    "id": "GROUP_MAYBE_MIL",
     "//": "50% chance military zombie or robot",
     "monsters": [
       { "monster": "mon_null", "weight": 925 },
@@ -14,7 +14,7 @@
     ]
   },
   {
-    "name": "GROUP_MIL_WEAK",
+    "id": "GROUP_MIL_WEAK",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 645 },
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "name": "GROUP_MIL_STRONG",
+    "id": "GROUP_MIL_STRONG",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 565 },
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "name": "GROUP_MIL_HELIPAD",
+    "id": "GROUP_MIL_HELIPAD",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 645 },
@@ -47,12 +47,12 @@
     ]
   },
   {
-    "name": "GROUP_MIL_PILOT",
+    "id": "GROUP_MIL_PILOT",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_zombie_military_pilot" } ]
   },
   {
-    "name": "GROUP_MIL_PASSENGER",
+    "id": "GROUP_MIL_PASSENGER",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 245 },
@@ -65,7 +65,7 @@
     ]
   },
   {
-    "name": "GROUP_MIL_BASE",
+    "id": "GROUP_MIL_BASE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 580 },
@@ -84,7 +84,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MIL_BASE_CIVILIAN",
+    "id": "GROUP_MIL_BASE_CIVILIAN",
     "//": "Civilians with soldiers and burned ones.",
     "monsters": [
       { "monster": "mon_zombie", "weight": 415 },
@@ -106,13 +106,13 @@
         "monster": "mon_feral_swimmer_kickboard",
         "weight": 1,
         "cost_multiplier": 2,
-        "ends": "165 days",
+        "ends": "660 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
+      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "240 days" },
       { "monster": "mon_zombie_scorched", "weight": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
@@ -122,7 +122,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MIL_BASE_HOSPITAL",
+    "id": "GROUP_MIL_BASE_HOSPITAL",
     "//": "Civilians with soldiers, doctors and burned ones. More hazmat.",
     "monsters": [
       { "monster": "mon_zombie", "weight": 50, "cost_multiplier": 2 },
@@ -144,13 +144,13 @@
         "monster": "mon_feral_swimmer_kickboard",
         "weight": 1,
         "cost_multiplier": 2,
-        "ends": "165 days",
+        "ends": "660 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
+      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "240 days" },
       { "monster": "mon_zombie_scorched", "weight": 25 },
       { "monster": "mon_zombie_soldier", "weight": 322, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
@@ -160,7 +160,7 @@
     ]
   },
   {
-    "name": "GROUP_AIRCRAFT_CARRIER",
+    "id": "GROUP_AIRCRAFT_CARRIER",
     "type": "monstergroup",
     "//": "no children, 40% tech personel 20% civilian personel (med, fire, cook, clercs etc), 20% uniformed zombie, 10% army pilots, and 10% military zeds",
     "monsters": [
@@ -180,7 +180,7 @@
       { "monster": "mon_zombie_military_pilot", "weight": 6 },
       { "monster": "mon_zombie_marine", "weight": 15, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_marine_upgrade", "weight": 2, "cost_multiplier": 10 },
-      { "monster": "mon_feral_officer", "weight": 2, "cost_multiplier": 10, "starts": "15 days" },
+      { "monster": "mon_feral_officer", "weight": 2, "cost_multiplier": 10, "starts": "60 days" },
       { "monster": "mon_feral_sailor_wrench", "weight": 6 },
       { "monster": "mon_feral_sailor_mop", "weight": 6 },
       { "monster": "mon_feral_sailor_axe", "weight": 6 },
@@ -190,7 +190,7 @@
     ]
   },
   {
-    "name": "GROUP_AIRCRAFT_CARRIER_TECHNICIANS",
+    "id": "GROUP_AIRCRAFT_CARRIER_TECHNICIANS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 67 },
@@ -209,7 +209,7 @@
     ]
   },
   {
-    "name": "GROUP_MIL_MASS_GRAVE",
+    "id": "GROUP_MIL_MASS_GRAVE",
     "type": "monstergroup",
     "//": "Lots of hazmats.",
     "monsters": [ { "monster": "mon_zombie_soldier", "weight": 10 }, { "monster": "mon_zombie_hazmat", "weight": 20 } ]

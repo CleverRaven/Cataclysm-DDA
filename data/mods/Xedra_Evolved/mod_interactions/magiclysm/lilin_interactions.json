@@ -1,0 +1,20 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITIONS_LILIN_FANTASY_SPECIES_RUACH_DRAIN",
+    "condition": {
+      "or": [
+        { "u_has_species": "LIZARDFOLK" },
+        { "u_has_species": "GOBLIN" },
+        { "u_has_species": "GOBLIN_FORGE" },
+        { "u_has_species": "ORC" },
+        { "u_has_species": "OGRE" },
+        { "u_has_species": "RAVENFOLK" },
+        { "u_has_species": "DWARF" },
+        { "u_has_species": "ELF" },
+        { "u_has_species": "FEY" }
+      ]
+    },
+    "effect": [  ]
+  }
+]

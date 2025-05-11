@@ -3,7 +3,6 @@
     "type": "mapgen",
     "om_terrain": [ "cs_car_showroom" ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,15 +31,15 @@
         "     gy<yg       CC4    ",
         "     #ggg#              "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "*": "t_region_groundcover_urban",
         ".": "t_floor",
-        "t": "t_linoleum_gray",
-        "s": "t_linoleum_gray",
-        "á": "t_linoleum_gray",
-        "_": "t_linoleum_gray",
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "á": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "'": "t_thconc_floor",
         "=": "t_concrete",
         "b": "t_region_shrub_decorative",
@@ -68,19 +67,20 @@
         "f": "f_filing_cabinet"
       },
       "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
-      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 8, "rotation": 270, "chance": 100, "status": 0, "fuel": 0 } ],
+      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 8, "rotation": 270, "status": 0, "fuel": 0 } ],
       "items": {
-        "c": { "item": "oa_custom_trash", "chance": 70 },
-        "á": { "item": "oa_custom_trash", "chance": 70 },
-        "C": { "item": "oa_custom_trash", "chance": 70 },
+        "c": { "item": "SUS_trash_trashcan", "chance": 70 },
+        "á": { "item": "SUS_trash_trashcan", "chance": 70 },
+        "C": { "item": "SUS_trash_dumpster", "chance": 70 },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "L": { "item": "oa_ig_cs_lockers", "chance": 70, "repeat": [ 1, 4 ] },
         "F": { "item": "SUS_fridge_breakroom", "chance": 90 },
-        "f": { "item": "SUS_office_filing_cabinet", "chance": 70 }
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 70 },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [
-        { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },
-        { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 18, "y": 22 },
+        { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },
+        { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 2, 4 ], "x": 18, "y": 22 },
         { "item": "fridgesnacks", "chance": 70, "repeat": [ 0, 4 ], "x": 3, "y": 4 }
       ],
       "add": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],
@@ -145,8 +145,8 @@
         "n": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "f": "f_filing_cabinet"
       },
-      "place_vehicles": [ { "vehicle": "showroom_small_vehicles", "x": 5, "y": 6, "rotation": 270, "chance": 100, "status": 0, "fuel": 0 } ],
-      "vehicles": { "Á": { "vehicle": "showroom_small_vehicles", "rotation": 270, "chance": 100, "status": 0, "fuel": 0 } },
+      "place_vehicles": [ { "vehicle": "showroom_small_vehicles", "x": 5, "y": 6, "rotation": 270, "status": 0, "fuel": 0 } ],
+      "vehicles": { "Á": { "vehicle": "showroom_small_vehicles", "rotation": 270, "status": 0, "fuel": 0 } },
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "L": { "item": "oa_ig_cs_lockers", "chance": 70, "repeat": [ 1, 4 ] },

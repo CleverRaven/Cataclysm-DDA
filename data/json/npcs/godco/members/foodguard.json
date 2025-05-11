@@ -6,7 +6,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "You better step away from me real quick, sinner.  I don't want your kind here.",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "What brings you around here <name_b>?  I don't want to see your face for a while.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ],
@@ -43,7 +43,7 @@
         "text": "Who are you again?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -54,7 +54,7 @@
         "text": "Care to talk for a bit?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -65,7 +65,7 @@
         "text": "I'll see you around.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_food_guard" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -76,7 +76,7 @@
         "text": "Alright then, fuck you <name_b>.",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -92,24 +92,24 @@
       {
         "text": "Could you tell me a bit about yourself?",
         "topic": "TALK_GODCO_guard_food_about_self",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "What are you planning on doing in the future?",
         "topic": "TALK_GODCO_guard_food_future_plans",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Could I borrow something from the stock?", "topic": "TALK_GODCO_guard_food_borrow" },
       { "text": "Would you be willing to buy any food?", "topic": "TALK_GODCO_guard_food_buy" },
       {
         "text": "Has anyone stolen from here?",
         "topic": "TALK_GODCO_guard_food_theft",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "How much food do you have?",
         "topic": "TALK_GODCO_guard_food_stock",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Is there anything I can do to help you?", "topic": "TALK_MISSION_LIST" },
       { "text": "Good luck with that.", "topic": "TALK_DONE" }
@@ -126,12 +126,12 @@
       {
         "text": "Has anyone stolen from here?",
         "topic": "TALK_GODCO_guard_food_theft",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "How much food do you have?",
         "topic": "TALK_GODCO_guard_food_stock",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Good luck with that.", "topic": "TALK_DONE" }
     ]
@@ -178,14 +178,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_bribe_fail",
-    "dynamic_line": [ "Nope, it couldn't.  Don't try and <swear> bribe me again." ],
+    "dynamic_line": [ "Nope, it couldn't.  Don't try and fuckin' bribe me again." ],
     "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()", "+=", "1" ] } } ],
     "responses": [ { "text": "Geez, I'm leaving.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_intimidate_sucess",
-    "dynamic_line": [ "Alright, alright.  Here's some food and water, <name_b>.  Get out of my <swear> sight." ],
+    "dynamic_line": [ "Alright, alright.  Here's some food and water, <name_b>.  Get out of my sight." ],
     "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()", "+=", "2" ] } } ],
     "responses": [
       {
@@ -224,17 +224,17 @@
       {
         "text": "Do you have any family?",
         "topic": "TALK_GODCO_guard_food_family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Do you have any hobbies?",
         "topic": "TALK_GODCO_guard_food_hobbies",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "What are you planning on doing in the future?",
         "topic": "TALK_GODCO_guard_food_future_plans",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_guard_food_idlechat" },
       { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
@@ -299,12 +299,12 @@
       {
         "text": "Do you have any family?",
         "topic": "TALK_GODCO_guard_food_family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Do you have any hobbies?",
         "topic": "TALK_GODCO_guard_food_hobbies",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_guard_food_idlechat" },
       { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
@@ -328,7 +328,7 @@
       {
         "text": "Do you have any family?",
         "topic": "TALK_GODCO_guard_food_family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "What did you do for a job before <the_cataclysm>?", "topic": "TALK_GODCO_guard_food_precata_job" },
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_guard_food_idlechat" },
@@ -346,7 +346,7 @@
       {
         "text": "Do you have any family?",
         "topic": "TALK_GODCO_guard_food_family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Could you tell me about your hobbies again?", "topic": "TALK_GODCO_guard_food_hobbies" },
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_guard_food_idlechat" },
@@ -364,7 +364,7 @@
       {
         "text": "Do you have any family?",
         "topic": "TALK_GODCO_guard_food_family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Could you tell me about your hobbies again?", "topic": "TALK_GODCO_guard_food_hobbies" },
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_guard_food_idlechat" },
