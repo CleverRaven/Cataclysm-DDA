@@ -10030,7 +10030,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         height = std::max( 0, height - 1 );
     }
 
-    if ( you->has_flag( json_flag_ONE_STORY_FALL ) )  { 
+    if ( you->has_flag( json_flag_ONE_STORY_FALL ) ) {
         height = std::max( 0, height - 1 );
     }
 
