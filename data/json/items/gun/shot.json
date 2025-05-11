@@ -156,6 +156,8 @@
     "barrel_length": "508 mm",
     "//": "The true dimensions of the FN SLP are 1092 mm overall length, 558mm barrel length, and 3583 gramme weight.",
     "price": "700 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 325,
     "clip_size": 9,
     "valid_mod_locations": [
       [ "barrel", 1 ],
