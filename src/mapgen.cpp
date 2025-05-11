@@ -3590,7 +3590,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                 int max_recurse = 10; // insurance against infinite looping
                 std::string initial_furn = dat.m.furn( p ) != furn_str_id::NULL_ID() ? dat.m.furn(
                                                p ).id().str() : "";
-                while( dat.m.has_furn( p ) && max_recurse-- > 0 ) {
+                while( dat.m.has_furn( p ) && --max_recurse > 0 ) {
                     const furn_t &f = dat.m.furn( p ).obj();
                     if( f.deconstruct ) {
                         if( f.deconstruct->furn_set.str().empty() ) {
@@ -3608,10 +3608,12 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                                 dat.m.furn_set( p, furn_bash->furn_set );
                             }
                             dat.m.spawn_items( p, item_group::items_from( furn_bash->drop_group, calendar::turn ) );
+                        } else {
+                            break;
                         }
                     }
                 }
-                if( !max_recurse ) {
+                if( max_recurse <= 0 ) {
                     dat.m.furn_clear( p );
                     debugmsg( "In %s on %s, the mapgen failed to arrive at an empty tile after "
                               "dismantling preexisting furniture %s at %s 10 times in succession.",
@@ -5376,32 +5378,32 @@ static bool check_furn( const furn_id &id, const std::string &context )
 
 void mapgen_function_json_base::check_common() const
 {
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) ) +
-        flags_.test( jmapgen_flags::dismantle_all_before_placing_terrain ) +
-        flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_other_data ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::dismantle_all_before_placing_terrain ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_all_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags ERASE_ALL_BEFORE_PLACING_TERRAIN, "
                   "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN and ALLOW_TERRAIN_UNDER_OTHER_DATA "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_furniture ) ) +
-        flags_.test( jmapgen_flags::dismantle_furniture_before_placing_terrain ) +
-        flags_.test( jmapgen_flags::erase_furniture_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_furniture ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::dismantle_furniture_before_placing_terrain ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_furniture_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags ALLOW_TERRAIN_UNDER_FURNITURE, "
                   "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN and ERASE_FURNITURE_BEFORE_PLACING_TERRAIN "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_trap ) ) +
-        flags_.test( jmapgen_flags::dismantle_trap_before_placing_terrain ) +
-        flags_.test( jmapgen_flags::erase_trap_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_trap ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::dismantle_trap_before_placing_terrain ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_trap_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags ALLOW_TERRAIN_UNDER_TRAP, "
                   "DISMANTLE_TRAP_BEFORE_PLACING_TERRAIN and ERASE_TRAP_BEFORE_PLACING_TERRAIN "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
-    if( static_cast <int>( flags_.test( jmapgen_flags::allow_terrain_under_items ) ) +
-        flags_.test( jmapgen_flags::erase_items_before_placing_terrain ) > 1 ) {
+    if( static_cast<int>( flags_.test( jmapgen_flags::allow_terrain_under_items ) ) +
+        static_cast<int>( flags_.test( jmapgen_flags::erase_items_before_placing_terrain ) ) > 1 ) {
         debugmsg( "In %s, the mutually exclusive flags "
                   "ALLOW_TERRAIN_UNDER_ITEMS and ERASE_ITEMS_BEFORE_PLACING_TERRAIN "
-                  "cannot be used together", context_ );
+                  "cannot be used together.", context_ );
     }
     for( const jmapgen_setmap &setmap : setmap_points ) {
         if( setmap.op != JMAPGEN_SETMAP_FURN &&
