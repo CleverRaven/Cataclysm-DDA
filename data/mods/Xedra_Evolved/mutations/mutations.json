@@ -375,7 +375,7 @@
     "id": "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
     "name": { "str": "Weakness: Sun Sensitivity" },
     "points": -2,
-    "description": "While you won't burn in the sunlight like a true vampire, it's not comfortable.  You suffer a -1 penalty to all stats when outdoors during the daytime, and -2 if it's sunny.",
+    "description": "While you won't burn in the sunlight like a true vampire, it's not comfortable.  You suffer a -1 penalty to all stats when outdoors during the daytime, and an additional -2 if it's sunny or clear.",
     "purifiable": false,
     "valid": false,
     "enchantments": [
@@ -389,7 +389,7 @@
         ]
       },
       {
-        "condition": { "and": [ "is_day", "u_is_outside", { "is_weather": "sunny" } ] },
+        "condition": { "and": [ "is_day", "u_is_outside", { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] } ] },
         "values": [
           { "value": "STRENGTH", "add": -2 },
           { "value": "DEXTERITY", "add": -2 },
@@ -512,7 +512,7 @@
     "id": "DHAMPIR_WEAKNESS_LOWER_KCAL_FROM_FOOD",
     "name": { "str": "Weakness: Thirst of the Damned" },
     "points": -2,
-    "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal and vitamins from the food you eat, but additional calories and vitamins from drinking blood.",
+    "description": "Fresh blood has an energy that mortal food simply cannot compare to.  You gain 33% reduced kcal from the food you eat, but additional calories from drinking blood.",
     "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.33 } ] } ]
@@ -756,7 +756,7 @@
     "description": "You can sense the presence of nearby predatory night creatures.",
     "active": true,
     "activated_is_setup": true,
-    "activation_msg": "You open your sense to the children of the night.",
+    "activation_msg": "You open your senses to the children of the night.",
     "enchantments": [
       {
         "condition": "ACTIVE",
@@ -1076,7 +1076,7 @@
     "id": "VAMPIRE_BONUS_HP",
     "name": { "str": "Fortitude of the Damned" },
     "points": 0,
-    "description": "Your senses are so fine they can alert you to danger even while you slumber.  Activate to cause yourself to wake up if danger approaches while you sleep.",
+    "description": "Your flesh is more resilient and you can suffer much more damage than a mortal before expiring.  Your hit points are increased.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
