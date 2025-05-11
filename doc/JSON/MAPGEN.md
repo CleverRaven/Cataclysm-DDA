@@ -463,8 +463,8 @@ is a technical limitation, not a desired feature.
 A blanket policy can be set using one of these three (mutually exclusive) shorthand flags:
 - `ALLOW_TERRAIN_UNDER_OTHER_DATA` retains preexisting furniture, traps and items without triggering
   an error.
-- `DISMANTLE_ALL_BEFORE_PLACING_TERRAIN` causes any furniture to be deconstructed or bashed, while
-  traps are disarmed.  The outputs, along with any other preexisting items, are then retained.
+- `DISMANTLE_ALL_BEFORE_PLACING_TERRAIN` causes any furniture to be deconstructed or bashed (or just removed
+  if neither is possible), while traps are disarmed.  The outputs, along with any other preexisting items, are then retained.
 - `ERASE_ALL_BEFORE_PLACING_TERRAIN` removes all preexisting furniture, traps and items before
   changing the terrain.
 

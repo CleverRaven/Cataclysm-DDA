@@ -3609,6 +3609,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
                             }
                             dat.m.spawn_items( p, item_group::items_from( furn_bash->drop_group, calendar::turn ) );
                         } else {
+                            dat.m.furn_clear( p );
                             break;
                         }
                     }
