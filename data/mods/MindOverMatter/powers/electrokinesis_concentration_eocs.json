@@ -377,16 +377,11 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_POWER_ITEMS_DISTRIBUTION",
-            "condition": {
-              "and": [
-                { "math": [ "n_val('power') < n_val('power_max')" ] },
-                { "math": [ "u_electrokin_personal_battery_power_count >= 1" ] }
-              ]
-            },
+            "condition": { "math": [ "u_electrokin_personal_battery_power_count >= 1" ] },
             "effect": [
               {
                 "if": { "math": [ "u_electrokin_personal_battery_max_indv_power >= 1" ] },
@@ -430,11 +425,10 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER", "IS_UPS" ] } ],
+        "search_data": [ { "is_chargeable": true } ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_GET_ITEM_COUNT_2",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
             "effect": [ { "math": [ "u_electrokin_personal_battery_item_count++" ] } ]
           }
         ]

@@ -2,7 +2,7 @@
   {
     "id": "psionic_shield_belt",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "shield belt" },
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.",
     "weight": "350 g",
@@ -44,24 +44,22 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "name": "Active Shield Belt",
-          "description": "The air around you has a faint shimmer.",
-          "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -8 },
-            { "type": "stab", "add": -20 },
-            { "type": "cut", "add": -15 },
-            { "type": "bullet", "add": -40 }
-          ]
-        }
-      ]
-    },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Active Shield Belt",
+        "description": "The air around you has a faint shimmer.",
+        "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -8 },
+          { "type": "stab", "add": -20 },
+          { "type": "cut", "add": -15 },
+          { "type": "bullet", "add": -40 }
+        ]
+      }
+    ]
   },
   {
     "id": "psionic_shield_belt_on",
@@ -103,7 +101,7 @@
   {
     "id": "psionic_fire_shield_belt",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "suppression belt" },
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.",
     "weight": "350 g",
@@ -145,20 +143,18 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "name": "Active Suppression Belt",
-          "description": "The air around you feels cool.",
-          "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
-          "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
-          "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
-        }
-      ]
-    },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Active Suppression Belt",
+        "description": "The air around you feels cool.",
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
+        "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "id": "psionic_fire_shield_belt_on",

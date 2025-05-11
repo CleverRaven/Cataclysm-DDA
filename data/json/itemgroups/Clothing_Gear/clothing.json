@@ -883,7 +883,7 @@
       { "item": "boxing_gloves", "prob": 50 },
       { "item": "headgear", "prob": 50 },
       { "item": "mouthpiece", "prob": 50 },
-      { "item": "jersey", "prob": 40 },
+      { "item": "jersey", "variant": "generic", "prob": 40 },
       { "item": "coat_rain", "prob": 15 },
       { "item": "hood_rain", "prob": 15 },
       { "item": "unitard", "prob": 10 },

@@ -1,7 +1,7 @@
 [
   {
     "id": "boarding_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": "boarding axe",
@@ -30,7 +30,7 @@
   },
   {
     "id": "scrap_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": "makeshift boarding axe",
@@ -227,7 +227,8 @@
   {
     "id": "exosuit_power_cutter_on",
     "copy-from": "exosuit_power_cutter",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit power cutter (on)", "str_pl": "exosuit power cutters (on)" },
     "description": "A huge, multi-fuel powered saw with a diamond blade, currently a whirling blur.  It's consuming fuel and can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
     "turns_per_charge": 5,

@@ -21,7 +21,8 @@
   },
   {
     "id": "golden_bridle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "golden bridle" },
     "description": "A golden bridle made of spun moon tears, gold, and incredibly strong hair including associated tack that can be placed on a tamed mythical animal that is capable of being ridden.",
     "weight": "2 kg",

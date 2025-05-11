@@ -10,7 +10,7 @@
   {
     "id": "enchanted_pirate_blouse",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "enchanted parabolan wool blouse" },
     "description": "A loose silvery iridescent blouse in a style most often associated with pirates and renfaires.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.  This particular one has piratical flairs and glitters with enchantment.",
     "looks_like": "dress_shirt",
@@ -26,12 +26,12 @@
     "material": [ "parabolan_wool" ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "STURDY", "TRADER_KEEP_EQUIPPED" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_parabolan_blouse" } ] }
+    "passive_effects": [ { "id": "ench_parabolan_blouse" } ]
   },
   {
     "id": "parabolan_enchanted_breeches",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "enchanted parabolan wool breeches" },
     "description": "A well-made pair of old-fashioned pants, made of silvery iridescent material.  Comfortable, but lacks pockets.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.  This particular one has piratical flairs and glitters with enchantment.",
     "weight": "312 g",
@@ -45,15 +45,13 @@
     "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "STURDY", "TRADER_KEEP_EQUIPPED" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [ { "type": "stab", "add": -3 }, { "type": "cut", "add": -3 }, { "type": "bullet", "add": -8 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [ { "type": "stab", "add": -3 }, { "type": "cut", "add": -3 }, { "type": "bullet", "add": -8 } ]
+      }
+    ]
   },
   {
     "id": "parabolan_blouse",
@@ -411,30 +409,26 @@
     "id": "coat_lab_plus_one",
     "copy-from": "coat_lab",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "enchanted lab coat" },
     "looks_like": "coat_lab",
     "description": "A long white coat with several large pockets, with a pentagram on the lapel and a few orichalcum threads sewn into the seams.  Perfect for the stylish-but-effective academic mage.",
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.4 } ] } ]
-    }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.4 } ] } ]
   },
   {
     "id": "coat_lab_plus_two",
     "copy-from": "coat_lab",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "enspelled lab coat" },
     "looks_like": "coat_lab",
     "description": "A long white coat with several large pockets, with a pentagram on the lapel and orichalcum and mithril threads sewn into the seams.  A director of thaumaturgical research would have worn this or something like this before the Cataclysm.",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "add": 500 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "add": 500 } ]
+      }
+    ]
   }
 ]

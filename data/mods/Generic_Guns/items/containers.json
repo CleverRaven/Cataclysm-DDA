@@ -1,7 +1,7 @@
 [
   {
     "id": "pistol_ammo_box_20",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pistol ammo box", "str_pl": "pistol ammo boxes" },
     "description": "This box holds 20 rounds of pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "7 g",
@@ -11,7 +11,7 @@
   },
   {
     "id": "pistol_ammo_box_100",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "pistol ammo box", "str_pl": "pistol ammo boxes" },
     "description": "This box holds 100 rounds of pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "17 g",
@@ -21,7 +21,7 @@
   },
   {
     "id": "pistol_tiny_ammo_box_50",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tiny pistol ammo box", "str_pl": "tiny pistol ammo boxes" },
     "description": "This box holds 50 rounds of tiny pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "9 g",
@@ -31,7 +31,7 @@
   },
   {
     "id": "pistol_tiny_ammo_box_250",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "tiny pistol ammo box", "str_pl": "tiny pistol ammo boxes" },
     "description": "This box holds 250 rounds of tiny pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "46 g",
@@ -41,7 +41,7 @@
   },
   {
     "id": "magnum_ammo_box_20",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "magnum ammo box", "str_pl": "magnum ammo boxes" },
     "description": "This box holds 20 rounds of magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "11 g",
@@ -59,7 +59,7 @@
   },
   {
     "id": "rifle_ammo_box_20",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rifle ammo box", "str_pl": "rifle ammo boxes" },
     "description": "This box holds 20 rounds of rifle ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "20 g",
@@ -77,7 +77,7 @@
   },
   {
     "id": "rifle_ammo_box_50",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rifle ammo box", "str_pl": "rifle ammo boxes" },
     "description": "This box holds 50 rounds of rifle ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "50 g",
@@ -87,7 +87,7 @@
   },
   {
     "id": "shot_ammo_box_10",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "shotshell ammo box", "str_pl": "shotshell ammo boxes" },
     "description": "This box holds 10 rounds of shotshell ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "28 g",

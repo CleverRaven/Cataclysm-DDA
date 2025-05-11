@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "altered_exposed_wiring_prototype",
     "category": "artifacts",
     "symbol": ",",
@@ -15,7 +15,7 @@
     "volume": "26 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "altered_phone",
     "category": "artifacts",
     "symbol": ",",
@@ -30,7 +30,7 @@
     "volume": "750 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "altered_comb",
     "category": "artifacts",
     "symbol": ",",
@@ -45,7 +45,7 @@
     "volume": "40 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "altered_keyring",
     "category": "artifacts",
     "symbol": ",",
@@ -60,7 +60,7 @@
     "volume": "750 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "altered_rubicks_cube",
     "category": "artifacts",
     "symbol": ",",
@@ -75,7 +75,7 @@
     "volume": "185 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "altered_teapot",
     "category": "artifacts",
     "copy-from": "clay_teapot",
@@ -86,7 +86,7 @@
     "price_postapoc": "10 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "altered_stopwatch",
     "category": "artifacts",
     "symbol": ",",
@@ -126,7 +126,8 @@
   },
   {
     "id": "altered_scissors",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "scissors",
     "name": { "str": "pair of antique scissors", "str_pl": "pairs of antique scissors" },
     "description": "A pair of ornately decorated steel scissors.  The handle is decorated with vicious-looking birds."

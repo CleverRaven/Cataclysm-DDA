@@ -62,7 +62,7 @@
         "L": "f_locker",
         "O": "f_coffin_o",
         "P": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "T": "f_table",
+        "T": "f_metal_table",
         "a": "f_dahlia",
         "c": "f_sofa",
         "d": "f_rack",
@@ -278,7 +278,7 @@
         "r": "f_rack",
         "s": "f_stool",
         "S": "f_sink",
-        "t": "f_table",
+        "t": "f_metal_table",
         "U": "f_utility_shelf",
         "v": "f_ventilator",
         "Z": "f_bed"

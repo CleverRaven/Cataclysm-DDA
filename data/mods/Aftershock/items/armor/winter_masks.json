@@ -2,7 +2,7 @@
   {
     "id": "afs_magellan_suit_helmet",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "looks_like": "helmet_motor",
     "name": { "str": "Magellan helmet CA.", "str_pl": "Magellan helmets CA." },
@@ -28,7 +28,6 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 10,
     "material_thickness": 1,
@@ -48,7 +47,8 @@
       "SOFT"
     ],
     "melee_damage": { "bash": 7 },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ]
   },
   {
     "id": "afs_magellan_suit_helmet_on",
@@ -74,7 +74,7 @@
   {
     "id": "afs_frontier_cryomask",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "looks_like": "helmet_motor",
     "name": { "str": "frontier cryomask" },
@@ -99,7 +99,6 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -113,7 +112,8 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER", "SOFT" ],
     "melee_damage": { "bash": 7 },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ]
   },
   {
     "id": "afs_frontier_cryomask_on",

@@ -796,8 +796,7 @@ bool Character::handle_gun_damage( item &it )
         return false;
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
-    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) &&
-               it.can_have_fault_type( gun_mechanical_simple ) ) {
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
@@ -881,7 +880,7 @@ bool Character::handle_gun_damage( item &it )
                 it.set_fault( fault_gun_dirt );
             }
             if( dirt > 0 && curammo_effects.count( ammo_effect_BLACKPOWDER ) ) {
-                it.faults.erase( fault_gun_dirt );
+                it.remove_fault( fault_gun_dirt );
                 it.set_fault( fault_gun_blackpowder );
             }
             // end fouling mechanics

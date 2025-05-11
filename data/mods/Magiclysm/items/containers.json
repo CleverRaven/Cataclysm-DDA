@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bag_holding_1",
     "category": "container",
     "name": { "str": "lesser dimensional bag" },
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "bag_holding_1",
     "id": "bag_holding_2",
     "category": "container",
@@ -52,7 +52,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "bag_holding_1",
     "id": "bag_holding_3",
     "category": "container",
@@ -77,7 +77,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fridge_holding_1",
     "category": "container",
     "name": { "str": "supergravity preservation box", "str_pl": "supergravity preservation boxes" },

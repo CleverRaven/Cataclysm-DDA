@@ -210,7 +210,8 @@
     "read_skill": "chemistry"
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "psi_usb_rad_recipes",
     "symbol": ",",
     "color": "white",

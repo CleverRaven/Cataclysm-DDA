@@ -2,7 +2,7 @@
   {
     "id": "armor_nomad",
     "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str": "nomad jumpsuit" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.",
     "weight": "3600 g",
@@ -28,13 +28,13 @@
     "environmental_protection": 2,
     "warmth": 10,
     "material_thickness": 2,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ]
   },
   {
     "id": "armor_nomad_advanced",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "advanced nomad jumpsuit" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.  A set of cooling tubes run throughout the clothing as well.",
     "weight": "4000 g",
@@ -87,11 +87,9 @@
     },
     "warmth": 10,
     "material_thickness": 4,
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
-    },
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
   },
   {
     "id": "armor_nomad_advanced_on",

@@ -101,7 +101,8 @@
   },
   {
     "abstract": "scroll_martial_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "scroll abstract", "//~": "NO_I18N" },
     "weight": "415 g",
     "volume": "250 ml",
@@ -114,7 +115,8 @@
   {
     "id": "ki_strike_scroll",
     "copy-from": "scroll_martial_base",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "dragon hand scroll" },
     "description": "Focus your ki into magical attacks.",
     "price_postapoc": "120 USD",

@@ -220,7 +220,7 @@
   {
     "id": "military_nvg",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "night vision goggles" },
     "description": "Last generation double-tube night vision device, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
@@ -249,14 +249,14 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
       { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] }
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_normal" } ]
   },
   {
     "id": "military_nvg_on",
@@ -281,7 +281,7 @@
   {
     "id": "advanced_gpnvg",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "panoramic night vision goggles" },
     "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
@@ -310,7 +310,6 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
@@ -322,7 +321,8 @@
         "specifically_covers": [ "head_forehead", "head_crown" ]
       }
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_good" } ]
   },
   {
     "id": "advanced_gpnvg_on",
@@ -350,7 +350,7 @@
   {
     "id": "enhanced_nvg",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "enhanced night vision goggles" },
     "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Currently raised up and out of the way.",
@@ -379,7 +379,6 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "armor": [
@@ -391,7 +390,8 @@
         "specifically_covers": [ "head_forehead", "head_crown" ]
       }
     ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ]
   },
   {
     "id": "enhanced_nvg_on",

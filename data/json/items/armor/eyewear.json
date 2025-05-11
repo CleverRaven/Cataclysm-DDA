@@ -269,6 +269,7 @@
     "id": "goggles_welding",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "pair of welding goggles", "str_pl": "pairs of welding goggles" },
     "description": "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
     "weight": "153 g",

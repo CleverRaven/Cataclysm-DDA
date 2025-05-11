@@ -2,7 +2,8 @@
   {
     "//": "10mm ammo is used exclusively in Light weapons.",
     "id": "afs_10mm_caseless_FMJ",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "10mm FMJ caseless" },
     "description": "Standardized 10mm ammunition with a brass jacketed projectile.  For as long as you can remember bullets like these have been used for military, law enforcement, and civilian use.",
     "weight": "9 g",
@@ -22,7 +23,8 @@
   },
   {
     "id": "afs_10mm_caseless_JHP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "10mm JHP caseless" },
     "description": "Standardized 10mm ammunition with a hollow point projectile.  While they have inferior penetration to FMJ rounds, their expansion slightly increases stopping power against unarmed targets and reduces overpenetration.",
     "weight": "7 g",
@@ -42,7 +44,8 @@
   },
   {
     "id": "afs_10mm_smart",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "10mm SDART" },
     "description": "High precision 10mm microjet darts.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
     "//": "tiny guided rockets.",

@@ -1,7 +1,7 @@
 [
   {
     "id": "shrink_wrap",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "shrink wrapping" },
     "looks_like": "bag_plastic",
@@ -16,7 +16,7 @@
   },
   {
     "id": "trashcan",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "trash can" },
     "looks_like": "f_trashcan",
@@ -45,7 +45,7 @@
   },
   {
     "id": "trashcan_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "industrial trash can" },
     "looks_like": "f_recycle_bin",
@@ -74,7 +74,7 @@
   },
   {
     "id": "saline_bag_250_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small liquid bag" },
     "description": "Small bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
@@ -100,7 +100,7 @@
   },
   {
     "id": "saline_bag_500_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "medium liquid bag" },
     "description": "Bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -121,7 +121,7 @@
   },
   {
     "id": "saline_bag_1000_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "large liquid bag" },
     "description": "Large bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -142,7 +142,7 @@
   },
   {
     "id": "saline_bag_2000_empty",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "huge liquid bag" },
     "description": "Huge bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
     "copy-from": "saline_bag_250_empty",
@@ -163,7 +163,8 @@
   },
   {
     "id": "outfit_storage",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "container",
     "name": { "str": "set of clothes", "str_pl": "sets of clothes" },
     "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or disassemble it to get the clothes back.",
@@ -189,7 +190,7 @@
   },
   {
     "id": "box_paper_small",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "small paper box", "str_pl": "small paper boxes" },
     "looks_like": "box_tea",
@@ -205,7 +206,7 @@
   },
   {
     "id": "wrapping_vacuumed",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "looks_like": "bag_plastic",
     "name": { "str": "vacuum-sealed package" },
@@ -229,7 +230,7 @@
   },
   {
     "id": "basket_laundry",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "laundry basket" },
     "description": "A plastic basket meant for storing and hauling clothing.",
@@ -255,7 +256,7 @@
   },
   {
     "id": "wicker_basket_large",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "large wicker basket" },
     "description": "A large handmade straw basket.  Unwieldy but spacious.",
@@ -280,7 +281,7 @@
   },
   {
     "id": "bag_paper_charcoal",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "paper sack" },
     "looks_like": "bag_plastic",

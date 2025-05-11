@@ -1274,6 +1274,17 @@ Examples:
     { "math": [ "n_crazyness * 2 >= ( x + y ) * u_z" ] },
 ```
 
+#### Tripoints
+Members of tripoint variables can be accessed with the dot operator in the usual way
+```jsonc
+      { "u_location_variable": { "u_val": "mypos" } },
+      { "math": [ "u_myx = u_mypos.x" ] },
+      { "math": [ "u_myy = u_mypos.y" ] },
+      { "math": [ "u_myz = u_mypos.z" ] },
+      // assignment works too
+      { "math": [ "u_mypos.z = 12" ] },
+```
+
 #### Constants
 The tokens `π` (and `pi` alias ) and `e` are recognized as mathematical constants and get replaced by their nominal values.
 

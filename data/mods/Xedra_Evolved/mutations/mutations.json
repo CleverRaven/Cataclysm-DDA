@@ -228,14 +228,7 @@
           {
             "condition": { "npc_has_species": "RENFIELD" },
             "distance": { "math": [ "u_val('perception') * 1.5" ] },
-            "descriptions": [
-              {
-                "id": "infrared_creature_medium",
-                "text": "You sense one of the vampires' servants here.",
-                "symbol": "R",
-                "color": "red"
-              }
-            ]
+            "descriptions": [ { "id": "vampire_sense", "text": "You sense one of the vampires' servants here.", "symbol": "R", "color": "red" } ]
           },
           {
             "condition": {
@@ -774,7 +767,7 @@
             "ignores_aiming_cone": true,
             "descriptions": [
               {
-                "id": "infrared_creature_medium",
+                "id": "night_creature_sense",
                 "text": "You sense one of the creatures of the night.",
                 "symbol": "N",
                 "color": "white"
@@ -1704,7 +1697,7 @@
             "distance": { "math": [ "u_val('perception') * 3" ] },
             "precise": true,
             "ignores_aiming_cone": true,
-            "descriptions": [ { "id": "vampire", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
+            "descriptions": [ { "id": "vampire_sense", "text": "You detect a vampire here.", "symbol": "V", "color": "red" } ]
           }
         ]
       }

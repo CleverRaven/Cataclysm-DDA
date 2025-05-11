@@ -1,7 +1,7 @@
 [
   {
     "id": "lizardfolk_club",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "greatclub",
     "category": "weapons",
     "copy-from": "shillelagh",
@@ -16,7 +16,7 @@
   },
   {
     "id": "lizardfolk_trident",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": "wood trident",
     "copy-from": "spear_forked",
     "description": "A wooden melee weapon with a hand-forged steel forked spearhead attached to the end.  It can be used for stabbing opponents either in close-range or as a thrown weapon, and in the right hands can also readily disarm opponents.",
@@ -29,7 +29,7 @@
   },
   {
     "id": "lizardfolk_javelin",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "barbed javelin" },
     "category": "weapons",
     "copy-from": "javelin",
@@ -41,7 +41,8 @@
   },
   {
     "id": "lizardfolk_javelin_gun",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "fake_item",
     "name": { "str": "barbed javelin" },
     "description": { "str": "Fake gun that fires barbed javelins.", "//~": "NO_I18N" },

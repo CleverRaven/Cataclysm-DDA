@@ -1,7 +1,8 @@
 [
   {
     "id": "9mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm JHP" },
     "description": "9x19mm ammunition with a 116gr jacketed hollow point bullet.  JHP rounds have inferior penetration to FMJ rounds, but their expansion slightly increases stopping power against unarmored targets and reduces overpenetration.",
     "ascii_picture": "9mm",
@@ -27,7 +28,8 @@
   {
     "id": "9mmfmj",
     "copy-from": "9mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm FMJ" },
     "description": "9x19mm ammunition with a brass jacketed 115gr bullet.  It has been a popular round for military, law enforcement, and civilian use for over a century.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 4 } }
@@ -35,7 +37,8 @@
   {
     "id": "9mmP",
     "copy-from": "9mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm +P" },
     "description": "Overpressure 9x19mm ammunition.  The round's increased velocity results in superior accuracy and stopping power at the cost of higher recoil.",
     "price": "3 USD",
@@ -48,7 +51,8 @@
   {
     "id": "9mmP2",
     "copy-from": "9mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm +P+" },
     "description": "A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher internal pressure offering superior damage, accuracy, and penetration.",
     "price": "3 USD 50 cent",
@@ -61,7 +65,8 @@
   {
     "id": "bp_9mm",
     "copy-from": "9mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -75,7 +80,8 @@
   {
     "id": "bp_9mmfmj",
     "copy-from": "9mmfmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -89,7 +95,8 @@
   {
     "id": "reloaded_9mm",
     "copy-from": "9mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -98,7 +105,8 @@
   {
     "id": "reloaded_9mmfmj",
     "copy-from": "9mmfmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -107,7 +115,8 @@
   {
     "id": "reloaded_9mmP",
     "copy-from": "9mmP",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm +P, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -116,7 +125,8 @@
   {
     "id": "reloaded_9mmP2",
     "copy-from": "9mmP2",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm +P+, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -125,7 +135,8 @@
   {
     "id": "matchhead_9mmfmj",
     "copy-from": "bp_9mmfmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": "9x19mm FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
@@ -135,7 +146,8 @@
   {
     "id": "matchhead_9mm",
     "copy-from": "bp_9mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": "9x19mm JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },

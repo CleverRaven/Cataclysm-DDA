@@ -28,8 +28,12 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 #include <SDL_keyboard.h>
-
+#include <SDL_mouse.h>
 #include "options.h"
+#endif
+
+#if defined(TILES) && !defined(__ANDROID__)
+#include <SDL2/SDL_mouse.h>
 #endif
 
 class uilist_impl : cataimgui::window
@@ -60,6 +64,15 @@ class uilist_impl : cataimgui::window
 
 void uilist_impl::draw_controls()
 {
+#if defined(TILES)
+    using cata::options::mouse;
+    bool cursor_shown = SDL_ShowCursor( SDL_QUERY ) == SDL_ENABLE;
+    if( mouse.hidekb && !cursor_shown ) {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+    } else {
+        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    }
+#endif
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
@@ -915,7 +928,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
         delete[] n_enabled;
         if( j_ret == -1 ) {
             ret = UILIST_CANCEL;
-        } else if( 0 <= j_ret && j_ret < entries.size() ) {
+        } else if( 0 <= j_ret && j_ret < static_cast<int>( entries.size() ) ) {
             ret = entries[j_ret].retval;
         } else {
             ret = UILIST_ERROR;
