@@ -46,7 +46,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "dress_shirt", "prob": 50 },
-      { "item": "sheriffshirt", "prob": 45 },
+      { "item": "postman_shirt", "variant": "sheriff", "prob": 45 },
       { "item": "jacket_light", "prob": 40 }
     ]
   },

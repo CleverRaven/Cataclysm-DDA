@@ -297,23 +297,31 @@ namespace
 {
 struct fake_tripoint { // NOLINT(cata-xy)
     int x = 0, y = 0, z = 0;
+
+    static const fake_tripoint invalid;
 };
 
 struct OM_point { // NOLINT(cata-xy)
     int x = 0, y = 0;
+
+    static const OM_point invalid;
 };
+
+const fake_tripoint fake_tripoint::invalid{ tripoint::invalid.x, tripoint::invalid.y, tripoint::invalid.z };
+const OM_point OM_point::invalid{ point::invalid.x, point::invalid.y };
 
 std::istream &operator>>( std::istream &is, fake_tripoint &pos )
 {
     char c = 0;
-    is >> pos.x &&is.get( c ) &&c == '.' &&is >> pos.y &&is.get( c ) &&c == '.' &&is >> pos.z;
+    static_cast<void>( is >> pos.x && is.get( c ) && c == '.' && is >> pos.y && is.get( c ) &&
+                       c == '.' && is >> pos.z );
     return is;
 }
 
 std::istream &operator>>( std::istream &is, OM_point &pos )
 {
     char c = 0;
-    is >> pos.x &&is.get( c ) &&c == '.' &&is >> pos.y;
+    static_cast<void>( is >> pos.x && is.get( c ) && c == '.' && is >> pos.y );
     return is;
 }
 
@@ -324,8 +332,9 @@ T _from_fs_string( std::string const &s )
     is.imbue( std::locale::classic() );
     T result;
     is >> result;
-    if( !is ) {
-        return T{};
+    if( !is || !is.eof() ) {
+        debugmsg( "Invalid map/OM coordinate %s", s );
+        return T::invalid;
     }
     return result;
 }
