@@ -5562,7 +5562,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             info.emplace_back( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_tec_sorted, []( const matec_id & tid ) {
                 return string_format( "<stat>%s</stat>: <info>%s</info> <info>%s</info>", tid.obj().name,
-                                      tid.obj().description, tid.obj().condition_desc );
+                                      tid.obj().description, _( tid.obj().condition_desc ) );
             } ) );
         }
     }
@@ -9427,7 +9427,9 @@ bool item::mod_damage( int qty )
         }
 
         // TODO: think about better way to telling the game what faults should be applied when
-        set_random_fault_of_type( "mechanical_damage" );
+        if( qty > 0 ) {
+            set_random_fault_of_type( "mechanical_damage" );
+        }
 
         return destroy;
     }
@@ -12843,7 +12845,14 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     std::vector<item *> removed_items;
-    for( item *contained : all_items_ptr( pocket_type::CONTAINER ) ) {
+    const std::list<item *> temp_contained_list = all_items_ptr( pocket_type::CONTAINER );
+    std::list<item *> contained_list;
+    // Reverse the list, as it's created from the top down, but we have to remove items
+    // from the bottom up in order for the references to remain valid until used.
+    for( item *contained : temp_contained_list ) {
+        contained_list.emplace_front( contained );
+    }
+    for( item *contained : contained_list ) {
         if( contained->use_amount_internal( it, quantity, used, filter ) ) {
             removed_items.push_back( contained );
         }
@@ -14167,7 +14176,7 @@ bool item::has_no_links() const
 
 std::string item::link_name() const
 {
-    return has_flag( flag_CABLE_SPOOL ) ? label( 1 ) : string_format( " %s's cable", label( 1 ) );
+    return has_flag( flag_CABLE_SPOOL ) ? label( 1 ) : string_format( _( " %s's cable" ), label( 1 ) );
 }
 
 ret_val<void> item::link_to( const optional_vpart_position &linked_vp, link_state link_type )
@@ -14450,8 +14459,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
                            link().length, link().max_length );
         }
         if( link().length > link().max_length ) {
-            std::string cable_name = is_cable_item ? string_format( "over-extended %s", label( 1 ) ) :
-                                     string_format( "%s's over-extended cable", label( 1 ) );
+            std::string cable_name = is_cable_item ? string_format( _( "over-extended %s" ), label( 1 ) ) :
+                                     string_format( _( "%s's over-extended cable" ), label( 1 ) );
             if( carrier != nullptr ) {
                 carrier->add_msg_if_player( m_bad, _( "Your %s breaks loose!" ), cable_name );
             } else {

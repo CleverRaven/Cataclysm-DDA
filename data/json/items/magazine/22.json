@@ -496,5 +496,25 @@
     "ammo_type": [ "22" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
+  },
+  {
+    "id": "glock44_mag",
+    "//:": "I couldn't find much conclusive data, but by all accounts it seems to share the dimensions of the G19's magazine.",
+    "looks_like": "glock17_17",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Glock 44 10 round magazine" },
+    "description": "A compact, light-weight polymer magazine for use with the Glock 44.",
+    "weight": "57 g",
+    "volume": "76 ml",
+    "longest_side": "111 mm",
+    "price": "25 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   }
 ]

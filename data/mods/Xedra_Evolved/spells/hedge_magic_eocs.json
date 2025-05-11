@@ -597,11 +597,16 @@
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
     "condition": {
-      "or": [
-        { "compare_string": [ "weary_5", { "context_val": "effect" } ] },
-        { "compare_string": [ "weary_6", { "context_val": "effect" } ] },
-        { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
-        { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "weary_5", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_6", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+          ]
+        },
+        { "u_has_trait": "ASTRAL_PROJECTION_APPEARANCE" }
       ]
     },
     "effect": [ { "run_eocs": "EOC_HEDGE_ASTRAL_PROJECTION_DEACTIVATE" } ]
