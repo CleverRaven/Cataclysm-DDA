@@ -1345,7 +1345,7 @@
       [ "football", 50 ],
       [ "baseball", 50 ],
       [ "shuttlecock", 5 ],
-      [ "jersey", 50 ],
+      { "item": "jersey", "variant": "sportsteam", "prob": 50 },
       [ "helmet_football", 50 ],
       [ "mask_hockey", 50 ],
       { "group": "toy_radio_car", "prob": 50 },

@@ -392,6 +392,18 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } } ]
   },
   {
+    "id": "glock36_mag",
+    "looks_like": "glock17_17",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "Glock 36 magazine" },
+    "description": "A 6-round magazine for the Glock 36. Incompatible with other .45 Glocks",
+    "weight": "70 g",
+    "volume": "72 ml",
+    "copy-from": "glock_21mag",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 6 } } ]
+  },
+  {
     "id": "greasegun30mag",
     "looks_like": "mp5mag",
     "type": "ITEM",

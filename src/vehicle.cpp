@@ -6672,8 +6672,10 @@ void vehicle::refresh( const bool remove_fakes )
     // re-install fake parts - this could be done in a separate function, but we want to
     // guarantee that the fake parts were removed before being added
     if( remove_fakes && !has_tag( "wreckage" ) && !is_appliance() ) {
+        // Calling add_fake_part can change that container, so iterate over a copy instead.
+        const decltype( relative_parts ) copy_of_relative_parts = relative_parts;
         // add all the obstacles first
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
         }
         // then add protrusions that hanging on top of fake obstacles.
@@ -6684,11 +6686,11 @@ void vehicle::refresh( const bool remove_fakes )
         }
 
         // add fake camera parts so vision isn't blocked by fake parts
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "CAMERA" );
         }
         // add fake curtains so vision is correctly blocked
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "CURTAIN" );
         }
     } else {

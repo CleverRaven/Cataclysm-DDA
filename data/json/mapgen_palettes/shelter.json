@@ -21,8 +21,8 @@
       "4": "t_gutter_downspout"
     },
     "furniture": {
-      "6": "f_console",
-      "x": "f_console_broken",
+      "6": "f_bulletin_evac",
+      "x": "f_bulletin_evac",
       "b": "f_bench",
       "c": "f_cupboard",
       "l": "f_locker",
@@ -48,8 +48,7 @@
       "C": { "item": "SUS_evac_shelter_bathroom_counter", "chance": 40 },
       "_": { "item": "shelter_supplies", "chance": 1 },
       "T": { "item": "SUS_toilet", "chance": 50 }
-    },
-    "nested": { "6": { "chunks": [ "shelter_computer" ] } }
+    }
   },
   {
     "type": "palette",
@@ -74,8 +73,8 @@
       "4": "t_gutter_downspout"
     },
     "furniture": {
-      "6": "f_console",
-      "x": "f_console",
+      "6": "f_bulletin_evac",
+      "x": "f_bulletin_evac",
       "b": "f_bench",
       "c": "f_cupboard",
       "l": "f_locker",
@@ -112,9 +111,7 @@
       "|": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       "#": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       ";": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
-      "/": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
-      "6": { "chunks": [ "shelter_computer" ] },
-      "x": { "chunks": [ [ "shelter_computer", 20 ], [ "shelter_computer_broken", 80 ] ] }
+      "/": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] }
     }
   },
   {
@@ -139,8 +136,8 @@
       "4": "t_gutter_downspout"
     },
     "furniture": {
-      "6": "f_console",
-      "x": "f_console",
+      "6": "f_bulletin_evac",
+      "x": "f_bulletin_evac",
       "b": "f_bench",
       "c": "f_cupboard",
       "l": [ "f_locker", "f_wreckage" ],
@@ -197,9 +194,7 @@
     "nested": {
       "|": { "chunks": [ [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
       "#": { "chunks": [ [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-      ";": { "chunks": [ [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-      "6": { "chunks": [ [ "shelter_computer", 50 ], [ "shelter_computer_broken", 50 ] ] },
-      "x": { "chunks": [ [ "shelter_computer", 20 ], [ "shelter_computer_broken", 80 ] ] }
+      ";": { "chunks": [ [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] }
     }
   },
   {
@@ -224,8 +219,8 @@
       "4": "t_gutter_downspout"
     },
     "furniture": {
-      "6": "f_console",
-      "x": "f_console_broken",
+      "6": "f_bulletin_evac",
+      "x": "f_bulletin_evac",
       "b": "f_bench",
       "c": "f_cupboard",
       "l": "f_locker",
@@ -258,7 +253,6 @@
       "C": { "item": "SUS_evac_shelter_bathroom_counter_used", "chance": 20 },
       "_": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ]
     },
-    "nested": { "6": { "chunks": [ "shelter_computer" ] } },
     "npcs": { "@": { "class": "NPC_evac_shelter_survivor" } }
   },
   {
@@ -332,8 +326,8 @@
       "4": "t_gutter_downspout"
     },
     "furniture": {
-      "6": "f_console",
-      "x": "f_console_broken",
+      "6": "f_bulletin_evac",
+      "x": "f_bulletin_evac",
       "b": "f_bench",
       "c": "f_cupboard",
       "l": "f_locker",
@@ -360,7 +354,6 @@
       "C": { "item": "SUS_evac_shelter_bathroom_counter", "chance": 40 },
       "_": { "item": "shelter_supplies", "chance": 1 }
     },
-    "nested": { "6": { "chunks": [ "shelter_computer" ] } },
     "monster": { "7": { "monster": "mon_feral_human_axe", "chance": 100 }, "8": { "monster": "mon_zombie_runner", "chance": 100 } }
   },
   {

@@ -106,7 +106,6 @@
 #include "rng.h"
 #include "scent_map.h"
 #include "skill.h"
-#include "skill_boost.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -2593,19 +2592,9 @@ void Character::process_turn()
 
 void Character::recalc_hp()
 {
-    int str_boost_val = 0;
-    std::optional<skill_boost> str_boost = skill_boost::get( "str" );
-    if( str_boost ) {
-        float skill_total = 0;
-        for( const std::string &skill_str : str_boost->skills() ) {
-            skill_total += get_skill_level( skill_id( skill_str ) );
-        }
-        str_boost_val = str_boost->calc_bonus( skill_total );
-    }
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
-    float hp_adjustment = ( str_boost_val * 3 ) +
-                          enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
+    float hp_adjustment = enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
     cached_dead_state.reset();
@@ -3761,20 +3750,6 @@ void Character::prevent_death()
     cached_dead_state.reset();
 }
 
-void Character::apply_skill_boost()
-{
-    for( const skill_boost &boost : skill_boost::get_all() ) {
-        float skill_total = 0;
-        for( const std::string &skill_str : boost.skills() ) {
-            skill_total += get_skill_level( skill_id( skill_str ) );
-        }
-        mod_stat( boost.stat(), boost.calc_bonus( skill_total ) );
-        if( boost.stat() == "str" ) {
-            recalc_hp();
-        }
-    }
-}
-
 std::pair<bodypart_id, int> Character::best_part_to_smash() const
 {
     std::pair<bodypart_id, int> best_part_to_smash = {bodypart_str_id::NULL_ID().id(), 0};
@@ -3966,8 +3941,6 @@ void Character::reset_stats()
     else if( str_max <= 5 ) {
         mod_dodge_bonus( 1 );   // Bonus if we're small
     }
-
-    apply_skill_boost();
 
     nv_cached = false;
 

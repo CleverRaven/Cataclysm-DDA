@@ -18,6 +18,7 @@
         "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 10" ] },
         "effect": [
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "10" ] },
+          { "u_lose_effect": "effect_noetic_resilience" },
           { "u_add_effect": "effect_noetic_resilience", "duration": "30 minutes" }
         ],
         "false_effect": [
@@ -26,6 +27,7 @@
             "type": "good"
           },
           { "math": [ "u_vitamin('vitamin_psionic_drain') = 0" ] },
+          { "u_lose_effect": "effect_noetic_resilience" },
           { "u_add_effect": "effect_noetic_resilience", "duration": "30 minutes" }
         ]
       }
