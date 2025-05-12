@@ -4,7 +4,6 @@
     "type": "field_type",
     "intensity_levels": [
       { "name": "odd ripple", "color": "light_gray", "sym": "*", "dangerous": true },
-      { "name": "swirling air", "color": "dark_gray" },
       {
         "name": "crack in reality",
         "color": "magenta",
