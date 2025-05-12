@@ -173,18 +173,25 @@ class monster : public Creature
         bool digging() const override;  // digs() or can_dig() and diggable terrain
         bool can_dig() const;
         bool digs() const;
-
-        /** @returns dig modifier. -1 if unable */
-        int get_dig_mod() const;
         bool flies() const;
         bool climbs() const;
-
-        /** @returns climb modifier. -1 if unable */
-        int get_climb_mod() const;
         bool swims() const;
 
+        /** @returns dig skill. -1 if unable */
+        int dig_skill() const;
+        /** @returns dig modifier. -1 if unable */
+        int get_dig_mod() const;
+
+        /** @returns climb skill. -1 if unable */
+        int climb_skill() const;
+        /** @returns climb modifier. -1 if unable */
+        int get_climb_mod() const;
+
+        /** @returns swim skill. -1 if unable */
+        int swim_skill() const;
         /** @returns swim modifier. -1 if unable */
         int get_swim_mod() const;
+
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( float light_level ) const override;
@@ -275,8 +282,8 @@ class monster : public Creature
         bool die_if_drowning( const tripoint_bub_ms &at_pos, int chance = 1 );
 
         tripoint_bub_ms scent_move();
-        int calc_movecost( const map &here, const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const;
-        int calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const;
+        int calc_movecost( const map &here, const tripoint_bub_ms &f,
+                           const tripoint_bub_ms &t, const bool force  = false ) const;
 
         bool is_immune_field( const field_type_id &fid ) const override;
         bool check_immunity_data( const field_immunity_data &ft ) const override;

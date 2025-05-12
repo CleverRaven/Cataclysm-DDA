@@ -1428,13 +1428,19 @@ int monster::get_dig_mod() const
     if( type->move_skills.dig.has_value() ) {
         int percentile = type->move_skills.dig.value() * ( max_obstacle_penalty / 10 );
         return max_obstacle_penalty - percentile;
-    } else if( has_flag( mon_flag_DIGS ) ) {
+    } else if( has_flag( mon_flag_DIGS ) || has_flag( mon_flag_CAN_DIG ) ) {
         // only for backwards compatibility. In future move away from flags
         return 1;
     }
 
     // cannot dig
     return -1;
+}
+
+int monster::dig_skill() const
+{
+    return type->move_skills.dig.value_or( has_flag( mon_flag_DIGS ) ||
+                                           has_flag( mon_flag_CAN_DIG ) ? 9 : -1 );
 }
 
 bool monster::flies() const
@@ -1446,6 +1452,12 @@ bool monster::climbs() const
 {
     return has_flag( mon_flag_CLIMBS ) || type->move_skills.climb.has_value();
 }
+
+int monster::climb_skill() const
+{
+    return type->move_skills.climb.value_or( has_flag( mon_flag_CLIMBS ) ? 9 : -1 );
+}
+
 
 int monster::get_climb_mod() const
 {
@@ -1464,6 +1476,11 @@ int monster::get_climb_mod() const
 bool monster::swims() const
 {
     return has_flag( mon_flag_SWIMS ) || type->move_skills.swim.has_value();
+}
+
+int monster::swim_skill() const
+{
+    return type->move_skills.swim.value_or( has_flag( mon_flag_SWIMS ) ? 10 : -1 );
 }
 
 int monster::get_swim_mod() const

@@ -165,7 +165,7 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         }
     }
 
-    // diggin monster can ONLY move underground?
+    // digging monster can ONLY move underground?
     if( digs() && !here->has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
         !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
@@ -278,11 +278,13 @@ bool monster::know_danger_at( const tripoint_bub_ms &p ) const
 bool monster::can_reach_to( const tripoint_bub_ms &p ) const
 {
     map &here = get_map();
+    const tripoint_bub_ms &current_p = pos_bub();
     if( p.z() > posz() && z_is_valid( posz() ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, p + tripoint_rel_ms::below ) ) {
             return true;
         }
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos_bub() ) && here.has_floor( p ) ) {
+        if( ( !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, current_p ) && here.has_floor( p ) ) ||
+            ( here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, current_p ) && !can_climb() ) ) {
             // can't go through the roof
             return false;
         }
@@ -291,8 +293,9 @@ bool monster::can_reach_to( const tripoint_bub_ms &p ) const
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
             return true;
         }
-        if( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) &&
-            ( here.has_floor( above ) || ( !flies() && !here.has_floor_or_water( above ) ) ) ) {
+        if( ( !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, current_p ) &&
+              ( here.has_floor( above ) || ( !flies() && !here.has_floor_or_water( above ) ) ) ) ||
+            ( here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, current_p ) && !can_climb() ) ) {
             // can't go through the floor
             // Check floors for flying monsters movement
             return false;
@@ -1537,7 +1540,7 @@ tripoint_bub_ms monster::scent_move()
 }
 
 int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
-                            const tripoint_bub_ms &to ) const
+                            const tripoint_bub_ms &to, const bool force ) const
 {
 
     // I'm sure you can optimize this
@@ -1580,8 +1583,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             cost += 2;
             continue;
         }
+
         // my implementation of map::movecost
-        // TODO: move to map to make same submap optimizations as map::movecost
+        // TODO: move to map to make same submap optimizations as map::movecost?
         const furn_t &furniture = here.furn( where ).obj();
         const ter_t &terrain = here.ter( where ).obj();
         const field &field = here.field_at( where );
@@ -1606,7 +1610,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             const vpart_position vp( const_cast<vehicle &>( *veh ), part );
             int veh_movecost = vp.get_movecost();
             int fieldcost = get_filtered_fieldcost( field );
-            if( veh_movecost > 0 && fieldcost >= 0 ) {
+            if( ( veh_movecost > 0 && fieldcost >= 0 ) ) {
                 cost += veh_movecost + fieldcost;
                 // vehicle movement ignores the rest
                 continue;
@@ -1619,35 +1623,46 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
         //terrain
         if( terrain.movecost < 0 ) {
+            debugmsg( "%s cannot enter unwalkable terrain %s. monster::calc_movecost expects to be called with valid destination.",
+                      get_name(), terrain.name() );
             continue;
         } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
-            // cannot swim or walk underwater. Aquatic monsters cant enter boats.
-            if( swimmod < 0 ) {
+            // cannot swim or walk underwater.
+            if( swims() ) {
+                // swimmers dont care about terraincost/other effects.
+                // fish move as quickly as
+                cost += swimmod;
+                continue;
+
+                // walk on the bottom of the water
+            } else if( !force ) {
                 debugmsg( "%s cannot swim or move in %s. monster::calc_movecost expects to be called with valid destination.",
                           get_name(), veh ? veh->disp_name() : terrain.name() );
                 return 0;
-            } else if( swims() ) {
-                // swimmers dont care about terraincost/other effects
-                return swimmod;
             } else {
-                cost += terrain.movecost * swimmod;
+                // min 1 for forced terrestial monster move
+                cost += terrain.movecost * std::max( swimmod, 1 );
             }
-
+        } else if( has_flag( mon_flag_AQUATIC ) && !force ) {
+            debugmsg( "Aquatic %s cannot enter non-swimmable %s. monster::calc_movecost expects to be called with valid destination.",
+                      get_name(), veh ? veh->disp_name() : terrain.name() );
+            return 0;
 
             // furniture can also have DIGGABLE (most prominently plants),
             // but I dont think you should be able to dig through it if the terrain isn't.
         } else if( digging() && terrain.has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-
-            // is terrain movecost a good aproximation for "ground hardness?"
-            cost += terrain.movecost * get_dig_mod();
+            cost += get_dig_mod();
 
             // digging monsters ignore furniture/fieldeffects/vehicles
             continue;
 
         } else if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ||
-                   ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) && where == from ) ) {
+                   ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) ) ) {
             if( climbs() ) {
                 cost += terrain.movecost * get_climb_mod();
+            } else if( force ) {
+                cost += terrain.movecost;
+                continue;
             } else {
                 debugmsg( "%s cannot climb over %s. monster::calc_movecost expects to be called with valid destination.",
                           get_name(), terrain.name() );
@@ -1661,7 +1676,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
         if( furniture.id ) {
             if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ||
                 ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) ) ) {
-                if( climbs() ) {
+                if( climbs() || force ) {
                     cost += furniture.movecost * get_climb_mod();
                 } else {
                     debugmsg( "%s cannot climb over %s. monster::calc_movecost expects to be called with valid destination.",
@@ -1676,12 +1691,12 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                 } else {
                     cost += furniture.movecost;
                 }
-
             }
         }
 
+        // fields
         int fieldcost = get_filtered_fieldcost( field );
-        if( fieldcost < 0 ) {
+        if( fieldcost < 0 && !force ) {
             return 0;
         }
         cost += fieldcost;
@@ -1689,31 +1704,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
     int movecost = std::max( tilecosts[from] + tilecosts[to], 1 ) * 25;
 
-
     add_msg_debug( debugmode::DF_MONMOVE, "%s t1:%i  t2:%i movecost: %i", name(), tilecosts[from],
                    tilecosts[to], movecost );
     return movecost;
-}
-
-int monster::calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const
-{
-    if( flies() ) {
-        return 100;
-    }
-
-    map &here = get_map();
-    if( climbs() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, t ) ) {
-
-        // TODO: here.climb_difficulty returns the lowest difficulty tile around you, not the tile we want to climb to.
-        const int diff = here.climb_difficulty( f );
-
-        // TODO: monsters with lower skill cannot climb more difficult
-        if( diff <= 10 ) {
-            return get_climb_mod() * 50;
-        }
-    }
-
-    return 0;
 }
 
 /*
@@ -1962,50 +1955,28 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
     const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at(
                 destination );
 
-    // do we need this anymore?
-    if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, destination ) ) {
-        if( ( !here.passable_skip_fields( destination ) || ( !impassable_field_ids.empty() &&
-                !is_immune_fields( impassable_field_ids ) ) ) && critter == nullptr ) {
-            if( flies() ) {
-                mod_moves( -get_speed() );
-                force = true;
-                add_msg_debug( debugmode::DF_MONMOVE, "The %1$s climbs over the %2$s.", name(),
-                               here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
-                               here.tername( p ) );
-            } else if( climbs() ) {
-                mod_moves( -get_speed() * 1.5 );
-                force = true;
-                add_msg_debug( debugmode::DF_MONMOVE, "The %1$s climbs over the %2$s.", name(),
-                               here.has_flag_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
-                               here.tername( p ) );
-            }
-        }
-    }
-
-    if( critter != nullptr && !step_on_critter ) {
-        return false;
-    }
-
-    // Make sure that we can move there, unless force is true.
+    // Check for permanent blockers. Includes terrain, impassable fieldeffects, traps and other.
     if( !force && !can_move_to( destination ) ) {
         return false;
     }
 
-    if( !force ) {
-        // This adjustment is to make it so that monster movement speed relative to the player
-        // is consistent even if the monster stumbles,
-        // and the same regardless of the distance measurement mode.
-        // Note: Keep this as float here or else it will cancel valid moves
-        const float cost = stagger_adjustment *
-                           static_cast<float>( climbs() && here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ?
-                                               calc_climb_cost( pos, destination ) :
-                                               calc_movecost( here, pos, destination ) );
-        if( cost > 0.0f ) {
-            mod_moves( -static_cast<int>( std::ceil( cost ) ) );
-        } else {
-            return false;
-        }
+    // Check for temporary blockers
+    if( !force && critter != nullptr && !step_on_critter ) {
+        return false;
     }
+
+    // This adjustment is to make it so that monster movement speed relative to the player
+    // is consistent even if the monster stumbles,
+    // and the same regardless of the distance measurement mode.
+    // Note: Keep this as float here or else it will cancel valid moves
+    const float cost = stagger_adjustment *
+                       static_cast<float>( calc_movecost( here, pos, destination, force ) );
+    if( cost > 0.0f ) {
+        mod_moves( -static_cast<int>( std::ceil( cost ) ) );
+    } else {
+        return false;
+    }
+
 
     //Check for moving into/out of water
     bool was_water = underwater;
@@ -2356,7 +2327,7 @@ void monster::stumble()
                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
-            if( move_to( dest, true, false ) ) {
+            if( move_to( dest, false, false ) ) {
                 break;
             }
         }
