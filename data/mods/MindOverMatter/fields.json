@@ -3,7 +3,7 @@
     "id": "fd_tear_in_reality_temporary",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "odd ripple", "color": "light_gray", "sym": "*", "dangerous": true },
+      { "name": "lingering distortion", "color": "light_gray", "sym": "*", "dangerous": true },
       {
         "name": "crack in reality",
         "color": "magenta",
