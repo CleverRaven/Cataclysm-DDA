@@ -103,7 +103,6 @@
 #include "scent_map.h"
 #include "shop_cons_rate.h"
 #include "skill.h"
-#include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "speed_description.h"
@@ -312,7 +311,6 @@ void DynamicDataLoader::initialize()
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
     add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
-    add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
@@ -348,55 +346,6 @@ void DynamicDataLoader::initialize()
     } );
     add( "trap", &trap::load_trap );
     add( "trap_migration", &trap_migrations::load );
-
-    add( "AMMO", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_ammo( jo, src );
-    } );
-    add( "GUN", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gun( jo, src );
-    } );
-    add( "ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_armor( jo, src );
-    } );
-    add( "PET_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_pet_armor( jo, src );
-    } );
-    add( "TOOL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool( jo, src );
-    } );
-    add( "TOOLMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_toolmod( jo, src );
-    } );
-    add( "TOOL_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool_armor( jo, src );
-    } );
-    add( "BOOK", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_book( jo, src );
-    } );
-    add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_comestible( jo, src );
-    } );
-    add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_engine( jo, src );
-    } );
-    add( "WHEEL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_wheel( jo, src );
-    } );
-    add( "GUNMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gunmod( jo, src );
-    } );
-    add( "MAGAZINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_magazine( jo, src );
-    } );
-    add( "BATTERY", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_battery( jo, src );
-    } );
-    add( "GENERIC", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_generic( jo, src );
-    } );
-    add( "BIONIC_ITEM", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_bionic( jo, src );
-    } );
 
     add( "ITEM", &items::load );
     add( "ITEM_CATEGORY", &item_category::load_item_cat );
@@ -745,7 +694,6 @@ void DynamicDataLoader::unload_data()
     shopkeeper_blacklist::reset();
     shopkeeper_cons_rates::reset();
     Skill::reset();
-    skill_boost::reset();
     SNIPPET.clear_snippets();
     magic_type::reset_all();
     spell_type::reset_all();

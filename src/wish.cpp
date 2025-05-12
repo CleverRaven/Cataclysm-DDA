@@ -424,7 +424,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 3: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
                     you->set_max_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
@@ -433,7 +433,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 4: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
                     you->set_max_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
@@ -442,7 +442,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 5: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
                     you->set_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                 }
@@ -450,7 +450,7 @@ void debug_menu::wishbionics( Character *you )
             }
             case 6: {
                 int new_value = 0;
-                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                if( query_int( new_value, false, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
                     you->set_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                 }
@@ -584,7 +584,7 @@ void debug_menu::wisheffect( Creature &p )
             effect &eff = effects[efmenu.ret - offset];
 
             int duration = to_seconds<int>( eff.get_duration() );
-            query_int( duration, _( "Set duration (current %1$d): " ), duration );
+            query_int( duration, false, _( "Set duration (current %1$d): " ), duration );
             if( duration < 0 ) {
                 continue;
             }
@@ -774,7 +774,8 @@ void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
         const mongroup_id selected_group( possible_groups[selected] );
         new_group.type = selected_group;
         int new_value = new_group.population; // default value if query declined
-        query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        query_int( new_value, false, _( "Set population to what value?  Currently %d" ),
+                   new_group.population );
         new_group.population = new_value;
         overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
         there.debug_force_add_group( new_group );

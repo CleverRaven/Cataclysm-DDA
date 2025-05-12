@@ -12,7 +12,7 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "20 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER_SOFT", 1 ] ],
     "melee_damage": { "bash": 3 }
   },
@@ -29,7 +29,7 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "20 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER_SOFT", 1 ] ],
     "melee_damage": { "bash": 3 }
   },
@@ -46,7 +46,7 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "20 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "DRILL_ROCK", 1 ] ],
     "melee_damage": { "bash": 3 }
   },
@@ -63,7 +63,7 @@
     "weight": "92 g",
     "volume": "100 ml",
     "longest_side": "15 cm",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "PUNCH", 1 ] ],
     "melee_damage": { "bash": 2, "stab": 2 }
   },
@@ -80,7 +80,7 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "15 cm",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "PUNCH", 2 ] ],
     "melee_damage": { "bash": 2, "stab": 4 }
   }

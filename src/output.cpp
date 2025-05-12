@@ -909,16 +909,16 @@ query_ynq_result query_ynq( const std::string &text )
     return query_ynq_result::quit;
 }
 
-bool query_int( int &result, const std::string &text )
+bool query_int( int &result, bool show_default, const std::string &text )
 {
     string_input_popup popup;
     popup.title( text );
-    popup.text( "" ).only_digits( true );
-    int temp = popup.query_int();
-    if( popup.canceled() ) {
+    popup.text( show_default ? std::to_string( result ) : "" ).only_digits( true );
+    std::optional<int> temp = popup.query_int();
+    if( popup.canceled() || !temp ) {
         return false;
     }
-    result = temp;
+    result = *temp;
     return true;
 }
 

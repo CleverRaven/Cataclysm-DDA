@@ -5,7 +5,6 @@
     "name": { "str": "shiny farthing" },
     "description": "A small, shiny brass coin with a picture of a stern-looking older man on one side and the words 'For all of Angland and her children' in an arc beneath him.  On the other side is a large number '1' wreathed in what appear to be nettle leaves.",
     "weight": "2 g",
-    "to_hit": -1,
     "color": "yellow",
     "symbol": ".",
     "flags": [ "COIN_SHAPED" ],

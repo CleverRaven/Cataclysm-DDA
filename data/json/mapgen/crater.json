@@ -19,7 +19,6 @@
     "weight": "4400 g",
     "volume": "10 L",
     "price": "0 cent",
-    "to_hit": -5,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_red",
@@ -85,7 +84,7 @@
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 8, 11 ] },
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 12, 15 ] }
       ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -136,7 +135,7 @@
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 8, 11 ] },
         { "chunks": [ "crater_bomb" ], "x": [ 12, 15 ], "y": [ 12, 15 ] }
       ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -209,7 +208,7 @@
           "neighbors": { "north_west": "crater_core_large" }
         }
       ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -246,7 +245,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -283,7 +282,7 @@
         "             ..........."
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -320,7 +319,7 @@
         "........................"
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -357,7 +356,7 @@
         "...........             "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -394,7 +393,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -431,7 +430,7 @@
         "             ..........."
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -468,7 +467,7 @@
         "...........             "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -505,7 +504,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -542,7 +541,7 @@
         "       ??????????       "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -579,7 +578,7 @@
         "  ???????????           "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -616,7 +615,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -653,7 +652,7 @@
         "           ???????????  "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -690,7 +689,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -727,7 +726,7 @@
         "  ???????????           "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -764,7 +763,7 @@
         "           ???????????  "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -801,7 +800,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -838,7 +837,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -875,7 +874,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -912,7 +911,7 @@
         " ?????????????????????? "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -949,7 +948,7 @@
         "                        "
       ],
       "palettes": [ "crater_palette" ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA", "DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

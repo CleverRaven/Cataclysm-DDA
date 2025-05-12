@@ -1225,7 +1225,7 @@ void editmap::edit_rads() const
 {
     map &here = get_map();
     int value = 0;
-    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+    if( query_int( value, false, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
         here.set_radiation( target, value );
     }
 }
@@ -1483,12 +1483,10 @@ void editmap::edit_itm()
                     }
                     string_input_popup popup;
                     int retval = 0;
+                    bool confirmed = false;
                     if( imenu.ret < imenu_tags ) {
-                        retval = popup
-                                 .title( "set:" )
-                                 .width( 20 )
-                                 .text( std::to_string( intval ) )
-                                 .query_int();
+                        retval = intval;
+                        confirmed = query_int( retval, true, "set:" );
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup
                                  .title( _( "Flags:" ) )
@@ -1496,7 +1494,7 @@ void editmap::edit_itm()
                                  .text( strval )
                                  .query_string();
                     }
-                    if( popup.confirmed() ) {
+                    if( popup.confirmed() || confirmed ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );

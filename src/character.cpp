@@ -34,6 +34,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -105,7 +106,6 @@
 #include "rng.h"
 #include "scent_map.h"
 #include "skill.h"
-#include "skill_boost.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -2592,19 +2592,9 @@ void Character::process_turn()
 
 void Character::recalc_hp()
 {
-    int str_boost_val = 0;
-    std::optional<skill_boost> str_boost = skill_boost::get( "str" );
-    if( str_boost ) {
-        float skill_total = 0;
-        for( const std::string &skill_str : str_boost->skills() ) {
-            skill_total += get_skill_level( skill_id( skill_str ) );
-        }
-        str_boost_val = str_boost->calc_bonus( skill_total );
-    }
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
-    float hp_adjustment = ( str_boost_val * 3 ) +
-                          enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
+    float hp_adjustment = enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
     cached_dead_state.reset();
@@ -3760,20 +3750,6 @@ void Character::prevent_death()
     cached_dead_state.reset();
 }
 
-void Character::apply_skill_boost()
-{
-    for( const skill_boost &boost : skill_boost::get_all() ) {
-        float skill_total = 0;
-        for( const std::string &skill_str : boost.skills() ) {
-            skill_total += get_skill_level( skill_id( skill_str ) );
-        }
-        mod_stat( boost.stat(), boost.calc_bonus( skill_total ) );
-        if( boost.stat() == "str" ) {
-            recalc_hp();
-        }
-    }
-}
-
 std::pair<bodypart_id, int> Character::best_part_to_smash() const
 {
     std::pair<bodypart_id, int> best_part_to_smash = {bodypart_str_id::NULL_ID().id(), 0};
@@ -3965,8 +3941,6 @@ void Character::reset_stats()
     else if( str_max <= 5 ) {
         mod_dodge_bonus( 1 );   // Bonus if we're small
     }
-
-    apply_skill_boost();
 
     nv_cached = false;
 
@@ -6070,7 +6044,8 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
-bool Character::pour_into( item_location &container, item &liquid, bool ignore_settings )
+bool Character::pour_into( item_location &container, item &liquid, bool ignore_settings,
+                           bool silent )
 {
     std::string err;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
@@ -6101,12 +6076,14 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         amount = std::min( amount, liquid.charges );
     }
 
-    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container->tname() );
+    if( !silent ) {
+        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container->tname() );
+    }
 
     liquid.charges -= container->fill_with( liquid, amount, false, false, ignore_settings );
     inv->unsort();
 
-    if( liquid.charges > 0 ) {
+    if( liquid.charges > 0 && !silent ) {
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
@@ -6597,7 +6574,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             if( opts[menu.ret].second ) {
                 obj->remove_fault( opts[menu.ret].first );
             } else {
-                obj.set_fault( opts[menu.ret].first, true, false );
+                obj->set_fault( opts[menu.ret].first, true, false );
             }
         }
         return;
@@ -6666,7 +6643,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::string descr = word_rewrap( opt.fault->description(), 80 ) + "\n\n";
+            std::string descr = word_rewrap( obj.get_item()->get_fault_description( opt.fault ), 80 ) + "\n\n";
             for( const fault_id &fid : fix.faults_removed ) {
                 if( obj->has_fault( fid ) ) {
                     descr += string_format( _( "Removes fault: <color_green>%s</color>\n" ), fid->name() );
@@ -6677,10 +6654,12 @@ void Character::mend_item( item_location &&obj, bool interactive )
             for( const fault_id &fid : fix.faults_added ) {
                 descr += string_format( _( "Adds fault: <color_yellow>%s</color>\n" ), fid->name() );
             }
-            if( fix.mod_damage > 0 ) {
-                descr += string_format( _( "<color_green>Repairs</color> %d damage.\n" ), fix.mod_damage );
-            } else if( fix.mod_damage < 0 ) {
-                descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
+            if( fix.mod_damage < 0 ) {
+                descr += string_format( _( "<color_green>Repairs</color> %d damage.\n" ),
+                                        -fix.mod_damage / itype::damage_scale );
+            } else if( fix.mod_damage > 0 ) {
+                descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ),
+                                        fix.mod_damage / itype::damage_scale );
             }
 
             opt.time_to_fix = fix.time;
@@ -10591,6 +10570,8 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
 {
     tinymap bay;
     bay.load( om_target, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *bay.cast_to_map() );
     point_omt_ms fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map

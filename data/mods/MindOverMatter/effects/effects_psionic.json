@@ -2243,7 +2243,7 @@
       }
     ],
     "limb_score_mods": [ { "limb_score": "swim", "modifier": 3.0 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "ONE_STORY_FALL" ]
   },
   {
     "type": "effect_type",
