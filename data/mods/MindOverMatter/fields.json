@@ -6,7 +6,7 @@
       { "name": "odd ripple", "color": "light_gray", "sym": "*", "dangerous": true },
       { "name": "swirling air", "color": "dark_gray" },
       {
-        "name": "tear in reality",
+        "name": "crack in reality",
         "color": "magenta",
         "transparent": false,
         "monster_spawn_chance": 60,
