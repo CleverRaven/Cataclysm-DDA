@@ -229,5 +229,20 @@
       "description": "Use a laptop to access the data.",
       "effect_on_conditions": [ "EOC_PSI_USB_RAD_RECIPE" ]
     }
+  },
+  {
+    "id": "phavian_noetic_resonance_detector_instructions",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "str_sp": "noetic resonance detector operator instructions" },
+    "description": "An extensive series of instructions on the proper calibrations and parameters for using the \"noetic resonance detector\" to determine a target's noetic potential.  There is no way you could have ever figured this out without these directions to follow.",
+    "copy-from": "schematics_generic",
+    "required_level": 3,
+    "max_level": 3,
+    "intelligence": 12,
+    "time": "60 m",
+    "symbol": "ç",
+    "color": "white",
+    "read_skill": "computer"
   }
 ]

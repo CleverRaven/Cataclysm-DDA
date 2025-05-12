@@ -275,10 +275,11 @@
     "description": "Follow the usage instructions of the noetic resonance detector to determine your \"noetic potential\".",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
-    "skill_used": "chemistry",
+    "skill_used": "computer",
     "skills_required": [ "metaphysics", 3 ],
-    "difficulty": 5,
+    "difficulty": 3,
     "time": "30 m",
+    "book_learn": [ [ "phavian_noetic_resonance_detector_instructions", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
     "tools": [ [ [ "psi_noetic_resonance_detector_tool", 500 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
@@ -312,7 +313,7 @@
         "if": { "u_has_trait": "ALWAYS_GAIN_PSIONICS" },
         "then": [
           {
-            "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_magenta>Potential: Mathematician Target</color>\" are visible.",
+            "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_magenta>Potential: Excellent.  Mathematician Target</color>\" are visible.",
             "type": "neutral"
           },
           { "u_add_effect": "psionic_overload", "duration": "30 minutes", "target_part": "head" }
@@ -326,42 +327,35 @@
       {
         "if": { "math": [ "_awakening_check == -100" ] },
         "then": {
-          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Null</color>\" are visible.",
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_red>Potential: Null</color>\" are visible.",
           "type": "neutral"
         }
       },
       {
-        "if": { "and": [ { "math": [ "_awakening_check >= 0" ] }, { "math": [ "_awakening_check <= 2" ] } ] },
+        "if": { "and": [ { "math": [ "_awakening_check >= 0" ] }, { "math": [ "_awakening_check <= 5" ] } ] },
         "then": {
-          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Negligible</color>\" are visible.",
-          "type": "neutral"
-        }
-      },
-      {
-        "if": { "and": [ { "math": [ "_awakening_check > 2" ] }, { "math": [ "_awakening_check <= 5" ] } ] },
-        "then": {
-          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_red>Potential: Minor</color>\" are visible.",
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_red>Potential: Negligible</color>\" are visible.",
           "type": "neutral"
         }
       },
       {
         "if": { "and": [ { "math": [ "_awakening_check > 5" ] }, { "math": [ "_awakening_check <= 15" ] } ] },
         "then": {
-          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_yellow>Potential: Moderate</color>\" are visible.",
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_yellow>Potential: Minor</color>\" are visible.",
           "type": "neutral"
         }
       },
       {
         "if": { "and": [ { "math": [ "_awakening_check > 15" ] }, { "math": [ "_awakening_check <= 45" ] } ] },
         "then": {
-          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_green>Potential: Good</color>\" are visible.",
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_green>Potential: Moderate</color>\" are visible.",
           "type": "neutral"
         }
       },
       {
         "if": { "and": [ { "math": [ "_awakening_check > 45" ] }, { "math": [ "_awakening_check <= 99" ] } ] },
         "then": {
-          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On a screen below, the words \"<color_light_blue>Potential: Excellent</color>\" are visible.",
+          "message": "The lights inside in the machine blink and swirl for what seems like forever until the machine beeps.  On the output screen, the words \"<color_light_blue>Potential: Good</color>\" are visible.",
           "type": "neutral"
         }
       },
