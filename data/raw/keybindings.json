@@ -3195,6 +3195,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Font Options",
+    "category": "DEFAULTMODE",
+    "id": "open_font_options"
+  },
+  {
+    "type": "keybinding",
     "name": "Auto pickup manager",
     "category": "DEFAULTMODE",
     "id": "open_autopickup"
