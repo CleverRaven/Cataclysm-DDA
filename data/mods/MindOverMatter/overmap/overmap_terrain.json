@@ -311,5 +311,27 @@
     "type": "overmap_terrain",
     "id": "alien_meadow_end",
     "copy-from": "alien_meadow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_psi_lab1",
+      "nursing_home_psi_lab2",
+      "nursing_home_psi_lab3",
+      "nursing_home_psi_lab4",
+      "nursing_home_psi_lab5",
+      "nursing_home_psi_lab6",
+      "nursing_home_psi_lab7",
+      "nursing_home_psi_lab8",
+      "nursing_home_psi_lab9",
+      "nursing_home_psi_lab10",
+      "nursing_home_psi_lab11",
+      "nursing_home_psi_lab12"
+    ],
+    "vision_levels": "underground_stone",
+    "see_cost": "full_high",
+    "name": "nursing home lab",
+    "sym": "N",
+    "color": "dark_gray"
   }
 ]
