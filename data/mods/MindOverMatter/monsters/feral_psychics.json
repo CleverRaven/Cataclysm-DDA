@@ -1445,7 +1445,7 @@
           "spell_data": { "id": "teleporter_breach_monster", "min_level": 10 },
           "cooldown": { "math": [ "17 + rand(32)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "The lights around %1$s waver and shapes appear near %3$s!."
+          "monster_message": "The lights around %1$s waver and shapes appear near %3$s."
         }
       ],
       "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE" ]
