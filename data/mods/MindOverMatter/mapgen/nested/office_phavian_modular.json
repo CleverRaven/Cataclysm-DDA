@@ -256,7 +256,7 @@
         "ɱçççl&.."
       ],
       "palettes": [ "office_phavian_palette" ],
-      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 1, "y": 7, "chance": 50 } ],
+      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 2, "y": 7, "chance": 50 } ],
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
@@ -285,7 +285,7 @@
         "........"
       ],
       "palettes": [ "office_phavian_palette" ],
-      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 6, "y": 0, "chance": 50 } ],
+      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 5, "y": 0, "chance": 50 } ],
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },

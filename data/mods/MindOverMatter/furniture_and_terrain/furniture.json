@@ -96,7 +96,7 @@
       "items": [
         { "item": "psi_noetic_resonance_detector", "count": 1 },
         { "item": "w_table", "count": 1 },
-        { "item": "chair_wood", "charges": 1 }
+        { "item": "chair_wood", "count": 1 }
       ]
     },
     "bash": {
