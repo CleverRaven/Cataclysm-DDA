@@ -1280,10 +1280,11 @@
           { "u_location_variable": { "context_val": "loc" }, "min_radius": 1, "max_radius": 3 },
           {
             "u_set_field": "fd_tear_in_reality_temporary",
+            "radius": 0,
             "intensity": 3,
-            "target_var": { "context_val": "loc" },
-            "spawn_message": "The nearby air warps in on itself!"
-          }
+            "target_var": { "context_val": "loc" }
+          },
+          { "message": "The nearby air cracks.", "type": "bad" }
         ]
       }
     ],

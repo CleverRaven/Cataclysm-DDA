@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_ACTIVE",
-    "//": "Overwrite of data/json/effects_on_condition/nether_eocs/portal_storm_effects_on_condition.json",
+    "//2": "Overwrite of data/json/effects_on_condition/nether_eocs/portal_storm_effects_on_condition.json",
     "//": "More dangerous portal effects, should cost IRE to do.",
     "recurrence": [ "20 seconds", "50 seconds" ],
     "global": true,
@@ -46,10 +46,11 @@
       { "u_location_variable": { "context_val": "loc" }, "min_radius": 2, "max_radius": 8 },
       {
         "u_set_field": "fd_tear_in_reality_temporary",
+        "radius": 0,
         "intensity": 3,
-        "target_var": { "context_val": "loc" },
-        "spawn_message": "The world cracks!"
+        "target_var": { "context_val": "loc" }
       },
+      { "message": "The nearby air cracks.", "type": "bad" },
       { "math": [ "u_ire", "-=", "5" ] }
     ]
   }
