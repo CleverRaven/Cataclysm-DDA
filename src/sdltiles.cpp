@@ -47,6 +47,7 @@
 #include "filesystem.h"
 #include "flag.h"
 #include "font_loader.h"
+#include "font_picker.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
@@ -1831,6 +1832,32 @@ bool handle_resize( int w, int h )
     need_invalidate_framebuffers = true;
     catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
     throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
+    game_ui::init_ui();
+    ui_manager::screen_resized();
+    return true;
+}
+
+int get_maximum_font_width()
+{
+    return  WindowWidth / ( EVEN_MINIMUM_TERM_WIDTH * scaling_factor );
+}
+
+int get_maximum_font_height()
+{
+    return  WindowHeight / ( EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
+}
+
+bool handle_font_size_change()
+{
+    catacurses::init_fonts();
+
+    // A minimal window size is set during initialization, but some platforms ignore
+    // the minimum size so we clamp the terminal size here for extra safety.
+    int TW = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
+    int TH = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
+
+    TERMINAL_WIDTH = TW;
+    TERMINAL_HEIGHT = TH;
     game_ui::init_ui();
     ui_manager::screen_resized();
     return true;
@@ -3695,6 +3722,9 @@ static void init_term_size_and_scaling_factor()
     TERMINAL_HEIGHT = terminal.y / scaling_factor;
 }
 
+class font_loader font_loader;
+class FontPicker font_editor;
+
 //Basic Init, create the font, backbuffer, etc
 void catacurses::init_interface()
 {
@@ -3707,20 +3737,20 @@ void catacurses::init_interface()
     get_options().load();
     set_language_from_options(); //Prevent translated language strings from causing an error if language not set
 
-    font_loader fl;
-    fl.load();
-    fl.fontwidth = get_option<int>( "FONT_WIDTH" );
-    fl.fontheight = get_option<int>( "FONT_HEIGHT" );
-    fl.fontsize = get_option<int>( "FONT_SIZE" );
-    fl.fontblending = get_option<bool>( "FONT_BLENDING" );
-    fl.map_fontsize = get_option<int>( "MAP_FONT_SIZE" );
-    fl.map_fontwidth = get_option<int>( "MAP_FONT_WIDTH" );
-    fl.map_fontheight = get_option<int>( "MAP_FONT_HEIGHT" );
-    fl.overmap_fontsize = get_option<int>( "OVERMAP_FONT_SIZE" );
-    fl.overmap_fontwidth = get_option<int>( "OVERMAP_FONT_WIDTH" );
-    fl.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
-    ::fontwidth = fl.fontwidth;
-    ::fontheight = fl.fontheight;
+    font_loader.load();
+    font_loader.fontwidth = get_option<int>( "FONT_WIDTH" );
+    font_loader.fontheight = get_option<int>( "FONT_HEIGHT" );
+    font_loader.fontsize = get_option<int>( "FONT_SIZE" );
+    font_loader.fontblending = get_option<bool>( "FONT_BLENDING" );
+    font_loader.map_fontsize = get_option<int>( "MAP_FONT_SIZE" );
+    font_loader.map_fontwidth = get_option<int>( "MAP_FONT_WIDTH" );
+    font_loader.map_fontheight = get_option<int>( "MAP_FONT_HEIGHT" );
+    font_loader.gui_fontsize = get_option<int>( "GUI_FONT_SIZE" );
+    font_loader.overmap_fontsize = get_option<int>( "OVERMAP_FONT_SIZE" );
+    font_loader.overmap_fontwidth = get_option<int>( "OVERMAP_FONT_WIDTH" );
+    font_loader.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
+    ::fontwidth = font_loader.fontwidth;
+    ::fontheight = font_loader.fontheight;
 
     init_term_size_and_scaling_factor();
 
@@ -3788,24 +3818,35 @@ void catacurses::init_interface()
     }
 #endif // SOUND
 
-    font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
-            windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
-    gui_font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
-               windowsPalette, fl.gui_typeface, fl.fontsize, fl.fontblending );
-    map_font = std::make_unique<FontFallbackList>( renderer, format, fl.map_fontwidth,
-               fl.map_fontheight,
-               windowsPalette, fl.map_typeface, fl.map_fontsize, fl.fontblending );
-    overmap_font = std::make_unique<FontFallbackList>( renderer, format, fl.overmap_fontwidth,
-                   fl.overmap_fontheight,
-                   windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
-    stdscr = newwin( get_terminal_height(), get_terminal_width(), point::zero );
-    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-    imclient->load_fonts( gui_font, font, windowsPalette, fl.gui_typeface, fl.typeface );
+    imclient->load_colors( windowsPalette );
+    init_fonts();
+
 #if defined(__ANDROID__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
     preview_terminal_height = TERMINAL_HEIGHT * fontheight;
 #endif
+}
+
+void catacurses::init_fonts()
+{
+    font = std::make_unique<FontFallbackList>( renderer, format, font_loader.fontwidth,
+            font_loader.fontheight,
+            windowsPalette, font_loader.typeface, font_loader.fontsize, font_loader.fontblending );
+    gui_font = std::make_unique<FontFallbackList>( renderer, format, font_loader.fontwidth,
+               font_loader.fontheight,
+               windowsPalette, font_loader.gui_typeface, font_loader.gui_fontsize, font_loader.fontblending );
+    map_font = std::make_unique<FontFallbackList>( renderer, format, font_loader.map_fontwidth,
+               font_loader.map_fontheight,
+               windowsPalette, font_loader.map_typeface, font_loader.map_fontsize, font_loader.fontblending );
+    overmap_font = std::make_unique<FontFallbackList>( renderer, format, font_loader.overmap_fontwidth,
+                   font_loader.overmap_fontheight,
+                   windowsPalette, font_loader.overmap_typeface, font_loader.overmap_fontsize,
+                   font_loader.fontblending );
+    stdscr = newwin( get_terminal_height(), get_terminal_width(), point::zero );
+    //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
+    imclient->load_fonts( font_loader.gui_typeface, font_loader.typeface );
+    imclient->config_font_fallback( gui_font, font );
 }
 
 // This is supposed to be called from init.cpp, and only from there.

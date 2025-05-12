@@ -106,6 +106,7 @@ enum class direction : unsigned int;
 
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#include "font_picker.h"
 #include "sdltiles.h"
 #endif
 
@@ -2989,6 +2990,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_OPTIONS:
             get_options().show( true );
+            break;
+
+        case ACTION_FONT_OPTIONS:
+#ifndef IMTUI
+            font_editor.ShowFontsOptionsWindow();
+#endif // IMTUI
             break;
 
         case ACTION_AUTOPICKUP:

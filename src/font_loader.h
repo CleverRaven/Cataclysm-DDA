@@ -48,6 +48,8 @@ struct font_config {
 extern void ensure_unifont_loaded( std::vector<font_config> &font_list );
 extern void ensure_unifont_loaded( std::vector<std::string> &font_list );
 
+std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( std::string_view hinting );
+const char *fonthint_to_hint( std::optional<ImGuiFreeTypeBuilderFlags> hinting );
 
 class font_loader
 {
@@ -63,19 +65,21 @@ class font_loader
         int map_fontwidth = 8;
         int map_fontheight = 16;
         int map_fontsize = 16;
+        int gui_fontsize = 16;
         int overmap_fontwidth = 8;
         int overmap_fontheight = 16;
         int overmap_fontsize = 16;
 
     private:
         void load_throws( const cata_path &path );
-        void save( const cata_path &path ) const;
 
     public:
         /// @throws std::exception upon any kind of error.
         void load();
+        void save( const cata_path &path ) const;
 };
 
+extern font_loader font_loader;
 #endif // TILES
 
 #endif // CATA_SRC_FONT_LOADER_H

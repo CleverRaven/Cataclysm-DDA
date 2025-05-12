@@ -507,7 +507,6 @@ background_pane::background_pane()
 
 namespace ui_manager
 {
-
 void invalidate( const rectangle<point> &rect, const bool reenable_uis_below )
 {
     ui_adaptor::invalidate( rect, reenable_uis_below );

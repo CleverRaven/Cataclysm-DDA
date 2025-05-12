@@ -235,9 +235,12 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "sdl_font.h"
 #include "sdltiles.h"
 #include "font_loader.h"
+#include "font_picker.h"
 #include "wcwidth.h"
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+#include <CustomFont/CustomFont.h>
+#include <CustomFont/CustomFont.cpp> // NOLINT(bugprone-suspicious-include)
 
 ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
@@ -297,6 +300,8 @@ static int GetFallbackCharWidth( ImWchar c, const float scale )
 
 static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::string &lang )
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+    static ImWchar cjk[] = { 0x4E00, 0x9FFF, 0x000 };
     // NOLINTBEGIN(bugprone-branch-clone)
     if( lang == "en" ) {
         AddGlyphRangesFromCLDRForEN( b );
@@ -347,9 +352,11 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
     } else if( lang == "uk_UA" ) {
         AddGlyphRangesFromCLDRForUK_UA( b );
     } else if( lang == "zh_CN" ) {
-        AddGlyphRangesFromCLDRForZH_HANS( b );
-    } else if( lang == "zh_TW" ) {
         AddGlyphRangesFromCLDRForZH_HANT( b );
+        b->AddRanges( &cjk[0] );
+    } else if( lang == "zh_TW" ) {
+        AddGlyphRangesFromCLDRForZH_HANS( b );
+        b->AddRanges( &cjk[0] );
     }
     // NOLINTEND(bugprone-branch-clone)
 }
@@ -362,11 +369,18 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
 
 static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
 {
-    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+    b->AddChar( 0xFFFD );
+    // NOLINTBEGIN(modernize-avoid-c-arrays)
     static ImWchar superscripts[] = { 0x00B9, 0x00B9, 0x00B2, 0x00B3, 0x2070, 0x208E, 0x0000 };
     b->AddRanges( &superscripts[0] );
+    static ImWchar arrows[] = { 0x2190, 0x21FF, 0x27F0, 0x27FF, 0x2B00, 0x2B0D, 0x2B60, 0x2BB8, 0x0000 };
+    b->AddRanges( &arrows[0] );
+    static ImWchar art[] = { 0x0370, 0x03FF, 0x2302, 0x2302, 0x263C, 0x263E, 0x2660, 0x2667, 0x0000 }; // ☼♥⌂Φ etc
+    b->AddRanges( &art[0] );
+    static ImWchar icons[] = { 0xF000, 0xF2FF, 0x0000 };
+    b->AddRanges( &icons[0] );
+    // NOLINTEND(modernize-avoid-c-arrays)
 }
-
 
 // Load all fonts that exist in typefaces list
 // - typefaces is a list of paths.
@@ -382,17 +396,25 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
     auto it = std::begin( io_typefaces );
     for( ; it != std::end( io_typefaces ); ++it ) {
         if( !file_exist( it->path ) ) {
-            printf( "Font file '%s' does not exist.\n", it->path.c_str() );
+            static_cast<void>( fprintf( stderr, "Font file '%s' does not exist.\n", it->path.c_str() ) );
         } else {
             config.MergeMode = !first;
             config.FontBuilderFlags = it->imgui_config();
-            io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), font_loader.gui_fontsize, &config, ranges );
             first = false;
         }
     }
     if( first ) {
         debugmsg( "No fonts were found in the fontdata file." );
     }
+    config.MergeMode = !first;
+    config.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_LoadColor;
+    config.PixelSnapH = true;
+    ImFormatString( config.Name, IM_ARRAYSIZE( config.Name ), "fontawesome-webfont.ttf, %dpx",
+                    fontheight );
+    io.Fonts->AddFontFromMemoryCompressedBase85TTF( FONT_ICON_BUFFER_NAME_IGFD,
+            font_loader.gui_fontsize, &config,
+            ranges );
 }
 
 static void check_font( const ImFont *font )
@@ -409,56 +431,67 @@ static void check_font( const ImFont *font )
     }
 }
 
-void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
-                                    const Font_Ptr &mono_font,
-                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                                    const std::vector<font_config> &gui_typefaces, const std::vector<font_config> &mono_typefaces )
+static ImVector<ImWchar> glyph_ranges;
+
+void cataimgui::client::load_colors( const
+                                     std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+{
+    for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
+        SDL_Color sdlCol = windowsPalette[index];
+        ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
+        sdlColorsToCata[rgb] = index;
+    }
+}
+
+void cataimgui::client::load_fonts( const std::vector<font_config> &gui_typefaces,
+                                    const std::vector<font_config> &mono_typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
-    if( ImGui::GetIO().FontDefault == nullptr ) {
-        for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
-            SDL_Color sdlCol = windowsPalette[index];
-            ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
-            sdlColorsToCata[rgb] = index;
-        }
+    io.Fonts->Clear();
+    io.FontDefault = nullptr;
 
-        std::string lang = get_option<std::string>( "USE_LANG" );
-        if( lang.empty() ) {
-            lang = SystemLocale::Language().value_or( "en" );
-        }
-        ImFontGlyphRangesBuilder b = {};
-        b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
-        AddGlyphRangesFromCLDR( &b, lang );
-        AddGlyphRangesMisc( &b );
-        if( get_option<bool>( "IMGUI_LOAD_CHINESE" ) ) {
-            b.AddRanges( io.Fonts->GetGlyphRangesChineseFull() );
-        }
-        ImVector<ImWchar> ranges;
-        b.BuildRanges( &ranges );
-
-        load_font( io, gui_typefaces, ranges.begin() );
-        load_font( io, mono_typefaces, ranges.begin() );
-        io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
-        io.Fonts->Fonts[1]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[1]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[1]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
-        io.Fonts->Build();
-        check_font( io.Fonts->Fonts[0] );
-        check_font( io.Fonts->Fonts[1] );
-        ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
-        ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
-            std::string uni_string = std::string( glyph.uni_str );
-            point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
-            unsigned char col = 0;
-            auto it = sdlColorsToCata.find( glyph.col & 0xFFFFFF );
-            if( it != sdlColorsToCata.end() ) {
-                col = it->second;
-            }
-            mono_font->OutputChar( sdl_renderer, sdl_geometry, glyph.uni_str, p, col );
-        } );
+    std::string lang = get_option<std::string>( "USE_LANG" );
+    if( lang.empty() ) {
+        lang = SystemLocale::Language().value_or( "en" );
     }
+
+    glyph_ranges.shrink( 0 );
+    ImFontGlyphRangesBuilder b = {};
+    b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
+    AddGlyphRangesFromCLDR( &b, lang );
+    AddGlyphRangesMisc( &b );
+    if( get_option<bool>( "IMGUI_LOAD_CHINESE" ) ) {
+        b.AddRanges( io.Fonts->GetGlyphRangesChineseFull() );
+    }
+    b.BuildRanges( &glyph_ranges );
+
+    load_font( io, gui_typefaces, glyph_ranges.begin() );
+    load_font( io, mono_typefaces, glyph_ranges.begin() );
+    io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
+    io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
+    io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+    io.Fonts->Fonts[1]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
+    io.Fonts->Fonts[1]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
+    io.Fonts->Fonts[1]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+    io.Fonts->Build();
+    check_font( io.Fonts->Fonts[0] );
+    check_font( io.Fonts->Fonts[1] );
+    ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
+}
+
+void cataimgui::client::config_font_fallback( UNUSED const Font_Ptr &gui_font,
+        const Font_Ptr &mono_font )
+{
+    ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
+        std::string uni_string = std::string( glyph.uni_str );
+        point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
+        unsigned char col = 0;
+        auto it = sdlColorsToCata.find( glyph.col & 0xFFFFFF );
+        if( it != sdlColorsToCata.end() ) {
+            col = it->second;
+        }
+        mono_font->OutputChar( sdl_renderer, sdl_geometry, glyph.uni_str, p, col );
+    } );
 }
 
 cataimgui::client::~client()
@@ -466,98 +499,10 @@ cataimgui::client::~client()
     ImGui_ImplSDL2_Shutdown();
 }
 
-#if 0 and not TUI
-struct FreeTypeTest {
-    enum FontBuildMode { FontBuildMode_FreeType, FontBuildMode_Stb };
-
-    FontBuildMode   BuildMode = FontBuildMode_FreeType;
-    bool            WantRebuild = true;
-    float           RasterizerMultiply = 1.0f;
-    unsigned int    FreeTypeBuilderFlags = 0;
-
-    // Call _BEFORE_ NewFrame()
-    bool PreNewFrame() {
-        if( !WantRebuild ) {
-            return false;
-        }
-
-        ImFontAtlas *atlas = ImGui::GetIO().Fonts;
-        for( int n = 0; n < atlas->ConfigData.Size; n++ ) {
-            ( static_cast<ImFontConfig *>( &atlas->ConfigData[n] ) )->RasterizerMultiply = RasterizerMultiply;
-        }
-
-        // Allow for dynamic selection of the builder.
-        // In real code you are likely to just define IMGUI_ENABLE_FREETYPE and never assign to FontBuilderIO.
-#ifdef IMGUI_ENABLE_FREETYPE
-        if( BuildMode == FontBuildMode_FreeType ) {
-            atlas->FontBuilderIO = ImGuiFreeType::GetBuilderForFreeType();
-            atlas->FontBuilderFlags = FreeTypeBuilderFlags;
-        }
-#endif
-#ifdef IMGUI_ENABLE_STB_TRUETYPE
-        if( BuildMode == FontBuildMode_Stb ) {
-            atlas->FontBuilderIO = ImFontAtlasGetBuilderForStbTruetype();
-            atlas->FontBuilderFlags = 0;
-        }
-#endif
-        atlas->Build();
-        WantRebuild = false;
-        return true;
-    }
-
-    // Call to draw UI
-    void ShowFontsOptionsWindow() {
-        ImFontAtlas *atlas = ImGui::GetIO().Fonts;
-
-        ImGui::Begin( "FreeType Options" );
-        ImGui::ShowFontSelector( "Fonts" );
-        WantRebuild |= ImGui::RadioButton( "FreeType", reinterpret_cast<int *>( &BuildMode ),
-                                           FontBuildMode_FreeType );
-        ImGui::SameLine();
-        WantRebuild |= ImGui::RadioButton( "Stb (Default)", reinterpret_cast<int *>( &BuildMode ),
-                                           FontBuildMode_Stb );
-        WantRebuild |= ImGui::DragInt( "TexGlyphPadding", &atlas->TexGlyphPadding, 0.1f, 1, 16 );
-        WantRebuild |= ImGui::DragFloat( "RasterizerMultiply", &RasterizerMultiply, 0.001f, 0.0f, 2.0f );
-        ImGui::Separator();
-
-        if( BuildMode == FontBuildMode_FreeType ) {
-#ifndef IMGUI_ENABLE_FREETYPE
-            ImGui::TextColored( ImVec4( 1.0f, 0.5f, 0.5f, 1.0f ), "Error: FreeType builder not compiled!" );
-#endif
-            WantRebuild |= ImGui::CheckboxFlags( "NoHinting", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_NoHinting );
-            WantRebuild |= ImGui::CheckboxFlags( "NoAutoHint", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_NoAutoHint );
-            WantRebuild |= ImGui::CheckboxFlags( "ForceAutoHint", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_ForceAutoHint );
-            WantRebuild |= ImGui::CheckboxFlags( "LightHinting", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_LightHinting );
-            WantRebuild |= ImGui::CheckboxFlags( "MonoHinting", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_MonoHinting );
-            WantRebuild |= ImGui::CheckboxFlags( "Bold", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_Bold );
-            WantRebuild |= ImGui::CheckboxFlags( "Oblique", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_Oblique );
-            WantRebuild |= ImGui::CheckboxFlags( "Monochrome", &FreeTypeBuilderFlags,
-                                                 ImGuiFreeTypeBuilderFlags_Monochrome );
-        }
-
-        if( BuildMode == FontBuildMode_Stb ) {
-#ifndef IMGUI_ENABLE_STB_TRUETYPE
-            ImGui::TextColored( ImVec4( 1.0f, 0.5f, 0.5f, 1.0f ), "Error: stb_truetype builder not compiled!" );
-#endif
-        }
-        ImGui::End();
-    }
-};
-
-FreeTypeTest freetype_test;
-#endif
-
 void cataimgui::client::new_frame()
 {
-#if 0 and not TUI
-    if( freetype_test.PreNewFrame() ) {
+#ifdef IMGUI_ENABLE_FREETYPE
+    if( font_editor.PreNewFrame() ) {
         // REUPLOAD FONT TEXTURE TO GPU
         ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
@@ -567,9 +512,6 @@ void cataimgui::client::new_frame()
     ImGui_ImplSDL2_NewFrame();
 
     ImGui::NewFrame();
-#if 0 and not TUI
-    freetype_test.ShowFontsOptionsWindow();
-#endif
 }
 
 void cataimgui::client::end_frame()
@@ -1093,6 +1035,11 @@ bool cataimgui::BeginRightAlign( const char *str_id )
 void cataimgui::EndRightAlign()
 {
     ImGui::EndTable();
+}
+
+void ImGui::TextUnformatted( std::filesystem::path &path )
+{
+    ImGui::TextUnformatted( path.generic_string().c_str() );
 }
 
 // Use the base terminal palette to reasonably color ImGui elements.

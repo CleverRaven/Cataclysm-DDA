@@ -1,5 +1,6 @@
 #pragma once
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
@@ -27,6 +28,7 @@ struct point;
 struct ImVec2;
 struct ImVec4;
 class Font;
+using Font_Ptr = std::unique_ptr<Font>;
 class input_context;
 
 namespace cataimgui
@@ -75,9 +77,11 @@ class client
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                 const GeometryRenderer_Ptr &sdl_geometry );
-        void load_fonts( const std::unique_ptr<Font> &gui_font, const std::unique_ptr<Font> &mono_font,
-                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                         const std::vector<font_config> &gui_typeface, const std::vector<font_config> &mono_typeface );
+        void load_colors( const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT>
+                          &windowsPalette );
+        void load_fonts( const std::vector<font_config> &gui_typeface,
+                         const std::vector<font_config> &mono_typeface );
+        void config_font_fallback( const Font_Ptr &gui_font, const Font_Ptr &mono_font );
 #endif
         ~client();
 
@@ -192,3 +196,8 @@ void TextKeybinding( const input_context &ctxt,
 void TextListSeparator( const nc_color &color = c_light_gray );
 
 } // namespace cataimgui
+
+namespace ImGui
+{
+void TextUnformatted( std::filesystem::path &path );
+} // namespace ImGui
