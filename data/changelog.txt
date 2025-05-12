@@ -133,7 +133,6 @@ Underground Temperature now depends on Region Settings
 Modinfo Blacklist
 Add a dentist office map
 Item faults
-Add `ONE_STORY_FALL` flag, which allows you to fall one story without taking damage
 
 
 ## Content:
@@ -307,14 +306,7 @@ Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster
-Replace Boston-Chan suit with a blazer variant
-Adds in 11 Glock firearms, mostly consisting of compacts and subcompacts
-military 9mm +P
 Snippetize Tshirt variants
-Turn sheriff shirts into postman shirt variants
-Update and variantize jerseys
-Prisoner uniform audit
-Subject suit audit
 
 
 ## Interface:
@@ -812,17 +804,6 @@ Mod Conflicts
 [Xedra Evolved] Add design docs for easier collaboration
 [Xedra Evolved] Add feral vampires, put them in house nests + caves
 [The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
-[alt-map-key] Change all keys to capital letters and remove inverted coloring
-[alt-map-key] In game mod description update
-[MoM] Change the difficulty of all contemplation recipes to 0
-[Magiclysm] Convert shapeshifter attunement to use encumbrance_modifier enchant
-[Xedra Evolved] More hedge magic
-[MoM] Dust used in contemplation recipes is drained, it doesn't vanish
-Aftershock: Add medium armor boots to all cryosuits.
-[MoM] Snippetathon, Part 4
-[XE] Fix Astral Projection weariness EOC
-[MoM] Smooth out Nether Attunement scaling, show Torrential Channeling/noetic resilience in UI
-[Xedra Evolved] Add Hedge Magick magic_type
 
 
 ## Balance:
@@ -919,9 +900,7 @@ Removed morale penalties and rare drops from dismemberment
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
-Alters the 'Miner's Cameo' recipes to require only one large cardboard box, and 2 oversize cardboard boxes. 
 Some recipes have 'hard' proficiency requirements
-special purpose 9mm should be less common
 
 
 ## Bugfixes:
@@ -1272,8 +1251,6 @@ Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
 Can't craft batches so big that they vanish when the game has nowhere to put them
-Stop setting small city dumps on fire
-[MoM] Review Nether Attunement equations
 
 
 ## Performance:
