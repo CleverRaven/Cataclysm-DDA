@@ -62,6 +62,10 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
+#ifdef TILES
+#include "font_picker.h"
+#endif
+
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
 
@@ -515,6 +519,9 @@ void main_menu::init_strings()
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
+#ifndef IMTUI
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Fon<t|T> Options" ) );
+#endif // IMTUI
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Ke<y|Y>bindings" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
@@ -857,19 +864,23 @@ bool main_menu::opening_screen()
                         get_options().show( false );
                         // The language may have changed- gracefully handle this.
                         init_strings();
-                    } else if( sel2 == 1 ) { /// Keybindings
+                    } else if( sel2 == 1 ) { /// Fonts
+#ifndef IMTUI
+                        font_editor.ShowFontsOptionsWindow();
+#endif // IMTUI
+                    } else if( sel2 == 2 ) { /// Keybindings
                         input_context ctxt_default = get_default_mode_input_context();
                         ctxt_default.display_menu();
-                    } else if( sel2 == 2 ) { /// Autopickup
+                    } else if( sel2 == 3 ) { /// Autopickup
                         get_auto_pickup().show();
-                    } else if( sel2 == 3 ) { /// Safemode
+                    } else if( sel2 == 4 ) { /// Safemode
                         get_safemode().show();
-                    } else if( sel2 == 4 ) { /// Colors
+                    } else if( sel2 == 5 ) { /// Colors
                         all_colors.show_gui();
-                    } else if( sel2 == 5 ) {
+                    } else if( sel2 == 6 ) {
                         style_picker picker;
                         picker.show();
-                    } else if( sel2 == 6 ) { /// ImGui demo
+                    } else if( sel2 == 7 ) { /// ImGui demo
                         imgui_demo_ui demo;
                         demo.run();
                     }
