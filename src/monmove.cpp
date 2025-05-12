@@ -1569,7 +1569,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                    to.x(), to.y(), to.z() );
     const vehicle *ignored_vehicle = nullptr;
 
-    std::map<tripoint_bub_ms, int> tilecosts = {{from, 0}, {to, 1}};
+    std::map<tripoint_bub_ms, int> tilecosts = {{from, 0}, {to, 0}};
 
     // modifiers that get applied to both locations
     for( auto& [where, cost] : tilecosts ) {
