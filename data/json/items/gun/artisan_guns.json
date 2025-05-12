@@ -132,8 +132,8 @@
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
-    "name": { "str": "SKS" },
-    "description": "An SKS rifle chambered in 7.62x39 and produced by Jay.  ",
+    "name": { "str": "The Stalker's Delight" },
+    "description": "A SKS rifle chambered in 7.62x39 and produced by Jay.  It has been modified with rails, an optic mount, and a threaded barrel.",
     "ascii_picture": "sks",
     "weight": "3850 g",
     "volume": "2838 ml",
@@ -165,34 +165,5 @@
         "allowed_speedloaders": [ "762x39_clip" ]
       }
     ]
-  },
-  {
-    "id": "aksemi_bespoke",
-    "copy-from": "gun_base_762_semi_rifle",
-    "looks_like": "modular_ar15",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "AK-47 rifle" },
-    "description": "Civilian-legal clones of the AK-47, with no ability to fire full-auto.  Despite lacking that ability, they're still reliable and useful rifles, even if much rarer ammo and magazine wise than the more common AR-15 platform.",
-    "weight": "3402 g",
-    "volume": "2167 ml",
-    "longest_side": "87 cm",
-    "barrel_length": "415 mm",
-    "price": "795 USD",
-    "material": [ "steel", "wood" ],
-    "dispersion": 180,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel", 1 ],
-      [ "muzzle", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
   },
 ]
