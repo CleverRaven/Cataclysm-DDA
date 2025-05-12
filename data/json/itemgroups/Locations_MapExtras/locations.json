@@ -269,13 +269,7 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "blanket", "prob": 25 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 70 } ]
   },
   {
     "id": "boxing_misc",
@@ -1531,7 +1525,7 @@
       { "item": "badge_deputy", "prob": 100 },
       { "item": "cowboy_hat", "prob": 10 },
       { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 25 },
-      { "item": "sheriffshirt", "prob": 100 },
+      { "item": "postman_shirt", "variant": "sheriff", "prob": 100 },
       { "item": "police_belt", "prob": 100 },
       { "group": "cop_shoes", "prob": 100 },
       { "item": "whistle", "prob": 75 },

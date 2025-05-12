@@ -2,12 +2,12 @@
   {
     "id": "ammo_can_9mm_any_full",
     "type": "item_group",
-    "items": [ { "group": "ammo_can_9mm_full", "prob": 100 }, { "group": "ammo_can_9mmP_full", "prob": 100 } ]
+    "items": [ { "group": "ammo_can_9mm_full", "prob": 40 }, { "group": "ammo_can_9mmP_full", "prob": 100 } ]
   },
   {
     "id": "ammo_can_9mm_any_part",
     "type": "item_group",
-    "items": [ { "group": "ammo_can_9mm_part", "prob": 100 }, { "group": "ammo_can_9mmP_part", "prob": 100 } ]
+    "items": [ { "group": "ammo_can_9mm_part", "prob": 50 }, { "group": "ammo_can_9mmP_part", "prob": 100 } ]
   },
   {
     "//": "---------------------------------------------------",

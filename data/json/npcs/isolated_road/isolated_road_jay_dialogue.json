@@ -2,7 +2,7 @@
   {
     "id": "TALK_GUNSMITH_SERVICES",
     "type": "talk_topic",
-    "dynamic_line": [ "Welcome to the first American bank of munitions.  We convert your goods and services to the new gold standard." ],
+    "dynamic_line": "Welcome to the first American bank of munitions.  We convert your goods and services to the new gold standard.",
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_isolated_road_artisans", "value": "yes" },
@@ -44,58 +44,24 @@
         "topic": "TALK_GUNSMITH_Q1_DETAILS"
       },
       {
-        "text": "How are my rounds coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) < time('1 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 200" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
-          ]
-        },
-        "topic": "TALK_GUNSMITH_BULLET_PICKUP_NOT_YET"
-      },
-      {
-        "text": "How are my rounds coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) < time('5 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 800" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
-          ]
-        },
-        "topic": "TALK_GUNSMITH_BULLET_PICKUP_NOT_YET"
-      },
-      {
-        "text": "How are my rounds coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) >= time('1 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 200" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
-          ]
-        },
-        "topic": "TALK_GUNSMITH_BULLET_PICKUP"
-      },
-      {
-        "text": "How are my rounds coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) >= time('5 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 800" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
-          ]
-        },
-        "topic": "TALK_GUNSMITH_BULLET_PICKUP"
-      },
-      {
         "text": "I'd like to exchange some rounds.",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_knows_about_conversion" } ] },
+        "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE"
+      },
+      {
+        "text": "How are my rounds coming?",
+        "condition": { "math": [ "has_var(u_timer_artisans_u_waiting_on_rounds)" ] },
+        "topic": "TALK_GUNSMITH_BULLET_PICKUP"
+      },
+      {
+        "text": "I'd like to convert some rounds.",
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_knows_about_conversion" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] } }
+            { "math": [ "!has_var(u_timer_artisans_u_waiting_on_rounds)" ] }
           ]
         },
-        "topic": "TALK_BULLET_EXCHANGE"
+        "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
         "text": "Are you and Cody close?",
@@ -137,7 +103,7 @@
   {
     "id": "TALK_GUNSMITH_SHOP_ABOUT",
     "type": "talk_topic",
-    "dynamic_line": [ "Fuck yeah.  New currency is death and I'm dealing it." ],
+    "dynamic_line": "Fuck yeah.  New currency is death and I'm dealing it.",
     "responses": [
       { "text": "I understand, but how does this work exactly?", "topic": "TALK_GUNSMITH_SHOP_ABOUT_MORE" },
       { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" }
@@ -146,9 +112,7 @@
   {
     "id": "TALK_GUNSMITH_SHOP_ABOUT_MORE",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Pretty simple stuff, bud.  I barter in pre-shitshow ammo, and to stimulate the growing economy, I print and issue more.  I take your goods - Cody would call it labor - and exchange it for the new universal currency.  If you want to convert currency I'm happy to facilitate, but it'll take a few days and there is a service charge."
-    ],
+    "dynamic_line": "Pretty simple stuff, bud.  I barter in pre-shitshow ammo, and to stimulate the growing economy, I print and issue more.  I take your goods - Cody would call it labor - and exchange it for the new universal currency.  If you want to convert currency I'm happy to facilitate, but it'll take a few days and there is a service charge.",
     "speaker_effect": { "effect": { "u_add_var": "dialogue_artisans_gunsmith_knows_about_conversion", "value": "yes" } },
     "responses": [
       { "text": "So you're really going all in on this bank thing?", "topic": "TALK_GUNSMITH_SERVICES" },
@@ -159,7 +123,7 @@
   {
     "id": "TALK_GUNSMITH_ABOUT",
     "type": "talk_topic",
-    "dynamic_line": [ "I did a boring IT job and prepped for this shit.  Look at me now." ],
+    "dynamic_line": "I did a boring IT job and prepped for this shit.  Look at me now.",
     "responses": [
       { "text": "Look at you now.", "topic": "TALK_GUNSMITH_SERVICES" },
       { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" }
@@ -168,9 +132,7 @@
   {
     "id": "TALK_GUNSMITH_LOCATION_ABOUT",
     "type": "talk_topic",
-    "dynamic_line": [
-      "It's my house.  Cody's in the other building, if you've met her.  We dug a trench and set up some milspec turrets.  I programmed them, Cody armored them.  Now we're just trying to get by.  This ain't the wizard of Oz, you can look behind the curtain over there."
-    ],
+    "dynamic_line": "It's my house.  Cody's in the other building, if you've met her.  We dug a trench and set up some milspec turrets.  I programmed them, Cody armored them.  Now we're just trying to get by.  This ain't the wizard of Oz, you can look behind the curtain over there.",
     "speaker_effect": { "effect": [ { "u_add_var": "dialogue_artisans_gunsmith_mentioned_cody", "value": "yes" } ] },
     "responses": [
       { "text": "Where'd you get half a dozen milspec turrets?", "topic": "TALK_GUNSMITH_TURRETS" },
@@ -180,21 +142,19 @@
   {
     "id": "TALK_GUNSMITH_TURRETS",
     "type": "talk_topic",
-    "dynamic_line": [ "*stares off into the distance.  \"The owners didn't need them anymore.  Not anymore…\"" ],
+    "dynamic_line": "*stares off into the distance.  \"The owners didn't need them anymore.  Not anymore…\"",
     "responses": [ { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" } ]
   },
   {
     "id": "TALK_GUNSMITH_CODY",
     "type": "talk_topic",
-    "dynamic_line": [ "Stuff is fucked all over, bud.  How about we stick to talking business?" ],
+    "dynamic_line": "Stuff is fucked all over, bud.  How about we stick to talking business?",
     "responses": [ { "text": "Alright.", "topic": "TALK_GUNSMITH_SERVICES" } ]
   },
   {
     "id": "TALK_GUNSMITH_KORD",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Where did you… I- I don't know what to say.\"  Jay takes the rifle reverently.  \"What did they do to this thing?  The receiver's all chopped up!\"  He turns it over so carefully that you could mistake him for holding a child instead of a gun.  \"This thing was beautiful.  Modern rails, ergonomic furniture, recoil balancing system… At least it's all still here.  I know Cody thinks that she did something wrong, but all I remember is being so angry… just blindingly furious.  Then I was running.  When I woke up, everything was fine.\"\n\n\"Thank you for letting me see this, and for getting Cody and I talking.  If you could help me out with something for Cody, I'll make this rifle right, and hook you up with a casket mag and a box of the good ammo for it.  Stuff from my reserves."
-    ],
+    "dynamic_line": "Where did you… I- I don't know what to say.\"  Jay takes the rifle reverently.  \"What did they do to this thing?  The receiver's all chopped up!\"  He turns it over so carefully that you could mistake him for holding a child instead of a gun.  \"This thing was beautiful.  Modern rails, ergonomic furniture, recoil balancing system… At least it's all still here.  I know Cody thinks that she did something wrong, but all I remember is being so angry… just blindingly furious.  Then I was running.  When I woke up, everything was fine.\"\n\n\"Thank you for letting me see this, and for getting Cody and I talking.  If you could help me out with something for Cody, I'll make this rifle right, and hook you up with a casket mag and a box of the good ammo for it.  Stuff from my reserves.",
     "speaker_effect": { "effect": [ { "u_add_var": "dialogue_artisans_gunsmith_mentioned_quest", "value": "yes" } ] },
     "responses": [
       {
@@ -212,9 +172,7 @@
   {
     "id": "TALK_GUNSMITH_Q1_DETAILS",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated, robotic 3D printer.  Cody used to run with some hackers that steal IP, schematics, that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her, and we're in business."
-    ],
+    "dynamic_line": "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated, robotic 3D printer.  Cody used to run with some hackers that steal IP, schematics, that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her, and we're in business.",
     "speaker_effect": { "effect": [ { "u_add_var": "dialogue_artisans_gunsmith_mentioned_quest", "value": "yes" } ] },
     "responses": [
       { "text": "I'll see if I can find it.", "topic": "TALK_DONE" },
