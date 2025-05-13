@@ -713,11 +713,11 @@
     ]
   },
   {
-    "id": "dress_shirt",
+    "id": "buttonshirt",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "dress shirt" },
-    "description": "A white button-down shirt with long sleeves.  Looks professional!",
+    "name": { "str": "button shirt" },
+    "description": "A button-down shirt with long sleeves.  Looks professional!",
     "weight": "250 g",
     "volume": "750 ml",
     "price": "15 USD",
@@ -730,6 +730,28 @@
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
     ],
+    "warmth": 10,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ],
+    "variant_type": "generic",
+    "variants": [
+      { "id": "white", "name": { "str": "white button shirt" }, "append": true, "description": "This one is white." },
+      {
+        "id": "striped",
+        "name": { "str": "striped button shirt" },
+        "append": true,
+        "expand_snippets": true,
+        "description": "This one has <color> stripes."
+      }
+    ]
+  },
+  {
+    "copy-from": "buttonshirt",
+    "id": "dress_shirt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "pocket shirt" },
+    "description": "A white button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -738,10 +760,7 @@
         "max_item_length": "9 cm",
         "moves": 80
       }
-    ],
-    "warmth": 10,
-    "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ]
+    ]
   },
   {
     "id": "dress_wedding",
@@ -1617,25 +1636,6 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 14 }
     ]
-  },
-  {
-    "id": "striped_shirt",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "striped shirt" },
-    "description": "A long-sleeved shirt with horizontal black and white stripes.",
-    "weight": "146 g",
-    "volume": "750 ml",
-    "price": "5 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "longshirt",
-    "color": "white",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "sundress",

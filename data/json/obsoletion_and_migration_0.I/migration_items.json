@@ -2538,5 +2538,11 @@
     "id": "subsuit_xl",
     "replace": "jumpsuit_pocketless",
     "variant": "orange"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "striped_shirt",
+    "replace": "buttonshirt",
+    "variant": "striped"
   }
 ]
