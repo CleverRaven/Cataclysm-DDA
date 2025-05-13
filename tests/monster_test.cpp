@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -467,10 +468,27 @@ TEST_CASE( "monster_special_move", "[speed]" )
             }
         }
         AND_GIVEN( "NOBREATH monster" ) {
+            const std::string &zed = "mon_zombie";
+            const mtype_id zed_id( zed );
+            REQUIRE_FALSE( zed_id->move_skills.swim.has_value() );
+            REQUIRE_FALSE( zed_id->has_flag( mon_flag_SWIMS ) );
+            REQUIRE( zed_id->has_flag( mon_flag_NO_BREATHE ) );
 
+            WHEN( "Moving to swimable tile" ) {
+                moves = moves_to_destination( zed, from, to );
+
+                THEN( "The monster is impacted by terrain-cost" ) {
+                    INFO( "from: " << ter_from->name() << " to " << ter->name() );
+                    const int expected_movecost = ( ter->movecost + ter_from->movecost ) * 25 ;
+                    INFO( "expected: " << expected_movecost ) ;
+                    INFO( "actual: " << moves );
+                    CHECK( moves == expected_movecost );
+                }
+            }
         }
-        moves = 0;
+
         AND_GIVEN( "AQUATIC monster and from ter is swimmable" ) {
+            moves = 0;
             REQUIRE( here.ter_set( from, ter_t_water_dp ) );
             const std::string &swimmer = "mon_fish_brook_trout";
             const mtype_id swimmer_id( swimmer );
@@ -496,8 +514,9 @@ TEST_CASE( "monster_special_move", "[speed]" )
                     CHECK( moves == expected_movecost );
                 }
             }
-            moves = 0;
+
             AND_WHEN( "trying to move onto land" ) {
+                moves = 0;
                 REQUIRE( here.ter_set( to,  ter_t_grass ) );
                 ter = here.ter( to );
                 ter_from = here.ter( from );
@@ -539,8 +558,8 @@ TEST_CASE( "monster_special_move", "[speed]" )
                     CHECK( moves == expected_movecost );
                 }
             }
-            moves = 0;
             AND_WHEN( "trying to move into non-diggable terrain" ) {
+                moves = 0;
                 REQUIRE( here.ter_set( to,  ter_t_water_dp ) );
                 ter = here.ter( to );
                 ter_from = here.ter( from );

@@ -1862,15 +1862,15 @@ void move_skills_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "swim", swim );
 
     if( climb && ( climb.value() < 0 || climb.value() > 10 ) ) {
-        debugmsg( "climb value out of range. It has to be between 0 and 10" );
+        debugmsg( "climb value out of range.  It has to be between 0 and 10" );
         climb = std::max( std::min( climb.value(), 10 ), 0 );
     }
     if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
-        debugmsg( "dig value out of range. It has to be between 0 and 10" );
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
         dig = std::max( std::min( dig.value(), 10 ), 0 );
     }
     if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
-        debugmsg( "dig value out of range. It has to be between 0 and 10" );
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
         dig = std::max( std::min( dig.value(), 10 ), 0 );
     }
 }

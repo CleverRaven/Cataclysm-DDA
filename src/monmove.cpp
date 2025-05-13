@@ -1602,7 +1602,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             const vpart_position vp( const_cast<vehicle &>( *veh ), part );
             int veh_movecost = vp.get_movecost();
             int fieldcost = get_filtered_fieldcost( field );
-            if( ( veh_movecost > 0 && fieldcost >= 0 ) ) {
+            if( veh_movecost > 0 && fieldcost >= 0 ) {
                 cost += veh_movecost + fieldcost;
                 // vehicle movement ignores the rest
                 continue;

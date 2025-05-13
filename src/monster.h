@@ -283,7 +283,7 @@ class monster : public Creature
 
         tripoint_bub_ms scent_move();
         int calc_movecost( const map &here, const tripoint_bub_ms &f,
-                           const tripoint_bub_ms &t, const bool force  = false ) const;
+                           const tripoint_bub_ms &t, bool force  = false ) const;
 
         bool is_immune_field( const field_type_id &fid ) const override;
         bool check_immunity_data( const field_immunity_data &ft ) const override;
