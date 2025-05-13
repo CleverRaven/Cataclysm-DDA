@@ -1497,7 +1497,7 @@
       [ "hat_newsboy", 20 ],
       [ "cloak_wool", 5 ],
       [ "tux", 5 ],
-      [ "gown", 5 ],
+      { "item": "dress", "variant": "gown", "prob": 5 },
       [ "long_glove_white", 5 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],

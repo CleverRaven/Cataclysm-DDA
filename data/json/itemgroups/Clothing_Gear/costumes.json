@@ -160,7 +160,7 @@
       { "item": "maid_dress_short", "prob": 35 },
       { "item": "kimono", "prob": 5 },
       { "item": "yukata", "prob": 5 },
-      { "item": "gown", "prob": 5 },
+      { "item": "dress", "variant": "gown", "prob": 5 },
       { "item": "dress_wedding", "prob": 5 }
     ]
   },

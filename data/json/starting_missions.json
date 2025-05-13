@@ -528,9 +528,9 @@
     "id": "MISSION_STYLISH",
     "type": "mission_definition",
     "name": { "str": "Dress with style" },
-    "description": "You need to always dress in style and fashion.  Find a gown or tuxedo for your personal use.",
+    "description": "You need to always dress in style and fashion.  Find a dress or tuxedo for your personal use.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "or": [ { "u_has_item": "gown" }, { "u_has_item": "sinister_gown" }, { "u_has_item": "tux" } ] },
+    "goal_condition": { "or": [ { "u_has_item": "dress" }, { "u_has_item": "sinister_gown" }, { "u_has_item": "tux" } ] },
     "difficulty": 2,
     "value": 0,
     "end": {
