@@ -130,7 +130,7 @@
       "items": {
         "&": { "item": "SUS_trash_trashcan_public", "chance": 25, "repeat": 2 },
         "v": { "item": "golf_green", "chance": 10 },
-        "t": { "chance": 75, "item": "office_mess" },
+        "t": { "chance": 75, "item": "SUS_office_mess" },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 78, "y": [ 31, 34 ] } ],

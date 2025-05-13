@@ -546,7 +546,7 @@
       "T": { "item": "SUS_toilet", "chance": 50 },
       "t": { "item": "dining", "chance": 33, "repeat": [ 1, 2 ] },
       "u": { "item": "child_items", "chance": 1 },
-      "F": { "item": "file_room", "chance": 85, "repeat": [ 1, 4 ] },
+      "F": { "item": "SUS_office_filing_cabinet", "chance": 85, "repeat": [ 1, 4 ] },
       "U": [
         { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "cannedfood_commercial", "chance": 70, "repeat": [ 1, 3 ] },
