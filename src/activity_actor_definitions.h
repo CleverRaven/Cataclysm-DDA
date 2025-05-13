@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "activity_type.h"
+#include "butchery.h"
 #include "calendar.h"
 #include "character.h"
 #include "clone_ptr.h"
@@ -2466,6 +2467,103 @@ class pulp_activity_actor : public activity_actor
         int num_corpses = 0;
 
         pulp_data pd;
+};
+
+class butchery_activity_actor : public activity_actor
+{
+    public:
+        butchery_activity_actor() = default;
+        explicit butchery_activity_actor( butchery_data bd ) : bd( bd ) {}
+        const activity_id &get_type() const override {
+            switch( bd.b_type ) {
+                case butcher_type::BLEED: {
+                    static const activity_id ACT_BLEED( "ACT_BLEED" );
+                    return ACT_BLEED;
+                    break;
+                }
+                case butcher_type::QUICK: {
+                    static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+                    return ACT_BUTCHER;
+                    break;
+                }
+                case butcher_type::FULL: {
+                    static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
+                    return ACT_BUTCHER_FULL;
+                    break;
+                }
+                case butcher_type::FIELD_DRESS: {
+                    static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
+                    return ACT_FIELD_DRESS;
+                    break;
+                }
+                case butcher_type::SKIN: {
+                    static const activity_id ACT_SKIN( "ACT_SKIN" );
+                    return ACT_SKIN;
+                    break;
+                }
+                case butcher_type::QUARTER: {
+                    static const activity_id ACT_QUARTER( "ACT_QUARTER" );
+                    return ACT_QUARTER;
+                    break;
+                }
+                case butcher_type::DISMEMBER: {
+                    static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
+                    return ACT_DISMEMBER;
+                    break;
+                }
+                case butcher_type::DISSECT: {
+                    static const activity_id ACT_DISSECT( "ACT_DISSECT" );
+                    return ACT_DISSECT;
+                    break;
+                }
+                default : {
+                    return activity_id::NULL_ID();
+                    break;
+                }
+            }
+        }
+        void start( player_activity &act, Character &you ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+        void canceled( player_activity &act, Character &you ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<butchery_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        butchery_data bd;
+};
+
+class multiple_butchery_activity_actor : public activity_actor
+{
+
+    public:
+        multiple_butchery_activity_actor() = default;
+
+        explicit multiple_butchery_activity_actor( std::vector<butchery_data> bd ) : bd( bd ) {}
+        explicit multiple_butchery_activity_actor( butchery_data bd ) : bd( { bd } ) {}
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+            return ACT_BUTCHER;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multiple_butchery_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+
+    private:
+        std::vector<butchery_data> bd;
 };
 
 class wait_stamina_activity_actor : public activity_actor
