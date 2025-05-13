@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_optics_3",
     "copy-from": "afs_scrap_3",
     "name": { "str_sp": "laser optics" },
@@ -8,7 +8,7 @@
     "looks_like": "scrap"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_optics_4",
     "copy-from": "afs_scrap_4",
     "name": { "str": "metamaterial lens", "str_pl": "metamaterial lenses" },

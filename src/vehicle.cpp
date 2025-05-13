@@ -1088,7 +1088,7 @@ void vehicle::unlock()
             vp.enabled = false;
         }
         if( vp.is_engine() ) {
-            vp.base.faults.erase( fault_engine_immobiliser );
+            vp.base.remove_fault( fault_engine_immobiliser );
         }
     }
 }
@@ -6672,8 +6672,10 @@ void vehicle::refresh( const bool remove_fakes )
     // re-install fake parts - this could be done in a separate function, but we want to
     // guarantee that the fake parts were removed before being added
     if( remove_fakes && !has_tag( "wreckage" ) && !is_appliance() ) {
+        // Calling add_fake_part can change that container, so iterate over a copy instead.
+        const decltype( relative_parts ) copy_of_relative_parts = relative_parts;
         // add all the obstacles first
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
         }
         // then add protrusions that hanging on top of fake obstacles.
@@ -6684,11 +6686,11 @@ void vehicle::refresh( const bool remove_fakes )
         }
 
         // add fake camera parts so vision isn't blocked by fake parts
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "CAMERA" );
         }
         // add fake curtains so vision is correctly blocked
-        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : relative_parts ) {
+        for( const std::pair <const point_rel_ms, std::vector<int>> &rp : copy_of_relative_parts ) {
             add_fake_part( rp.first, "CURTAIN" );
         }
     } else {
@@ -7926,7 +7928,7 @@ item vehicle::get_folded_item( map &here ) const
     const int avg_part_damage = static_cast<int>( sum_of_damage / num_of_parts );
 
     folded.set_var( "tracking", tracking_on ? 1 : 0 );
-    folded.set_var( "weight", to_milligram( total_mass( here ) ) );
+    folded.set_var( "weight", static_cast<double>( to_milligram( total_mass( here ) ) ) );
     folded.set_var( "volume", folded_volume / 250_ml );
     folded.set_var( "name", string_format( _( "folded %s" ), name ) );
     folded.set_var( "vehicle_name", name );

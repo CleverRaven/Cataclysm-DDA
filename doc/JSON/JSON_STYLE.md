@@ -9,7 +9,7 @@ We haven't been able to find a decent JSON styling tool, so we wrote our own.  I
 
 This example outlines most of the styling features:
 
-```json
+```jsonc
 [
   {
     "type": "foo",

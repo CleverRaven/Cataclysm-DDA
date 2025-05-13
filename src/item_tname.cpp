@@ -74,6 +74,27 @@ std::string faults( item const &it, unsigned int /* quantity */,
     return damtext;
 }
 
+std::string faults_suffix( item const &it, unsigned int /* quantity */,
+                           segment_bitset const &/* segments */ )
+{
+    std::string text;
+    for( const fault_id &f : it.faults ) {
+        const std::string suffix = f->item_suffix();
+        if( !suffix.empty() ) {
+            text = "(" + suffix + ") ";
+            break;
+        }
+    }
+    // remove excess space, add one space before the string
+    if( !text.empty() ) {
+        text.pop_back();
+        const std::string ret = " " + text;
+        return ret;
+    } else {
+        return "";
+    }
+}
+
 std::string dirt_symbol( item const &it, unsigned int /* quantity */,
                          segment_bitset const &/* segments */ )
 {
@@ -543,6 +564,17 @@ std::string active( item const &it, unsigned int /* quantity */,
     }
     return {};
 }
+std::string activity_occupany( item const &it, unsigned int /* quantity */,
+                               segment_bitset const &/* segments */ )
+{
+    if( it.has_var( "activity_var" ) ) {
+        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
+        // in their name, also food is active while it rots.
+        return _( " (in use)" );
+    }
+    return {};
+}
+
 
 std::string sealed( item const &it, unsigned int /* quantity */,
                     segment_bitset const &/* segments */ )
@@ -633,6 +665,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
 {
     std::array<decl_f_print_segment *, num_segments> arr{};
     arr[static_cast<size_t>( tname::segments::FAULTS ) ] = faults;
+    arr[static_cast<size_t>( tname::segments::FAULTS_SUFFIX ) ] = faults_suffix;
     arr[static_cast<size_t>( tname::segments::DIRT ) ] = dirt_symbol;
     arr[static_cast<size_t>( tname::segments::OVERHEAT ) ] = overheat_symbol;
     arr[static_cast<size_t>( tname::segments::FAVORITE_PRE ) ] = pre_asterisk;
@@ -664,6 +697,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::VARS ) ] = vars;
     arr[static_cast<size_t>( tname::segments::WETNESS ) ] = wetness;
     arr[static_cast<size_t>( tname::segments::ACTIVE ) ] = active;
+    arr[static_cast<size_t>( tname::segments::ACTIVITY_OCCUPANCY ) ] = activity_occupany;
     arr[static_cast<size_t>( tname::segments::SEALED ) ] = sealed;
     arr[static_cast<size_t>( tname::segments::FAVORITE_POST ) ] = post_asterisk;
     arr[static_cast<size_t>( tname::segments::RELIC ) ] = relic_charges;
@@ -698,6 +732,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
     switch( seg ) {
         // *INDENT-OFF*
         case tname::segments::FAULTS: return "FAULTS";
+        case tname::segments::FAULTS_SUFFIX: return "FAULTS_SUFFIX";
         case tname::segments::DIRT: return "DIRT";
         case tname::segments::OVERHEAT: return "OVERHEAT";
         case tname::segments::FAVORITE_PRE: return "FAVORITE_PRE";
@@ -728,6 +763,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
         case tname::segments::VARS: return "VARS";
         case tname::segments::WETNESS: return "WETNESS";
         case tname::segments::ACTIVE: return "ACTIVE";
+        case tname::segments::ACTIVITY_OCCUPANCY: return "ACTIVITY_OCCUPANCY";
         case tname::segments::SEALED: return "SEALED";
         case tname::segments::FAVORITE_POST: return "FAVORITE_POST";
         case tname::segments::RELIC: return "RELIC";

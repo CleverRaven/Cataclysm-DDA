@@ -91,6 +91,41 @@
   },
   {
     "type": "furniture",
+    "id": "f_metal_table",
+    "name": "metal table",
+    "description": "A serviceable but simple table made completely out of metal.  Spartan in appearance and commonly found within habitats and spaceships.",
+    "symbol": "T",
+    "looks_like": "f_table",
+    "color": "light_gray",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 8,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "FLAT_SURF", "SHORT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe_fittings", "count": 2 },
+        { "item": "scrap", "count": 4 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 4 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300 L" }
+  },
+  {
+    "type": "furniture",
     "id": "f_gene_editor_gutted",
     "name": "Ravaged Mercurial Resequencer",
     "description": "A large bio-sarcophagus and accompanying control machinery.  Panels dangle loosely from their hinges revealing a rat's nest of wires and cabling ripped from the machine.  Useless metal and electronics scraps are strewn about haphazardly on the floor.  It's clear anything of value has long been taken from this machine.",
@@ -538,6 +573,45 @@
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 2, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_sofa",
+    "name": "foam sofa",
+    "symbol": "H",
+    "description": "The classic corporate-style sofa, modular foam cushions mounted over a minimalist stainless steel frame.  A mainstay of frontier design since before the discontinuity.",
+    "bgcolor": "red",
+    "looks_like": "f_sofa",
+    "move_cost_mod": 1,
+    "coverage": 60,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_nylon", "count": 8 },
+        { "item": "pipe", "count": [ 2, 3 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 2, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "plastic_chunk", "count": [ 10, 20 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "sheet_nylon", "count": 8 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "plastic_chunk", "count": [ 10, 20 ] }
       ]
     }
   },

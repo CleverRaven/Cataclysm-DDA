@@ -49,7 +49,7 @@
       "p": "f_pool_table",
       "r": "f_rack",
       "?": "f_sofa",
-      "t": "f_table",
+      "t": "f_metal_table",
       "^": "f_indoor_plant",
       "x": "f_e_safe_l"
     },

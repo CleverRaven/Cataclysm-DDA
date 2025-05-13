@@ -564,7 +564,7 @@
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 55, "damage": [ 1, 4 ] },
       { "group": "survivor_bashing", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "stash_food", "prob": 70 },
+      { "group": "stash_food", "prob": 35 },
       { "group": "mil_food_nodrugs", "prob": 10 },
       { "group": "used_survival_kit", "prob": 70, "damage": [ 1, 4 ] }
     ]
@@ -600,7 +600,7 @@
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 60, "damage": [ 1, 4 ] },
       { "group": "survivor_cutting", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "stash_food", "prob": 70 },
+      { "group": "stash_food", "prob": 35 },
       { "group": "mil_food", "prob": 33 },
       { "group": "mil_food_nodrugs", "prob": 38 },
       { "group": "shelter", "prob": 16 },
@@ -630,7 +630,7 @@
       { "group": "bags", "damage": [ 1, 4 ], "prob": 100 },
       { "group": "book_survival", "prob": 70 },
       { "group": "gear_survival", "prob": 70, "damage": [ 1, 4 ] },
-      { "group": "stash_food", "prob": 70 },
+      { "group": "stash_food", "prob": 35 },
       { "group": "mil_food", "prob": 39 },
       { "group": "mil_food_nodrugs", "prob": 40 },
       { "group": "shelter", "prob": 30 },

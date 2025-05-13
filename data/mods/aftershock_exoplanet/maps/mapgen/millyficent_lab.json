@@ -62,7 +62,7 @@
         "L": "f_locker",
         "O": "f_coffin_o",
         "P": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "T": "f_table",
+        "T": "f_metal_table",
         "a": "f_dahlia",
         "c": "f_sofa",
         "d": "f_rack",
@@ -189,7 +189,7 @@
         "F": [ { "item": "chem_home", "chance": 50 }, { "item": "supplies_reagents_lab", "chance": 20 } ],
         "T": [ { "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 } ],
         "f": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 5 ] } ],
-        "G": [ { "item": "office_paper", "chance": 30 } ],
+        "G": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
       },
       "toilets": { "&": { "amount": [ 0, 50 ] } }
@@ -278,7 +278,7 @@
         "r": "f_rack",
         "s": "f_stool",
         "S": "f_sink",
-        "t": "f_table",
+        "t": "f_metal_table",
         "U": "f_utility_shelf",
         "v": "f_ventilator",
         "Z": "f_bed"

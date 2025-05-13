@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_combat_headset_off",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "name": { "str": "tactical infovisor" },
     "description": "An armored black headset that coalesces the feeds of several sensors into a single screen display.  It provides generalized assistance in combat, including targeting assistance for thrown and ranged weaponry, threat identification, conditional NV and thermal vision and protection against high intensity light sources.  It must be active to function.",
@@ -13,7 +14,6 @@
     "looks_like": "glasses_safety",
     "color": "light_gray",
     "charges_per_use": 1,
-    "relic_data": { "passive_effects": [ { "id": "nvg_great" }, { "id": "THERMAL_VISION_GOOD" }, { "id": "ench_ballistic_assist" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -37,11 +37,13 @@
     "material_thickness": 1,
     "environmental_protection": 15,
     "flags": [ "MUNDANE", "OUTER", "PADDED" ],
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "nvg_great" }, { "id": "THERMAL_VISION_GOOD" }, { "id": "ench_ballistic_assist" } ]
   },
   {
     "id": "afs_combat_headset",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "copy-from": "afs_combat_headset_off",
     "name": { "str": "tactical infovisor" },
@@ -60,6 +62,7 @@
       "PADDED",
       "ELECTRONIC"
     ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "revert_to": "afs_combat_headset_off",
     "use_action": [
       {

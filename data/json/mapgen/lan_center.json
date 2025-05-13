@@ -70,7 +70,7 @@
       "items": {
         "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 },
         "I": { "item": "office", "chance": 30 },
-        "S": { "item": "office_paper", "chance": 30 },
+        "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "R": { "item": "softdrugs", "chance": 30 },
         "T": { "item": "SUS_toilet", "chance": 50 },
         "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] },

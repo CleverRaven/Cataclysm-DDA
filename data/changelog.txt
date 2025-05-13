@@ -131,6 +131,8 @@ Rebalance the chance for armor to be damaged by attacks.
 Allow event character_ranged_attacks_* catch throw attack, add context val is_throw to determine whether the event was triggered by a thrown attack.
 Underground Temperature now depends on Region Settings
 Modinfo Blacklist
+Add a dentist office map
+Item faults
 
 
 ## Content:
@@ -304,6 +306,7 @@ Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster
+Snippetize Tshirt variants
 
 
 ## Interface:
@@ -415,6 +418,8 @@ Dont show liquids from held or worn container
 Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
 Debug option to view used palette symbols
+Add option to disable mouse
+Add "in use" info to item's name and info if item has "activity_var" var.
 
 
 ## Mods:
@@ -792,6 +797,13 @@ Isolation Protocol: Office Levels
 [XE] Adds a special boss encounter for tier 5 vampires.
 Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
 [Xedra Evolved] Add playable dhampirs
+[Xedra Evolved] Vampires can drink blood
+Aftershock: Merge aftershock and aftershock exoplanet.
+Aftershock: Heat Crashed Ship.
+Mod Conflicts
+[Xedra Evolved] Add design docs for easier collaboration
+[Xedra Evolved] Add feral vampires, put them in house nests + caves
+[The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
 
 
 ## Balance:
@@ -887,6 +899,8 @@ Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
+World sliders rebalanced to offer differing gameplay experiences
+Some recipes have 'hard' proficiency requirements
 
 
 ## Bugfixes:
@@ -1236,6 +1250,7 @@ Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
 'None'-skill crafting counts as max level, not level 0
 [Sky Island] Fix possible painkiller death loop
+Can't craft batches so big that they vanish when the game has nowhere to put them
 
 
 ## Performance:
@@ -1393,6 +1408,9 @@ generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
+Warn on load if files have been modified
+standardize query_int()
+Always Display Spell Tabs
 
 
 ## Build:
@@ -1441,6 +1459,7 @@ Make Portugal Portugues appear in Options
 Restructure the template file
 [MoM] Dont extract monster/fake spells/effects for translation
 Miscellaneous NO_I18N additions
+Translate martial art condition text and cable notification text
 
 
 # 0.H (Herbert)

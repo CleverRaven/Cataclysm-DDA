@@ -1,7 +1,8 @@
 [
   {
     "id": "3006",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 FMJ" },
     "description": "Jacketed .30-06 Springfield M2 Ball ammunition with a 150gr spitzer bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "ascii_picture": "3006",
@@ -85,7 +86,8 @@
   {
     "id": "3006_jsp",
     "copy-from": "3006",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 JSP" },
     "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
@@ -93,7 +95,8 @@
   {
     "id": "bp_3006_jsp",
     "copy-from": "3006_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 JSP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -107,7 +110,8 @@
   {
     "id": "reloaded_3006_jsp",
     "copy-from": "3006_jsp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 JSP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -116,7 +120,8 @@
   {
     "id": "3006_incendiary",
     "copy-from": "3006",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 tracer" },
     "description": ".30-06 M14A1 tracer ammunition to help keep the weapon it is fired from on target.",
     "ascii_picture": "3006_incendiary",
@@ -125,7 +130,8 @@
   {
     "id": "3006fmj",
     "copy-from": "3006",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 M2 AP" },
     "description": "Armor piercing .30-06 M2 ammunition with a 166gr hardened steel core bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "material": [ "brass", "steel", "lead", "powder" ],
@@ -135,7 +141,8 @@
   {
     "id": "bp_3006",
     "copy-from": "3006",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -149,7 +156,8 @@
   {
     "id": "bp_3006_incendiary",
     "copy-from": "3006_incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 tracer, black powder" },
     "proportional": {
       "price": 0.3,
@@ -163,7 +171,8 @@
   {
     "id": "bp_3006fmj",
     "copy-from": "3006fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 M2 AP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -177,7 +186,8 @@
   {
     "id": "reloaded_3006",
     "copy-from": "3006",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -186,7 +196,8 @@
   {
     "id": "reloaded_3006_incendiary",
     "copy-from": "3006_incendiary",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 tracer, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -195,7 +206,8 @@
   {
     "id": "reloaded_3006fmj",
     "copy-from": "3006fmj",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".30-06 M2 AP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

@@ -40,9 +40,12 @@
     "items": [
       { "item": "lab_file_biokinesis_item", "prob": 1 },
       { "item": "lab_file_clairsentience_item", "prob": 1 },
+      { "item": "lab_file_electrokinesis_item", "prob": 1 },
+      { "item": "lab_file_photokinesis_item", "prob": 1 },
       { "item": "lab_file_pyrokinesis_item", "prob": 1 },
       { "item": "lab_file_telekinesis_item", "prob": 1 },
       { "item": "lab_file_telepathy_item", "prob": 1 },
+      { "item": "lab_file_teleportation_item", "prob": 1 },
       { "item": "lab_file_vitakinesis_item", "prob": 1 },
       { "item": "lab_file_matrix_research_item", "prob": 1 }
     ]

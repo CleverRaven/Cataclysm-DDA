@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_terrible_sights",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "terrible iron sights" },
     "description": "The iron sights of this weapon are infamously terrible, making aiming much harder than it needs to be.",
     "weight": "10 g",
@@ -24,7 +25,8 @@
   },
   {
     "id": "afs_holo_aim_assist",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "holographic aim-assist system" },
     "description": "An advanced ballistic computer calculates projectile trajectories, hit-probabilities, and enemy movements, before outputting the information into an AR holo display.  It greatly increases both accuracy and aiming speed.",
     "weight": "60 g",
@@ -47,7 +49,8 @@
   },
   {
     "id": "afs_smart_scope",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str_sp": "ballistic computer" },
     "description": "An integrated ballistic computer completely replaces the sights of this weapon.  Aiming depends on a small glass screen on which targets are automatically highlighted.",
     "weight": "60 g",

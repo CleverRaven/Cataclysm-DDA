@@ -1,7 +1,8 @@
 [
   {
     "id": "12mm",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "H&K 12mm" },
     "description": "A Heckler & Koch 12mm projectile, to be used in H&K railguns.  It's made of ferromagnetic metal, probably cobalt.",
     "ascii_picture": "12mm",

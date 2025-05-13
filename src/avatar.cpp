@@ -265,13 +265,13 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) con
     return mm_submap::default_tile;
 }
 
-void avatar::memorize_terrain( const tripoint_abs_ms &p, const std::string_view id,
+void avatar::memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
                                int subtile, int rotation )
 {
     player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_decoration( const tripoint_abs_ms &p, const std::string_view id,
+void avatar::memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
                                   int subtile, int rotation )
 {
     player_map_memory->set_tile_decoration( p, id, subtile, rotation );

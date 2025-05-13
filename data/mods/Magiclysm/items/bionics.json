@@ -2,7 +2,8 @@
   {
     "id": "bio_fuel_cell_blood",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Blood Power Generator CBM" },
     "description": "Using the latest advancement in technomancy this bionic is able to convert the innate energy stored in blood into bionic power.  The stronger the blood the better.  It can hold up to 100 mL of blood.",
     "price": "4 kUSD 500 USD",
@@ -17,7 +18,8 @@
   {
     "id": "bio_sneeze_beam",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Crystallized Mana Nose Replacement CBM" },
     "description": "A large gem made with crystallized mana and some other stabilizing metals.  Comes with a specially designed power pack (installed into the skull) that does not interfere with your mana ley lines.  WARNING: for Technomancer use only.  By using this spell you are waiving all liability of Frikken Laser Beams Inc.  and its subsidiaries.",
     "price": "4 kUSD 500 USD",
@@ -40,7 +42,8 @@
   {
     "id": "bio_see_wizards_eyes",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Witchfinder Eyes CBM" },
     "description": "A series of rune-inscribed implants around the eyes allow the user of this bionic to see the ley lines in the bodies of those who frequently use magic, effectively detecting nearby wizards even through obstructing terrain.",
     "price": "7 kUSD 500 USD",
@@ -78,7 +81,8 @@
   {
     "id": "bio_mana_to_bionic_power",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Corporeal Ley Tap CBM" },
     "description": "For those who have no use for their mana, this bionic allows the user to convert mana directly into bionic power.  Though the conversion rate is inefficient, mana is free.",
     "price": "5 kUSD 500 USD",
@@ -124,7 +128,8 @@
   {
     "id": "bio_ley_energy_blaster",
     "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Levinbolt Projector CBM" },
     "description": "The ultimate in concealable personal defense, thin filaments are implanted along the ley lines in both of your arms leading to embedded mana crystals in your hands, allowing you to launch blasts of pure magical energy at nearby targets.  The only disadvantage is that it draws on your own personal mana supply rather than bionic power.",
     "price": "3 kUSD",
