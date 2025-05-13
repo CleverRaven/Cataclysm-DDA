@@ -4,6 +4,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -15,7 +16,6 @@
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
@@ -27,13 +27,11 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
-#include "omdata.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
-#include "widget.h"
 
 class item;
 
