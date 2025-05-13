@@ -132,6 +132,7 @@ Allow event character_ranged_attacks_* catch throw attack, add context val is_th
 Underground Temperature now depends on Region Settings
 Modinfo Blacklist
 Add a dentist office map
+Item faults
 
 
 ## Content:
@@ -305,6 +306,7 @@ Mortar framework
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster
+Snippetize Tshirt variants
 
 
 ## Interface:
@@ -417,6 +419,7 @@ Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
 Debug option to view used palette symbols
 Add option to disable mouse
+Add "in use" info to item's name and info if item has "activity_var" var.
 
 
 ## Mods:
@@ -897,6 +900,7 @@ Removed morale penalties and rare drops from dismemberment
 Triffid flesh is no longer safe to eat
 Milspec searchlights don't explode, now drop broken version
 World sliders rebalanced to offer differing gameplay experiences
+Some recipes have 'hard' proficiency requirements
 
 
 ## Bugfixes:
@@ -1405,6 +1409,8 @@ generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
 add some AIM tests
 Warn on load if files have been modified
+standardize query_int()
+Always Display Spell Tabs
 
 
 ## Build:
@@ -1453,6 +1459,7 @@ Make Portugal Portugues appear in Options
 Restructure the template file
 [MoM] Dont extract monster/fake spells/effects for translation
 Miscellaneous NO_I18N additions
+Translate martial art condition text and cable notification text
 
 
 # 0.H (Herbert)

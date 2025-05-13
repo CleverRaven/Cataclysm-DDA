@@ -162,6 +162,7 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_wire( "wire" );
 
+static const json_character_flag json_flag_ONE_STORY_FALL( "ONE_STORY_FALL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const material_id material_glass( "glass" );
@@ -10026,6 +10027,10 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
     }
 
     if( you->get_size() == creature_size::tiny ) {
+        height = std::max( 0, height - 1 );
+    }
+
+    if( you->has_flag( json_flag_ONE_STORY_FALL ) ) {
         height = std::max( 0, height - 1 );
     }
 

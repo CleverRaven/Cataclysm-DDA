@@ -322,7 +322,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You take greatly-reduced fall damage as long as you have empowered blood in your body.",
+    "description": "While unable to ignore gravity like a true vampire, it has less of a hold on you.  You can fall one story without ill effect and take greatly-reduced fall damage as long as you have empowered blood in your body.",
     "enchantments": [
       {
         "condition": { "u_has_effect": "effect_dhampir_empowered_blood_indicator" },

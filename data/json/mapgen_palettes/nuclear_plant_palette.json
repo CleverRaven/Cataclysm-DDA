@@ -18,7 +18,7 @@
       "/": "t_concrete",
       "]": "t_concrete_wall",
       "R": "t_radio_tower",
-      "r": [ [ "t_metal_flat_roof", 200 ], [ "t_metal_roof", 1 ] ],
+      "r": "t_metal_flat_roof",
       "_": "t_metal_floor",
       "*": "t_metal_floor",
       "N": "t_metal_floor",
