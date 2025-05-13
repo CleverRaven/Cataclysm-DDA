@@ -278,7 +278,8 @@
     "material": [ "wheat" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -8
+    "fun": -8,
+    "vitamins": [ [ "calcium", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
