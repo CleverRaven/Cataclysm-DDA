@@ -48,29 +48,31 @@ Once a consequence is selected, it has a chance to actually be applied. There is
 | [Vomit](#vomit) | 9 | 
 | [Nosebleed](#nosebleed) | 12 |
 | [Stamina Loss](#stamina-loss) | 8 |
-| [Power Surge](#power-surge) | 5 |
+| [Power Surge](#power-surge)+ | 5 |
 | [Sleepiness](#sleepiness) | 5 |
 | [Nether Conduit](#nether-conduit) | 9 |
 | [Feedback](#feedback) | 9 |
-| [Observed](#observed) | 6 |
+| [Observed](#observed)+ | 6 |
 | [Incorporeality](#incorporeality) | 4 |
 | [Teleport Lock](#teleport-lock) | 5 |
 | [Metabolic Inversion](#metabolic-inversion) | 5 |
 | [Power Drain](#power-drain) | 5 |
 | [Weakness](#weakness) | 5 |
 | [KCal Consumption](#kcal-consumption) | 6 |
-| [Attenuation](#attenuation) | 8 |
+| [Attenuation](#attenuation)+ | 8 |
 | [Short of Breath](#short-of-breath) | 5 |
 | [Force Wave](#force-wave) | 5 |
 | [Teleport Misjump](#teleport-misjump) | 4 |
 | [EMP Blast](#emp-blast) | 3 |
-| [Lightning Blast](#lightning-blast) | 3 |
+| [Lightning Blast](#lightning-blast)+ | 3 |
+| [Crack in Reality](#crack-in-reality)+ | 2 |
 | [Nullified](#nullified) | 3 |
 | [Hounds of Tindalos](#hounds-of-tindalos)* | 2 |
 | [Mutation](#mutation) | 2 |
 | [Reality Tear](#reality-tear)* | 1 |
 
-\* require you to be under the effect of Nether Conduit or Observed for them to trigger.
+\* require you to be under the effect of Nether Conduit or Observed for them to trigger.  
+\+ are possible whenever you have Torrential Channeling active regardless of your attunement level
 
 ## Consequence Descriptions
 The effect of many consequences are amplified by your current attunement vitamin, in severity and/or in length of the effect. Chances listed below do not take into account the increased chance based on the difficulty of the power used.
@@ -217,6 +219,12 @@ Description: Only applicable if you have the Photokinetic power path. You emit a
 Minimum Attunement: 9  
 Chance: 3% to 19.25%  
 Description: You emit a blast of lighting, electrocuting yourself and your surroundings  
+<sub>[Back to List](#attunement-consequences)</sub>
+
+### Crack in Reality
+Minimum Attunement: 9  
+Chance: 2% to 9.5%  
+Description: A temporary reality tear opens up nearby  
 <sub>[Back to List](#attunement-consequences)</sub>
 
 ### Nullified
