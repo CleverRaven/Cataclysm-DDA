@@ -85,7 +85,7 @@
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
       "T": { "item": "SUS_toilet", "chance": 50 },
-      ".": { "item": "office_mess", "chance": 1 }
+      ".": { "item": "SUS_office_mess", "chance": 1 }
     },
     "vendingmachines": {
       "8": { "item_group": "vending_drink", "lootable": true },
