@@ -279,7 +279,7 @@
     "skills_required": [ "metaphysics", 3 ],
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "phavian_noetic_resonance_detector_instructions", 5 ] ],
+    "book_learn": [ [ "phavian_noetic_resonance_detector_instructions", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
     "tools": [ [ [ "psi_noetic_resonance_detector_tool", 500 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
