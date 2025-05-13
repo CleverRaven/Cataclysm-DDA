@@ -270,16 +270,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 7 }
-      }
-    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -535,7 +525,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
@@ -788,18 +778,8 @@
     "purifiable": false,
     "types": [ "TEETH" ],
     "valid": false,
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ], [ "mutagenic_slurry", 1 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "HEMOVORE" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      }
-    ],
     "spells_learned": [ [ "vampire_drink_blood_with_fangs_spell", 1 ] ]
   },
   {
@@ -972,7 +952,7 @@
     "purifiable": false,
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
-    "vitamin_rates": [ [ "human_blood_vitamin", 720 ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
