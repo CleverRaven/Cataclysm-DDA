@@ -678,7 +678,7 @@
     "variants": [
       {
         "id": "white",
-        "name": { "str": "white dress" },
+        "name": { "str": "long white dress", "str_pl": "long white dresses" },
         "append": true,
         "description": "This one is white.",
         "color": "white",
@@ -686,10 +686,10 @@
       },
       {
         "id": "black",
-        "name": { "str": "black dress" },
+        "name": { "str": "long black dress", "str_pl": "long black dresses" },
         "append": true,
         "description": "This one is black.",
-        "color": "white",
+        "color": "black",
         "weight": 4
       },
       {
