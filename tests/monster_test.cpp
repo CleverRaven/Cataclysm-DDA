@@ -41,7 +41,10 @@ using move_statistics = statistics<int>;
 
 
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
-static const furn_str_id furn_t_fence( "t_fence" );
+static const ter_str_id ter_t_fence( "t_fence" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const furn_str_id furn_f_clear( "f_clear" );
 
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint_bub_ms &start, const tripoint_bub_ms &end )
@@ -63,11 +66,10 @@ static int moves_to_destination( const std::string &monster_type,
             const int moves_before = test_monster.get_moves();
             test_monster.move();
             moves_spent += moves_before - test_monster.get_moves();
-            if( test_monster.pos_abs() == test_monster.get_dest() ) {
-                INFO( ( test_monster.get_dest() == get_map().get_abs( end ) ) )
+            if( test_monster.pos_bub() == end ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
-            } else if( moves_spent == 0 ) {
+            } else if( test_monster.pos_bub() == start ) {
                 return 100000;
             }
         }
@@ -320,69 +322,6 @@ static void monster_check()
     CHECK( can_catch_player( "mon_zombie_dog", tripoint::south_east ) > 0 );
 }
 
-static void mon_special_terrain_check()
-{
-    map &here = get_map();
-    const std::string &non_climber = "mon_pig";
-    const std::string &climber = "mon_feral_human_pipe";
-    const mtype_id nclimber_id( non_climber );
-    const mtype_id climber_id( climber );
-
-
-    const tripoint_bub_ms from = tripoint_bub_ms::zero;
-    const tripoint_bub_ms to = {1, 0, 0};
-
-
-    GIVEN( "CLIMBABLE furniture" ) {
-        const int furn_mod = 3;
-        REQUIRE( here.furn_set( to, furn_t_fence ) );
-        furn_id furn = here.furn( to );
-        // here.furn
-        REQUIRE( here.has_furn( to ) );
-        REQUIRE( furn != furn_str_id::NULL_ID() );
-
-        REQUIRE( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to ) );
-
-        int moves = 0;
-
-        AND_GIVEN( "Non-climbing monster" ) {
-            REQUIRE( !nclimber_id->move_skills.climb.has_value() );
-            REQUIRE( !nclimber_id->has_flag( mon_flag_CLIMBS ) );
-
-            WHEN( "Moving to climbable tile" ) {
-                moves = moves_to_destination( non_climber, from, to );
-
-                THEN( "The monster cannot go there" ) {
-                    CHECK( moves == 100000 );
-                }
-            }
-        }
-        moves = 0;
-        AND_GIVEN( "Climbing monster" ) {
-            const int mon_skill = 8;
-            REQUIRE( climber_id->move_skills.climb.has_value() );
-
-            AND_GIVEN( "the monster has the known climbskill" ) {
-                REQUIRE( climber_id->move_skills.climb.value() == mon_skill );
-            }
-            AND_GIVEN( "the furniture has a known movemod" ) {
-                REQUIRE( furn->movecost == furn_mod );
-            }
-
-            AND_WHEN( "Moving to climbable tile" ) {
-                moves = moves_to_destination( climber, from, to );
-
-                THEN( "It took the correct amount of moves" ) {
-                    int expected_mod = furn_mod * ( 10 - mon_skill );
-                    int expected_movecost = ( ( expected_mod * 50 ) + 100 ) / 2;
-                    INFO( expected_movecost ) ;
-                    CHECK( moves == expected_movecost );
-                }
-            }
-        }
-    }
-}
-
 TEST_CASE( "check_mon_id" )
 {
     for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
@@ -440,7 +379,183 @@ TEST_CASE( "monster_speed_trig", "[speed]" )
 TEST_CASE( "monster_special_move", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    mon_special_terrain_check();
+
+    map &here = get_map();
+    const tripoint_bub_ms from = tripoint_bub_ms::zero;
+    const tripoint_bub_ms to = {1, 0, 0};
+
+
+    GIVEN( "CLIMBABLE terrain" ) {
+        const int ter_mod = 3;
+        REQUIRE( here.ter_set( to, ter_t_fence ) );
+        ter_id ter = here.ter( to );
+        ter_id ter_from = here.ter( from );
+        REQUIRE( ter->id == ter_t_fence );
+
+        REQUIRE( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to ) );
+
+        int moves = 0;
+
+        AND_GIVEN( "Non-climbing monster" ) {
+            const std::string &non_climber = "mon_pig";
+            const mtype_id nclimber_id( non_climber );
+            REQUIRE( !nclimber_id->move_skills.climb.has_value() );
+            REQUIRE( !nclimber_id->has_flag( mon_flag_CLIMBS ) );
+
+            WHEN( "Moving to climbable tile" ) {
+                moves = moves_to_destination( non_climber, from, to );
+
+                THEN( "The monster cannot go there" ) {
+                    CHECK( moves == 100000 );
+                }
+            }
+        }
+        moves = 0;
+        AND_GIVEN( "Climbing monster" ) {
+            const std::string &climber = "mon_test_climb_nobash";
+            const mtype_id climber_id( climber );
+            const int mon_skill = 8;
+            REQUIRE( climber_id->move_skills.climb.has_value() );
+
+            AND_GIVEN( "the monster has the known climbskill" ) {
+                REQUIRE( climber_id->move_skills.climb.value() == mon_skill );
+            }
+            AND_GIVEN( "the terrain has a known movemod" ) {
+                REQUIRE( ter->movecost == ter_mod );
+            }
+
+            AND_WHEN( "Moving to climbable tile" ) {
+                moves = moves_to_destination( climber, from, to );
+
+                THEN( "It took the correct amount of moves" ) {
+                    const int expected_mod = ter_mod * ( 10 - mon_skill );
+                    INFO( "if the expected formula changes, change here too expected_mod = ter_mod * ( 10 - mon_skill )" );
+                    INFO( "expected_movecost = ( ( expected_mod * 50 ) + 100 ) / 2" );
+                    INFO( "from: " << ter_from->name() << " to " << ter->name() );
+                    const int expected_movecost = ( ( expected_mod + 2 ) * 25 );
+                    INFO( "expected: " << expected_movecost ) ;
+                    INFO( "actual: " << moves );
+                    CHECK( moves == expected_movecost );
+                }
+            }
+        }
+    }
+
+    GIVEN( "SWIMMABLE terrain" ) {
+        const int ter_mod = 8;
+
+        REQUIRE( here.ter_set( to, ter_t_water_dp ) );
+        ter_id ter = here.ter( to );
+        ter_id ter_from = here.ter( from );
+        REQUIRE( ter->id == ter_t_water_dp );
+
+        REQUIRE( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to ) );
+
+        int moves = 0;
+
+        AND_GIVEN( "Non-swimming breathing monster" ) {
+            const std::string &non_swimmer = "mon_pig";
+            const mtype_id non_swimmer_id( non_swimmer );
+            REQUIRE( !non_swimmer_id->move_skills.swim.has_value() );
+            REQUIRE( !non_swimmer_id->has_flag( mon_flag_SWIMS ) );
+            REQUIRE( !non_swimmer_id->has_flag( mon_flag_AQUATIC ) );
+
+            WHEN( "Moving to swimable tile" ) {
+                moves = moves_to_destination( non_swimmer, from, to );
+
+                THEN( "The monster cannot go there" ) {
+                    CHECK( moves == 100000 );
+                }
+            }
+        }
+        AND_GIVEN( "NOBREATH monster" ) {
+
+        }
+        moves = 0;
+        AND_GIVEN( "AQUATIC monster and from ter is swimmable" ) {
+            REQUIRE( here.ter_set( from, ter_t_water_dp ) );
+            const std::string &swimmer = "mon_fish_brook_trout";
+            const mtype_id swimmer_id( swimmer );
+            const int mon_skill = 10;
+            REQUIRE( swimmer_id->move_skills.swim.has_value() );
+            REQUIRE( swimmer_id->has_flag( mon_flag_AQUATIC ) );
+            AND_GIVEN( "the monster has the known swimskill" ) {
+                REQUIRE( swimmer_id->move_skills.swim.value() == mon_skill );
+            }
+            AND_GIVEN( "the terrain has a known movemod" ) {
+                REQUIRE( ter->movecost == ter_mod );
+            }
+
+            AND_WHEN( "Moving to swimable tile" ) {
+                moves = moves_to_destination( swimmer, from, to );
+
+                THEN( "It took the correct amount of moves" ) {
+                    INFO( "SWIMMERS ignore terraincost, resulting in the formular std::max( ( 10 - mon_skill ) * 50, 25 )" );
+                    INFO( "from: " << ter_from->name() << " to " << ter->name() );
+                    const int expected_movecost =  std::max( ( 10 - mon_skill ) * 50, 25 ) ;
+                    INFO( "expected: " << expected_movecost ) ;
+                    INFO( "actual: " << moves );
+                    CHECK( moves == expected_movecost );
+                }
+            }
+            moves = 0;
+            AND_WHEN( "trying to move onto land" ) {
+                REQUIRE( here.ter_set( to,  ter_t_grass ) );
+                ter = here.ter( to );
+                ter_from = here.ter( from );
+                REQUIRE_FALSE( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to ) );
+                moves = moves_to_destination( swimmer, from, to );
+
+                THEN( "It cannot move" ) {
+                    INFO( "from: " << ter_from->name() << " to " << ter->name() );
+                    CHECK( moves == 100000 );
+                }
+            }
+        }
+    }
+
+    GIVEN( "DIGGABLE terrain" ) {
+        ter_id ter = here.ter( to );
+        ter_id ter_from = here.ter( from );
+
+        REQUIRE( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to ) );
+
+        int moves = 0;
+        AND_GIVEN( "DIGGING monster and from ter is digmable" ) {
+            const std::string &digger = "mon_yugg";
+            const mtype_id digger_id( digger );
+            const int mon_skill = 9;
+            REQUIRE( digger_id->move_skills.dig.has_value() );
+            AND_GIVEN( "the monster has the known digskill" ) {
+                REQUIRE( digger_id->move_skills.dig.value() == mon_skill );
+            }
+            AND_WHEN( "Moving to digable tile" ) {
+                moves = moves_to_destination( digger, from, to );
+
+                THEN( "It took the correct amount of moves" ) {
+                    INFO( "Diggers, just like swimmers ignore terraincost. movecost = std::max( ( 10 - mon_skill ) * 50, 25 )" );
+                    INFO( "from: " << ter_from->name() << " to " << ter->name() );
+                    const int expected_movecost =  std::max( ( 10 - mon_skill ) * 50, 25 ) ;
+                    INFO( "expected: " << expected_movecost ) ;
+                    INFO( "actual: " << moves );
+                    CHECK( moves == expected_movecost );
+                }
+            }
+            moves = 0;
+            AND_WHEN( "trying to move into non-diggable terrain" ) {
+                REQUIRE( here.ter_set( to,  ter_t_water_dp ) );
+                ter = here.ter( to );
+                ter_from = here.ter( from );
+                REQUIRE_FALSE( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to ) );
+                moves = moves_to_destination( digger, from, to );
+
+                THEN( "It cannot move" ) {
+                    INFO( "from: " << ter_from->name() << " to " << ter->name() );
+                    CHECK( moves == 100000 );
+                }
+            }
+        }
+    }
 }
 
 TEST_CASE( "monster_extend_flags", "[monster]" )

@@ -1627,13 +1627,13 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                 continue;
 
                 // walk on the bottom of the water
-            } else if( !force ) {
+            } else if( has_flag( mon_flag_NO_BREATHE ) || force ) {
+                cost += terrain.movecost;
+            } else {
+                // min 1 for forced terrestial monster move
                 debugmsg( "%s cannot swim or move in %s. monster::calc_movecost expects to be called with valid destination.",
                           get_name(), veh ? veh->disp_name() : terrain.name() );
                 return 0;
-            } else {
-                // min 1 for forced terrestial monster move
-                cost += terrain.movecost * std::max( swimmod, 1 );
             }
         } else if( has_flag( mon_flag_AQUATIC ) && !force ) {
             debugmsg( "Aquatic %s cannot enter non-swimmable %s. monster::calc_movecost expects to be called with valid destination.",
