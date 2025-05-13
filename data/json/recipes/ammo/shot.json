@@ -622,7 +622,7 @@
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "skills_required": [ "shotgun", 3],
+    "skills_required": [ "shotgun", 3 ],
     "time": "1 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "manual_shotgun", 3 ] ],
