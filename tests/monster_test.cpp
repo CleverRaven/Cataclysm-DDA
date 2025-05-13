@@ -70,6 +70,8 @@ static int moves_to_destination( const std::string &monster_type,
             if( test_monster.pos_bub() == end ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
+
+                // return early if it doesn't move at all
             } else if( test_monster.pos_bub() == start ) {
                 return 100000;
             }

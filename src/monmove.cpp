@@ -1573,19 +1573,19 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
     // modifiers that get applied to both locations
     for( auto& [where, cost] : tilecosts ) {
-        // flying creatures ignore all terrain/furniture.
-        // TODO: field efefcts?
+
         add_msg_debug( debugmode::DF_MONMOVE, "%s calculating: (%i, %i, %i)", name(),
                        where.x(), where.y(), where.z() );
 
-        // TODO: field_effects?
+        // flying creatures ignore all terrain/furniture.
+        // TODO: field efefcts?
         if( flies() ) {
             cost += 2;
             continue;
         }
 
         // my implementation of map::movecost
-        // TODO: move to map to make same submap optimizations as map::movecost?
+        // TODO: maybe move to map to make same submap optimizations as map::movecost?
         const furn_t &furniture = here.furn( where ).obj();
         const ter_t &terrain = here.ter( where ).obj();
         const field &field = here.field_at( where );
@@ -1594,11 +1594,9 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
         const int part = veh ? vp->part_index() : -1;
         const int swimmod = get_swim_mod();
 
-
-
         // vehicle. Aquatic monsters swim under boats, ignoring its movecost.
         if( veh != nullptr && !has_flag( json_flag_AQUATIC ) ) {
-            // TODO: make monsters with climbing be faster in vehicles?
+            // TODO: maybe make monsters with climbing be faster in vehicles?
             const vpart_position vp( const_cast<vehicle &>( *veh ), part );
             int veh_movecost = vp.get_movecost();
             int fieldcost = get_filtered_fieldcost( field );
@@ -1619,10 +1617,10 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                       get_name(), terrain.name() );
             continue;
         } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
-            // cannot swim or walk underwater.
+
             if( swims() ) {
                 // swimmers dont care about terraincost/other effects.
-                // fish move as quickly as
+                // fish move as quickly as possible with a swimmod of 0.
                 cost += swimmod;
                 continue;
 
@@ -1630,7 +1628,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             } else if( has_flag( mon_flag_NO_BREATHE ) || force ) {
                 cost += terrain.movecost;
             } else {
-                // min 1 for forced terrestial monster move
+                // cannot swim or walk underwater.
                 debugmsg( "%s cannot swim or move in %s. monster::calc_movecost expects to be called with valid destination.",
                           get_name(), veh ? veh->disp_name() : terrain.name() );
                 return 0;
@@ -1686,7 +1684,6 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
             } else {
                 cost += furniture.movecost;
             }
-
         }
 
         // fields
@@ -2322,7 +2319,7 @@ void monster::stumble()
                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
-            if( move_to( dest, false, false ) ) {
+            if( move_to( dest, true, false ) ) {
                 break;
             }
         }

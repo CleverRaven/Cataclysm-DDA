@@ -1429,7 +1429,6 @@ int monster::get_dig_mod() const
         int percentile = type->move_skills.dig.value() * ( max_obstacle_penalty / 10 );
         return max_obstacle_penalty - percentile;
     } else if( has_flag( mon_flag_DIGS ) || has_flag( mon_flag_CAN_DIG ) ) {
-        // only for backwards compatibility. In future move away from flags
         return 1;
     }
 
@@ -1501,7 +1500,6 @@ int monster::get_swim_mod() const
     // cannot swim
     return -1;
 }
-
 
 bool monster::can_act() const
 {
