@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_electro_anomaly_rifle",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "copy-from": "laser_rifle",
     "name": { "str": "R-PROTON ENR" },
     "description": "Within the solid barrel of the Raaz PROTON, an electrical anomaly is carefully duplicated through magnetic stimulation and projected outwards.  Freed from containment, the anomaly will temporarily settle in the physical world and quickly emit its stored electrical charge before dissipating.",
@@ -27,7 +28,8 @@
   },
   {
     "id": "afs_archangel_enr",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "copy-from": "laser_rifle",
     "name": { "str": "W3310 Archangel ENR" },
     "description": "A powerful anti-drone defense weapon, the W3310 Archangel is capable of firing a chain of electrical discharges that can arc between multiple targets.  Most effective against groups of lightly armored foes, use within closed spaces is not recommended due to the risk of self-inflicted injury.",
@@ -54,11 +56,12 @@
     ],
     "ammo_effects": [ "ELECTRIC_CHAIN" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] }
+    "passive_effects": [ { "id": "ench_smart_gun" } ]
   },
   {
     "id": "afs_voltaic_pistol",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT", "GUN" ],
     "copy-from": "laser_rifle",
     "name": { "str": "W3100 Volt" },
     "description": "Wraitheon Armories' premier electrolaser personal defense weapon.  The W3100 Volt adjustable power settings make it adaptable to most conflict situations, lethal or otherwise, and make it a favorite among well-off security forces and law enforcement corps.",
@@ -87,11 +90,12 @@
     ],
     "ammo_effects": [ "BEANBAG" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] }
+    "passive_effects": [ { "id": "ench_smart_gun" } ]
   },
   {
     "id": "afs_mine_shocker",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "%",
     "color": "blue",
     "name": { "str": "mine shocker", "//~": "NO_I18N" },

@@ -1,7 +1,7 @@
 [
   {
     "//": "Assumed to be ~0.5 m x 0.5 m to fit in a vehicle tile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_panel",
     "name": { "str": "solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  Useful for a vehicle or a static power grid.",
@@ -25,7 +25,7 @@
   },
   {
     "//": "Four solar panels stuck together to fit in 1 m x 1 m",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ground_solar_panel",
     "name": { "str": "solar panel array" },
     "description": "A collection of four solar panels, ready to get to work converting solar radiation into electric power.  Install them to use them in a static power grid.",
@@ -33,7 +33,7 @@
     "proportional": { "weight": 4, "volume": 4, "price": 4, "price_postapoc": 4, "longest_side": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "solar_panel",
     "id": "folding_solar_panel",
     "name": { "str": "folding solar panel" },
@@ -53,7 +53,8 @@
     "price_postapoc": "5 USD"
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "copy-from": "folding_solar_panel",
     "id": "folding_solar_panel_deployed",
     "name": { "str": "deployed folding solar panel" },
@@ -67,7 +68,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "folding_solar_panel",
     "id": "folding_solar_panel_v2",
     "name": { "str": "solar suitcase" },
@@ -85,7 +86,8 @@
     "price_postapoc": "20 USD"
   },
   {
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "copy-from": "folding_solar_panel_v2",
     "id": "folding_solar_panel_v2_deployed",
     "name": { "str": "deployed solar suitcase" },
@@ -99,13 +101,13 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "reinforced_solar_panel",
     "name": { "str": "reinforced solar panel" },
     "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.",
     "weight": "24153 g",
     "color": "light_blue",
-    "material": [ "glass", "steel" ],
+    "material": [ "glass", "lc_steel" ],
     "volume": "6500 ml",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "15 USD",
@@ -113,7 +115,7 @@
   },
   {
     "//": "Assumed to be ~0.5 m x 0.5 m to fit in a vehicle tile",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_panel_v2",
     "name": { "str": "advanced solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  This one is a high-performance type made with monocrystalline silicon cells.",
@@ -123,7 +125,7 @@
   },
   {
     "//": "Four advanced solar panels stuck together for 1 m x 1 m area",
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ground_solar_panel_v2",
     "name": { "str": "advanced solar panel array" },
     "description": "A collection of four smaller solar panels, ready to convert solar radiation into electric power.  These panels are high-performance, made with monocrystalline silicon cells.",
@@ -131,7 +133,7 @@
     "proportional": { "price": 4, "price_postapoc": 4, "weight": 4, "volume": 4, "longest_side": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "reinforced_solar_panel_v2",
     "name": { "str": "advanced reinforced solar panel" },
     "description": "An advanced solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal advanced panel.",
@@ -140,7 +142,7 @@
     "copy-from": "reinforced_solar_panel"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_cell",
     "name": { "str": "solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  This one is a common, inexpensive type made of polycrystalline silicon.",
@@ -153,7 +155,7 @@
     "copy-from": "solar_panel"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "solar_cell_v2",
     "name": { "str": "advanced solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  This one is a high-performance type made of monocrystalline silicon.",

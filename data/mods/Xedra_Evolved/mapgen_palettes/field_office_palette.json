@@ -97,7 +97,7 @@
         { "item": "fridgesnacks", "chance": 70, "repeat": [ 1, 10 ] }
       ],
       "o": { "item": "oven", "chance": 70 },
-      "r": [ { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] } ],
+      "r": [ { "item": "SUS_office_supplies", "chance": 65, "repeat": [ 1, 4 ] } ],
       "g": [ { "item": "xe_border_patrol_evidence", "chance": 65 } ],
       "y": { "item": "cleaning", "chance": 60, "repeat": [ 1, 2 ] },
       "Y": { "item": "jackets", "chance": 90, "repeat": [ 3, 8 ] },

@@ -37,7 +37,7 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
 
 #### Currently Implemented faction currencies
 
-```json
+```jsonc
   {
     "id": "FMCNote",
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
@@ -72,7 +72,7 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
 	
 ##### Some benchmark prices
 
-```json
+```jsonc
   {
     "id": "antibiotics",
     "name": { "str_sp": "antibiotics" },
@@ -117,7 +117,7 @@ For items that have a stack size, you need to **divide** the price by stack size
 
 #### IRREPLACEABLE_CONSUMABLE Flag
 Pre Cataclysm consumables that can not be replaced can be given the flag:
-```json
+```jsonc
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
 ```
 

@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_energy_shield",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Riemann shell" },
     "description": "A thin shell of altered reality containing enormous electromagnetic potential, such that it might behave as a solid object under certain conditions.  A Riemann shell can defend against a wide variety of physical and energy attacks, but can be overwhelmed and forced to collapse into deadly radiation with prolonged assault.",
     "weight": "1 g",
@@ -40,7 +41,8 @@
   },
   {
     "id": "afs_backpack_shieldgen",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "SHD-1k Riemann Shield Generator" },
     "description": "A backpack mounted shield generator for infantry use, capable of fully protecting its user during prolonged bursts of kinetic and energy attacks.  Standard issue for UICA breaching teams.\n\nIts high energy consumption and weight make it unsuitable for long-term use.  Powered with energy cartridges.",
     "weight": "10 kg",
@@ -100,7 +102,8 @@
   },
   {
     "id": "afs_backpack_shieldgen_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "SHD-1k Riemann Shield Generator (active)", "str_pl": "SHD-1k Riemann Shield Generators (active)" },
     "copy-from": "afs_backpack_shieldgen",
     "description": "This shield generator is active and maintaining a Riemann shield around its user.  It is capable of fully protecting its user during prolonged bursts of kinetic and energy attacks.  Standard issue for UICA breaching teams.\n\nIts high energy consumption and weight make it unsuitable for long-term use.  Powered with energy cartridges.",

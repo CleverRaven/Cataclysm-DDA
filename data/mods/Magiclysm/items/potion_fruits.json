@@ -1,6 +1,7 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_apple",
     "name": { "str": "potion fruit (apple)", "str_pl": "potion fruits (apple)" },
     "description": "An apple infused with mana.  It will heal you if you eat it.",
@@ -17,7 +18,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_heal", "duration": { "math": [ "150 + rand(350)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_peach",
     "name": { "str": "potion fruit (peach)", "str_pl": "potion fruits (peach)" },
     "description": "A peach infused with mana.  It will cure illness if you eat it.",
@@ -34,7 +36,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_cure", "duration": "1 seconds" } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_pear",
     "name": { "str": "potion fruit (pear)", "str_pl": "potion fruits (pear)" },
     "description": "A pear infused with mana.  It will allow your blows to strike quicker if you eat it.",
@@ -51,7 +54,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_attack_speed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_blackberries",
     "name": { "str": "handful of potion fruits (blackberries)", "str_pl": "handfuls of potion fruits (blackberries)" },
     "description": "A handful of blackberries infused with mana.  It will harm those who attack you if you eat it.",
@@ -68,7 +72,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_thorns", "duration": { "math": [ "500 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_raspberries",
     "name": { "str": "handful of potion fruits (raspberries)", "str_pl": "handfuls of potion fruits (raspberries)" },
     "description": "A handful of raspberries infused with mana.  It will lessen your pain if you eat it.",
@@ -85,7 +90,8 @@
     "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_strawberries",
     "name": { "str": "handful of potion fruits (strawberries)", "str_pl": "handfuls of potion fruits (strawberries)" },
     "description": "A handful of strawberries infused with mana.  It will keep you warm even on an icy-cold day.",
@@ -102,7 +108,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_keep_warm", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_elderberries",
     "name": { "str": "handful of potion fruits (elderberries)", "str_pl": "handfuls of potion fruits (elderberries)" },
     "description": "A handful of elderberries infused with mana.  It will keep you alert and awake.",
@@ -119,7 +126,8 @@
     "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_blueberries",
     "name": { "str": "handful of potion fruits (blueberries)", "str_pl": "handfuls of potion fruits (blueberries)" },
     "description": "A handful of blueberries infused with mana.  One handful is more satisfying than a whole bottle of water.",
@@ -131,7 +139,8 @@
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_cranberries",
     "name": { "str": "handful of potion fruits (cranberries)", "str_pl": "handfuls of potion fruits (cranberries)" },
     "description": "A handful of cranberries infused with mana.  It will remove impurities in your blood.",
@@ -148,7 +157,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_purge", "duration": "1 seconds" } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_huckleberries",
     "name": { "str": "handful of potion fruits (huckleberries)", "str_pl": "handfuls of potion fruits (huckleberries)" },
     "description": "A handful of huckleberries infused with mana.  It will make you much more flexible.",
@@ -165,7 +175,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_dodge", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_wintergreen",
     "name": { "str": "handful of potion fruits (wintergreen berries)", "str_pl": "handfuls of potion fruits (wintergreen berries)" },
     "description": "A handful of wintergreen berries infused with mana.  It will allow you to see in the dark.",
@@ -182,7 +193,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_nightvision", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_cherry",
     "name": { "str": "handful of potion fruits (cherries)", "str_pl": "handfuls of potion fruits (cherries)" },
     "description": "A handful of cherries infused with mana.  It will prevent you from bleeding.",
@@ -199,7 +211,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_nobleed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_apricot",
     "name": { "str": "handful of potion fruits (apricots)", "str_pl": "handfuls of potion fruits (apricots)" },
     "description": "A handful of apricots infused with mana.  It will enhance your visual acuity.",
@@ -216,7 +229,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_vision", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_grapes",
     "name": { "str": "handful of potion fruits (grapes)", "str_pl": "handfuls of potion fruits (grapes)" },
     "description": "A handful of grapes infused with mana.  It will cure intoxication.",
@@ -236,7 +250,8 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_mayapple",
     "name": { "str": "potion fruit (mayapple)", "str_pl": "potion fruits (mayapple)" },
     "description": "A mayapple infused with mana.  It will allow you to eat questionable food without harm.",
@@ -253,7 +268,8 @@
     "effect": [ { "u_add_effect": "effect_pfruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "potion_fruit_m_stellatum_berries",
     "name": {
       "str": "potion fruit (starry false Solomon's seal berries)",

@@ -1,24 +1,26 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hand_rims",
     "name": { "str": "set of hand rims", "str_pl": "sets of hand rims" },
     "description": "A set of hand rims for use on a wheelchair.",
     "weight": "816 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "color": "light_gray",
     "symbol": ":",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "500 ml",
     "category": "veh_parts",
     "price": "90 USD",
     "price_postapoc": "1 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "foot_crank",
     "copy-from": "hand_rims",
     "name": { "str": "foot crank" },
-    "description": "A pedal and gear assembly from a bicycle."
+    "description": "A pedal and gear assembly from a bicycle.",
+    "//": "Steel grade is a guess: its load is similar to wheel axles that are made out of medium steel",
+    "material": [ "mc_steel" ]
   }
 ]

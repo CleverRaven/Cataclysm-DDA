@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_sniperbot",
     "symbol": "x",
     "color": "brown",
@@ -13,7 +13,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_shotgunbot",
     "symbol": "x",
     "color": "brown",
@@ -26,7 +26,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_meleebot",
     "symbol": "x",
     "color": "brown",
@@ -39,7 +39,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_exodii_quad_jotunn",
     "symbol": ",",
     "color": "light_gray",
@@ -55,7 +55,7 @@
     "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "broken_dreamforged_automaton",
     "symbol": ",",
     "color": "light_gray",
@@ -71,7 +71,7 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "corpse_fae",
     "//": "Changeling corpses.",
     "copy-from": "corpse",
@@ -105,5 +105,14 @@
         "text": "This changeling corpse has a belly wound that appears to be caused by a sword and is also missing its hand."
       }
     ]
+  },
+  {
+    "type": "ITEM",
+    "id": "body_astral_projection",
+    "copy-from": "corpse",
+    "name": { "str_sp": "your body" },
+    "description": "Your body, lying on the ground while your spirit walks free.  Hopefully nothing happens to it while you're gone.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   }
 ]

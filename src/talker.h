@@ -767,7 +767,7 @@ class talker: virtual public const_talker
         virtual void learn_recipe( const recipe_id & ) {}
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
-        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
+        virtual void mutate_category( const mutation_category_id &, const bool &, const bool & ) {}
         virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
         virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
         virtual void unset_mutation( const trait_id & ) {}
@@ -861,6 +861,8 @@ class talker: virtual public const_talker
         virtual void set_all_parts_hp_cur( int ) {}
         virtual void set_degradation( int ) {}
         virtual void die( map * ) {}
+        virtual void set_fault( const fault_id &, bool, bool ) {};
+        virtual void set_random_fault_of_type( const std::string &, bool, bool ) {};
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
         virtual void mod_livestyle( int ) {}

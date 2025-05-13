@@ -1,7 +1,8 @@
 [
   {
     "id": "exo_back_battery_rechargable",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit power supply unit" },
     "description": "Designed to attach to an exosuit's back, this is a large rechargeable battery with an integrated UPS.",
@@ -19,7 +20,8 @@
   },
   {
     "id": "exo_back_gasoline",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit gasoline ICE power supply", "str_pl": "exosuit gasoline ICE power supplies" },
     "description": "Designed to attach to an exosuit's back, this is an internal combustion engine generator with an integrated UPS, fueled by gasoline.",
@@ -45,7 +47,8 @@
   },
   {
     "id": "exo_back_fuelcell",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit turbine power supply", "str_pl": "exosuit turbine power supplies" },
     "description": "Designed to attach to an exosuit's back, this is an adaptive gas turbine generator with an integrated UPS, capable of using nearly any fuel type.",
@@ -82,7 +85,8 @@
   },
   {
     "id": "exo_asrg",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "exosuit",
     "name": { "str": "exosuit ASRG" },
     "description": "This is a prototype Compact Advanced Sterling Radioisotope Generator, intended to power an exosuit indefinitely.  The layered shielding saves space but is quite heavy, and while labeled 'Compact', this only just fits on the exosuit frame.  Due to the complexities of manufacturing, it cannot be repaired, only replaced.",
@@ -107,12 +111,13 @@
       "NO_REPAIR"
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
-    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "8 s" } },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "8 s" }
   },
   {
     "id": "exo_aux_power",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit auxiliary battery", "str_pl": "exosuit auxiliary batteries" },
     "description": "This is a rechargeable auxiliary power unit that attaches to an exosuit hardpoint.",
@@ -129,7 +134,8 @@
   },
   {
     "id": "exo_small_aux_power",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit small auxiliary battery", "str_pl": "exosuit small auxiliary batteries" },
     "description": "This is a small rechargeable auxiliary power unit that attaches to an exosuit hardpoint.",
@@ -145,7 +151,8 @@
   },
   {
     "id": "exo_carry",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "exosuit",
     "name": { "str": "exosuit load support module (off)", "str_pl": "exosuit load support modules (off)" },
     "description": "This module significantly increases the exosuit's weight bearing at the cost of increased power consumption.",
@@ -157,7 +164,6 @@
     "color": "light_gray",
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_MEDIUM_GADGET" ],
     "max_worn": 1,
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_exo_big_carry" } ] },
     "use_action": {
       "target": "exo_carry_on",
       "msg": "The %s engages.",
@@ -167,11 +173,13 @@
       "need_charges_msg": "There is not enough charge to activate the module.",
       "type": "transform"
     },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [ { "id": "afs_ench_exo_big_carry" } ]
   },
   {
     "id": "exo_carry_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "exo_carry",
     "name": { "str": "exosuit load support module (on)", "str_pl": "exosuit load support modules (on)" },
     "description": "This module significantly increases the exosuit's weight bearing at the cost of increased power consumption.  It is turned on and continually drawing power.  Use it to turn it off.",
@@ -189,7 +197,8 @@
   },
   {
     "id": "exo_small_carry",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "exosuit",
     "name": { "str": "exosuit small load support module (off)", "str_pl": "exosuit small load support modules (off)" },
     "description": "This module increases the exosuit's weight bearing at the cost of increased power consumption.",
@@ -200,7 +209,6 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_SMALL_GADGET" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_exo_small_carry" } ] },
     "use_action": {
       "target": "exo_small_carry_on",
       "msg": "The %s engages.",
@@ -210,11 +218,13 @@
       "need_charges_msg": "There is not enough charge to activate the module.",
       "type": "transform"
     },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [ { "id": "afs_ench_exo_small_carry" } ]
   },
   {
     "id": "exo_small_carry_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "exo_small_carry",
     "name": { "str": "exosuit small load support module (on)", "str_pl": "exosuit small load support modules (on)" },
     "description": "This module increases the exosuit's weight bearing at the cost of increased power consumption.  It is turned on and continually drawing power.  Use it to turn it off.",
@@ -231,7 +241,8 @@
   },
   {
     "id": "exo_lense_module",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit multi-lens zoom module" },
     "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
@@ -245,7 +256,8 @@
   },
   {
     "id": "exo_flashlight",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "mounted lamp (off)", "str_pl": "mounted lamps (off)" },
     "description": "This is a light that can be secured to an exosuit hardpoint.  It has two levels of brightness.",
@@ -269,7 +281,8 @@
   {
     "id": "exo_flashlight_low",
     "copy-from": "exo_flashlight",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mounted lamp (low)", "str_pl": "mounted lamps (low)" },
     "power_draw": "1 W",
     "revert_to": "exo_flashlight",
@@ -285,7 +298,8 @@
   {
     "id": "exo_flashlight_high",
     "copy-from": "exo_flashlight",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "mounted lamp (high)", "str_pl": "mounted lamps (high)" },
     "power_draw": "2 W",
     "revert_to": "exo_flashlight",
@@ -300,7 +314,8 @@
   },
   {
     "id": "exo_recoil",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "exosuit",
     "name": { "str": "recoil mitigation system (off)", "str_pl": "recoil mitigation systems (off)" },
     "description": "This module takes partial control of the exosuit while firing, damping recoil.  Activate before firing.",
@@ -320,13 +335,14 @@
       "need_charges": 1,
       "need_charges_msg": "There is not enough charge to activate the module."
     },
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_exo_recoil" } ] },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [ { "id": "afs_ench_exo_recoil" } ]
   },
   {
     "id": "exo_recoil_on",
     "copy-from": "exo_recoil",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "recoil mitigation system (on)", "str_pl": "recoil mitigation systems (on)" },
     "power_draw": "2 W",
     "revert_to": "exo_recoil",
@@ -342,7 +358,8 @@
   },
   {
     "id": "exo_bio_oxygen",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "exosuit",
     "name": { "str": "exosuit air supply module" },
     "description": "This is a SCBA, a self-contained breathing apparatus.  A series of tanks contain a tailored bacteria that processes Co2 back into breathable air over time.",
@@ -372,12 +389,13 @@
       "active": true,
       "need_charges_msg": "The %s's tank is exhausted."
     },
-    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } },
-    "tool_ammo": [ "oxygen" ]
+    "tool_ammo": [ "oxygen" ],
+    "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" }
   },
   {
     "id": "exo_bio_oxygen_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit air supply module (on)", "str_pl": "exosuit air supply modules (on)" },
     "description": "This is a SCBA, a self-contained breathing apparatus.  A series of tanks contain a tailored bacteria that processes Co2 back into breathable air over time.  It is activated and will supply breathable air.",
@@ -413,7 +431,8 @@
   },
   {
     "id": "exo_imager",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit structural imager module" },
     "description": "A compact imaging tool, capable of scanning and visualizing objects hiding behind walls, maintenance panels and all other sort of visual barriers.  While normally used to diagnostic potential faults within the internal systems of spaceships, the ability to peer between obstacles grant it obvious surveillance applications.  It can be mounted to an exosuit helmet.  It can be activated to reveal a small conical area around you.",
     "weight": "500 g",
@@ -429,7 +448,8 @@
   },
   {
     "id": "exo_climb",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "exosuit",
     "name": { "str": "exosuit climbing assist module" },
     "description": "This module uses a combination of spikes, hooks, and magnets to aid the wearer in climbing.",
@@ -441,21 +461,20 @@
     "color": "light_gray",
     "armor": [ { "encumbrance": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ] } ],
     "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "name": { "str": "Climbing Assist" },
-          "description": "Additional climbing gear allows you to scale walls.",
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "mutations": [ "exo_climb_mutation" ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "name": { "str": "Climbing Assist" },
+        "description": "Additional climbing gear allows you to scale walls.",
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "mutations": [ "exo_climb_mutation" ]
+      }
+    ]
   },
   {
     "id": "exo_jetpack",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit dynamic maneuvering unit" },
     "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across rough terrain and gaps.  The thrust is insufficient for sustained flight in a gravity well, but can still launch you forward at extreme speed and deliver a powerful blow on landing.",
     "weight": "8750 g",
@@ -481,7 +500,8 @@
   },
   {
     "id": "exosuit_med_injector",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "exosuit medical injector" },
     "description": "A combination medical monitor and drug injection system, this module is intended to keep the pilot in the field longer.",
     "weight": "475 g",
@@ -498,7 +518,8 @@
   },
   {
     "id": "exo_trickle_charger",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "exosuit",
     "name": { "str": "exosuit microgenerator" },
     "description": "This is a compact radioactive power unit that attaches to an exosuit hardpoint.  While it charges slowly, the fuel source will last years.",
@@ -510,12 +531,13 @@
     "color": "light_gray",
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_MEDIUM_GADGET", "LEAK_DAM", "RADIOACTIVE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
-    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "60 s" } },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "60 s" }
   },
   {
     "id": "exo_cartridge_charger",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "exosuit",
     "name": { "str": "exosuit cartridge charger" },
     "description": "This is a charging port designed to accept power cartridges.",
@@ -538,7 +560,7 @@
   },
   {
     "id": "collapsed_boarding_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "%",
     "color": "light_gray",
     "name": "collapsed boarding axe",
@@ -556,7 +578,8 @@
   },
   {
     "id": "exo_AR_module",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "exosuit AR research module" },
     "description": "An augmented reality module interfaces with the exosuit's HUD, assisting you with research and study.",
     "weight": "500 g",
@@ -566,7 +589,6 @@
     "symbol": "(",
     "color": "yellow",
     "flags": [ "CANT_WEAR", "EXO_HELMET_GADGET" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_exo_AR_module" } ] },
     "use_action": {
       "target": "exo_AR_module_on",
       "msg": "The %s engages.",
@@ -575,11 +597,13 @@
       "need_charges": 5,
       "need_charges_msg": "There is not enough charge to activate the module.",
       "type": "transform"
-    }
+    },
+    "passive_effects": [ { "id": "afs_ench_exo_AR_module" } ]
   },
   {
     "id": "exo_AR_module_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "exo_AR_module",
     "name": { "str": "exosuit AR research module (on)", "str_pl": "exosuit AR research modules (on)" },
     "power_draw": "250 mW",

@@ -104,7 +104,7 @@
       [ "glasses_safety", 25 ],
       { "group": "charcoal_bag_part", "prob": 50 },
       { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
-      { "group": "sandbag", "prob": 5 },
+      { "group": "sandbag_any", "prob": 5 },
       { "item": "chemistry_set", "prob": 5 },
       [ "sandpaper", 50 ]
     ]

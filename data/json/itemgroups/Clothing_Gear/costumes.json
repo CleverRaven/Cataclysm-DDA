@@ -119,7 +119,7 @@
       { "item": "trenchcoat_steampunk", "prob": 15 },
       { "item": "plaguedoctor_robe", "prob": 15 },
       { "item": "nun_habit", "prob": 10 },
-      { "item": "suit_bostonchan", "prob": 20 }
+      { "item": "blazer", "variant": "bostonchan", "prob": 20 }
     ]
   },
   {
@@ -326,8 +326,7 @@
       { "item": "postman_shirt", "prob": 10 },
       { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "dress_shirt", "prob": 10 },
-      { "item": "longshirt", "prob": 10 },
-      { "item": "striped_shirt", "prob": 15 }
+      { "item": "longshirt", "prob": 10 }
     ]
   },
   {
@@ -352,7 +351,8 @@
       { "item": "dinosuit", "prob": 10 },
       { "item": "sharksuit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },
-      { "item": "zentai", "prob": 5 }
+      { "item": "zentai", "prob": 5 },
+      { "item": "jumpsuit_pocketless", "variant": "orange" }
     ]
   },
   {

@@ -1,13 +1,13 @@
 [
   {
     "id": "mboots_sevenleague",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "copy-from": "boots_hiking",
     "name": { "str": "seven league boots", "str_pl": "pairs of seven league boots" },
     "looks_like": "boots_hiking",
     "price_postapoc": "750 USD",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -30 } ] } ] },
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
@@ -39,22 +39,18 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -30 } ] } ]
   },
   {
     "id": "mboots_haste",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "copy-from": "boots_hiking",
     "name": { "str": "boots of haste", "str_pl": "pairs of boots of haste" },
     "looks_like": "boots_hiking",
     "price_postapoc": "950 USD",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -20 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] }
-      ]
-    },
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
@@ -86,18 +82,22 @@
         ],
         "coverage": 100
       }
+    ],
+    "passive_effects": [
+      { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -20 } ] },
+      { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] }
     ]
   },
   {
     "id": "mboots_escape",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "boots_hiking",
     "name": { "str_sp": "escape boots" },
     "looks_like": "boots_hiking",
     "price_postapoc": "550 USD",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, these boots can be activated once a day to escape from nasty situations, teleporting you a good distance in a random direction.",
     "charges_per_use": 1,
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
     "use_action": { "type": "cast_spell", "spell_id": "magus_escape", "no_fail": true, "level": 10, "need_worn": true },
     "warmth": 30,
@@ -131,17 +131,18 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true }
   },
   {
     "id": "mboots_freerunner",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "copy-from": "boots_hiking",
     "name": { "str_sp": "freerunner's boots" },
     "looks_like": "boots_hiking",
     "price_postapoc": "350 USD",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, seeming a bit more flexible and breathable than typical for their materials.  The enchantment they bear helps guide their wearer in their motions, to make movement around and over obstacles much more fluid and efficient.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
@@ -173,11 +174,13 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ]
   },
   {
     "id": "mboots_grounding",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "copy-from": "boots_hiking",
     "name": { "str": "boots of grounding", "str_pl": "pairs of boots of grounding" },
     "looks_like": "boots_hiking",
@@ -187,9 +190,6 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -20 } ] } ]
-    },
     "material": [ "leather" ],
     "armor": [
       {
@@ -217,11 +217,13 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -20 } ] } ]
   },
   {
     "id": "boots_of_elvenkind",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "pair of boots of elvenkind", "str_pl": "pairs of boots of elvenkind" },
     "description": "One of the traditional items of the ancient elven warrior societies, these soft leather boots are worked with silver inlays in the shape of vines and leaves.  They allow the wearer to walk in complete silence and move faster when in the wilderness.",
@@ -263,27 +265,25 @@
       }
     ],
     "melee_damage": { "bash": 4 },
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] },
-        {
-          "has": "WORN",
-          "condition": {
-            "and": [
-              "u_is_outside",
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain_with_flag": "DIGGABLE" },
-                  { "u_is_on_terrain_with_flag": "YOUNG" }
-                ]
-              },
-              { "not": { "u_near_om_location": "road", "range": 1 } }
-            ]
-          },
-          "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] },
+      {
+        "has": "WORN",
+        "condition": {
+          "and": [
+            "u_is_outside",
+            {
+              "or": [
+                { "u_is_on_terrain_with_flag": "SHRUB" },
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "u_is_on_terrain_with_flag": "YOUNG" }
+              ]
+            },
+            { "not": { "u_near_om_location": "road", "range": 1 } }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
   }
 ]

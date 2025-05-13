@@ -24,10 +24,10 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "current_map.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
-#include "fault.h"
 #include "field_type.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
@@ -60,7 +60,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -832,8 +831,12 @@ void emp_blast( const tripoint_bub_ms &p )
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->faults.insert( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
-                                   faults::random_of_type( "shorted" ) );
+                item &electronic_item = *it.get_item();
+                if( get_option<bool>( "GAME_EMP" ) ) {
+                    electronic_item.set_fault( fault_emp_reboot );
+                } else {
+                    electronic_item.set_random_fault_of_type( "shorted" );
+                }
             }
         }
     }
@@ -845,10 +848,14 @@ void emp_blast( const tripoint_bub_ms &p )
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_fault( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
-                          faults::random_of_type( "shorted" ) );
-            //map::make_active adds the item to the active item processing list, so that it can reboot without further interaction
             item_location loc = item_location( map_cursor( p ), &it );
+
+            if( get_option<bool>( "GAME_EMP" ) ) {
+                it.set_fault( fault_emp_reboot, true, false );
+            } else {
+                it.set_random_fault_of_type( "shorted", true, false );
+            }
+            //map::make_active adds the item to the active item processing list, so that it can reboot without further interaction
             here.make_active( loc );
         }
     }
@@ -976,6 +983,7 @@ void process_explosions()
             // or have a vehicle run into a crater suddenly appearing just in front of it.
             process_explosions_in_progress = true;
             m.load( origo, true, false );
+            swap_map swap( m );
             m.spawn_monsters( true, true );
             g->load_npcs( &m );
             process_explosions_in_progress = false;

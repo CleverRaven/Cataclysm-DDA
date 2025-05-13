@@ -69,6 +69,7 @@ class achievements_tracker;
 class avatar;
 class cata_path;
 class creature_tracker;
+class current_map;
 class eoc_events;
 class event_bus;
 class faction_manager;
@@ -134,6 +135,8 @@ struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
     // how much damage you deal to corpse every second, average of multiple values
+    float nominal_pulp_power;
+    // The actual power produced, adjusted based on time adjustments.
     float pulp_power;
     // how much stamina is consumed after each punch
     float pulp_effort;
@@ -169,6 +172,7 @@ class game
         friend class editmap;
         friend class main_menu;
         friend class exosuit_interact;
+        friend class swap_map;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
@@ -1109,6 +1113,7 @@ class game
         // ########################## DATA ################################
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
+        pimpl<::current_map> current_map_ptr; // NOLINT(cata-serialize)
         pimpl<avatar> u_ptr; // NOLINT(cata-serialize)
         pimpl<live_view> liveview_ptr; // NOLINT(cata-serialize)
         live_view &liveview; // NOLINT(cata-serialize)
@@ -1123,6 +1128,8 @@ class game
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
         map &m; // NOLINT(cata-serialize)
+        // 'current_map' will be identical to 'm' as you can save only at the top of the main loop.
+        ::current_map &current_map; // NOLINT(cata-serialize)
         avatar &u;
         scent_map &scent;
         // scenario is saved in avatar::store

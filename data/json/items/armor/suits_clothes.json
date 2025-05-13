@@ -1,7 +1,8 @@
 [
   {
     "id": "bondage_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bondage suit" },
     "description": "A suit of snug black leather.  Has no pockets, but does feature an abundance of unusually located zippers.",
     "weight": "1000 g",
@@ -24,7 +25,8 @@
   },
   {
     "id": "bodysuit_lycra",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "Lycra bodysuit" },
     "description": "A tight-fitting bodysuit made of Lycra.  Covers the whole body from neck to toe.",
     "weight": "408 g",
@@ -159,7 +161,8 @@
   },
   {
     "id": "clown_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "clown suit" },
     "description": "A colorful and ridiculous costume fit for a clown.  Provides decent storage.",
     "weight": "1420 g",
@@ -185,7 +188,8 @@
   },
   {
     "id": "denim_overalls",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pair of denim overalls", "str_pl": "pairs of denim overalls" },
     "description": "The basic denim overalls that is the symbol of the Proletariat (and some hipsters).  It covers the legs and a large portion of the torso, secured around the shoulders with straps.  It has many pockets and is relatively protective.",
     "//": "16.5 oz heavy denim overalls, modeled after the work overalls despite the description.",
@@ -250,7 +254,8 @@
   },
   {
     "id": "dinosuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dinosaur suit" },
     "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
@@ -274,7 +279,8 @@
   },
   {
     "id": "sharksuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "shark suit" },
     "description": "A full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
     "weight": "6033 g",
@@ -297,7 +303,8 @@
   },
   {
     "id": "dragonsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dragon suit" },
     "description": "A cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will treat you as one of their own if you wear this.  The wings really get in the way.",
     "weight": "7033 g",
@@ -322,7 +329,8 @@
   },
   {
     "id": "felinesuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "feline suit" },
     "description": "A fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It's a decent source of faux fur if you need it.",
     "weight": "7033 g",
@@ -346,7 +354,8 @@
   },
   {
     "id": "flag_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "flag jumpsuit" },
     "description": "A jumpsuit embroidered with a pattern of the American flag.  Provides decent storage and is not very encumbering.",
     "weight": "558 g",
@@ -396,23 +405,51 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
-    "id": "jumpsuit",
-    "type": "ARMOR",
-    "name": { "str": "jumpsuit" },
-    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
+    "id": "jumpsuit_pocketless",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "pocketless jumpsuit" },
+    "description": "A thin, short-sleeved jumpsuit without pockets, similar to those worn by prisoners.  Not very encumbering.",
     "weight": "610 g",
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "yellow",
+    "looks_like": "jumpsuit",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
     ],
+    "warmth": 15,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white jumpsuit" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
+        "id": "orange",
+        "name": { "str": "orange jumpsuit" },
+        "append": true,
+        "description": "This one is orange.",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
+    "copy-from": "jumpsuit_pocketless",
+    "id": "jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "jumpsuit" },
+    "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -443,13 +480,29 @@
         "moves": 100
       }
     ],
-    "warmth": 15,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "extend": { "flags": [ "POCKETS" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white jumpsuit" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
+        "id": "green",
+        "name": { "str": "green jumpsuit" },
+        "append": true,
+        "description": "This one is green.",
+        "color": "green"
+      }
+    ]
   },
   {
     "id": "jumpsuit_xl",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit updated for the trans-human who needs full-body clothing.  Provides some storage and is adjustable to minimize encumbrance.",
     "weight": "810 g",
@@ -501,7 +554,8 @@
   },
   {
     "id": "jumpsuit_xs",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jumpsuit",
     "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
@@ -510,7 +564,8 @@
   },
   {
     "id": "jumpsuit_skeleton",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jumpsuit",
     "name": { "str": "skeleton jumpsuit" },
     "description": "A black jumpsuit with a skeleton pattern printed on it.  It can be zipped all the way up to cover your head and face in a skull pattern too.  Use it to zip the head portion closed.",
@@ -553,7 +608,8 @@
   {
     "id": "jumpsuit_skeleton_zipped",
     "copy-from": "jumpsuit_skeleton",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "skeleton jumpsuit (zipped)", "str_pl": "skeleton jumpsuits (zipped)" },
     "description": "A black jumpsuit with a skeleton pattern printed on it.  It covers all the way up to your head and displays a skull pattern over your face.  Use it to unzip the head portion.",
     "use_action": {
@@ -572,7 +628,8 @@
   },
   {
     "id": "robofac_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
     "name": { "str": "Hub 01 jumpsuit" },
@@ -581,7 +638,8 @@
   },
   {
     "id": "mummy_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "mummy jumpsuit" },
     "description": "An off-white jumpsuit printed to look like the tattered wrappings of an ancient mummy.  Very easy to move in, but it doesn't offer any type of protection.",
     "weight": "639 g",
@@ -603,7 +661,8 @@
   },
   {
     "id": "technician_coveralls",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "work coveralls" },
     "description": "A fully covering jumpsuit made of waterproof canvas.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
     "weight": "1328 g",
@@ -691,7 +750,8 @@
   },
   {
     "id": "technician_coveralls_h",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "heavy work coveralls" },
     "description": "A thick, fully covering jumpsuit made of waterproof canvas lined with extra fabric for warmth in brisk weather.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
     "weight": "2436 g",
@@ -787,34 +847,9 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
   },
   {
-    "id": "subsuit_xl",
-    "type": "ARMOR",
-    "name": { "str": "subject suit" },
-    "description": "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points… maybe you don't want to know who wore it.  Provides nominal storage and is not very encumbering.",
-    "weight": "810 g",
-    "volume": "5 L",
-    "price": "110 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "looks_like": "jumpsuit",
-    "color": "yellow",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 3, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 2, 2 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 60, "encumbrance": [ 2, 5 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
-    ],
-    "warmth": 15,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SOFT" ]
-  },
-  {
     "id": "union_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "union suit" },
     "description": "A one-piece suit of full-body long underwear that helps to maintain body temperature.  It laces closed in the front.",
     "weight": "168 g",
@@ -835,7 +870,8 @@
   },
   {
     "id": "fursuit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "fursuit" },
     "description": "A full-body fursuit in the form of an anthropomorphic animal.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
@@ -940,7 +976,8 @@
   },
   {
     "id": "wool_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "thick wool onesie" },
     "description": "An encumbering wool suit covered in nice patterns.  It looks like full body armor but it only protects against cold, sadly.",
     "weight": "883 g",
@@ -963,7 +1000,8 @@
   },
   {
     "id": "wool_suit_devil",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "devil onesie" },
     "description": "An encumbering red wool suit with a hood adorned with cartoonish devil horns and a devil's tail on the back.  It's for those who want to feel devilishly warm in their sleep.",
     "weight": "883 g",
@@ -1001,7 +1039,8 @@
   },
   {
     "id": "zentai",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "zentai" },
     "description": "Short for 'zenshin taitsu', a zentai is a form-fitting full-body nylon and spandex garment.  Though it covers your face, you can see through the thin fabric.  With a couple of these and some friends, you could put on some kabuki or harass a rival sports team.",
     "weight": "600 g",

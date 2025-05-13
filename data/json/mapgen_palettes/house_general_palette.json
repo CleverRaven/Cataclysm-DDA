@@ -287,7 +287,7 @@
         { "item": "camping", "chance": 10 },
         { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
       ],
-      "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "r": [ { "item": "SUS_office_desk", "chance": 25 } ],
       "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
       "v": [
         { "item": "art", "chance": 5 },
@@ -324,7 +324,7 @@
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
       ],
       "O": { "item": "SUS_oven", "chance": 100 },
-      "P": { "item": "office_paper", "chance": 100 },
+      "P": { "item": "SUS_office_filing_cabinet", "chance": 100 },
       "Q": [
         { "item": "shower", "chance": 20 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
@@ -794,8 +794,7 @@
       ],
       "n": { "item": "SUS_dishwasher", "chance": 70, "repeat": [ 2, 3 ] },
       "r": [
-        { "item": "office_paper", "chance": 20 },
-        { "item": "office", "chance": 66 },
+        { "item": "SUS_office_desk", "chance": 20 },
         { "item": "art_all", "chance": 10 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 4 ] },
         { "item": "dining", "chance": 20, "repeat": [ 1, 2 ] },
@@ -916,8 +915,7 @@
       ],
       "n": { "item": "SUS_dishwasher", "chance": 70, "repeat": [ 2, 3 ] },
       "r": [
-        { "item": "office_paper", "chance": 20 },
-        { "item": "office", "chance": 66 },
+        { "item": "SUS_office_desk", "chance": 30 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 4 ] },
         { "item": "dining", "chance": 20, "repeat": [ 2, 3 ] },
         { "item": "novels", "chance": 25, "repeat": [ 2, 3 ] }

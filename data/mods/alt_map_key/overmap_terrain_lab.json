@@ -1,0 +1,774 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "lab",
+    "copy-from": "lab",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "full_basic_lab_roof",
+    "copy-from": "full_basic_lab_roof",
+    "name": "science lab roof",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_stairs",
+    "copy-from": "lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_core",
+    "copy-from": "lab_core",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_finale",
+    "copy-from": "lab_finale",
+    "name": "science lab",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab",
+    "copy-from": "ice_lab",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_stairs",
+    "copy-from": "ice_lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_core",
+    "copy-from": "ice_lab_core",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_finale",
+    "copy-from": "ice_lab_finale",
+    "name": "science lab",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab",
+    "copy-from": "tower_lab",
+    "name": "science lab tower",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab_stairs",
+    "copy-from": "tower_lab_stairs",
+    "name": "science lab tower",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab_finale",
+    "copy-from": "tower_lab_finale",
+    "name": "science lab tower",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "office_tower_lab_a1_roof",
+      "office_tower_lab_a2_roof",
+      "office_tower_open_air_corner_roof",
+      "office_tower_lab_b1_roof",
+      "office_tower_lab_b2_roof",
+      "office_tower_lab_b3_roof"
+    ],
+    "copy-from": "office_tower_lab_a1_roof",
+    "name": "science lab tower roof",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_train_depot",
+    "copy-from": "lab_train_depot",
+    "name": "science train depot",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_train_depot",
+    "copy-from": "central_lab_train_depot",
+    "name": "central train depot",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_entrance",
+    "copy-from": "central_lab_entrance",
+    "name": "Lab access shaft",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft_surface",
+    "copy-from": "lab_subway_vent_shaft_surface",
+    "name": "Lab access shaft",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_shaft",
+    "copy-from": "central_lab_shaft",
+    "name": "access shaft",
+    "sym": "A",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "central_lab_hq_1",
+      "central_lab_hq_2",
+      "central_lab_hq_3",
+      "central_lab_hq_4",
+      "central_lab_hq_5",
+      "central_lab_hq_6",
+      "central_lab_hq_7",
+      "central_lab_hq_8",
+      "central_lab_hq_9"
+    ],
+    "copy-from": "central_lab_hq_1",
+    "name": "central lab",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab",
+    "copy-from": "central_lab",
+    "name": "central lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_stairs",
+    "copy-from": "central_lab_stairs",
+    "name": "central lab",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_core",
+    "copy-from": "central_lab_core",
+    "name": "central lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_finale",
+    "copy-from": "central_lab_finale",
+    "name": "central lab",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ],
+    "copy-from": "lab_surface_brick_basementD1_hidden_lab_stairs",
+    "name": "lab basement",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_brick_blockA0",
+      "lab_surface_brick_blockA1",
+      "lab_surface_brick_blockB0",
+      "lab_surface_brick_blockB1",
+      "lab_surface_brick_blockC0",
+      "lab_surface_brick_blockC1",
+      "lab_surface_brick_blockC2",
+      "lab_surface_brick_blockD0",
+      "lab_surface_brick_blockD1",
+      "lab_surface_brick_blockE0",
+      "lab_surface_brick_blockE1"
+    ],
+    "copy-from": "lab_surface_brick_blockA0",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_parking_blockA2",
+      "lab_surface_parking_blockE2",
+      "lab_surface_parking_blockA0",
+      "lab_surface_parking_blockB0",
+      "lab_surface_parking_blockC0",
+      "lab_surface_parking_blockD0",
+      "lab_surface_parking_blockE0",
+      "lab_surface_parking_blockA1",
+      "lab_surface_parking_blockB1",
+      "lab_surface_parking_blockC1",
+      "lab_surface_parking_blockD1",
+      "lab_surface_parking_blockE1"
+    ],
+    "copy-from": "lab_surface_parking_blockA2",
+    "name": "parking lot",
+    "sym": "P",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_brick_blockA2",
+      "lab_surface_brick_blockA3",
+      "lab_surface_brick_blockA4",
+      "lab_surface_brick_blockB2",
+      "lab_surface_brick_blockB3",
+      "lab_surface_brick_blockB4",
+      "lab_surface_brick_blockC4",
+      "lab_surface_brick_blockD2",
+      "lab_surface_brick_blockD3",
+      "lab_surface_brick_blockD4",
+      "lab_surface_brick_blockE2",
+      "lab_surface_brick_blockE3",
+      "lab_surface_brick_blockE4"
+    ],
+    "copy-from": "lab_surface_brick_blockA2",
+    "name": "research facility",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC3",
+    "copy-from": "lab_surface_brick_blockC3",
+    "name": "research facility entrance",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_brick_block2A2",
+      "lab_surface_brick_block2A3",
+      "lab_surface_brick_block2A4",
+      "lab_surface_brick_block2B2",
+      "lab_surface_brick_block2B3",
+      "lab_surface_brick_block2B4",
+      "lab_surface_brick_block2C3",
+      "lab_surface_brick_block2C4",
+      "lab_surface_brick_block2D2",
+      "lab_surface_brick_block2D3",
+      "lab_surface_brick_block2D4",
+      "lab_surface_brick_block2E2",
+      "lab_surface_brick_block2E3",
+      "lab_surface_brick_block2E4"
+    ],
+    "copy-from": "lab_surface_brick_block2A2",
+    "name": "research facility, second floor",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_brick_block3A2",
+      "lab_surface_brick_block3A3",
+      "lab_surface_brick_block3A4",
+      "lab_surface_brick_block3B2",
+      "lab_surface_brick_block3B3",
+      "lab_surface_brick_block3B4",
+      "lab_surface_brick_block3C3",
+      "lab_surface_brick_block3C4",
+      "lab_surface_brick_block3D2",
+      "lab_surface_brick_block3D3",
+      "lab_surface_brick_block3D4",
+      "lab_surface_brick_block3E2",
+      "lab_surface_brick_block3E3",
+      "lab_surface_brick_block3E4"
+    ],
+    "copy-from": "lab_surface_brick_block3A2",
+    "name": "research facility, third floor",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_brick_block4A2",
+      "lab_surface_brick_block4A3",
+      "lab_surface_brick_block4A4",
+      "lab_surface_brick_block4B2",
+      "lab_surface_brick_block4B3",
+      "lab_surface_brick_block4B4",
+      "lab_surface_brick_block4C3",
+      "lab_surface_brick_block4C4",
+      "lab_surface_brick_block4D2",
+      "lab_surface_brick_block4D3",
+      "lab_surface_brick_block4D4",
+      "lab_surface_brick_block4E2",
+      "lab_surface_brick_block4E3",
+      "lab_surface_brick_block4E4"
+    ],
+    "copy-from": "lab_surface_brick_block4A2",
+    "name": "research facility, fourth floor",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_surface_brick_block5A2",
+      "lab_surface_brick_block5B2",
+      "lab_surface_brick_block5A3",
+      "lab_surface_brick_block5A4",
+      "lab_surface_brick_block5B3",
+      "lab_surface_brick_block5B4",
+      "lab_surface_brick_block5C3",
+      "lab_surface_brick_block5C4",
+      "lab_surface_brick_block5D2",
+      "lab_surface_brick_block5D3",
+      "lab_surface_brick_block5D4",
+      "lab_surface_brick_block5E2",
+      "lab_surface_brick_block5E3",
+      "lab_surface_brick_block5E4"
+    ],
+    "copy-from": "lab_surface_brick_block5A2",
+    "name": "research facility, roof",
+    "sym": "R",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_2x2_MUT_tier_1_NW",
+      "lab_2x2_MUT_tier_1_NE",
+      "lab_2x2_MUT_tier_1_SW",
+      "lab_2x2_MUT_tier_1_SE",
+      "lab_2x2_MUT_tier_2_NW_final_flr",
+      "lab_2x2_MUT_tier_2_NE",
+      "lab_2x2_MUT_tier_2_SW",
+      "lab_2x2_MUT_tier_2_SE"
+    ],
+    "copy-from": "lab_2x2_MUT_tier_1_NW",
+    "name": "Research Zone",
+    "sym": "R",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP", "lab_CORE_2x1_1DN", "lab_CORE_2x1_2DN" ],
+    "copy-from": "lab_CORE_2x1_1UP",
+    "name": "Recreation Zone",
+    "sym": "R",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_security_z-1",
+      "lab_security_z-2",
+      "lab_security_z-3",
+      "lab_security_z-4",
+      "lab_security_z-5",
+      "lab_security_z-6_final_flr"
+    ],
+    "copy-from": "lab_security_z-1",
+    "name": "Security Zone",
+    "sym": "S",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_2x1_CORE_-1W",
+      "lab_2x1_CORE_-1E",
+      "underground_lab_cargo_stationA",
+      "underground_lab_cargo_stationB",
+      "underground_lab_central_-5E",
+      "underground_lab_central_-5W",
+      "underground_lab_central_-6W",
+      "underground_lab_central_-6E",
+      "underground_lab_central_-7W",
+      "underground_lab_central_-7E",
+      "lab_2x2_cargo_NW",
+      "lab_2x2_cargo_NE",
+      "lab_2x2_cargo_SW",
+      "lab_2x2_cargo_SE"
+    ],
+    "copy-from": "lab_2x1_CORE_-1W",
+    "name": "Cargo Zone",
+    "sym": "C",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_1x1_RES_8_bedrooms_maintenance",
+      "lab_1x1_RES_8_bedrooms_security",
+      "lab_1x1_RES_8_commons_MAINT",
+      "lab_1x1_RES_8_commons_SEC",
+      "lab_res_8_NW",
+      "lab_res_8_NE",
+      "lab_res_8_SW",
+      "lab_res_8_SE",
+      "lab_res_8_NWD",
+      "lab_res_8_NED",
+      "lab_res_8_SWD",
+      "lab_res_8_SED",
+      "lab_1x1x2_RES_8_apartments_upper",
+      "lab_1x1x2_RES_8_apartments_lower"
+    ],
+    "copy-from": "lab_1x1_RES_8_bedrooms_maintenance",
+    "name": "Residential Zone",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_res_8_SWD_ground",
+      "lab_res_8_SED_ground",
+      "lab_res_8_SWU_ground",
+      "lab_res_8_SEU_ground",
+      "lab_CORE_2x1_SED_ground",
+      "lab_CORE_2x1_SWD_ground",
+      "lab_CORE_2x1_NED_ground",
+      "lab_CORE_2x1_NWD_ground",
+      "lab_CORE_2x1_WC_ground",
+      "lab_CORE_2x1_EC_ground",
+      "lab_security_z0",
+      "lab_security_z0N",
+      "lab_security_z0S"
+    ],
+    "copy-from": "lab_res_8_SWD_ground",
+    "name": "Trans-Coast Logistics",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "full_mutagen_lab_roof",
+    "copy-from": "full_mutagen_lab_roof",
+    "name": "Trans-Coast Logistics roof",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_security_z0S_roof", "lab_security_z0N_roof" ],
+    "copy-from": "lab_security_z0S_roof",
+    "name": "Trans-Coast Logistics roof",
+    "sym": "T",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_health_z-2_A", "lab_health_z-2_B", "lab_health_z-3_A" ],
+    "copy-from": "lab_health_z-2_A",
+    "name": "Health Clinic",
+    "sym": "H",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_health_z-3_B" ],
+    "copy-from": "lab_health_z-3_B",
+    "name": "Health Clinic",
+    "sym": "H",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_maintenance_z-2&3_B", "lab_maintenance_z-2&3_A" ],
+    "copy-from": "lab_maintenance_z-2&3_B",
+    "name": "Maintenance Zone",
+    "sym": "M",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_surface_1a", "LIXA_surface_2a", "LIXA_surface_1b", "LIXA_surface_2b" ],
+    "copy-from": "LIXA_surface_1a",
+    "name": "LIXA research facility",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_roof_1a", "LIXA_roof_2a", "LIXA_roof_1b", "LIXA_roof_2b" ],
+    "copy-from": "LIXA_roof_1a",
+    "name": "LIXA research facility roof",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_entry_1", "LIXA_entry_2" ],
+    "copy-from": "LIXA_entry_1",
+    "name": "LIXA research facility gate",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_road" ],
+    "copy-from": "LIXA_road",
+    "name": "LIXA research facility access road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_road_guard", "LIXA_road_guard_roof" ],
+    "copy-from": "LIXA_road_guard",
+    "name": "LIXA research facility checkpoint",
+    "sym": "C",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "LIXA_stairshaft_1a",
+      "LIXA_stairshaft_1b",
+      "LIXA_stairshaft_1c",
+      "LIXA_stairshaft_1d",
+      "LIXA_stairshaft_2a",
+      "LIXA_stairshaft_2b",
+      "LIXA_stairshaft_2c",
+      "LIXA_stairshaft_2d"
+    ],
+    "copy-from": "LIXA_stairshaft_1a",
+    "name": "LIXA experiment floor access",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_workfloor_1a", "LIXA_workfloor_2a", "LIXA_workfloor_1b", "LIXA_workfloor_2b" ],
+    "copy-from": "LIXA_workfloor_1a",
+    "name": "LIXA research floor",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_device_1", "LIXA_device_2", "LIXA_device_3", "LIXA_device_2_roof", "LIXA_device_3_roof" ],
+    "copy-from": "LIXA_device_1",
+    "name": "LIXA device floor",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic",
+    "copy-from": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_edge",
+    "copy-from": "microlab_generic_edge",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_connector",
+    "copy-from": "microlab_generic_surface_connector",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_vent_shaft_connector",
+    "copy-from": "microlab_generic_vent_shaft_connector",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_station",
+    "copy-from": "microlab_sub_station",
+    "name": "subway station?",
+    "sym": "S",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_connector",
+    "copy-from": "microlab_sub_connector",
+    "name": "subway station?",
+    "sym": "S",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_sub_entry",
+    "copy-from": "microlab_generic_sub_entry",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "microlab_generic_firebreak",
+      "microlab_portal_dressroom",
+      "microlab_generic_stairs_down",
+      "microlab_generic_edge_room_connector",
+      "microlab_generic_hallway_blind_end",
+      "microlab_generic_isolated_stairs_odd",
+      "microlab_generic_isolated_stairs_up",
+      "microlab_generic_isolated_elevator_pit"
+    ],
+    "copy-from": "microlab_generic_firebreak",
+    "name": "science lab",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "microlab_portal_security1",
+      "microlab_portal_security2",
+      "microlab_portal_security3",
+      "microlab_portal_security4",
+      "microlab_portal_security5",
+      "microlab_portal_security6",
+      "microlab_portal_security7",
+      "microlab_portal_security8",
+      "microlab_portal_security_hallway1",
+      "microlab_portal_security_hallway2"
+    ],
+    "copy-from": "microlab_portal_security1",
+    "name": "physics lab",
+    "sym": "L",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_reactor", "microlab_reactor_b" ],
+    "copy-from": "microlab_reactor",
+    "name": "science lab reactor",
+    "sym": "L",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_distorted", "microlab_distorted_edge" ],
+    "copy-from": "microlab_distorted",
+    "name": "distorted science lab",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_elevator", "microlab_portal_elevator_physics_glass" ],
+    "copy-from": "microlab_portal_elevator",
+    "name": "physics department elevator",
+    "sym": "L",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14_elevator" ],
+    "copy-from": "microlab_portal_MSU14_elevator",
+    "name": "Hub 14 elevator",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14" ],
+    "copy-from": "microlab_portal_MSU14",
+    "name": "Hub 14",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface",
+    "copy-from": "microlab_generic_surface",
+    "name": "lab",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_roof",
+    "copy-from": "microlab_generic_surface_roof",
+    "name": "lab",
+    "sym": "L",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_ratkin",
+    "copy-from": "microlab_ratkin",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_ratkin_edge",
+    "copy-from": "microlab_ratkin_edge",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_ratkin_sub_entry",
+    "copy-from": "microlab_ratkin_sub_entry",
+    "name": "science lab",
+    "sym": "L",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_station_ratkin",
+    "copy-from": "microlab_sub_station_ratkin",
+    "name": "pump station?",
+    "sym": "P"
+  }
+]

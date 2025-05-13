@@ -15,6 +15,7 @@
 #include "cellular_automata.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "current_map.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -480,6 +481,9 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     tinymap m;
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *m.cast_to_map() );
+
     if( bridge_at_north && road_at_south ) {
         // Remove vehicles. They don't make sense here, and may cause collision crashes.
         m.load( abs_omt + point::south, true );
@@ -2116,7 +2120,7 @@ bool map_extra::is_valid_for( const mapgendata &md ) const
     return true;
 }
 
-void map_extra::load( const JsonObject &jo, const std::string_view )
+void map_extra::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "description", description_ );

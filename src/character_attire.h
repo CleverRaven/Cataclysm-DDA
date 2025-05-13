@@ -181,6 +181,10 @@ class outfit
         void add_dependent_item( std::list<item *> &dependent, const item &it );
         std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter,
                                                 Character &guy );
+        // takeoff item from character
+        // return true mean takeoff item successfully
+        // Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
+        // If the above situation does not happen, when res is not empty, the removed item will be put into res, otherwise it will be put into guy.
         bool takeoff( item_location loc, std::list<item> *res, Character &guy );
         std::list<item> use_amount(
             const itype_id &it, int quantity, std::list<item> &used,

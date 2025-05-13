@@ -34,11 +34,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: heightened senses",
     "id": "practice_clair_better_senses",
-    "description": "Contemplate your powers and improve your ability to enhance your mundane senses.",
+    "description": "Contemplate your powers and improve your ability to enhance your mundane senses.\n\nPower Difficulty: 1",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -53,7 +53,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_BETTER_SENSES",
-        "condition": { "math": [ "u_spell_level('clair_better_senses') >= 1" ] },
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_better_senses", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -67,11 +67,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: speed reading",
     "id": "practice_clair_speed_reading",
-    "description": "Contemplate your powers and improve your ability to comprehend books.",
+    "description": "Contemplate your powers and improve your ability to comprehend books.\n\nPower Difficulty: 2",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -86,7 +86,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
-        "condition": { "math": [ "u_spell_level('clair_speed_reading') >= 1" ] },
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_speed_reading", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -100,11 +100,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: premonition",
     "id": "practice_clair_danger_sense",
-    "description": "Contemplate your powers and improve your sense of nearby danger.",
+    "description": "Contemplate your powers and improve your sense of nearby danger.\n\nPower Difficulty: 2",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -119,6 +119,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_danger_sense", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -156,11 +157,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: night eyes",
     "id": "practice_clair_night_vision",
-    "description": "Contemplate your powers and improve your ability to sense your surroundings in the dark.",
+    "description": "Contemplate your powers and improve your ability to sense your surroundings in the dark.\n\nPower Difficulty: 3",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -175,6 +176,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_night_vision", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -212,11 +214,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: discern weakness",
     "id": "practice_clair_spot_weakness",
-    "description": "Contemplate your powers and improve your sense of the vulnerabilities of your enemies.",
+    "description": "Contemplate your powers and improve your sense of the vulnerabilities of your enemies.\n\nPower Difficulty: 3",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -231,6 +233,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_spot_weakness", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -268,11 +271,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: sense radiation",
     "id": "practice_clair_sense_rads",
-    "description": "Contemplate your powers and improve your ability to detect radiation.",
+    "description": "Contemplate your powers and improve your ability to detect radiation.\n\nPower Difficulty: 3",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -287,7 +290,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
-        "condition": { "math": [ "u_spell_level('clair_sense_rads') >= 1" ] },
+        "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_sense_rads') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "clair_sense_rads", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -301,11 +304,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: aura sight",
     "id": "practice_clair_aura_sight",
-    "description": "Contemplate your powers and improve your ability to see others' emotional states.",
+    "description": "Contemplate your powers and improve your ability to see others' emotional states.\n\nPower Difficulty: 3",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -320,6 +323,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_see_auras", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -357,11 +361,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: marksman's eye",
     "id": "practice_clair_ranged_enhance",
-    "description": "Contemplate your powers and improve your ability to aim ranged weapons with precision.",
+    "description": "Contemplate your powers and improve your ability to aim ranged weapons with precision.\n\nPower Difficulty: 4",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -377,6 +381,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_ranged_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -414,11 +419,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: clairvoyance",
     "id": "practice_clair_voyance",
-    "description": "Contemplate your powers and improve your ability to extend your senses beyond your body.",
+    "description": "Contemplate your powers and improve your ability to extend your senses beyond your body.\n\nPower Difficulty: 5",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -434,6 +439,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_voyance", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -471,11 +477,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: combat sense",
     "id": "practice_clair_dodge_power",
-    "description": "Contemplate your powers and improve your ability to see into the very near-term future.",
+    "description": "Contemplate your powers and improve your ability to see into the very near-term future.\n\nPower Difficulty: 6",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -491,6 +497,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_dodge_power", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -528,11 +535,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: intuitive artisan",
     "id": "practice_clair_craft_bonus",
-    "description": "Contemplate your powers and improve your ability to determine exactly how you should build that thing you're working on.",
+    "description": "Contemplate your powers and improve your ability to determine exactly how you should build that thing you're working on.\n\nPower Difficulty: 6",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 5,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -548,6 +555,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_craft_bonus", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -585,11 +593,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: satellite view",
     "id": "practice_clair_see_map",
-    "description": "Contemplate your powers and improve your ability to extend your senses over a vast distance.",
+    "description": "Contemplate your powers and improve your ability to extend your senses over a vast distance.\n\nPower Difficulty: 7",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -605,6 +613,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_see_map", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -642,11 +651,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: one perfect shot",
     "id": "practice_clair_perfect_shot",
-    "description": "Contemplate your powers and improve your ability to only need one shot.",
+    "description": "Contemplate your powers and improve your ability to only need one shot.\n\nPower Difficulty: 7",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -662,6 +671,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_perfect_shot", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -699,11 +709,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: clarity",
     "id": "practice_clair_clear_sight",
-    "description": "Contemplate your powers and improve your ability to remove all barriers from your senses.",
+    "description": "Contemplate your powers and improve your ability to remove all barriers from your senses.\n\nPower Difficulty: 8",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -719,6 +729,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_clear_sight", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -756,11 +767,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: astral projection",
     "id": "practice_clair_astral_projection",
-    "description": "Contemplate your powers and improve your ability to cast your spirit forth from your body.",
+    "description": "Contemplate your powers and improve your ability to cast your spirit forth from your body.\n\nPower Difficulty: 8",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 7,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -776,6 +787,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_astral_projection", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -785,7 +797,7 @@
             "else": [
               { "run_eocs": [ "EOC_PSI_STUDYING_POWER_INITIAL_SETUP", "EOC_PSI_PRACTICE_FOCUS_MOD" ] },
               {
-                "run_eocs": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_LEARNING",
+                "run_eocs": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING",
                 "time_in_future": [
                   { "math": [ "learn_new_power_lower_time_bound(u_latest_studied_power_difficulty)" ] },
                   { "math": [ "learn_new_power_upper_time_bound(u_latest_studied_power_difficulty)" ] }
@@ -813,11 +825,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: prescient tactics",
     "id": "practice_clair_group_tactics",
-    "description": "Contemplate your powers and improve your ability to use foresight to advise your allies.",
+    "description": "Contemplate your powers and improve your ability to use foresight to advise your allies.\n\nPower Difficulty: 9",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 8,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -833,6 +845,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_group_tactics", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },
@@ -870,11 +883,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: omniscience",
     "id": "practice_clair_omniscience",
-    "description": "Contemplate your powers and improve your ability to see everything.  <color_red>EVERYTHING</color>.",
+    "description": "Contemplate your powers and improve your ability to see everything.  <color_red>EVERYTHING</color>.\n\nPower Difficulty: 10",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 9,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
@@ -890,6 +903,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
+        "condition": { "u_has_trait": "CLAIRSENTIENT" },
         "effect": [
           { "set_string_var": "clair_omniscience", "target_var": { "u_val": "latest_studied_power_name" } },
           { "run_eocs": "EOC_PSI_STUDYING_CLAIR_POWER_SETUP" },

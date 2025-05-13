@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "teddy_bear",
     "name": { "str": "plush toy" },
     "description": "A manufactured plush toy.  This is the default variant, if you see it something went wrong.",
@@ -324,7 +324,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "shark_plushie",
     "name": { "str": "shark plushie" },
     "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
@@ -340,7 +340,7 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "toy_figurine_large",
     "name": { "str": "large figurine" },
     "description": "A large manufactured figurine.  This is the default variant, if you see it something went wrong.",
@@ -403,7 +403,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "toy_figurine",
     "name": { "str": "figurine" },
     "description": "A normal-sized manufactured figurine.  This is the default variant, if you see it something went wrong.",
@@ -465,7 +465,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "yoyo",
     "name": { "str": "yoyo" },
     "description": "A simple yoyo on a string.  Now you can be bored with style.",
@@ -480,7 +480,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fidget_spinner",
     "name": { "str": "fidget spinner" },
     "description": "A fidget spinner.  An artifact from when the times were simpler.",
@@ -501,7 +501,7 @@
   },
   {
     "id": "imperfect_doll_complete",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "imperfect doll" },
     "description": "Its legs are mismatched, its arms misshapen, its eyes more crooked than its smile.  Everywhere, it sparkles with the golden thread that has put it back together.  It's beautiful.",
     "category": "other",
@@ -520,7 +520,7 @@
   },
   {
     "id": "imperfect_doll_legs",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "floppy cotton legs" },
     "description": "They're different colors and different lengths.  It would be hard to run away with these.",
     "category": "other",
@@ -533,7 +533,7 @@
   },
   {
     "id": "imperfect_doll_arms",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "threadbare cotton arms" },
     "description": "The spun cloth fingers are fraying away.  There's nothing that they could hold on to.",
     "category": "other",
@@ -546,7 +546,7 @@
   },
   {
     "id": "imperfect_doll_features",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "buttons and thread" },
     "description": "A pair of mismatched buttons and some dull yellow thread, to put on a brave face with.",
     "category": "other",

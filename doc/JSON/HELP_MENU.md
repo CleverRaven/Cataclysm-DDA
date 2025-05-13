@@ -26,7 +26,7 @@ Keybind tags take the form <press_keybind> where keybind corresponds to a keybin
 
 ### Example
 
-```json
+```jsonc
   {
     "type": "help",
     "order": 0,
