@@ -240,7 +240,7 @@
         "d": { "item": "office", "chance": 60 },
         "a": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 3 ] },
         "r": { "item": "SUS_trash_trashcan", "chance": 30 },
-        "[": { "item": "office_mess", "chance": 50, "repeat": [ 1, 3 ] },
+        "[": { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 3 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "computers": {
@@ -462,9 +462,9 @@
         ],
         "0": [ { "item": "tools_science", "chance": 50 }, { "item": "sewage_samples", "chance": 20 } ],
         "h": { "item": "chem_home", "chance": 50, "repeat": [ 1, 3 ] },
-        "D": { "item": "office_mess", "chance": 40 },
+        "D": { "item": "SUS_office_desk", "chance": 40 },
         "t": { "item": "electronics", "chance": 30 },
-        "[": [ { "item": "office_mess", "chance": 30 }, { "item": "sewage_samples", "chance": 10 } ],
+        "[": [ { "item": "SUS_office_mess", "chance": 30 }, { "item": "sewage_samples", "chance": 10 } ],
         "1": { "item": "SUS_trash_trashcan", "chance": 50 }
       },
       "place_loot": [

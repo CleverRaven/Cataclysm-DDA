@@ -87,7 +87,7 @@
         "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [
@@ -216,7 +216,7 @@
         "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [
@@ -345,7 +345,7 @@
         "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
-        ".": { "item": "office_mess", "chance": 1 }
+        ".": { "item": "SUS_office_mess", "chance": 1 }
       },
       "vendingmachines": { "Đ": { "item_group": "vending_drink" }, "Ƒ": { "item_group": "vending_food" } },
       "place_monster": [

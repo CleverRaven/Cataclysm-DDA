@@ -57,7 +57,7 @@
       { "item": "boxer_briefs" },
       { "item": "socks" },
       { "item": "tank_top" },
-      { "item": "striped_shirt" },
+      { "item": "buttonshirt", "variant": "striped" },
       { "item": "pants" },
       { "item": "jacket_evac" },
       { "item": "porkpie" },

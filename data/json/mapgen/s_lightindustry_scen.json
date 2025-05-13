@@ -201,7 +201,7 @@
         "u": { "item": "textbooks", "chance": 30, "repeat": [ 1, 2 ] },
         "L": { "item": "textbooks", "chance": 30, "repeat": [ 1, 2 ] },
         "C": { "item": "tools_construction", "chance": 50, "repeat": [ 2, 3 ] },
-        " ": { "item": "office_mess", "chance": 5 },
+        " ": { "item": "SUS_office_mess", "chance": 5 },
         "~": { "item": "vehicle_scrapped", "chance": 3 }
       },
       "place_loot": [
