@@ -892,7 +892,7 @@
     ]
   },
   {
-    "copy-from": "dress",
+    "copy-from": "dress_sleeves",
     "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.5 },
     "id": "dress_short_sleeves",
     "type": "ITEM",
