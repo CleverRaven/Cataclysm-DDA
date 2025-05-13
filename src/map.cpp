@@ -2414,7 +2414,7 @@ int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( ( ignore_furn ? furn_t() : furniture ), terrain,
+    return move_cost_internal( furniture, terrain,
                                ( !ignore_fields ? field : nofield ), veh, part );
 }
 
