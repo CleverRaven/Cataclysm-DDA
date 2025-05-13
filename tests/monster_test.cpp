@@ -38,8 +38,6 @@ class item;
 
 using move_statistics = statistics<int>;
 
-static const furn_str_id furn_f_clear( "f_clear" );
-
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 
 static const ter_str_id ter_t_fence( "t_fence" );
