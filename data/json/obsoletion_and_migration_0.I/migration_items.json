@@ -2550,5 +2550,40 @@
     "id": "gown",
     "replace": "dress",
     "variant": "gown"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "dress",
+    "replace": "dress_long"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_short",
+    "replace": "dress_short_sleeves",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_long",
+    "replace": "dress_long_sleeves",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress",
+    "replace": "dress_sleeves",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_gown",
+    "replace": "dress_long_sleeves",
+    "variant": "gown_sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress_short",
+    "replace": "dress_short_sleeves",
+    "variant": "sinister"
   }
 ]
