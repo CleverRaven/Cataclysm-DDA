@@ -38,12 +38,14 @@ class item;
 
 using move_statistics = statistics<int>;
 
+static const furn_str_id furn_f_clear( "f_clear" );
 
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
+
 static const ter_str_id ter_t_fence( "t_fence" );
-static const ter_str_id ter_t_water_dp( "t_water_dp" );
 static const ter_str_id ter_t_grass( "t_grass" );
-static const furn_str_id furn_f_clear( "f_clear" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
+
 
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint_bub_ms &start, const tripoint_bub_ms &end )
@@ -393,7 +395,7 @@ TEST_CASE( "monster_special_move", "[speed]" )
 
         REQUIRE( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to ) );
 
-        int moves = 0;
+        ;
 
         AND_GIVEN( "Non-climbing monster" ) {
             const std::string &non_climber = "mon_pig";
@@ -402,14 +404,14 @@ TEST_CASE( "monster_special_move", "[speed]" )
             REQUIRE( !nclimber_id->has_flag( mon_flag_CLIMBS ) );
 
             WHEN( "Moving to climbable tile" ) {
-                moves = moves_to_destination( non_climber, from, to );
+                const int moves = moves_to_destination( non_climber, from, to );
 
                 THEN( "The monster cannot go there" ) {
                     CHECK( moves == 100000 );
                 }
             }
         }
-        moves = 0;
+        ;
         AND_GIVEN( "Climbing monster" ) {
             const std::string &climber = "mon_test_climb_nobash";
             const mtype_id climber_id( climber );
@@ -424,14 +426,14 @@ TEST_CASE( "monster_special_move", "[speed]" )
             }
 
             AND_WHEN( "Moving to climbable tile" ) {
-                moves = moves_to_destination( climber, from, to );
+                const int moves = moves_to_destination( climber, from, to );
 
                 THEN( "It took the correct amount of moves" ) {
                     const int expected_mod = ter_mod * ( 10 - mon_skill );
                     INFO( "if the expected formula changes, change here too expected_mod = ter_mod * ( 10 - mon_skill )" );
                     INFO( "expected_movecost = ( ( expected_mod * 50 ) + 100 ) / 2" );
                     INFO( "from: " << ter_from->name() << " to " << ter->name() );
-                    const int expected_movecost = ( ( expected_mod + 2 ) * 25 );
+                    const int expected_movecost = ( expected_mod + 2 ) * 25;
                     INFO( "expected: " << expected_movecost ) ;
                     INFO( "actual: " << moves );
                     CHECK( moves == expected_movecost );
@@ -450,7 +452,7 @@ TEST_CASE( "monster_special_move", "[speed]" )
 
         REQUIRE( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to ) );
 
-        int moves = 0;
+        ;
 
         AND_GIVEN( "Non-swimming breathing monster" ) {
             const std::string &non_swimmer = "mon_pig";
@@ -460,7 +462,7 @@ TEST_CASE( "monster_special_move", "[speed]" )
             REQUIRE( !non_swimmer_id->has_flag( mon_flag_AQUATIC ) );
 
             WHEN( "Moving to swimable tile" ) {
-                moves = moves_to_destination( non_swimmer, from, to );
+                const int moves = moves_to_destination( non_swimmer, from, to );
 
                 THEN( "The monster cannot go there" ) {
                     CHECK( moves == 100000 );
@@ -475,7 +477,7 @@ TEST_CASE( "monster_special_move", "[speed]" )
             REQUIRE( zed_id->has_flag( mon_flag_NO_BREATHE ) );
 
             WHEN( "Moving to swimable tile" ) {
-                moves = moves_to_destination( zed, from, to );
+                const int moves = moves_to_destination( zed, from, to );
 
                 THEN( "The monster is impacted by terrain-cost" ) {
                     INFO( "from: " << ter_from->name() << " to " << ter->name() );
@@ -488,7 +490,7 @@ TEST_CASE( "monster_special_move", "[speed]" )
         }
 
         AND_GIVEN( "AQUATIC monster and from ter is swimmable" ) {
-            moves = 0;
+            ;
             REQUIRE( here.ter_set( from, ter_t_water_dp ) );
             const std::string &swimmer = "mon_fish_brook_trout";
             const mtype_id swimmer_id( swimmer );
@@ -503,7 +505,7 @@ TEST_CASE( "monster_special_move", "[speed]" )
             }
 
             AND_WHEN( "Moving to swimable tile" ) {
-                moves = moves_to_destination( swimmer, from, to );
+                const int moves = moves_to_destination( swimmer, from, to );
 
                 THEN( "It took the correct amount of moves" ) {
                     INFO( "SWIMMERS ignore terraincost, resulting in the formular std::max( ( 10 - mon_skill ) * 50, 25 )" );
@@ -516,12 +518,12 @@ TEST_CASE( "monster_special_move", "[speed]" )
             }
 
             AND_WHEN( "trying to move onto land" ) {
-                moves = 0;
+                ;
                 REQUIRE( here.ter_set( to,  ter_t_grass ) );
                 ter = here.ter( to );
                 ter_from = here.ter( from );
                 REQUIRE_FALSE( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, to ) );
-                moves = moves_to_destination( swimmer, from, to );
+                const int moves = moves_to_destination( swimmer, from, to );
 
                 THEN( "It cannot move" ) {
                     INFO( "from: " << ter_from->name() << " to " << ter->name() );
@@ -537,7 +539,7 @@ TEST_CASE( "monster_special_move", "[speed]" )
 
         REQUIRE( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to ) );
 
-        int moves = 0;
+        ;
         AND_GIVEN( "DIGGING monster and from ter is digmable" ) {
             const std::string &digger = "mon_yugg";
             const mtype_id digger_id( digger );
@@ -547,10 +549,10 @@ TEST_CASE( "monster_special_move", "[speed]" )
                 REQUIRE( digger_id->move_skills.dig.value() == mon_skill );
             }
             AND_WHEN( "Moving to digable tile" ) {
-                moves = moves_to_destination( digger, from, to );
+                const int moves = moves_to_destination( digger, from, to );
 
                 THEN( "It took the correct amount of moves" ) {
-                    INFO( "Diggers, just like swimmers ignore terraincost. movecost = std::max( ( 10 - mon_skill ) * 50, 25 )" );
+                    INFO( "Diggers, just like swimmers ignore terraincost.  movecost = std::max( ( 10 - mon_skill ) * 50, 25 )" );
                     INFO( "from: " << ter_from->name() << " to " << ter->name() );
                     const int expected_movecost =  std::max( ( 10 - mon_skill ) * 50, 25 ) ;
                     INFO( "expected: " << expected_movecost ) ;
@@ -559,12 +561,12 @@ TEST_CASE( "monster_special_move", "[speed]" )
                 }
             }
             AND_WHEN( "trying to move into non-diggable terrain" ) {
-                moves = 0;
+                ;
                 REQUIRE( here.ter_set( to,  ter_t_water_dp ) );
                 ter = here.ter( to );
                 ter_from = here.ter( from );
                 REQUIRE_FALSE( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, to ) );
-                moves = moves_to_destination( digger, from, to );
+                const int moves = moves_to_destination( digger, from, to );
 
                 THEN( "It cannot move" ) {
                     INFO( "from: " << ter_from->name() << " to " << ter->name() );
