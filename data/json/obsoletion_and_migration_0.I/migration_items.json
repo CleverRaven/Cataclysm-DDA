@@ -2538,5 +2538,11 @@
     "id": "subsuit_xl",
     "replace": "jumpsuit_pocketless",
     "variant": "orange"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gown",
+    "replace": "dress",
+    "variant": "gown"
   }
 ]
