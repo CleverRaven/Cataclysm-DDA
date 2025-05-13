@@ -695,7 +695,6 @@
       {
         "id": "gown",
         "name": { "str": "evening gown" },
-        "append": true,
         "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
         "color": "white"
       }
