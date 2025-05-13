@@ -2392,7 +2392,7 @@ bool map::is_open_air( const tripoint_bub_ms &p ) const
 // Move cost: 3D
 
 int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle,
-                    const bool ignore_fields, const bool ignore_furn ) const
+                    const bool ignore_fields ) const
 {
     // To save all of the bound checks and submaps fetching, we extract it
     // here instead of using furn(), field_at() and ter().
