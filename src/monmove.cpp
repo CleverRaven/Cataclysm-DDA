@@ -1594,15 +1594,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
         const int part = veh ? vp->part_index() : -1;
         const int swimmod = get_swim_mod();
 
-        if( furniture.id && furniture.movecost > 0 ) {
-            add_msg_debug( debugmode::DF_MONMOVE, "%s furn at: (%i, %i, %i): %s, movemod:%i", name(),
-                           where.x(), where.y(), where.z(), furniture.name(), furniture.movecost );
-        }
 
-        if( terrain.id && terrain.movecost > 0 ) {
-            add_msg_debug( debugmode::DF_MONMOVE, "%s terrain at: (%i, %i, %i): %s, movemod:%i", name(),
-                           where.x(), where.y(), where.z(), terrain.name(), terrain.movecost );
-        }
 
         // vehicle. Aquatic monsters swim under boats, ignoring its movecost.
         if( veh != nullptr && !has_flag( json_flag_AQUATIC ) ) {
@@ -1674,8 +1666,12 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
 
         // furniture
         if( furniture.id ) {
-            if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ||
-                ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) ) ) {
+            if( furniture.movecost <= 0 ) {
+                add_msg_debug( debugmode::DF_MONMOVE, "%s cannot move over furn at: (%i, %i, %i): %s, movemod:%i",
+                               name(),
+                               where.x(), where.y(), where.z(), furniture.name(), furniture.movecost );
+            } else if( furniture.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ||
+                       ( from.z() != to.z() && terrain.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z ) ) ) {
                 if( climbs() || force ) {
                     cost += furniture.movecost * get_climb_mod();
                 } else {
@@ -1684,14 +1680,13 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                     return 0;               // cannot climb
                 }
 
+            } else if( furniture.has_flag( "BRIDGE" ) ) {
+                // if its a bridge, we dont care about the terrain-cost, so override
+                cost = furniture.movecost + 2;
             } else {
-                if( furniture.has_flag( "BRIDGE" ) ) {
-                    // if its a bridge, we dont care about the terrain-cost, so override
-                    cost = furniture.movecost + 2;
-                } else {
-                    cost += furniture.movecost;
-                }
+                cost += furniture.movecost;
             }
+
         }
 
         // fields

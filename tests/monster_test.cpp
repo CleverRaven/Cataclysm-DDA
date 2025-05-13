@@ -15,6 +15,7 @@
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
@@ -22,20 +23,25 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
+#include "mapdata.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
+#include "omdata.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "widget.h"
 
 class item;
 
 using move_statistics = statistics<int>;
 
+
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
+static const furn_str_id furn_t_fence( "t_fence" );
 
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint_bub_ms &start, const tripoint_bub_ms &end )
@@ -51,14 +57,18 @@ static int moves_to_destination( const std::string &monster_type,
     int moves_spent = 0;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_monster.mod_moves( monster_speed );
+
         while( test_monster.get_moves() >= 0 ) {
             test_monster.anger = 100;
             const int moves_before = test_monster.get_moves();
             test_monster.move();
             moves_spent += moves_before - test_monster.get_moves();
             if( test_monster.pos_abs() == test_monster.get_dest() ) {
+                INFO( ( test_monster.get_dest() == get_map().get_abs( end ) ) )
                 g->remove_zombie( test_monster );
                 return moves_spent;
+            } else if( moves_spent == 0 ) {
+                return 100000;
             }
         }
     }
@@ -310,6 +320,69 @@ static void monster_check()
     CHECK( can_catch_player( "mon_zombie_dog", tripoint::south_east ) > 0 );
 }
 
+static void mon_special_terrain_check()
+{
+    map &here = get_map();
+    const std::string &non_climber = "mon_pig";
+    const std::string &climber = "mon_feral_human_pipe";
+    const mtype_id nclimber_id( non_climber );
+    const mtype_id climber_id( climber );
+
+
+    const tripoint_bub_ms from = tripoint_bub_ms::zero;
+    const tripoint_bub_ms to = {1, 0, 0};
+
+
+    GIVEN( "CLIMBABLE furniture" ) {
+        const int furn_mod = 3;
+        REQUIRE( here.furn_set( to, furn_t_fence ) );
+        furn_id furn = here.furn( to );
+        // here.furn
+        REQUIRE( here.has_furn( to ) );
+        REQUIRE( furn != furn_str_id::NULL_ID() );
+
+        REQUIRE( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, to ) );
+
+        int moves = 0;
+
+        AND_GIVEN( "Non-climbing monster" ) {
+            REQUIRE( !nclimber_id->move_skills.climb.has_value() );
+            REQUIRE( !nclimber_id->has_flag( mon_flag_CLIMBS ) );
+
+            WHEN( "Moving to climbable tile" ) {
+                moves = moves_to_destination( non_climber, from, to );
+
+                THEN( "The monster cannot go there" ) {
+                    CHECK( moves == 100000 );
+                }
+            }
+        }
+        moves = 0;
+        AND_GIVEN( "Climbing monster" ) {
+            const int mon_skill = 8;
+            REQUIRE( climber_id->move_skills.climb.has_value() );
+
+            AND_GIVEN( "the monster has the known climbskill" ) {
+                REQUIRE( climber_id->move_skills.climb.value() == mon_skill );
+            }
+            AND_GIVEN( "the furniture has a known movemod" ) {
+                REQUIRE( furn->movecost == furn_mod );
+            }
+
+            AND_WHEN( "Moving to climbable tile" ) {
+                moves = moves_to_destination( climber, from, to );
+
+                THEN( "It took the correct amount of moves" ) {
+                    int expected_mod = furn_mod * ( 10 - mon_skill );
+                    int expected_movecost = ( ( expected_mod * 50 ) + 100 ) / 2;
+                    INFO( expected_movecost ) ;
+                    CHECK( moves == expected_movecost );
+                }
+            }
+        }
+    }
+}
+
 TEST_CASE( "check_mon_id" )
 {
     for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
@@ -362,6 +435,12 @@ TEST_CASE( "monster_speed_trig", "[speed]" )
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
+}
+
+TEST_CASE( "monster_special_move", "[speed]" )
+{
+    clear_map_and_put_player_underground();
+    mon_special_terrain_check();
 }
 
 TEST_CASE( "monster_extend_flags", "[monster]" )
