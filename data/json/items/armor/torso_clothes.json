@@ -682,7 +682,7 @@
         "append": true,
         "description": "This one is white.",
         "color": "white",
-        "weight": 40
+        "weight": 4
       },
       {
         "id": "black",
@@ -690,7 +690,7 @@
         "append": true,
         "description": "This one is black.",
         "color": "white",
-        "weight": 40
+        "weight": 4
       },
       {
         "id": "gown",
