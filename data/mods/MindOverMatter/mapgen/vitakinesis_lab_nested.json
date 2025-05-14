@@ -248,5 +248,107 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
+  },
+  {
+    "//": "4x4 holding cells",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_holding_cell",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "    ",
+        "ee  ",
+        "o  c",
+        "s  a"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x4 holding cells",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_holding_cell",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "ca  ",
+        "e   ",
+        "e  s",
+        "   o"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x4 holding cells",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_holding_cell",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "   a",
+        "e  c",
+        "e  s",
+        "   o"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x4 holding cells",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_holding_cell",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "s   ",
+        "o  e",
+        "   e",
+        "ac  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x4 holding cells",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_holding_cell",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "ac  ",
+        "   e",
+        "o  e",
+        "s   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x4 holding cells",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_holding_cell",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "o  s",
+        "    ",
+        "c  e",
+        "a  e"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
   }
 ]

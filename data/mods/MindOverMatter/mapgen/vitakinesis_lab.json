@@ -208,7 +208,19 @@
         { "chunks": [ "vitakinesis_lab_bedroom_north" ], "x": 59, "y": 37 },
         { "chunks": [ "vitakinesis_lab_bedroom_north" ], "x": 66, "y": 37 },
         { "chunks": [ "vitakinesis_lab_bedroom_north" ], "x": 85, "y": 37 },
-        { "chunks": [ "vitakinesis_lab_bedroom_north" ], "x": 92, "y": 37 }
+        { "chunks": [ "vitakinesis_lab_bedroom_north" ], "x": 92, "y": 37 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 15, "y": 10 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 20, "y": 10 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 25, "y": 10 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 30, "y": 10 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 15, "y": 34 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 20, "y": 34 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 25, "y": 34 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 30, "y": 34 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 15, "y": 58 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 20, "y": 58 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 25, "y": 58 },
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 30, "y": 58 }
       ]
     }
   }

@@ -30,7 +30,18 @@
       "r": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
       "t": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" }
     },
-    "furniture": { "b": "f_bed", "d": "f_dresser", "l": "f_floor_lamp", "r": "f_armchair", "t": "f_table" },
+    "toilets": { "o": {  } },
+    "furniture": {
+      "b": "f_bed",
+      "d": "f_dresser",
+      "l": "f_floor_lamp",
+      "r": "f_armchair",
+      "t": "f_table",
+      "e": "f_bed",
+      "a": "f_table",
+      "c": "f_chair",
+      "s": "f_shower"
+    },
     "items": {
       "b": [ { "item": "bed" }, { "item": "bed", "chance": 33 } ],
       "n": { "item": "SUS_science_personal_effects", "chance": 50, "repeat": [ 1, 2 ] },
