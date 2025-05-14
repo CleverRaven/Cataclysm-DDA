@@ -43,10 +43,9 @@
     "quench": 50,
     "charges": 1,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
-    "sealed": true,
     "container": "bottle_almond_water",
     "properties": { "max_air_exposure_hours": "720" },
-    "vitamins": [ [ "iron", 0.3 ], [ "vitC", 0.3 ], [ "calcium", 0.3 ] ]
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 25 ], [ "calcium", 25 ] ]
   },
   {
     "id": "bottle_almond_water",
