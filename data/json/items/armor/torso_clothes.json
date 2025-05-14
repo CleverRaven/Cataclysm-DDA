@@ -940,7 +940,7 @@
       {
         "id": "witch_purple",
         "name": { "str": "short purple witch dress", "str_pl": "short purple witch dresses" },
-        "description": "A short dress typically used by witches. It's colored dark purple."
+        "description": "A short dress typically used by witches.  It's colored dark purple."
       }
     ]
   },
