@@ -2079,7 +2079,7 @@
     "symbol": "/",
     "material": [ "hc_steel", "ceramic" ],
     "flags": [ "DURABLE_MELEE", "USES_BIONIC_POWER" ],
-    "weight": "4700 g",
+    "weight": "4560 g",
     "longest_side": "91 cm",
     "volume": "610 ml",
     "looks_like": "halligan",
