@@ -31,7 +31,7 @@
     "comestible_type": "DRINK",
     "category": "food",
     "name": { "str": "almond water" },
-    "description": "A bottle of what looks like slightly-cloudly water.",
+    "description": "A bottle of what looks like slightly-cloudy water.",
     "weight": "250 g",
     "volume": "250 ml",
     "calories": 250,
