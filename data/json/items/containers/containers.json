@@ -3397,7 +3397,8 @@
     },
     "ascii_picture": "wrapper_pr",
     "copy-from": "wrapper",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
+    "weight": "1 g",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "175 ml", "max_contains_weight": "1 kg" } ]
   },
   {
     "id": "styrofoam_cup",
