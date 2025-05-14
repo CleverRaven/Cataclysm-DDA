@@ -269,13 +269,7 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "blanket", "prob": 25 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 70 } ]
   },
   {
     "id": "boxing_misc",

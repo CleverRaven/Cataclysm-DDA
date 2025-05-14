@@ -819,7 +819,6 @@ bool monster::die_if_drowning( const tripoint_bub_ms &at_pos, const int chance )
 void monster::move()
 {
     map &here = get_map();
-    const tripoint_bub_ms pos = pos_bub( here );
 
     add_msg_debug( debugmode::DF_MONMOVE, "Monster %s starting monmove::move, remaining moves %d",
                    name(), moves );
@@ -907,7 +906,7 @@ void monster::move()
     }
 
     // if the monster is in a deep water tile, it has a chance to drown
-    if( die_if_drowning( pos, 10 ) ) {
+    if( die_if_drowning( pos_bub(), 10 ) ) {
         return;
     }
 
@@ -938,7 +937,7 @@ void monster::move()
     if( friendly > 0 ) {
         --friendly;
     }
-    const optional_vpart_position ovp = here.veh_at( pos );
+    const optional_vpart_position ovp = here.veh_at( pos_bub() );
     if( has_effect( effect_harnessed ) ) {
         if( !ovp.part_with_feature( "ANIMAL_CTRL", true ) ) {
             remove_effect( effect_harnessed ); // the harness part probably broke
@@ -974,7 +973,7 @@ void monster::move()
         if( ( dist <= 1 || ( dist <= 2 && !has_effect( effect_led_by_leash ) &&
                              sees( here, player_character ) ) ) &&
             ( get_dest() == player_character.pos_abs() &&
-              pos.z() == player_character.pos_abs().z() ) ) {
+              pos_abs().z() == player_character.pos_abs().z() ) ) {
             moves = 0;
             stumble();
             return;
@@ -993,8 +992,9 @@ void monster::move()
 
     bool try_to_move = false;
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint_bub_ms &dest : here.points_in_radius( pos, 1 ) ) {
-        if( dest != pos ) {
+
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( dest != pos_bub() ) {
             if( can_move_to( dest ) &&
                 creatures.creature_at( dest, true ) == nullptr ) {
                 try_to_move = true;
@@ -1030,13 +1030,13 @@ void monster::move()
         }
 
         if( !is_wandering() || move_without_target ) {
-            while( !path.empty() && path.front() == pos ) {
+            while( !path.empty() && path.front() == pos_bub() ) {
                 path.erase( path.begin() );
             }
 
             const pathfinding_settings &pf_settings = get_pathfinding_settings();
             if( pf_settings.max_dist >= rl_dist( pos_abs(), get_dest() ) &&
-                ( path.empty() || rl_dist( pos, path.front() ) >= 2 || path.back() != local_dest ) ) {
+                ( path.empty() || rl_dist( pos_bub(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
                 if( can_pathfind() ) {
                     path = here.route( *this, pathfinding_target::point( local_dest ) );
@@ -1044,7 +1044,7 @@ void monster::move()
                         increment_pathfinding_cd();
                     }
                 } else {
-                    path = here.straight_route( pos, local_dest );
+                    path = here.straight_route( pos_bub(), local_dest );
                     if( !path.empty() ) {
                         if( std::any_of( path.begin(), path.end(), get_path_avoid() ) ) {
                             path.clear();
@@ -1088,7 +1088,7 @@ void monster::move()
         }
     }
 
-    point_rel_ms new_d( destination.xy() - pos.xy() );
+    point_rel_ms new_d( destination.xy() - pos_bub().xy() );
 
     // toggle facing direction for sdl flip
     if( !g->is_tileset_isometric() ) {
@@ -1116,8 +1116,8 @@ void monster::move()
         const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
-        const float distance_to_target = trig_dist( pos, destination );
-        for( tripoint_bub_ms &candidate : squares_closer_to( pos, destination ) ) {
+        const float distance_to_target = trig_dist( pos_bub(), destination );
+        for( tripoint_bub_ms &candidate : squares_closer_to( pos_bub(), destination ) ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1136,18 +1136,18 @@ void monster::move()
             }
             const tripoint_abs_ms candidate_abs = here.get_abs( candidate );
 
-            if( candidate.z() != pos.z() ) {
+            if( candidate.z() != pos_abs().z() ) {
                 bool can_z_move = true;
-                if( !here.valid_move( pos, candidate, false, true, via_ramp ) ) {
+                if( !here.valid_move( pos_bub(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z() > pos.z() && !( via_ramp || flies() ) ) {
+                if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) ||
+                        if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {
                             // Can't "jump" up a whole z-level
                             can_z_move = false;
@@ -1158,10 +1158,10 @@ void monster::move()
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
                 // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
-                    pos.x() / ( SEEX * 2 ) == candidate.x() / ( SEEX * 2 ) &&
-                    pos.y() / ( SEEY * 2 ) == candidate.y() / ( SEEY * 2 ) ) {
-                    const tripoint_bub_ms upper = candidate.z() > pos.z() ? candidate : pos;
-                    const tripoint_bub_ms lower = candidate.z() > pos.z() ? pos : candidate;
+                    pos_bub().x() / ( SEEX * 2 ) == candidate.x() / ( SEEX * 2 ) &&
+                    pos_bub().y() / ( SEEY * 2 ) == candidate.y() / ( SEEY * 2 ) ) {
+                    const tripoint_bub_ms upper = candidate.z() > pos_abs().z() ? candidate : pos_bub();
+                    const tripoint_bub_ms lower = candidate.z() > pos_abs().z() ? pos_bub() : candidate;
                     if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper ) &&
                         here.has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) ) {
                         can_z_move = true;
@@ -1205,7 +1205,7 @@ void monster::move()
 
             // is there an openable door?
             if( can_open_doors &&
-                here.open_door( *this, candidate, !here.is_outside( pos ), true ) ) {
+                here.open_door( *this, candidate, !here.is_outside( pos_bub() ), true ) ) {
                 moved = true;
                 next_step = candidate_abs;
                 continue;
@@ -1258,10 +1258,10 @@ void monster::move()
         const bool did_something =
             ( !pacified && attack_at( local_next_step ) ) ||
             ( !pacified && can_open_doors &&
-              here.open_door( *this, local_next_step, !here.is_outside( pos ) ) ) ||
+              here.open_door( *this, local_next_step, !here.is_outside( pos_bub() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos, destination,
+            move_to( local_next_step, false, false, get_stagger_adjust( pos_bub(), destination,
                      local_next_step ) );
 
         if( !did_something ) {
