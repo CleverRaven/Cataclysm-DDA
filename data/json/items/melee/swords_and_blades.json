@@ -388,7 +388,9 @@
       {
         "id": "exodiibayonet",
         "name": { "str": "L-backswerda" },
-        "description": "A bayonet, although not of any model you're familiar with.  Despite differences in appearance it seems analogous to any other bayonet - The chrome shaded blade is worn but well-maintained, with a grooved edge on its back to act as a sawing implement.  The handle and guard have some additional mechanisms installed to help affix it to a variety of firearms."
+        "description": "A bayonet, although not of any model you're familiar with.  Despite differences in appearance it seems analogous to any other bayonet - The chrome shaded blade is worn but well-maintained, with a grooved edge on its back to act as a sawing implement.  The handle and guard have some additional mechanisms installed to help affix it to a variety of firearms.",
+        "weight": 0,
+        "append": false
       }
     ],
     "//": "An M9 Bayonet.",
