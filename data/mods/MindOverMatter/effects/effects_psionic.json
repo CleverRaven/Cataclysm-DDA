@@ -2621,7 +2621,7 @@
     "id": "effect_teleport_loci_establishment",
     "name": [ "Loci Establishment" ],
     "desc": [ "You are concentrating on your locus.  You can teleport there at will with the [Ψ]Loci Technique." ],
-    "remove_message": "You've forgotten your locus!.",
+    "remove_message": "You've forgotten your locus!",
     "rating": "good"
   },
   {

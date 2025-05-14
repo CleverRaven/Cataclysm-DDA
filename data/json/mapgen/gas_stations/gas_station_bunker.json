@@ -407,7 +407,7 @@
       "vendingmachines": { "Ú": { "item_group": "vending_drink", "lootable": true }, "Ó": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "n": {  } },
       "items": {
-        ".": { "item": "office_mess", "chance": 2 },
+        ".": { "item": "SUS_office_mess", "chance": 2 },
         "1": [ { "item": "SUS_silverware", "chance": 100 }, { "item": "SUS_utensils", "chance": 100 } ],
         "2": [ { "item": "SUS_cookware", "chance": 100 }, { "item": "SUS_appliances_cupboard", "chance": 70 } ],
         "I": [ { "item": "SUS_fridge_survivor", "chance": 90 }, { "item": "MRE", "chance": 50, "repeat": [ 1, 4 ] } ],
