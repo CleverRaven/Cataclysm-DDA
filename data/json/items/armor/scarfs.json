@@ -862,7 +862,7 @@
     "description": "A common canvas throat guard commonly used for neck protection when playing sports like hockey.",
     "copy-from": "throat_guard_nylon",
     "material": [ "canvas" ],
-    "color": "dark_gray"
+    "color": "light_gray"
   },
   {
     "id": "throat_guard_plastic",
@@ -908,37 +908,19 @@
     ]
   },
   {
-    "id": "throat_guard_survivor",
+    "id": "throat_guard_cut_resistant",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "survivor throat guard" },
-    "description": "A custom made cut-resistant throat guard constructed of thick Kevlar and a chemical resistant layer, made for general neck protection when surviving in the apocalypse.",
-    "weight": "500 g",
-    "volume": "500 ml",
-    "price": "80 USD",
-    "price_postapoc": "10 USD",
-    "symbol": "[",
-    "material": [ "nomex", "leather", "kevlar" ],
-    "color": "blue",
-    "looks_like": "iotv_neck_plate",
-    "warmth": 10,
-    "material_thickness": 3,
-    "environmental_protection": 5,
-    "flags": [ "STURDY", "WATER_FRIENDLY" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.8 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
-        ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_throat", "head_nape" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK" ]
-      }
-    ]
+    "name": { "str": "cut-resistant throat guard" },
+    "description": "A cut-resistant Kevlar throat guard, commonly used by welders, security forces and in some sports.",
+    "copy-from": "throat_guard_nylon",
+    "weight": "136 g",
+    "price": "130 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "kevlar" ],
+    "color": "dark_gray",
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY" ]
   },
   {
     "id": "throat_guard_mercenary",
@@ -947,10 +929,9 @@
     "category": "armor",
     "name": { "str": "mercenary throat guard" },
     "description": "A ballistic collar modified to wear it as a standalone armor, carefully combined with a regular nylon throat guard for extra protection.",
-    "weight": "700 g",
-    "volume": "500 ml",
-    "price": "600 USD",
-    "price_postapoc": "8 USD",
+    "weight": "680 g",
+    "volume": "1000 ml",
+    "price_postapoc": "1 USD",
     "symbol": "[",
     "material": [ "kevlar_layered", "nylon" ],
     "color": "dark_gray",
