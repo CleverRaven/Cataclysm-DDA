@@ -1087,6 +1087,13 @@
   },
   {
     "type": "item_group",
+    "id": "protein_bar_box_small",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "protein_bar_evac", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
     "id": "confit_meat_jar_3l_glass_sealed_12",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
