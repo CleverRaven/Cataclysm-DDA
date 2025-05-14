@@ -220,7 +220,19 @@
         { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 15, "y": 58 },
         { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 20, "y": 58 },
         { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 25, "y": 58 },
-        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 30, "y": 58 }
+        { "chunks": [ "vitakinesis_lab_holding_cell" ], "x": 30, "y": 58 },
+        { "chunks": [ "vitakinesis_lab_research_south" ], "x": 15, "y": 2 },
+        { "chunks": [ "vitakinesis_lab_research_south" ], "x": 25, "y": 2 },
+        { "chunks": [ "vitakinesis_lab_research_south" ], "x": 15, "y": 26 },
+        { "chunks": [ "vitakinesis_lab_research_south" ], "x": 25, "y": 26 },
+        { "chunks": [ "vitakinesis_lab_research_south" ], "x": 15, "y": 50 },
+        { "chunks": [ "vitakinesis_lab_research_south" ], "x": 25, "y": 50 },
+        { "chunks": [ "vitakinesis_lab_research_north" ], "x": 15, "y": 13 },
+        { "chunks": [ "vitakinesis_lab_research_north" ], "x": 25, "y": 13 },
+        { "chunks": [ "vitakinesis_lab_research_north" ], "x": 15, "y": 37 },
+        { "chunks": [ "vitakinesis_lab_research_north" ], "x": 25, "y": 37 },
+        { "chunks": [ "vitakinesis_lab_research_north" ], "x": 15, "y": 61 },
+        { "chunks": [ "vitakinesis_lab_research_north" ], "x": 25, "y": 61 }
       ]
     }
   }

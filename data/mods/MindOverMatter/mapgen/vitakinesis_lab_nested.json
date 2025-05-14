@@ -6,7 +6,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
     "object": {
       "mapgensize": [ 6, 6 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "      ",
         "==rt=t",
@@ -25,7 +25,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
     "object": {
       "mapgensize": [ 6, 6 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "      ",
         "==tr=l",
@@ -44,7 +44,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
     "object": {
       "mapgensize": [ 6, 6 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "      ",
         "===tbt",
@@ -63,7 +63,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
     "object": {
       "mapgensize": [ 6, 6 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "      ",
         "t=tr==",
@@ -82,7 +82,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
     "object": {
       "mapgensize": [ 6, 6 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "      ",
         "l=rt==",
@@ -101,7 +101,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
     "object": {
       "mapgensize": [ 6, 6 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "      ",
         "tbt===",
@@ -120,7 +120,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "r=d ",
         "=== ",
@@ -137,7 +137,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "d=d ",
         "=== ",
@@ -154,7 +154,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "d=l ",
         "=== ",
@@ -171,7 +171,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "d== ",
         "==t ",
@@ -188,7 +188,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "tbl ",
         "=b= ",
@@ -205,7 +205,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "lbt ",
         "=b= ",
@@ -222,7 +222,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "bbr ",
         "t== ",
@@ -239,7 +239,7 @@
     "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "l=t ",
         "=bb ",
@@ -256,7 +256,7 @@
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "    ",
         "ee  ",
@@ -273,7 +273,7 @@
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "ca  ",
         "e   ",
@@ -290,7 +290,7 @@
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "   a",
         "e  c",
@@ -307,7 +307,7 @@
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "s   ",
         "o  e",
@@ -324,7 +324,7 @@
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "ac  ",
         "   e",
@@ -341,12 +341,276 @@
     "nested_mapgen_id": "vitakinesis_lab_holding_cell",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "palettes": [ "vitakinesis_lab_palette_nests" ],
+      "palettes": [ "vitakinesis_lab_palette_nests_living" ],
       "rows": [
         "o  s",
         "    ",
         "c  e",
         "a  e"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "llfaceGss",
+        "lo oo G s",
+        "n  bb D s",
+        "lo oo G s",
+        "lll  yGss",
+        "         ",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "m|m|ny  x",
+        "d|d|    o",
+        "     bb  ",
+        "d|d| bb o",
+        "t|t|    x",
+        "         ",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "bffGlll r",
+        "b  Go o r",
+        "GGDG    r",
+        "s      o ",
+        "s bb  cea",
+        "         ",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "td lxl dm",
+        "||  o  ||",
+        "td obo dm",
+        "|| obo ||",
+        "td     dm",
+        "         ",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "m|llle|uu",
+        "dxo oo|DG",
+        "        l",
+        "dxo    ol",
+        "t|ll llnl",
+        "         ",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "x obbo ff",
+        "r obbo   ",
+        "r       l",
+        "r oo   ol",
+        "y ll  cea",
+        "         ",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "lll  yGss",
+        "lo oo G s",
+        "n  bb D s",
+        "lo oo G s",
+        "llfaceGss"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "t|t|    x",
+        "d|d| bb o",
+        "     bb  ",
+        "d|d|    o",
+        "m|m|ny  x"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "s bb  cea",
+        "s      o ",
+        "GGDG    r",
+        "b  Go o r",
+        "bffGlll r"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "td     dm",
+        "|| obo ||",
+        "td obo dm",
+        "||  o  ||",
+        "td lxl dm"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "t|ll llnl",
+        "dxo    ol",
+        "        l",
+        "dxo oo|DG",
+        "m|llle|uu"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "9x5 research labs, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_research_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "palettes": [ "vitakinesis_lab_palette_nests_lab" ],
+      "rows": [
+        "         ",
+        "         ",
+        "         ",
+        "         ",
+        "y ll  cea",
+        "r oo   ol",
+        "r       l",
+        "r obbo   ",
+        "x obbo ff"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }

@@ -21,7 +21,7 @@
   },
   {
     "type": "palette",
-    "id": "vitakinesis_lab_palette_nests",
+    "id": "vitakinesis_lab_palette_nests_living",
     "palettes": [ "parametrized_concrete_carpets_palette_nested" ],
     "terrain": {
       "b": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
@@ -51,5 +51,29 @@
         { "item": "lab_pants", "repeat": [ 5, 7 ] }
       ]
     }
+  },
+  {
+    "type": "palette",
+    "id": "vitakinesis_lab_palette_nests_lab",
+    "furniture": {
+      "a": "f_autoclave",
+      "b": "f_table",
+      "c": "f_centrifuge",
+      "d": "f_scan_bed",
+      "e": "f_electron_microscope",
+      "f": "f_sample_freezer",
+      "l": "f_lab_bench",
+      "m": "f_MRI",
+      "n": "f_sink",
+      "o": "f_stool",
+      "r": "f_locker",
+      "s": "f_server",
+      "t": "f_CTscan",
+      "u": "f_utility_shelf",
+      "x": "f_console_broken",
+      "y": "f_eyewash"
+    },
+    "items": {  },
+    "terrain": { "|": "t_concrete_wall", "G": "t_wall_glass_lab", "D": "t_door_glass_lab_c" }
   }
 ]
