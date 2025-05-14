@@ -1510,6 +1510,7 @@
     "weight": "800 kg",
     "hp": 320,
     "speed": 80,
+    "move_skills": { "dig": 9 },
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "white",

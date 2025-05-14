@@ -142,10 +142,9 @@
       { "group": "alcohol", "prob": 25 },
       { "item": "water_clean", "prob": 100 },
       { "group": "misc_smoking", "prob": 20 },
-      { "group": "SUS_office_supplies", "prob": 5 },
+      { "group": "SUS_office_supplies", "prob": 15 },
       { "group": "car_misc", "prob": 5 },
-      { "group": "file_room", "prob": 15 },
-      { "group": "office_mess", "prob": 15 },
+      { "group": "SUS_office_filing_cabinet", "prob": 15 },
       { "group": "chem_home", "prob": 20 },
       { "group": "supplies_electronics", "prob": 25 },
       { "group": "dollar_food", "prob": 100 },
@@ -599,7 +598,7 @@
     "entries": [
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 100 },
       { "group": "office", "count": [ 1, 5 ], "prob": 100 },
-      { "group": "office_mess", "count": [ 1, 6 ], "prob": 35 },
+      { "group": "SUS_office_mess", "count": [ 1, 2 ], "prob": 35 },
       { "group": "SUS_office_desk", "prob": 50 }
     ]
   },
@@ -612,7 +611,6 @@
       { "group": "cubical_office", "count": [ 1, 6 ], "prob": 250 },
       { "group": "SUS_office_desk", "prob": 250 },
       { "group": "bedroom", "count": [ 1, 3 ], "prob": 25 },
-      { "group": "office_mess", "count": [ 1, 6 ], "prob": 125 },
       { "group": "npc_hacker", "prob": 50 },
       { "group": "school", "count": [ 1, 4 ], "prob": 100 },
       { "group": "backrooms_artifacts", "prob": 1 }
@@ -636,9 +634,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_office_filing_cabinet", "prob": 100 },
-      { "group": "file_room", "count": [ 2, 10 ], "prob": 25 },
-      { "group": "office_mess", "count": [ 2, 8 ], "prob": 10 },
-      { "group": "SUS_office_supplies", "count": [ 1, 2 ], "prob": 10 },
+      { "group": "SUS_office_supplies", "count": [ 2, 10 ], "prob": 25 },
       { "group": "stash_drugs", "count": [ 1, 3 ], "prob": 5 }
     ]
   },

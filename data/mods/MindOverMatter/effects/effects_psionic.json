@@ -2243,7 +2243,7 @@
       }
     ],
     "limb_score_mods": [ { "limb_score": "swim", "modifier": 3.0 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "ONE_STORY_FALL" ]
   },
   {
     "type": "effect_type",
@@ -2621,7 +2621,7 @@
     "id": "effect_teleport_loci_establishment",
     "name": [ "Loci Establishment" ],
     "desc": [ "You are concentrating on your locus.  You can teleport there at will with the [Ψ]Loci Technique." ],
-    "remove_message": "You've forgotten your locus!.",
+    "remove_message": "You've forgotten your locus!",
     "rating": "good"
   },
   {

@@ -154,7 +154,7 @@
     "copy-from": "fault_handle_long_chipping",
     "fault_type": "mechanical_damage",
     "name": { "str": "Chipping" },
-    "description": "Small pieces this %s are chipping off."
+    "description": "Small pieces of %s are chipping off."
   },
   {
     "type": "fault",
@@ -180,7 +180,7 @@
     "copy-from": "fault_handle_long_broken",
     "fault_type": "mechanical_damage",
     "name": { "str": "Broken" },
-    "description": "This % is completely broken.",
+    "description": "This %s is completely broken.",
     "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked", "fault_staff_long_broken_half" ],
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
   }

@@ -246,6 +246,17 @@ struct pet_food_data {
     void deserialize( const JsonObject &data );
 };
 
+/** movement data */
+struct move_skills_data {
+    std::optional<int> climb;
+    std::optional<int> dig;
+    std::optional<int> swim;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
+};
+
 enum class mdeath_type {
     NORMAL,
     SPLATTER,
@@ -443,6 +454,8 @@ struct mtype {
 
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
+        move_skills_data move_skills;   /** climb, dig, swim; 0-100, defaults to 0 */
+
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
         int stomach_size = 0;         /** how many times this monster will eat */

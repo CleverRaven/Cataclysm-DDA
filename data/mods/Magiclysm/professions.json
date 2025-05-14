@@ -376,7 +376,7 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "pants" },
-          { "item": "striped_shirt" },
+          { "item": "buttonshirt", "variant": "striped" },
           { "item": "hoodie" },
           { "item": "gloves_light" },
           { "item": "swag_bag" },
@@ -1003,8 +1003,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "striped_shirt" },
-          { "item": "striped_pants" },
+          { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
           { "item": "sugar" }
@@ -1036,7 +1035,14 @@
     ],
     "traits": [ "DRUID", "PSYCHOPATH" ],
     "items": {
-      "both": { "entries": [ { "item": "striped_shirt" }, { "item": "striped_pants" }, { "item": "sneakers" }, { "item": "socks" } ] },
+      "both": {
+        "entries": [
+          { "item": "buttonshirt", "variant": "striped" },
+          { "item": "striped_pants" },
+          { "item": "sneakers" },
+          { "item": "socks" }
+        ]
+      },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },

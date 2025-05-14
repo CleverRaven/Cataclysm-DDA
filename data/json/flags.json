@@ -2691,5 +2691,10 @@
     "id": "INSTANT_BLEED",
     "type": "json_flag",
     "//": "Having this flag makes the player bleed corpses in 1 second each.  Used for a XE vampire power."
+  },
+  {
+    "id": "ONE_STORY_FALL",
+    "type": "json_flag",
+    "//": "When the character falls, the height is reduced by 1 Z level before calculating damage."
   }
 ]

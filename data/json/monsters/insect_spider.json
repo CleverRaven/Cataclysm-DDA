@@ -137,6 +137,7 @@
     "weight": "122250 g",
     "hp": 115,
     "speed": 55,
+    "move_skills": { "dig": 9 },
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "pink",
