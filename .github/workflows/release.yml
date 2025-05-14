@@ -237,8 +237,10 @@ jobs:
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@v1
-        with:
-          parameters: '.github/macports/macports.yml'
+      - name: install macports packages (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
+        run: |
+          sudo port install freetype +universal pkgconfig +universal
       - name: Create VERSION.TXT
         shell: bash
         run: |
