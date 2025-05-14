@@ -70,12 +70,12 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Telekinesis Check] *Try to rip their weapon out of their hands*.",
-        "condition": { "u_has_trait": "TELEKINETIC" },
+        "text": "[Far Hand Check] *Try to rip their weapon out of their hands*.",
+        "condition": { "and": [ "npc_has_weapon", { "math": [ "u_spell_level('telekinetic_pull') >= 1" ] } ] },
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_school_level('TELEKINETIC')" ] },
+            "roll_contested": { "math": [ "u_spell_level('telekinetic_pull')" ] },
             "difficulty": { "math": [ "n_val('strength')" ] },
             "die_size": 5
           }
@@ -149,8 +149,31 @@
         }
       },
       {
+        "text": "[Neural Spasms Check] *Paralyze <npc_name>*.",
+        "condition": { "math": [ "u_spell_level('electrokinetic_paralysis') >= 1" ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_spell_level('electrokinetic_paralysis')" ] },
+            "difficulty": { "math": [ "n_val('strength')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "run_eocs": "EOC_ELECTROKIN_PARALYSIS", "alpha_talker": "npc", "beta_talker": "u" } ]
+        },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "You failed to paralyze <npc_name>!", "type": "bad" } ] }
+      },
+      {
         "text": "[Synaptic Overload Check] *Attack <npc_name>'s mind*.",
-        "condition": { "math": [ "u_spell_level('telepathic_blast') >= 1" ] },
+        "condition": {
+          "and": [
+            { "math": [ "u_spell_level('telepathic_blast') >= 1" ] },
+            { "not": { "npc_has_flag": "TEEPSHIELD" } },
+            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+          ]
+        },
         "trial": {
           "type": "CONDITION",
           "condition": {
@@ -163,7 +186,19 @@
           "topic": "TALK_DONE",
           "effect": [
             "hostile",
-            { "math": [ "n_hp('head') = 80 - (6 * (u_spell_level('telepathic_blast')))" ] },
+            { "math": [ "n_head_hp = n_hp('head') " ] },
+            {
+              "math": [
+                "n_percentage_damage_low = ( (u_spell_level('telepathic_blast') * 3) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            },
+            {
+              "math": [
+                "n_percentage_damage_high = ( (u_spell_level('telepathic_blast') * 3) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            },
+            { "math": [ "n_percentage_damage = rng(n_percentage_damage_low,n_percentage_damage_high)" ] },
+            { "math": [ "n_hp('head') = n_head_hp * ((100 - n_percentage_damage) / 100)" ] },
             { "npc_add_effect": "stunned", "duration": "2 s" }
           ]
         },
@@ -181,7 +216,11 @@
       {
         "text": "[Mood Stablization Check] I'm not going to hurt you.",
         "condition": {
-          "and": [ { "math": [ "u_spell_level('telepathic_morale') >= 1" ] }, { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } } ]
+          "and": [
+            { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
+            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } },
+            { "not": { "npc_has_flag": "TEEPSHIELD" } }
+          ]
         },
         "trial": {
           "type": "CONDITION",
@@ -203,7 +242,11 @@
       {
         "text": "[Mood Stablization Check] I'm not going to hurt you.",
         "condition": {
-          "and": [ { "math": [ "u_spell_level('telepathic_morale') >= 1" ] }, { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } } ]
+          "and": [
+            { "math": [ "u_spell_level('telepathic_morale') >= 1" ] },
+            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } },
+            { "not": { "npc_has_flag": "TEEPSHIELD" } }
+          ]
         },
         "trial": {
           "type": "CONDITION",
