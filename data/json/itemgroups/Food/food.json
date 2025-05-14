@@ -122,6 +122,7 @@
       { "prob": 15, "group": "cinnamon_various" },
       { "prob": 25, "group": "seasoning_italian_various" },
       { "prob": 25, "group": "seasoning_salt_various" },
+      { "item": "yeast", "prob": 15, "container-item": "sachet" },
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "cookbook_daintydishes", "prob": 20 },
       { "item": "cookbook_liverforkids", "prob": 12 },
