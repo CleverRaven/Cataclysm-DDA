@@ -1,0 +1,252 @@
+[
+  {
+    "//": "6x3 bedroom, door is west",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "      ",
+        "==rt=t",
+        "d===bb",
+        "d=l==t",
+        "      ",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "6x3 bedroom, door is west",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "      ",
+        "==tr=l",
+        "d===b=",
+        "d==tbt",
+        "      ",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "6x3 bedroom, door is west",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_west",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "      ",
+        "===tbt",
+        "l===b=",
+        "dd==rt",
+        "      ",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "6x3 bedroom, door is east",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "      ",
+        "t=tr==",
+        "bb===d",
+        "t==l=d",
+        "      ",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "6x3 bedroom, door is east",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "      ",
+        "l=rt==",
+        "=b===d",
+        "tbt==d",
+        "      ",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "6x3 bedroom, door is east",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_east",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "      ",
+        "tbt===",
+        "=b===l",
+        "tr==dd",
+        "      ",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "r=d ",
+        "=== ",
+        "=b= ",
+        "tbl "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "d=d ",
+        "=== ",
+        "=b= ",
+        "lbt "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "d=l ",
+        "=== ",
+        "t== ",
+        "bbr "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is north",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_north",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "d== ",
+        "==t ",
+        "=bb ",
+        "l=t "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "tbl ",
+        "=b= ",
+        "=== ",
+        "r=d "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "lbt ",
+        "=b= ",
+        "=== ",
+        "d=d "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "bbr ",
+        "t== ",
+        "=== ",
+        "d=l "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "//": "4x3 bedroom, door is south",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "vitakinesis_lab_bedroom_south",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "palettes": [ "parametrized_concrete_carpets_palette_nested", "vitakinesis_lab_palette_nests" ],
+      "rows": [
+        "l=t ",
+        "=bb ",
+        "==t ",
+        "d== "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  }
+]

@@ -1,110 +1,43 @@
 [
   {
     "type": "palette",
-    "id": "vitakinesis_lab_palette",
-    "palettes": [ "parametrized_concrete_carpets_palette", "parametrized_linoleum_palette" ],
+    "id": "parametrized_concrete_carpets_palette_nested",
+    "//": "Use to randomly assign carpet colors",
+    "parameters": {
+      "concrete_carpet_color_type_nest": {
+        "type": "ter_str_id",
+        "scope": "nest",
+        "default": {
+          "distribution": [
+            [ "t_carpet_concrete_red", 1 ],
+            [ "t_carpet_concrete_green", 1 ],
+            [ "t_carpet_concrete_purple", 1 ],
+            [ "t_carpet_concrete_yellow", 1 ]
+          ]
+        }
+      }
+    },
+    "terrain": { "=": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" } }
+  },
+  {
+    "type": "palette",
+    "id": "vitakinesis_lab_palette_nests",
+    "palettes": [ "parametrized_concrete_carpets_palette_nested" ],
     "terrain": {
-      "^": "t_ladder_up",
-      "|": "t_concrete_wall",
-      "*": "t_rock",
-      "-": "t_floor",
-      "D": "t_door_c",
-      "X": "t_door_metal_c",
-      "Y": { "distribution": [ [ "t_door_metal_interior_locked", 1 ], [ "t_door_metal_c", 2 ] ] },
-      "Z": "t_wall_metal",
-      "b": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
-      "n": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
-      "d": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
-      "6": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "7": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "&": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "8": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "t": "t_floor",
-      "c": "t_floor",
-      "o": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "i": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "z": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "g": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-      "a": "t_floor",
-      "f": "t_floor",
-      "k": "t_floor",
-      "r": "t_floor",
-      "l": "t_floor",
-      "!": "t_door_metal_locked",
-      "@": "t_card_science",
-      "G": "t_ballistic_glass",
-      "W": "t_window_bars",
-      "A": "t_water_dispenser"
+      "b": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "d": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "l": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "r": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "t": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" }
     },
-    "furniture": {
-      "b": "f_bed",
-      "n": "f_table",
-      "d": "f_dresser",
-      "6": "f_shower",
-      "7": "f_counter",
-      "8": "f_sink",
-      "t": "f_table",
-      "c": "f_chair",
-      "v": "f_oven",
-      "u": "f_counter",
-      "i": "f_dishwasher",
-      "z": "f_heavy_duty_freezer",
-      "g": "f_heavy_duty_fridge",
-      "s": "f_sink",
-      "y": "f_utility_shelf",
-      "e": "f_dryer",
-      "w": "f_washer",
-      "a": "f_sofa",
-      "f": "f_coffee_table",
-      "k": "f_bookcase",
-      "r": "f_armchair",
-      "l": "f_floor_lamp",
-      "3": "f_locker",
-      "ě": "f_locker",
-      "4": "f_desk",
-      "2": "f_chair",
-      "9": "f_filing_cabinet",
-      "o": "f_console",
-      "ȯ": "f_console_broken",
-      "m": "f_metal_trashcan",
-      "á": "f_floor_lamp",
-      "β": "f_bookcase"
-    },
-    "toilets": { "&": {  } },
+    "furniture": { "b": "f_bed", "d": "f_dresser", "l": "f_floor_lamp", "r": "f_armchair", "t": "f_table" },
     "items": {
-      "7": { "item": "SUS_toilet", "chance": 75 },
-      "8": { "item": "SUS_bathroom_sink", "chance": 75, "repeat": [ 1, 3 ] },
       "b": [ { "item": "bed" }, { "item": "bed", "chance": 33 } ],
       "n": { "item": "SUS_science_personal_effects", "chance": 50, "repeat": [ 1, 2 ] },
       "d": [
         { "item": "lab_shoes", "repeat": [ 1, 2 ] },
         { "item": "lab_torso", "repeat": [ 5, 7 ] },
         { "item": "lab_pants", "repeat": [ 5, 7 ] }
-      ],
-      "t": { "item": "dishes_dining", "chance": 50, "repeat": [ 1, 2 ] },
-      "o": { "item": "SUS_oven", "chance": 100 },
-      "z": { "item": "SUS_fridge_stocked", "chance": 100 },
-      "g": { "item": "SUS_fridge_stocked", "chance": 100 },
-      "s": { "item": "SUS_kitchen_sink", "chance": 100 },
-      "y": { "item": "cannedfood", "chance": 50, "repeat": [ 2, 5 ] },
-      "k": { "item": "novels", "chance": 100, "repeat": 9 },
-      "3": [
-        { "item": "nested_m9", "chance": 75, "repeat": [ 1, 2 ] },
-        { "item": "swat_ballistic_vest", "chance": 75, "repeat": [ 1, 2 ] },
-        { "item": "infantry_common_gear", "chance": 50, "repeat": [ 4, 6 ] }
-      ],
-      "9": { "item": "SUS_office_filing_cabinet", "chance": 100 },
-      "β": { "item": "textbooks", "chance": 50, "repeat": 5 },
-      "4": { "item": "SUS_office_desk", "chance": 10 },
-      "ě": [
-        { "item": "hazmat_torso", "repeat": [ 2, 5 ] },
-        { "item": "hazmat_boots", "repeat": [ 2, 5 ] },
-        { "item": "hazmat_gloves", "repeat": [ 2, 5 ] },
-        { "item": "hazmat_full", "repeat": [ 1, 3 ] },
-        { "item": "hazmat_mask", "repeat": [ 1, 3 ] },
-        { "item": "hazmat_eyes", "repeat": [ 2, 5 ] }
       ]
     }
   }
