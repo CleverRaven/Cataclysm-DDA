@@ -176,7 +176,7 @@
       "C": [ { "item": "backrooms_master_sink1", "chance": 75 } ],
       "E": [ { "item": "backrooms_master_countertop_kitchen", "chance": 50 } ],
       "F": [ { "item": "backrooms_master_cupboards", "chance": 60 } ],
-      "H": [ { "item": "backrooms_master_fridge", "chance": 95 } ],
+      "H": [ { "item": "backrooms_master_fridge", "chance": 95 }, { "item": "almond_water_sealed", "chance": 1 } ],
       "I": [ { "item": "backrooms_master_table_coffee", "chance": 50 } ],
       "J": [ { "item": "backrooms_master_table_coffee", "chance": 80 } ]
     }

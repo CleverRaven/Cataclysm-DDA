@@ -44,6 +44,15 @@
     }
   },
   {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "almond_water_sealed",
+    "entries": [
+      { "item": "almond_water", "container-item": "bottle_almond_water", "count": 1, "prob": 1 },
+      { "item": "water_clean", "prob": 5 }
+    ]
+  },
+  {
     "id": "backrooms_crate",
     "type": "item_group",
     "//": "These crates are packed full of all kinds of supplies, but mostly hardware, tools, electronics, chems, and rarely, weapons. Books, food, meds, and clothes are usually found elsewhere.",
