@@ -114,7 +114,6 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "prob": 50, "group": "yeast_various" },
       { "prob": 40, "group": "sugar_various" },
       { "prob": 10, "group": "artificial_sweetener_box_small_71" },
       { "prob": 5, "group": "sprinkles_bottle_plastic_small_62" },
