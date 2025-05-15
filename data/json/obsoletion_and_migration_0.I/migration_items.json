@@ -2579,5 +2579,11 @@
     "id": "sinister_dress_short",
     "replace": "dress_short_sleeves",
     "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "dress_long",
+    "from_variant": "gown",
+    "replace": "gown"
   }
 ]
