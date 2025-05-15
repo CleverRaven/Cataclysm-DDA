@@ -2547,12 +2547,6 @@
   },
   {
     "type": "MIGRATION",
-    "id": "gown",
-    "replace": "dress",
-    "variant": "gown"
-  },
-  {
-    "type": "MIGRATION",
     "id": "dress",
     "replace": "dress_long"
   },
@@ -2577,8 +2571,8 @@
   {
     "type": "MIGRATION",
     "id": "sinister_gown",
-    "replace": "dress_long_sleeves",
-    "variant": "gown_sinister"
+    "replace": "gown_sleeves",
+    "variant": "sinister"
   },
   {
     "type": "MIGRATION",

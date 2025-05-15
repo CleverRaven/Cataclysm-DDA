@@ -433,7 +433,7 @@
           },
           {
             "distribution": [
-              { "item": "dress_long_sleeves", "variant": "gown_sinister", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "gown_sleeves", "variant": "sinister", "prob": 10, "damage": [ 1, 4 ] },
               { "item": "sinister_dress", "prob": 60, "damage": [ 1, 4 ] },
               { "item": "dress_short", "variant": "sinister", "prob": 30, "damage": [ 1, 4 ] }
             ]

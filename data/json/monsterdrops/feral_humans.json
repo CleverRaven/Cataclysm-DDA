@@ -416,7 +416,7 @@
                           { "item": "dress", "prob": 75, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 15, "damage": [ 1, 4 ] },
                           { "item": "santa_dress_long", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "dress_long_sleeves", "variant": "gown_sinister", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "gown_sleeves", "variant": "sinister", "prob": 5, "damage": [ 1, 4 ] },
                           { "item": "dress_long_sleeves", "variant": "witch_black", "prob": 5, "damage": [ 1, 4 ] },
                           { "item": "sinister_dress", "prob": 5, "damage": [ 1, 4 ] },
                           {

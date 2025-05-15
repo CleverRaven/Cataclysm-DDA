@@ -721,12 +721,6 @@
         "description": "This one is black.",
         "color": "black",
         "weight": 4
-      },
-      {
-        "id": "gown",
-        "name": { "str": "evening gown" },
-        "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
-        "color": "black"
       }
     ]
   },
@@ -851,19 +845,6 @@
         "description": "This one is black.",
         "color": "black",
         "weight": 225
-      },
-      {
-        "id": "gown",
-        "name": { "str": "evening gown" },
-        "description": "A luxurious evening gown with sleeves.  It accentuates your curves, or lack thereof.",
-        "color": "black",
-        "weight": 50
-      },
-      {
-        "id": "gown_sinister",
-        "name": { "str": "sinister gown" },
-        "append": true,
-        "description": "It's red and black gown with full sleeves.  It has a gothic style and looks pretty luxurious."
       },
       {
         "id": "witch_black",
@@ -1090,6 +1071,47 @@
     "material_thickness": 2,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "gown",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "evening gown" },
+    "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
+    "weight": "1800 g",
+    "volume": "5 L",
+    "price": "210 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "copy-from": "gown",
+    "proportional": { "warmth": 1.1, "weight": 1.05, "volume": 1.05 },
+    "id": "gown_sleeves",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "evening gown with sleeves", "str_pl": "evening gowns with sleeves" },
+    "description": "A luxurious evening gown with sleeves.  It accentuates your curves, or lack thereof.",
+    "armor": [
+      { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] },
+      { "encumbrance": 2, "coverage": 90, "covers": [ "arm_l", "arm_r" ] }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sinister",
+        "name": { "str": "sinister gown" },
+        "description": "A red and black gown with full sleeves.  It has a gothic style and looks pretty luxurious.",
+        "color": "red"
+      }
+    ]
   },
   {
     "id": "halter_top",
