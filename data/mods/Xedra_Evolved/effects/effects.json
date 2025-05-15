@@ -1211,12 +1211,12 @@
     },
     "limb_score_mods": [
       { "limb_score": "balance", "modifier": 0.9, "scaling": -0.08 },
-      { "limb_score": "breathing", "modifier": 1.0, "scaling": -0.08 },
+      { "limb_score": "breathing", "modifier": 1, "scaling": -0.08 },
       { "limb_score": "lift", "modifier": 0.9, "scaling": -0.08 },
-      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.08 },
+      { "limb_score": "grip", "modifier": 1, "scaling": -0.08 },
       { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.07 },
-      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
-      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.06 }
+      { "limb_score": "block", "modifier": 1, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1, "scaling": -0.06 }
     ],
     "enchantments": [
       {
@@ -1839,7 +1839,7 @@
     "removes_effects": [ "smoke_eyes", "smoke_lungs", "teargas" ],
     "enchantments": [
       { "emitter": "emit_smoke_blast" },
-      { "values": [ { "value": "MELEE_DAMAGE", "multiply": -1.0 }, { "value": "RANGED_DAMAGE", "multiply": -1.0 } ] }
+      { "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGED_DAMAGE", "multiply": -1 } ] }
     ],
     "flags": [
       "INVISIBLE",
@@ -1953,7 +1953,7 @@
     "dur_add_perc": 1,
     "removes_effects": [ "grabbed" ],
     "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 2.0 },
+      { "limb_score": "reaction", "modifier": 2 },
       { "limb_score": "block", "modifier": 1.2 },
       { "limb_score": "crawl", "modifier": 1.5 }
     ],
@@ -2279,6 +2279,14 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "effect_evil_eye" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "forgetful_mind",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "taint", "tindrift", "rat", "evil", "fearparalyze" ]
   },
   {
     "type": "effect_type",
@@ -2967,12 +2975,12 @@
     ],
     "limb_score_mods": [
       { "limb_score": "balance", "modifier": 0.96, "scaling": -0.035 },
-      { "limb_score": "breathing", "modifier": 1.0, "scaling": -0.035 },
+      { "limb_score": "breathing", "modifier": 1, "scaling": -0.035 },
       { "limb_score": "lift", "modifier": 0.96, "scaling": -0.035 },
       { "limb_score": "grip", "modifier": 0.96, "scaling": -0.035 },
       { "limb_score": "reaction", "modifier": 0.95, "scaling": -0.035 },
-      { "limb_score": "block", "modifier": 1.0, "scaling": -0.035 },
-      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.035 }
+      { "limb_score": "block", "modifier": 1, "scaling": -0.035 },
+      { "limb_score": "vision", "modifier": 1, "scaling": -0.035 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -3499,14 +3507,14 @@
     "base_mods": { "sleep_chance": [ -1003 ], "sleep_min": [ 15000 ], "sleep_max": [ 21000 ] },
     "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "sleep_chance": [ 501 ] },
     "limb_score_mods": [
-      { "limb_score": "manip", "modifier": 1.0, "scaling": -0.1 },
-      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
-      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
-      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.1 },
-      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
-      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.1 },
-      { "limb_score": "footing", "modifier": 1.0, "scaling": -0.1 },
-      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.1 }
+      { "limb_score": "manip", "modifier": 1, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 1, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 1, "scaling": -0.1 },
+      { "limb_score": "move_speed", "modifier": 1, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 1, "scaling": -0.1 },
+      { "limb_score": "footing", "modifier": 1, "scaling": -0.1 },
+      { "limb_score": "swim", "modifier": 1, "scaling": -0.1 }
     ],
     "rating": "bad",
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
