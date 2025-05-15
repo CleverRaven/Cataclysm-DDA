@@ -1991,6 +1991,8 @@
       { "item": "voltmeter", "prob": 50 },
       { "item": "multimeter", "prob": 50, "charges": [ 0, 100 ] },
       { "item": "mask_hockey", "prob": 10, "custom-flags": [ "UNDERSIZE" ] },
+      [ "throat_guard_nylon", 2 ],
+      [ "throat_guard_canvas", 2 ],
       [ "hockey_stick", 20 ],
       [ "puck", 20 ],
       [ "jersey", 40 ],

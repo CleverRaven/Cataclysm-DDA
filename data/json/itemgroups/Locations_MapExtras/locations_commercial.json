@@ -319,6 +319,7 @@
       [ "balaclava_cut_resistant", 5 ],
       [ "gloves_cut_resistant", 5 ],
       [ "armguard_cut_resistant", 5 ],
+      [ "throat_guard_cut_resistant", 2 ],
       [ "tieclip", 3 ],
       [ "cigar_cutter", 3 ],
       [ "cigar_punch", 3 ],
