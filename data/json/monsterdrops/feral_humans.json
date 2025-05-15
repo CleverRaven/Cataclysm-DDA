@@ -413,8 +413,7 @@
                     "collection": [
                       {
                         "distribution": [
-                          { "item": "gown", "prob": 25, "damage": [ 1, 4 ] },
-                          { "item": "dress", "prob": 50, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 75, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 15, "damage": [ 1, 4 ] },
                           { "item": "santa_dress_long", "prob": 5, "damage": [ 1, 4 ] },
                           { "item": "sinister_dress", "prob": 5, "damage": [ 1, 4 ] },

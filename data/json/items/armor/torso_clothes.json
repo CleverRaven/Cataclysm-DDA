@@ -660,7 +660,7 @@
     "id": "dress",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "dress", "str_pl": "dresses" },
+    "name": { "str": "long dress", "str_pl": "long dresses" },
     "description": "A long cotton dress.",
     "weight": "680 g",
     "volume": "3500 ml",
@@ -673,7 +673,32 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "long white dress", "str_pl": "long white dresses" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 4
+      },
+      {
+        "id": "black",
+        "name": { "str": "long black dress", "str_pl": "long black dresses" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black",
+        "weight": 4
+      },
+      {
+        "id": "gown",
+        "name": { "str": "evening gown" },
+        "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
+        "color": "white"
+      }
+    ]
   },
   {
     "id": "denim_shirt",
@@ -821,25 +846,6 @@
     "material_thickness": 2,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "gown",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "evening gown" },
-    "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
-    "weight": "1800 g",
-    "volume": "5 L",
-    "price": "210 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress",
-    "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "halter_top",
