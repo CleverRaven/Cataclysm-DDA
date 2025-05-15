@@ -2077,7 +2077,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "symbol": "/",
-    "material": [ "hc_steel", "rubber" ],
+    "material": [ "hc_steel", "ceramic" ],
     "flags": [ "DURABLE_MELEE", "USES_BIONIC_POWER" ],
     "weight": "4875 g",
     "longest_side": "91 cm",
