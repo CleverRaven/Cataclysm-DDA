@@ -145,7 +145,7 @@
           { "item": "brogyaga", "prob": 5, "count": [ 1, 2 ] },
           { "item": "pamd68", "prob": 60, "count": [ 1, 2 ] },
           { "item": "pamd71z", "prob": 10, "count": [ 1, 2 ] },
-          { "item": "exodiibayonet", "prob": 50, "count": [ 1, 2 ] }
+          { "item": "knife_combat_army", "variant": "exodiibayonet", "prob": 50, "count": [ 1, 2 ] }
         ]
       },
       {
