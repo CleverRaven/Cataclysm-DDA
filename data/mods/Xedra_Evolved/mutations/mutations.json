@@ -2037,6 +2037,16 @@
     "purifiable": false,
     "valid": false,
     "profession": true,
-    "types": [ "HERITAGE" ]
+    "types": [ "HERITAGE" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('BLOODTHORNE_DRUID') * 250" ] } } ]
+      },
+      {
+        "condition": { "math": "u_arvore_is_in_wilderness == 1" },
+        "values": { "value": "REGEN_MANA", "multiply": { "math": [ "u_sum_traits_of_category_char_has('BLOODTHORNE_DRUID') * 0.05" ] } }
+      }
+    ]
   }
 ]
