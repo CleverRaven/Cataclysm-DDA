@@ -12,6 +12,7 @@
     "weight": "81500 g",
     "hp": 84,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "@",
     "color": "magenta",

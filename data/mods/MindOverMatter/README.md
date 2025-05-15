@@ -71,6 +71,7 @@ To be eligible to learn new powers, you must be in a generally good mental and p
 
 Further Information
 
-For a listing of powers, including their requirements to learn, check the [Power Spoilers document](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/mods/MindOverMatter/PowerDescriptionSpoilers.md).
+For a listing of powers, including their requirements to learn, check the [Power Spoilers document](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/mods/MindOverMatter/PowerDescriptionSpoilers.md).  
+For details of nether attunement, including a list of consequences, check the [Nether Attunement Spoilers document](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/mods/MindOverMatter/NetherAttunementSpoilers.md).  
 
 

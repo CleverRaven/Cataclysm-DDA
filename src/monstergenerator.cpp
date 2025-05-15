@@ -959,6 +959,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "petfood", petfood );
 
+    optional( jo, was_loaded, "move_skills", move_skills );
+
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
@@ -1849,6 +1851,31 @@ void pet_food_data::load( const JsonObject &jo )
 }
 
 void pet_food_data::deserialize( const JsonObject &data )
+{
+    load( data );
+}
+
+void move_skills_data::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "climb", climb );
+    optional( jo, was_loaded, "dig", dig );
+    optional( jo, was_loaded, "swim", swim );
+
+    if( climb && ( climb.value() < 0 || climb.value() > 10 ) ) {
+        debugmsg( "climb value out of range.  It has to be between 0 and 10" );
+        climb = std::max( std::min( climb.value(), 10 ), 0 );
+    }
+    if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
+        dig = std::max( std::min( dig.value(), 10 ), 0 );
+    }
+    if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
+        dig = std::max( std::min( dig.value(), 10 ), 0 );
+    }
+}
+
+void move_skills_data::deserialize( const JsonObject &data )
 {
     load( data );
 }

@@ -109,7 +109,8 @@ Property                 | Description
 `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
 `no_absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster is unable to absorb. This takes precedence over absorb_material; even if the monster is whitelisted for this material, it cannot do so if any of its materials are found here. If not specified, there are no limits placed on what was whitelisted.
 `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
-`revive_forms`           | (array of objects) allows to define conditional monster revival, see explanation below
+`revive_forms`           | (array of objects) allows to define conditional monster 
+`move_skills`           | (object with optional members) allows to define how well the monster moves on difficult terrain. Skill can range from 0-10.
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -680,6 +681,16 @@ Field                | Description
 `avoid_rough_terrain` | (bool, default false) Monster may avoid rough terrain like rubble
 `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
 `avoid_dangerous_fields` | (bool, default false) Monster may avoid dangerous fields like fire or acid
+
+## "move_skills"
+(object, optional)
+
+Field                | Description
+---                  | ---
+`swim`               | (int, 0-10,optional) swimming monsters ignore SWIMMABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`dig`                | (int, 0-10, optional) swimming monsters ignore DIGGABLE terrain-cost. Instead it applies a flat movecost penalty inversly related to the skill.
+`climb`              | (int, 0-10, optional) climbing monsters can climb CLIMBABLE ter/furn and can use DIFFICULT_Z ter/furn (i.e. ladders). The ter/furn cost gets multiplied by the skill modifier
+
 
 ## "special_attacks"
 

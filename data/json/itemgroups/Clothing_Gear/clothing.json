@@ -1860,7 +1860,7 @@
       [ "waistcoat", 70 ],
       [ "tophat", 30 ],
       [ "tux", 50 ],
-      [ "gown", 50 ],
+      { "item": "dress", "variant": "gown", "prob": 50 },
       [ "long_glove_white", 30 ],
       [ "breeches", 10 ]
     ]
@@ -2388,7 +2388,7 @@
       { "item": "winter_gloves_army", "prob": 10 },
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       { "item": "tux", "prob": 1 },
-      { "item": "gown", "prob": 1 },
+      { "item": "dress", "variant": "gown", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },

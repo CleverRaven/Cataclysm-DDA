@@ -922,7 +922,7 @@
         "id": "witch_purple",
         "name": { "str": "short purple witch dress", "str_pl": "short purple witch dresses" },
         "description": "A short dress typically used by witches.  It's colored dark purple."
-      }
+      },
     ]
   },
   {
@@ -1244,6 +1244,14 @@
         "description": "This one is colored brown.",
         "append": true,
         "weight": 1
+      },
+      {
+        "id": "hoodie_animal",
+        "name": { "str": "animal hoodie" },
+        "append": true,
+        "expand_snippets": true,
+        "description": "This one looks like a cute <hoodie_animal>.",
+        "weight": 1
       }
     ]
   },
@@ -1340,6 +1348,14 @@
         "color": "brown",
         "description": "This one is colored brown.",
         "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_animal",
+        "name": { "str": "animal hoodie" },
+        "append": true,
+        "expand_snippets": true,
+        "description": "This one looks like a cute <hoodie_animal>.",
         "weight": 1
       }
     ]
