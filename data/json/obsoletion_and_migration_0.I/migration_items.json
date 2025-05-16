@@ -2544,5 +2544,11 @@
     "id": "striped_shirt",
     "replace": "buttonshirt",
     "variant": "striped"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gown",
+    "replace": "dress",
+    "variant": "gown"
   }
 ]
