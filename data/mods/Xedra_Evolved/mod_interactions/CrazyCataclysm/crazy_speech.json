@@ -408,7 +408,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "//": "Newports are a brand of cigarette, and "Henny" is short for hennessy, a brand of Brandy.",
+    "//": "Newports are a brand of cigarette, and 'Henny' is short for hennessy, a brand of Brandy.",
     "sound": "Walked along the sand dunes of the Sahara Desert for 40 days and 40 nights, with nothing but a pack of Newports and a fifth of Henny; I really do this shit.",
     "volume": 10
   },
