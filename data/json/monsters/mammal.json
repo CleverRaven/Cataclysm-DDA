@@ -418,7 +418,7 @@
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "extend": { "flags": [ "NO_BREED" ] },
-    "delete": { "flags": [ "CLIMBS" ] },
+    "delete": { "move_skills": { "climb": 8 } },
     "upgrades": { "age_grow": 120, "into": "mon_cat" },
     "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "armor": { "cold": 0 }
@@ -436,6 +436,7 @@
     "weight": "4 kg",
     "hp": 12,
     "speed": 150,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "c",
     "color": "light_gray",
@@ -470,7 +471,6 @@
       "SMELLS",
       "ANIMAL",
       "CANPLAY",
-      "CLIMBS",
       "PATH_AVOID_DANGER",
       "WARM",
       "HIT_AND_RUN",
@@ -1605,6 +1605,7 @@
     "weight": "4750 g",
     "hp": 20,
     "speed": 130,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "d",
     "color": "light_gray",
@@ -1623,7 +1624,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "CLIMBS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_fox_red",
@@ -2082,6 +2083,7 @@
     "weight": "3 kg",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "p",
     "color": "white",
@@ -2098,7 +2100,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_skunk",
@@ -2113,6 +2115,7 @@
     "weight": "5 kg",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "black_white",
@@ -2144,7 +2147,6 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "CLIMBS",
       "PATH_AVOID_DANGER",
       "WARM",
       "KEENNOSE",
@@ -2385,6 +2387,7 @@
     "weight": "6 kg",
     "hp": 14,
     "speed": 100,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "light_gray",
@@ -2402,7 +2405,7 @@
     "upgrades": { "half_life": 120, "into": "mon_raccoon_mutant" },
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_sewer_rat",
@@ -2549,6 +2552,7 @@
     "weight": "75 kg",
     "hp": 80,
     "speed": 200,
+    "move_skills": { "climb": 8 },
     "symbol": "g",
     "color": "white",
     "dodge": 3,
@@ -2568,7 +2572,6 @@
       "WARM",
       "PET_WONT_FOLLOW",
       "MILKABLE",
-      "CLIMBS",
       "CAN_BE_CULLED",
       "EATS"
     ]
