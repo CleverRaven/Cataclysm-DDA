@@ -1,4 +1,6 @@
 [
+  "//": "Many of these lines make obscure references and/or use slang.  For the sake of our translators, I will be including notes outlining terms/turns of phrase that I feel may be confusing.",
+  "//2": "Common terms that appear throughout the text: 'Perc'-short for Percocet, which is a synthetic Opioid.  'Opp'-stands for opposition, means enemy. 'Weed, zaza, runt, sherm'-various slang terms for Marijuana.  'Brick'-A brick of a drug, such as Cocaine or Marijuana,",  
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
@@ -32,6 +34,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "Perc 30 = 30 milligrams of Percocet.",
     "sound": "Popped a perc 30, got straight to fuckin'.",
     "volume": 10
   },
@@ -85,6 +88,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "Broward County Tic-tacs, Georgetown Geronimos, should not be translated",
     "sound": "I'm on them Broward County Tic-Tacs.  I'm on them Georgetown Geronimos.",
     "volume": 10
   },
@@ -120,6 +124,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "A band is $1000",
     "sound": "You ain't seen ten bands in your life, jit.",
     "volume": 10
   },
@@ -137,6 +142,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "Trackhawk is the name of the vehicle, and shoult not be translated".
     "sound": "I tied the opps to the back of a Trackhawk and dragged them around the block for 24 hours.  Motherfucker looked like a Resident Evil 5 campaign extra after we was done with em.",
     "volume": 10
   },
@@ -191,12 +197,6 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "sound": "Hello?",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_vampire_feral" ],
     "sound": "Haters in shambles, they stay picking the corn out of my shit.",
     "volume": 10
   },
@@ -215,6 +215,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "Rigor Mortis is latin, do not translate",
     "sound": "That Fentanyl gave me Vitruvian Man flexibility.  Got me in a state of Rigor Mortis.",
     "volume": 10
   },  {
@@ -225,6 +226,7 @@
   },  {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "Hibachi is a type of stirfrying done in front of the guests, as a method of entertainment during the meal. Konnichiwa should not be translated",
     "sound": "They needed a stealth soldier, so I put my hands on the Hibachi hotplate at Benihana, and burned my fuckin' fingerprints off.  They WILL not find me.  Konnichiwa, you little Jit!",
     "volume": 10
   },
@@ -237,12 +239,14 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "Göbekli Tepe is one of the oldest ruins in the world.  Blowing bareback asshole is a euphanism for anal sex.",
     "sound": "I'm in Göbekli Tepe, shirtless, in a loincloth, blowing bareback asshole, out smoking aqueduct-filtered sherm.",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
+    "//": "A cuban link is a type of diamond encrusted chain",
     "sound": "The Cuban link will turn a diamond tester into a pipebomb.",
     "volume": 10
   },
