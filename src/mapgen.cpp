@@ -1584,9 +1584,6 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         jmapgen_int tmp_i( 0, 0 );
         std::string string_val;
         int tmp_chance = 1;
-        int tmp_rotation = 0;
-        int tmp_fuel = -1;
-        int tmp_status = -1;
 
         const jmapgen_int tmp_x( pjo, "x" );
         const jmapgen_int tmp_y( pjo, "y" );
