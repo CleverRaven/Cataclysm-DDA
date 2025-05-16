@@ -1,0 +1,24 @@
+[
+  {
+    "result": "50beowulf_xtp",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "copper", 3 ] ],
+      [ [ "lead", 5 ] ],
+      [ [ "50beowulf_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder_rifle", 17 ] ]
+    ]
+  },
+  {
+    "result": "50beowulf_penetrator",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "copper", 6 ] ], [ [ "50beowulf_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder_rifle", 21 ] ] ]
+  }
+]

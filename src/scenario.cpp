@@ -1,24 +1,28 @@
 #include "scenario.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <ostream>
+#include <unordered_set>
 
+#include "achievement.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
+#include "options.h"
+#include "past_achievements_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
 #include "translations.h"
 
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+
 namespace
 {
 generic_factory<scenario> all_scenarios( "scenario" );
-const string_id<scenario> generic_scenario_id( "evacuee" );
 } // namespace
 
 /** @relates string_id */
@@ -38,6 +42,7 @@ bool string_id<scenario>::is_valid() const
 static scen_blacklist sc_blacklist;
 
 scenario::scenario()
+// NOLINTNEXTLINE(cata-static-string_id-constants)
     : id( "" ), _name_male( no_translation( "null" ) ),
       _name_female( no_translation( "null" ) ),
       _description_male( no_translation( "null" ) ),
@@ -50,7 +55,7 @@ void scenario::load_scenario( const JsonObject &jo, const std::string &src )
     all_scenarios.load( jo, src );
 }
 
-void scenario::load( const JsonObject &jo, const std::string & )
+void scenario::load( const JsonObject &jo, std::string_view )
 {
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?
@@ -79,28 +84,103 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "blacklist_professions", blacklist );
     optional( jo, was_loaded, "add_professions", extra_professions );
-    optional( jo, was_loaded, "professions", professions,
-              auto_flags_reader<string_id<profession>> {} );
+    optional( jo, was_loaded, "professions", professions, string_id_reader<::profession> {} );
 
-    optional( jo, was_loaded, "traits", _allowed_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forced_traits", _forced_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "allowed_locs", _allowed_locs, auto_flags_reader<start_location_id> {} );
+    optional( jo, was_loaded, "hobbies", hobby_exclusion );
+    optional( jo, was_loaded, "whitelist_hobbies", hobbies_whitelist, true );
+
+    optional( jo, was_loaded, "traits", _allowed_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forced_traits", _forced_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
+              string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "allowed_locs", _allowed_locs, string_id_reader<::start_location> {} );
     if( _allowed_locs.empty() ) {
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
-    optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
+    optional( jo, was_loaded, "map_extra", _map_extra, map_extra_id::NULL_ID() );
+    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
+
+    optional( jo, was_loaded, "requirement", _requirement );
+
+    optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+    optional( jo, was_loaded, "distance_initial_visibility", distance_initial_visibility, 15 );
+
+    optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
+
+    if( !was_loaded ) {
+
+        int _start_of_cataclysm_hour = 0;
+        int _start_of_cataclysm_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
+        season_type _start_of_cataclysm_season = SPRING;
+        int _start_of_cataclysm_year = 1;
+        if( jo.has_member( "start_of_cataclysm" ) ) {
+            JsonObject jocid = jo.get_member( "start_of_cataclysm" );
+            optional( jocid, was_loaded, "hour", _start_of_cataclysm_hour );
+            optional( jocid, was_loaded, "day", _start_of_cataclysm_day );
+            optional( jocid, was_loaded, "season", _start_of_cataclysm_season );
+            optional( jocid, was_loaded, "year", _start_of_cataclysm_year );
+        }
+        _default_start_of_cataclysm = calendar::turn_zero +
+                                      1_hours * _start_of_cataclysm_hour +
+                                      1_days * ( _start_of_cataclysm_day - 1 ) +
+                                      1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_cataclysm_season +
+                                      calendar::year_length() * ( _start_of_cataclysm_year - 1 )
+                                      ;
+
+        int _start_of_game_hour = 8;
+        int _start_of_game_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
+        season_type _start_of_game_season = SPRING;
+        int _start_of_game_year = 1;
+        if( jo.has_member( "start_of_game" ) ) {
+            JsonObject jocid = jo.get_member( "start_of_game" );
+            optional( jocid, was_loaded, "hour", _start_of_game_hour );
+            optional( jocid, was_loaded, "day", _start_of_game_day );
+            optional( jocid, was_loaded, "season", _start_of_game_season );
+            optional( jocid, was_loaded, "year", _start_of_game_year );
+        }
+        _default_start_of_game = calendar::turn_zero +
+                                 1_hours * _start_of_game_hour +
+                                 1_days * ( _start_of_game_day - 1 ) +
+                                 1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_game_season +
+                                 calendar::year_length() * ( _start_of_game_year - 1 )
+                                 ;
+
+        reset_calendar();
+    }
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
+    }
+
+    for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ),
+                                       static_cast<float>( ja.get_float( 1 ) ) );
     }
 }
 
 const scenario *scenario::generic()
 {
-    return &generic_scenario_id.obj();
+    static const string_id<scenario> generic_scenario_id(
+        get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
+
+    std::vector<const scenario *> all;
+    for( const scenario &scen : scenario::get_all() ) {
+        if( scen.scen_is_blacklisted() ) {
+            continue;
+        }
+        all.push_back( &scen );
+    }
+    if( find_if( all.begin(), all.end(), []( const scenario * s ) {
+    return s->ident() == generic_scenario_id;
+    } ) != all.end() ) {
+        // if the default scenario exists return it
+        return &generic_scenario_id.obj();
+    }
+
+    // if generic doesn't exist just return to the first scenario
+    return *all.begin();
+
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
@@ -133,9 +213,9 @@ void scenario::reset()
     all_scenarios.reset();
 }
 
-void scenario::check_definitions()
+void scenario::finalize()
 {
-    for( const auto &scen : all_scenarios.get_all() ) {
+    for( const scenario &scen : all_scenarios.get_all() ) {
         scen.check_definition();
     }
     sc_blacklist.finalize();
@@ -157,10 +237,22 @@ void scenario::check_definition() const
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
         }
     }
-    if( std::any_of( professions.begin(), professions.end(), [&]( const string_id<profession> &p ) {
-    return std::count( professions.begin(), professions.end(), p ) > 1;
-    } ) ) {
-        debugmsg( "Duplicate entries in the professions array." );
+
+    for( const string_id<profession> &hobby : hobby_exclusion ) {
+        if( !hobby.is_valid() ) {
+            debugmsg( "hobby %s for scenario %s does not exist", hobby.str(), id.str() );
+        } else if( !hobby->is_hobby() ) {
+            debugmsg( "hobby %s for scenario %s is a profession", hobby.str(), id.str() );
+        }
+    }
+
+    std::unordered_set<string_id<profession>> professions_set;
+    for( const auto &p : professions ) {
+        if( professions_set.count( p ) == 1 ) {
+            debugmsg( "Duplicate profession %s in scenario %s.", p.c_str(), this->id.c_str() );
+        } else {
+            professions_set.insert( p );
+        }
     }
 
     for( const start_location_id &l : _allowed_locs ) {
@@ -180,7 +272,16 @@ void scenario::check_definition() const
     check_traits( _allowed_traits, id );
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
-    MapExtras::get_function( _map_extra ); // triggers a debug message upon invalid input
+
+    if( !_map_extra.is_valid() )  {
+        debugmsg( "there is no map extra with id %s", _map_extra.str() );
+    }
+
+    for( const auto &e : eoc() ) {
+        if( !e.is_valid() ) {
+            debugmsg( "effect on condition %s for scenario %s does not exist", e.c_str(), id.c_str() );
+        }
+    }
 
     for( const auto &m : _missions ) {
         if( !m.is_valid() ) {
@@ -241,15 +342,17 @@ bool scenario::scen_is_blacklisted() const
     return sc_blacklist.scenarios.count( id ) != 0;
 }
 
-void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string &src )
+void scen_blacklist::load_scen_blacklist( const JsonObject &jo, std::string_view src )
 {
     sc_blacklist.load( jo, src );
 }
 
-void scen_blacklist::load( const JsonObject &jo, const std::string & )
+void scen_blacklist::load( const JsonObject &jo, std::string_view )
 {
     if( !scenarios.empty() ) {
-        jo.throw_error( "Attempted to load scenario blacklist with an existing scenario blacklist" );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Attempted to load scenario blacklist with an existing scenario blacklist, resetting blacklist info";
+        reset_scenarios_blacklist();
     }
 
     const std::string bl_stype = jo.get_string( "subtype" );
@@ -270,7 +373,9 @@ void scen_blacklist::load( const JsonObject &jo, const std::string & )
 void scen_blacklist::finalize()
 {
     std::vector<string_id<scenario>> all_scens;
-    for( const scenario &scen : scenario::get_all() ) {
+    std::vector<scenario> all_scenarios = scenario::get_all();
+    all_scens.reserve( all_scenarios.size() );
+    for( const scenario &scen : all_scenarios ) {
         all_scens.emplace_back( scen.ident() );
     }
     for( const string_id<scenario> &sc : sc_blacklist.scenarios ) {
@@ -298,6 +403,7 @@ void scen_blacklist::finalize()
 void reset_scenarios_blacklist()
 {
     sc_blacklist.scenarios.clear();
+    sc_blacklist.whitelist = false;
 }
 
 std::vector<string_id<profession>> scenario::permitted_professions() const
@@ -306,9 +412,12 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         return cached_permitted_professions;
     }
 
-    const auto all = profession::get_all();
+    const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
+        if( p.is_hobby() || p.is_blacklisted() ) {
+            continue;
+        }
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
 
@@ -339,6 +448,39 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     return res;
 }
 
+std::vector<string_id<profession>> scenario::permitted_hobbies() const
+{
+    if( !cached_permitted_hobbies.empty() ) {
+        return cached_permitted_hobbies;
+    }
+
+    std::vector<string_id<profession>> all = profession::get_all_hobbies();
+    std::vector<string_id<profession>> &res = cached_permitted_hobbies;
+    for( const string_id<profession> &hobby : all ) {
+        if( hobby->is_blacklisted() ) {
+            continue;
+        }
+        if( scenario_traits_conflict_with_profession_traits( *hobby ) ) {
+            continue;
+        }
+        if( !hobbies_whitelist && hobby_exclusion.count( hobby ) != 0 ) {
+            continue;
+        }
+        if( hobbies_whitelist && !hobby_exclusion.empty() && hobby_exclusion.count( hobby ) == 0 ) {
+            continue;
+        }
+
+        res.push_back( hobby );
+    }
+
+    if( res.empty() ) {
+        debugmsg( "Why would you blacklist every hobby?" );
+        res.insert( res.end(), all.begin(), all.end() );
+    }
+
+    return res;
+}
+
 bool scenario::scenario_traits_conflict_with_profession_traits( const profession &p ) const
 {
     for( const auto &pt : p.get_forbidden_traits() ) {
@@ -347,8 +489,8 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
         }
     }
 
-    for( auto &pt : p.get_locked_traits() ) {
-        if( is_forbidden_trait( pt ) ) {
+    for( trait_and_var &pt : p.get_locked_traits() ) {
+        if( is_forbidden_trait( pt.trait ) ) {
             return true;
         }
     }
@@ -356,9 +498,9 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     //  check if:
     //  locked traits for scenario prevent taking locked traits for professions
     //  locked traits for professions prevent taking locked traits for scenario
-    for( const auto &st : get_locked_traits() ) {
-        for( auto &pt : p.get_locked_traits() ) {
-            if( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ) ) {
+    for( const trait_id &st : get_locked_traits() ) {
+        for( trait_and_var &pt : p.get_locked_traits() ) {
+            if( are_conflicting_traits( st, pt.trait ) || are_conflicting_traits( pt.trait, st ) ) {
                 return true;
             }
         }
@@ -377,7 +519,7 @@ const profession *scenario::weighted_random_profession() const
 
     while( true ) {
         const string_id<profession> &candidate = random_entry_ref( choices );
-        if( x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
+        if( candidate->can_pick().success() && x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
             return &candidate.obj();
         }
     }
@@ -409,6 +551,65 @@ int scenario::start_location_targets_count() const
         cnt += sloc.obj().targets_count();
     }
     return cnt;
+}
+
+std::optional<achievement_id> scenario::get_requirement() const
+{
+    return _requirement;
+}
+
+bool scenario::get_reveal_locale() const
+{
+    return reveal_locale;
+}
+
+bool scenario::get_distance_initial_visibility() const
+{
+    return distance_initial_visibility;
+}
+
+void scenario::normalize_calendar() const
+{
+    scenario *hack = const_cast<scenario *>( this );
+    // We don't currently allow to start game before cataclysm
+    if( hack->_default_start_of_game < hack->_default_start_of_cataclysm ) {
+        hack->_default_start_of_game = hack->_default_start_of_cataclysm;
+    }
+    if( hack->_start_of_game < hack->_start_of_cataclysm ) {
+        hack->_start_of_game = hack->_start_of_cataclysm;
+    }
+}
+
+void scenario::reset_calendar() const
+{
+    scenario *hack = const_cast<scenario *>( this );
+    hack->_start_of_cataclysm = _default_start_of_cataclysm;
+    hack->_start_of_game = _default_start_of_game;
+    hack->normalize_calendar();
+}
+
+void scenario::change_start_of_cataclysm( const time_point &t ) const
+{
+    scenario *hack = const_cast<scenario *>( this );
+    hack->_start_of_cataclysm = t;
+    hack->normalize_calendar();
+}
+
+void scenario::change_start_of_game( const time_point &t ) const
+{
+    scenario *hack = const_cast<scenario *>( this );
+    hack->_start_of_game = t;
+    hack->normalize_calendar();
+}
+
+time_point scenario::start_of_cataclysm() const
+{
+    return _start_of_cataclysm;
+}
+
+time_point scenario::start_of_game() const
+{
+    return _start_of_game;
 }
 
 vproto_id scenario::vehicle() const
@@ -448,20 +649,55 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-bool scenario::can_pick( const scenario &current_scenario, const int points ) const
+ret_val<void> scenario::can_afford( const scenario &current_scenario, const int points ) const
 {
-    return point_cost() - current_scenario.point_cost() <= points;
+    if( point_cost() - current_scenario.point_cost() <= points ) {
+        return ret_val<void>::make_success();
+
+    }
+
+    return ret_val<void>::make_failure( _( "You don't have enough points" ) );
 }
+
+ret_val<void> scenario::can_pick() const
+{
+    // if meta progression is disabled then skip this
+    if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
+        !get_option<bool>( "META_PROGRESS" ) ) {
+        return ret_val<void>::make_success();
+    }
+
+    if( _requirement ) {
+        const bool has_req = get_past_achievements().is_completed(
+                                 _requirement.value()->id );
+        if( !has_req ) {
+            return ret_val<void>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
+                       _requirement.value()->name() );
+        }
+    }
+
+    return ret_val<void>::make_success();
+}
+
 bool scenario::has_map_extra() const
 {
-    return _map_extra != "mx_null";
+    return !_map_extra.is_null();
 }
-const std::string &scenario::get_map_extra() const
+const map_extra_id &scenario::get_map_extra() const
 {
     return _map_extra;
 }
 const std::vector<mission_type_id> &scenario::missions() const
 {
     return _missions;
+}
+const std::vector<effect_on_condition_id> &scenario::eoc() const
+{
+    return _eoc;
+}
+const std::vector<std::pair<mongroup_id, float>> &scenario::surround_groups() const
+{
+    return _surround_groups;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:

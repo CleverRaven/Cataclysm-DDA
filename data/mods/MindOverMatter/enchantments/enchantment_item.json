@@ -1,0 +1,28 @@
+[
+  {
+    "type": "enchantment",
+    "id": "pyrokinetic_banked_fire_damage_enchant",
+    "has": "WORN",
+    "condition": { "not": "u_has_weapon" },
+    "melee_damage_bonus": [ { "type": "heat", "add": { "math": [ "u_spell_level('pyrokinetic_call_flames') + 5" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "telekin_ritual_summon_strength_enchant",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [
+      {
+        "value": "STRENGTH",
+        "add": {
+          "math": [
+            "((((u_spell_level('telekinetic_pull')) + u_spell_level('telekinetic_push')) + u_spell_level('telekinetic_wave')) + u_spell_level('telekinetic_momentum'))"
+          ]
+        }
+      },
+      { "value": "ATTACK_SPEED", "multiply": 10 },
+      { "value": "BONUS_DODGE", "add": -5 },
+      { "value": "BONUS_BLOCK", "add": -5 }
+    ]
+  }
+]

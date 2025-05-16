@@ -1,0 +1,11 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "test_seedling",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "sealed_item": { " ": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" } }
+    }
+  }
+]

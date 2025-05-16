@@ -4,24 +4,32 @@
 
 #include <cstddef>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "explosion.h"
 #include "field_type.h"
-#include "string_id.h"
+#include "magic.h"
 #include "type_id.h"
 
 class JsonObject;
+struct ammo_effect;
+template <typename T> class generic_factory;
+
+generic_factory<ammo_effect> &get_all_ammo_effects();
 
 struct ammo_effect {
     public:
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
+        fake_spell spell_data;
 
-    public:
         field_type_id aoe_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
+        int trigger_chance = 1;
+
         std::string aoe_field_type_name = "fd_null";
         int aoe_intensity_min = 0;
         int aoe_intensity_max = 0;
@@ -37,6 +45,8 @@ struct ammo_effect {
         bool do_flashbang = false;
         bool do_emp_blast = false;
         bool foamcrete_build = false;
+        std::vector<effect_on_condition_id> eoc;
+        bool always_cast_spell = false;
 
         field_type_id trail_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
@@ -45,12 +55,11 @@ struct ammo_effect {
         int trail_intensity_max = 0;
         int trail_chance = 100;
 
-    public:
         // Used by generic_factory
-        string_id<ammo_effect> id;
+        ammo_effect_str_id id;
+        std::vector<std::pair<ammo_effect_str_id, mod_id>> src;
         bool was_loaded = false;
 
-    public:
         static size_t count();
 };
 

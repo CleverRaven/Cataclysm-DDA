@@ -2,7 +2,10 @@
   {
     "id": "BGSS_NO_PAST_5_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Let's not talk about it, ok?  It just hurts to think about.  I've lost so many people… and I'm sure you have too.  Let's focus on the here and now.",
+    "dynamic_line": {
+      "gendered_line": "Let's not talk about it, ok?  It just hurts to think about.  I've lost so many people… and I'm sure you have too.  Let's focus on the here and now.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "I can respect that.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Fair enough.  <end_talking>", "topic": "TALK_DONE" }

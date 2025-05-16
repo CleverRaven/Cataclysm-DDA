@@ -1,0 +1,18 @@
+[
+  {
+    "id": "longsword",
+    "copy-from": "longsword",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "longsword" },
+    "extend": { "weapon_category": [ "HYLIAN_MASTER_SWORD" ] }
+  },
+  {
+    "id": "sickle",
+    "copy-from": "sickle",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "sickle" },
+    "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
+  }
+]

@@ -2,16 +2,14 @@
 
 #include <cmath>
 #include <map>
-#include <set>
 #include <string>
 #include <utility>
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "json.h"
-#include "string_id.h"
 
 namespace
 {
@@ -62,7 +60,7 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
 
 } // namespace io
 
-void clothing_mod::load( const JsonObject &jo, const std::string & )
+void clothing_mod::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "flag", flag );
     mandatory( jo, was_loaded, "item", item_string );
@@ -80,9 +78,9 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
         for( const JsonValue entry : mv_jo.get_array( "proportion" ) ) {
             const std::string &str = entry.get_string();
             if( str == "thickness" ) {
-                mv.thickness_propotion = true;
+                mv.thickness_proportion = true;
             } else if( str == "coverage" ) {
-                mv.coverage_propotion = true;
+                mv.coverage_proportion = true;
             } else {
                 entry.throw_error( R"(Invalid value, valid are: "coverage" and "thickness")" );
             }
@@ -99,10 +97,10 @@ float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it )
     for( const mod_value &mv : mod_values ) {
         if( mv.type == type ) {
             float tmp = mv.value;
-            if( mv.thickness_propotion ) {
+            if( mv.thickness_proportion ) {
                 tmp *= thickness;
             }
-            if( mv.coverage_propotion ) {
+            if( mv.coverage_proportion ) {
                 tmp *= coverage / 100.0f;
             }
             if( mv.round_up ) {

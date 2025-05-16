@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_fortified" ],
-    "weight": 50,
     "//": "fortified houses shouldn't be common",
     "object": {
       "fill_ter": "t_floor",
@@ -33,25 +32,25 @@
         "...u.......######$$####.",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "standard_domestic_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
-        "#": "t_rock_wall",
-        "t": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "8": "t_linoleum_gray",
-        "B": "t_linoleum_gray",
-        "b": "t_linoleum_gray",
-        "-": "t_linoleum_gray",
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "b": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "$": "t_window_boarded",
         "=": "t_door_locked"
       },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 2, "y": 1 } ],
       "furniture": { "!": "f_region_flower" },
       "set": [
-        { "point": "trap", "id": "tr_funnel", "x": [ 2, 9 ], "y": 19, "repeat": [ 1, 2 ] },
+        { "point": "trap", "id": "tr_funnel", "x": [ 3, 9 ], "y": 19, "repeat": [ 1, 2 ] },
         { "point": "trap", "id": "tr_cot", "x": [ 2, 9 ], "y": [ 15, 17 ], "repeat": [ 1, 2 ] }
       ],
       "place_loot": [
@@ -63,10 +62,7 @@
         { "group": "survivor_weapons", "x": [ 1, 10 ], "y": [ 12, 17 ], "chance": 40, "ammo": 50, "magazine": 100 },
         { "group": "survivor_weapons", "x": [ 21, 21 ], "y": [ 13, 15 ], "chance": 50, "ammo": 50, "magazine": 100 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 },
-        { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.5 } ]
     }
   },
   {
@@ -77,28 +73,28 @@
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
-        "         |2222222222223 ",
-        "         |............3 ",
-        "         |............3 ",
-        "         |............3 ",
-        "         |......=.....3 ",
-        "         |............3 ",
-        "         |............3 ",
-        "         |............3 ",
-        "         |............3 ",
-        "         |............3 ",
-        " |2222222|............3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |....................5 ",
-        " |............N.......3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |5---------..........3 ",
-        "           |..........3 ",
-        "           |...&......3 ",
-        "           |..........3 ",
-        "           |----------3 ",
+        "         -------------- ",
+        "         -............- ",
+        "         -............- ",
+        "         -............- ",
+        "         -......=.....- ",
+        "         -............- ",
+        "         -............- ",
+        "         -............- ",
+        "         -............- ",
+        "         -............- ",
+        " ---------............- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................5 ",
+        " -............N.......- ",
+        " -....................- ",
+        " -....................- ",
+        " -5---------..........- ",
+        "           -..........- ",
+        "           -...&......- ",
+        "           -..........- ",
+        "           ------------ ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
@@ -133,11 +129,11 @@
         " |||||||||||..........| ",
         "           |..........| ",
         "           |..........| ",
-        "           |........gF| ",
+        "           |........gâ| ",
         "           |||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 60 ], [ "recroom_12x12", 30 ], [ "tvroom_12x12", 30 ], [ "workoutroom_12x12", 10 ] ] },
         "2": {

@@ -1,0 +1,188 @@
+[
+  {
+    "type": "npc",
+    "id": "RURAL_HOLDOUT_NIHILIST",
+    "//": "A rural holdout survivor that gave up on life",
+    "class": "NC_COWBOY",
+    "attitude": 0,
+    "name_suffix": "Survivor cowboy",
+    "mission": 7,
+    "chat": "TALK_COWBOYN_MAIN",
+    "faction": "no_faction"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_MAIN",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ],
+      "yes": "Yeah?",
+      "no": "Oh.  Hey there."
+    },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Thought I heard someone.  What are you doing here?",
+        "topic": "TALK_COWBOYN_INTRODUCTION1",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ] } }
+      },
+      {
+        "text": "How did you get here?",
+        "topic": "TALK_COWBOYN_BACKGROUND",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ] },
+            {
+              "not": {
+                "or": [
+                  { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmota" } ] },
+                  { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Would you like to come with me?",
+        "topic": "TALK_COWBOYN_FOLLOW",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmota" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] }
+          ]
+        }
+      },
+      {
+        "text": "See you around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyn" } ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_BACKGROUND",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmota" } ],
+      "no": {
+        "gendered_line": "Lived in a nearby town.  Normal life.  9 to 5 job.  When it all happened, we ran away to find some safety.  But there's no safety anymore, is there?",
+        "relevant_genders": [ "npc" ]
+      },
+      "yes": { "gendered_line": "I already told you.  Don't want to go through it again.", "relevant_genders": [ "npc" ] }
+    },
+    "responses": [
+      {
+        "text": "Wait, 'we'?",
+        "topic": "TALK_COWBOYN_PARTNER",
+        "condition": {
+          "or": [
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmota" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmots" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Right.  Okay.",
+        "topic": "TALK_COWBOYN_MAIN",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmota" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_cowboynmots" } ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_PARTNER",
+    "dynamic_line": { "gendered_line": "I didn't leave the town alone.  I arrived here alone.", "relevant_genders": [ "npc" ] },
+    "responses": [
+      {
+        "text": "I'm sorry for your loss.  But you still can't give up.  You have a lot to live for!",
+        "topic": "TALK_COWBOYN_MOTIVATEF"
+      },
+      { "text": "We all lost someone.  No reason to sit down and die.", "topic": "TALK_COWBOYN_MOTIVATEF" },
+      {
+        "text": "You can't let yourself be consumed by grief.  It will get better.",
+        "topic": "TALK_COWBOYN_MOTIVATEF"
+      },
+      {
+        "text": "No one gets out alive.  Always been that way.  So we keep going.",
+        "topic": "TALK_COWBOYN_MOTIVATES"
+      },
+      { "text": "I'm sure your loved one would want you to live on for them.", "topic": "TALK_COWBOYN_MOTIVATEF" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_MOTIVATES",
+    "dynamic_line": "I… I mean… huh.  I guess.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_cowboyn_cowboynmots", "value": "yes" } },
+    "responses": [ { "text": "Good.  Take care.", "topic": "TALK_DONE" }, { "text": "That's a start.", "topic": "TALK_COWBOYN_MAIN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_MOTIVATEF",
+    "dynamic_line": "Just leave me alone.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_cowboyn_cowboynmota", "value": "yes" } },
+    "responses": [ { "text": "Alright.  Take care.", "topic": "TALK_DONE" }, { "text": "Fine.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_INTRODUCTION1",
+    "dynamic_line": "I dunno.  Waiting.  Seeing if something happens I guess.",
+    "responses": [ { "text": "You do realize there is an apocalypse going on, right?", "topic": "TALK_COWBOYN_INTRODUCTION2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_INTRODUCTION2",
+    "dynamic_line": "Yeah.  I do.",
+    "responses": [ { "text": "So shouldn't you be more concerned?  Trying to survive?", "topic": "TALK_COWBOYN_NIHILIST" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_NIHILIST",
+    "dynamic_line": "For how long?  You've seen what's out there.  If we survive today, we'll die the day after.  Or the day after that.  And if we live beyond that, we'll just see everyone we care about die.  All of them.  Might as well get it over with.",
+    "responses": [
+      { "text": "What happened to you?", "topic": "TALK_COWBOYN_BACKGROUND" },
+      { "text": "So you're just going to give up?", "topic": "TALK_COWBOYN_NIHILIST2" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_NIHILIST2",
+    "dynamic_line": "Yeah.  I think I will.",
+    "responses": [
+      { "text": "What happened to you?", "topic": "TALK_COWBOYN_BACKGROUND" },
+      { "text": "Fair enough.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYN_FOLLOW",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ],
+      "yes": "I dunno.  Maybe.  Might give me something to do while I think about all this.",
+      "no": { "gendered_line": "I told you to just leave me alone.", "relevant_genders": [ "npc" ] }
+    },
+    "responses": [
+      {
+        "text": "It will.  <lets_go>",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] },
+        "effect": "follow"
+      },
+      {
+        "text": "On a second thought, wait here a while.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] }
+      },
+      {
+        "text": "Alright.  <end_talking_bye>",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cowboyn_cowboynmots" } ] } }
+      }
+    ]
+  }
+]

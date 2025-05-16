@@ -1,0 +1,151 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_THROW_WEIGHT_HANDLER",
+    "effect": [
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "math": [
+          "u_weight_ratio",
+          "=",
+          "( ( (u_telekinesis_power_level * u_telekinesis_weight_ratio) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + (u_telekinesis_weight_ratio / 2) ) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "u_telekinesis_shove_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
+      { "message": "The weight ratio is <u_val:weight_ratio>.", "type": "debug" },
+      { "message": "The effective spell level is <u_val:telekinesis_shove_spell_level>.", "type": "debug" },
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "if": { "math": [ "u_telekinesis_shove_spell_level < 1" ] },
+        "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
+        "else": {
+          "if": { "math": [ "u_telekinesis_push_pull_selector == -1" ] },
+          "then": [
+            { "math": [ "u_telekinesis_shove_spell_level *= u_telekinesis_push_pull_selector" ] },
+            {
+              "message": "The effective spell level for pulling is <u_val:telekinesis_shove_spell_level>.",
+              "type": "debug"
+            },
+            { "math": [ "n_telekinesis_shove_spell_level = u_telekinesis_shove_spell_level" ] },
+            { "npc_cast_spell": { "id": "telekinetic_force_shove_real" }, "loc": { "context_val": "loc" } },
+            { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+          ],
+          "else": [
+            {
+              "if": "npc_is_avatar",
+              "then": [
+                { "npc_message": "You hurl your target.", "type": "good" },
+                {
+                  "run_eocs": [
+                    {
+                      "id": "EOC_TELEKINETIC_PUSH_DIRECTION_PICKER",
+                      "effect": [
+                        { "u_location_variable": { "context_val": "u_pos" } },
+                        {
+                          "npc_choose_adjacent_highlight": { "context_val": "push_direction_incorrect" },
+                          "target_var": { "context_val": "u_pos" },
+                          "message": "Select direction."
+                        },
+                        {
+                          "mirror_coordinates": { "context_val": "push_direction_correct" },
+                          "center_var": { "context_val": "u_pos" },
+                          "relative_var": { "context_val": "push_direction_incorrect" }
+                        },
+                        {
+                          "u_knockback": { "math": [ "u_telekinesis_shove_spell_level" ] },
+                          "stun": 1,
+                          "dam_mult": { "math": [ "1 + (u_telekinesis_shove_spell_level * 0.4)" ] },
+                          "direction_var": { "context_val": "push_direction_correct" }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "else": [
+                { "npc_cast_spell": { "id": "telekinetic_force_shove_real" }, "loc": { "context_val": "loc" } },
+                { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR",
+    "effect": {
+      "run_eoc_selector": [ "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PULL", "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PUSH" ],
+      "names": [ "Pull", "Push" ],
+      "keys": [ "1", "2" ],
+      "descriptions": [ "Pull a set of items to you.", "Push a set of items away from you." ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PULL",
+    "effect": { "u_cast_spell": { "id": "telekinetic_item_pull_real" }, "targeted": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PUSH",
+    "effect": { "u_cast_spell": { "id": "telekinetic_item_push_real" }, "targeted": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
+    "condition": "npc_is_avatar",
+    "effect": [
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      { "math": [ "u_telekinesis_weight_ratio = 25" ] },
+      {
+        "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
+        "names": [ "Shove", "Pull" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [ "Shove a target in a particular direction.", "Grab a target and pull them towards you." ]
+      }
+    ],
+    "false_effect": [
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      { "math": [ "u_telekinesis_weight_ratio = 25" ] },
+      { "math": [ "u_telekinesis_push_pull_selector = 1" ] },
+      { "run_eocs": "EOC_TELEKINETIC_THROW_WEIGHT_HANDLER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH",
+    "effect": [ { "math": [ "u_telekinesis_push_pull_selector = 1" ] }, { "run_eocs": "EOC_TELEKINETIC_THROW_WEIGHT_HANDLER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL",
+    "effect": [ { "math": [ "u_telekinesis_push_pull_selector = -1" ] }, { "run_eocs": "EOC_TELEKINETIC_THROW_WEIGHT_HANDLER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER",
+    "condition": { "x_in_y_chance": { "x": { "math": [ "u_weight_ratio * 1000" ] }, "y": 1000 } },
+    "effect": [
+      { "u_add_effect": "downed", "duration": 2 },
+      { "npc_message": "You shove your target off their feet.", "type": "good" }
+    ],
+    "false_effect": [ { "npc_message": "You attempt to shove your target but they are too heavy!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
+    "effect": [
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_move_large_weight')" ] },
+      { "math": [ "u_telekinesis_weight_ratio = 150" ] },
+      {
+        "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
+        "names": [ "Shove", "Pull" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [ "Shove a target in particular direction.", "Pull something toward you." ]
+      }
+    ]
+  }
+]

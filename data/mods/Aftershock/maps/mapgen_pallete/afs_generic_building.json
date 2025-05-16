@@ -7,11 +7,14 @@
       "!": "t_door_locked_interior",
       "-": "t_wall_metal",
       "|": "t_concrete_wall",
+      "/": "t_wall_prefab_metal",
+      "Q": "t_wall_prefab_glass_shutters",
       "+": "t_door_c",
       "9": "t_window_domestic",
       ":": "t_door_glass_c",
       ";": "t_door_locked",
       "=": "t_wall_glass",
+      "o": "t_wall_prefab_glass",
       "(": "t_reinforced_glass",
       "X": "t_door_metal_locked",
       "3": "t_door_metal_c",
@@ -25,13 +28,14 @@
       "~": "t_sidewalk"
     },
     "furniture": {
-      "$": "f_safe_l",
+      "$": "f_e_safe_l",
       "A": "f_neuralnet_inserter",
       "0": "f_cryo_pod",
       "&": "f_toilet",
       "%": "f_console_broken",
       "5": "f_console",
       "B": "f_bed",
+      "?": "f_sofa",
       "S": "f_sink",
       "b": "f_bench",
       "c": "f_counter",
@@ -46,6 +50,7 @@
       "f": "f_filing_cabinet",
       "^": "f_indoor_plant"
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   }
 ]

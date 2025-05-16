@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_SPEECH_H
 #define CATA_SRC_SPEECH_H
 
-#include "translations.h"
-
 #include <string>
+
+#include "translation.h"
 
 class JsonObject;
 

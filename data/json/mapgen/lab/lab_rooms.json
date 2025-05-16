@@ -139,7 +139,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
         ".........",
@@ -214,7 +214,12 @@
       "palettes": [ "lab_palette" ],
       "mapping": {
         "c": {
-          "items": [ { "item": "office", "chance": 30 }, { "item": "textbooks", "chance": 3 }, { "item": "science", "chance": 3 } ]
+          "items": [
+            { "item": "office", "chance": 30 },
+            { "item": "SUS_science_personal_effects", "chance": 10 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 }
+          ]
         },
         "h": { "item": [ { "item": "coat_lab", "chance": 10 } ] }
       }
@@ -242,7 +247,12 @@
       "palettes": [ "lab_palette" ],
       "mapping": {
         "c": {
-          "items": [ { "item": "office", "chance": 30 }, { "item": "textbooks", "chance": 3 }, { "item": "science", "chance": 3 } ]
+          "items": [
+            { "item": "office", "chance": 30 },
+            { "item": "SUS_science_personal_effects", "chance": 10 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 }
+          ]
         },
         "h": { "item": [ { "item": "coat_lab", "chance": 10 } ] }
       }
@@ -357,12 +367,6 @@
       "place_furniture": [ { "furn": "f_standing_tank", "x": 3, "y": 3 } ],
       "place_nested": [ { "chunks": [ "lab_filltank_chem" ], "x": 3, "y": 3 } ]
     }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_filltank_chem",
-    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 200, 800 ], "x": 0, "y": 0, "liquid": "ammonia" } ] }
   },
   {
     "type": "mapgen",
@@ -732,7 +736,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
-      "terrain": { "A": "t_thconc_floor" },
       "furniture": {
         "A": [
           "f_machinery_heavy",
@@ -821,13 +824,13 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "b..|.|T.B",
-        "b..|.W..B",
+        "b..W.W..B",
         "..s|.|S..",
-        "-W--.----",
+        "----.----",
         ".........",
-        "----.--W-",
+        "----.----",
         "..s|.|s..",
-        "b..W.|...",
+        "b..W.W...",
         "b..|.|.bb"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
@@ -852,7 +855,7 @@
         ",,=.ccx"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "terrain": { "=": "t_chainfence_h", "^": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ] },
+      "terrain": { "=": "t_chainfence", "^": [ [ "t_chaingate_c", 3 ], [ "t_chaingate_o", 1 ] ] },
       "mapping": { "l": { "items": [ { "item": "vet_softdrug", "chance": 80, "repeat": 2 } ] } },
       "place_monster": [
         { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "pack_size": [ 1, 2 ], "one_or_none": true },
@@ -1082,7 +1085,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "a" ],
-      "terrain": { "a": "t_thconc_floor" },
       "furniture": { "a": "f_ash" },
       "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
       "items": { "a": { "item": "science", "chance": 10 } }

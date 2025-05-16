@@ -2,13 +2,15 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <set>
+#include <string>
+#include <unordered_map>
 
 #include "assign.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "translations.h"
 
 static std::vector<move_mode_id> move_modes_sorted;
 
@@ -34,7 +36,8 @@ bool move_mode_id::is_valid() const
     return move_mode_factory.is_valid( *this );
 }
 
-static const std::map<std::string, move_mode_type> move_types {
+static const std::unordered_map<std::string, move_mode_type> move_types {
+    { "prone",     move_mode_type::PRONE },
     { "crouching", move_mode_type::CROUCHING },
     { "walking",   move_mode_type::WALKING },
     { "running",   move_mode_type::RUNNING }
@@ -45,22 +48,20 @@ void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
     move_mode_factory.load( jo, src );
 }
 
-void move_mode::load( const JsonObject &jo, const std::string &src )
+void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
 {
-    bool strict = src == "dda";
-
     mandatory( jo, was_loaded, "character", _letter, unicode_codepoint_from_symbol_reader );
     mandatory( jo, was_loaded, "name",  _name );
 
     mandatory( jo, was_loaded, "panel_char", _panel_letter, unicode_codepoint_from_symbol_reader );
-    assign( jo, "panel_color", _panel_color, strict );
-    assign( jo, "symbol_color", _symbol_color, strict );
+    assign( jo, "panel_color", _panel_color );
+    assign( jo, "symbol_color", _symbol_color );
 
     std::string exert = jo.get_string( "exertion_level" );
-    if( !activity_levels.count( exert ) ) {
-        jo.throw_error( "Invalid activity level for move mode %s", id.str() );
+    if( !activity_levels_map.count( exert ) ) {
+        jo.throw_error_at( id.str(), "Invalid activity level for move mode " + id.str() );
     }
-    _exertion_level = activity_levels.at( exert );
+    _exertion_level = activity_levels_map.at( exert );
 
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
     mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
@@ -113,6 +114,15 @@ void move_mode::finalize()
         }
     }
 
+    // Cycle to the move mode below ours
+    for( size_t i = move_modes_sorted.size(); i > 0; --i ) {
+        const move_mode &curr = *move_modes_sorted[i - 1];
+        if( i == 1 ) {
+            curr.set_cycle_back( move_modes_sorted.back() );
+        } else {
+            curr.set_cycle_back( move_modes_sorted[i - 2] );
+        }
+    }
 }
 
 std::string move_mode::name() const
@@ -124,7 +134,7 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
 {
     if( steed == steed_type::NUM ) {
         debugmsg( "Attempted to switch to bad movement mode!" );
-        //~ This should never occur - this is the message when the character swtiches to
+        //~ This should never occur - this is the message when the character switches to
         //~ an invalid move mode or there's not a message for failing to switch to a move
         //~ mode
         return _( "You feel bugs crawl over your skin." );
@@ -140,6 +150,11 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
 move_mode_id move_mode::cycle() const
 {
     return cycle_to;
+}
+
+move_mode_id move_mode::cycle_reverse() const
+{
+    return cycle_back;
 }
 
 move_mode_id move_mode::ident() const
@@ -167,9 +182,9 @@ float move_mode::move_speed_mult() const
     return _move_speed_mult;
 }
 
-int move_mode::mech_power_use() const
+units::energy move_mode::mech_power_use() const
 {
-    return _mech_power_use;
+    return units::from_kilojoule( static_cast<std::int64_t>( _mech_power_use ) );
 }
 
 int move_mode::swim_speed_mod() const
@@ -210,4 +225,9 @@ move_mode_type move_mode::type() const
 void move_mode::set_cycle( const move_mode_id &mode ) const
 {
     cycle_to = mode;
+}
+
+void move_mode::set_cycle_back( const move_mode_id &mode ) const
+{
+    cycle_back = mode;
 }

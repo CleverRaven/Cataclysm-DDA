@@ -13,11 +13,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 void PointInitializationCheck::registerMatchers( MatchFinder *Finder )
 {
@@ -26,7 +22,7 @@ void PointInitializationCheck::registerMatchers( MatchFinder *Finder )
                 allOf(
                     argumentCountIs( 1 ),
                     hasArgument( 0, declRefExpr( to( varDecl(
-                                     anyOf( hasName( "point_zero" ), hasName( "tripoint_zero" ) )
+                                     anyOf( hasName( "point::zero" ), hasName( "tripoint::zero" ) )
                                  ) ) ) ) ),
                 allOf(
                     hasArgument( 0, integerLiteral( equals( 0 ) ) ),
@@ -97,6 +93,4 @@ void PointInitializationCheck::check( const MatchFinder::MatchResult &Result )
     CheckInit( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

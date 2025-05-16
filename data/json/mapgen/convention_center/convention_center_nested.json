@@ -1,0 +1,739 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_up_left_vacant",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "      hhhhh        ",
+        "    h  hh hh       ",
+        "      hhhhhh  h    ",
+        "   hhhhhh h        ",
+        "  hh hhh           ",
+        "  hhhh   h         ",
+        "   hhhh            ",
+        "  hhh h            ",
+        "                   ",
+        "                   ",
+        "    h        n n n ",
+        "             n n n ",
+        "                   ",
+        "             * h   ",
+        "             *│    ",
+        "                   ",
+        "               nn  ",
+        "        XX         ",
+        "        XX         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_up_right_vacant",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "      XX  XX       ",
+        "      XX  XX       ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                 **",
+        "                   ",
+        "                  n",
+        "  h               n",
+        "h               *n*",
+        "                *n*",
+        " h              n*n",
+        "                n*n",
+        "                *n*",
+        "                *n*",
+        "                 *n",
+        "                 *n"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_left_vacant",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "│││││                   ",
+        "│││││X                  ",
+        "│││││X                  ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                h  ",
+        "│││││                   ",
+        "│││││*            hh  h ",
+        "│││││*                  ",
+        "│││││               h   ",
+        "│││││nn                 ",
+        "│││││**nn               ",
+        "│││││nn**               ",
+        "│││││**nn**             ",
+        "│││││nn**nnh            ",
+        "│││││**nn h *           ",
+        "│││││nn**   *           ",
+        "│││││**nn               ",
+        "│││││nn**               ",
+        "│││││**nn h             ",
+        "│││││nn**               ",
+        "│││││**nn               "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_right_vacant",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                   │││││",
+        "                 n │││││",
+        "X                n │││││",
+        "  h            **  │││││",
+        "                   │││││",
+        "                 nn│││││",
+        "h                  │││││",
+        "                   │││││",
+        "                   │││││",
+        "                ││││││││",
+        "                ││││││││",
+        "                ││││││││",
+        "                ││││││││",
+        "               h││││││││",
+        "                ││││││││",
+        "              hhh h│││││",
+        "        h   h  hhhh│││││",
+        "              hhh  │││││",
+        "           hhhh hhh│││││",
+        "           h hhhhhh│││││",
+        "            hhh  hh│││││",
+        "                h  │││││",
+        "             h     │││││",
+        "                   │││││"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_left_vacant",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "nn          h      ",
+        "**                 ",
+        "nn    h            ",
+        "** h               ",
+        "nn  h              ",
+        "**  h              ",
+        "     nn            ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "        **         ",
+        "                   ",
+        "            n      ",
+        "            n      ",
+        "                   ",
+        "                   ",
+        "  *n*n*n*n         ",
+        "  *n*n*n*n         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_right_vacant",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "                 nn",
+        "  X              **",
+        "              n  nn",
+        "              n  **",
+        "                 nn",
+        "                 **",
+        "                 nn",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "       h           ",
+        "                   ",
+        "    h      h       ",
+        "      hhh          ",
+        "     h hhhh hh     ",
+        "  X  hhhh h        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_up_left_fandom",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "         h   n     ",
+        "     nh      n     ",
+        "     n  h    n     ",
+        "     n       n     ",
+        "     nnnnnnnnn     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "     **  *  **     ",
+        "     n  h*   n     ",
+        "     n   *  hn     ",
+        "     n   *   n│    ",
+        "     **  *X **     ",
+        "     n   *X  n     ",
+        "     n h * h n     ",
+        "     n   *   n     "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_up_right_fandom",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "         X   n     ",
+        "     n     h n     ",
+        "     n h     n     ",
+        "     n   h   n     ",
+        "     nnnnnnnnn     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                 XX",
+        " nnnnnn          XX",
+        " n  h n            ",
+        "      n            ",
+        " n                 ",
+        " n h  n            ",
+        " nnnnnn            ",
+        "                   ",
+        "                   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_left_fandom",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "│││││     **  *  **     ",
+        "│││││     n   *  hn     ",
+        "│││││     n   *   n     ",
+        "│││││     nh X*   n     ",
+        "│││││     **  *  **     ",
+        "│││││     n   *   n     ",
+        "│││││     n   * h n     ",
+        "│││││     n  h*   n     ",
+        "│││││     **  *  **     ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││     **  *  **     ",
+        "│││││     n   *h  n     ",
+        "│││││     nh  *   n     ",
+        "│││││     n   *   n     ",
+        "│││││     **  *  **     ",
+        "│││││     n  X*   n     ",
+        "│││││     nh  *   n     ",
+        "│││││     n   * h n     ",
+        "│││││     **  *  **     "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_right_fandom",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                   │││││",
+        "                   │││││",
+        "                   │││││",
+        "             ***   │││││",
+        "             n     │││││",
+        "             nh   X│││││",
+        "             n     │││││",
+        "             **    │││││",
+        "             n     │││││",
+        "             n  ││││││││",
+        "             nh ││││││││",
+        "             ** ││││││││",
+        "             n  ││││││││",
+        "             n  ││││││││",
+        "             n h││││││││",
+        "             **  XX│││││",
+        "             nh    │││││",
+        " nnnnnn      n     │││││",
+        " n    n      n    X│││││",
+        "    h n      **    │││││",
+        " nh          n     │││││",
+        " n    n      n     │││││",
+        " nnnnnn      n h   │││││",
+        "             ***   │││││"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_left_fandom",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "     n   * h n     ",
+        "     nh  *   n     ",
+        "     n   *X  n     ",
+        "     **  *X **     ",
+        "     n   *   n     ",
+        "     n h *   n     ",
+        "     n   *  hn     ",
+        "     **  *  **     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_right_fandom",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        " *nnn*nnn*nnn*     ",
+        " *  h*   *   *     ",
+        "           h       ",
+        "     X  h          ",
+        " *************     ",
+        "     XX            ",
+        "  h                ",
+        " *   *h  * h *     ",
+        " *nnn*nnn*nnn*     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "               X XX"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_up_left_lecture",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "n*n*  n*nn    **n*n",
+        "n*n*  n*     *  n*n",
+        "          nn *     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "          h        ",
+        "       h           ",
+        "            h      ",
+        "     h  hhh     h  ",
+        "              │    ",
+        "    hhhhhhh hhhhh  ",
+        "                   ",
+        "    hhh hhhhhhhh   ",
+        "                   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_up_right_lecture",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "*n nn  *   nn**nn**",
+        "*n     *     nn**  ",
+        "     **  n     nn**",
+        "         n*    **  ",
+        "          *        ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "     hh     h      ",
+        "                   ",
+        "   hhhh  hh        ",
+        "                   ",
+        "  hhhhhhhhhhh h    ",
+        "                   ",
+        "  hhh hhhhhhhhh    ",
+        "                   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_left_lecture",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "│││││    hh hhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhh   ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   ",
+        "│││││    hhhhhhhhhhhhh  ",
+        "│││││                   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_right_lecture",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "  hhhh hhhhhhhh    │││││",
+        "                   │││││",
+        "  hhhhhhhhhh hh    │││││",
+        "                   │││││",
+        "  hhhhhhhhhhhhh    │││││",
+        "                   │││││",
+        "  hhhhhhhhhhhhh    │││││",
+        "                   │││││",
+        "  hhhhhhhhhhhhh    │││││",
+        "                ││││││││",
+        "  hhhhhhhhhhhhh ││││││││",
+        "                ││││││││",
+        "  hhhhhhhhhhhhh ││││││││",
+        "                ││││││││",
+        "  hhhhhhhhhhhhh ││││││││",
+        "                   │││││",
+        "  hhhhhhhhhhhhh    │││││",
+        "                   │││││",
+        "  hhhhhhhhhhhhh    │││││",
+        "                   │││││",
+        "  hhhhhhhhhhhhh    │││││",
+        "                   │││││",
+        "  hhhhhhhhhhhhh    │││││",
+        "                   │││││"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_left_lecture",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "    hhhhhhhhhhhhh  ",
+        "                   ",
+        "    hhhhhhhhhhhhh  ",
+        "                   ",
+        "    hhhhhhhhhhhhh  ",
+        "                   ",
+        "    hhhhhhhhhhhhh  ",
+        "                   ",
+        "    hhhhhhhhhhhhh  ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                 nn",
+        "                 hh",
+        "                   ",
+        "                   ",
+        "                   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_right_lecture",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "  hhhhhhhhhhhhh    ",
+        "                   ",
+        "  hhhhhhhhhhhhh    ",
+        "                   ",
+        "  hhhhhhhhhhhhh    ",
+        "                   ",
+        "  hhhhhhhhhhhhh    ",
+        "                   ",
+        "  hhhhhhhhhhhhh    ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "nn                 ",
+        "hh                 ",
+        "                   ",
+        "                   ",
+        "                   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "conference_small_vacant",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "hhh       y",
+        "h hh       ",
+        " nnh       ",
+        "hh         ",
+        "nh h       ",
+        "n          ",
+        "           ",
+        "       h   ",
+        "     h     ",
+        "        hh ",
+        "    h h   a"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "conference_small_lecture",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "          y",
+        "     hhhhh ",
+        "     hhhhh ",
+        "     hhhhh ",
+        "     hhhhh ",
+        "  n        ",
+        "     hhhhh ",
+        "     hhhhh ",
+        "     hhhhh ",
+        "     hhhhh ",
+        "nn        a"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "conference_small_meeting",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "     nn nny",
+        "h          ",
+        "h   h h    ",
+        "           ",
+        "  h     h  ",
+        "           ",
+        "  h     h  ",
+        "           ",
+        "    h h    ",
+        "           ",
+        " hhh      a"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ],
+      "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "conference_big_vacant",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "a h  hhh     y",
+        "    hh   n nn ",
+        "   h     n    ",
+        "      h    nn ",
+        "              ",
+        "              ",
+        "              ",
+        "   *          ",
+        "h  *   h     h",
+        "h  hh        h",
+        "hh hh         ",
+        "  hh h        ",
+        " hhhhhh       ",
+        "hhhhhh    ** y"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "conference_big_lecture",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "a            y",
+        "   hhhhhh     ",
+        "   hhhhhh     ",
+        "              ",
+        " hhh hhhh     ",
+        " hhh hhhh  nh ",
+        " hhh hhhh  nh ",
+        " hhh hhhh  nh ",
+        " hhh       nh ",
+        " hhh hhhh     ",
+        " hhh hhhh    *",
+        " hhh hhhh    *",
+        " hhh hhhh     ",
+        "             y"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "conference_big_meeting",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "a    nn      y",
+        "              ",
+        "     h  h    n",
+        "   h      h  n",
+        "              ",
+        "  h        h  ",
+        "              ",
+        "              ",
+        "  h        h  ",
+        "              ",
+        "   h      h   ",
+        "     h  h     ",
+        "*             ",
+        "* **         y"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "convention_nested_palette" ],
+      "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ]
+    }
+  }
+]

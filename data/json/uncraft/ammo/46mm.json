@@ -13,7 +13,6 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 4 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

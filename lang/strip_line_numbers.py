@@ -19,7 +19,7 @@ def strip_pot_file(filename):
     except IOError as read_exc:
         print(read_exc)
         sys.exit(1)
-    assert(len(to_write) > 1)  # Wrong .pot file
+    assert len(to_write) > 1  # Wrong .pot file
 
     to_write = strip_line_numbers(to_write)
     to_write = strip_repeated_comments(to_write)

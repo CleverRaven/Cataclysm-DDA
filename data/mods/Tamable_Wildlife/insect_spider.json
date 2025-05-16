@@ -1,0 +1,599 @@
+[
+  {
+    "id": "mon_plague_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_plague_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_skittering_plague",
+    "type": "MONSTER",
+    "copy-from": "mon_skittering_plague",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_plague_vector",
+    "type": "MONSTER",
+    "copy-from": "mon_plague_vector",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_giant_cockroach_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_giant_cockroach_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_giant_cockroach",
+    "type": "MONSTER",
+    "copy-from": "mon_giant_cockroach",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_pregnant_giant_cockroach",
+    "type": "MONSTER",
+    "copy-from": "mon_pregnant_giant_cockroach",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_silverfish_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_silverfish_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_silverfish",
+    "type": "MONSTER",
+    "copy-from": "mon_silverfish",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_moth_fly_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_moth_fly_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "pet": "The %s crawls around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_moth_fly",
+    "type": "MONSTER",
+    "copy-from": "mon_moth_fly",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_centipede_house_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_house_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_centipede_house",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_house",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_dragonfly_naiad_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_dragonfly_naiad",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "mon_dragonfly_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_dragonfly_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_dragonfly_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_dragonfly_mega",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_wasp_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_wasp_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "pet": "The %s crawls around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_dermatik_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_dermatik_larva",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_ant_acid_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_ant_acid_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "pet": "The %s crawls around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_ant_acid",
+    "type": "MONSTER",
+    "copy-from": "mon_ant_acid",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_ant_acid_soldier",
+    "type": "MONSTER",
+    "copy-from": "mon_ant_acid_soldier",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_ant_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_ant_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "pet": "The %s crawls around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_ant",
+    "type": "MONSTER",
+    "copy-from": "mon_ant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_ant_soldier",
+    "type": "MONSTER",
+    "copy-from": "mon_ant_soldier",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_ant_soldier_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_ant_soldier_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_locust_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_locust_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_locust",
+    "type": "MONSTER",
+    "copy-from": "mon_locust",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_locust_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_locust_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_aphid_small",
+    "type": "MONSTER",
+    "copy-from": "mon_aphid_small",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_aphid",
+    "type": "MONSTER",
+    "copy-from": "mon_aphid",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_mantis_nymph_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_mantis_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "mon_mantis_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_mantis_giant",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_mantis_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_mantis_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_mole_cricket",
+    "type": "MONSTER",
+    "copy-from": "mon_mole_cricket",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_mole_cricket_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_mole_cricket_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_lady_bug_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_lady_bug_giant",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_lady_bug_larva_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_lady_bug_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
+      "pet": "The %s crawls around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_grasshopper_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_grasshopper_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_grasshopper_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_grasshopper_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_stag_beetle_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_stag_beetle_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
+      "pet": "The %s crawls around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_antlion_larva_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_antlion_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
+      "pet": "The %s crawls around you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "mon_antlion_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_antlion_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strider_nymph",
+    "type": "MONSTER",
+    "copy-from": "mon_strider_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_strider_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_strider_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_cicada_nymph_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_cicada_nymph",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "mon_cicada",
+    "type": "MONSTER",
+    "copy-from": "mon_cicada",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_woodlouse_manca",
+    "type": "MONSTER",
+    "copy-from": "mon_woodlouse_manca",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_woodlouse",
+    "type": "MONSTER",
+    "copy-from": "mon_woodlouse",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_diving_larva_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_diving_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
+      "pet": "The %s swims around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "mon_diving_beetle_small",
+    "type": "MONSTER",
+    "copy-from": "mon_diving_beetle_small",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_water_scorpion_larva_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_water_scorpion_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
+      "pet": "The %s swims around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "mon_water_scorpion",
+    "type": "MONSTER",
+    "copy-from": "mon_water_scorpion",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_jumping_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_jumping_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_jumping_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_jumping_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_spider_jumping_giant_s",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_jumping_giant_s",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s looks at you with its large eyes and skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_cellar_giant_s",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_cellar_giant_s",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_cellar_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_cellar_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_cellar_mom",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_cellar_mom",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_cellar_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_cellar_mega",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_trapdoor_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_trapdoor_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_trapdoor_s",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_trapdoor_s",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s looks at you with its large eyes and skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_trapdoor_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_trapdoor_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_spider_web",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_web",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_web_s",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_web_s",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_web_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_web_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_spider_widow_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_widow_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_widow_giant_s",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_widow_giant_s",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_widow_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_widow_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_spider_wolf_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_wolf_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_wolf_giant_s",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_wolf_giant_s",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant spider could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_spider_wolf_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_spider_wolf_mega",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_centipede_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_giant",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_centipede_larva_friendly",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
+      "pet": "The %s skitters around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
+    "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "mon_centipede_mom",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_mom",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_centipede_mega",
+    "type": "MONSTER",
+    "copy-from": "mon_centipede_mega",
+    "mountable_weight_ratio": 0.4,
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  }
+]

@@ -1,10 +1,16 @@
 #include "butchery_requirements.h"
 
+#include <cstddef>
+#include <functional>
+#include <string>
+
 #include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "inventory.h"
+#include "item.h"
 #include "requirements.h"
 
 namespace
@@ -34,7 +40,7 @@ const std::vector<butchery_requirements> &butchery_requirements::get_all()
     return butchery_req_factory.get_all();
 }
 
-void butchery_requirements::reset_all()
+void butchery_requirements::reset()
 {
     butchery_req_factory.reset();
 }
@@ -44,10 +50,8 @@ bool butchery_requirements::is_valid() const
     return butchery_req_factory.is_valid( this->id );
 }
 
-void butchery_requirements::load( const JsonObject &jo, const std::string & )
+void butchery_requirements::load( const JsonObject &jo, std::string_view )
 {
-    mandatory( jo, was_loaded, "id", id );
-
     for( const JsonMember member : jo.get_object( "requirements" ) ) {
         float modifier = std::stof( member.name() );
         requirements.emplace( modifier, std::map<creature_size, std::map<butcher_type, requirement_id>> {} );
@@ -93,7 +97,7 @@ void butchery_requirements::check_consistency()
 }
 
 std::pair<float, requirement_id> butchery_requirements::get_fastest_requirements(
-    const inventory &crafting_inv, creature_size size, butcher_type butcher ) const
+    const read_only_visitable &crafting_inv, creature_size size, butcher_type butcher ) const
 {
     for( const std::pair<const float, std::map<creature_size, std::map<butcher_type, requirement_id>>>
          &riter : requirements ) {

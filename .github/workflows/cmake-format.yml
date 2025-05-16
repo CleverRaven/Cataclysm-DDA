@@ -1,0 +1,31 @@
+name: cmake-format linting
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - '**/CMakeLists.txt'
+    - '**.cmake'
+    - '**.cmake.in'
+  pull_request:
+    branches:
+    - master
+    paths:
+    - '**/CMakeLists.txt'
+    - '**.cmake'
+    - '**.cmake.in'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: install cmakelang
+      run: python3 -m pip install -U cmakelang
+    - name: run cmake-lint
+      run: python3 -m cmakelang.lint CMakeLists.txt src/CMakeLists.txt data/CMakeLists.txt lang/CMakeLists.txt src/chkjson/CMakeLists.txt tools/format/CMakeLists.txt tools/clang-tidy-plugin/CMakeLists.txt cmake_uninstall.cmake.in -c .cmake-format.yml
+

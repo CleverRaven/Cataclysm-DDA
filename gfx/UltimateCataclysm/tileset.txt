@@ -1,4 +1,4 @@
-#Ultimate Cataclysm Update 06 Nov 2020
+#Ultimate Cataclysm
 
 NAME: UltimateCataclysm
 VIEW: UltiCa

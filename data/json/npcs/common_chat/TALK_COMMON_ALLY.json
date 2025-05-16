@@ -1,0 +1,562 @@
+[
+  {
+    "id": "TALK_WAKE_UP",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "sleep",
+      "yes": {
+        "npc_need": "sleepiness",
+        "level": "EXHAUSTED",
+        "no": {
+          "npc_need": "sleepiness",
+          "level": "DEAD_TIRED",
+          "no": {
+            "npc_need": "sleepiness",
+            "level": "TIRED",
+            "no": "Just few minutes more…",
+            "yes": "Make it quick, I want to go back to sleep."
+          },
+          "yes": "Just let me sleep, <name_b>!"
+        },
+        "yes": "No, just no…"
+      },
+      "no": "Anything to do before I go to sleep?"
+    },
+    "responses": [
+      { "text": "Wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "Go back to sleep.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_REBOOT",
+    "type": "talk_topic",
+    "dynamic_line": "This character was previously put into a suspension state due to an AI bug.  If you have reason to believe the problem was fixed, you can wake them up.  Do you want to do that now?",
+    "responses": [
+      { "text": "Yes, wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "No, go back to sleep.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *pshhhttt* I'm reading you boss, over.",
+      "no": { "has_reason": { "use_reason": true }, "no": "What is it, friend?" }
+    },
+    "responses": [
+      { "text": "[rules] Let's talk about how we'll work together.", "topic": "TALK_DONE", "effect": "npc_rules_menu" },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND",
+        "effect": "reveal_stats"
+      },
+      { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
+      { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
+      { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "[DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
+        "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
+        "topic": "TALK_ALLY_DEBUG"
+      },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_SOCIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *tshk* Are you serious?  This isn't a cell phone.  Can it wait until we're in the same place?",
+      "no": "Sure, what did you want to say?"
+    },
+    "responses": [
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            "at_safe_space",
+            {
+              "or": [
+                { "npc_has_flag": "BG_SURVIVAL_STORY" },
+                { "npc_has_flag": "BG_OTHER_SURVIVORS_STORY" },
+                { "npc_has_trait": "NPC_STATIC_NPC" }
+              ]
+            }
+          ]
+        },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": "at_safe_space",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_Confused_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//2": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_DANGER",
+        "condition": { "not": "at_safe_space" },
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_RADIO",
+        "condition": { "not": "is_by_radio" },
+        "switch": true
+      },
+      {
+        "text": "Let's just chitchat for a while, I could use some relaxation.",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "I'm all ears, my friend.", "You gonna give me orders?", "What would you like?", "Just say the word." ],
+    "responses": [
+      {
+        "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "sleepiness", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              { "npc_has_trait": "HALLUCINATION" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN" },
+        "failure": { "topic": "TALK_TRAIN_PERSUADE" }
+      },
+      {
+        "text": "Can you host a training seminar?",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "sleepiness", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE" }
+      },
+      {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
+        "text": "Let's trade items.",
+        "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
+        "topic": "TALK_FRIEND",
+        "effect": "start_trade",
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "Let's trade items",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
+      },
+      {
+        "text": "I want you to use this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND",
+        "effect": "npc_gets_item_to_use"
+      },
+      {
+        "text": "Hold on to this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND",
+        "effect": "npc_gets_item"
+      },
+      {
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_guard"
+      },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "and": [ { "not": "npc_is_riding" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Drop off any items you're not using.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
+      { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_PERSUADE",
+    "type": "talk_topic",
+    "dynamic_line": "Why should I teach you?",
+    "responses": [
+      {
+        "text": "Come on, we're friends.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_nevermind>  <lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_SEMINAR_PERSUADE",
+    "type": "talk_topic",
+    "dynamic_line": "Why should I host a training seminar?",
+    "responses": [
+      {
+        "text": "Come on, we're friends.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_nevermind>  <lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_LEAVE",
+    "type": "talk_topic",
+    "dynamic_line": "You're really leaving?",
+    "responses": [
+      {
+        "text": "Yeah, I'm sure.  <end_talking_bye>",
+        "topic": "TALK_DONE",
+        "effect": "leave",
+        "opinion": { "trust": -2, "anger": 1 }
+      },
+      { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_RADIO",
+    "type": "talk_topic",
+    "responses": [
+      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ACTIVITIES",
+    "type": "talk_topic",
+    "dynamic_line": { "npc_has_activity": "I'm currently <current_activity>.", "no": "I'm not doing much currently." },
+    "responses": [
+      { "text": "I meant what are your goals?", "topic": "TALK_DESCRIBE_MISSION" },
+      { "text": "Carry on.", "topic": "TALK_DONE" },
+      {
+        "text": "Please stop your current activity.",
+        "topic": "TALK_DONE",
+        "condition": "npc_has_activity",
+        "effect": "revert_activity"
+      },
+      {
+        "text": "Please sort out some of these items nearby.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "sort_loot"
+      },
+      {
+        "text": "Please do any construction work that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_construction"
+      },
+      {
+        "text": "Please do any mining work that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_mining"
+      },
+      {
+        "text": "Please go mop the area.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_mopping"
+      },
+      {
+        "text": "Please study from a book.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_read"
+      },
+      {
+        "text": "Please study from an e-book.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_eread"
+      },
+      {
+        "text": "Please study from books you have in order.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_read_repeatedly"
+      },
+      {
+        "text": "Please start deconstructing any vehicles in a deconstruction zone.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_vehicle_deconstruct"
+      },
+      {
+        "text": "Please start repairing any vehicles in a repair zone.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_vehicle_repair"
+      },
+      {
+        "text": "Please chop logs into planks.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_chop_plank"
+      },
+      {
+        "text": "Please butcher any corpses that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_butcher"
+      },
+      {
+        "text": "Please chop any trees in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_chop_trees"
+      },
+      {
+        "text": "Please go catch some fish.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_fishing"
+      },
+      {
+        "text": "Please do some farming work.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_farming"
+      },
+      {
+        "text": "Please disassemble anything in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_disassembly"
+      },
+      {
+        "text": "Can you craft this item?",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_craft"
+      }
+    ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION_RADIO",
+    "type": "talk_topic",
+    "dynamic_line": "*pssshht* ten-four, I'll make my way there, over.",
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_is_travelling": "Sure thing, I'll make my way there.",
+      "no": "All right, tell me if you want me to go somewhere."
+    },
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TRADE_HALLU",
+    "type": "talk_topic",
+    "dynamic_line": "<hallu_dont_trade>",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "What about the camp?",
+    "responses": [
+      {
+        "text": "I want to assign you to work at this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_camp"
+      },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
+      {
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_DONE",
+        "effect": "start_camp",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_START" },
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "Since we can't build a camp here, I want you to tell me where can we build a camp?",
+        "topic": "TALK_CAMP_SITES",
+        "condition": { "not": { "npc_at_om_location": "FACTION_CAMP_START" } },
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "We need to abandon this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_ABANDON"
+      },
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_ABANDON",
+    "type": "talk_topic",
+    "dynamic_line": { "gendered_line": "Are you sure?", "relevant_genders": [ "u" ] },
+    "responses": [
+      { "text": "Yes, I'm sure.", "topic": "TALK_DONE", "effect": "abandon_camp" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_DEBUG" ],
+    "type": "talk_topic",
+    "dynamic_line": { "is_by_radio": " *tshk* Not sure it works when I am that far.", "no": "Yes?" },
+    "responses": [
+      {
+        "text": "Trust me (+10 trust).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "trust": 10 } }
+      },
+      {
+        "text": "Do not trust me (-10 trust).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "trust": -10 } }
+      },
+      {
+        "text": "Fear me (+10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": 10 } }
+      },
+      {
+        "text": "Do not fear me (-10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": -10 } }
+      },
+      {
+        "text": "Fear me (+10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": 10 } }
+      },
+      {
+        "text": "Do not fear me (-10 fear).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "fear": -10 } }
+      },
+      {
+        "text": "Value me (+10 value).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "value": 10 } }
+      },
+      {
+        "text": "Do not value me (-10 value).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "value": -10 } }
+      },
+      {
+        "text": "Be angry (+10 anger).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "anger": 10 } }
+      },
+      {
+        "text": "Do not be angry (-10 anger).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "anger": -10 } }
+      },
+      {
+        "text": "Owe me (+10 owed).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "owed": 10 } }
+      },
+      {
+        "text": "Do not owe me (-10 owed).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "owed": -10 } }
+      },
+      {
+        "text": "Favor me (+10 favors).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "favors": 10 } }
+      },
+      {
+        "text": "Do not favor me (-10 favors).",
+        "trial": { "type": "NONE" },
+        "success": { "topic": "TALK_ALLY_DEBUG", "opinion": { "favors": -10 } }
+      },
+      { "text": "Train me.", "topic": "TALK_TRAIN" },
+      { "text": "Do a seminar.", "topic": "TALK_TRAIN_SEMINAR" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
+    ]
+  }
+]

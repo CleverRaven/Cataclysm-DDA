@@ -1,7 +1,7 @@
 # Translating Cataclysm: DDA
 
 * [Translators](#translators)
-  * [Getting Started](#getting-Started)
+  * [Getting Started](#getting-started)
   * [Glossary](#glossary)
   * [Grammatical gender](#grammatical-gender)
   * [Tips](#tips)
@@ -111,7 +111,7 @@ have alternate translations depending on the gender of the conversation
 participants.  This two pieces of initial configuration.
 
 1. The dialogue must have the relevant genders listed in the json file defining
-   it.  See [the NPC docs](NPCs.md).
+   it.  See [the NPC docs](./JSON/NPCs.md).
 2. Each language must specify the genders it wishes to use via the translation
    of `grammatical gender list`.  This should be a space-separated list of
    genders used in this language for such translations.  Don't add genders here
@@ -145,12 +145,13 @@ General notes for all translators are in `README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `de.txt` for German.
 
-Cataclysm: DDA has more than 14000 translatable strings, but don't be discouraged.
-The more translators there are, the easier it becomes 😄.
+Cataclysm: DDA has more than 50000 translatable strings, including all mods shipped
+with the game but don't be discouraged. The more translators there are, the easier it
+becomes 😄.
 
 ## Developers
 
-Cataclysm: DDA uses [GNU gettext][5] to display translated texts.
+Cataclysm: DDA uses a modified version of [GNU gettext][5] to display translated texts.
 
 Using `gettext` requires two actions:
 
@@ -180,13 +181,13 @@ get extracted.
 
 This function is appropriate for use on simple strings, for example:
 
-```c++
+```cpp
 const char *translated = _( "text marked for translation" )
 ```
 
 It also works directly:
 
-```c++
+```cpp
 add_msg( _( "You drop the %s." ), the_item_name );
 ```
 
@@ -206,20 +207,20 @@ provided to the translators, but is not part of the translated string itself.
 This function's first parameter is the context, the second is the string to be
 translated:
 
-```c++
+```cpp
 const char *translated = pgettext("The color", "blue")
 ```
 
-#### `ngettext()`
+#### `n_gettext()`
 
-Some languages have complex rules for plural forms. `ngettext` can be used to
+Some languages have complex rules for plural forms. `n_gettext` can be used to
 translate these plurals correctly. Its first parameter is the untranslated
 string in singular form, the second parameter is the untranslated string in
 plural form and the third one is used to determine which one of the first two
 should be used at run time:
 
-```c++
-const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
+```cpp
+const char *translated = n_gettext("one zombie", "many zombies", num_of_zombies)
 ```
 
 ### `translation`
@@ -229,33 +230,33 @@ translation context; Sometimes you may also want to store a string that needs no
 translation or has plural forms. `class translation` in `translations.h|cpp`
 offers these functionalities in a single wrapper:
 
-```c++
+```cpp
 const translation text = to_translation( "Context", "Text" );
 ```
 
-```c++
+```cpp
 const translation text = to_translation( "Text without context" );
 ```
 
-```c++
+```cpp
 const translation text = pl_translation( "Singular", "Plural" );
 ```
 
-```c++
+```cpp
 const translation text = pl_translation( "Context", "Singular", "Plural" );
 ```
 
-```c++
+```cpp
 const translation text = no_translation( "This string will not be translated" );
 ```
 
 The string can then be translated/retrieved with the following code
 
-```c++
+```cpp
 const std::string translated = text.translated();
 ```
 
-```c++
+```cpp
 // this translates the plural form of the text corresponding to the number 2
 const std::string translated = text.translated( 2 );
 ```
@@ -264,17 +265,17 @@ const std::string translated = text.translated( 2 );
 handles deserialization from a `JsonIn` object, so translations can be read from
 JSON using the appropriate JSON functions. The JSON syntax is as follows:
 
-```JSON
+```jsonc
 "name": "bar"
 ```
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
 or
 
-```JSON
+```jsonc
 "name": { "ctxt": "foo", "str_sp": "foo" }
 ```
 
@@ -284,18 +285,20 @@ is equivalent to specifying `"str"` and `"str_pl"` with the same string. Additio
 `plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
 an example:
 
-```c++
+```cpp
 translation name{ translation::plural_tag() };
 jsobj.read( "name", name );
 ```
 
-If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
-singular form + "s".
+If neither `"str_pl"` nor `"str_sp"` is specified, the plural form defaults to
+the singular form + "s". However, `"str_pl"` may still be needed if the unit
+test cannot determine whether the correct plural form can be formed by simply
+appending "s".
 
 You can also add comments for translators by writing it like below (the order
 of the entries does not matter):
 
-```JSON
+```jsonc
 "name": {
     "//~": "as in 'foobar'",
     "str": "bar"
@@ -308,6 +311,33 @@ Do note that the JSON syntax is only supported if a JSON value is read using
 you also need to update `extract_json_strings.py` and run `lang/update_pot.sh`
 to ensure that the strings are correctly extracted for translation, and run the
 unit test to fix text styling issues reported by the `translation` class.
+
+If a string doesn't need to be translated, you can write `"NO_I18N"` in the
+`"//~"` comment, and this string will not be available to translators (see [here](/doc/JSON/JSON_INFO.md#translatable-strings)):
+
+```jsonc
+"name": {
+    "//~": "NO_I18N",
+    "str": "Fake Monster-Only Spell"
+}
+```
+
+### Static string variables
+
+Translation functions should not be called when initializing a static variable.
+For global static variables, calling these functions does nothing because the
+translation system is not yet initialized. For local static variables, the
+translation will only happen once and switching language in-game will not work
+properly. Consider using translation objects (`to_translation()` or `pl_translation()`)
+to mark the string for extraction and call `translation::translated()` on the
+fly to ensure the string is properly translated each time.
+
+Note if a string becomes translated in-game after you add a translation function
+call to the initialization of a global static variable, it usually means a
+translation call is already made when the string is used, and your newly added
+translation call happens to mark the string for extraction. In this case, using
+a translation object is also recommended to avoid calling the translation
+function twice.
 
 ### Recommendations
 
@@ -329,7 +359,14 @@ See the [gettext manual][6] for more information.
 
 ## Maintainers
 
-Several steps need to be done in the correct order to correctly merge and maintain the translation files.
+### Automated updates
+
+Under normal circumstances the translation files are updated automatically by a
+weekly GitHub workflow called `pull-translations`.
+
+### Manual updates
+
+If for some reason you wish to update the translation files by hand, several steps need to be done in the correct order to correctly merge and maintain them.
 
 There are scripts available for these, so usually the process will be as follows:
 
@@ -346,12 +383,22 @@ To compile the .po files into `.mo` files for use, run `lang/compile_mo.sh`. It 
 
 Also note that both `lang/merge_po.sh` and `lang/compile_mo.sh` accept arguments specifying which languages to merge or compile. So to compile only the translation for, say, Traditional Chinese (zh_TW), one would run `lang/compile_mo.sh zh_TW`.
 
-After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run cataclysm.
+After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run Cataclysm.
 
 If your system locale is different from the one you want to test, the easiest way to do so is to find out your locale identifier, compile the translation you want to test, then rename the directory in `lang/mo/` to your locale identifier.
 
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
 
+You can also change the language in game options if both are installed.
+
+### Language stats
+
+We also store some statistics for how complete each translation is, in
+`src/lang_stats.inc`.  This can be used for example to show end users some
+information about the translations.
+
+These stats are also normally updated by the GitHub workflow, but can be
+updated by hand via `lang/update_stats.sh`.
 
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion

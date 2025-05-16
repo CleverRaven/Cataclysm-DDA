@@ -1,8 +1,20 @@
 [
   {
-    "id": "vehicle_bolt",
+    "id": "vehicle_fasten",
     "type": "requirement",
     "//": "Compatible with legacy flag TOOL_WRENCH or when installing wheels",
+    "tools": [ [ [ "lug_wrench", -1 ], [ "wrench_large", -1 ], [ "cordless_impact_wrench", 100 ] ] ]
+  },
+  {
+    "id": "vehicle_wrench_1",
+    "type": "requirement",
+    "//": "Compatible with legacy flag TOOL_WRENCH or when doing jobs with quality 1 wrenching",
+    "qualities": [ { "id": "WRENCH", "level": 1 } ]
+  },
+  {
+    "id": "vehicle_wrench_2",
+    "type": "requirement",
+    "//": "Compatible with legacy flag TOOL_WRENCH or when doing jobs with quality 2 wrenching",
     "qualities": [ { "id": "WRENCH", "level": 2 } ]
   },
   {
@@ -13,10 +25,24 @@
     "components": [ [ [ "nail", 20 ] ] ]
   },
   {
+    "id": "vehicle_bolt_install",
+    "type": "requirement",
+    "//": "represents riveting and/or bolting plates together as a supplement for welding",
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "nuts_bolts", 20 ] ] ]
+  },
+  {
+    "id": "vehicle_bolt_install_simple",
+    "type": "requirement",
+    "//": "for simple installs that only require tightening bolts",
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "nuts_bolts", 4 ] ] ]
+  },
+  {
     "id": "vehicle_nail_removal",
     "type": "requirement",
     "//": "Compatible with legacy flag NAILABLE",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ]
+    "qualities": [ { "id": "PRY", "level": 1 } ]
   },
   {
     "id": "vehicle_screw",
@@ -29,5 +55,11 @@
     "type": "requirement",
     "//": "Counterpart to welding_* installation requirements",
     "qualities": [ { "id": "SAW_M", "level": 2 } ]
+  },
+  {
+    "id": "vehicle_weld_removal_cut_resistant",
+    "type": "requirement",
+    "//": "Used for parts that can't be cut with hand tools",
+    "qualities": [ { "id": "SAW_M", "level": 3 } ]
   }
 ]

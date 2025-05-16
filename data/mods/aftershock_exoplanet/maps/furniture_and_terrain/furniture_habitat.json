@@ -1,0 +1,890 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_gene_editor",
+    "name": "Mercurial Resequencer",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Used in gene editing and for general medical purposes, can impart or remove traits using a variety of gene templates.",
+    "symbol": "O",
+    "color": "light_blue",
+    "examine_action": "genemill",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "required_str": -1,
+    "looks_like": "t_vat",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
+        { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
+        { "item": "plastic_sheet", "count": [ 10, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gene_editor_inactive",
+    "name": "Deactivated Mercurial Resequencer",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Used in gene editing and for general medical purposes, can impart or remove traits using a variety of gene templates.  This one stands lifelessly, its screens black and the hum of machinery replaced by an eerie silence.",
+    "symbol": "O",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "required_str": -1,
+    "looks_like": "t_vat",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
+        { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
+        { "item": "plastic_sheet", "count": [ 10, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_table",
+    "name": "metal table",
+    "description": "A serviceable but simple table made completely out of metal.  Spartan in appearance and commonly found within habitats and spaceships.",
+    "symbol": "T",
+    "looks_like": "f_table",
+    "color": "light_gray",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 8,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "FLAT_SURF", "SHORT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe_fittings", "count": 2 },
+        { "item": "scrap", "count": 4 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 4 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300 L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gene_editor_gutted",
+    "name": "Ravaged Mercurial Resequencer",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Panels dangle loosely from their hinges revealing a rat's nest of wires and cabling ripped from the machine.  Useless metal and electronics scraps are strewn about haphazardly on the floor.  It's clear anything of value has long been taken from this machine.",
+    "symbol": "O",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "required_str": -1,
+    "looks_like": "t_vat",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "lc_steel_chunk", "count": [ 1, 2 ] },
+        { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
+        { "item": "plastic_sheet", "count": [ 10, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 5, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 5, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_habitat_kitchenette",
+    "name": "habitat kitchenette",
+    "symbol": "#",
+    "looks_like": "f_oven",
+    "description": "A tiny sink and cooking surface only big enough to fit an electric hotplate, placed above and below many integrated storage units.  The minimal space in which you could technically cook.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "NO_SELF_CONNECT" ],
+    "connect_groups": "COUNTER",
+    "connects_to": "COUNTER",
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": 3 },
+        { "item": "rigid_plastic_sheet", "count": 1 },
+        { "item": "polycarbonate_sheet", "count": [ 2, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 2, 16 ] }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "50L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_habitat_storage_board",
+    "name": "storage board",
+    "symbol": "#",
+    "looks_like": "f_cupboard",
+    "description": "The wall-mounted, steel and plastic storage solution of tomorrow.",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "connect_groups": "COUNTER",
+    "connects_to": "COUNTER",
+    "rotates_to": "INDOORFLOOR",
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": 3 },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "rigid_plastic_sheet", "count": 1 },
+        { "item": "polycarbonate_sheet", "count": [ 2, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
+        { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 2, 16 ] }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_habitat_bathroom",
+    "name": "integrated washroom",
+    "symbol": "#",
+    "looks_like": "f_shower",
+    "description": "Waste and water pipes, conjoined into the most compact bathroom that could possibly be built.",
+    "color": "white",
+    "move_cost_mod": 0,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "water_faucet", "count": 1 },
+        { "item": "hose", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "lc_steel_chunk", "count": [ 0, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_habitat_floodlight",
+    "name": "industrial floodlight",
+    "description": "A wall mountable floodlight, designed to illuminate large areas with a bright, white light.  Still functional thanks to some unknown backup power source.",
+    "symbol": "!",
+    "color": "brown",
+    "move_cost_mod": 6,
+    "required_str": -1,
+    "light_emitted": 600,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_screenmirror",
+    "name": "screen mirror",
+    "symbol": "{",
+    "description": "A wall mounted digital display.  It would once have served as an entertainment and advertising system.",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 5,
+    "crafting_pseudo_item": "mirror",
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "change_appearance",
+    "deconstruct": {
+      "items": [
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "small_lcd_screen", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 1, 3 ] },
+        { "item": "circuit", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "small_lcd_screen", "count": 1, "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
+        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_screenmirror_working",
+    "name": "screen mirror",
+    "symbol": "{",
+    "light_emitted": 20,
+    "description": "The screen wall is awash with rolling advertisements.",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 5,
+    "crafting_pseudo_item": "mirror",
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "small_lcd_screen", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 1, 3 ] },
+        { "item": "circuit", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "small_lcd_screen", "count": 1, "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
+        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_intermodal_crate_open",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be open.",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sealed_intermodal_crate",
+    "name": "sealed intermodal crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock.",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "oxytorch": { "result": "f_intermodal_crate_open", "duration": "14 seconds" },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER", "SEALED" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_crate",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sealed_intermodal_crate_locked",
+    "name": "powered down intermodal crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock that has shut down.",
+    "looks_like": "f_sealed_intermodal_crate",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "oxytorch": { "result": "f_intermodal_crate_open", "duration": "14 seconds" },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER", "SEALED" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase",
+    "name": "reinforced display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Useful for storing valuable things while still showing them off.  Secured with an electronic lock.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_display_case",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "0" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase_locked",
+    "name": "powered down reinforced display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Useful for storing valuable things while still showing them off.  Secured with an electronic lock.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase_o",
+    "name": "reinforced display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Useful for storing valuable things while still showing them off.  This one had its lock hacked and is open.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase_b",
+    "name": "broken display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_sofa",
+    "name": "foam sofa",
+    "symbol": "H",
+    "description": "The classic corporate-style sofa, modular foam cushions mounted over a minimalist stainless steel frame.  A mainstay of frontier design since before the discontinuity.",
+    "bgcolor": "red",
+    "looks_like": "f_sofa",
+    "move_cost_mod": 1,
+    "coverage": 60,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_nylon", "count": 8 },
+        { "item": "pipe", "count": [ 2, 3 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 2, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "plastic_chunk", "count": [ 10, 20 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "sheet_nylon", "count": 8 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "plastic_chunk", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hacker_chair",
+    "name": "Net Breacher recliner",
+    "symbol": "H",
+    "description": "A reclined metal chair adorned with soft fabric padding.  A number of cables dangle from the headrest, waiting to be connected to a bionic interface.  In the past, this state-of-the-art equipment would have served as a hypercloud access point for cyber security specialists.",
+    "looks_like": "f_armchair",
+    "color": "green",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "required_str": 12,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_cotton", "count": [ 6, 10 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 7 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 6 ], "prob": 80 },
+        { "item": "afs_circuitry_2", "count": [ 1, 3 ], "prob": 60 },
+        { "item": "afs_neural_io_1", "count": [ 1, 6 ], "prob": 80 },
+        { "item": "afs_neural_io_2", "count": [ 1, 3 ], "prob": 60 }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "scrap", "count": [ 8, 24 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "sheet_cotton", "count": [ 6, 10 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 7 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "afs_circuitry_2", "count": [ 1, 2 ], "prob": 20 },
+        { "item": "afs_neural_io_1", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "afs_neural_io_2", "count": 1, "prob": 20 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_security_panel",
+    "name": "security override panel",
+    "symbol": "e",
+    "description": "A slim wall mounted metal panel covering an electronic interface to manually override nearby security systems.",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_security_panel",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_security_panel_10",
+    "name": "security override panel",
+    "copy-from": "f_security_panel",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_security_panel_10",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "10" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_security_panel_locked",
+    "name": "burnt out security override panel",
+    "symbol": "e",
+    "description": "A slim wall mounted metal panel covering an electronic interface to manually override nearby security systems.",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_c",
+    "name": "safe",
+    "looks_like": "f_safe_c",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  This one isn't actually locked, just closed.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "open": "f_e_safe_o",
+    "examine_action": "open_safe",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_l",
+    "name": "safe",
+    "looks_like": "f_e_safe_c",
+    "symbol": "X",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  With a hacking tool and the right skills you might be able to crack it.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_e_safe_o", "duration": "14 seconds" },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_e_safe",
+          "effect": [
+            { "math": [ "_t_delay = time('1 h')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "13", "t_radius": "1" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_l_down",
+    "name": "powered down safe",
+    "looks_like": "f_e_safe_c",
+    "symbol": "X",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  With a hacking tool and the right skills you might be able to crack it.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_e_safe_o", "duration": "14 seconds" },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_o",
+    "name": "open safe",
+    "looks_like": "f_safe_o",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock, albeit significantly less secure with the door open.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "close": "f_e_safe_c",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_genetech_mannequin",
+    "name": "Genetech display mannequin",
+    "description": "A life-size painted plastic figure of a person displaying prominent genetic alterations.  Commonly used as part of Mercurial Ad campaigns intended to sell the public on Genetech treatments.",
+    "symbol": "@",
+    "color": "white",
+    "looks_like": "f_mannequin",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 5,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "plastic_chunk", "count": 15 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "plastic_chunk", "count": [ 9, 12 ] } ]
+    }
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "grenade_anti_psi_explosion",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Null Grenade Explosion", "//~": "NO_I18N" },
+    "description": {
+      "str": "The wave of anti-psi created by a null grenade.  If you cast this yourself you're 100% going to have some problems.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "skill": "metaphysics",
+    "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_psi_neutralized",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 1,
+    "min_duration": 1200,
+    "max_duration": 2500,
+    "min_aoe": 5,
+    "max_aoe": 5
+  },
+  {
+    "id": "pure_translocate_power",
+    "type": "SPELL",
+    "name": { "str": "Item Translocate", "//~": "NO_I18N" },
+    "description": { "str": "A translocate power for items.  It's a bug if you have it directly.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
+    "effect": "translocate",
+    "shape": "blast"
+  }
+]

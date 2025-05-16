@@ -1,0 +1,32 @@
+[
+  {
+    "type": "palette",
+    "id": "trail_terrain_furniture_palette",
+    "palettes": [ "trail_path_palette" ],
+    "terrain": {
+      ".": "t_dirt",
+      "t": "t_trunk",
+      "n": "t_stump",
+      "m": "t_dirtmound",
+      "M": "t_moss",
+      ",": "t_forestfloor",
+      "u": "t_underbrush",
+      "f": "t_fungus_colony",
+      "F": "t_fern",
+      "G": [ [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+      "6": "t_region_tree_shade",
+      "7": [ "t_tree_dead", "t_tree_very_dead", "t_tree_dead_warped" ]
+    },
+    "furniture": { "_": [ [ "f_null", 17 ], [ "f_boulder_small", 1 ], [ "f_boulder_medium", 1 ], [ "f_boulder_large", 1 ] ] },
+    "nested": {
+      "B": { "chunks": [ "null", 3 ] },
+      "I": { "chunks": [ "null", 3 ] },
+      "T": { "chunks": [ [ "1x1_predecessor_tree", 2 ], [ "1x1_predecessor_groundcover", 1 ] ] },
+      "*": { "chunks": [ "1x1_predecessor_groundcover" ] },
+      "s": { "chunks": [ "1x1_predecessor_shrub" ] },
+      "S": { "chunks": [ [ "1x1_predecessor_groundcover", 2 ], [ "1x1_predecessor_shrub", 3 ] ] },
+      "_": { "chunks": [ [ "1x1_t_dirt", 1 ], [ "1x1_predecessor_groundcover", 3 ] ] },
+      "~": { "chunks": [ [ "1x1_t_mud", 6 ], [ "1x1_t_dirt", 1 ], [ "1x1_predecessor_groundcover", 1 ] ] }
+    }
+  }
+]

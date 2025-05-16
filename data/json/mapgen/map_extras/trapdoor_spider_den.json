@@ -1,0 +1,63 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_Trapdoor_spider_den",
+    "object": {
+      "rows": [
+        "                   s    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  s                     ",
+        "                        ",
+        "                        ",
+        "                s       ",
+        "                        ",
+        "        s            s  ",
+        "                        ",
+        "              S         ",
+        "                        ",
+        "                        ",
+        "       s                ",
+        "                s       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  s                     ",
+        "      s                 ",
+        "                  s     ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "s": [ "t_region_soil" ] },
+      "nested": { "s": { "chunks": [ [ "null", 1 ], [ "trapdoor_trap", 1 ] ] } },
+      "traps": { "S": { "trap": "tr_spider" } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "trapdoor_trap",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "wasp_gibs", 1 ] ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 3, 8 ] } ],
+      "place_traps": [ { "trap": "tr_spider", "x": 1, "y": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "trapdoor_trap",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "wasp_gibs", 1 ] ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 3, 8 ] } ],
+      "place_terrain": [ { "ter": "t_dirtmound", "x": 1, "y": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

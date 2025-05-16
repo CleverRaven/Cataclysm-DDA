@@ -1,0 +1,121 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "battery_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "45 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "plastic_chunk", 1 ], [ "duct_tape", 10 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_hand_crank_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "90 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "casting_mold_small", -1 ], [ "casting_mold_small", -1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "ANVIL", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_redsmithing" }
+    ],
+    "components": [
+      [ [ "2x4", 3 ] ],
+      [ [ "copper_scrap_equivalent", 10, "LIST" ] ],
+      [ [ "stick", 1 ] ],
+      [ [ "copper_wire", 2 ] ],
+      [ [ "rope_any_short", 2, "LIST" ] ],
+      [ [ "chunk_magnetite", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "condensor_coil",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "mechanics",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
+    "components": [
+      [ [ "cu_pipe", 3 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "sheet_metal_small", 5 ] ],
+      [ [ "scrap", 12 ], [ "steel_chunk_any", 4, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "evaporator_coil",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "mechanics",
+    "using": [ [ "soldering_standard", 50 ] ],
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 2 } ],
+    "components": [ [ [ "cu_pipe", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "sheet_metal", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "light_minus_disposable_cell",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "chemistry",
+    "skills_required": [ "electronics", 5 ],
+    "difficulty": 4,
+    "time": "45 m",
+    "autolearn": true,
+    "flags": [ "FULL_MAGAZINE" ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "chem_manganese_dioxide", 29 ] ],
+      [ [ "zinc_metal", 8 ] ],
+      [ [ "chem_potassium_hydroxide", 7 ] ],
+      [ [ "duct_tape", 1 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 2 ] ]
+    ]
+  }
+]

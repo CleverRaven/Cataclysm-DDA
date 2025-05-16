@@ -1,0 +1,821 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_north_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        " ttttt      ",
+        " th.ht      ",
+        " t.c.t      ",
+        " t...t      ",
+        " tt+tt      ",
+        "  ,_, ttttt ",
+        "   ,  th.ht ",
+        "      t.c.t ",
+        "      t...t ",
+        "      tt+tt ",
+        "       ,_,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "G": "t_dirtfloor_thatchroof", "g": "t_dirtfloor_thatchroof", "c": "t_dirtfloor", ".": "t_dirtfloor_thatchroof" },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_north_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "   tttttttt ",
+        "   tRRRRRRt ",
+        "   tR....Rt ",
+        "   tR....Rt ",
+        "   ttt+tttt ",
+        "            ",
+        "      @     ",
+        "     ,,,    ",
+        "    @,O,@   ",
+        "     ,,,    ",
+        "      @     "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof" },
+      "items": { "R": { "item": "orc_village_storage", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_north_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "            ",
+        "    ,,,,    ",
+        "   ,,___,,  ",
+        " ,,_L___,   ",
+        "  ,,___L,,  ",
+        " ,,,_L___,  ",
+        ",,_L_ ___,  ",
+        "  ,,,,,     ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "L": "t_dirt" },
+      "furniture": { "L": "f_log_stack_mid" },
+      "items": { "R": { "item": "orc_village_storage", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_north_nest",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "            ",
+        "    LLLL    ",
+        "   LL__LL   ",
+        "  LL_G__LL  ",
+        "  L______L  ",
+        "  L______L  ",
+        "  LL__G_LL  ",
+        "   LL__LL   ",
+        "    LLLL    ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof", "L": "t_trunk", "G": "t_dirt" },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 3 ] } ],
+      "monster": { "G": { "monster": "mon_goblin_chieftain" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_north_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  L X    XL ",
+        "  L X   X L ",
+        "  L X  X  L ",
+        "  L      XL ",
+        "  L   X   L ",
+        "  L X     L ",
+        "  L     X L ",
+        "  LLLLGLLLL ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof", "X": "t_dirt", "L": "t_splitrail_fence", "G": "t_splitrail_fencegate_c" },
+      "nested": { "X": { "chunks": [ [ "human_gore", 2 ], [ "null", 1 ] ] } },
+      "place_monster": [
+        { "monster": "mon_wolf_goblin", "x": [ 4, 7 ], "y": [ 0, 6 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 8, 11 ], "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_north_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "   %     %  ",
+        "     %%   % ",
+        "    %%%%    ",
+        "    %%%%%   ",
+        "   %%%%%%   ",
+        "   %%%%%%%  ",
+        "    %%%%%   ",
+        "    %%%%%   ",
+        "     %%     ",
+        "          % ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_west",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "   ttttttt  ",
+        "   th....t  ",
+        "   th..ggt  ",
+        "   t..hggt,,",
+        "  %t.....+_,",
+        "  %tG.c. +_,",
+        " %%tR...bt,,",
+        " %%tR.h.bt  ",
+        "   tbb..ht  ",
+        "   ttttttt  ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": {
+        "G": "t_dirtfloor_thatchroof",
+        "g": "t_dirtfloor_thatchroof",
+        "b": "t_dirtfloor_thatchroof",
+        "R": "t_dirtfloor_thatchroof",
+        "c": "t_dirtfloor",
+        ".": "t_dirtfloor_thatchroof"
+      },
+      "items": { "R": { "item": "magic_tools_and_loot", "chance": 50, "repeat": [ 1, 3 ] } },
+      "monster": { "G": { "monster": "mon_goblin_mage_poison" }, "g": { "group": "GROUP_ALL_GOBLINS" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_west",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        " tttttttttt ",
+        " t.h....h.t ",
+        " t.....h..t ",
+        " tR.h.....t ",
+        " tR...c...+ ",
+        " tRh..c...+ ",
+        " t.....h..t ",
+        " t..h.....t ",
+        " t.......ht ",
+        " t.h..h...t ",
+        " tttttttttt "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof" },
+      "items": { "R": { "item": "orc_village_foodstuffs", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 4, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_west",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        " tttttttttt ",
+        " t.h....h.t ",
+        " t.....h..t ",
+        " tR.h.....t ",
+        " tR...c...+ ",
+        " tRh..c...+ ",
+        " t.....h..t ",
+        " t..h.....t ",
+        " t.......ht ",
+        " t.h..h...t ",
+        " tttttttttt "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": [ [ "t_dirtfloor", 1 ], [ "t_dirt", 1 ] ], "t": [ [ "t_wall_wattle_broken", 2 ], [ "t_wall_wattle", 1 ] ] },
+      "furniture": { "h": [ [ "f_straw_bed", 1 ], [ "f_rubble_landfill", 3 ] ], "R": [ [ "f_rack_wood", 1 ], [ "f_rubble_landfill", 6 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_west",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "   ttttt    ",
+        "   tR.ht,   ",
+        "   th..+_,  ",
+        "   t...t,   ",
+        "   t.h.t    ",
+        "   ttttt    ",
+        "       ,@,  ",
+        "      ,___, ",
+        "      @_O_@ ",
+        "      ,___, ",
+        "       ,@,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof", "h": "t_dirtfloor_thatchroof" },
+      "items": { "R": { "item": "orc_village_foodstuffs", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_west",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "            ",
+        "    LLLL    ",
+        "   LL__LL   ",
+        "  LL_G__LL  ",
+        "  L______L  ",
+        "  L______L  ",
+        "  LL__G_LL  ",
+        "   LL__LL   ",
+        "    LLLL    ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof", "L": "t_trunk", "G": "t_dirt" },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 3 ] } ],
+      "monster": { "G": { "monster": "mon_goblin_chieftain" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_west",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "   %     %  ",
+        "     %%   % ",
+        "    %%%%    ",
+        "    %%%%%   ",
+        "   %%%%%%   ",
+        "   %%%%%%%  ",
+        "    %%%%%   ",
+        "    %%%%%   ",
+        "     %%     ",
+        "          % ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_east",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        " tttttttttt ",
+        " t.h....h.t ",
+        " t..h.....t ",
+        " t.....h.Rt ",
+        "_+...c...Rt ",
+        "_+...c..hRt ",
+        " t..h.....t ",
+        " t.....h..t ",
+        " th.......t ",
+        " t...h..h.t ",
+        " tttttttttt "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof" },
+      "items": { "R": { "item": "orc_village_foodstuffs", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 4, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_east",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "  ttttttt   ",
+        "  t.h.bbt  %",
+        "  tb...Rt%% ",
+        ",,tb...Rt%% ",
+        ",_+..c.Gt%  ",
+        ",_+....ht%  ",
+        ",,tgg...t   ",
+        "  tgg...t   ",
+        "  t...hht   ",
+        "  ttttttt   ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": {
+        "G": "t_dirtfloor_thatchroof",
+        "g": "t_dirtfloor_thatchroof",
+        "b": "t_dirtfloor_thatchroof",
+        "R": "t_dirtfloor_thatchroof",
+        "c": "t_dirtfloor",
+        ".": "t_dirtfloor_thatchroof"
+      },
+      "items": { "R": { "item": "magic_tools_and_loot", "chance": 50, "repeat": [ 1, 3 ] } },
+      "monster": { "G": { "monster": "mon_goblin_mage_poison" }, "g": { "group": "GROUP_ALL_GOBLINS" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_east",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "       ,@,  ",
+        "   @,,,,,   ",
+        "    ,,@,    ",
+        "  ,,____,@  ",
+        "   @___@_,, ",
+        " ,,_____,,  ",
+        "   ,,___@   ",
+        "  @,,,,,,,, ",
+        "       @    ",
+        "    @       ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": {
+        "G": "t_dirtfloor_thatchroof",
+        "g": "t_dirtfloor_thatchroof",
+        "b": "t_dirtfloor_thatchroof",
+        "R": "t_dirtfloor_thatchroof",
+        "c": "t_dirtfloor",
+        ".": "t_dirtfloor_thatchroof"
+      },
+      "items": { "R": { "item": "magic_tools_and_loot", "chance": 50, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_east",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        " tttttttttt ",
+        " t.h....h.t ",
+        " t..h.....t ",
+        " t.....h.Rt ",
+        "_+...c...Rt ",
+        "_+...c..hRt ",
+        " t..h.....t ",
+        " t.....h..t ",
+        " th.......t ",
+        " t...h..h.t ",
+        " tttttttttt "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof", "R": "t_dirtfloor_thatchroof", "h": "t_dirtfloor_thatchroof" },
+      "items": { "R": { "item": "orc_village_foodstuffs", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 4, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_east",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        " tttttttttt ",
+        " t.h....h.t ",
+        " t..h.....t ",
+        " t.....h.Rt ",
+        " +...c...Rt ",
+        " +...c..hRt ",
+        " t..h.....t ",
+        " t.....h..t ",
+        " th.......t ",
+        " t...h..h.t ",
+        " tttttttttt "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": [ [ "t_dirtfloor", 1 ], [ "t_dirt", 1 ] ], "t": [ [ "t_wall_wattle_broken", 2 ], [ "t_wall_wattle", 1 ] ] },
+      "furniture": { "h": [ [ "f_straw_bed", 1 ], [ "f_null", 3 ] ], "R": [ [ "f_rack_wood", 1 ], [ "f_null", 6 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_east",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "            ",
+        "    LLLL    ",
+        "   LL__LL   ",
+        "  LL_G__LL  ",
+        "  L______L  ",
+        "  L______L  ",
+        "  LL__G_LL  ",
+        "   LL__LL   ",
+        "    LLLL    ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof", "L": "t_trunk", "G": "t_dirt" },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 3 ] } ],
+      "monster": { "G": { "monster": "mon_goblin_chieftain" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_center_nest_east",
+    "weight": 650,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "   %     %  ",
+        "     %%   % ",
+        "    %%%%    ",
+        "    %%%%%   ",
+        "   %%%%%%   ",
+        "   %%%%%%%  ",
+        "    %%%%%   ",
+        "    %%%%%   ",
+        "     %%     ",
+        "          % ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_south_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ,__,    ",
+        " tttt++tttt ",
+        " t.....bb.t ",
+        " t.hgg....t ",
+        " t.h..c..ht ",
+        " t..g..g.bt ",
+        " thhGggGgbt ",
+        " tttttttttt ",
+        "     %%%%   ",
+        "       %%   ",
+        "         %  ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": {
+        "G": "t_dirtfloor_thatchroof",
+        "g": "t_dirtfloor_thatchroof",
+        "b": "t_dirtfloor_thatchroof",
+        "c": "t_dirtfloor",
+        ".": "t_dirtfloor_thatchroof"
+      },
+      "monster": { "G": { "monster": "mon_goblin_chieftain" }, "g": { "group": "GROUP_ALL_GOBLINS" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_south_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     @      ",
+        "    ,,,     ",
+        "   @,O,@    ",
+        "    ,,,     ",
+        "     @      ",
+        "            ",
+        " tttt+ttt   ",
+        " tR....Rt   ",
+        " tR.R..Rt   ",
+        " tR.RRRRt   ",
+        " tttttttt   ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof" },
+      "items": { "R": { "item": "orc_village_storage", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_south_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "            ",
+        "    LLLL    ",
+        "   LL__LL   ",
+        "  LL_G__LL  ",
+        "  L______L  ",
+        "  L______L  ",
+        "  LL__G_LL  ",
+        "   LL__LL   ",
+        "    LLLL    ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof", "L": "t_trunk", "G": "t_dirt" },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 3 ] } ],
+      "monster": { "G": { "monster": "mon_goblin_chieftain" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_south_nest",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ,___,   ",
+        "  %%,___,   ",
+        "   ttt+tttt ",
+        "  %t.R...Rt%",
+        "   tR.....t ",
+        " % t....R.t ",
+        "   t..R...t ",
+        " % t.R..R.t%",
+        "   t.R..R.t ",
+        "  %tRRRRRRt ",
+        "   tttttttt ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { ".": "t_dirtfloor_thatchroof" },
+      "items": { "R": { "item": "orc_village_foodstuffs", "chance": 70, "repeat": [ 1, 3 ] } },
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 1 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_south_nest",
+    "weight": 450,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "            ",
+        "   %     %  ",
+        "     %%   % ",
+        "    %%%%    ",
+        "    %%%%%   ",
+        "   %%%%%%   ",
+        "   %%%%%%%  ",
+        "    %%%%%   ",
+        "    %%%%%   ",
+        "     %%     ",
+        "          % ",
+        "            "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "goblin_palette" ],
+      "place_monster": [ { "group": "GROUP_ALL_GOBLINS", "x": [ 0, 11 ], "y": [ 0, 11 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "goblin campfire",
+    "nested_mapgen_id": "goblin_campfire",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "h    ",
+        "     ",
+        " ~~c ",
+        "    h",
+        "     "
+      ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "goblin campfire",
+    "nested_mapgen_id": "goblin_campfire",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "h    ",
+        "h    ",
+        " ~~  ",
+        " h ~h",
+        "  h  "
+      ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "goblin campfire",
+    "nested_mapgen_id": "goblin_campfire",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "~    ",
+        "     ",
+        "     ",
+        "    c",
+        "    ~"
+      ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "goblin campfire",
+    "nested_mapgen_id": "goblin_campfire",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "~    ",
+        " ~~~ ",
+        " c~~~",
+        "   ~h",
+        "    ~"
+      ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "goblin campfire",
+    "nested_mapgen_id": "goblin_campfire",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "~   ~",
+        "h  ~~",
+        "h  ~~",
+        "h  ~~",
+        "h   ~"
+      ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "goblin campfire",
+    "nested_mapgen_id": "goblin_campfire",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        " c ~ ",
+        "  h~ ",
+        "     ",
+        "    ~"
+      ],
+      "palettes": [ "goblin_palette" ],
+      "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
+    }
+  }
+]

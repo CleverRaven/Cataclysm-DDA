@@ -1,0 +1,157 @@
+[
+  {
+    "id": "GROUP_EGG_CONSTRICTOR",
+    "type": "monstergroup",
+    "default": "mon_anaconda",
+    "monsters": [
+      { "monster": "mon_anaconda", "weight": 2 },
+      { "monster": "mon_python", "weight": 1 },
+      { "monster": "mon_boa", "weight": 2 }
+    ]
+  },
+  {
+    "id": "GROUP_EGG_LIZARD",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_beaded_lizard" } ]
+  },
+  {
+    "id": "GROUP_EGG_MONITOR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_monitor_lizard" } ]
+  },
+  {
+    "id": "GROUP_EGG_IGUANA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_iguana" } ]
+  },
+  {
+    "id": "GROUP_EGG_TURTLE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turtle" } ]
+  },
+  {
+    "id": "GROUP_EGG_SNAPPER",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_turtle_snapper" } ]
+  },
+  {
+    "id": "GROUP_EGG_TORTOISE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tortoise" } ]
+  },
+  {
+    "id": "GROUP_EGG_TRIFFID",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_triffid_podling" } ]
+  },
+  {
+    "id": "GROUP_EGG_FUNGUS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fungaloid_saproling" } ]
+  },
+  {
+    "id": "GROUP_EGG_SALAMANDER",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_axolotl" } ]
+  },
+  {
+    "id": "GROUP_EGG_TADFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tadpole_small" } ]
+  },
+  {
+    "id": "GROUP_EGG_LUNGFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_lungfish" } ]
+  },
+  {
+    "id": "GROUP_EGG_EEL_ELECTRIC",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_eel_electric" } ]
+  },
+  {
+    "id": "GROUP_EGG_PACU",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_pacu" } ]
+  },
+  {
+    "id": "GROUP_EGG_TAMBAQUI",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_tambaqui" } ]
+  },
+  {
+    "id": "GROUP_EGG_PIRANHA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_piranha" } ]
+  },
+  {
+    "id": "GROUP_EGG_AROWANA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_arowana" } ]
+  },
+  {
+    "id": "GROUP_EGG_ARAPAIMA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_arapaima" } ]
+  },
+  {
+    "id": "GROUP_EGG_PIRAIBA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_piraiba" } ]
+  },
+  {
+    "id": "GROUP_EGG_PLECO",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_pleco" } ]
+  },
+  {
+    "id": "GROUP_EGG_GAR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_gar" } ]
+  },
+  {
+    "id": "GROUP_EGG_TUCUNARE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_tucunare" } ]
+  },
+  {
+    "id": "GROUP_EGG_DISCUS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_discus" } ]
+  },
+  {
+    "id": "GROUP_EGG_ANGELFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_angelfish" } ]
+  },
+  {
+    "id": "GROUP_EGG_KOI",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_koi" } ]
+  },
+  {
+    "id": "GROUP_EGG_TILAPIA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_tilapia" } ]
+  },
+  {
+    "id": "GROUP_EGG_SABALO",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_sabalo" } ]
+  },
+  {
+    "id": "GROUP_EGG_OSCAR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_oscar" } ]
+  },
+  {
+    "id": "GROUP_EGG_GUAPOTE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_guapote" } ]
+  },
+  {
+    "id": "GROUP_EGG_MAYAHEROS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_mayaheros" } ]
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_ma_open_perk_menu",
+    "effect": [ { "open_dialogue": { "topic": "TALK_MA_PERK_MENU_MAIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_ma_level_up",
+    "condition": { "math": [ "u_ma_available_exp > u_ma_exp_to_perk" ] },
+    "effect": [
+      { "u_message": "Your experience with martial arts has increased!" },
+      { "run_eocs": "EOC_give_ma_perk_point" },
+      { "math": [ "u_ma_used_exp", "+=", "u_ma_exp_to_perk" ] },
+      { "math": [ "u_ma_available_exp = u_val('exp') - u_ma_used_exp" ] },
+      { "math": [ "u_ma_exp_to_perk", "+=", "u_ma_exp_per_level" ] },
+      { "math": [ "u_ma_current_level", "+=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_ma_level_up_notification",
+    "condition": { "math": [ "u_no_notifications != 1" ] },
+    "effect": [ { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_ma_kill_check_exp",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [ { "math": [ "u_ma_available_exp = u_val('exp') - u_ma_used_exp" ] }, { "run_eocs": "EOC_perk_ma_level_up" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_ma_initialize",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_ma_perk_menu" } } ] },
+    "effect": [
+      {
+        "u_message": "Martial Mastery mod is active.  Interact with the \"Practice Martial Arts\" trait from the mutation menu to learn new techniques and perks."
+      },
+      { "math": [ "u_ma_perks = 0" ] },
+      { "math": [ "u_ma_exp_to_perk = 100" ] },
+      { "math": [ "u_ma_exp_per_level = 300" ] },
+      { "math": [ "u_ma_available_exp = 0" ] },
+      { "math": [ "u_ma_current_level = 0" ] },
+      { "math": [ "u_num_ma_perks = 0" ] },
+      { "u_add_trait": "perk_ma_perk_menu" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_give_ma_perk_point",
+    "effect": [ { "math": [ "u_num_ma_perks++" ] } ]
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_firestation1_living_area",
+    "description": "Let's expand our living areas by partitioning the far vehicle bay with walls.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_firestation1_living_area",
+    "blueprint_name": "build the living quarters walls",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_firestation1_palette_white_wall": "White wooden walls",
+        "fbmc_firestation1_palette_log": "Log walls",
+        "fbmc_firestation1_palette_metal": "Metal walls",
+        "fbmc_firestation1_palette_migo": "Mi-go resin walls",
+        "fbmc_firestation1_palette_rammed_earth": "Rammed earth walls",
+        "fbmc_firestation1_palette_rock": "Rock walls",
+        "fbmc_firestation1_palette_wad": "Wattle-and-daub walls",
+        "fbmc_firestation1_palette_wood": "Wooden walls"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_quarters" } ],
+    "blueprint_excludes": [ { "id": "fbmc_firestation1_quarters" } ]
+  }
+]

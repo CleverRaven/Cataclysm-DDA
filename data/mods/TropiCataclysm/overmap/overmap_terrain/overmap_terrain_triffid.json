@@ -1,0 +1,20 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_blossom",
+    "name": "triffid blossom",
+    "sym": "T",
+    "color": "magenta",
+    "see_cost": "medium",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_garden",
+    "name": "triffid garden",
+    "sym": "T",
+    "color": "light_red",
+    "see_cost": "medium",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  }
+]

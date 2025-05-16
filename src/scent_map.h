@@ -3,23 +3,22 @@
 #define CATA_SRC_SCENT_MAP_H
 
 #include <array>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "enums.h" // IWYU pragma: keep
-#include "game_constants.h"
-#include "json.h"
-#include "optional.h"
-#include "point.h"
-#include "string_id.h"
+#include "map_scale_constants.h"
 #include "type_id.h"
 
-struct point;
-struct tripoint;
+class JsonObject;
 
-static constexpr int SCENT_MAP_Z_REACH = 1;
+constexpr int SCENT_MAP_Z_REACH = 1;
 
 class game;
 class map;
@@ -33,12 +32,13 @@ class scent_type
 {
     public:
         static void load_scent_type( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         static const std::vector<scent_type> &get_all();
         static void check_scent_consistency();
         bool was_loaded = false;
 
         scenttype_id id;
+        std::vector<std::pair<scenttype_id, mod_id>> src;
         std::set<species_id> receptive_species;
         static void reset();
 };
@@ -51,23 +51,23 @@ class scent_map
 
         scent_array<int> grscent;
         scenttype_id typescent;
-        cata::optional<tripoint> player_last_position;
-        time_point player_last_moved = calendar::before_time_starts;
+        std::optional<tripoint_bub_ms> player_last_position; // NOLINT(cata-serialize)
+        time_point player_last_moved = calendar::before_time_starts; // NOLINT(cata-serialize)
 
-        const game &gm;
+        const game &gm; // NOLINT(cata-serialize)
 
     public:
-        scent_map( const game &g ) : gm( g ) { }
+        explicit scent_map( const game &g ) : gm( g ) { }
 
         void deserialize( const std::string &data, bool is_type = false );
         std::string serialize( bool is_type = false ) const;
 
-        void draw( const catacurses::window &win, int div, const tripoint &center ) const;
+        void draw( const catacurses::window &win, int div, const tripoint_bub_ms &center ) const;
 
-        void update( const tripoint &center, map &m );
+        void update( const tripoint_bub_ms &center, map &m );
         void reset();
         void decay();
-        void shift( const point &sm_shift );
+        void shift( const point_rel_ms &sm_shift );
 
         /**
          * Get the scent value at the given position.
@@ -75,17 +75,17 @@ class scent_map
          * The coordinate system is the same as the @ref map (`g->m`) uses.
          */
         /**@{*/
-        void set( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
-        int get( const tripoint &p ) const;
+        void set( const tripoint_bub_ms &p, int value, const scenttype_id &type = scenttype_id() );
+        int get( const tripoint_bub_ms &p ) const;
         /**@}*/
-        void set_unsafe( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
-        int get_unsafe( const tripoint &p ) const;
+        void set_unsafe( const tripoint_bub_ms &p, int value, const scenttype_id &type = scenttype_id() );
+        int get_unsafe( const tripoint_bub_ms &p ) const;
 
         scenttype_id get_type() const;
-        scenttype_id get_type( const tripoint &p ) const;
+        scenttype_id get_type( const tripoint_bub_ms &p ) const;
 
-        bool inbounds( const tripoint &p ) const;
-        bool inbounds( const point &p ) const;
+        bool inbounds( const tripoint_bub_ms &p ) const;
+        bool inbounds( const point_bub_ms &p ) const;
 };
 
 scent_map &get_scent();

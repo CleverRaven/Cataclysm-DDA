@@ -3,15 +3,103 @@
     "type": "MOD_INFO",
     "id": "classic_zombies",
     "name": "Dark Days of the Dead",
-    "authors": [ "Hirmuolio" ],
+    "authors": [ "Hirmuolio", "I-am-Erk" ],
     "maintainers": [ "I-am-Erk" ],
-    "description": "(Formerly Classic Zombies): Only spawn classic zombies (normal zombies and zombie animals) and natural wildlife.  Zombies do not revive and do not need pulping.  This disables certain buildings and map extras.  The long term plan is to make this a classic zombie movie simulator set in the present day.  If you have this mod enabled in experimental, some items may disappear.",
-    "category": "monster_exclude",
+    "description": "Turns the game into a classic Romero zombie game.  You must destroy the brain.  Getting bitten is fatal.  However, zombies don't evolve, and when they're down, they're down.  Removes the sci-fi and interdimensional aspects of CDDA.",
+    "category": "total_conversion",
     "dependencies": [ "dda" ]
   },
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false }
+    "flag": { "name": "REVIVES", "value": false },
+    "stat": { "name": "speed", "modifier": 0.95 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "DEADLY_VIRUS", "value": true },
+    "stat": { "name": "hp", "modifier": 5 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "stat": { "name": "bleed_rate", "modifier": 0 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DDotD_initialize",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "//": "Adding a variable flag to the player allows certain dialogue to be changed that otherwise is hard to change in a mod.",
+    "condition": { "not": { "compare_string": [ "ddotd", { "u_val": "flag_modded" } ] } },
+    "effect": [ { "u_add_var": "flag_modded", "value": "ddotd" } ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "//": "Set to Edmonton, Alberta.",
+    "stype": "float",
+    "value": 53.55
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "stype": "float",
+    "value": -113.49
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_NORTH",
+    "stype": "float",
+    "value": 0.1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_EAST",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_WEST",
+    "stype": "float",
+    "value": 0.1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_INCREASE_SOUTH",
+    "stype": "float",
+    "value": 0.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_FOREST_LIMIT",
+    "stype": "float",
+    "value": 0.6
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_NORTH",
+    "stype": "int",
+    "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_EAST",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_WEST",
+    "stype": "int",
+    "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_URBAN_INCREASE_SOUTH",
+    "stype": "int",
+    "value": 0
   }
 ]

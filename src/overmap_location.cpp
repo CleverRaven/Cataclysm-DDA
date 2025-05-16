@@ -1,15 +1,14 @@
 #include "overmap_location.h"
 
-#include <algorithm>
-#include <map>
-#include <set>
+#include <string>
+#include <unordered_map>
 #include <utility>
 
 #include "debug.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "omdata.h"
-#include "overmap.h"
 #include "rng.h"
 
 namespace
@@ -33,10 +32,7 @@ const overmap_location &string_id<overmap_location>::obj() const
 
 bool overmap_location::test( const int_id<oter_t> &oter ) const
 {
-    return std::any_of( terrains.cbegin(), terrains.cend(),
-    [ &oter ]( const oter_type_str_id & type ) {
-        return oter->type_is( type );
-    } );
+    return terrains.count( oter->get_type_id() );
 }
 
 oter_type_id overmap_location::get_random_terrain() const
@@ -44,7 +40,7 @@ oter_type_id overmap_location::get_random_terrain() const
     return random_entry( terrains );
 }
 
-void overmap_location::load( const JsonObject &jo, const std::string & )
+void overmap_location::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "terrains", terrains );
@@ -53,13 +49,9 @@ void overmap_location::load( const JsonObject &jo, const std::string & )
     }
 }
 
-std::vector<oter_type_id> overmap_location::get_all_terrains() const
+const cata::flat_set<oter_type_str_id> &overmap_location::get_all_terrains() const
 {
-    std::vector<oter_type_id> ret;
-    for( const oter_type_str_id &elem : terrains ) {
-        ret.push_back( elem );
-    }
-    return ret;
+    return terrains;
 }
 
 void overmap_location::check() const
@@ -73,6 +65,8 @@ void overmap_location::check() const
 
 void overmap_location::finalize()
 {
+    const std::unordered_map<std::string, oter_flags> &oter_flags_map =
+        io::get_enum_lookup_map<oter_flags>();
     for( const std::string &elem : flags ) {
         auto it = oter_flags_map.find( elem );
         if( it == oter_flags_map.end() ) {
@@ -81,7 +75,7 @@ void overmap_location::finalize()
         oter_flags check_flag = it->second;
         for( const oter_t &ter_elem : overmap_terrains::get_all() ) {
             if( ter_elem.has_flag( check_flag ) ) {
-                terrains.push_back( ter_elem.get_type_id() );
+                terrains.insert( ter_elem.get_type_id() );
             }
         }
     }

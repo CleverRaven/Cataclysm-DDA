@@ -1,0 +1,28 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "scorpion",
+    "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "termite",
+    "base_faction": "acid_ant",
+    "by_mood": [ "acid_ant" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "onicophore",
+    "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "turtle",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gator",
+    "base_faction": "mutant_piscivores"
+  }
+]

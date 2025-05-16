@@ -5,15 +5,22 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <map>
 #include <memory>
+#include <optional>
 #include <string>
+#include <tuple>
+#include <utility>
 #include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
+#include "dialogue_helpers.h"
 
+class JsonObject;
 class input_context;
+class scrolling_text_view;
+class translation;
+class ui_adaptor;
 class utf8_wrapper;
 struct point;
 
@@ -60,11 +67,12 @@ class string_input_popup // NOLINT(cata-xy)
         int _max_length = -1;
         bool _only_digits = false;
         bool _hist_use_uilist = true;
-        bool _ignore_custom_actions = true;
         int _startx = 0;
         int _starty = 0;
         int _endx = 0;
         int _position = -1;
+        // in output (console) cells, not characters of the string!
+        int shift = 0;
         int _hist_str_ind = 0;
         //Counts only when @_hist_use_uilist is false
         const size_t _hist_max_size = 100;
@@ -72,19 +80,25 @@ class string_input_popup // NOLINT(cata-xy)
         // Cache when using the default window
         int w_width = 0;
         int w_height = 0;
-        std::vector<std::string> descformatted;
+        int title_height = 0;
+        int description_height = 0;
         std::vector<std::string> title_split;
         int titlesize = 0;
 
         bool custom_window = false;
-        catacurses::window w;
+        catacurses::window w_full;
+        catacurses::window w_description;
+        catacurses::window w_title_and_entry;
+        std::unique_ptr<scrolling_text_view> desc_view_ptr;
 
         std::unique_ptr<input_context> ctxt_ptr;
         input_context *ctxt = nullptr;
+        std::vector<std::tuple<std::string, int, std::function<bool()>>> callbacks;
 
         bool _canceled = false;
         bool _confirmed = false;
         bool _handled = false;
+        bool _text_changed = false;
 
         void create_window();
         void create_context();
@@ -92,7 +106,7 @@ class string_input_popup // NOLINT(cata-xy)
         void show_history( utf8_wrapper &ret );
         void add_to_history( const std::string &value ) const;
         void update_input_history( utf8_wrapper &ret, bool up );
-        void draw( const utf8_wrapper &ret, const utf8_wrapper &edit, int shift ) const;
+        void draw( ui_adaptor *ui, const utf8_wrapper &ret, const utf8_wrapper &edit ) const;
 
     public:
         string_input_popup();
@@ -168,16 +182,6 @@ class string_input_popup // NOLINT(cata-xy)
             return *this;
         }
         /**
-         * If true and the custom input context returns an input action, the
-         * action is not handled at all and left to be handled by the caller.
-         * Otherwise the action is always handled as an input event to the popup.
-         * The caller can use @ref handled to check whether the last input is handled.
-         */
-        string_input_popup &ignore_custom_actions( const bool value ) {
-            _ignore_custom_actions = value;
-            return *this;
-        }
-        /**
          * Set the window area where to display the input text. If this is set,
          * the class will not create a separate window and *only* the editable
          * text will be printed at the given part of the given window.
@@ -244,8 +248,8 @@ class string_input_popup // NOLINT(cata-xy)
          */
         /**@{*/
         void query( bool loop = true, bool draw_only = false );
-        int query_int( bool loop = true, bool draw_only = false );
-        int64_t query_int64_t( bool loop = true, bool draw_only = false );
+        std::optional<int> query_int( bool loop = true, bool draw_only = false );
+        std::optional<int64_t> query_int64_t( bool loop = true, bool draw_only = false );
         const std::string &query_string( bool loop = true, bool draw_only = false );
         /**@}*/
         /**
@@ -261,6 +265,9 @@ class string_input_popup // NOLINT(cata-xy)
          */
         bool confirmed() const {
             return _confirmed;
+        }
+        void confirm() {
+            _confirmed = true;
         }
         /**
          * Returns false if the last input was unhandled. Useful to avoid handling
@@ -283,7 +290,20 @@ class string_input_popup // NOLINT(cata-xy)
         void edit( int &value );
         /**@}*/
 
-        std::map<long, std::function<bool()>> callbacks;
+        void add_callback( const std::string &action, const std::function<bool()> &callback_func );
+        void add_callback( int input, const std::function<bool()> &callback_func );
+
+        // Register additional actions
+        std::vector<std::pair<std::string, translation>> custom_actions;
 };
 
+struct string_input_params {
+    std::optional<str_translation_or_var> title;
+    std::optional<str_translation_or_var> description;
+    std::optional<str_translation_or_var> default_text;
+    int width = 20;
+    std::optional<str_or_var> identifier;
+    bool only_digits = false;
+    static string_input_params parse_string_input_params( const JsonObject &jo );
+};
 #endif // CATA_SRC_STRING_INPUT_POPUP_H

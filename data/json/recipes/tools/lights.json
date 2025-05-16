@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "candle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -11,7 +11,10 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "flags": [ "FULL_MAGAZINE" ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wax", 1 ], [ "any_tallow", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 8, "LIST" ], [ "edible_lard", 8, "LIST" ] ],
+      [ [ "cordage_short", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -26,13 +29,8 @@
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 3 ], [ "advanced_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 1 ] ],
-      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ]
-    ]
+    "using": [ [ "glue_any", 1 ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 1 ] ], [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -53,6 +51,31 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "smart_lamp",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "50 m",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "mag_electronics", 4 ], [ "textbook_electronics", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 }, { "proficiency": "prof_elec_soldering" } ],
+    "using": [ [ "soldering_standard", 12 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 10 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "antenna", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flashlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -65,13 +88,12 @@
     "components": [
       [ [ "amplifier", 1 ] ],
       [
-        [ "scrap", 4 ],
+        [ "scrap_aluminum", 4 ],
         [ "can_drink", 1 ],
         [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_glass", 1 ],
-        [ "bottle_plastic", 1 ],
-        [ "bottle_plastic_small", 1 ]
+        [ "plastic_bottles_any", 1, "LIST" ]
       ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "cable", 10 ] ]
@@ -86,13 +108,13 @@
     "skill_used": "mechanics",
     "skills_required": [ "electronics", 1 ],
     "difficulty": 2,
-    "time": "15 m",
+    "time": "30 m",
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -106,13 +128,13 @@
     "skill_used": "mechanics",
     "skills_required": [ "electronics", 1 ],
     "difficulty": 2,
-    "time": "15 m",
+    "time": "30 m",
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -126,7 +148,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "electronics", 1 ],
     "difficulty": 2,
-    "time": "1 h",
+    "time": "15 m",
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
@@ -150,7 +172,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
-    "time": "30 m",
+    "time": "15 m",
     "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 } ],
     "components": [
       [ [ "amplifier", 3 ] ],
@@ -172,9 +194,9 @@
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_caseless", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "glue_any", 1 ] ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ],
@@ -192,34 +214,41 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
     "components": [
       [ [ "flashlight", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [
+        [ "cotton_patchwork", 2 ],
+        [ "leather", 2 ],
+        [ "cordage", 1, "LIST" ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
     ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "survivor_light",
+    "result": "wearable_big_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "electronics",
-    "skills_required": [ "survival", 3 ],
-    "difficulty": 2,
-    "time": "25 m",
-    "autolearn": true,
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
     "reversible": true,
-    "using": [ [ "soldering_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
     "components": [
-      [ [ "flashlight", 1 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "wire", 2 ] ],
-      [ [ "rag", 4 ], [ "leather", 4 ], [ "duct_tape", 20 ], [ "medical_tape", 40 ], [ "cordage", 1, "LIST" ] ]
+      [ [ "heavy_flashlight", 1 ] ],
+      [
+        [ "cotton_patchwork", 4 ],
+        [ "leather", 4 ],
+        [ "duct_tape", 20 ],
+        [ "medical_tape", 40 ],
+        [ "cordage", 1, "LIST" ]
+      ]
     ]
   },
   {
@@ -236,14 +265,20 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "betavoltaic", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "wire", 2 ] ],
+      [ [ "any_wire", 2, "LIST" ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "rag", 4 ], [ "leather", 4 ], [ "duct_tape", 20 ], [ "medical_tape", 40 ], [ "cordage", 1, "LIST" ] ]
+      [
+        [ "cotton_patchwork", 4 ],
+        [ "leather", 4 ],
+        [ "duct_tape", 20 ],
+        [ "medical_tape", 40 ],
+        [ "cordage", 1, "LIST" ]
+      ]
     ]
   },
   {
@@ -259,9 +294,28 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
-      [ [ "rag", 1 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
       [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "oil_lamp_clay",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "earthenware_firing", 70 ] ],
+    "proficiencies": [ { "proficiency": "prof_pottery" } ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "clay_lump", 3 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "cordage_superior_short", 1, "LIST" ] ]
     ]
   },
   {
@@ -277,10 +331,26 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
-      [ [ "rag", 1 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
       [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "propane_lantern",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 3 ] ],
+    "difficulty": 6,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_fabrication", 6 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "using": [ [ "welding_standard", 50 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "components": [ [ [ "scrap", 2 ] ], [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 4 ] ], [ [ "pilot_light", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -291,11 +361,12 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "45 m",
+    "//": "25cm weld",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 25 ], [ "glue_strong", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "car_headlight", 1 ] ], [ [ "mc_wire", 2 ], [ "hc_wire", 2 ], [ "ch_wire", 2 ], [ "qt_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -306,11 +377,12 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "45 m",
+    "//": "25cm weld",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 25 ], [ "glue_strong", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "mc_wire", 3 ], [ "hc_wire", 3 ], [ "ch_wire", 3 ], [ "qt_wire", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -325,12 +397,7 @@
     "book_learn": [ [ "textbook_electronics", 4 ], [ "advanced_electronics", 4 ], [ "recipe_caseless", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "betavoltaic", 4 ] ]
-    ]
+    "using": [ [ "glue_any", 1 ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "cable", 2 ] ], [ [ "betavoltaic", 4 ] ] ]
   }
 ]

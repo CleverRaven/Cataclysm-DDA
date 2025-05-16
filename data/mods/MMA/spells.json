@@ -1,0 +1,16 @@
+[
+  {
+    "type": "SPELL",
+    "id": "learn_ki_strike",
+    "name": { "str": "Ki Strike Meditations", "//~": "NO_I18N" },
+    "description": { "str": "This grants a specific mutation.", "//~": "NO_I18N" },
+    "effect": "mutate",
+    "shape": "blast",
+    "effect_str": "KI_STRIKE",
+    "message": "You study the meditations until you could do them in your sleep…",
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "flags": [ "SILENT", "MUTATE_TRAIT" ],
+    "valid_targets": [ "self", "ally" ]
+  }
+]

@@ -1,0 +1,594 @@
+[
+  {
+    "type": "mutation",
+    "id": "CLAIR_CRAFT_BONUS_01",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.04 } ] } ],
+    "craft_skill_bonus": [
+      [ "electronics", 1 ],
+      [ "tailor", 1 ],
+      [ "mechanics", 1 ],
+      [ "cooking", 1 ],
+      [ "chemistry", 1 ],
+      [ "fabrication", 1 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIR_CRAFT_BONUS_02",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.08 } ] } ],
+    "craft_skill_bonus": [
+      [ "electronics", 2 ],
+      [ "tailor", 2 ],
+      [ "mechanics", 2 ],
+      [ "cooking", 2 ],
+      [ "chemistry", 2 ],
+      [ "fabrication", 2 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIR_CRAFT_BONUS_03",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.12 } ] } ],
+    "craft_skill_bonus": [
+      [ "electronics", 3 ],
+      [ "tailor", 3 ],
+      [ "mechanics", 3 ],
+      [ "cooking", 3 ],
+      [ "chemistry", 3 ],
+      [ "fabrication", 3 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIR_CRAFT_BONUS_04",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.16 } ] } ],
+    "craft_skill_bonus": [
+      [ "electronics", 4 ],
+      [ "tailor", 4 ],
+      [ "mechanics", 4 ],
+      [ "cooking", 4 ],
+      [ "chemistry", 4 ],
+      [ "fabrication", 4 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIR_CRAFT_BONUS_05",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.2 } ] } ],
+    "craft_skill_bonus": [
+      [ "electronics", 5 ],
+      [ "tailor", 5 ],
+      [ "mechanics", 5 ],
+      [ "cooking", 5 ],
+      [ "chemistry", 5 ],
+      [ "fabrication", 5 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIR_CRAFT_BONUS_06",
+    "name": { "str": "Intuitive Artistry" },
+    "points": 0,
+    "description": "Gazing into the near future lets you know what part goes where.",
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.24 } ] } ],
+    "craft_skill_bonus": [
+      [ "electronics", 6 ],
+      [ "tailor", 6 ],
+      [ "mechanics", 6 ],
+      [ "cooking", 6 ],
+      [ "chemistry", 6 ],
+      [ "fabrication", 6 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIR_ASTRAL_PROJECTION_APPEARANCE",
+    "name": { "str": "Astral Form", "//~": "NO_I18N" },
+    "description": { "str": "You're a disembodied mind so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "mon_hologram", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_1",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_1" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_2",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_3",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_3" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_4",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_4" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_5",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_5" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_6",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_6" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_7",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_7" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_8",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_8" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_9",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_9" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_10",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_10" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_11",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_11" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_12",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_12" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_13",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_13" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_14",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_14" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_15",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_15" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_16",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_16" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_17",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_17" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_18",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_18" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_19",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_19" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_20",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_20" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_21",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_21" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_22",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_22" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_23",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_23" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_24",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_24" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_25",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_25" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_26",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_26" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_27",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_27" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_28",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_28" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_29",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_29" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_30",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_30" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GENERIC_UNCANNY_DODGE_TRAIT",
+    "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
+    "description": { "str": "Uncanny Dodge now works for effect flags, but preserve this for conditional logic.", "//~": "NO_I18N" },
+    "points": 1,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "id": "TELELIXIRDOWN",
+    "type": "mutation",
+    "name": { "str": "Elixir PK Surge" },
+    "description": "Thanks to the crystalline elixir, you can lash out with unfocused surges of telekinetic power.",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "active": true,
+    "player_display": true,
+    "valid": false,
+    "transform": { "target": "TELELIXIRDOWN_active", "msg_transform": "You unleash your powers.", "active": true, "moves": 10 }
+  },
+  {
+    "id": "TELELIXIRDOWN_active",
+    "type": "mutation",
+    "name": { "str": "Elixir PK Surge (active)" },
+    "copy-from": "TELELIXIRDOWN",
+    "description": "You are lashing out with your elixir-forged telekinetic powers.",
+    "sleepiness": true,
+    "cost": 1,
+    "time": "1 m",
+    "activated_eocs": [ "EOC_TELELIXIR_CAST" ],
+    "valid": false,
+    "transform": { "target": "TELELIXIRDOWN", "msg_transform": "You rein your powers back in for now.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELELIXIR_CAST",
+    "condition": { "u_has_trait": "TELELIXIRDOWN_active" },
+    "deactivate_condition": { "not": { "u_has_trait": "TELELIXIRDOWN_active" } },
+    "recurrence": [ "2 seconds", "5 seconds" ],
+    "effect": [
+      { "u_cast_spell": { "id": "telelixir_random", "message": "Your crystal-fueled powers activate!" }, "targeted": true }
+    ]
+  },
+  {
+    "id": "telelixir_random",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Telelixir Random Choice", "//~": "NO_I18N" },
+    "description": {
+      "str": "Part of the Telekinetic Elixir spell that chooses another spell to cast.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "WONDER", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "effect": "none",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 8,
+    "max_range": 15,
+    "extra_effects": [ { "id": "telelixir_slam" }, { "id": "telelixir_push" } ]
+  },
+  {
+    "id": "telelixir_slam",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Telelixir Slam", "//~": "NO_I18N" },
+    "description": { "str": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "message": "",
+    "effect": "attack",
+    "effect_str": "downed",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_duration": 200
+  },
+  {
+    "id": "telelixir_push",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Telelixir Shove", "//~": "NO_I18N" },
+    "description": { "str": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "message": "",
+    "effect": "directed_push",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_damage": 3,
+    "max_damage": 8
+  },
+  {
+    "id": "ANCHORCROWN_NOSPELL",
+    "type": "mutation",
+    "name": { "str": "Psionic negation" },
+    "description": "The anchor crown you're wearing is shutting down your psionic powers.",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "flags": [ "NO_PSIONICS" ]
+  },
+  {
+    "id": "TELEPATHICDAMPENER_SHIELD",
+    "type": "mutation",
+    "name": { "str": "Telepathic Dampening" },
+    "description": "The telepathic dampener you're wearing is protecting your mind.",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": true,
+    "valid": false,
+    "flags": [ "TEEPSHIELD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PHOTOLIXIR_LIGHT",
+    "name": { "str": "Golden Radiance" },
+    "points": 0,
+    "description": "You can make the air around you emit a strong light.",
+    "active": true,
+    "player_display": true,
+    "purifiable": false,
+    "cost": 0,
+    "transform": {
+      "target": "PHOTOLIXIR_LIGHT_active",
+      "msg_transform": "The air around you starts glowing brightly.",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PHOTOLIXIR_LIGHT_active",
+    "name": { "str": "Golden Radiance (on)" },
+    "description": "The air around you is emitting a bright light.",
+    "copy-from": "PHOTOLIXIR_LIGHT",
+    "valid": false,
+    "transform": {
+      "target": "PHOTOLIXIR_LIGHT",
+      "msg_transform": "The air around you loses its radiance.",
+      "active": false,
+      "moves": 10
+    },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 150 } ] } ]
+  }
+]

@@ -1,12 +1,6 @@
 #include "construction_category.h"
 
-#include <set>
-#include <string>
-
 #include "generic_factory.h"
-#include "int_id.h"
-#include "json.h"
-#include "string_id.h"
 
 namespace
 {
@@ -53,7 +47,7 @@ const string_id<construction_category> &int_id<construction_category>::id() cons
     return all_construction_categories.convert( *this );
 }
 
-void construction_category::load( const JsonObject &jo, const std::string & )
+void construction_category::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
 }

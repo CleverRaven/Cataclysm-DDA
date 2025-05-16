@@ -1,11 +1,10 @@
-#include "catch/catch.hpp"
-
 #include <functional>
+#include <optional>
 #include <vector>
 
-#include "test_statistics.h"
+#include "cata_catch.h"
 #include "rng.h"
-#include "optional.h"
+#include "test_statistics.h"
 
 static void check_remainder( float proportion )
 {
@@ -13,14 +12,14 @@ static void check_remainder( float proportion )
     const epsilon_threshold target_range{ proportion, 0.05 };
     do {
         stats.add( roll_remainder( proportion ) );
-    } while( stats.n() < 100 || stats.uncertain_about( target_range ) );
+    } while( stats.n() < 200 || stats.uncertain_about( target_range ) );
     INFO( "Goal: " << proportion );
     INFO( "Result: " << stats.avg() );
     INFO( "Samples: " << stats.n() );
     CHECK( stats.test_threshold( target_range ) );
 }
 
-TEST_CASE( "roll_remainder_distribution" )
+TEST_CASE( "roll_remainder_distribution", "[rng]" )
 {
     check_remainder( 0.0 );
     check_remainder( 0.01 );
@@ -52,14 +51,14 @@ static void check_x_in_y( double x, double y )
     CHECK( stats.test_threshold( target_range ) );
 }
 
-TEST_CASE( "x_in_y_distribution" )
+TEST_CASE( "x_in_y_distribution", "[rng]" )
 {
     float y_increment = 0.01f;
-    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
+    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter,cert-flp30-c)
     for( float y = 0.1f; y < 500.0f; y += y_increment ) {
         y_increment *= 1.1f;
         float x_increment = 0.1f;
-        // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
+        // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter,cert-flp30-c)
         for( float x = 0.1f; x < y; x += x_increment ) {
             check_x_in_y( x, y );
             x_increment *= 1.1f;
@@ -67,7 +66,7 @@ TEST_CASE( "x_in_y_distribution" )
     }
 }
 
-TEST_CASE( "random_entry_preserves_constness" )
+TEST_CASE( "random_entry_preserves_constness", "[rng]" )
 {
     const std::vector<int> v0{ 4321 };
     int i0 = *random_entry_opt( v0 );

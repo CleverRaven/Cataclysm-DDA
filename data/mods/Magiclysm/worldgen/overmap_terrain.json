@@ -5,9 +5,11 @@
     "name": "magic shop",
     "sym": "M",
     "color": "red",
-    "see_cost": 5,
+    "looks_like": "s_shoppingplaza_b1",
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
+    "vision_levels": "city_building",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -16,8 +18,10 @@
     "name": "magic shop",
     "sym": "M",
     "color": "red",
-    "see_cost": 5,
+    "looks_like": "s_shoppingplaza_b2",
+    "see_cost": "high",
     "extras": "build",
+    "vision_levels": "city_building",
     "mondensity": 2
   },
   {
@@ -26,8 +30,10 @@
     "name": "magic shop roof",
     "sym": "M",
     "color": "red",
-    "see_cost": 5,
+    "looks_like": "s_shoppingplaza_b6",
+    "see_cost": "none",
     "extras": "build",
+    "vision_levels": "roof_or_air",
     "mondensity": 2
   },
   {
@@ -36,8 +42,9 @@
     "name": "cabin",
     "sym": "F",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
+    "vision_levels": "blends_till_details",
     "mondensity": 2
   },
   {
@@ -46,17 +53,20 @@
     "name": "cabin",
     "sym": "F",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
+    "vision_levels": "blends_till_outlines",
     "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": "demon_spider_lair",
-    "name": "Forest",
+    "name": "demon spider lair",
     "sym": "F",
     "color": "light_gray",
-    "see_cost": 5
+    "looks_like": "spider_pit",
+    "vision_levels": "unusual_structure",
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -64,9 +74,11 @@
     "name": "used bookstore",
     "sym": "B",
     "color": "white",
-    "see_cost": 5,
+    "looks_like": "s_bookstore",
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 1,
+    "vision_levels": "city_building",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -75,8 +87,10 @@
     "name": "used bookstore",
     "sym": "B",
     "color": "white",
-    "see_cost": 5,
+    "looks_like": "s_bookstore_roof",
+    "see_cost": "none",
     "extras": "build",
+    "vision_levels": "city_building",
     "mondensity": 1
   },
   {
@@ -96,219 +110,224 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "house_detatched5_basement" ],
+    "//": "overridden by the magic basement, so suppress warnings about it not spawning",
+    "copy-from": "generic_city_house_basement",
+    "extend": { "flags": [ "SHOULD_NOT_SPAWN" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_NW",
-    "name": "Swamp",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
+    "name": "black dragon lair",
+    "sym": "D",
+    "color": "dark_gray",
+    "see_cost": "spaced_high",
+    "vision_levels": "forested_swampy",
+    "flags": [ "SOURCE_FORAGE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_NE",
-    "name": "Swamp",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-0_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_SE",
-    "name": "Swamp",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-0_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_SW",
-    "name": "Swamp",
-    "sym": "F",
-    "color": "cyan",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-0_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-1_NW",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "name": "solid earth",
+    "sym": "#",
+    "color": "brown",
+    "looks_like": "solid_earth",
+    "vision_levels": "underground_dirt",
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-1_NE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-1_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-1_SE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-1_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-1_SW",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-1_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-2_NW",
     "name": "solid rock",
     "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "color": "dark_gray",
+    "looks_like": "empty_rock",
+    "vision_levels": "underground_stone",
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-2_NE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-2_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-2_SE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-2_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-2_SW",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-2_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-3_NW",
     "name": "solid rock",
     "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "color": "dark_gray",
+    "looks_like": "deep_rock",
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-3_NE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-3_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-3_SE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-3_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-3_SW",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-3_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-4_NW",
     "name": "solid rock",
     "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "color": "dark_gray",
+    "looks_like": "deep_rock",
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-4_NE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-4_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-4_SE",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-4_NW"
   },
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-4_SW",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "light_gray",
-    "see_cost": 5
+    "copy-from": "black_dragon_lair_z-4_NW"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ogre_mound",
+    "name": "ogre lair",
+    "sym": "O",
+    "color": "dark_gray",
+    "looks_like": "forest_water",
+    "see_cost": "high",
+    "vision_levels": "forested_swampy"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ogre_mound_roof",
+    "name": "ogre lair roof",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "vision_levels": "forested_swampy"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_ground",
-    "name": "forest",
+    "name": "lake tower",
     "sym": "F",
-    "color": "green",
-    "see_cost": 5
+    "color": "c_light_green",
+    "looks_like": "forest",
+    "see_cost": "high",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z1",
-    "name": "forest",
+    "name": "lake tower",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
+    "looks_like": "open_air",
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z2",
-    "name": "forest",
+    "name": "lake tower",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
+    "looks_like": "open_air",
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z3",
-    "name": "forest",
+    "name": "lake tower",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
+    "looks_like": "open_air",
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z4",
-    "name": "forest",
+    "name": "lake tower roof",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
+    "looks_like": "open_air",
+    "see_cost": "all_clear",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_boathouse",
-    "name": "lake shore",
+    "name": "boathouse",
     "sym": "#",
     "color": "light_blue",
-    "see_cost": 5
+    "looks_like": "lake_shore",
+    "see_cost": "none",
+    "vision_levels": "isolated_building"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_boathouse_roof",
-    "name": "forest",
+    "name": "boathouse roof",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
+    "looks_like": "open_air",
+    "see_cost": "none",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
@@ -316,52 +335,63 @@
     "copy-from": "generic_city_building",
     "sym": "W",
     "color": "light_blue",
-    "name": "wizard tower"
+    "name": "wizard tower",
+    "vision_levels": "isolated_tower",
+    "flags": [ "SOURCE_LUXURY", "RISK_HIGH", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_living",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_golems",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_study",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_roof",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_ground",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_stairs1",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_stairs2",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_study",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_roof",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
@@ -369,7 +399,8 @@
     "name": "forest",
     "sym": "F",
     "color": "brown",
-    "see_cost": 5
+    "looks_like": "cemetery_small",
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -387,9 +418,11 @@
     "name": "magic academy",
     "sym": "#",
     "color": "light_blue",
-    "see_cost": 5,
+    "looks_like": "campus_lecture_0_0_0",
+    "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
@@ -397,70 +430,46 @@
     "name": "magic academy",
     "sym": "#",
     "color": "light_blue",
+    "looks_like": "campus_lecture_0_0_1",
     "mondensity": 2,
-    "see_cost": 5
+    "see_cost": "high",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_3rd",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_2nd"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_4th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_3rd"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_5th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "see_cost": 5
+    "copy-from": "magic_academy_4th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_6th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_5th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_7th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_6th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_8th",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_7th"
   },
   {
     "type": "overmap_terrain",
     "id": "magic_academy_basement",
-    "name": "magic academy",
-    "sym": "#",
-    "color": "light_blue",
-    "mondensity": 2,
-    "see_cost": 5
+    "copy-from": "magic_academy_2nd",
+    "vision_levels": "underground_dirt"
   },
   {
     "type": "overmap_terrain",
@@ -468,7 +477,9 @@
     "name": "magic academy",
     "sym": "#",
     "color": "light_blue",
-    "see_cost": 5
+    "looks_like": "campus_lecture_0_0_3",
+    "see_cost": "none",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
@@ -485,7 +496,186 @@
     "name": "attunement altar",
     "sym": "O",
     "color": "light_green",
-    "see_cost": 5,
-    "mondensity": 2
+    "looks_like": "standing_stones",
+    "see_cost": "high",
+    "mondensity": 2,
+    "vision_levels": "unusual_structure"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_balrog_west",
+      "mine_balrog_central",
+      "mine_balrog_east",
+      "mine_balrog_-1_west",
+      "mine_balrog_-1_central",
+      "mine_balrog_-1_east",
+      "mine_balrog_finale_nw",
+      "mine_balrog_finale_n",
+      "mine_balrog_finale_ne",
+      "mine_balrog_finale_sw",
+      "mine_balrog_finale_s",
+      "mine_balrog_finale_se",
+      "mine_balrog_bottomless_pit",
+      "mine_balrog_lava"
+    ],
+    "name": "mine tunnels",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": "high",
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "magic_field_a1", "magic_field_a2", "magic_field_b1", "magic_field_b2" ],
+    "name": "big magic meadow",
+    "sym": "*",
+    "color": "blue",
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "blends_till_outlines",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_magic_field" ],
+    "name": "magic meadow",
+    "sym": "*",
+    "color": "blue",
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "blends_till_details",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "standing_teleport_stones" ],
+    "name": "ancient ring of stones",
+    "sym": "O",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ],
+    "vision_levels": "blends_till_outlines",
+    "see_cost": "medium"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "druid_ritual_home_z0", "druid_ritual_home_z1", "druid_ritual_home_z2", "druid_ritual_home_z3" ],
+    "name": "druid tower",
+    "sym": "F",
+    "color": "green",
+    "see_cost": "high",
+    "vision_levels": "unusual_structure"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "druid_ritual_home_crown_nw",
+      "druid_ritual_home_crown_n",
+      "druid_ritual_home_crown_ne",
+      "druid_ritual_home_crown_w",
+      "druid_ritual_home_crown",
+      "druid_ritual_home_crown_e",
+      "druid_ritual_home_crown_sw",
+      "druid_ritual_home_crown_s",
+      "druid_ritual_home_crown_se"
+    ],
+    "name": "druid tower crown",
+    "sym": "F",
+    "color": "green",
+    "see_cost": "high",
+    "vision_levels": "unusual_structure"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "last_mage_on_earth_shelter" ],
+    "copy-from": "lmoe_under_empty"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "forge_x0y0z0",
+      "forge_x1y0z0",
+      "forge_x2y0z0",
+      "forge_x3y0z0",
+      "forge_x0y1z0",
+      "forge_x1y1z0",
+      "forge_x2y1z0",
+      "forge_x3y1z0",
+      "forge_x0y2z0",
+      "forge_x1y2z0",
+      "forge_x2y2z0",
+      "forge_x3y2z0",
+      "forge_x0y3z0",
+      "forge_x1y3z0",
+      "forge_x2y3z0",
+      "forge_x3y3z0",
+      "forge_x0y0z1",
+      "forge_x1y0z1",
+      "forge_x2y0z1",
+      "forge_x3y0z1",
+      "forge_x0y1z1",
+      "forge_x1y1z1",
+      "forge_x2y1z1",
+      "forge_x3y1z1",
+      "forge_x0y2z1",
+      "forge_x1y2z1",
+      "forge_x2y2z1",
+      "forge_x3y2z1",
+      "forge_x0y3z1",
+      "forge_x1y3z1",
+      "forge_x2y3z1",
+      "forge_x3y3z1",
+      "forge_x0y0z2",
+      "forge_x1y0z2",
+      "forge_x2y0z2",
+      "forge_x3y0z2",
+      "forge_x0y1z2",
+      "forge_x1y1z2",
+      "forge_x2y1z2",
+      "forge_x3y1z2",
+      "forge_x0y2z2",
+      "forge_x1y2z2",
+      "forge_x2y2z2",
+      "forge_x3y2z2",
+      "forge_x0y3z2",
+      "forge_x1y3z2",
+      "forge_x2y3z2",
+      "forge_x3y3z2",
+      "forge_x0y0z3",
+      "forge_x1y0z3",
+      "forge_x2y0z3",
+      "forge_x3y0z3",
+      "forge_x0y1z3",
+      "forge_x1y1z3",
+      "forge_x2y1z3",
+      "forge_x3y1z3",
+      "forge_x0y2z3",
+      "forge_x1y2z3",
+      "forge_x2y2z3",
+      "forge_x3y2z3",
+      "forge_x0y3z3",
+      "forge_x1y3z3",
+      "forge_x2y3z3",
+      "forge_x3y3z3",
+      "forge_x0y0z4",
+      "forge_x1y0z4",
+      "forge_x2y0z4",
+      "forge_x3y0z4",
+      "forge_x0y1z4",
+      "forge_x1y1z4",
+      "forge_x2y1z4",
+      "forge_x3y1z4",
+      "forge_x0y2z4",
+      "forge_x1y2z4",
+      "forge_x2y2z4",
+      "forge_x3y2z4",
+      "forge_x0y3z4",
+      "forge_x1y3z4",
+      "forge_x2y3z4",
+      "forge_x3y3z4"
+    ],
+    "name": "forge of wonders",
+    "sym": "$",
+    "color": "red",
+    "entry_eoc": "EOC_ENTER_FORGE",
+    "see_cost": "full_high"
   }
 ]

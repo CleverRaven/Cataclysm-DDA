@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <CDDA_ROOT>$(MSBuildThisFileDirectory)..\</CDDA_ROOT>
+    <TargetName>$(ProjectName)-$(Configuration)-$(Platform)</TargetName>
+    <IntDir>$(CDDA_ROOT)objwin\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <OutDir>$(CDDA_ROOT)objwin\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_CDDA_BACKTRACE>false</_CDDA_BACKTRACE>
+    <_CDDA_BACKTRACE Condition="'$(BACKTRACE)'!=''">true</_CDDA_BACKTRACE>
+    <_CDDA_RELEASE_BUILD>false</_CDDA_RELEASE_BUILD>
+    <_CDDA_RELEASE_BUILD Condition="'$(CDDA_RELEASE_BUILD)'!=''">true</_CDDA_RELEASE_BUILD>
+    <_CDDA_LLVM_BIN_PATH>$(VCInstallDir)Tools\Llvm\bin\</_CDDA_LLVM_BIN_PATH>
+    <_CDDA_LLVM_BIN_PATH Condition="'$(LLVMInstallDir)'!=''">$(LLVMInstallDir)\bin\</_CDDA_LLVM_BIN_PATH>
+    <CDDA_LLVM_LIB_PATH Condition="'$(CDDA_LLVM_LIB_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLVM_LIB_PATH>
+    <CDDA_LLD_LINK_PATH Condition="'$(CDDA_LLD_LINK_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLD_LINK_PATH>
+    <_CDDA_ENABLE_THIN_ARCHIVES>false</_CDDA_ENABLE_THIN_ARCHIVES>
+    <_CDDA_ENABLE_THIN_ARCHIVES Condition="'$(CDDA_ENABLE_THIN_ARCHIVES)'!=''">true</_CDDA_ENABLE_THIN_ARCHIVES>
+    <_CDDA_USE_LLD_LINK>false</_CDDA_USE_LLD_LINK>
+    <_CDDA_USE_LLD_LINK Condition="'$(CDDA_USE_LLD_LINK)'!='' Or $(_CDDA_ENABLE_THIN_ARCHIVES)">true</_CDDA_USE_LLD_LINK>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(_CDDA_USE_CCACHE)">
+    <ClToolPath>$(CDDA_CCACHE_PATH)</ClToolPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(_CDDA_ENABLE_THIN_ARCHIVES)">
+    <LibToolPath>$(CDDA_LLVM_LIB_PATH)</LibToolPath>
+    <LibToolExe>llvm-lib.exe</LibToolExe>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(_CDDA_USE_LLD_LINK)">
+    <LinkToolPath>$(CDDA_LLD_LINK_PATH)</LinkToolPath>
+    <LinkToolExe>lld-link.exe</LinkToolExe>
+    <!-- vcpkg passes dependecy libs via a glob pattern which lld-link doesn't accept. We have to manually enumerate the deps now. -->
+    <VcpkgAutoLink>false</VcpkgAutoLink>
+    <!-- debug versions of libs often (but not always) use `d` suffix, as a convention. E.g. "SDL2-staticd.lib" -->
+    <VcpkgLibSuffix></VcpkgLibSuffix>
+    <VcpkgLibSuffix Condition="$(Configuration.StartsWith(Debug))">d</VcpkgLibSuffix>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
+      <AdditionalOptions>/bigobj /utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\pch;$(MSBuildThisFileDirectory)..\src;$(MSBuildThisFileDirectory)..\src\third-party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4661;4819;4146;26495;26444;26451;4068;6319;6237</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;LOCALIZE;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <ClCompile Condition="$(Configuration.StartsWith(Debug))">
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="$(Configuration.StartsWith(Release))">
+      <PreprocessorDefinitions>RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="!$(Configuration.Contains(NoTiles))">
+      <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="$(Configuration.Contains(NoTiles))">
+      <PreprocessorDefinitions>USE_PDCURSES;PDC_NCMOUSE;PDC_WIDE;IMTUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="$(_CDDA_BACKTRACE)">
+      <PreprocessorDefinitions>BACKTRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="$(_CDDA_USE_CCACHE)">
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ForcedIncludeFiles />
+      <ObjectFileName>$(IntDir)%(FileName).obj</ObjectFileName>
+    </ClCompile>
+    <Lib Condition="$(_CDDA_ENABLE_THIN_ARCHIVES)">
+      <AdditionalOptions>/llvmlibthin $(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+    <Link>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <LinkIncremental>true</LinkIncremental>
+      <LinkStatus />
+      <LinkTimeCodeGeneration />
+      <AdditionalDependencies>dbghelp.lib;winmm.lib;imm32.lib;version.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setupapi.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <!-- VS2022 DebugFastLink segfaults https://developercommunity.visualstudio.com/t/Visual-Studio-2022-version-1742-crashe/10243923 -->
+    <!-- Fixed in VS2022 17.7 == 14.37 -->
+    <Link Condition="$(PlatformToolsetVersion) == 143 And $(VCToolsVersion) &lt;= 14.37">
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+    <Link Condition="$(_CDDA_RELEASE_BUILD)">
+      <LinkIncremental>false</LinkIncremental>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <StripPrivateSymbols>$(OutDir)$(TargetName).stripped.pdb</StripPrivateSymbols>
+    </Link>
+    <Link Condition="$(_CDDA_USE_LLD_LINK)">
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith(Debug))">
+        $(ProjectDir)vcpkg_installed\$(VcpkgTripet)\$(VcpkgTriplet)\debug\lib;%(AdditionalLibraryDirectories)
+      </AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith(Release))">
+        $(ProjectDir)vcpkg_installed\$(VcpkgTripet)\$(VcpkgTriplet)\lib;%(AdditionalLibraryDirectories)
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+        brotlicommon.lib;
+        brotlidec.lib;
+        brotlienc.lib;
+        bz2$(VcpkgLibSuffix).lib;
+        FLAC.lib;
+        FLAC++.lib;
+        freetype$(VcpkgLibSuffix).lib;
+        jpeg.lib;
+        libpng16$(VcpkgLibSuffix).lib;
+        modplug.lib;
+        mpg123.lib;
+        ogg.lib;
+        out123.lib;
+        pdcurses.lib;
+        SDL2_image-static$(VcpkgLibSuffix).lib;
+        SDL2_mixer-static$(VcpkgLibSuffix).lib;
+        SDL2_ttf.lib;
+        SDL2-static$(VcpkgLibSuffix).lib;
+        syn123.lib;
+        turbojpeg.lib;
+        vorbis.lib;
+        vorbisenc.lib;
+        vorbisfile.lib;
+        zlib$(VcpkgLibSuffix).lib;
+        <!-- win32 deps of the vcpkg deps -->
+        Advapi32.lib;
+        Cfgmgr32.lib;
+        Gdi32.lib;
+        Imm32.lib;
+        Ole32.lib;
+        OleAut32.lib;
+        Setupapi.lib;
+        Shell32.lib;
+        Shlwapi.lib;
+        User32.lib;
+        Version.lib;
+        Winmm.lib;
+        %(AdditionalDependencies)
+      </AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <LinkIncremental />
+      <LinkStatus />
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+</Project>

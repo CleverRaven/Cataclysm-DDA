@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "rural_house1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,14 +31,13 @@
         "..%[#HHR#....____...%[..",
         ".._%##o##.........._..!."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
-        "#": "t_rock_wall",
-        "_": "t_dirt"
+        "_": "t_region_soil"
       },
       "furniture": { "!": "f_region_flower" }
     }
@@ -64,17 +62,17 @@
         "                        ",
         "                        ",
         "                        ",
-        " |22222223              ",
-        " |.......3              ",
-        " |.......3              ",
-        " |.....N.3              ",
-        " |.......3              ",
-        " |.&.....3              ",
-        " 5......33              ",
-        " |......3               ",
-        " |---.=.3               ",
-        "    |...3               ",
-        "    |---3               "
+        " ---------              ",
+        " -.......-              ",
+        " -.......-              ",
+        " -.....N.-              ",
+        " -.......-              ",
+        " -.&.....-              ",
+        " 5......--              ",
+        " -......-               ",
+        " ----.=.-               ",
+        "    -...-               ",
+        "    -----               "
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
@@ -84,7 +82,6 @@
     "method": "json",
     "om_terrain": "rural_house2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -113,13 +110,13 @@
         "_%%[%...%.[...%_..%.....",
         "...%...._...%[........%."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
-        "_": "t_dirt"
+        "_": "t_region_soil"
       },
       "furniture": { "!": "f_region_flower" },
       "place_items": [
@@ -128,7 +125,7 @@
         { "chance": 35, "item": "misc_smoking", "x": 9, "y": 17 },
         { "chance": 35, "item": "misc_smoking", "x": 10, "y": 14 }
       ],
-      "place_monsters": [ { "monster": "GROUP_DOGS", "x": 5, "y": 14 } ]
+      "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 5, 8 ], "y": [ 7, 14 ], "chance": 50, "repeat": [ 2, 4 ] } ]
     }
   },
   {
@@ -142,22 +139,22 @@
         "                        ",
         "                        ",
         "                        ",
-        "  |222223               ",
-        "  |.....3               ",
-        "  |.....3               ",
-        "  |.....3               ",
-        "  |.....3               ",
-        "  |..=..3               ",
-        "  |.....3               ",
-        "  |.....3               ",
-        "  |.....3               ",
-        "  |.....3223            ",
-        "  |........3            ",
-        "  |.....N..3            ",
-        "  |........3            ",
-        "  |........3            ",
-        "  5...&....3            ",
-        "  |--------3            ",
+        "  -------               ",
+        "  -.....-               ",
+        "  -.....-               ",
+        "  -.....-               ",
+        "  -.....-               ",
+        "  -..=..-               ",
+        "  -.....-               ",
+        "  -.....-               ",
+        "  -.....-               ",
+        "  -.....----            ",
+        "  -........-            ",
+        "  -.....N..-            ",
+        "  -........-            ",
+        "  -........-            ",
+        "  5...&....-            ",
+        "  ----------            ",
         "                        ",
         "                        ",
         "                        ",
@@ -192,14 +189,14 @@
         "  |W.......|            ",
         "  |Z.......|            ",
         "  |........|            ",
-        "  |FJJ.....|            ",
+        "  |âJJ.....|            ",
         "  ||||||||||            ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 70 ], [ "5x5_holdout_W", 10 ], [ "5x5_sauna_W", 20 ] ] },
         "2": {

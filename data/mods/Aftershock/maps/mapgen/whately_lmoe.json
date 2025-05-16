@@ -54,7 +54,7 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvv((((((vvvvvvvvv",
-        "vvvvvvvvv(<   (vvvvvvvvv",
+        "vvvvvvvvv(>   (vvvvvvvvv",
         "vvvvvvvvv(    (vvvvvvvvv",
         "vvvvvvvvv(    (vvvvvvvvv",
         "vvvvvvvvv(    (vvvvvvvvv",
@@ -108,7 +108,7 @@
         "########################"
       ],
       "palettes": [ "whately_bunker", "whately_empty_bunker_items" ],
-      "place_npcs": [ { "class": "wilhemina_whately", "x": 7, "y": 16 }, { "class": "whately_cousin", "x": 19, "y": 8 } ]
+      "place_npcs": [ { "class": "wilhemina_whately", "x": 7, "y": 16 } ]
     }
   },
   {
@@ -120,7 +120,7 @@
     "//3": "There are extensive secret rooms which might contain a lot of treasure in the non-looted version.",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_carpet_metal",
+      "fill_ter": "t_carpet_metal_yellow",
       "rows": [
         "##|||||#################",
         "##|,,<|||||||###########",
@@ -153,7 +153,7 @@
         { "chunks": [ "lmoe3_tankroom_11x11" ], "x": 1, "y": 18 },
         { "chunks": [ "lmoe3_crafting_11x11" ], "x": 13, "y": 18 }
       ],
-      "place_npcs": [ { "class": "nicodemus_whately", "x": 9, "y": 7 }, { "class": "whately_cousin", "x": 5, "y": 14 } ]
+      "place_npcs": [ { "class": "nicodemus_whately", "x": 9, "y": 7 } ]
     }
   },
   {
@@ -165,7 +165,7 @@
       "+": "t_door_metal_c",
       "-": "t_scrap_wall",
       "_": "t_metal_floor",
-      ",": "t_carpet_metal",
+      ",": "t_carpet_metal_yellow",
       "1": "t_column",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
@@ -174,7 +174,6 @@
       ":": "t_secretdoor_metal_c",
       ";": "t_secretdoor_metal_o",
       "~": "t_water_pump",
-      "G": "t_generator_broken",
       "t": "t_metal_floor",
       "k": "t_metal_floor_olight"
     },
@@ -191,6 +190,13 @@
       "E": "f_exercise",
       "F": "f_fridge",
       "f": "f_sofa",
+      "G": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "h": "f_chair",
       "H": "f_water_heater",
       "K": "f_sink",
@@ -215,6 +221,7 @@
       "{": "f_rack",
       "}": "f_bookcase"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {
@@ -240,7 +247,7 @@
       "w": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
       "Y": [ { "item": "jackets", "chance": 15 }, { "item": "hatstore_hats", "chance": 15 }, { "item": "winter", "chance": 10 } ],
       "^": { "item": "shelter", "chance": 30 },
-      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo", "chance": 5, "repeat": [ 3, 7 ] } ],
+      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo_common_boxed", "chance": 5, "repeat": [ 3, 7 ] } ],
       "}": { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }
     }
   },

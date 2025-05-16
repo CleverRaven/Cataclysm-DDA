@@ -7,11 +7,10 @@
 #include <utility>
 #include <vector>
 
-#include "int_id.h"
+#include "coords_fwd.h"
 #include "type_id.h"
 
 class map;
-struct point;
 
 namespace mapf
 {
@@ -29,7 +28,7 @@ class format_effect;
  *   A newline character continues on the next line (resets `x` to \p startx and increments `y`).
  * @param start Coordinates in the map where to start drawing \p cstr.
  */
-void formatted_set_simple( map *m, const point &start, const char *cstr,
+void formatted_set_simple( map *m, const point_bub_ms &start, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
 
 template<typename ID>
@@ -64,6 +63,7 @@ class format_effect
  */
 /**@{*/
 template<size_t N, typename ...Args>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!
@@ -74,6 +74,7 @@ inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... id
 }
 
 template<size_t N, typename ...Args>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!

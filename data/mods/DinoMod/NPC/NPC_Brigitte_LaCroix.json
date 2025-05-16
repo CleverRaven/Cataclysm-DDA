@@ -1,0 +1,13 @@
+[
+  {
+    "id": "TALK_BONE_SEER",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_BONE_SEER_DINOSAURS" } ]
+  },
+  {
+    "id": "TALK_BONE_SEER_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": "Their song is older than ours, but also different.  We have much to learn from their old bones.  I knew a man once who sang not of bones but of meat.  If you find him, you will know the face of Bo.  He has listened hardest to them, but I do not know if he hears.",
+    "responses": [ { "text": "That explains everything, thank you.", "topic": "TALK_BONE_SEER" } ]
+  }
+]

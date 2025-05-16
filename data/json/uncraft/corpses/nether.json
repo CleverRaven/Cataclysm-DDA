@@ -1,0 +1,10 @@
+[
+  {
+    "result": "corpse_yugg_mutflesh",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "90 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "mutflesh", 1500 ] ] ]
+  }
+]

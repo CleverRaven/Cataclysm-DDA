@@ -1,0 +1,134 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "IERDE",
+    "name": "Ierde",
+    "threshold_mut": "THRESH_IERDE",
+    "mutagen_message": "Soil and stone.",
+    "vitamin": "mutagen_earthkin",
+    "memorial_message": "Returned to the earth."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SYLPH",
+    "name": "Sylph",
+    "threshold_mut": "THRESH_SYLPH",
+    "mutagen_message": "Wind and weather.",
+    "vitamin": "mutagen_airkin",
+    "memorial_message": "Dissipated into the atmosphere."
+  },
+  {
+    "type": "mutation_category",
+    "id": "UNDINE",
+    "name": "Undine",
+    "threshold_mut": "THRESH_UNDINE",
+    "mutagen_message": "Rain and wave.",
+    "vitamin": "mutagen_waterkin",
+    "memorial_message": "Dissolved into the sea."
+  },
+  {
+    "type": "mutation_category",
+    "id": "ARVORE",
+    "name": "Arvore",
+    "threshold_mut": "THRESH_ARVORE",
+    "mutagen_message": "Growth in adversity.",
+    "vitamin": "mutagen_plantkin",
+    "memorial_message": "Fell with a great sound."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SALAMANDER",
+    "name": "Salamander",
+    "threshold_mut": "THRESH_SALAMANDER",
+    "mutagen_message": "Touched by fire.",
+    "vitamin": "mutagen_flamekin",
+    "memorial_message": "Snuffed out."
+  },
+  {
+    "type": "mutation_category",
+    "id": "HOMULLUS",
+    "name": "Homullus",
+    "threshold_mut": "THRESH_HOMULLUS",
+    "mutagen_message": "Wish upon a star.",
+    "vitamin": "mutagen_dollkin",
+    "memorial_message": "Real enough for you?"
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_NOBLE",
+    "name": "Fair Folk Noble",
+    "threshold_mut": "THRESH_FAIR_FOLK_NOBLE",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_noble",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_BROWNIE",
+    "name": "Fair Folk Commoner, Brownie",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_brownie",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_POOKA",
+    "name": "Fair Folk Commoner, Pooka",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_POOKA",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_pooka",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_SELKIE",
+    "name": "Fair Folk Commoner, Selkie",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_selkie",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "FAIR_FOLK_COMMONER_TROW",
+    "name": "Fair Folk Commoner, Trow",
+    "threshold_mut": "THRESH_FAIR_FOLK_COMMONER_TROW",
+    "mutagen_message": "",
+    "vitamin": "mutagen_fair_folk_commoner_trow",
+    "memorial_message": "Empty your heart of its mortal dream."
+  },
+  {
+    "type": "mutation_category",
+    "id": "LILIN",
+    "name": "Lilin",
+    "threshold_mut": "THRESH_LILIN",
+    "mutagen_message": "",
+    "vitamin": "mutagen_lilin",
+    "memorial_message": "The dawn breaks, and the owl lays down for its final rest."
+  },
+  {
+    "type": "mutation_type",
+    "id": "STOMACH"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_ADD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_MULT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_REGEN"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_SIPHON"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HERITAGE"
+  }
+]

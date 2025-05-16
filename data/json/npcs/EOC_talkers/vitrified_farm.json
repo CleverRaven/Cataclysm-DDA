@@ -1,0 +1,98 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "vitrified_doll_talk_main",
+    "dynamic_line": "Sitting among the glass cushions of the couch is the only thing among all the glass which is soft; the limbless, faceless torso of a worn plush doll.  It is warm to the touch, but it doesn't feel right to pick it up while it's so damaged.",
+    "responses": [
+      {
+        "text": "Reassemble the doll.",
+        "condition": {
+          "and": [
+            { "u_has_item": "imperfect_doll_features" },
+            { "u_has_item": "imperfect_doll_arms" },
+            { "u_has_item": "imperfect_doll_legs" }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_repair_imperfect_doll" ] },
+        "topic": "vitrified_repair_doll"
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "vitrified_repair_doll",
+    "dynamic_line": "Repairing the doll is easier than you thought.  The mismatched parts fit together easily, and soon it is whole again.",
+    "responses": [ { "text": "You pick up the soft little thing, and feel a strong urge to hug it.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "vitrified_bookcase_talk_main",
+    "dynamic_line": "Among the solid wall of glass book spines, there is a single empty space.",
+    "responses": [
+      {
+        "text": "Place the glass storybook among the others.",
+        "condition": { "u_has_item": "glass_book" },
+        "effect": { "run_eocs": [ "EOC_swap_glass_book_for_eyes" ] },
+        "topic": "vitrified_bookcase_add_book"
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "vitrified_bookcase_add_book",
+    "dynamic_line": "The book slots in among the rest, and you can no longer see the difference.  Maybe there isn't any.",
+    "responses": [ { "text": "You find something new in your inventory.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "vitrified_pool_talk_main",
+    "dynamic_line": "A soft breeze rolls across this pool of sand, rippling it in gentle waves.",
+    "responses": [
+      {
+        "text": "Place the glass sailboat in the pool.",
+        "condition": { "u_has_item": "glass_boat" },
+        "effect": { "run_eocs": [ "EOC_swap_glass_boat_for_legs" ] },
+        "topic": "vitrified_pool_add_boat"
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "vitrified_pool_add_boat",
+    "dynamic_line": "The boat would sink immediately in water.  On the denser sand, it finds a balance, and the breeze stirs it to life.",
+    "responses": [ { "text": "You find something new in your inventory.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "vitrified_soil_talk_main",
+    "dynamic_line": "This little mound of soil is unlike the jagged dirt around it.  It is smooth, welcoming, and pleasant to the touch.",
+    "responses": [
+      {
+        "text": "Plant the withered apple in the soil.",
+        "condition": { "u_has_item": "glass_apple" },
+        "effect": { "run_eocs": [ "EOC_swap_glass_apple_for_arms" ] },
+        "topic": "vitrified_soil_add_apple"
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "vitrified_soil_add_apple",
+    "dynamic_line": "The soil yields easily, as if welcoming your contribution.  The rotten shell of the apple crumbles away, and the seeds sparkle as the dirt covers them.",
+    "responses": [ { "text": "You find something new in your inventory.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "imperfect_doll_to_couch",
+    "terrain": [ { "result": "f_vitrified_sofa", "valid_terrain": [ "f_vitrified_doll" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "glass_book_on_shelf",
+    "terrain": [ { "result": "f_vitrified_bookcase", "valid_terrain": [ "f_vitrified_bookcase_talker" ] } ]
+  }
+]

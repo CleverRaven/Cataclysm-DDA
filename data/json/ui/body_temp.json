@@ -1,0 +1,135 @@
+[
+  {
+    "id": "body_temp_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      { "id": "scorching", "text": "Scorching!", "color": "red", "condition": { "math": [ "u_val('body_temp') > 9500" ] } },
+      {
+        "id": "very_hot",
+        "text": "Very hot!",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 9500" ] }, { "math": [ "u_val('body_temp') > 8000" ] } ] }
+      },
+      {
+        "id": "warm",
+        "text": "Warm",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 8000" ] }, { "math": [ "u_val('body_temp') > 6500" ] } ] }
+      },
+      {
+        "id": "comfortable",
+        "text": "Comfortable",
+        "color": "green",
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 6500" ] }, { "math": [ "u_val('body_temp') > 3500" ] } ] }
+      },
+      {
+        "id": "chilly",
+        "text": "Chilly",
+        "color": "light_blue",
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 3500" ] }, { "math": [ "u_val('body_temp') > 2000" ] } ] }
+      },
+      {
+        "id": "very_cold",
+        "text": "Very cold!",
+        "color": "cyan",
+        "condition": { "and": [ { "math": [ "u_val('body_temp') <= 2000" ] }, { "math": [ "u_val('body_temp') > 500" ] } ] }
+      },
+      {
+        "id": "freezing",
+        "text": "Freezing!",
+        "color": "blue",
+        "condition": { "math": [ "u_val('body_temp') <= 500" ] }
+      }
+    ]
+  },
+  {
+    "id": "body_temp_delta_template",
+    "type": "widget",
+    "style": "clause",
+    "default_clause": { "text": "", "sym": "-", "color": "green" },
+    "clauses": [
+      {
+        "id": "rising3",
+        "text": "(Rising!!)",
+        "sym": "↑↑↑",
+        "color": "red",
+        "condition": { "math": [ "u_val('body_temp_delta') > 4500" ] }
+      },
+      {
+        "id": "rising2",
+        "text": "(Rising!)",
+        "sym": "↑↑",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 4500" ] }, { "math": [ "u_val('body_temp_delta') > 3000" ] } ] }
+      },
+      {
+        "id": "rising1",
+        "text": "(Rising)",
+        "sym": "↑",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') <= 3000" ] }, { "math": [ "u_val('body_temp_delta') > 1500" ] } ] }
+      },
+      {
+        "id": "falling1",
+        "text": "(Falling)",
+        "sym": "↓",
+        "color": "light_blue",
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -1500" ] }, { "math": [ "u_val('body_temp_delta') >= -3000" ] } ] }
+      },
+      {
+        "id": "falling2",
+        "text": "(Falling!)",
+        "sym": "↓↓",
+        "color": "cyan",
+        "condition": { "and": [ { "math": [ "u_val('body_temp_delta') < -3000" ] }, { "math": [ "u_val('body_temp_delta') >= -4500" ] } ] }
+      },
+      {
+        "id": "falling3",
+        "text": "(Falling!!)",
+        "sym": "↓↓↓",
+        "color": "blue",
+        "condition": { "math": [ "u_val('body_temp_delta') < -4500" ] }
+      }
+    ]
+  },
+  {
+    "id": "body_temp_desc_label",
+    "type": "widget",
+    "label": "Heat",
+    "style": "text",
+    "copy-from": "body_temp_template"
+  },
+  {
+    "id": "body_temp_desc_no_label",
+    "type": "widget",
+    "copy-from": "body_temp_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "body_temp_delta_desc_label",
+    "type": "widget",
+    "label": "Temp change",
+    "style": "text",
+    "copy-from": "body_temp_delta_template"
+  },
+  {
+    "id": "body_temp_delta_desc_no_label",
+    "type": "widget",
+    "copy-from": "body_temp_delta_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "body_temp_delta_sym_label",
+    "type": "widget",
+    "label": "Temp change",
+    "style": "symbol",
+    "copy-from": "body_temp_delta_template"
+  },
+  {
+    "id": "body_temp_delta_sym_no_label",
+    "type": "widget",
+    "copy-from": "body_temp_delta_sym_label",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

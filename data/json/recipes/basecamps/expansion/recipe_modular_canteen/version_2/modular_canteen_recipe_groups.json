@@ -1,0 +1,58 @@
+[
+  {
+    "type": "recipe_group",
+    "id": "fbmk_2_recipes_1",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "tinder", "description": " Craft: Tinder" },
+      { "id": "meat_cooked", "description": " Cook: Meat, Cooked" },
+      { "id": "fish_cooked", "description": " Cook: Fish, Cooked" },
+      { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
+      { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
+      { "id": "starch", "description": " Cook: Starch" },
+      { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
+      { "id": "flatbread", "description": " Cook: Flatbread" },
+      { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fbmk_2_recipes_2",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "flour", "description": " Cook: Flour" },
+      { "id": "salt", "description": " Cook: Salt" },
+      { "id": "bread", "description": " Cook: Bread" },
+      { "id": "fruit_leather", "description": " Cook: Fruit Leather" },
+      { "id": "jerky", "description": " Cook: Meat Jerky" },
+      { "id": "mushroom_cooked", "description": " Cook: Mushroom, Cooked" },
+      { "id": "lard", "description": " Cook: Lard" },
+      { "id": "cornmeal", "description": " Cook: Cornmeal" },
+      { "id": "meat_smoked", "description": " Cook: Meat, Smoked" },
+      { "id": "fish_smoked", "description": " Cook: Fish, Smoked" },
+      { "id": "dry_mushroom", "description": " Cook: Mushroom, Dried" },
+      { "id": "dry_fruit", "description": " Cook: Fruit, Dehydrated" },
+      { "id": "sausage", "description": " Cook: Sausage" },
+      { "id": "sausage_wasteland", "description": " Cook: Sausage, Wasteland" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fbmk_2_recipes_3",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "pie_meat", "description": " Cook: Meat Pie" },
+      { "id": "pie_veggy", "description": " Cook: Veggy Pie" },
+      { "id": "sugar", "description": " Cook: Sugar" },
+      { "id": "hardtack", "description": " Cook: Hardtack" },
+      { "id": "veggy_pickled_jarred", "description": " Cook: Veggy, Pickled" },
+      { "id": "cheese_hard", "description": " Cook: Cheese, Hard" },
+      { "id": "pemmican", "description": " Cook: Pemmican, Meat + Berries" },
+      { "id": "pemmican_veggy", "description": " Cook: Pemmican, Meat + Veg" },
+      { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
+      { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
+      { "id": "meat_aspic", "description": " Cook: Meat Aspic" },
+      { "id": "kompot", "description": " Cook: Kompot" }
+    ]
+  }
+]

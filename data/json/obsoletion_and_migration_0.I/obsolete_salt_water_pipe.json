@@ -1,0 +1,87 @@
+[
+  {
+    "//00": "OBSOLETION NOTE: when this file is deleted, C++ faction camp code from #55026 that generates pipelines can also be deleted.",
+    "type": "mapgen",
+    "update_mapgen_id": "faction_expansion_salt_water_pipe_swamp_N",
+    "//": "Hard coded name for a map that's used to implement the salt water pipe functionality",
+    "//0": "required to construct a salt water pipe from a swamp to an expansion. These",
+    "//1": "blueprints can be used for any expansion, while the recipes have to be tailored",
+    "//2": "to their specific expansions.",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirt", "x": 12, "x2": 12, "y": 0, "y2": 2 },
+        { "line": "furniture", "id": "f_clear", "x": 12, "x2": 12, "y": 0, "y2": 2 },
+        { "point": "terrain", "id": "t_covered_salt_water_well", "x": 12, "y": 3 },
+        { "point": "furniture", "id": "f_clear", "x": 12, "y": 3 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_expansion_salt_water_pipe_swamp_NE",
+    "//": "The corresponding blueprint for the 4 diagonal orientations.",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_dirt", "x": 23, "y": 0 },
+        { "point": "furniture", "id": "f_clear", "x": 23, "y": 0 },
+        { "point": "terrain", "id": "t_dirt", "x": 22, "y": 1 },
+        { "point": "furniture", "id": "f_clear", "x": 22, "y": 1 },
+        { "point": "terrain", "id": "t_dirt", "x": 21, "y": 2 },
+        { "point": "furniture", "id": "f_clear", "x": 21, "y": 2 },
+        { "point": "terrain", "id": "t_covered_salt_water_well", "x": 20, "y": 3 },
+        { "point": "furniture", "id": "f_clear", "x": 20, "y": 3 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_expansion_salt_water_pipe_N",
+    "//": "Hard coded name for the salt water line expansion functionality. This blueprint",
+    "//0": "is rotated and/or mirrored by code to fit any of the 4 cardinal directions. It",
+    "//1": "is used to actually change the terrain after pretending to have dug pits, put",
+    "//2": "a pipe down into them, and then filled up the pits again.",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirt", "x": 12, "x2": 12, "y": 0, "y2": 11 },
+        { "line": "furniture", "id": "f_clear", "x": 12, "x2": 12, "y": 0, "y2": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_expansion_salt_water_pipe_NE",
+    "//": "The corresponding blueprint for the 4 diagonal orientations.",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_dirt", "x": 23, "y": 0 },
+        { "point": "furniture", "id": "f_clear", "x": 23, "y": 0 },
+        { "point": "terrain", "id": "t_dirt", "x": 22, "y": 1 },
+        { "point": "furniture", "id": "f_clear", "x": 22, "y": 1 },
+        { "point": "terrain", "id": "t_dirt", "x": 21, "y": 2 },
+        { "point": "furniture", "id": "f_clear", "x": 21, "y": 2 },
+        { "point": "terrain", "id": "t_dirt", "x": 20, "y": 3 },
+        { "point": "furniture", "id": "f_clear", "x": 20, "y": 3 },
+        { "point": "terrain", "id": "t_dirt", "x": 19, "y": 4 },
+        { "point": "furniture", "id": "f_clear", "x": 19, "y": 4 },
+        { "point": "terrain", "id": "t_dirt", "x": 18, "y": 5 },
+        { "point": "furniture", "id": "f_clear", "x": 18, "y": 5 },
+        { "point": "terrain", "id": "t_dirt", "x": 17, "y": 6 },
+        { "point": "furniture", "id": "f_clear", "x": 17, "y": 6 },
+        { "point": "terrain", "id": "t_dirt", "x": 16, "y": 7 },
+        { "point": "furniture", "id": "f_clear", "x": 16, "y": 7 },
+        { "point": "terrain", "id": "t_dirt", "x": 15, "y": 8 },
+        { "point": "furniture", "id": "f_clear", "x": 15, "y": 8 },
+        { "point": "terrain", "id": "t_dirt", "x": 14, "y": 9 },
+        { "point": "furniture", "id": "f_clear", "x": 14, "y": 9 },
+        { "point": "terrain", "id": "t_dirt", "x": 13, "y": 10 },
+        { "point": "furniture", "id": "f_clear", "x": 13, "y": 10 },
+        { "point": "terrain", "id": "t_dirt", "x": 12, "y": 11 },
+        { "point": "furniture", "id": "f_clear", "x": 12, "y": 11 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAD_ADAP_activated",
+    "condition": { "math": [ "u_val('sleep_deprivation') <= 14400" ] },
+    "effect": [
+      { "math": [ "u_val('sleep_deprivation')", "+=", "time('15 minutes')" ] },
+      {
+        "u_message": "You think about activating your immune system and your body warms with exertion.",
+        "type": "good"
+      },
+      { "u_add_effect": "migo_rad_away", "duration": "5 minutes" }
+    ],
+    "false_effect": [ { "u_message": "You are too exhausted to focus your immune system.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAD_FLUSH_activated",
+    "condition": { "math": [ "u_val('sleep_deprivation') <= 14400" ] },
+    "effect": [
+      { "math": [ "u_val('sleep_deprivation')", "+=", "time('35 minutes')" ] },
+      {
+        "u_message": "You think quite pointedly about activating your immune system and your body hums with exertion.",
+        "type": "good"
+      },
+      { "u_add_effect": "migo_rad_flush", "duration": "15 minutes" }
+    ],
+    "false_effect": [ { "u_message": "You are too exhausted to focus your immune system.", "type": "bad" } ]
+  }
+]

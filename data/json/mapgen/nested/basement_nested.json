@@ -8,7 +8,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "art", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -22,7 +21,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": [ "f_crate_c", "f_cardboard_box" ] },
       "items": { "x": { "item": "mischw", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -36,7 +34,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "bed", "chance": 90, "repeat": [ 0, 8 ] } }
     }
@@ -50,7 +47,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "clothing_outdoor_set", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -64,7 +60,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": {
         "x": [
@@ -83,7 +78,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "donated_clothes", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -97,7 +91,6 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "rows": [ "x" ],
-      "terrain": { "x": "t_null" },
       "furniture": { "x": "f_cardboard_box" },
       "items": { "x": { "item": "crate_toys", "chance": 90, "repeat": [ 0, 3 ] } }
     }
@@ -105,8 +98,12 @@
   {
     "type": "palette",
     "id": "basement_utility_nest_palette",
-    "terrain": { " ": "t_null", ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },
-    "furniture": { "g": "f_water_heater", "f": "f_home_furnace", "a": [ "f_air_conditioner", "f_null", "f_counter" ] },
+    "terrain": { ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },
+    "furniture": {
+      "g": [ "f_water_heater", "f_water_heater_family" ],
+      "f": "f_home_furnace",
+      "a": [ "f_air_conditioner", "f_null", "f_counter" ]
+    },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
   },
   {
@@ -182,34 +179,34 @@
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "............",
-        "....ElHHHl..",
-        "..........T.",
-        "..........ER",
-        "...eee.....R",
-        "...eee.....R",
-        "...eee......",
-        "...eee.....$",
-        "........AC..",
-        "........AC..",
-        "........AC..",
-        "MMM......CS!"
+        "============",
+        "====ElHHHl==",
+        "==========T=",
+        "==========ER",
+        "===eee=====R",
+        "===eee=====R",
+        "===eee======",
+        "===eee=====$",
+        "========AC==",
+        "========AC==",
+        "========AC==",
+        "MMM======CS!"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_purple",
-        "e": "t_carpet_purple",
-        "R": "t_carpet_purple",
-        "E": "t_carpet_purple",
-        "l": "t_carpet_purple",
-        "H": "t_carpet_purple",
-        "T": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "C": "t_carpet_purple",
-        "S": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "$": "t_carpet_purple"
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "C": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "S": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "$": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "!": "f_fridge", "$": "f_rack_wood" },
       "items": {
         "!": { "item": "wetbar_fridge", "chance": 100, "repeat": [ 1, 10 ] },
@@ -229,36 +226,36 @@
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "............",
-        ".,,,,,,,,,..",
-        ".,,,,,,,,,!.",
-        ".,,,,,,,,,!.",
-        ".,,,,,,,,,!.",
-        ".,,,,,,,,,..",
-        "..HHHHHHH...",
-        "..H........T",
-        "....lll....E",
-        "............",
-        ".....$......",
-        "............"
+        "============",
+        "=,,,,,,,,,==",
+        "=,,,,,,,,,!=",
+        "=,,,,,,,,,!=",
+        "=,,,,,,,,,!=",
+        "=,,,,,,,,,==",
+        "==HHHHHHH===",
+        "==H========T",
+        "====lll====E",
+        "============",
+        "=====$======",
+        "============"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_yellow",
-        ",": "t_carpet_yellow",
-        "H": "t_carpet_yellow",
-        "l": "t_carpet_yellow",
-        "T": "t_carpet_yellow",
-        "E": "t_carpet_yellow",
-        "$": "t_carpet_yellow",
-        "!": "t_carpet_yellow"
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "$": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "!": "f_rack_wood", "$": "f_rack_wood" },
       "items": {
         "!": { "item": "toy_box", "chance": 80, "repeat": [ 1, 10 ] },
-        ".": [
+        "=": [
           { "item": "toy_box", "chance": 5 },
-          { "item": "trash", "chance": 1 },
+          { "item": "SUS_trash_floor", "chance": 1 },
           { "item": "bed", "chance": 1 },
           { "item": "candy_chocolate", "chance": 2 }
         ],
@@ -275,32 +272,37 @@
       "mapgensize": [ 12, 12 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "............",
-        "..,,,,,,,,..",
-        "..,X,,,,X,..",
-        "..,,,,,,,,..",
-        "..,,,,,,,,..",
-        "..,cc,,uu,..",
-        "..,,,,,,,,..",
-        "............",
-        ".........AA.",
-        ".......CCCC.",
-        ".......S....",
-        ".......!...$"
+        "============",
+        "==,,,,,,,,==",
+        "==,X,,,,X,==",
+        "==,,,,,,,,==",
+        "==,,,,,,,,==",
+        "==,cc,,uu,==",
+        "==,,,,,,,,==",
+        "============",
+        "=========AA=",
+        "=======CCCC=",
+        "=======S====",
+        "=======!===$"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "standard_domestic_palette",
+        "standard_domestic_basement_palette",
+        "parametrized_carpets_nest_palette"
+      ],
       "terrain": {
-        ".": "t_carpet_red",
-        "A": "t_carpet_red",
-        "C": "t_carpet_red",
-        "S": "t_carpet_red",
-        "!": "t_carpet_red",
-        "$": "t_carpet_red",
-        ",": "t_linoleum_white",
-        "c": "t_linoleum_white",
-        "u": "t_linoleum_white",
-        "X": "t_linoleum_white"
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "C": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "S": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "$": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "X": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "!": "f_fridge", "$": "f_rack_wood" },
       "items": { "!": { "item": "produce", "chance": 80, "repeat": [ 2, 8 ] }, "$": { "item": "a_television", "chance": 100 } }
     }
@@ -333,6 +335,7 @@
         "F": "t_thconc_floor",
         "G": "t_thconc_floor"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": {
         "A": [ "f_drill_press", "f_planer" ],
         "B": [ "f_jointer", "f_router", "f_mitresaw" ],
@@ -372,6 +375,7 @@
         "S": "t_thconc_floor",
         "B": "t_thconc_floor"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "T": "f_trashcan", "S": "f_utility_shelf", "B": "f_workbench" },
       "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 270, "chance": 50 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 4, "y": [ 2, 4 ], "chance": 10, "repeat": [ 1, 3 ] } ]
@@ -387,28 +391,15 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "||++||",
-        "|O  Q|",
-        "|z  Q|",
-        "|zzSQ|",
-        "|SzzQ|",
+        "|D  U|",
+        "|z  U|",
+        "|zzPU|",
+        "|PzzU|",
         "||||||"
       ],
-      "palettes": [ "house_w_nest_palette" ],
-      "terrain": {
-        "|": "t_wall_w",
-        "+": "t_door_c",
-        " ": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "O": "t_thconc_floor"
-      },
-      "place_items": [
-        { "item": "home_hw", "x": 4, "y": [ 1, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
-        { "item": "allclothes", "x": 1, "y": 1, "chance": 25, "repeat": [ 1, 3 ] },
-        { "item": "livingroom", "x": 1, "y": [ 2, 3 ], "chance": 55, "repeat": [ 1, 4 ] },
-        { "item": "bedroom", "x": 2, "y": [ 3, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
-      ]
+      "palettes": [ "domestic_general_and_variant_palette" ],
+      "terrain": { " ": "t_thconc_floor", "P": "t_thconc_floor", "z": "t_thconc_floor", "U": "t_thconc_floor", "D": "t_thconc_floor" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -428,6 +419,7 @@
         "||++||"
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         " ": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -455,6 +447,7 @@
         "||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         " ": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -482,6 +475,7 @@
         "||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         " ": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -511,21 +505,23 @@
         "|HWX XCA|",
         "|||||||||"
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "C": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "X": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "H": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "U": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -570,21 +566,23 @@
         "|HWX XCA|",
         "||||+||||"
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "C": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "X": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "H": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "U": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -629,21 +627,23 @@
         "|HWX XCA|",
         "|||||||||"
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "C": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "X": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "H": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "U": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -688,21 +688,23 @@
         "|HWX XCA|",
         "|||||||||"
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "C": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "X": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "H": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "U": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -738,27 +740,29 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "||||+||||",
-        "|HHH...=|",
-        "|Hl....x|",
-        "|%.....=|",
-        "|.A.A..&|",
-        "|JJ5JJ  |",
-        "|       |",
-        "|mVJ14 T|",
+        "|HHH===?|",
+        "|Hl====x|",
+        "|%=====?|",
+        "|=A=A==&|",
+        "|JJ5JJ..|",
+        "|.......|",
+        "|mVJ14.T|",
         "|||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_floor",
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": "t_floor"
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
   },
@@ -772,32 +776,32 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "||||+||||",
-        "|A.....=|",
-        "|..ee..x|",
-        "|A.ee..=|",
-        "|..ee..&|",
-        "|......%|",
-        "|Hll.E..|",
+        "|A=====?|",
+        "|==ee==x|",
+        "|A=ee==?|",
+        "|==ee==&|",
+        "|======%|",
+        "|Hll=E==|",
         "|HHHHsyT|",
         "|||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "E": "t_carpet_green",
-        "T": "t_carpet_green",
-        "y": "t_carpet_green",
-        "s": "t_carpet_green",
-        "e": "t_carpet_green",
-        "&": "t_carpet_green"
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
   },
@@ -811,27 +815,29 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||||",
-        "|HHH...=|",
-        "|Hl....x|",
-        "|%.....=|",
-        "|.A.A..&|",
-        "|JJ5JJ  |",
-        "|       |",
-        "|mVJ14 T|",
+        "|HHH===?|",
+        "|Hl====x|",
+        "|%=====?|",
+        "|=A=A==&|",
+        "|JJ5JJ..|",
+        "|.......|",
+        "|mVJ14.T|",
         "||||||+||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_floor",
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": "t_floor"
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
   },
@@ -870,6 +876,7 @@
         "e": "t_floor",
         "&": "t_floor"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
@@ -884,27 +891,29 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||||",
-        "|HHH...=|",
-        "|Hl....x|",
-        "|%.....=|",
-        "|.A.A..&|",
-        "|JJ5JJ  +",
-        "|       |",
-        "|mVJ14 T|",
+        "|HHH===?|",
+        "|Hl====x|",
+        "|%=====?|",
+        "|=A=A==&|",
+        "|JJ5JJ..+",
+        "|.......|",
+        "|mVJ14.T|",
         "|||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_floor",
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": "t_floor"
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
   },
@@ -918,32 +927,32 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||||",
-        "|A.....=|",
-        "|..ee..x|",
-        "|A.ee..=|",
-        "|..ee..&|",
-        "|.......+",
-        "|Hll.E.%|",
+        "|A=====?|",
+        "|==ee==x|",
+        "|A=ee==?|",
+        "|==ee==&|",
+        "|=======+",
+        "|Hll=E=%|",
         "|HHHHsyT|",
         "|||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_red",
-        "H": "t_carpet_red",
-        "l": "t_carpet_red",
-        "A": "t_carpet_red",
-        "=": "t_carpet_red",
-        "x": "t_carpet_red",
-        "%": "t_carpet_red",
-        "E": "t_carpet_red",
-        "T": "t_carpet_red",
-        "y": "t_carpet_red",
-        "s": "t_carpet_red",
-        "e": "t_carpet_red",
-        "&": "t_carpet_red"
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
   },
@@ -957,27 +966,29 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||||",
-        "|HHH...=|",
-        "|Hl....x|",
-        "|%.....=|",
-        "+.A.A..&|",
-        "|JJ5JJ  |",
-        "|       |",
-        "|mVJ14 T|",
+        "|HHH===?|",
+        "|Hl====x|",
+        "|%=====?|",
+        "+=A=A==&|",
+        "|JJ5JJ..|",
+        "|.......|",
+        "|mVJ14.T|",
         "|||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_floor",
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": "t_floor"
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
   },
@@ -991,32 +1002,32 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||||",
-        "|A.....=|",
-        "|..ee..x|",
-        "|A.ee..=|",
-        "+..ee..&|",
-        "|......%|",
-        "|Hll.E..|",
+        "|A=====?|",
+        "|==ee==x|",
+        "|A=ee==?|",
+        "+==ee==&|",
+        "|======%|",
+        "|Hll=E==|",
         "|HHHHsyT|",
         "|||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "E": "t_carpet_green",
-        "T": "t_carpet_green",
-        "y": "t_carpet_green",
-        "s": "t_carpet_green",
-        "e": "t_carpet_green",
-        "&": "t_carpet_green"
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
     }
   },
@@ -1052,6 +1063,7 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "X": { "liquid": "hb_beer", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
         { "item": "jar_3l_glass_sealed", "x": 7, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
@@ -1099,6 +1111,7 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "X": { "liquid": "mead", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
         { "item": "jar_3l_glass_sealed", "x": 1, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
@@ -1147,6 +1160,7 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "X": { "liquid": "hb_beer", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
         { "item": "jar_3l_glass_sealed", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
@@ -1194,6 +1208,7 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "liquids": { "X": { "liquid": "mead", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
         { "item": "jar_3l_glass_sealed", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
@@ -1303,8 +1318,9 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", "!": "f_wood_keg" },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 500 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1331,8 +1347,9 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", "!": "f_wood_keg" },
-      "liquids": { "0": { "liquid": "hb_beer", "amount": [ 10, 1000 ] }, "!": { "liquid": "dandelion_wine", "amount": [ 10, 1000 ] } },
+      "liquids": { "0": { "liquid": "hb_beer", "amount": [ 10, 500 ] }, "!": { "liquid": "dandelion_wine", "amount": [ 10, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1359,8 +1376,9 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", ",": "f_still", "~": "f_ash", "!": "f_wood_keg" },
-      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 1000 ] }, "!": { "liquid": "mead", "amount": [ 100, 1000 ] } },
+      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 500 ] }, "!": { "liquid": "mead", "amount": [ 100, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1387,8 +1405,9 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "|": "t_wall_wood" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", ",": "f_still", "~": "f_ash", "!": "f_wood_keg" },
-      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 1000 ] }, "!": { "liquid": "mead", "amount": [ 100, 1000 ] } },
+      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 500 ] }, "!": { "liquid": "mead", "amount": [ 100, 500 ] } },
       "items": {
         "%": [
           { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
@@ -1408,73 +1427,47 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||+||",
-        "|%  !|",
-        "|,  ~|",
-        "|= h~|",
-        "|$Y ~|",
+        "|%==!|",
+        "|,==~|",
+        "|?=h~|",
+        "|$Y=~|",
         "||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        "|": "t_wall_b",
-        " ": "t_carpet_green",
-        "%": "t_carpet_green",
-        "$": "t_carpet_green",
-        "=": "t_carpet_green",
-        ",": "t_carpet_green",
-        "~": "t_carpet_green",
-        "Y": "t_carpet_green",
-        "h": "t_carpet_green",
-        "P": "t_carpet_green",
-        "!": "t_carpet_green"
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "$": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "P": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": {
         "%": "f_locker",
         "$": "f_locker",
         "0": "f_displaycase",
-        "=": "f_displaycase",
+        "?": "f_displaycase",
         ",": "f_displaycase",
         "~": "f_workbench",
         "!": "f_bookcase"
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 70, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 20, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
           { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
+          { "item": "gunmod_common", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 40, "repeat": [ 1, 2 ] } ]
       }
@@ -1491,64 +1484,39 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "||||||",
-        "|%Y !|",
-        "|,  ~|",
-        "|= h~|",
-        "|$  ~|",
+        "|%Y=!|",
+        "|,==~|",
+        "|?=h~|",
+        "|$==~|",
         "|||+||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        "|": "t_wall_wood",
-        " ": "t_carpet_red",
-        "%": "t_carpet_red",
-        "$": "t_carpet_red",
-        "=": "t_carpet_red",
-        ",": "t_carpet_red",
-        "~": "t_carpet_red",
-        "Y": "t_carpet_red",
-        "h": "t_carpet_red",
-        "P": "t_carpet_red",
-        "!": "t_carpet_red"
+        " ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "$": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "P": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "$": "f_rack_wood", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
-          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_rare", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 40, "repeat": [ 1, 2 ] } ]
@@ -1566,64 +1534,38 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "||||||",
-        "|% P!|",
-        "|,   +",
-        "|= h~:",
-        "|$Y ~:",
+        "|%=P!|",
+        "|,===+",
+        "|?=h~:",
+        "|$Y=~:",
         "||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        "|": "t_wall_b",
-        " ": "t_carpet_yellow",
-        "%": "t_carpet_yellow",
-        "$": "t_carpet_yellow",
-        "=": "t_carpet_yellow",
-        ",": "t_carpet_yellow",
-        "~": "t_carpet_yellow",
-        "Y": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "P": "t_carpet_yellow",
-        "!": "t_carpet_yellow"
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "$": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "P": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_locker", "$": "f_locker", "?": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "?": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
-          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_rare", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 60, "repeat": [ 1, 2 ] } ]
@@ -1660,44 +1602,20 @@
         "P": "t_floor",
         "!": "t_floor"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
-          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_rare", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 60, "repeat": [ 1, 2 ] } ]
@@ -1713,26 +1631,27 @@
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "  K    ",
-        " G %%% ",
-        "   &=% ",
-        "   %%% ",
-        "   G   ",
-        "     G ",
-        "     K "
+        "==K====",
+        "=G=%%%=",
+        "===&?%=",
+        "===%%%=",
+        "===G===",
+        "=====G=",
+        "=====K="
       ],
-      "palettes": [ "standard_domestic_palette" ],
-      "traps": { "=": "tr_rollmat" },
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
+      "traps": { "?": "tr_rollmat" },
       "terrain": {
-        " ": "t_carpet_green",
-        "K": "t_carpet_green",
-        "G": "t_carpet_green",
-        "%": "t_carpet_green",
-        "=": "t_carpet_green",
-        "&": "t_carpet_green",
-        "0": "t_carpet_green"
+        " ": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "K": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "0": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": "f_canvas_wall", "=": "f_groundsheet", "&": "f_canvas_door" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_canvas_wall", "?": "f_groundsheet", "&": "f_canvas_door" },
       "place_items": [
         { "item": "snacks", "x": 5, "y": 6, "chance": 75 },
         { "item": "snacks", "x": 2, "y": 0, "chance": 75 },
@@ -1751,31 +1670,34 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "       ",
-        " ~~~=~ ",
-        " ~%~~~s",
-        " =~~h~s",
-        " !&~~~ ",
-        " ~~~~~ ",
+        " ===?= ",
+        " =%===s",
+        " ?==h=s",
+        " !&=== ",
+        " ===== ",
         "  sHH  "
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        "~": "t_carpet_green",
-        "h": "t_carpet_green",
-        "!": "t_carpet_green",
-        "=": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green",
-        "0": "t_carpet_green"
+        "~": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "0": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": [ [ "f_piano", 5 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ [ "f_piano", 5 ], "f_null" ], "?": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
         { "item": "laptop", "x": 6, "y": 3, "chance": 100 },
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
         { "item": "amplifier_head", "x": 1, "y": 5, "chance": 100 },
         { "item": "mixer_music", "x": 6, "y": 2, "chance": 100 },
         { "item": "guitar_stand", "x": 3, "y": 3, "chance": 100 },
+        { "item": "qt_wire", "x": 3, "y": 3, "chance": 20 },
         { "item": "guitar_stand", "x": 0, "y": 5, "chance": 100 },
+        { "item": "qt_wire", "x": 0, "y": 5, "chance": 20 },
         { "item": "mic_stand_tall", "x": 5, "y": 5, "chance": 100 },
         { "item": "microphone_xlr_generic", "x": 5, "y": 5, "chance": 100 },
         { "item": "headphones_circumaural", "x": 6, "y": 2, "chance": 100 },
@@ -1817,10 +1739,11 @@
         " ": "t_carpet_red",
         "E": "t_carpet_red"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {
@@ -1858,10 +1781,11 @@
         " ": "t_carpet_red",
         "E": "t_carpet_red"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {
@@ -1899,10 +1823,11 @@
         " ": "t_carpet_red",
         "E": "t_carpet_red"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {
@@ -1940,10 +1865,11 @@
         " ": "t_carpet_red",
         "E": "t_carpet_red"
       },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
-        "0": { "liquid": "wine_cabernet", "amount": [ 100, 1000 ] },
-        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 1000 ] }
+        "0": { "liquid": "wine_cabernet", "amount": [ 100, 500 ] },
+        "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] }
       },
       "place_loot": [ { "item": "deck_of_cards", "x": 3, "y": 3, "chance": 100 } ],
       "items": {
@@ -1963,27 +1889,27 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||+|||",
-        "|y   =|",
-        "|H   x|",
-        "|H   x|",
-        "| h  =|",
-        "|Trr %|",
+        "|y===?|",
+        "|H===x|",
+        "|H===x|",
+        "|=h==?|",
+        "|Trr=%|",
         "|||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "%": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ "f_punching_bag", "f_arcade_machine", "f_pinball_machine" ], "?": "f_speaker_cabinet" },
       "place_loot": [
         { "item": "stereo", "x": 5, "y": 2, "chance": 100 },
         { "item": "television", "x": 5, "y": 3, "chance": 75 },
@@ -2081,27 +2007,27 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|::!::|",
-        "|T   =|",
-        "|&A  x|",
-        "|s A x|",
-        "|&A A=|",
+        "|T===s|",
+        "|&A==x|",
+        "|s=A=x|",
+        "|&A=As|",
         "|Y%s%y|",
         "|||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_purple",
-        "y": "t_carpet_purple",
-        "&": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "Y": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "T": "t_carpet_purple",
-        "=": "t_carpet_purple",
-        "x": "t_carpet_purple"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "s": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 5, "y": 2, "chance": 100 } ]
     }
   },
@@ -2115,27 +2041,27 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||",
-        "|y   =|",
-        "|H   x|",
-        "|H   x|",
-        "| h  =|",
-        "|Trr %|",
+        "|y===?|",
+        "|H===x|",
+        "|H===x|",
+        "|=h==?|",
+        "|Trr=%|",
         "||||+||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "%": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ "f_punching_bag", "f_arcade_machine", "f_pinball_machine" ], "?": "f_speaker_cabinet" },
       "place_loot": [
         { "item": "stereo", "x": 5, "y": 2, "chance": 100 },
         { "item": "television", "x": 5, "y": 3, "chance": 75 },
@@ -2153,27 +2079,28 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||",
-        "|T%s%=|",
-        "|&A  x|",
-        "|s A x|",
-        "|&A A=|",
-        "|Y   y|",
+        "|T%s%?|",
+        "|&A==x|",
+        "|s=A=x|",
+        "|&A=A?|",
+        "|Y===y|",
         "|::!::|"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "&": "t_carpet_green",
-        "A": "t_carpet_green",
-        "Y": "t_carpet_green",
-        "%": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 5, "y": 2, "chance": 100 } ]
     }
   },
@@ -2187,29 +2114,29 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||",
-        "|x  HH|",
-        "|x  lH|",
-        "|=    +",
-        "| h  Y|",
-        "|Trr%=|",
+        "|x==HH|",
+        "|x==lH|",
+        "|?====+",
+        "|=h==Y|",
+        "|Trr%?|",
         "|||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "Y": "t_carpet_green",
-        "%": "t_carpet_green",
-        "l": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ "f_punching_bag", "f_arcade_machine", "f_pinball_machine" ], "?": "f_speaker_cabinet" },
       "place_loot": [
         { "item": "stereo", "x": 1, "y": 1, "chance": 100 },
         { "item": "television", "x": 1, "y": 2, "chance": 75 },
@@ -2228,26 +2155,27 @@
       "rows": [
         "|||||||",
         "|T%s%A:",
-        "|&A A :",
-        "|s    !",
-        "|&A   :",
-        "|Y=x=y:",
+        "|&A=A=:",
+        "|s====!",
+        "|&A===:",
+        "|Y?x?y:",
         "|||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_red",
-        "y": "t_carpet_red",
-        "&": "t_carpet_red",
-        "A": "t_carpet_red",
-        "Y": "t_carpet_red",
-        "%": "t_carpet_red",
-        "T": "t_carpet_red",
-        "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 3, "y": 5, "chance": 100 } ]
     }
   },
@@ -2261,28 +2189,28 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||",
-        "|x =HH|",
-        "|x  lH|",
-        "+    =|",
-        "| h   |",
-        "|Trr %|",
+        "|x=?HH|",
+        "|x==lH|",
+        "+====?|",
+        "|=h===|",
+        "|Trr=%|",
         "|||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "%": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ "f_punching_bag", "f_arcade_machine", "f_pinball_machine" ], "?": "f_speaker_cabinet" },
       "place_loot": [
         { "item": "stereo", "x": 1, "y": 1, "chance": 100 },
         { "item": "television", "x": 1, "y": 2, "chance": 75 },
@@ -2300,27 +2228,28 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "|||||||",
-        ":T%s% |",
-        ": A A&|",
-        "!    s|",
-        ":   A&|",
-        ":Y=x=y|",
+        ":T%s%=|",
+        ":=A=A&|",
+        "!====s|",
+        ":===A&|",
+        ":Y?x?y|",
         "|||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_red",
-        "y": "t_carpet_red",
-        "&": "t_carpet_red",
-        "A": "t_carpet_red",
-        "Y": "t_carpet_red",
-        "%": "t_carpet_red",
-        "T": "t_carpet_red",
-        "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "Y": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_arcade_machine", "?": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 3, "y": 5, "chance": 100 } ]
     }
   },
@@ -2435,10 +2364,11 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 3, "y": 2, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2459,10 +2389,11 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 3, "y": 2, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 3, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2483,10 +2414,11 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 2, "y": 1, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2507,10 +2439,11 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 3, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 2, "y": 1, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2531,6 +2464,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "=": "t_water_pool", " ": "t_floor_blue", "y": "t_floor_blue" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "y": [ "f_indoor_plant_y", "f_indoor_plant" ] },
       "place_loot": [ { "item": "towel", "x": 0, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] } ]
     }
@@ -2542,25 +2476,26 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "% ccc",
-        "     ",
-        "  = =",
-        "= =  ",
-        "B  B "
+        "%=ccc",
+        "=====",
+        "==&=&",
+        "&=&==",
+        "B==B="
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "V": "t_carpet_purple",
-        "B": "t_carpet_purple",
-        "c": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "O": "t_carpet_purple",
-        "=": "t_carpet_purple"
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
-      "traps": { "=": "tr_rollmat" }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_punching_bag", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "&": "tr_rollmat" }
     }
   },
   {
@@ -2570,25 +2505,23 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "B  B ",
-        "  =  ",
-        "=  = ",
-        "     ",
-        "ccc %"
+        "B==B=",
+        "==?==",
+        "?==?=",
+        "=====",
+        "ccc=%"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "remove_all": { " ": {  }, "B": {  }, "c": {  }, "%": {  }, "?": {  } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "!": "t_carpet_green",
-        "@": "t_carpet_green",
-        "V": "t_carpet_green",
-        "B": "t_carpet_green",
-        "c": "t_carpet_green",
-        "O": "t_carpet_green",
-        "%": "t_carpet_green",
-        "=": "t_carpet_green"
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
-      "traps": { "=": "tr_rollmat" }
+      "furniture": { "%": "f_punching_bag", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "?": "tr_rollmat" }
     }
   },
   {
@@ -2598,25 +2531,23 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "% ccc",
-        "     ",
-        " =  =",
-        "   = ",
-        "B  B "
+        "%=ccc",
+        "=====",
+        "=?==?",
+        "===?=",
+        "B==B="
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "remove_all": { "B": {  }, "c": {  }, "%": {  }, "?": {  } },
       "terrain": {
-        " ": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "V": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        "c": "t_carpet_yellow",
-        "%": "t_carpet_yellow",
-        "O": "t_carpet_yellow",
-        "=": "t_carpet_yellow"
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
-      "traps": { "=": "tr_rollmat" }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": "f_punching_bag", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "?": "tr_rollmat" }
     }
   },
   {
@@ -2626,25 +2557,23 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
-        "B  B ",
-        "  =  ",
-        "=  = ",
-        "     ",
-        "cc  %"
+        "B==B=",
+        "==?==",
+        "?==?=",
+        "=====",
+        "cc==%"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "remove_all": { "B": {  }, "c": {  }, "%": {  }, "?": {  } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
-        " ": "t_carpet_red",
-        "!": "t_carpet_red",
-        "@": "t_carpet_red",
-        "V": "t_carpet_red",
-        "B": "t_carpet_red",
-        "c": "t_carpet_red",
-        "O": "t_carpet_red",
-        "%": "t_carpet_red",
-        "=": "t_carpet_red"
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
-      "traps": { "=": "tr_rollmat" }
+      "furniture": { "%": "f_punching_bag", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "?": "tr_rollmat" }
     }
   },
   {
@@ -2665,7 +2594,8 @@
         "|@zzPÆq|",
         "||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -2686,7 +2616,8 @@
         "|@  PÆq|",
         "|||+||||"
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -2708,7 +2639,8 @@
         "||||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 4, "y": 3 } ]
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 4, "y": 3 } ]
     }
   },
   {
@@ -2730,7 +2662,8 @@
         "||||||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 180, "chance": 100 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 180 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 1, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
@@ -2741,24 +2674,25 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
-        "        ",
-        " ! @ V  ",
-        "        ",
-        "1    c  ",
-        "     c  ",
-        "       =",
-        "      = ",
-        "      B "
+        "========",
+        "=!=@=V==",
+        "========",
+        "1====c==",
+        "=====c==",
+        "========",
+        "========",
+        "======B="
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "remove_all": { "!": {  }, "@": {  }, "V": {  }, "B": {  }, "c": {  }, "?": {  } },
       "terrain": {
-        " ": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "V": "t_carpet_purple",
-        "B": "t_carpet_purple",
-        "c": "t_carpet_purple",
-        "O": "t_carpet_purple",
-        "=": "t_carpet_purple"
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "furniture": {
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
@@ -2767,7 +2701,7 @@
         "c": "f_bench",
         "B": "f_bigmirror"
       },
-      "traps": { "=": "tr_rollmat" },
+      "traps": { "?": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_N", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_N", 60 ] ] } }
     }
   },
@@ -2778,25 +2712,27 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
-        "B  1    ",
-        " =c     ",
-        "= c     ",
-        "        ",
-        "        ",
-        "        ",
-        " ! @ V  ",
-        "        "
+        "B==1====",
+        "=?c=====",
+        "?=c=====",
+        "========",
+        "========",
+        "========",
+        "=!=@=V==",
+        "========"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "!": "t_carpet_green",
-        "@": "t_carpet_green",
-        "V": "t_carpet_green",
-        "B": "t_carpet_green",
-        "c": "t_carpet_green",
-        "O": "t_carpet_green",
-        "=": "t_carpet_green"
+        " ": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "furniture": {
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "@": [ "f_treadmill", "f_treadmill_mechanical" ],
@@ -2804,7 +2740,7 @@
         "c": "f_bench",
         "B": "f_bigmirror"
       },
-      "traps": { "=": "tr_rollmat" },
+      "traps": { "?": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_S", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_S", 60 ] ] } }
     }
   },
@@ -2815,25 +2751,26 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
-        "        ",
-        " ! @ V  ",
-        "        ",
-        "1       ",
-        "        ",
-        "       =",
-        "      = ",
-        "      B "
+        "========",
+        "=!=@=V==",
+        "========",
+        "1=======",
+        "========",
+        "=======?",
+        "======?=",
+        "======B="
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "V": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        "c": "t_carpet_yellow",
-        "O": "t_carpet_yellow",
-        "=": "t_carpet_yellow"
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "furniture": {
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "@": [ "f_treadmill", "f_treadmill_mechanical" ],
@@ -2841,7 +2778,7 @@
         "c": "f_bench",
         "B": "f_bigmirror"
       },
-      "traps": { "=": "tr_rollmat" },
+      "traps": { "?": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_E", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_E", 60 ] ] } }
     }
   },
@@ -2852,25 +2789,26 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
-        "B  1    ",
-        " =      ",
-        "=       ",
-        "        ",
-        "        ",
-        "        ",
-        " ! @ V c",
-        "       c"
+        "B==1====",
+        "=?======",
+        "?=======",
+        "========",
+        "========",
+        "========",
+        "=!=@=V=c",
+        "=======c"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_carpet_red",
-        "!": "t_carpet_red",
-        "@": "t_carpet_red",
-        "V": "t_carpet_red",
-        "B": "t_carpet_red",
-        "c": "t_carpet_red",
-        "O": "t_carpet_red",
-        "=": "t_carpet_red"
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "c": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "furniture": {
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "@": [ "f_treadmill", "f_treadmill_mechanical" ],
@@ -2878,7 +2816,7 @@
         "c": "f_bench",
         "B": "f_bigmirror"
       },
-      "traps": { "=": "tr_rollmat" },
+      "traps": { "?": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_W", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_W", 60 ] ] } }
     }
   },
@@ -2890,12 +2828,14 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "CyT..C",
-        "C    C",
-        "C EE C",
-        ".    .",
-        ".h  Af",
+        "C====C",
+        "C=EE=C",
+        ".====.",
+        ".h==Af",
         "BBB..f"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",
@@ -2903,10 +2843,9 @@
         "y": "t_floor",
         "T": "t_floor",
         "f": "t_floor",
-        "E": "t_carpet_green",
-        " ": "t_carpet_green",
-        "h": "t_carpet_green",
-        "A": "t_carpet_green"
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "A": "f_stool",
@@ -2921,7 +2860,10 @@
       "place_item": [
         { "item": "television", "x": 5, "y": 5, "chance": 100 },
         { "item": "laptop", "x": 1, "y": 5, "chance": 90 },
-        { "item": "multitool", "x": 0, "y": 5, "chance": 100 }
+        { "item": "multitool", "x": 0, "y": 5, "chance": 100 },
+        { "item": "breadboard", "x": 1, "y": 5, "chance": 95 },
+        { "item": "voltmeter", "x": 1, "y": 5, "chance": 90 },
+        { "item": "multimeter", "x": 1, "y": 5, "chance": 90 }
       ],
       "items": {
         "C": [
@@ -2949,12 +2891,14 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "BBT..C",
-        "Bh   C",
-        "B Af C",
-        ".  f .",
-        "Ed f C",
+        "Bh===C",
+        "B=Af=C",
+        ".==f=.",
+        "Ed=f=C",
         "yE...C"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",
@@ -2962,13 +2906,11 @@
         "y": "t_floor",
         "T": "t_floor",
         "E": "t_floor",
-        " ": "t_carpet_red",
-        "h": "t_carpet_red",
-        "A": "t_carpet_red",
-        "d": "t_carpet_red",
-        "f": "t_carpet_red",
-        "O": "t_carpet_red",
-        "=": "t_carpet_red"
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": {
         "A": "f_stool",
@@ -3021,7 +2963,8 @@
         "|      |",
         "||||||||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },
@@ -3041,7 +2984,8 @@
         "|      |",
         "||||+|||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },
@@ -3061,7 +3005,8 @@
         "|      |",
         "||||||||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },
@@ -3081,7 +3026,8 @@
         "|      |",
         "||||||||"
       ],
-      "terrain": { "|": "t_wall_y", " ": "t_null", "+": "t_door_c" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "|": "t_wall_y", "+": "t_door_c" },
       "nested": { "1": { "chunks": [ [ "null", 5 ], [ "6x6_sewing_open", 40 ], [ "6x6_electronics_open", 40 ] ] } }
     }
   },
@@ -3105,8 +3051,9 @@
         "|@szP d q|",
         "||||||||||"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 3, "rotation": 270, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 3, "rotation": 270 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
@@ -3130,8 +3077,9 @@
         "|@szP   q|",
         "||||||+|||"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 5, "rotation": 270, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 6, "y": 5, "rotation": 270 } ],
       "place_items": [ { "item": "bikeshop_tools", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
@@ -3155,8 +3103,9 @@
         "|@szP xxq|",
         "||||||||||"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180 } ],
       "place_items": [ { "item": "fishing_items", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
@@ -3180,8 +3129,9 @@
         "|@szP xxq|",
         "||||||||||"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "boats_narrow", "x": 4, "y": 3, "rotation": 180 } ],
       "place_items": [ { "item": "fishing_items", "x": 9, "y": 2, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   },
@@ -3203,6 +3153,7 @@
         "9&  K ===i",
         "%%  G     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "=": "t_water_pool", "&": "t_door_glass_c", "%": "t_wall_b" },
       "place_loot": [ { "item": "towel", "x": 9, "y": [ 1, 9 ], "chance": 100, "repeat": [ 1, 2 ] } ],
@@ -3227,6 +3178,7 @@
         "9&        ",
         "%%::&&::::"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "=": "t_water_pool", "&": "t_door_glass_c", "%": "t_wall_b" },
       "place_loot": [ { "item": "towel", "x": 9, "y": [ 1, 9 ], "chance": 100, "repeat": [ 1, 2 ] } ],
@@ -3251,6 +3203,7 @@
         ": ======= ",
         ":  ii  ii "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "=": "t_water_pool", "&": "t_door_glass_c", "%": "t_wall_b" },
       "place_loot": [ { "item": "towel", "x": 9, "y": [ 1, 9 ], "chance": 100, "repeat": [ 1, 2 ] } ],
@@ -3275,6 +3228,7 @@
         " ======= :",
         "         :"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "=": "t_water_pool", "&": "t_door_glass_c", "%": "t_wall_b" },
       "place_loot": [ { "item": "towel", "x": 9, "y": [ 1, 9 ], "chance": 100, "repeat": [ 1, 2 ] } ],
@@ -3289,27 +3243,27 @@
       "mapgensize": [ 10, 10 ],
       "rows": [
         "||||++||||",
-        "|HH   ==s|",
+        "|HH   ??s|",
         "|l   A Es|",
-        "|= Ysssss|",
+        "|? Ysssss|",
         "|:)::::::|",
-        "| ~~~~~~ |",
-        "| ~~h!&~ |",
-        "| %~~~~~ |",
-        "| ~~~~~~ |",
+        "| ====== |",
+        "| ==h!&= |",
+        "| %===== |",
+        "| ====== |",
         "||||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_b",
-        "~": "t_carpet_green",
-        "h": "t_carpet_green",
-        "!": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "?": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
         { "item": "stereo", "x": 8, "y": 1, "chance": 100 },
         { "item": "laptop", "x": 8, "y": 2, "chance": 100 },
@@ -3318,6 +3272,7 @@
         { "item": "amplifier_head", "x": 6, "y": 5, "chance": 100 },
         { "item": "mixer_music", "x": [ 4, 7 ], "y": 3, "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 7, "y": [ 5, 8 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "qt_wire", "x": 7, "y": 5, "chance": 20 },
         { "item": "guitar_stand", "x": 4, "y": 7, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 5, "chance": 100 },
         { "item": "mic_stand_tall", "x": 2, "y": 5, "chance": 100 },
@@ -3344,27 +3299,27 @@
       "mapgensize": [ 10, 10 ],
       "rows": [
         "||||||||||",
-        "| ~~~~~~ |",
-        "| %~~~~~ |",
-        "| ~~h!&~ |",
-        "| ~~~~~~ |",
+        "| ====== |",
+        "| %===== |",
+        "| ==h!&= |",
+        "| ====== |",
         "|:)::::::|",
-        "|= Ysssss|",
+        "|? Ysssss|",
         "|l   A Es|",
-        "|HH   ==s|",
+        "|HH   ??s|",
         "||||++||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_b",
-        "~": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "%": "t_carpet_yellow",
-        "&": "t_carpet_yellow"
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
+      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "?": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
         { "item": "stereo", "x": 8, "y": 8, "chance": 100 },
         { "item": "laptop", "x": 8, "y": 7, "chance": 100 },
@@ -3372,6 +3327,7 @@
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
         { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
         { "item": "mixer_music", "x": [ 4, 7 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "qt_wire", "x": 4, "y": 6, "chance": 20 },
         { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
@@ -3400,27 +3356,27 @@
       "mapgensize": [ 10, 10 ],
       "rows": [
         "||||||||||",
-        "| ~~~~~~ |",
-        "| ~%~~~~ |",
-        "| ~~h!&~ |",
-        "| ~~~~~~ |",
+        "| ====== |",
+        "| =%==== |",
+        "| ==h!&= |",
+        "| ====== |",
         "|::::::):|",
         "|ssssY   +",
         "|sE A  l |",
-        "|s== HHH=|",
+        "|s?? HHH?|",
         "||||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_b",
-        "~": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "&": "t_carpet_purple"
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "?": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
         { "item": "stereo", "x": 1, "y": 8, "chance": 100 },
         { "item": "laptop", "x": 1, "y": 7, "chance": 100 },
@@ -3429,6 +3385,7 @@
         { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
         { "item": "mixer_music", "x": [ 1, 4 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "qt_wire", "x": 7, "y": 1, "chance": 20 },
         { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
         { "item": "mic_stand_tall", "x": 2, "y": 4, "chance": 100 },
@@ -3456,27 +3413,27 @@
       "mapgensize": [ 10, 10 ],
       "rows": [
         "||||||||||",
-        "| ~~~~~~ |",
-        "| %~~~~~ |",
-        "| ~~h!&~ |",
-        "| ~~~~~~ |",
+        "| ====== |",
+        "| %===== |",
+        "| ==h!&= |",
+        "| ====== |",
         "|:)::::::|",
         "+  Ysssss|",
         "|E  A  Es|",
-        "|T=HHH =s|",
+        "|T?HHH ?s|",
         "||||||||||"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_y",
-        "~": "t_carpet_red",
-        "h": "t_carpet_red",
-        "!": "t_carpet_red",
-        "%": "t_carpet_red",
-        "&": "t_carpet_red"
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "?": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
         { "item": "stereo", "x": 8, "y": 8, "chance": 100 },
         { "item": "laptop", "x": 8, "y": 7, "chance": 100 },
@@ -3484,6 +3441,7 @@
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
         { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
         { "item": "mixer_music", "x": [ 4, 7 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "qt_wire", "x": 5, "y": 6, "chance": 20 },
         { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
@@ -3523,6 +3481,7 @@
         "|G EEE  G|",
         "||||||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "|": "t_wall_w", "+": "t_door_locked" },
       "furniture": {
         "A": "f_drill_press",
@@ -3541,7 +3500,7 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 90, "repeat": [ 0, 3 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
@@ -3563,6 +3522,7 @@
         "|GGG  GGG|",
         "||||++||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "|": "t_wall_w", "+": "t_door_locked" },
       "furniture": {
         "A": "f_drill_press",
@@ -3581,7 +3541,7 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
@@ -3604,6 +3564,7 @@
         "||||||||||"
       ],
       "terrain": { "|": "t_wall_w", "+": "t_door_locked" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": {
         "A": "f_drill_press",
         "B": "f_jointer",
@@ -3621,7 +3582,7 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
@@ -3644,6 +3605,7 @@
         "||||||||||"
       ],
       "terrain": { "|": "t_wall_w", "+": "t_door_locked" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": {
         "A": "f_drill_press",
         "B": "f_jointer",
@@ -3661,7 +3623,7 @@
         "G": [ { "item": "wood_workshop", "chance": 90, "repeat": [ 0, 3 ] } ],
         "E": [ { "item": "home_hw", "chance": 80, "repeat": [ 0, 2 ] } ]
       },
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 0, "vehicle": "canoe", "x": 5, "y": 3 } ]
     }
   },
   {
@@ -3685,6 +3647,7 @@
         ")))))|||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_w",
         ")": "t_wall_metal",
@@ -3713,41 +3676,16 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 70, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 20, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
-          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_rare", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 80, "repeat": [ 1, 2 ] } ]
@@ -3775,6 +3713,7 @@
         ")))))|||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_w",
         ")": "t_wall_metal",
@@ -3803,41 +3742,16 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 70, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 20, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
-          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_rare", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 80, "repeat": [ 1, 2 ] } ]
@@ -3865,6 +3779,7 @@
         "||||||+|||"
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_w",
         ")": "t_wall_metal",
@@ -3893,41 +3808,16 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 70, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 20, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
-          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_rare", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 80, "repeat": [ 1, 2 ] } ]
@@ -3955,6 +3845,7 @@
         ")))))|||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_w",
         ")": "t_wall_metal",
@@ -3983,41 +3874,16 @@
       },
       "items": {
         "%": [
-          { "item": "guns_rifle_common", "chance": 60, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_rifle_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_common", "chance": 70, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_pistol_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 1, 3 ] },
+          { "item": "guns_shotgun_common", "chance": 2, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        "$": [
-          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_shotgun_rare_static", "chance": 20, "magazine": 100, "repeat": [ 1, 2 ] },
-          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
-        ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
-        ],
-        "=": [
-          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
-        ],
+        "$": [ { "item": "guns_pistol_common", "chance": 100, "ammo": 100, "magazine": 100, "repeat": [ 2, 5 ] } ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
+        "=": [ { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 1, 10 ] } ],
         "~": [
-          { "item": "museum_guns", "chance": 10 },
+          { "item": "museum_guns", "chance": 1 },
           { "item": "tools_common", "chance": 60 },
-          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_rare", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "!": [ { "item": "book_gunref", "chance": 80, "repeat": [ 1, 2 ] } ]
@@ -4043,9 +3909,10 @@
         " &&&  ===  ",
         "           "
       ],
-      "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "=": "t_carpet_green", "%": "t_carpet_green" },
-      "furniture": { "&": "f_barricade_road", "%": "f_floor_canvas", "!": "f_sandbag_wall", "$": "f_sandbag_half" },
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" } },
+      "furniture": { "&": "f_barricade_road", "%": "f_punching_bag", "!": "f_sandbag_wall", "$": "f_sandbag_half" },
       "place_loot": [
         { "item": "towel", "x": 5, "y": [ 3, 5 ], "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "wheel_wide", "x": 1, "y": 1, "chance": 100 },
@@ -4077,21 +3944,21 @@
         " HHHH=A%== ",
         "           "
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "!": "t_carpet_green",
-        "h": "t_carpet_green",
-        "s": "t_carpet_green",
-        "y": "t_carpet_green",
-        "A": "t_carpet_green",
-        "%": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "T": "t_carpet_green"
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "%": [ "f_punching_bag", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 1, "y": 3, "chance": 100 }, { "item": "deck_of_cards", "x": 5, "y": 4, "chance": 100 } ]
     }
   },
@@ -4114,21 +3981,21 @@
         " HHHH=A%== ",
         "           "
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
-        "=": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "s": "t_carpet_purple",
-        "y": "t_carpet_purple",
-        "H": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "l": "t_carpet_purple",
-        "T": "t_carpet_purple"
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
+      "furniture": { "%": [ "f_punching_bag", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
       "place_loot": [
         { "item": "stereo", "x": 1, "y": 3, "chance": 100 },
         { "item": "dnd_handbook", "x": 5, "y": 3, "chance": 100 },
@@ -4158,6 +4025,7 @@
         "|@IT|q|Y r|",
         "|||||||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "item": "television", "x": 5, "y": 3, "chance": 50 }, { "item": "stereo", "x": 5, "y": 4, "chance": 50 } ]
     }
@@ -4181,6 +4049,7 @@
         "|ffh     F|",
         "|||||+|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "item": "television", "x": 5, "y": 6, "chance": 50 }, { "item": "stereo", "x": 5, "y": 7, "chance": 50 } ]
     }
@@ -4204,6 +4073,7 @@
         "|@@d|S9|F1|",
         "|||||||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
     }
@@ -4227,6 +4097,7 @@
         "|@@d|S9|F1|",
         "|||||||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "standard_domestic_palette" ],
       "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
     }

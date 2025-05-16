@@ -1,0 +1,92 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_biokinesis" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_biokinesis", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_clairsentience" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_clairsentience", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRO_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_electrokinesis" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_electrokinesis", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_photokinesis" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_photokinesis", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_pyrokinesis" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_pyrokinesis", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_telekinesis" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_telekinesis", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_telepathy" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_telepathy", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_teleportation" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_teleportation", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_vitakinesis" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_vitakinesis", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CORUSCATING_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_coruscating" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_coruscating", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
+  }
+]

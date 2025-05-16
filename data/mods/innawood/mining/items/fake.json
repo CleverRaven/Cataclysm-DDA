@@ -1,0 +1,11 @@
+[
+  {
+    "id": "bloomery",
+    "copy-from": "fake_item",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bloomery", "str_pl": "bloomeries" },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ],
+    "tool_ammo": [ "charcoal" ]
+  }
+]

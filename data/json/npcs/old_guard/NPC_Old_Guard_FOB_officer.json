@@ -1,0 +1,96 @@
+[
+  {
+    "type": "npc",
+    "id": "old_guard_fob_officer",
+    "//": "Generic guard for the old guard.",
+    "name_suffix": "Officer",
+    "name_unique": "Duhring",
+    "class": "NC_OG_OFFICER",
+    "gender": "male",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_OLD_GUARD_FOB_OFFICER",
+    "faction": "old_guard"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_OG_OFFICER",
+    "name": { "str": "Officer" },
+    "job_description": "I'm an officer for FOB Arabella",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_OG_OFFICER_worn",
+    "carry_override": "NC_OG_OFFICER_misc",
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 1, 3 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OG_OFFICER_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "socks", "prob": 30 },
+      { "item": "briefs" },
+      { "item": "pants_army" },
+      { "item": "jacket_army" },
+      { "item": "dress_shoes" },
+      { "item": "gloves_leather", "prob": 80 },
+      { "item": "webbing_belt", "prob": 80 },
+      { "item": "m18", "ammo-item": "9mmP2", "container-item": "holster", "charges": 16 },
+      { "distribution": [ { "item": "gold_watch", "prob": 30 }, { "item": "sf_watch", "prob": 70 } ] },
+      { "item": "collarpin" },
+      { "item": "diamond_silver_cufflinks" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OG_OFFICER_misc",
+    "subtype": "collection",
+    "items": [
+      { "item": "two_way_radio" },
+      { "item": "p320mag_17rd_9x19mm", "prob": 45 },
+      { "item": "pencil", "count": 2 },
+      { "item": "pen" },
+      { "item": "cotton_patchwork" },
+      { "item": "red_pen" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_FOB_OFFICER",
+    "dynamic_line": [ "I don't have any use for you right now.  You will be informed if I need you, soldier." ],
+    "responses": [
+      { "text": "Can you tell me about yourself?", "topic": "TALK_OLD_GUARD_FOB_OFFICER_DISMISSED" },
+      { "text": "Understood.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_FOB_OFFICER_DISMISSED",
+    "dynamic_line": [ "If it wasn't clear, you are dismissed soldier.", "I am clearly busy, soldier." ],
+    "responses": [
+      { "text": "Can I just ask you some questions?", "topic": "TALK_OLD_GUARD_FOB_OFFICER_DISMISSED_2" },
+      { "text": "Understood.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_FOB_OFFICER_DISMISSED_2",
+    "dynamic_line": [ "Go. Away.", "If I have to tell you one more time so help me god…" ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

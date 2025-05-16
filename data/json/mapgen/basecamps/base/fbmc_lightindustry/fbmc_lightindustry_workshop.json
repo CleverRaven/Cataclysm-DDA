@@ -1,0 +1,43 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_lightindustry_workshop_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "palette",
+    "id": "fbmc_lightindustry_workshop_palette",
+    "terrain": { "x": "t_null" },
+    "furniture": { "x": "f_clear" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_lightindustry_workshop_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "x     ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbmc_lightindustry_workshop_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_lightindustry_workshop_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "faction_base_lightindustry_workshop_0" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_workshop_drop_hammer",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_drophammer", "x": 12, "y": 12 } ] }
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_4_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "The zoo designed me to be a link between my original species and humans studying us.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_UPLIFTED_ANIMAL_4_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_4_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I was there when the Cataclysm happened.  Many animals were infected.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_UPLIFTED_ANIMAL_4_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_4_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Zombears are terrifying creatures of destruction.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_UPLIFTED_ANIMAL_4_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -4,8 +4,8 @@
     "type": "talk_topic",
     "dynamic_line": "I'm my own person, but I'm mostly willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can do some other activities, I can ride horses, I can go places, I can guard things, I can use some bionics, I can even chit-chat with you or give you tips or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
     "responses": [
-      { "text": "Forget I asked.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_FRIEND" },
+      { "text": "Skip it.  <lets_go>", "topic": "TALK_DONE" },
       {
         "text": "Any hints about the world we now live in?",
         "trial": {
@@ -14,7 +14,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_hint" },
               "u_driving",
               "npc_driving"
@@ -69,7 +69,7 @@
     "id": "TALK_ALLY_TUTORIAL_RADIO",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "is_by_radio": "Are you making a joke?  We're using two-way radios to talk right now.\n  Whatever, I'll go over it again in case you forgot.\n"
         },
@@ -115,7 +115,7 @@
     "id": "TALK_ALLY_TUTORIAL_MEDIC",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "npc_has_trait": "PROF_MED",
           "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of antiseptic, I'm get you fixed when I see you hurting.",
@@ -150,7 +150,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_HORSES",
     "type": "talk_topic",
-    "dynamic_line": "If there's a friendly horse with a saddle nearby, you tell me to mount up, I'll go over and get on it.  You may need to feed a feral horse some cattlefodder to get it act tame and friendly, and e'x'amine it while you have a saddle in your inventory in order to put the saddle on.  You can also ride yourself, if you know how how.\n  You want me to get off a horse, you just tell me.  You can get off a horse with the vehicle control key (keybind '^').\n  While we're on horses, we'll just move normally, but a lot faster.  It's a good way to get places more quickly than we could on our own two feet.",
+    "dynamic_line": "If there's a friendly horse with a saddle nearby, you tell me to mount up, I'll go over and get on it.  You may need to feed a feral horse some cattle fodder to get it act tame and friendly, and e'x'amine it while you have a saddle in your inventory in order to put the saddle on.  You can also ride yourself, if you know how how.\n  You want me to get off a horse, you just tell me.  You can get off a horse with the vehicle control key (keybind '^').\n  While we're on horses, we'll just move normally, but a lot faster.  It's a good way to get places more quickly than we could on our own two feet.",
     "responses": [ { "text": "You said something about being to go places.", "topic": "TALK_ALLY_TUTORIAL_MOVEMENT" } ]
   },
   {
@@ -165,7 +165,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_CBMS",
     "type": "talk_topic",
-    "dynamic_line": "Bionics are augmentation packages, right?  They come in these installable Compact Bionic Modules or CBMs, and I can use some CBMs - if you examine a CBM, it will tell you if I can use it.\n  Find a programmable surgical installer or autodoc, position me on the couch, and activate it, and you can install a suitable CBM to me - or if I think I'll do a better job, I'll do.  I'll take over installing CBMs into you if I'm better at it.\n  I can use almost all passive bionics and some active bionics.  If I have any active bionics, I'll try to use them sensibly, but if we're in danger, I'm going to activate anything that might give me an edge.  I'll use any weapon bionics if they're better than the weapons you gave me, but if you think I should reserve my bionic energy for my defensive and healing bionics, you can tell me how much to reserve.  I'll try to keep my bionic energy topped off, but if we're running low on supplies, you can tell me to stop recharging when I'm not full.\n  I'll tell you if I'm low on bionic energy and can't recharge, and what fuel I need.",
+    "dynamic_line": "Bionics are augmentation packages, right?  They come in these installable Compact Bionic Modules or CBMs, and I can use some CBMs - if you examine a CBM, it will tell you if I can use it.\n  Find a programmable surgical installer or Autodoc, position me on the couch, and activate it, and you can install a suitable CBM to me - or if I think I'll do a better job, I'll do.  I'll take over installing CBMs into you if I'm better at it.\n  I can use almost all passive bionics and some active bionics.  If I have any active bionics, I'll try to use them sensibly, but if we're in danger, I'm going to activate anything that might give me an edge.  I'll use any weapon bionics if they're better than the weapons you gave me, but if you think I should reserve my bionic energy for my defensive and healing bionics, you can tell me how much to reserve.  I'll try to keep my bionic energy topped off, but if we're running low on supplies, you can tell me to stop recharging when I'm not full.\n  I'll tell you if I'm low on bionic energy and can't recharge, and what fuel I need.",
     "responses": [ { "text": "Tell me how I give you fuel for your bionics.", "topic": "TALK_ALLY_TUTORIAL_MULE" } ]
   },
   {
@@ -242,7 +242,7 @@
     "responses": [
       { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "Skip it.  <lets_go>", "topic": "TALK_DONE" }
     ]
   }
 ]

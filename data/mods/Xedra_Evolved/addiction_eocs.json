@@ -1,0 +1,38 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOOD_ADDICTION",
+    "condition": { "math": [ "rand(2000) <= addiction_rational(2000, 20, u_addiction_intensity('blood'))" ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_BLOOD_ADDICTION_SNIPPET_TYPE",
+          "condition": { "not": { "u_has_effect": "sleep" } },
+          "effect": [
+            { "u_message": "blood_addiction", "snippet": true, "type": "warning" },
+            { "u_add_morale": "morale_craving_blood", "bonus": -5, "max_bonus": -30 }
+          ],
+          "false_effect": [
+            { "u_message": "blood_addiction_dream", "snippet": true, "type": "warning" },
+            { "u_add_morale": "morale_craving_blood", "bonus": -5, "max_bonus": -30 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOTUS_ADDICTION",
+    "condition": { "math": [ "rand(800) <= addiction_rational(800, 20, u_addiction_intensity('lotus_blossom'))" ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_LOTUS_ADDICTION_SNIPPET_TYPE",
+          "condition": { "not": { "u_has_effect": "sleep" } },
+          "effect": [ { "u_message": "lotus_addiction", "snippet": true, "type": "warning" } ],
+          "false_effect": [ { "u_message": "lotus_addiction_dream", "snippet": true, "type": "warning" } ]
+        }
+      }
+    ]
+  }
+]

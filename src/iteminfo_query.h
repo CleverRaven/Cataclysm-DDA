@@ -2,24 +2,28 @@
 #ifndef CATA_SRC_ITEMINFO_QUERY_H
 #define CATA_SRC_ITEMINFO_QUERY_H
 
-#include <cstddef>
 #include <bitset>
+#include <cstddef>
 #include <string>
 #include <vector>
 
 enum class iteminfo_parts : size_t {
     BASE_CATEGORY = 0,
+    BASE_MOD_SRC,
     BASE_PRICE,
     BASE_BARTER,
     BASE_OWNER,
     BASE_VOLUME,
     BASE_WEIGHT,
     BASE_LENGTH,
+    BASE_EMEMORY,
     BASE_RIGIDITY,
     BASE_DAMAGE,
     BASE_TOHIT,
     BASE_MOVES,
     BASE_DPS,
+    BASE_STAMINA,
+    BASE_DPSTAM,
     BASE_REQUIREMENTS,
     BASE_MATERIAL,
     BASE_CONTENTS,
@@ -47,16 +51,21 @@ enum class iteminfo_parts : size_t {
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
     FOOD_CONSUME_TIME,
+    FOOD_HEALTH,
 
+    MAGAZINE_COMPATIBLE_GUNS,
     MAGAZINE_CAPACITY,
+    MAGAZINE_COMPATABILITY,
     MAGAZINE_RELOAD,
 
+    AMMO_BARREL_DETAILS,
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
     AMMO_DAMAGE_PROPORTIONAL,
     AMMO_DAMAGE_CRIT_MULTIPLIER,
     AMMO_DAMAGE_AP,
     AMMO_DAMAGE_RANGE,
+    AMMO_DAMAGE_RANGE_MULTIPLIER,
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
@@ -68,13 +77,16 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_AUX_GUNMOD_HEADER,
 
     GUN_USEDSKILL,
+    GUN_BARRELLENGTH,
     GUN_CAPACITY,
     GUN_TYPE,
     GUN_MAGAZINE,
 
     AMMO_REMAINING,
     AMMO_UPSCOST,
+    AMMO_TO_FIRE,
 
+    GUN_DEFAULT_BORE,
     GUN_DEFAULT_AMMO,
     GUN_MAX_RANGE,
     GUN_AIMING_STATS,
@@ -89,11 +101,14 @@ enum class iteminfo_parts : size_t {
     GUN_DISPERSION_LOADEDAMMO,
     GUN_DISPERSION_TOTAL,
     GUN_DISPERSION_SIGHT,
+    GUN_CURRENT_LOUDNESS,
 
     GUN_RECOIL,
     GUN_RECOIL_BIPOD,
 
-    GUN_RECOMMENDED_STRENGTH,
+    GUN_RECOIL_THEORETICAL_MINIMUM,
+    GUN_IDEAL_STRENGTH,
+
     GUN_RELOAD_TIME,
 
     GUN_FIRE_MODES,
@@ -107,10 +122,15 @@ enum class iteminfo_parts : size_t {
 
     GUNMOD_DISPERSION,
     GUNMOD_DISPERSION_SIGHT,
-    GUNMOD_AIMSPEED,
+    GUNMOD_FIELD_OF_VIEW,
+    GUNMOD_AIM_SPEED_MODIFIER,
     GUNMOD_DAMAGE,
     GUNMOD_ARMORPIERCE,
+    GUNMOD_RANGE,
+    GUNMOD_RANGE_MULTIPLIER,
     GUNMOD_HANDLING,
+    GUNMOD_LOUDNESS_MODIFIER,
+    GUNMOD_LOUDNESS_MULTIPLIER,
     GUNMOD_AMMO,
     GUNMOD_RELOAD,
     GUNMOD_STRENGTH,
@@ -120,13 +140,19 @@ enum class iteminfo_parts : size_t {
     GUNMOD_USEDON,
     GUNMOD_LOCATION,
     GUNMOD_BLACKLIST_MOD,
+    GUNMOD_BLACKLIST_SLOT,
 
+    ARMOR_BODYGRAPH,
     ARMOR_BODYPARTS,
     ARMOR_LAYER,
     ARMOR_COVERAGE,
+    ARMOR_RIGIDITY,
     ARMOR_WARMTH,
     ARMOR_ENCUMBRANCE,
     ARMOR_PROTECTION,
+    ARMOR_BREATHABILITY,
+    ARMOR_MATERIALS,
+    ARMOR_ADDITIONAL_INFO,
 
     BOOK_SUMMARY,
     BOOK_REQUIREMENTS_BEGINNER,
@@ -156,15 +182,14 @@ enum class iteminfo_parts : size_t {
 
     QUALITIES,
     QUALITIES_CONTAINED,
+    ACTIONS,
 
     DESCRIPTION,
     DESCRIPTION_TECHNIQUES,
     DESCRIPTION_GUNMOD_ADDREACHATTACK,
     DESCRIPTION_MELEEDMG,
     DESCRIPTION_MELEEDMG_CRIT,
-    DESCRIPTION_MELEEDMG_BASH,
-    DESCRIPTION_MELEEDMG_CUT,
-    DESCRIPTION_MELEEDMG_PIERCE,
+    DESCRIPTION_MELEEDMG_TYPES,
     DESCRIPTION_MELEEDMG_MOVES,
     DESCRIPTION_APPLICABLEMARTIALARTS,
     DESCRIPTION_USE_METHODS,
@@ -172,6 +197,7 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_ALLERGEN,
     DESCRIPTION_CONDUCTIVITY,
+    DESCRIPTION_ENCHANTMENTS,
     DESCRIPTION_FLAGS,
     DESCRIPTION_FLAGS_HELMETCOMPAT,
     DESCRIPTION_FLAGS_FITS,
@@ -197,14 +223,19 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_RADIOACTIVITY_DAMAGED,
     DESCRIPTION_RADIOACTIVITY_ALWAYS,
 
+    DESCRIPTION_MILLEABLE,
+
     DESCRIPTION_BREWABLE_DURATION,
     DESCRIPTION_BREWABLE_PRODUCTS,
+
+    DESCRIPTION_COMPOSTABLE_DURATION,
+    DESCRIPTION_COMPOSTABLE_PRODUCTS,
 
     DESCRIPTION_FAULTS,
 
     DESCRIPTION_POCKETS,
 
-    DESCRIPTION_HOLSTERS,
+    DESCRIPTION_ARMOR_CONTAINERS,
 
     DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
 
@@ -215,6 +246,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_CONTENTS,
 
     DESCRIPTION_APPLICABLE_RECIPES,
+
+    DESCRIPTION_VEHICLE_PARTS,
 
     DESCRIPTION_MED_ADDICTING,
 
@@ -256,9 +289,9 @@ class iteminfo_query : public iteminfo_query_base
             not be any issue.
          */
         iteminfo_query();
-        iteminfo_query( const iteminfo_query_base &values );
-        iteminfo_query( const std::string &bits );
-        iteminfo_query( const std::vector<iteminfo_parts> &setBits );
+        explicit iteminfo_query( const iteminfo_query_base &values );
+        explicit iteminfo_query( const std::string &bits );
+        explicit iteminfo_query( const std::vector<iteminfo_parts> &setBits );
 
         bool test( const iteminfo_parts &value ) const;
 

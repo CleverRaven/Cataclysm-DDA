@@ -1,0 +1,7 @@
+[
+  {
+    "type": "trap_migration",
+    "from_trap": "tr_ledge",
+    "to_trap": "tr_null"
+  }
+]

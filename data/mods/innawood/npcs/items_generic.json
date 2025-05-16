@@ -1,0 +1,240 @@
+[
+  {
+    "type": "item_group",
+    "id": "npc_underwear_bottom_male",
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_bottom", 95 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_bottom_female",
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_bottom", 95 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_top_male",
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_top", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_top_female",
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_top", 95 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_feet_male",
+    "items": [ [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_feet_female",
+    "items": [ [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_pants_male",
+    "items": [ [ "null", 50 ], [ "pants_leather", 10 ], [ "skirt_leather", 10 ], [ "skirt_grass", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_pants_female",
+    "items": [ [ "null", 50 ], [ "pants_leather", 10 ], [ "skirt_leather", 20 ], [ "skirt_grass", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_shirt_male",
+    "items": [ [ "null", 70 ], [ "shirt_straw", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_shirt_female",
+    "items": [ [ "null", 70 ], [ "shirt_straw", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_gloves",
+    "items": [ [ "null", 70 ], [ "gloves_leather", 10 ], [ "gloves_wraps_leather", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_coat",
+    "items": [ [ "null", 40 ], [ "grass_cloak", 30 ], [ "cloak_leather", 10 ], [ "cloak_fur", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_shoes_male",
+    "items": [ [ "null", 50 ], [ "leathersandals", 5 ], [ "footrags_leather", 15 ], [ "footrags_fur", 15 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_shoes_female",
+    "items": [ [ "null", 50 ], [ "leathersandals", 5 ], [ "footrags_leather", 15 ], [ "footrags_fur", 15 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_masks",
+    "items": [ [ "null", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_scarf",
+    "items": [ [ "null", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_eyes",
+    "items": [ [ "null", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_hat",
+    "items": [ [ "null", 40 ], [ "straw_hat", 5 ], [ "grass_keffiyeh", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_extra",
+    "items": [ [ "null", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_wrist",
+    "items": [ [ "null", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_storage",
+    "items": [ { "item": "null", "prob": 50 }, { "group": "pottery", "prob": 25 }, { "item": "wicker_backpack", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_vest",
+    "items": [ [ "null", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_belt",
+    "items": [ [ "null", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_holster",
+    "items": [ [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_stabbing",
+    "items": [ [ "null", 50 ], [ "primitive_knife", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_throw",
+    "items": [ [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_archery",
+    "items": [ [ "selfbow", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_misc",
+    "ammo": 75,
+    "magazine": 50,
+    "items": [
+      [ "ant_egg", 5 ],
+      [ "apple", 2 ],
+      [ "apricot", 2 ],
+      [ "bacon", 2 ],
+      [ "banana", 1 ],
+      [ "biscuit", 3 ],
+      [ "blackberries", 3 ],
+      [ "blueberries", 3 ],
+      [ "bread", 5 ],
+      [ "broccoli", 1 ],
+      [ "carrot", 3 ],
+      [ "cherries", 5 ],
+      [ "coconut", 1 ],
+      [ "coffee_raw", 5 ],
+      [ "corn", 3 ],
+      [ "cornbread", 1 ],
+      [ "cranberries", 5 ],
+      [ "dry_beans", 7 ],
+      [ "dry_fish", 3 ],
+      [ "dry_fruit", 15 ],
+      [ "dry_meat", 3 ],
+      [ "dry_rice", 8 ],
+      [ "dry_veggy", 5 ],
+      [ "fish_smoked", 1 ],
+      [ "fur", 5 ],
+      [ "grapefruit", 1 ],
+      [ "grapes", 2 ],
+      [ "honeycomb", 2 ],
+      [ "hops", 1 ],
+      [ "lemon", 3 ],
+      [ "lettuce", 3 ],
+      [ "meat", 10 ],
+      [ "meat_smoked", 2 ],
+      [ "melon", 3 ],
+      [ "mushroom", 5 ],
+      [ "onion", 4 ],
+      [ "orange", 2 ],
+      [ "peach", 3 ],
+      [ "pear", 3 ],
+      [ "pickle", 5 ],
+      [ "plums", 2 ],
+      [ "potato", 4 ],
+      [ "raspberries", 4 ],
+      [ "rhubarb", 1 ],
+      [ "rope_30", 4 ],
+      [ "rope_6", 4 ],
+      [ "royal_jelly", 1 ],
+      [ "salt", 10 ],
+      [ "salted_fish", 5 ],
+      [ "seed_barley", 3 ],
+      [ "seed_blueberries", 3 ],
+      [ "seed_cotton_boll", 3 ],
+      [ "seed_hops", 3 ],
+      [ "seed_strawberries", 3 ],
+      [ "seed_sugar_beet", 3 ],
+      [ "seed_tomato", 3 ],
+      [ "seed_weed", 3 ],
+      [ "seed_tobacco", 3 ],
+      [ "seed_wheat", 3 ],
+      [ "stick", 5 ],
+      [ "strawberries", 3 ],
+      [ "string_36", 4 ],
+      [ "string_6", 4 ],
+      [ "sugar_beet", 2 ],
+      [ "thread", 8 ],
+      [ "tobacco", 8 ],
+      [ "tomato", 3 ],
+      [ "veggy", 8 ],
+      [ "watermelon", 4 ],
+      [ "weed", 12 ],
+      [ "wheat", 3 ],
+      [ "yeast", 5 ],
+      [ "zucchini", 3 ]
+    ]
+  },
+  {
+    "id": "survivor_bashing",
+    "//": "Override for hardcoded reference in npc::starting_weapon",
+    "type": "item_group",
+    "items": [ [ "cudgel", 1 ], [ "stick_long", 2 ], [ "rock", 5 ], [ "q_staff", 1 ] ]
+  },
+  {
+    "id": "survivor_stabbing",
+    "//": "Override for hardcoded reference in npc::starting_weapon",
+    "type": "item_group",
+    "items": [ [ "pointy_stick", 5 ], [ "pointy_stick_long", 2 ] ]
+  },
+  {
+    "id": "survivor_cutting",
+    "//": "Override for hardcoded reference in npc::starting_weapon",
+    "type": "item_group",
+    "items": [ [ "sharp_rock", 5 ], [ "bone_knife", 2 ] ]
+  }
+]

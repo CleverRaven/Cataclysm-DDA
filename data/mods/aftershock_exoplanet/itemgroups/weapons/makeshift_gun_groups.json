@@ -1,0 +1,50 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_any_makeshift_gun",
+    "subtype": "distribution",
+    "//": "Self made 'guns' for the post-Discontinuity scavenger.  These vary quite a lot between them and ammo might be rare, so we spawn them together with some.",
+    "entries": [
+      { "group": "afs_scrapbow_s", "prob": 5 },
+      { "group": "afs_scrapcrossbow_s", "prob": 5 },
+      { "group": "afs_plasma_torch_gun_s", "prob": 5 },
+      { "item": "makeshift_scrambler", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_scrapbow_s",
+    "subtype": "collection",
+    "entries": [ { "item": "scrapbow" }, { "group": "afs_arrows", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_scrapcrossbow_s",
+    "subtype": "collection",
+    "entries": [ { "item": "scrapcrossbow" }, { "group": "afs_bolts", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_plasma_torch_gun_s",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_plasma_torch_gun" }, { "item": "afs_40g_plasma_civ", "prob": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_arrows",
+    "subtype": "distribution",
+    "items": [
+      [ "arrow_nano", 5 ],
+      [ "arrow_cf", 10 ],
+      [ "arrow_metal_sharpened_fletched", 40 ],
+      [ "arrow_metal", 20 ],
+      [ "arrow_metal_bodkin", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_bolts",
+    "subtype": "distribution",
+    "items": [ [ "bolt_cf", 10 ], [ "bolt_metal", 40 ], [ "bolt_steel", 20 ], [ "bolt_steel_bodkin", 20 ] ]
+  }
+]

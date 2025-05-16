@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_radio_infusion",
+    "//": "I know it doesn't glow green IRL, but ingame it does.",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_radio_infusion_true",
+            "effect": [
+              { "npc_set_flag": "RADIOACTIVE" },
+              { "npc_set_flag": "LEAK_ALWAYS" },
+              {
+                "u_message": "You focus on what you are holding, and suddenly it starts glowing green.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

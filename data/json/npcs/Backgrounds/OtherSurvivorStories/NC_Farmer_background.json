@@ -1,0 +1,58 @@
+[
+  {
+    "id": "BOSS_NC_FARMER_Story1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "Actually, I ran into another survivor once - survivalist, total nutcase.  He was headed for a military bunker to try and loot it, guessing that didn't go well.  Anyway, he mentioned a pack of survivors who camped out at a farm around here, some of them actually knew about farming.  There's a chance they're still out there, could be worth looking for.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      {
+        "text": "Let's see how to get there and go check on them.",
+        "topic": "BOSS_NC_FARMER_Story2",
+        "condition": {
+          "and": [
+            { "math": [ "npc_randomize_dialogue_direction == 1" ] },
+            { "npc_has_trait": "BOSS_NC_FARMER_01" },
+            { "not": { "compare_string": [ "farmer", { "u_val": "BOSS_mission_directions" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_farmer" },
+        "switch": true
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BOSS_NC_FARMER_Story2",
+    "type": "talk_topic",
+    "dynamic_line": "*shows you on your map where to find it.  \"This looks right to me.",
+    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "directions_farmer",
+    "type": "mission_definition",
+    "name": { "str": "Check out that farm" },
+    "description": "There's maybe still some farmers left.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "Farm Mutable", "om_terrain": "farm_2", "reveal_radius": 5 },
+      "effect": { "u_add_var": "BOSS_mission_directions", "value": "farmer" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "There's maybe still some farmers left.",
+      "offer": "There's maybe still some farmers left.",
+      "accepted": "Good good.",
+      "rejected": "Sure, fine.",
+      "advice": "Maybe bring like a bat or something?",
+      "inquire": "How is the search going?",
+      "success": "Great.",
+      "success_lie": "Great.",
+      "failure": "Not that surprising."
+    }
+  }
+]

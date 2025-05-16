@@ -1,0 +1,549 @@
+[
+  {
+    "id": "mon_vampire_anathema",
+    "//": "A special encounter for tier 5 vampires, dropping the means to become more vampire than vampires.",
+    "//2": "They start slow, as they are too arrogant to go for a quick kill.  This is why they only have the resilience and anti-bleed powers active until hit and that they are this slow.",
+    "//3": "When hit, their speed increases for the rest of the encounter.  They mainly use their axe to fight, but they also have healing abilities and will activate blood haste and shape of the shadowed path when below half health.",
+    "//4": "Intended to be incredibly hard to fight head-on, but manageable with proper planning.",
+    "//5": "An anathema to both vampires and hunters, they will attack or be attacked by mostly everything.",
+    "//6": "They are considered as having every single regular vampire weaknesses except for the need for living blood and picky feeding.",
+    "//7": "They do not appear for non-tier-5 vampires, as their focus is gaining power through vampire blood to be better at killing vampires.  Only tier 5 vampires can encounter them.  Should enough vampire hunter content be added, hunting it down as a non-vampire could be a possibility.  Doing such will only need a description rewrite to remove the mentions about the player being a vampire.",
+    "type": "MONSTER",
+    "name": { "str_sp": "Vampiric Anathema" },
+    "description": "Your instincts are telling you three things about this armored, axe-wielding humanoid foe: they are a vampire far more powerful than you, they thirst for your blood, and they are a vampire hunter wanting all vampires dead.  You know for certain that you will be quickly killed if you attack them without a proper plan.",
+    "default_faction": "vampire_anathema",
+    "bodytype": "human",
+    "species": [ "VAMPIRE_ANATHEMA" ],
+    "material": [ "flesh" ],
+    "harvest": "vampire",
+    "diff": 500,
+    "volume": "108500 ml",
+    "weight": "100 kg",
+    "hp": 200,
+    "speed": 60,
+    "symbol": "@",
+    "color": "red",
+    "scents_tracked": [ "sc_human", "sc_vampire" ],
+    "regenerates_in_dark": true,
+    "aggression": 100,
+    "morale": 300,
+    "melee_skill": 10,
+    "melee_dice": 7,
+    "melee_dice_sides": 9,
+    "dodge": 5,
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 85,
+    "melee_training_cap": 0,
+    "path_settings": {
+      "max_dist": 45,
+      "allow_open_doors": true,
+      "avoid_traps": true,
+      "avoid_dangerous_fields": true,
+      "avoid_sharp": true,
+      "allow_climb_stairs": true
+    },
+    "special_attacks": [
+      { "id": "salamagman_battleaxe", "cooldown": 1 },
+      { "id": "BIO_OP_BIOJUTSU", "cooldown": 2 },
+      { "id": "PARROT", "cooldown": 100 },
+      {
+        "type": "spell",
+        "id": "VAMPIRE_ANATHEMA_SETUP",
+        "//8": "This applies the protective effect.  If monsters can someday spawn with an enchantment, remove this attack.",
+        "condition": { "not": { "u_has_effect": "effect_anathema_resilience" } },
+        "spell_data": { "id": "VAMPIRE_ANATHEMA_SETUP", "min_level": 1, "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true
+      },
+      {
+        "type": "spell",
+        "id": "VAMPIRE_ANATHEMA_HEAL",
+        "//9": "Stops working during the final form as they are running out of blood when reaching that point.  This also is why they cannot activate Last Breath's Mist.",
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_anathema_final_form" } }, { "math": [ "u_hp('ALL') < 200" ] } ] },
+        "spell_data": { "id": "VAMPIRE_ANATHEMA_HEAL", "max_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "%1$s's wounds are closing at a rapid pace!",
+        "cooldown": 20
+      },
+      {
+        "type": "spell",
+        "id": "VAMPIRE_ANATHEMA_STARTS_BATTLE",
+        "//10": "These two are in case the player manages to injure them without triggering the hit_me.",
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_anathema_battle_started" } }, { "math": [ "u_hp('ALL') < 200" ] } ] },
+        "spell_data": { "id": "VAMPIRE_ANATHEMA_STARTS_BATTLE", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "%1$s's movements are much quicker now!",
+        "cooldown": 20
+      },
+      {
+        "type": "spell",
+        "id": "VAMPIRE_ANATHEMA_FINAL_FORM",
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_anathema_final_form" } }, { "math": [ "u_hp('ALL') < 100" ] } ] },
+        "spell_data": { "id": "VAMPIRE_ANATHEMA_FINAL_FORM", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "%1$s accelerates to the point your eyes struggle to follow and heal their wounds as shadows surround their body!",
+        "cooldown": 20
+      }
+    ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "BASHES",
+      "NO_BREATHE",
+      "CAN_OPEN_DOORS",
+      "CLIMBS",
+      "DESTROYS",
+      "ALWAYS_SEES_YOU",
+      "NEVER_WANDER",
+      "QUIETMOVES",
+      "HAS_MIND",
+      "NO_FUNG_DMG",
+      "NOT_HALLUCINATION",
+      "REVIVES",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "PATH_AVOID_FALL",
+      "SUNDEATH"
+    ],
+    "//11": "Armor equivalent to a full set of high steel plate armor.",
+    "armor": { "cut": 40, "stab": 32, "bash": 40, "bullet": 26 },
+    "zombify_into": "mon_vampire_strigoi",
+    "death_drops": "vampire_anathema_death_drops",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ]
+  },
+  {
+    "id": "VAMPIRE_ANATHEMA_SETUP",
+    "type": "SPELL",
+    "name": { "str": "Anathema Setup", "//~": "NO_I18N" },
+    "description": {
+      "str": "This gives the protective effect to the Anathema when it spawns, as monsters cannot spawn with enchantments as of writting this.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_anathema_resilience",
+    "spell_class": "NONE",
+    "energy_source": "NONE",
+    "max_level": 1,
+    "min_duration": 3000000,
+    "max_duration": 3000000
+  },
+  {
+    "id": "VAMPIRE_ANATHEMA_REACT_TO_HIT",
+    "type": "SPELL",
+    "name": { "str": "Anathema reacts", "//~": "NO_I18N" },
+    "description": { "str": "This gives the Anathema their buff effects without needing to wait for their turn.", "//~": "NO_I18N" },
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ANATHEMA_BUFF_ON_HIT",
+    "spell_class": "NONE",
+    "energy_source": "NONE",
+    "max_level": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_BUFF_ON_HIT",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ANATHEMA_CHECK_FOR_START",
+            "condition": { "and": [ { "not": { "u_has_effect": "effect_anathema_battle_started" } }, { "math": [ "u_hp('ALL') < 200" ] } ] },
+            "effect": [
+              { "u_cast_spell": { "id": "VAMPIRE_ANATHEMA_STARTS_BATTLE" } },
+              { "message": "The vampiric anathema's movements are much quicker now!", "type": "bad" }
+            ]
+          },
+          {
+            "id": "EOC_ANATHEMA_CHECK_FOR_LATER",
+            "condition": { "and": [ { "not": { "u_has_effect": "effect_anathema_final_form" } }, { "math": [ "u_hp('ALL') < 100" ] } ] },
+            "effect": [
+              { "u_cast_spell": { "id": "VAMPIRE_ANATHEMA_FINAL_FORM" } },
+              {
+                "message": "The vampiric anathema accelerates to the point your eyes struggle to follow and heal their wounds as shadows surround their body!",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "VAMPIRE_ANATHEMA_STARTS_BATTLE",
+    "type": "SPELL",
+    "name": { "str": "Anathema Start Battle", "//~": "NO_I18N" },
+    "description": {
+      "str": "This accelerates and empowers the Anathema after they get injured, as they decide to mess around a little less.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_anathema_battle_started",
+    "spell_class": "NONE",
+    "energy_source": "NONE",
+    "max_level": 1,
+    "min_duration": 3000000,
+    "max_duration": 3000000
+  },
+  {
+    "id": "VAMPIRE_ANATHEMA_HEAL",
+    "type": "SPELL",
+    "name": { "str": "Cure Anathema Wounds", "//~": "NO_I18N" },
+    "description": { "str": "Heals a little bit of damage on the Anathema.  For Anathema use only.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "min_damage": -25,
+    "max_damage": -250,
+    "effect": "attack",
+    "shape": "blast",
+    "base_casting_time": 0,
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": 10,
+    "damage_increment": -25,
+    "spell_class": "NONE",
+    "energy_source": "NONE"
+  },
+  {
+    "id": "VAMPIRE_ANATHEMA_FINAL_FORM",
+    "type": "SPELL",
+    "name": { "str": "Anathema Final Form", "//~": "NO_I18N" },
+    "description": {
+      "str": "This accelerates and empowers the Anathema as per blood haste and shadow form, as they decide to stop messing around.  It also heals them fully, so they can benefit from that form longer.  At this point the Anathema has almost ran out of blood, preventing the use of more powers.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_anathema_final_form",
+    "spell_class": "NONE",
+    "energy_source": "NONE",
+    "max_level": 1,
+    "min_duration": 3000000,
+    "max_duration": 3000000,
+    "extra_effects": [ { "id": "VAMPIRE_ANATHEMA_HEAL", "hit_self": true, "min_level": 10 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ACTIVATE_ANATHEMA",
+    "recurrence": "1 day",
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "and": [ { "u_has_trait": "BLOOD_DRINKER" }, { "math": [ "Anathema_Activated < 1" ] } ] },
+    "effect": [ { "math": [ "Anathema_Ready = 1" ] }, { "math": [ "Anathema_Activated = 1" ] } ],
+    "deactivate_condition": { "math": [ "Anathema_Activated == 1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPAWN_ANATHEMA",
+    "recurrence": [ "15 minutes", "9 hours" ],
+    "global": true,
+    "run_for_npcs": false,
+    "//1": "Night time, Anathema is active, you are outdoors, not sleeping nor in torpor, and you are away from vast water and holy ground.",
+    "//2": "Requires at least one warning to have been given before spawning can succeed. The warnings are global, not character-unique.",
+    "condition": {
+      "and": [
+        { "one_in_chance": 6 },
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_effect": "effect_vampire_torpor" } },
+        { "math": [ "Anathema_Ready > 0" ] },
+        { "math": [ "Anathema_Warnings >= 1" ] },
+        "u_is_outside",
+        {
+          "not": {
+            "or": [
+              { "u_near_om_location": "church_1", "range": 5 },
+              { "u_near_om_location": "church_2ndfloor_1", "range": 5 },
+              { "u_near_om_location": "church_3rdfloor_1", "range": 5 },
+              { "u_near_om_location": "church_roof_1", "range": 5 },
+              { "u_near_om_location": "rural_church_parking", "range": 5 },
+              { "u_near_om_location": "rural_church", "range": 5 },
+              { "u_near_om_location": "rural_church_basement", "range": 5 },
+              { "u_near_om_location": "rural_church_steeple", "range": 5 },
+              { "u_near_om_location": "rural_church_steeple_roof", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_3_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_3_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_3_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_3_SE", "range": 5 },
+              { "u_near_om_location": "cathedral_2_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_2_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_2_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_2_SE", "range": 5 },
+              { "u_near_om_location": "cathedral_1_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_1_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_1_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_1_SE", "range": 5 },
+              { "u_near_om_location": "cathedral_b_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_b_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_b_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_b_SE", "range": 5 },
+              { "u_near_om_location": "synagogue", "range": 5 },
+              { "u_near_om_location": "synagogue_roof", "range": 5 },
+              { "u_near_om_location": "synagogue_upper_roof", "range": 5 },
+              { "u_near_om_location": "generic_river_bank", "range": 3 },
+              { "u_near_om_location": "generic_river", "range": 3 },
+              { "u_near_om_location": "river_center", "range": 3 },
+              { "u_near_om_location": "river", "range": 3 },
+              { "u_near_om_location": "river_c_not_ne", "range": 3 },
+              { "u_near_om_location": "river_c_not_nw", "range": 3 },
+              { "u_near_om_location": "river_c_not_se", "range": 3 },
+              { "u_near_om_location": "river_c_not_sw", "range": 3 },
+              { "u_near_om_location": "lake_shore", "range": 3 },
+              { "u_near_om_location": "lake_surface", "range": 3 },
+              { "u_near_om_location": "ocean", "range": 3 },
+              { "u_near_om_location": "ocean_shore", "range": 3 },
+              { "u_near_om_location": "ocean_surface", "range": 3 },
+              { "u_near_om_location": "ocean_bed", "range": 3 },
+              { "u_near_om_location": "ocean_water_cube", "range": 3 },
+              { "u_near_om_location": "ocean_surface", "range": 3 }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "Anathema_Ready", "=", "0" ] },
+      { "u_spawn_monster": "mon_vampire_anathema", "real_count": 1, "min_radius": 30, "max_radius": 40 },
+      { "run_eocs": "EOC_ANATHEMA_SPAWN_MESSAGE", "time_in_future": 1 }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_ANATHEMA_WARN" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_WARN",
+    "eoc_type": "ACTIVATION",
+    "//1": "Same conditions as the above, minus the RNG check and the warnings check.",
+    "condition": {
+      "and": [
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_effect": "effect_vampire_torpor" } },
+        { "math": [ "Anathema_Ready > 0" ] },
+        "u_is_outside",
+        {
+          "not": {
+            "or": [
+              { "u_near_om_location": "church_1", "range": 5 },
+              { "u_near_om_location": "church_2ndfloor_1", "range": 5 },
+              { "u_near_om_location": "church_3rdfloor_1", "range": 5 },
+              { "u_near_om_location": "church_roof_1", "range": 5 },
+              { "u_near_om_location": "rural_church_parking", "range": 5 },
+              { "u_near_om_location": "rural_church", "range": 5 },
+              { "u_near_om_location": "rural_church_basement", "range": 5 },
+              { "u_near_om_location": "rural_church_steeple", "range": 5 },
+              { "u_near_om_location": "rural_church_steeple_roof", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_7_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_6_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_5_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_4_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_3_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_3_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_3_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_3_SE", "range": 5 },
+              { "u_near_om_location": "cathedral_2_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_2_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_2_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_2_SE", "range": 5 },
+              { "u_near_om_location": "cathedral_1_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_1_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_1_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_1_SE", "range": 5 },
+              { "u_near_om_location": "cathedral_b_NW", "range": 5 },
+              { "u_near_om_location": "cathedral_b_NE", "range": 5 },
+              { "u_near_om_location": "cathedral_b_SW", "range": 5 },
+              { "u_near_om_location": "cathedral_b_SE", "range": 5 },
+              { "u_near_om_location": "synagogue", "range": 5 },
+              { "u_near_om_location": "synagogue_roof", "range": 5 },
+              { "u_near_om_location": "synagogue_upper_roof", "range": 5 },
+              { "u_near_om_location": "generic_river_bank", "range": 3 },
+              { "u_near_om_location": "generic_river", "range": 3 },
+              { "u_near_om_location": "river_center", "range": 3 },
+              { "u_near_om_location": "river", "range": 3 },
+              { "u_near_om_location": "river_c_not_ne", "range": 3 },
+              { "u_near_om_location": "river_c_not_nw", "range": 3 },
+              { "u_near_om_location": "river_c_not_se", "range": 3 },
+              { "u_near_om_location": "river_c_not_sw", "range": 3 },
+              { "u_near_om_location": "lake_shore", "range": 3 },
+              { "u_near_om_location": "lake_surface", "range": 3 },
+              { "u_near_om_location": "ocean", "range": 3 },
+              { "u_near_om_location": "ocean_shore", "range": 3 },
+              { "u_near_om_location": "ocean_surface", "range": 3 },
+              { "u_near_om_location": "ocean_bed", "range": 3 },
+              { "u_near_om_location": "ocean_water_cube", "range": 3 },
+              { "u_near_om_location": "ocean_surface", "range": 3 }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "Anathema_Warnings", "+=", "1" ] },
+      {
+        "if": { "math": [ "Anathema_Warnings < 2" ] },
+        "then": { "u_message": "Anathema_Warnings_Snippets", "snippet": true, "popup": true },
+        "else": { "u_message": "Anathema_Warnings_Snippets", "snippet": true, "popup": false }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_SPAWN_MESSAGE",
+    "effect": [
+      {
+        "u_message": "You feel a threat closing in, more dangerous than anything you've ever faced.  Your vampiric instincts urge you to flee, as fighting them is certain to cause your death.\nRUN.",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANATHEMA_WITHDRAWS_FOR_NOW",
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "//1": "Near holy ground, near vast water, the sun has risen, or you're about to outrun it (55 tiles away).",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_near_om_location": "church_1", "range": 5 },
+            { "u_near_om_location": "church_2ndfloor_1", "range": 5 },
+            { "u_near_om_location": "church_3rdfloor_1", "range": 5 },
+            { "u_near_om_location": "church_roof_1", "range": 5 },
+            { "u_near_om_location": "rural_church_parking", "range": 5 },
+            { "u_near_om_location": "rural_church", "range": 5 },
+            { "u_near_om_location": "rural_church_basement", "range": 5 },
+            { "u_near_om_location": "rural_church_steeple", "range": 5 },
+            { "u_near_om_location": "rural_church_steeple_roof", "range": 5 },
+            { "u_near_om_location": "cathedral_7_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_7_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_6_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_6_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_5_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_5_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_4_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_4_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_7_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_7_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_6_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_6_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_5_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_5_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_4_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_4_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_3_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_3_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_3_SW", "range": 5 },
+            { "u_near_om_location": "cathedral_3_SE", "range": 5 },
+            { "u_near_om_location": "cathedral_2_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_2_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_2_SW", "range": 5 },
+            { "u_near_om_location": "cathedral_2_SE", "range": 5 },
+            { "u_near_om_location": "cathedral_1_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_1_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_1_SW", "range": 5 },
+            { "u_near_om_location": "cathedral_1_SE", "range": 5 },
+            { "u_near_om_location": "cathedral_b_NW", "range": 5 },
+            { "u_near_om_location": "cathedral_b_NE", "range": 5 },
+            { "u_near_om_location": "cathedral_b_SW", "range": 5 },
+            { "u_near_om_location": "cathedral_b_SE", "range": 5 },
+            { "u_near_om_location": "synagogue", "range": 5 },
+            { "u_near_om_location": "synagogue_roof", "range": 5 },
+            { "u_near_om_location": "synagogue_upper_roof", "range": 5 },
+            { "u_near_om_location": "generic_river_bank", "range": 3 },
+            { "u_near_om_location": "generic_river", "range": 3 },
+            { "u_near_om_location": "river_center", "range": 3 },
+            { "u_near_om_location": "river", "range": 3 },
+            { "u_near_om_location": "river_c_not_ne", "range": 3 },
+            { "u_near_om_location": "river_c_not_nw", "range": 3 },
+            { "u_near_om_location": "river_c_not_se", "range": 3 },
+            { "u_near_om_location": "river_c_not_sw", "range": 3 },
+            { "u_near_om_location": "lake_shore", "range": 3 },
+            { "u_near_om_location": "lake_surface", "range": 3 },
+            { "u_near_om_location": "ocean", "range": 3 },
+            { "u_near_om_location": "ocean_shore", "range": 3 },
+            { "u_near_om_location": "ocean_surface", "range": 3 },
+            { "u_near_om_location": "ocean_bed", "range": 3 },
+            { "u_near_om_location": "ocean_water_cube", "range": 3 },
+            { "u_near_om_location": "ocean_surface", "range": 3 },
+            "is_day",
+            { "math": [ "u_monsters_nearby('mon_vampire_anathema', 'radius': 55) == 0" ] }
+          ]
+        },
+        { "math": [ "u_monsters_nearby('mon_vampire_anathema', 'radius': 60) > 0" ] }
+      ]
+    },
+    "//2": "Despawn the Anathema, adjust var for later to bring them back.",
+    "//3": "Reuses the Shadow's EOC as they are identical in effect.",
+    "effect": [
+      { "math": [ "Anathema_Ready = 1" ] },
+      { "u_add_effect": "blind_no_msg", "duration": "0 second" },
+      { "u_message": "The Anathema vanishes in a fine mist", "type": "good" },
+      {
+        "u_location_variable": { "global_val": "Vampire_Anathema" },
+        "monster": "mon_vampire_anathema",
+        "target_min_radius": 0,
+        "target_max_radius": 60
+      },
+      { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Vampire_Anathema" } },
+      { "u_message": "…but they will come back.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "Anathema_Warnings_Snippets",
+    "text": [
+      "You shudder at the thought of vampire hunters.  Knowing your luck, one is probably tracking you as this very moment.",
+      "You long for the safety of a warm uncontrolled blaze, burning away the thing stalking you from the shadows.",
+      "Your instincts warn you about something far more dangerous than you are, wandering the shadows to find you.",
+      "You long for proximity to vast waters and holy ground, no matter how uneasy you might be about them.",
+      "You feel a threatening presence.  Someone who desires nothing but killing vampires has their sights on you.",
+      "You have a passing thought about standing in unblocked sunlight, and how you would be safer in it than you currently are here.",
+      "Someone is coming to kill you.  You can feel them knowing where you are, waiting for the right moment to strike.",
+      "You are filled with the fear that a vampire will soon drink you dry.  You know that vampire blood is inedible to vampires, but you're still unsettled.",
+      "For a moment, the darkness doesn't feel like home.  It feels like a slaughterhouse, and you're next in line to be killed."
+    ]
+  }
+]

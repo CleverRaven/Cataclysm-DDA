@@ -31,31 +31,34 @@
         "%%%%%%%%#<===<#%%%%%%%..",
         "!!!!!!!%##&*&##%!!!!!!!."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "domestic_general_and_variant_palette",
+        "parametrized_carpets_palette",
+        "parametrized_highrise_walls_palette"
+      ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "!": "t_region_groundcover_urban",
-        "=": "t_carpet_green",
-        "#": "t_adobe_brick_wall",
         "<": "t_stairs_up",
         "&": "t_window",
         "~": "t_thconc_floor",
-        "_": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "Z": "t_linoleum_white",
-        "W": "t_linoleum_white",
-        "9": "t_linoleum_white",
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Z": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "9": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "$": "t_chainfence",
         "/": "t_chaingate_c"
       },
       "furniture": { "!": "f_region_flower" },
       "place_loot": [
         { "group": "allclothes", "chance": 50, "repeat": [ 5 ], "x": [ 7, 8 ], "y": [ 20, 20 ] },
-        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 5, 4 ], "y": [ 15, 15 ] },
-        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 2, 1 ], "y": [ 15, 15 ] },
-        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 2, 1 ], "y": [ 20, 20 ] },
+        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 4, 5 ], "y": [ 15, 15 ] },
+        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 1, 2 ], "y": [ 15, 15 ] },
+        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 1, 2 ], "y": [ 20, 20 ] },
         { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 4, 5 ], "y": [ 20, 20 ] }
       ]
     }
@@ -92,19 +95,22 @@
         "........#>=<=>#.........",
         "........##&#&##........."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "domestic_general_and_variant_palette",
+        "parametrized_carpets_palette",
+        "parametrized_highrise_walls_palette"
+      ],
       "terrain": {
-        "=": "t_carpet_green",
-        "#": "t_adobe_brick_wall",
         ".": "t_open_air",
         "<": "t_stairs_up",
         ">": "t_stairs_down",
         "&": "t_window",
-        "_": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "9": "t_linoleum_white"
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "9": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       }
     }
   },
@@ -115,33 +121,33 @@
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
-        "|2222222222222222222222 ",
-        "|.....................3 ",
-        "|.A..A...........A..A.3 ",
-        "|.....................3 ",
-        "||...................33 ",
-        " |&.................&3  ",
-        " |..X.......N........3  ",
-        "||................:..33 ",
-        "|.....................3 ",
-        "|.A..A...........A..A.3 ",
-        "|.....................3 ",
-        "||...................33 ",
-        " |&.................&3  ",
-        " |.......N...........3  ",
-        "||...................33 ",
-        "|.....................3 ",
-        "|.A..A...........A..A.3 ",
-        "|.....................3 ",
-        "|....................33 ",
-        "|.&...............X.&3  ",
-        "|....................3  ",
-        "|-------$$$$+$$------3  ",
-        "        $__>__$         ",
-        "        $$$$$$$         "
+        "----------------------- ",
+        "-.....................- ",
+        "-.A..A...........A..A.- ",
+        "-.....................- ",
+        "--...................-- ",
+        " -&.................&-  ",
+        " -..X.......N........-  ",
+        "--................:..-- ",
+        "-.....................- ",
+        "-.A..A...........A..A.- ",
+        "-.....................- ",
+        "--...................-- ",
+        " -&.................&-  ",
+        " -.......N...........-  ",
+        "--...................-- ",
+        "-.....................- ",
+        "-.A..A...........A..A.- ",
+        "-.....................- ",
+        "-....................-- ",
+        "-.&...............X.&-  ",
+        "-....................-  ",
+        "--------####+##-------  ",
+        "        #__>__#         ",
+        "        #######         "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "$": "t_adobe_brick_wall", "+": "t_door_c", ">": "t_stairs_down" }
+      "palettes": [ "roof_palette", "parametrized_highrise_walls_palette" ],
+      "terrain": { "+": "t_door_c" }
     }
   },
   {

@@ -1,0 +1,214 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_LIGHT_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_changeling_summer_light_spell" } },
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( ( 256.97 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 67.91) + (u_skill('deduction') * 162.50) ) ) * (global_what_is_the_season == 4 ? 0.6 : 1) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( ( 615.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 165.31) + (u_skill('deduction') * 486.15) ) ) * (global_what_is_the_season == 4 ? 0.4 : 1) ) "
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_light",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      },
+      { "u_message": "A flickering red-orange wisp of light kindles near your shoulder.", "type": "neutral" }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_changeling_summer_light" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_LIGHT_FIRE_INITIATE",
+    "condition": { "not": { "is_season": "winter" } },
+    "effect": [
+      { "run_eocs": "EOC_HEDGE_LIGHT_FIRE" },
+      { "u_message": "You gesture and summon up a burst of fiery heat.", "type": "neutral" }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "x_in_y_chance": { "x": { "math": [ "50 + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER')" ] }, "y": 100 }
+        },
+        "then": [
+          { "run_eocs": "EOC_HEDGE_LIGHT_FIRE" },
+          { "u_message": "You gesture and summon up a burst of fiery heat.", "type": "neutral" }
+        ],
+        "else": { "u_message": "You gesture but nothing happens.", "type": "bad" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_INITIATE",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( 580.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 109.82) + (u_skill('deduction') * 223.65) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( 1185.21 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 318.25) + (u_skill('deduction') * 816.82) ) "
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_sun_glasses",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      },
+      { "u_spawn_item": "changeling_summer_sunglasses", "suppress_message": true, "force_equip": true },
+      { "u_message": "The intensity of nearby light grows muted.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_PROTECT_FROM_HOT_WEATHER",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = (766.28 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 144.96) + (u_skill('deduction') * 295.21) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( 1694.85 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 455.08) + (u_skill('deduction') * 1168.05) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_protect_from_hot_weather",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_REMOVER",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_changeling_summer_sun_glasses", { "context_val": "effect" } ] },
+    "effect": { "u_remove_item_with": "changeling_summer_sunglasses" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS",
+    "effect": [
+      { "u_add_effect": "effect_changeling_summer_run_for_long_periods", "duration": 2 },
+      { "run_eocs": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS_CONTINUANCE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_summer_run_for_long_periods" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_effect_duration('effect_changeling_summer_run_for_long_periods') < 2" ] },
+        "then": [ { "u_add_effect": "effect_changeling_summer_run_for_long_periods", "duration": 2 } ],
+        "else": [ { "u_add_effect": "effect_changeling_summer_run_for_long_periods", "duration": 1 } ]
+      }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_changeling_summer_run_for_long_periods" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_CREATE_THUNDERSTORM_INITIATE",
+    "condition": { "and": [ "u_is_outside", { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] } ] },
+    "effect": [
+      {
+        "if": { "math": [ "u_weather_change_limit == 6" ] },
+        "then": { "u_message": "You have already enchanted the weather.  Now you must wait until it runs its course.", "type": "mixed" },
+        "else": [
+          { "u_lose_effect": "effect_controlling_weather" },
+          { "math": [ "u_weather_change_limit = 6" ] },
+          { "math": [ "u_weather_stage_up_lower_bound = 60 / selkie_has_weather_mastery()" ] },
+          { "math": [ "u_weather_stage_up_upper_bound = 180 / selkie_has_weather_mastery()" ] },
+          { "u_add_effect": "effect_controlling_weather_lightningstorm", "duration": "6 hours" },
+          {
+            "math": [
+              "u_spell_low_duration = ( ( 428.10 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 112.90) + (u_skill('deduction') * 205.76) ) ) * selkie_has_weather_mastery()"
+            ]
+          },
+          {
+            "math": [
+              "u_spell_high_duration = ( ( 897.50 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 249.16) + (u_skill('deduction') * 491.07) ) ) * selkie_has_weather_mastery()"
+            ]
+          },
+          {
+            "u_add_effect": "effect_controlling_weather",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          },
+          {
+            "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+            "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You must be outside and the temperature must be above freezing to summon a thunderstorm.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_CREATE_THUNDERSTORM_END",
+    "condition": { "math": [ "magic_weather_lightning == 1" ] },
+    "effect": [
+      { "math": [ "u_weather_change_limit = 0" ] },
+      { "u_lose_effect": [ "effect_controlling_weather", "effect_controlling_weather_lightningstorm" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_INITIATE",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( 5.95 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 1.52) + (u_skill('deduction') * 2.51) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( 15.20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 3.82) + (u_skill('deduction') * 6.01) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_powerful_sunlight",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      },
+      { "u_message": "You blaze with brilliant light.", "type": "good" },
+      { "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_aura_effects", "hit_self": false } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_AURA_EFFECTS",
+    "effect": [
+      { "if": { "not": { "u_has_effect": "blind" } }, "then": { "u_add_effect": "blind", "duration": "1 minutes" } },
+      {
+        "if": { "u_has_flag": "SUNDEATH" },
+        "then": [
+          { "math": [ "u_val('morale')", "-=", "200" ] },
+          {
+            "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_sundeath_self_damage", "hit_self": true }
+          },
+          { "message": "The <u_name> is seared by the brilliant light!", "type": "neutral" }
+        ]
+      }
+    ]
+  }
+]

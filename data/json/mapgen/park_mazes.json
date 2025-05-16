@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "park_maze" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -50,8 +49,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "park_maze" ],
-    "weight": 800,
+    "om_terrain": [ "park_maze_2" ],
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [

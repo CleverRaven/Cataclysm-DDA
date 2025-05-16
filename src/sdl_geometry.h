@@ -6,7 +6,8 @@
 #include <memory>
 
 #include "sdl_wrappers.h"
-#include "point.h"
+
+struct point;
 
 /// Interface to render geometry with SDL_Renderer.
 class GeometryRenderer
@@ -45,7 +46,7 @@ class DefaultGeometryRenderer : public GeometryRenderer
 class ColorModulatedGeometryRenderer: public DefaultGeometryRenderer
 {
     public:
-        ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer );
+        explicit ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer );
 
         void rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                    const SDL_Color &color ) const override;

@@ -1,0 +1,46 @@
+[
+  {
+    "type": "item_group",
+    "id": "homeless_broker_sell",
+    "items": [
+      { "group": "shoes", "prob": 80 },
+      { "group": "harddrugs", "prob": 70 },
+      { "group": "preserved_food", "prob": 90 },
+      { "group": "dry_goods", "prob": 90 },
+      { "group": "pet_food", "prob": 90 },
+      { "group": "pantry", "prob": 90 },
+      { "group": "foodintincan", "prob": 90 },
+      { "group": "cannedfood", "prob": 90 },
+      { "group": "big_canned_food", "prob": 90 },
+      { "group": "produce", "prob": 80 },
+      { "group": "snacks", "prob": 80 },
+      { "group": "fast_food", "prob": 80 },
+      { "group": "hardware_books", "prob": 80 },
+      { "group": "homebooks", "prob": 80 },
+      { "group": "manuals", "prob": 80 },
+      { "group": "textbooks", "prob": 80 },
+      { "group": "newspaper", "prob": 80 },
+      { "group": "tools_common", "prob": 80 },
+      { "group": "tools_workshop", "prob": 80 },
+      { "group": "tools_general", "prob": 80 },
+      { "group": "full_1st_aid", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NPC_homeless_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "loincloth" },
+      { "item": "footrags" },
+      { "item": "gloves_wraps" },
+      { "item": "tunic" },
+      { "item": "bigback" },
+      { "item": "duffelbag" },
+      { "item": "leather_belt" },
+      { "item": "jacket_leather" },
+      { "item": "pants_leather" },
+      { "item": "boots" }
+    ]
+  }
+]

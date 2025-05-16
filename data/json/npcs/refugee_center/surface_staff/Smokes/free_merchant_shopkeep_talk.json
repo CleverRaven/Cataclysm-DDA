@@ -1,0 +1,438 @@
+[
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ],
+      "yes": [ "Welcome back.", "Hello again.  What do you need?", "*looks up.  \"Hey.\"" ],
+      "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""
+    },
+    "responses": [
+      {
+        "text": "Who are you?  This is a refugee center, right?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } },
+        "effect": { "u_add_var": "general_meeting_u_met_Gavin", "value": "yes" }
+      },
+      {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it, maybe from some of the traders coming through?",
+        "topic": "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
+      {
+        "text": "Just passing through, don't mind me.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } }
+      },
+      {
+        "text": "I wanted to talk.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
+      },
+      {
+        "text": "Let's trade.",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
+      {
+        "text": "Just saying hello.  Keep safe.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
+    "type": "talk_topic",
+    "dynamic_line": [ "Hope it helps.", "Give me second to write that down… okay, done.", "You know where to find me." ],
+    "speaker_effect": [ { "effect": "distribute_food_auto" } ],
+    "responses": [
+      { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
+      { "text": "When will you have new stuff in stock?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock" },
+      { "text": "That's all for now.  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Next shipment should arrive in around <interval>.",
+      "Stick around for <interval>, there will surely be something you'd like."
+    ],
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      { "text": "Thanks, I will make sure to check back.  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Before you ask, we're full.  You're right about the refugee part, but we're way over capacity right now.  We don't have the food or space to take on anyone else.\"  He softens a little.  \"As for me, I do a lot of things here, but mostly I keep tabs on our supplies.  You can call me Smokes, or Gavin; whichever you prefer.  I also trade with people from outside, like you.  If you're in the market for hardware, we're selling, and if you have food, we are very much buying.  Anyways, uh, what can I do for you",
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": "?\"\n\nLiam looks around at the crowded room, speaking in a soft voice for just your ears.  \"Can't honestly believe people are trying to crowd in here.  They're all so scared, this is a death trap.",
+          "no": "?"
+        }
+      ]
+    },
+    "speaker_effect": [
+      {
+        "sentinel": "has_onetime_greeting_effect",
+        "condition": { "not": { "u_has_effect": "u_Gavin_onetime_greeting" } },
+        "effect": [ { "u_add_effect": "u_Gavin_onetime_greeting", "duration": "12 hours" } ]
+      }
+    ],
+    "responses": [
+      { "text": "Got some time to talk?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
+      { "text": "I just wanted to look around.  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [
+      "TALK_FREE_MERCHANTS_MERCHANT_Talk",
+      "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End",
+      "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
+      "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": [ "What's on your mind?", "Lay it on me.", "Alright, shoot.", "Something on your mind?" ],
+    "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you offer any help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
+      },
+      {
+        "text": "Can I talk to you about that fellow over there in the dinosaur suit?",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission"
+      },
+      {
+        "text": "'Sorry, we're full'?  Do you greet everyone like that?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting",
+        "condition": { "u_has_effect": "u_Gavin_onetime_greeting" },
+        "effect": { "u_lose_effect": "u_Gavin_onetime_greeting" }
+      },
+      { "text": "What are you doing out here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Plans" },
+      { "text": "You're having trouble with food?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_TroubleWithFood" },
+      { "text": "You mentioned you were selling hardware?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware" },
+      {
+        "text": "What's with these people in the lobby?  Are they with you?",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] } },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars"
+      },
+      {
+        "text": "I took care of your beggar problem.",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] },
+            { "compare_string": [ "yes", { "npc_val": "general_recruit_beggars_reward_agreed" } ] }
+          ]
+        },
+        "effect": { "npc_lose_var": "general_recruit_beggars_reward_agreed" },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited"
+      },
+      { "text": "Who's in charge here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge" },
+      { "text": "Is there any way I can join your group?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin" },
+      {
+        "text": "What's with these 'Free Merchant certified notes'?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
+        "condition": { "u_has_item": "FMCNote" },
+        "effect": { "u_add_var": "general_free_merchants_u_knows_about_merch", "value": "yes" }
+      },
+      { "text": "What's your story?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe" },
+      {
+        "text": "Have you heard anything about the rest of the world?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld"
+      },
+      { "text": "I'm looking for work.  Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
+      {
+        "text": "Are you interested in buying any processed lumber?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_LUMBERMILL_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Does this center need any metal?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Are you interested in any chemical supplies?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+        "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
+      }
+    ]
+  },
+  {
+    "id": [
+      "TALK_FREE_MERCHANTS_MERCHANT_Beggars",
+      "TALK_FREE_MERCHANTS_MERCHANT_Beggars2",
+      "TALK_FREE_MERCHANTS_MERCHANT_Beggars3"
+    ],
+    "//": "This is a sensitive topic for Gavin - he feels guilty about not being able to help them more.  His responses are a bit more heated because of that",
+    "type": "talk_topic",
+    "dynamic_line": "No, unfortunately.  They're folks that wanted to join us, but we're too full and we don't have enough to share.  Most people leave and look for their own place when we turn them down, but these ones… didn't.  We've been trying to find them a safe place, but there's a shortage of those these days, for reasons I'm sure you can guess.  Until then, we're letting them crash here as long as they don't mess the place up.",
+    "responses": [
+      {
+        "text": "[Social 1] If I could look into clearing them out of here, would you be able to pay me back?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
+        "condition": { "math": [ "u_skill('speech') >= 1" ] },
+        "effect": { "npc_add_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
+      },
+      { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },
+      {
+        "text": "Couldn't you get them out?  Your guards are well-armed.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars3"
+      },
+      { "text": "Best of luck.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "I don't know, why don't you ask them?  I haven't pried, but where else do they have to go?  You've seen how bad it is out there.  We don't have the space for them, but it won't kill us to give them some shelter as long as they aren't too much of a drain on resources",
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": ".\"\n\n\"Don't you guys have, like, scavengers and things?\"  Liam sounds like he's trying not to get irritated with Smokes.  \"Can't these guys help out in some way in exchange for food?  It seems insane to just keep them sitting in your entry way.\"\n\nSmokes gives him a long-suffering look.  \"Like I said, ask them.  We can't take them in, though.  It's not just them.  We've had to turn away dozens of people, if we started making exceptions we'd be dead meat.  These guys are just the ones who didn't try their luck out there, they've got their reasons I guess.  I don't like this any more than you do.",
+          "no": "."
+        }
+      ]
+    }
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars3",
+    "type": "talk_topic",
+    "dynamic_line": "Jesus, man, we aren't monsters.  I'm sure we could get them out if we really needed to, yeah, but why would we do that?  We need to be stringent with who we take on, that's true, but forcing out people in need isn't a great way to convince anyone that we're reliable allies.  The world doesn't run on good faith, but it's damn well nicer to live in because of it."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
+    "type": "talk_topic",
+    "dynamic_line": "We don't have a lot to share, but… well, I guess it's not safe for them.  At best, it's a health hazard waiting to happen.  We could pay you in merch if you can clear them out without anyone getting hurt, yeah.",
+    "responses": [
+      {
+        "text": "I'll see what I can do.  What's merch?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_merch" } ] } }
+      },
+      { "text": "No guarantees, but I'll see what I can do.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited",
+    "type": "talk_topic",
+    "dynamic_line": "I appreciate it a lot, getting them somewhere safe.  I hope that's what you did, anyway.  In any case, having the lobby clear is a big help.  Even with the uh, cardboard guy still around, he's a lot easier to handle alone.",
+    "speaker_effect": {
+      "effect": [
+        { "mapgen_update": "shopkeep_lobby_cleanup1", "om_terrain": "evac_center_13" },
+        { "mapgen_update": "shopkeep_lobby_cleanup2", "om_terrain": "evac_center_18" }
+      ]
+    },
+    "responses": [
+      { "text": "I do believe we discussed a reward?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward" },
+      { "text": "Just glad to help.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it",
+        {
+          "follower_present": "NC_BEGGAR_3",
+          "yes": ".\"\n\nLuo puts her hands on her hips.  \"You're getting *paid* for… ah, fuck it.  I should be pissed, but honestly I'm so glad to be out of this place, I can't even be mad.  That's really saying something, coming from me.",
+          "no": "."
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "u_spawn_item": "FMCNote", "count": 20 } },
+    "responses": [ { "text": "Thank you!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
+  },
+  {
+    "id": [
+      "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld",
+      "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld1",
+      "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "Not as much as I'd like, I'm afraid.  Most of these shelters seemed to have been designed to make people *feel* safer, not to actually keep them safe.  Our radio equipment is terrible… I don't think it was even meant to be used seriously.  I've heard some talk of hordes.",
+    "responses": [
+      { "text": "Hordes?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld1" },
+      {
+        "text": "Are there any other settlements around?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] } }
+      },
+      {
+        "text": "Are there any other settlements around?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] }
+      },
+      { "text": "That's fine for now.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware", "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1" ],
+    "type": "talk_topic",
+    "dynamic_line": "Tools, to be precise.  The basement and the storage rooms had way more than we need, and a lot of people brought their own when they were evacuating.  There's more than we could ever use, so we'll be happy to sell them at a very fair price.  Nothing in the way of radios, so you'll have to look somewhere else for that.",
+    "responses": [
+      {
+        "text": "Wait, basement?  I didn't know this place had a basement.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
+        "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
+      },
+      {
+        "text": "Mind if I take a look at your stock?",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
+      { "text": "Radios?  That seems awfully specific.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1" },
+      { "text": "Good to know.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1",
+    "type": "talk_topic",
+    "dynamic_line": "We've had some issues with scavengers.  Apparently a big part of the marketing for these shelters was high-end radio equipment that they could use to keep in touch with each other, and a lot of the people we've traded with have asked about it.  Not that we don't have any radios, mind you, but they're all absolutely awful.  Even if we *could* spare any, they'd be useless to anyone that actually needed it - not much point in lugging around a ham radio that can't pick up anything more than a mile away."
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_TroubleWithFood",
+    "type": "talk_topic",
+    "dynamic_line": "Yes we are.  The center had a good stock of those awful soy bars, but between all of us, it went fast.  We're making do with what we can skim off the edge of towns, but mostly we rely on trade from people like you.  Speaking of, we'll pay top dollar for anything preserved - canned, salted, dried, whatever.  Just talk to the broker in the back.",
+    "responses": [
+      {
+        "text": "I don't see that many of you around.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
+        "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
+      },
+      { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO",
+    "type": "talk_topic",
+    "dynamic_line": "Listen, buddy.  We were putting away some of the last food you gave us and noticed it was… off.  Okay I'll cut the shit- It was people.  I don't know how you got it, or what you did, but we aren't taking any chances.  You are not welcome here anymore.  <color_red>I'll give you one minute</color> to fuck off and never come back.",
+    "speaker_effect": [
+      {
+        "effect": [ "end_conversation", { "run_eocs": [ "EOC_GAVE_BEGGAR_CANNIBAL_PROOF" ], "time_in_future": "1 minutes" } ]
+      }
+    ],
+    "responses": [ { "text": "But I-", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+    "type": "talk_topic",
+    "dynamic_line": "Sure, we could use some around here for repairs and whatnot.  What are the terms?",
+    "responses": [
+      {
+        "text": "Well, how about 250 merch for 100 pounds of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+    "type": "talk_topic",
+    "dynamic_line": "Chemicals?  I'm sure we could find some use for them, and we are in need of medical supplies.  What's the offer?",
+    "responses": [
+      {
+        "text": "Well, how about 300 merch for 10 liters of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  Smokes listens",
+        {
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
+          "yes": ", then shakes his head.  \"Not ringing a bell, I think I'd remember if I'd heard about something like that.\"",
+          "no": ", then nods slowly.  \"This sounds a bit familiar, I remember a scavenger coming through a while ago with a weird story about a place like that.  Might be nothing though.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "shopkeep_lobby_cleanup1",
+    "method": "json",
+    "object": { "set": [ { "square": "item_remove", "x": 5, "y": 22, "x2": 18, "y2": 23 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "shopkeep_lobby_cleanup2",
+    "method": "json",
+    "object": { "set": [ { "square": "item_remove", "x": 5, "y": 0, "x2": 18, "y2": 2 } ] }
+  }
+]

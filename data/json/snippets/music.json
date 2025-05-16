@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "<music_description>",
-    "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
+    "text": [ "some <musicgenre>.", "some <musicgenre>.  The <musicdesc_part> is <musicdesc_evaluation>." ]
   },
   {
     "type": "snippet",
@@ -153,7 +153,12 @@
       "clown ",
       "murder ",
       "narco ",
-      "gangster "
+      "gangster ",
+      "nu-",
+      "post-apocalyptic",
+      "k-",
+      "mumble",
+      "chiptune"
     ]
   },
   {
@@ -190,12 +195,22 @@
       "revival",
       "gospel",
       "opera",
-      "shanties"
+      "shanties",
+      "filk",
+      "bard",
+      "witch",
+      "dub",
+      "emo",
+      "bachata",
+      "musique concrète",
+      "vapor",
+      "glitch",
+      "rap"
     ]
   },
   {
     "type": "snippet",
     "category": "<musicgenre_postfix>",
-    "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant" ]
+    "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant", "-house", "-step" ]
   }
 ]

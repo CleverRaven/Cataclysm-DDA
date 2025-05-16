@@ -10,13 +10,22 @@
     "main_part": "bp_null",
     "connected_to": "bp_null",
     "opposite_part": "bp_null",
+    "limb_type": "other",
     "hit_size": 0,
-    "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0,
     "side": "both",
     "base_hp": 60,
     "drench_capacity": 1,
-    "legacy_id": "NUM_BP"
+    "legacy_id": "NUM_BP",
+    "sub_parts": [ "sub_bp_null" ]
+  },
+  {
+    "id": "sub_bp_null",
+    "type": "sub_body_part",
+    "parent": "bp_null",
+    "side": 0,
+    "opposite": "sub_bp_null",
+    "name": { "str": "Null sub_body_part, if you see this please report it", "//~": "NO_I18N" }
   },
   {
     "id": "mx_null",
@@ -42,5 +51,27 @@
     "type": "field_type",
     "legacy_enum_id": 0,
     "intensity_levels": [ { "name": "nothing" } ]
+  },
+  {
+    "id": "null",
+    "type": "fault",
+    "name": { "str": "This is a bug" },
+    "description": "This fault id is a reserved sentinel."
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_null",
+    "//": "Fallback weapon vector, unarmed attacks always go through techs",
+    "weapon": true
+  },
+  {
+    "type": "SPELL",
+    "id": "null",
+    "name": { "str": "none" },
+    "description": "seeing this is a bug",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "attack"
   }
 ]

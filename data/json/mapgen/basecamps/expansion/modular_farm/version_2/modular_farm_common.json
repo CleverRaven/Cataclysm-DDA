@@ -1,0 +1,197 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmf_2_common_palette",
+    "terrain": {
+      "F": "t_splitrail_fence",
+      "g": "t_splitrail_fencegate_c",
+      "m": "t_dirtmound",
+      "p": "t_palisade",
+      "P": "t_palisade_pulley",
+      "G": "t_palisade_gate",
+      ";": "t_dirt"
+    },
+    "furniture": { ";": "f_clear" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmf_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                 ;;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";                  ;    ",
+        "; ;;;;;;;;;;;;;;;; ;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmf_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_farm_2_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmf_2" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "//": "Dummy map to add recipes to preexisting farm extensions as a fallback",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmf_2_fallback_recipe_1",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "palettes": [ "fbmf_2_common_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fallback_recipe_1",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmf_2_fallback_recipe_1" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_1",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 21, "y2": 21 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_2",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 1, "y2": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_3",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 18, "y2": 18 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 19, "y2": 19 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_4",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 15, "y2": 15 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 16, "y2": 16 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_5",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 12, "y2": 12 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 13, "y2": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_6",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 9, "y2": 9 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 10, "y2": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_7",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 6, "y2": 6 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 7, "y2": 7 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_plot_8",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 3, "y2": 3 },
+        { "line": "terrain", "id": "t_dirtmound", "x": 2, "x2": 17, "y": 4, "y2": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_1",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 0, "x2": 0, "y": 0, "y2": 22 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_2",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 1, "x2": 19, "y": 0, "y2": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_3",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_splitrail_fence", "x": 1, "x2": 17, "y": 22, "y2": 22 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 18, "y": 22 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_4",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 19, "x2": 19, "y": 0, "y2": 13 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_gate",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_palisade", "x": 19, "y": 14 },
+        { "line": "terrain", "id": "t_palisade_gate", "x": 19, "x2": 19, "y": 15, "y2": 21 },
+        { "point": "terrain", "id": "t_palisade", "x": 19, "y": 22 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_2_fence_5",
+    "method": "json",
+    "object": { "set": [ { "line": "terrain", "id": "t_splitrail_fence", "x": 19, "x2": 19, "y": 14, "y2": 22 } ] }
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "BGSS_Whately_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Staying at the family compounds scattered across New England, we've managed to maintain some organization post Cataclysm.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_Whately_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_Whately_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "The Whately family has been outcast in these parts for centuries.  But it made us stronger as a family.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_Whately_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_Whately_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "We've been talking to those from other places from the beginning.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_Whately_STORY4" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_Whately_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "All the earth was flame in a holocaust of ecstasy and freedom.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

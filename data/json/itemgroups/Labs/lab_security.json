@@ -1,0 +1,132 @@
+[
+  {
+    "id": "power_armor_sets",
+    "type": "item_group",
+    "//": "This group is for matched power armor sets and combat armor for end game reward locations.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "combat_exoskeleton_heavy" },
+              { "item": "combat_exoskeleton_armor_head_heavy" },
+              { "item": "combat_exoskeleton_armor_torso_heavy" },
+              { "item": "combat_exoskeleton_armor_arm_heavy" },
+              { "item": "combat_exoskeleton_armor_leg_heavy" }
+            ],
+            "prob": 30
+          },
+          {
+            "collection": [
+              { "item": "combat_exoskeleton_medium" },
+              { "item": "combat_exoskeleton_armor_head_medium" },
+              { "item": "combat_exoskeleton_armor_torso_medium" },
+              { "item": "combat_exoskeleton_armor_arm_medium" },
+              { "item": "combat_exoskeleton_armor_leg_medium" }
+            ],
+            "prob": 10
+          },
+          {
+            "collection": [
+              { "item": "combat_exoskeleton_light" },
+              { "item": "combat_exoskeleton_armor_head_light" },
+              { "item": "combat_exoskeleton_armor_torso_light" },
+              { "item": "combat_exoskeleton_armor_arm_light" },
+              { "item": "combat_exoskeleton_armor_leg_light" }
+            ],
+            "prob": 55
+          },
+          {
+            "collection": [ { "item": "rm13_armor" }, { "item": "heavy_atomic_battery_cell", "charges": 10000 } ],
+            "prob": 5
+          }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "id": "UPS_power",
+    "type": "item_group",
+    "//": "This group is for UPS spawns.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "UPS_OFF", "prob": 70 },
+      { "item": "heavy_battery_cell", "prob": 70 },
+      { "item": "heavy_plus_battery_cell", "prob": 40 }
+    ]
+  },
+  {
+    "id": "SUS_rivtech_loot",
+    "type": "item_group",
+    "//": "This group is for rare spawns of rivetech matched sets.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_rivtech_8x40", "prob": 80 },
+      { "group": "SUS_rivtech_40mm", "prob": 60 },
+      { "group": "SUS_rivtech_misc", "prob": 60 }
+    ]
+  },
+  {
+    "id": "SUS_rivtech_8x40",
+    "type": "item_group",
+    "//": "This group is for rare spawns of rivetech matched sets.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "8mm_caseless", "prob": 40, "count": [ 1, 3 ] }, { "item": "8mm_jhp", "prob": 30, "count": [ 1, 3 ] } ]
+      },
+      {
+        "distribution": [
+          { "item": "8x40_100_mag", "prob": 10 },
+          { "item": "8x40_10_mag", "prob": 80 },
+          { "item": "8x40_25_mag", "prob": 60 },
+          { "item": "8x40_50_mag", "prob": 40 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "rm103a_pistol", "prob": 80 },
+          { "item": "rm11b_sniper_rifle", "prob": 10 },
+          { "item": "rm51_assault_rifle", "prob": 30 },
+          { "item": "rm2000_smg", "prob": 60 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SUS_rivtech_40mm",
+    "type": "item_group",
+    "//": "This group is for rare spawns of rivetech matched sets.",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "rm451_flamethrower", "prob": 20, "charges": [ 100, 1000 ] } ] },
+      {
+        "distribution": [
+          { "item": "40x46mm_m1006", "prob": 50, "count": [ 1, 3 ] },
+          { "item": "40x46mm_m433", "prob": 50, "count": [ 1, 3 ] },
+          { "item": "40x46mm_m576", "prob": 50, "count": [ 1, 3 ] },
+          { "item": "40x46mm_m651", "prob": 50, "count": [ 1, 3 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SUS_rivtech_misc",
+    "type": "item_group",
+    "//": "This group is for rare spawns of rivetech matched sets.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "recipe_caseless", "prob": 50 },
+      {
+        "collection": [ { "item": "rx12_injector" }, { "item": "ampoule", "prob": 60, "count": [ 1, 3 ] } ],
+        "prob": 60
+      },
+      {
+        "collection": [ { "item": "rx11_stimpack" }, { "item": "stimpack_ammo", "prob": 60, "count": [ 1, 3 ] } ],
+        "prob": 60
+      }
+    ]
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow01_1",
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        ".------.p...............",
+        "..------.....[..........",
+        "...------...............",
+        ".[..--------{{{{{{{{{{..",
+        ".....-------,,qqq,,,,{..",
+        ".%%%%%------,,,,,,,,G{..",
+        ".##oo###oo##,,,,,,,,K{..",
+        ".#d  ¤@@¤ d#,,,,,,,,G{..",
+        ".#d   @@  d#o*###oo###..",
+        ".#y        |L RH     #%.",
+        ".#|+|||+|| |  RH l  x#%.",
+        ".#w D|v D| |  RH l  x#%.",
+        ".#||||||||+|  RH     #%.",
+        ".ot~~~~~~+ |   s E  y#%.",
+        ".#BB8S|ZW|          To%.",
+        ".#||||||||  AA       o%.",
+        ".#zz|D |Q+ |12Y=|T   #%.",
+        ".#|+||+|||+|n===|   h#%.",
+        ".#¤    dd  |F=J=|  ff#^.",
+        ".#@@       |5=J=| hff#%.",
+        ".#@@     h |O===|   h#%.",
+        ".#¤  yPPrrr|7436|y   #%.",
+        ".####o###o####o##oo*##%.",
+        "..................---..."
+      ],
+      "terrain": {
+        "{": "t_railing",
+        ",": "t_floor_noroof",
+        "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Q": "t_null",
+        "K": "t_floor_noroof",
+        "G": "t_floor_noroof",
+        "w": "t_null",
+        "q": "t_floor_noroof"
+      },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 3 } ],
+      "place_loot": [ { "item": "television", "x": 20, "y": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow01_roof",
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "````````````````````````",
+        "````````````````````````",
+        "````````````````````````",
+        "````````````````````````",
+        "````````````````````````",
+        "````````````````````````",
+        "`-----------````````````",
+        "`-.........-````````````",
+        "`-.........-----------``",
+        "`-...................-``",
+        "`-...................-``",
+        "`-.....1.............-``",
+        "`-...................-``",
+        "`-...................-``",
+        "`-................X..-``",
+        "`-...................-``",
+        "`-...................-``",
+        "`-.....N.............-``",
+        "`-...................5``",
+        "`-...................-``",
+        "`-...................-``",
+        "`-...................-``",
+        "`---------------------``",
+        "````````````````````````"
+      ],
+      "terrain": { ".": "t_shingle_flat_roof", "`": "t_open_air" }
+    }
+  }
+]

@@ -38,7 +38,7 @@ def get_dialogue_from_json():
                 if path == "data/json/npcs/TALK_TEST.json":
                     continue
                 if path.endswith(".json"):
-                    with open(path) as dialogue_file:
+                    with open(path, encoding="utf-8") as dialogue_file:
                         dialogue += json.load(dialogue_file)
 
     return dialogue
@@ -131,7 +131,7 @@ def validate(dialogue):
         "TALK_MISSION_DESCRIBE_URGENT", "TALK_SEDATED", "TALK_WAKE_UP",
         "TALK_MUG", "TALK_STRANGER_AGGRESSIVE", "TALK_STRANGER_SCARED",
         "TALK_STRANGER_WARY", "TALK_STRANGER_FRIENDLY",
-        "TALK_STRANGER_NEUTRAL", "TALK_SHELTER", "TALK_CAMP_OVERSEER"
+        "TALK_STRANGER_NEUTRAL", "TALK_SHELTER"
     ]
     for talk_topic in dialogue:
         if not isinstance(talk_topic, dict):

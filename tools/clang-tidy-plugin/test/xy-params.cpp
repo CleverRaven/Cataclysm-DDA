@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-xy %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-xy %t -- --load=%cata_plugin --
 
 void f0( int x, int y );
 // CHECK-MESSAGES: warning: 'f0' has parameters 'x' and 'y'.  Consider combining into a single point parameter. [cata-xy]

@@ -13,8 +13,7 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "545_ap",
@@ -30,7 +29,6 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

@@ -2,33 +2,61 @@
 #ifndef CATA_SRC_FONT_LOADER_H
 #define CATA_SRC_FONT_LOADER_H
 
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include <imgui/imgui_freetype.h>
+#undef IMGUI_DEFINE_MATH_OPERATORS
+
+#if defined( TILES )
+
 #include <algorithm>
-#include <fstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
 #include "path_info.h"
-#include "cata_utility.h"
 
-// Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
-static void ensure_unifont_loaded( std::vector<std::string> &font_list )
-{
-    if( std::find( std::begin( font_list ), std::end( font_list ), "unifont" ) == font_list.end() ) {
-        font_list.emplace_back( PATH_INFO::fontdir() + "unifont.ttf" );
-    }
-}
+// The font-configuration values modifiable by the user.
+struct font_config {
+    // Path to the font file.
+    std::string path;
+    // The type of hinting to apply.
+    std::optional<ImGuiFreeTypeBuilderFlags> hinting = std::nullopt;
+    // In practice, antialiasing will be ignored when hinting is set to FontHint::Bitmap.
+    bool antialiasing = true;
+
+    font_config() = default;
+
+    explicit font_config( std::string path ) : path( std::move( path ) ) {}
+    font_config( std::string path,
+                 const std::optional<ImGuiFreeTypeBuilderFlags> hinting ) : path( std::move( path ) ),
+        hinting( hinting ) {}
+    font_config( std::string path, const std::optional<ImGuiFreeTypeBuilderFlags> hinting,
+                 const bool antialiasing ) : path( std::move( path ) ), hinting( hinting ),
+        antialiasing( antialiasing ) {}
+
+    // Returns the font flags that should be passed to an ImFontConfig.
+    unsigned int imgui_config() const;
+
+    void deserialize( const JsonObject &jo );
+};
+
+
+extern void ensure_unifont_loaded( std::vector<font_config> &font_list );
+extern void ensure_unifont_loaded( std::vector<std::string> &font_list );
+
 
 class font_loader
 {
     public:
         bool fontblending = false;
-        std::vector<std::string> typeface;
-        std::vector<std::string> map_typeface;
-        std::vector<std::string> overmap_typeface;
+        std::vector<font_config> typeface;
+        std::vector<font_config> map_typeface;
+        std::vector<font_config> gui_typeface;
+        std::vector<font_config> overmap_typeface;
         int fontwidth = 8;
         int fontheight = 16;
         int fontsize = 16;
@@ -40,65 +68,14 @@ class font_loader
         int overmap_fontsize = 16;
 
     private:
-        void load_throws( const std::string &path ) {
-            try {
-                std::ifstream stream( path.c_str(), std::ifstream::binary );
-                JsonIn json( stream );
-                JsonObject config = json.get_object();
-                if( config.has_string( "typeface" ) ) {
-                    typeface.emplace_back( config.get_string( "typeface" ) );
-                } else {
-                    config.read( "typeface", typeface );
-                }
-                if( config.has_string( "map_typeface" ) ) {
-                    map_typeface.emplace_back( config.get_string( "map_typeface" ) );
-                } else {
-                    config.read( "map_typeface", map_typeface );
-                }
-                if( config.has_string( "overmap_typeface" ) ) {
-                    overmap_typeface.emplace_back( config.get_string( "overmap_typeface" ) );
-                } else {
-                    config.read( "overmap_typeface", overmap_typeface );
-                }
-
-                ensure_unifont_loaded( typeface );
-                ensure_unifont_loaded( map_typeface );
-                ensure_unifont_loaded( overmap_typeface );
-
-            } catch( const std::exception &err ) {
-                throw std::runtime_error( std::string( "loading font settings from " ) + path + " failed: " +
-                                          err.what() );
-            }
-        }
-        void save( const std::string &path ) const {
-            try {
-                write_to_file( path, [&]( std::ostream & stream ) {
-                    JsonOut json( stream, true ); // pretty-print
-                    json.start_object();
-                    json.member( "typeface", typeface );
-                    json.member( "map_typeface", map_typeface );
-                    json.member( "overmap_typeface", overmap_typeface );
-                    json.end_object();
-                    stream << "\n";
-                } );
-            } catch( const std::exception &err ) {
-                DebugLog( D_ERROR, D_SDL ) << "saving font settings to " << path << " failed: " << err.what();
-            }
-        }
+        void load_throws( const cata_path &path );
+        void save( const cata_path &path ) const;
 
     public:
         /// @throws std::exception upon any kind of error.
-        void load() {
-            const std::string fontdata = PATH_INFO::fontdata();
-            if( file_exist( fontdata ) ) {
-                load_throws( fontdata );
-            } else {
-                const std::string legacy_fontdata = PATH_INFO::legacy_fontdata();
-                load_throws( legacy_fontdata );
-                assure_dir_exist( PATH_INFO::config_dir() );
-                save( fontdata );
-            }
-        }
+        void load();
 };
+
+#endif // TILES
 
 #endif // CATA_SRC_FONT_LOADER_H

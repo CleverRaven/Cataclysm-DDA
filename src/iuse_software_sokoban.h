@@ -6,8 +6,8 @@
 #include <iosfwd>
 #include <map>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "point.h"
 
@@ -26,7 +26,7 @@ class sokoban_game
                 std::string sTileOld;
 
                 cUndo() {
-                    old = point_zero;
+                    old = point::zero;
 
                     sTileOld = " ";
                 }

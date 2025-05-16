@@ -2,10 +2,11 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_ravine",
+    "vision_levels": "always_full",
     "name": "ravine",
     "sym": ".",
     "color": "blue",
-    "see_cost": 1
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",
@@ -38,7 +39,7 @@
     "id": "ravine_floor",
     "copy-from": "generic_ravine",
     "sym": ".",
-    "name": "Ravine floor",
+    "name": "ravine floor",
     "color": "light_gray",
     "flags": [ "NO_ROTATE", "RAVINE" ]
   }

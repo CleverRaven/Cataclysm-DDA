@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "basement_chem" ],
     "//": "matches house_29",
-    "weight": 250,
     "object": {
       "fill_ter": "t_rock",
       "rows": [
@@ -59,7 +58,7 @@
         "c": "f_counter",
         "h": "f_chair",
         "R": "f_rack",
-        "E": "f_water_heater",
+        "E": [ "f_water_heater", "f_water_heater_family" ],
         "W": "f_water_purifier",
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf",
@@ -69,6 +68,7 @@
         "?": "f_sofa"
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "U": [ { "item": "cleaning", "chance": 30 }, { "item": "home_hw", "chance": 50 } ],
         "c": [ { "item": "home_hw", "chance": 70 } ],
         "R": [ { "item": "supplies_hardware", "chance": 30 } ],
@@ -77,13 +77,13 @@
           { "item": "supplies_electronics", "chance": 30 },
           { "item": "supplies_reagents_lab", "chance": 10 }
         ],
-        "i": [ { "item": "trash", "chance": 100 } ],
+        "i": [ { "item": "SUS_trash_floor", "chance": 100 } ],
         "F": [ { "item": "fridgesnacks", "chance": 60 } ],
         "T": [ { "item": "chem_home", "chance": 10 }, { "item": "electronics", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "hardware_books", "chance": 30 } ]
       },
       "toilets": { "&": {  } },
-      "place_monsters": [ { "monster": "GROUP_DINOSAUR_DANGEROUS", "x": [ 9, 16 ], "y": [ 9, 14 ], "chance": 4 } ]
+      "monsters": { " ": { "monster": "GROUP_DINOSAUR_ASIA", "chance": 1, "density": 0.0001 } }
     }
   },
   {
@@ -91,7 +91,6 @@
     "method": "json",
     "om_terrain": "basement_chem2",
     "//": "matches house_30",
-    "weight": 200,
     "object": {
       "fill_ter": "t_rock",
       "rows": [
@@ -157,7 +156,7 @@
         "h": "f_chair",
         "A": "f_air_filter",
         "C": "f_air_conditioner",
-        "E": "f_water_heater",
+        "E": [ "f_water_heater", "f_water_heater_family" ],
         "W": [ "f_water_purifier", "f_home_furnace" ],
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf",
@@ -173,6 +172,7 @@
         "8": "f_console_broken"
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "U": [
           { "item": "cleaning", "chance": 30 },
           { "item": "supplies_reagents_lab", "chance": 10 },
@@ -183,15 +183,15 @@
         "X": [ { "item": "electronics", "chance": 70 } ],
         "b": [ { "item": "chem_home", "chance": 30 } ],
         "D": [ { "item": "chem_home", "chance": 60 } ],
-        "i": [ { "item": "trash", "chance": 100 } ],
+        "i": [ { "item": "SUS_trash_floor", "chance": 100 } ],
         "F": [ { "item": "chem_home", "chance": 50 }, { "item": "supplies_reagents_lab", "chance": 20 } ],
         "T": [ { "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 } ],
-        "f": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 5 ] } ],
-        "G": [ { "item": "office_paper", "chance": 30 } ],
+        "f": [ { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 5 ] } ],
+        "G": [ { "item": "SUS_office_desk", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
       },
       "toilets": { "&": {  } },
-      "place_monsters": [ { "monster": "GROUP_DINOSAUR_DANGEROUS", "x": [ 9, 16 ], "y": [ 9, 14 ] } ]
+      "monsters": { " ": { "monster": "GROUP_DINOSAUR_ASIA", "chance": 1, "density": 0.0001 } }
     }
   }
 ]

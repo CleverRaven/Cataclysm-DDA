@@ -1,0 +1,67 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "corpse_blood_gibs_college_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_items": [
+        {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "group": "map_extra_college_camping", "prob": 33 },
+              { "group": "map_extra_college_sports", "prob": 33 },
+              { "group": "map_extra_college_lake", "prob": 33 }
+            ]
+          },
+          "x": [ 0, 2 ],
+          "y": [ 0, 2 ],
+          "chance": 100
+        }
+      ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_collegekids",
+    "object": {
+      "rows": [
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "-----------1----------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "monsters": {
+        " ": { "monster": "GROUP_NETHER_CAPTURED", "chance": 1, "density": 0.0001 },
+        "-": { "monster": "GROUP_NETHER_CAPTURED", "chance": 1, "density": 0.0001 }
+      },
+      "nested": {
+        "-": { "chunks": [ [ "corpse_blood_gibs_college_3x3", 1 ], [ "null", 150 ] ] },
+        "1": { "chunks": [ "corpse_blood_gibs_college_3x3" ] }
+      }
+    }
+  }
+]

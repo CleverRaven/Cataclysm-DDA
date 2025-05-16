@@ -2,12 +2,15 @@
 #ifndef CATA_SRC_CURSESPORT_H
 #define CATA_SRC_CURSESPORT_H
 
-#include <utility>
-#if defined(TILES) || defined(_WIN32)
+#if defined(IMTUI) || !(defined(TILES) || defined(WIN32))
+#   define TUI
+#endif
 
+#ifndef TUI
 #include <array>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "point.h"
 
@@ -39,7 +42,7 @@ struct cursecell {
     base_color FG = static_cast<base_color>( 0 );
     base_color BG = static_cast<base_color>( 0 );
 
-    cursecell( std::string ch ) : ch( std::move( ch ) ) { }
+    explicit cursecell( std::string ch ) : ch( std::move( ch ) ) { }
     cursecell() : cursecell( std::string( 1, ' ' ) ) { }
 
     bool operator==( const cursecell &b ) const {
@@ -73,9 +76,6 @@ struct WINDOW {
 extern std::array<pairs, 100> colorpairs;
 void curses_drawwindow( const catacurses::window &win );
 
-// Allow extra logic for framebuffer clears
-extern void handle_additional_window_clear( WINDOW *win );
-
 } // namespace cata_cursesport
 
 // TODO: move into cata_cursesport
@@ -86,7 +86,5 @@ int projected_window_height();
 bool handle_resize( int w, int h );
 void resize_term( int cell_w, int cell_h );
 int get_scaling_factor();
-
-#endif
+#endif // TUI
 #endif // CATA_SRC_CURSESPORT_H
-

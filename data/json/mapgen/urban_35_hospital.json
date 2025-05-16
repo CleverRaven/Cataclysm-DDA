@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_35_1", "urban_35_2" ], [ "urban_35_3", "urban_35_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -57,7 +56,13 @@
         "................................................"
       ],
       "palettes": [ "hospital_2" ],
-      "terrain": { ".": "t_rock", "°": "t_wall_metal", ";": "t_door_metal_locked", "˽": "t_card_reader_broken", "-": "t_metal_floor" },
+      "terrain": {
+        ".": "t_soil",
+        "°": "t_wall_metal",
+        ";": [ "t_door_metal_locked", "t_door_metal_elocked" ],
+        "˽": "t_card_reader_broken",
+        "-": "t_metal_floor"
+      },
       "furniture": { "`": "f_dishwasher", "³": "f_rack" },
       "items": {
         "p": [
@@ -78,8 +83,8 @@
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -104,12 +109,18 @@
           "failures": [ { "action": "destroy_blood" } ]
         }
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.6 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 25, 31 ], "y": [ 5, 22 ], "density": 0.6 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 32, 42 ], "y": [ 17, 22 ], "density": 0.8 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 25, 31 ], "density": 0.5 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 25, 41 ], "y": [ 25, 30 ], "density": 0.6 }
+        { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.6 },
+        { "monster": "GROUP_HOSPITAL", "x": [ 25, 31 ], "y": [ 5, 22 ], "density": 0.6 },
+        { "monster": "GROUP_HOSPITAL", "x": [ 32, 42 ], "y": [ 17, 22 ], "density": 0.8 },
+        { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 25, 31 ], "density": 0.5 },
+        { "monster": "GROUP_HOSPITAL", "x": [ 25, 41 ], "y": [ 25, 30 ], "density": 0.6 }
       ]
     }
   },
@@ -117,25 +128,24 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_35_5", "urban_35_6", "urban_35_34" ], [ "urban_35_7", "urban_35_8", "urban_35_35" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
         ",,,%%%%%%%%,,,,%%%%%%%%%%%%%%%%%,;;;;,[,,,,,[,;;;;;;;;,,,,,,,,,,,,,,,,,,",
-        "#################################;;;;,,,,,,,,,;;;;;;;________________;,,",
+        "#############oo##################;;;;,,,,,,,,,;;;;;;;________________;,,",
         "#56JJOJ65|R  Г  ƃ|zb4| cz|QeA  Q#;;;;,[,,,,,[,;;;;;;_________________;,,",
         "# A    A |S     h|Ad |Ad |Q ւ4 s#;;;;,,,,,,,,,;;;;;__________________;,,",
         "#|o|**|o||&**|  h|jjk|jkj|g    s#;;;;;;;;;;;;;;;_____________________;,,",
         "#        |---|ւ  |o*o|o*o|D   jj#;;__________________________________;,,",
         "# Ƨ   Ƨ  |---|          4|    j3#;;__________________________________;,,",
         "#uuUuuUuY|&**|  uuYu     |$$||||#;;__________________________________;,,",
-        "# h  h       $  UA u         |  #;;__________________________________;,,",
-        "#            $  u AU         $  $;;__________________________________;,,",
+        "o h  h       $  UA u         |  #;;__________________________________;,,",
+        "o            $  u AU         $  $;;__________________________________;,,",
         "#riiiiy  ||+||4 uYuu         $  $;;__________________________________;,,",
         "#||||||  |T L|ƃ        |||||||$|#;;__________________________________;,,",
-        "#XXXXX|  ||||||+|||||  +       i#;;__________________________________;,,",
-        "#X   X|  |4      |L |  |+|+|   i#;;__________________________________;,,",
-        "#X   X|  |DDDDOOO|T +  |W|W|BBBz#;;;;;;;;;;;;;;;______________˽˽˽˽˽˽˽;,,",
+        "#АXXXX|  ||||||+|||||  +       i#;;__________________________________;,,",
+        "#А   X|  |4      |L |  |+|+|   i#;;__________________________________;,,",
+        "#А   X|  |DDDDOOO|T +  |W|W|BBBz#;;;;;;;;;;;;;;;______________˽˽˽˽˽˽˽;,,",
         "#D   D|  ||||||||||||  |||||||||#############%;;_____________________;,,",
         "#D   D|  |4ւjւ4|4ւjւ|ւ |---|T| L|4ւjւ4|4ւjւ4##;;_____________________;,,",
         "#D   D|  |  j  |  j |  |---| + z|  j  |  j  ##;;_____________________;,,",
@@ -153,9 +163,9 @@
         "#VHHVE     ƃƃhy|RS<|CtttttC|C h|  |T|C h|Ch ##;;_____________________;,,",
         "#H             *   $    Ƨ  | vv|  + | vv| vv##;;_____________________;,,",
         "#H  E          *  >|  Ƨ    | hh|  |L| hh| hh##;;_____________________;,,",
-        "#              |ooo|vUvvvUv|*oo|  |||*oo|*oo#!;;______________˽˽˽˽˽˽˽;,,",
-        "#ƃ      v Ƨv   yiiiy                        #!;;_____________________;,,",
-        "#H  E   vvUv                      Vhh VhhVhh#!;;_____________________;,,",
+        "o              |ooo|vUvvvUv|*oo|  |||*oo|*oo#!;;______________˽˽˽˽˽˽˽;,,",
+        "#ƃ      v Ƨv   yiiiy                        o!;;_____________________;,,",
+        "#H  E   vvUv                      Vhh VhhVhho!;;_____________________;,,",
         "#H  E                                       ##;;_____________________;,,",
         "#V            yiiziiy     ziiiy iiiiy VhhVhh##;;_____________________;,,",
         "##oooo##o**o#o#######o#**#oooo##oooo##oooo####;;_____________________;,,",
@@ -165,12 +175,14 @@
         ",%;;;_________________;;;;_________________;;!;;_____________________;,,",
         ",%;;__________________;;;;__________________;!;;_____________________;,,",
         ",;;;__________________;;;;__________________;;;______________________;,,",
-        ",;;#_________________;;;;;;_________________#;;______________________;,,",
+        ",;;#_=_=_____________;;;;;;_____________=_=_#;;______________________;,,",
         ",;;__________________;;;;;;__________________________________________;,,",
         ",;;__________________________________________________________________;,,",
         ",;;__________________________________________________________________;,,"
       ],
       "palettes": [ "hospital_2" ],
+      "furniture": { "А": "f_locker" },
+      "terrain": { "=": "t_pavement" },
       "items": {
         "x": { "item": "beauty", "chance": 20, "repeat": [ 1, 2 ] },
         "P": { "item": "vitamin_shop", "chance": 20, "repeat": [ 1, 2 ] },
@@ -180,8 +192,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -207,6 +219,7 @@
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
+      "nested": { "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] } },
       "computers": {
         "6": {
           "name": "Centrifuge",
@@ -214,11 +227,17 @@
           "failures": [ { "action": "destroy_blood" } ]
         }
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.6 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.6 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.6 }
+        { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 },
+        { "monster": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.6 },
+        { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.6 },
+        { "monster": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.6 }
       ],
       "place_vehicles": [
         { "vehicle": "ambulance", "x": 41, "y": 9, "chance": 90, "rotation": 0 },
@@ -226,7 +245,11 @@
         { "vehicle": "car_sports", "x": 65, "y": 16, "chance": 50, "rotation": 0 },
         { "vehicle": "pickup", "x": 64, "y": 22, "chance": 50, "rotation": 180 },
         { "vehicle": "electric_car", "x": 65, "y": 29, "chance": 50, "rotation": 0 },
-        { "vehicle": "policecar", "x": 65, "y": 36, "chance": 50, "rotation": 180 }
+        { "vehicle": "policecar", "x": 65, "y": 36, "chance": 50, "rotation": 180 },
+        { "vehicle": "pickup_corpses", "x": 50, "y": 28, "chance": 10, "rotation": 90, "status": 1 },
+        { "vehicle": "pickup_corpses", "x": 50, "y": 34, "chance": 10, "rotation": 90, "status": 1 },
+        { "vehicle": "pickup_corpses", "x": 50, "y": 42, "chance": 10, "rotation": 90, "status": 1 },
+        { "vehicle": "pickup_corpses", "x": 12, "y": 42, "chance": 10, "rotation": 180 }
       ]
     }
   },
@@ -235,7 +258,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_35_9", "urban_35_10" ], [ "urban_35_11", "urban_35_12" ] ],
     "//": "patient floor",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -255,28 +277,28 @@
         "#|| |  +kjj|jjk+  |X   |Ƨ  u  ||#...............",
         "#J  Y  | Г | ^ |  |X   +   u  4f#...............",
         "#J  u  |4 r|4 r|  ||||||||||  ||#############...",
-        "#JƧ u  ||+|||+||  |FFPP|---|  |4ւrz|T|T|4ւrz#...",
-        "#J  U  |W T|W T|  |   4|---|  |f   + | +   ho...",
-        "#||||  |||||||||  ||+|||&**|  |E  L|W|W|E  L#...",
+        "#JƧ u  ||+|||+||  |FFPP|---|  |4ւrz|T|T|4ւrz#°..",
+        "#J  U  |W T|W T|  |   4|---|  |f   + | +   ho°..",
+        "#||||  |||||||||  ||+|||&**|  |E  L|W|W|E  L#°..",
         "#PLP|                         ||+||||||||+||#...",
         "#O4 $                                       o...",
         "#||||  |||||||||        ƃ ƃ                 o...",
-        "#W T|  |W T|W T|  |||||||||+||||+||||||||+||#...",
-        "#|+||  ||+|||+||  |L +T|W|L gE|E  L|W|W|E  L#...",
-        "#4 r|  |4 r|4 r|  +  ||| +    |    + | +    o...",
-        "# ^ |  | Г |Г  +  |z +T|T|4Яrz|4Яrz|T|T|4Яrz#...",
+        "#W T|  |W T|W T|  |||||||||+||||+||||||||+||#°..",
+        "#|+||  ||+|||+||  |L +T|W|L gE|E  L|W|W|E  L#°..",
+        "#4 r|  |4 r|4 r|  +  ||| +    |    + | +    o°..",
+        "# ^ |  | Г |Г  +  |z +T|T|4Яrz|4Яrz|T|T|4Яrz#°..",
         "#jjk+  +kjj|||||  ||||||||||||||||||||||||||#...",
         "# ^ |  | Г |4         uJJJJ| X|4ւrz|T|T|4ւrz#...",
         "#r E|  |r E|   |||||  Y    $ D|f   + | +   ho...",
-        "#||||  |||||   o  >o  u Ƨ  | O|E  L|W|W|E  L#...",
-        "#W T|  |W T|ƃ  *   *  uuuUu|||||+||||||||+||#...",
-        "#|+||  ||+||ƃ  o  <o                        o...",
+        "#||||  |||||   o  >o  u Ƨ  | O|E  L|W|W|E  L#°..",
+        "#W T|  |W T|ƃ  *   *  uuuUu|||||+||||||||+||#°..",
+        "#|+||  ||+||ƃ  o  <o                        o°..",
         "o4 r|  |4 r|ƃ  |||||ƃ                       o...",
         "# ^ |  | Г |    SzR   V||||+||||+||||||||+||#...",
         "#jjk+  +kjj|          H|W|L gE|E  L|W|W|E  L#...",
-        "# ^ |  | Г |h         H| +    |    + | +    o...",
-        "#r E|  |r E|E  hƃy HHHV|T|4Яrz|4Яrz|T|T|4Яrz#...",
-        "##o##oo########oooooo#######o####o###########...",
+        "# ^ |  | Г |h         H| +    |    + | +    o°..",
+        "#r E|  |r E|E  hƃy HHHV|T|4Яrz|4Яrz|T|T|4Яrz#°..",
+        "##o##oo########oooooo#######o####o###########°..",
         "...°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°...",
         "...°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°...",
         "...°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°...",
@@ -296,8 +318,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -325,6 +347,12 @@
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
         { "monster": "GROUP_ZOMBIE", "x": [ 25, 43 ], "y": [ 16, 22 ], "density": 0.5 },
@@ -338,7 +366,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_35_13", "urban_35_14" ], [ "urban_35_15", "urban_35_16" ] ],
     "//": "patient floor",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -399,8 +426,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -428,6 +455,12 @@
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
         { "monster": "GROUP_HOSPITAL_INCUBATOR", "x": [ 19, 22 ], "y": [ 5, 11 ], "density": 0.5 },
@@ -443,7 +476,6 @@
     "method": "json",
     "//": "surgical floor",
     "om_terrain": [ [ "urban_35_17", "urban_35_18" ], [ "urban_35_19", "urban_35_20" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -470,7 +502,7 @@
         "#   ||o*o|||o*o|||||$||||$||D ւ4s|D ւ4 s|   o...",
         "#   |                      |     |      |   o...",
         "#   ||  ||||||||||||||     |oo*oo|oo*ooo|   #...",
-        "#   |    vh Q ւjւjւ  |                  |   #...",
+        "#   |    vh Q  j j   |                  |   #...",
         "#   |    v  Q  j j   |      k     ||*||||   o...",
         "#   $                *   |Я j Я|  |t X|n    #...",
         "#   |       Q  j j   |   |||||||  |t D|N    #...",
@@ -479,7 +511,7 @@
         "#  ||||||||||RS|  >|F||                 |   #...",
         "#  )QQQQQQQQ)z $   |F +    |oo*oo|oo*ooo|   #...",
         "#  (        (  |  <|F |    |     |      |   o...",
-        "#  |XXX XXOO|||||||||||    |D Я4s|D ml s|   o...",
+        "#  |XXX XXOO|||||||||||    |D Я4s|D  Я4s|   o...",
         "#  ||||()||||W |T|T| W|    |QeA s|QeA  s|   #...",
         "#  |z    BBB|    |    |    ||||||||||||||   #...",
         "#  $        |||+||||+||    $                o...",
@@ -504,8 +536,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -533,6 +565,12 @@
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
         { "monster": "GROUP_HOSPITAL_INCUBATOR", "x": [ 19, 22 ], "y": [ 5, 11 ], "density": 0.5 },
@@ -548,7 +586,6 @@
     "method": "json",
     "//": "maternity floor",
     "om_terrain": [ [ "urban_35_21", "urban_35_22" ], [ "urban_35_23", "urban_35_24" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -621,8 +658,8 @@
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
         "X": [
@@ -650,6 +687,12 @@
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
         { "monster": "GROUP_HOSPITAL_INCUBATOR", "x": [ 19, 22 ], "y": [ 5, 11 ], "density": 0.5 },
@@ -665,7 +708,6 @@
     "method": "json",
     "//": "admin and cafe floor",
     "om_terrain": [ [ "urban_35_25", "urban_35_26" ], [ "urban_35_27", "urban_35_28" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -728,7 +770,7 @@
           { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
         "M": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
-        "C": { "item": "office_paper", "chance": 20, "repeat": [ 1, 2 ] },
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 20, "repeat": [ 1, 2 ] },
         "7": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "textbooks", "chance": 20, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 20, "repeat": [ 1, 2 ] },
@@ -739,7 +781,7 @@
           { "item": "pantry", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "K": [
           { "item": "doctors_books", "chance": 100, "repeat": [ 1, 2 ] },
           { "item": "lab_bookshelves", "chance": 40, "repeat": [ 1, 2 ] }
@@ -774,48 +816,47 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "urban_35_29", "urban_35_30" ], [ "urban_35_31", "urban_35_32" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
         "                                                ",
-        "                     |22222222223               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "                     |....X.....3               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "                     |....&&....3               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "                     |..........3               ",
-        "|222222222222222222222..........2222222222223   ",
-        "|...........................................3   ",
-        "|...........................................3   ",
-        "|...........................................3   ",
-        "|...........................................3   ",
-        "|...........................................3   ",
-        "| .......&&.......................&&........3   ",
-        "|...........................................3   ",
-        "|...........................................3   ",
-        "|...#############...........................3   ",
-        "|...#66r66r66r66#...........................3   ",
-        "|...#66_66_66_66#..................&&.......3   ",
-        "|...#___________#...........................3   ",
-        "|...##########_##+##........................3   ",
-        "|...#AAAAAAAAA_#__L#........................3   ",
-        "|...#r_________+__L#<.......................3   ",
-        "|...#1111111111#__>#.......XXX..XXX..XXX....3   ",
-        "|...################........................3   ",
-        "|....ЯЯЯЯЯЯЯЯЯЯ.............................3   ",
-        "|..........................XXX..XXX..XXX....3   ",
-        "|...........................................3   ",
-        "|...........................................3   ",
-        "|-------------------------------------------3   ",
+        "                     ------------               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "                     -....X.....-               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "                     -....&&....-               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "                     -..........-               ",
+        "----------------------..........-------------   ",
+        "-...........................................-   ",
+        "-...........................................-   ",
+        "-...........................................-   ",
+        "-...........................................-   ",
+        "-...........................................-   ",
+        "- .......&&.......................&&........-   ",
+        "-...........................................-   ",
+        "-...........................................-   ",
+        "-...#############...........................-   ",
+        "-...#GGrGGrGGrGG#...........................-   ",
+        "-...#GG_GG_GG_GG#..................&&.......-   ",
+        "-...#___________#...........................-   ",
+        "-...##########_##+##........................-   ",
+        "-...#AAAAAAAAA_#__L#........................-   ",
+        "-...#r_________+__L#<.......................-   ",
+        "-...#1111111111#__>#.......XXX..XXX..XXX....-   ",
+        "-...################........................-   ",
+        "-....ЯЯЯЯЯЯЯЯЯЯ.............................-   ",
+        "-..........................XXX..XXX..XXX....-   ",
+        "-...........................................-   ",
+        "-...........................................-   ",
+        "---------------------------------------------   ",
         "                                                ",
         "                                                ",
         "                                                ",
@@ -830,7 +871,6 @@
       "palettes": [ "roof_palette" ],
       "terrain": {
         "<": "t_ladder_up",
-        ">": "t_stairs_down",
         "#": "t_strconc_wall",
         "+": "t_door_metal_c",
         "_": "t_thconc_floor",
@@ -838,13 +878,13 @@
         "r": "t_thconc_floor",
         "L": "t_thconc_floor",
         "A": "t_thconc_floor",
-        "6": "t_thconc_floor"
+        "G": "t_thconc_floor"
       },
       "items": {
         "L": [ { "item": "jackets", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "r": [ { "item": "tools_mechanic", "chance": 40 }, { "item": "tools_common", "chance": 80 } ]
       },
-      "furniture": { "1": "f_water_purifier", "6": "f_generator_broken" },
+      "furniture": { "1": "f_water_purifier", "G": "f_generator_broken" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 },
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 25, 30 ], "density": 0.06 }
@@ -855,7 +895,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_35_33" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -865,7 +904,7 @@
         "    .............       ",
         "    ................    ",
         "    ................##  ",
-        "    ................>#  ",
+        "    ................v#  ",
         "    ................##  ",
         "    ................    ",
         "                        ",
@@ -884,8 +923,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ">": "t_ladder_down" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

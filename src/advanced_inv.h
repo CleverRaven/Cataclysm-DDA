@@ -3,18 +3,20 @@
 #define CATA_SRC_ADVANCED_INV_H
 
 #include <array>
-#include <cctype>
-#include <functional>
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "advanced_inv_area.h"
-#include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
 
+class Character;
 class advanced_inv_listitem;
+class drop_or_stash_item_info;
 class input_context;
-class item;
+class string_input_popup;
+class ui_adaptor;
 struct advanced_inv_save_state;
 
 void create_advanced_inv();
@@ -32,7 +34,11 @@ class advanced_inventory
         ~advanced_inventory();
 
         void display();
+        void temp_hide();
 
+        void init();
+
+        void process_action( const std::string &input_action );
         /**
          * Converts from screen relative location to game-space relative location
          * for control rotation in isometric mode.
@@ -43,7 +49,7 @@ class advanced_inventory
         advanced_inv_area &get_one_square( const aim_location &loc ) {
             return squares[loc];
         }
-    private:
+
         /**
          * Refers to the two panes, used as index into @ref panes.
          */
@@ -52,7 +58,26 @@ class advanced_inventory
             right = 1,
             NUM_PANES = 2
         };
+
+        void recalc_pane( side p );
+
+        side get_src() {
+            return src;
+        }
+        side get_dest() {
+            return dest;
+        }
+
+        advanced_inventory_pane &get_pane( side side ) {
+            return panes[side];
+        }
+    private:
+
         static constexpr int head_height = 5;
+        bool move_all_items_and_waiting_to_quit = false;
+
+        std::unique_ptr<ui_adaptor> ui;
+        std::unique_ptr<string_input_popup> spopup;
 
         // swap the panes and windows via std::swap()
         void swap_panes();
@@ -124,25 +149,41 @@ class advanced_inventory
 
         void action_examine( advanced_inv_listitem *sitem, advanced_inventory_pane &spane );
 
+        bool action_unload( advanced_inv_listitem *sitem, advanced_inventory_pane &spane,
+                            advanced_inventory_pane &dpane );
+
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();
-        // used to return back to AIM when other activities queued are finished
+        // Adds an auto-resumed activity that reopens AIM. If this is called
+        // before assigning an item-moving activity, AIM is reopened when the
+        // item-moving activity finishes. This function should only be called
+        // when AIM is going to be automatically closed due to pending item-moving
+        // activity, otherwise the player will need to close AIM multiple times.
         void do_return_entry();
         // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         bool is_processing() const;
 
         static std::string get_sortname( advanced_inv_sortby sortby );
-        bool move_all_items( bool nested_call = false );
-        void print_items( const advanced_inventory_pane &pane, bool active );
-        void recalc_pane( side p );
+        void print_items( side p, bool active );
+
         void redraw_pane( side p );
         void redraw_sidebar();
+
+        bool move_all_items();
+        /**
+        * Fills drop_or_stash_item_info vectors with the contents of the AIM's panes, for use with move_all_items.
+        */
+        bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortby sort_priority,
+                                         advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
+                                         std::vector<drop_or_stash_item_info> &item_list,
+                                         std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets );
+
         // Returns the x coordinate where the header started. The header is
-        // displayed right of it, everything left of it is till free.
+        // displayed right of it, everything left of it is still free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
-        void init();
+
         /**
          * Translate an action ident from the input context to an aim_location.
          * @param action Action ident to translate
@@ -168,12 +209,6 @@ class advanced_inventory
          * actual location has been queried).
          */
         bool query_destination( aim_location &def );
-        /**
-         * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src_container Source container
-         * @param dest_container Destination container
-         */
-        bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

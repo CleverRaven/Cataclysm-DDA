@@ -2,7 +2,6 @@
 
 #include "debug.h"
 #include "generic_factory.h"
-#include "string_id.h"
 
 namespace
 {
@@ -26,7 +25,7 @@ void disease_type::load_disease_type( const JsonObject &jo, const std::string &s
     disease_factory.load( jo, src );
 }
 
-void disease_type::load( const JsonObject &jo, const std::string & )
+void disease_type::load( const JsonObject &jo, std::string_view )
 {
     disease_type new_disease;
 
@@ -40,6 +39,11 @@ void disease_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "health_threshold", health_threshold );
     optional( jo, was_loaded, "affected_bodyparts", affected_bodyparts );
 
+}
+
+void disease_type::reset()
+{
+    disease_factory.reset();
 }
 
 const std::vector<disease_type> &disease_type::get_all()

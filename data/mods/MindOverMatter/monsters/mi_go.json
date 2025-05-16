@@ -1,0 +1,164 @@
+[
+  {
+    "id": "mon_mi_go_biokinetic",
+    "copy-from": "mon_mi_go_myrmidon",
+    "type": "MONSTER",
+    "name": { "str": "mi-go juggernaut" },
+    "description": "This creature resembles the smaller mi-go like a grizzly bear resembles a human.  Its enormous, thick body is covered in an iridescent segmented carapace, like a scarab crossed with an isopod.  It boasts several pairs of deadly looking claws and other appendages, and it moves with a strange, slow grace, like an otherworldly dancer.  Sometimes, it moves so quickly that its movements are only a blur.",
+    "looks_like": "mon_mi_go_myrmidon",
+    "bodytype": "migo",
+    "species": [ "MIGO" ],
+    "proportional": { "speed": 1.2 },
+    "relative": { "dodge": 2, "armor": { "bash": 3, "cut": 3, "bullet": 4 } },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "leap",
+          "cooldown": { "math": [ "2 + rand(4)" ] },
+          "move_cost": 50,
+          "allow_no_target": true,
+          "max_range": 7,
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "message": "%1$s moves so quickly your eyes can barely follow it!"
+        },
+        {
+          "id": "psi_juggernaut_speed_boost",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
+          "cooldown": { "math": [ "9 + rand(18)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "%1$s moves so quickly it's nothing but a blur!"
+        },
+        {
+          "id": "psi_juggernaut_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
+            ]
+          },
+          "monster_message": "%1$s begins moving much more quickly."
+        }
+      ],
+      "flags": [ "STUN_IMMUNE" ]
+    },
+    "armor": { "bash": 22, "cut": 30, "bullet": 26, "electric": 6 }
+  },
+  {
+    "id": "mon_mi_go_photokinetic",
+    "copy-from": "mon_mi_go_slaver",
+    "type": "MONSTER",
+    "name": { "str": "mi-go lightbringer" },
+    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.",
+    "looks_like": "mon_mi_go_slaver",
+    "special_attacks": [
+      [ "PARROT", 100 ],
+      {
+        "id": "scratch",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ],
+        "cooldown": { "math": [ "10 + rand(20)" ] }
+      },
+      {
+        "id": "psi_mi-go_illumination",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_illumination_migo", "min_level": 5 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "id": "psi_mi-go_laser",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 7 },
+        "cooldown": { "math": [ "10 + rand(20)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "id": "psi_mi-go_radiation",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
+        "cooldown": { "math": [ "12 + rand(24)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      }
+    ]
+  },
+  {
+    "id": "mon_mi_go_telepath",
+    "copy-from": "mon_mi_go_slaver",
+    "type": "MONSTER",
+    "name": { "str": "mi-go mindrender" },
+    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.",
+    "looks_like": "mon_mi_go_slaver",
+    "special_attacks": [
+      [ "PARROT", 100 ],
+      {
+        "id": "scratch",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ],
+        "cooldown": { "math": [ "10 + rand(20)" ] }
+      },
+      {
+        "id": "psi_mi-go_telepath1_blast",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_blast_monster", "min_level": 6 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "WORM" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "SLIME" } }
+          ]
+        },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "id": "psi_mi-go_hallucinations",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_hallucinations_monster", "min_level": 10 },
+        "cooldown": { "math": [ "10 + rand(20)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "WORM" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "SLIME" } }
+          ]
+        },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "id": "psi_mi-go_blinding",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "WORM" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "SLIME" } }
+          ]
+        },
+        "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
+      }
+    ],
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  }
+]

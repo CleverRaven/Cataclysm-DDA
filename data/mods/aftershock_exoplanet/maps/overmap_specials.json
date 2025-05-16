@@ -1,0 +1,353 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "prepnet_orchard",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "prepnet_orchard_north", "camp": "Prepnet_Phyle", "camp_name": "PrepNet" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 2, -1 ],
+    "occurrences": [ 0, 1 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "landing_pad",
+    "locations": [ "land", "swamp" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 1, 1 ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "camp": "UICA", "camp_name": "Landing Pad", "overmap": "land_pad_outpost_a1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "land_pad_outpost_a1_roof_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "land_pad_outpost_a2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "land_pad_outpost_a2_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "land_pad_outpost_basement_a1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "land_pad_outpost_basement_a2_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "land_pad_tunnel_a1_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "land_pad_tunnel_a2_north" },
+      { "point": [ 0, 2, -1 ], "overmap": "land_pad_tunnel_a1_north" },
+      { "point": [ 1, 2, -1 ], "overmap": "land_pad_tunnel_a2_north" },
+      { "point": [ 0, 3, -1 ], "overmap": "land_pad_a1_north" },
+      { "point": [ 1, 3, -1 ], "overmap": "land_pad_a2_north" },
+      { "point": [ 0, 4, -1 ], "overmap": "land_pad_b1_north" },
+      { "point": [ 1, 4, -1 ], "overmap": "land_pad_b2_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "land_pad_a1_above_north" },
+      { "point": [ 1, 3, 0 ], "overmap": "land_pad_a2_above_north" },
+      { "point": [ 0, 4, 0 ], "overmap": "land_pad_b1_above_north" },
+      { "point": [ 1, 4, 0 ], "overmap": "land_pad_b2_above_north" },
+      { "point": [ 0, -2, 0 ], "overmap": "afs_shuttlepad_salvors_a1_1_north" },
+      { "point": [ 1, -2, 0 ], "overmap": "afs_shuttlepad_salvors_a2_1_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "afs_shuttlepad_salvors_b1_1_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "afs_shuttlepad_salvors_b2_1_north" },
+      { "point": [ 0, -2, 1 ], "overmap": "afs_shuttlepad_salvors_a1_2_north" },
+      { "point": [ 1, -2, 1 ], "overmap": "afs_shuttlepad_salvors_a2_2_north" },
+      { "point": [ 0, -1, 1 ], "overmap": "afs_shuttlepad_salvors_b1_2_north" },
+      { "point": [ 1, -1, 1 ], "overmap": "afs_shuttlepad_salvors_b2_2_north" },
+      { "point": [ 0, -2, 2 ], "overmap": "afs_shuttlepad_salvors_a1_3_north" },
+      { "point": [ 1, -2, 2 ], "overmap": "afs_shuttlepad_salvors_a2_3_north" },
+      { "point": [ 0, -1, 2 ], "overmap": "afs_shuttlepad_salvors_b1_3_north" },
+      { "point": [ 1, -1, 2 ], "overmap": "afs_shuttlepad_salvors_b2_3_north" },
+      { "point": [ 0, -2, 3 ], "overmap": "afs_shuttlepad_salvors_a1_4_north" },
+      { "point": [ 1, -2, 3 ], "overmap": "afs_shuttlepad_salvors_a2_4_north" },
+      { "point": [ 0, -1, 3 ], "overmap": "afs_shuttlepad_salvors_b1_4_north" },
+      { "point": [ 1, -1, 3 ], "overmap": "afs_shuttlepad_salvors_b2_4_north" }
+    ],
+    "priority": 1,
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_crashed_escape_pod_o",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "afs_crashed_escape_pod_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_crashed_cargo_shuttle",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "afs_crashed_cargo_shuttle_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_crashed_cargo_shuttle_wraitheon",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "afs_crashed_cargo_shuttle_wraitheon_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "EXOPLANET", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "id": "municipal_reactor",
+    "type": "overmap_special",
+    "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "municipal_reactor_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "municipal_reactor_b_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "municipal_reactor_b2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "municipal_reactor_b3_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "municipal_reactor_ware_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "municipal_reactor_ware_b_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "road_ew" },
+      { "point": [ 0, 1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, 1, 0 ], "overmap": "road_end_east" },
+      { "point": [ 0, 2, 0 ], "overmap": "park_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "office_cubical_north" },
+      { "point": [ -1, 2, 0 ], "overmap": "pwr_sub_s_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "s_lot_north" }
+    ],
+    "locations": [ "wilderness", "swamp" ],
+    "city_distance": [ -1, 6 ],
+    "city_sizes": [ 2, 14 ],
+    "occurrences": [ 0, 4 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_stratoscom_relay_station",
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "afs_stratoscomm_relay_s1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "afs_stratoscomm_relay_n1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_stratoscomm_relay_n2_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 35, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_maintenance_outpost",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "maintenance_outpost_a1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "maintenance_outpost_a1_roof_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "maintenance_outpost_a2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "maintenance_outpost_a2_roof_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "maintenance_outpost_b1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "maintenance_outpost_b1_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "maintenance_outpost_b2_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "maintenance_outpost_b2_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 35, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Sieged Tower",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "sieged_fungal_tower" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "FUNGAL" ],
+    "rotate": false,
+    "spawns": { "group": "GROUP_FUNGI_TOWER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "mortuary_2story",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mortuary_2story_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mortuary_2story_second_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "mortuary_basement_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "mortuary_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 2, -1 ],
+    "occurrences": [ 0, 1 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Strange LMOE Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "whately_lmoe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "whately_lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "whately_lmoe_under_first_floor_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "whately_lmoe_under_second_floor_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "robot_dispatch",
+    "locations": [ "land", "swamp" ],
+    "city_distance": [ -1, 1 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 3 ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "robot_dispatch_first_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "robot_dispatch_second_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "robot_dispatch_roof_north" }
+    ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Port Augustmoon",
+    "overmaps": [
+      { "point": [ 0, -1, -9 ], "overmap": "augustmoon_docking_arm_north" },
+      { "point": [ -1, 0, -9 ], "overmap": "augustmoon_bar_north" },
+      {
+        "point": [ 0, 0, -9 ],
+        "overmap": "augustmoon_main_concourse1_north",
+        "camp": "UICA",
+        "camp_name": "Port Augustmoon"
+      },
+      { "point": [ 1, 0, -9 ], "overmap": "augustmoon_solar_array1_north" },
+      { "point": [ 0, 1, -9 ], "overmap": "augustmoon_main_concourse2_north" },
+      { "point": [ 1, 1, -9 ], "overmap": "augustmoon_solar_array2_north" },
+      { "point": [ -2, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -1, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 0, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 1, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 2, -2, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -3, 0, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -2, 0, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 2, 0, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -2, 1, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ -1, 1, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 2, 1, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 0, 0, -8 ], "overmap": "augustmoon_corpo_quarter1_north" },
+      { "point": [ 0, 1, -8 ], "overmap": "augustmoon_corpo_quarter3_north" },
+      { "point": [ 1, 0, -8 ], "overmap": "augustmoon_corpo_quarter2_north" },
+      { "point": [ 1, 1, -8 ], "overmap": "augustmoon_corpo_quarter4_north" }
+    ],
+    "locations": [ "land" ],
+    "priority": 1,
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "crashing ship",
+    "overmaps": [
+      { "point": [ 0, 0, -10 ], "overmap": "crashing_ship_3_north" },
+      { "point": [ 1, 0, -10 ], "overmap": "crashing_ship_2_north" },
+      { "point": [ 2, 0, -10 ], "overmap": "crashing_ship_1_north" },
+      { "point": [ 0, 1, -10 ], "overmap": "crashing_ship_6_north" },
+      { "point": [ 1, 1, -10 ], "overmap": "crashing_ship_5_north" },
+      { "point": [ 2, 1, -10 ], "overmap": "crashing_ship_4_north" },
+      { "point": [ 0, 2, -10 ], "overmap": "crashing_ship_9_north" },
+      { "point": [ 1, 2, -10 ], "overmap": "crashing_ship_8_north" },
+      { "point": [ 2, 2, -10 ], "overmap": "crashing_ship_7_north" }
+    ],
+    "locations": [ "open_air", "land" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "frieght transport",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_freight_transport_a1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "afs_freight_transport_a2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_freight_transport_roof_a1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_freight_transport_roof_a2_north" }
+    ],
+    "locations": [ "open_air", "land" ],
+    "city_distance": [ 35, -1 ],
+    "city_sizes": [ 1, 12 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_solar_array",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "afs_solar_arrary_a1_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "afs_solar_array_a2_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_solar_arrary_a1_roof_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_solar_array_a2_roof_south" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 7, -1 ],
+    "city_sizes": [ 10, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_power_station_small",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_pwr_sub_s_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_pwr_sub_s_roof_south" },
+      { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ -1, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 4 ],
+    "flags": [ "EXOPLANET", "URBAN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "power_station_large",
+    "overmaps": [
+      { "point": [ 0, 1, 0 ], "overmap": "afs_pwr_large_entrance_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "afs_pwr_large_entrance_roof_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "afs_pwr_large_2_north" },
+      { "point": [ -1, 1, 1 ], "overmap": "afs_pwr_large_2_roof_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "afs_pwr_large_3_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "afs_pwr_large_4_north" },
+      { "point": [ 0, 2, 0 ], "locations": [ "land", "road" ] }
+    ],
+    "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, 30 ],
+    "city_sizes": [ 6, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "EXOPLANET", "URBAN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_uica_shuttle_base",
+    "overmaps": [
+      {
+        "point": [ 0, 0, 0 ],
+        "overmap": "afs_uica_shuttle_base_x0y0z0_north",
+        "camp": "UICA",
+        "camp_name": "UICA Shuttle Base"
+      },
+      { "point": [ 1, 0, 0 ], "overmap": "afs_uica_shuttle_base_x1y0z0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "afs_uica_shuttle_base_x0y1z0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "afs_uica_shuttle_base_x1y1z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_uica_shuttle_base_x0y0z1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_uica_shuttle_base_x1y0z1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "afs_uica_shuttle_base_x0y1z1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "afs_uica_shuttle_base_x1y1z1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_uica_shuttle_base_x0y0z2_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "afs_uica_shuttle_base_x1y0z2_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "afs_uica_shuttle_base_x0y1z2_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "afs_uica_shuttle_base_x1y1z2_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 35, -1 ],
+    "city_sizes": [ 1, -1 ],
+    "occurrences": [ 1, 3 ],
+    "flags": [ "MAN_MADE", "EXOPLANET", "OVERMAP_UNIQUE" ]
+  }
+]

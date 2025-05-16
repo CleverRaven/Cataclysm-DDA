@@ -1,0 +1,34 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_wall_level_N_0",
+    "description": "A trench that may deter movement but is meant to be the foundation of a picket or palisade.  Requirements are for 1/2 an over map tile.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": false,
+    "never_learn": true,
+    "time": "510 m",
+    "//blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "stick", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_wall_level_N_1",
+    "description": "A deep trench filled with spikes, requires a trench.  Requirements are for 1/2 an over map tile.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1530 m",
+    "//blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 68 ] ] ]
+  }
+]

@@ -51,7 +51,7 @@
       "k": "f_desk",
       "l": "f_locker",
       "m": "f_makeshift_bed",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "P": "f_mailbox",
       "r": "f_rack",
       "s": "f_rack",
@@ -83,6 +83,7 @@
       "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
       "Q": { "item": "farming_tools", "chance": 15 },
       "S": { "item": "softdrugs", "chance": 70 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "u": [
         { "item": "kitchen", "chance": 70, "repeat": [ 1, 4 ] },
         { "item": "cannedfood", "chance": 65, "repeat": [ 1, 10 ] },

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "shelves_zoo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_janitors_closet", "prob": 15 },
+      { "group": "gift_shop", "prob": 25 },
+      { "group": "tools_general", "prob": 10 }
+    ]
+  }
+]

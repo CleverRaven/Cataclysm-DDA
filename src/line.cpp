@@ -3,65 +3,66 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
-#include <memory>
 #include <tuple>
 #include <utility>
 
 #include "cata_assert.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
+#include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "units_fwd.h"
+#include "units.h"
 
 bool trigdist;
 
 double iso_tangent( double distance, const units::angle &vertex )
 {
-    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );
+    return tan( vertex / 2 )  * distance * 2;
 }
 
-void bresenham( const point &p1, const point &p2, int t,
-                const std::function<bool( const point & )> &interact )
+void bresenham( const point_bub_ms &p1, const point_bub_ms &p2, int t,
+                const std::function<bool( const point_bub_ms & )> &interact )
 {
     // The slope components.
-    const point d = p2 - p1;
+    const point_rel_ms d = p2 - p1;
     // Signs of slope values.
-    const point s( ( d.x == 0 ) ? 0 : sgn( d.x ), ( d.y == 0 ) ? 0 : sgn( d.y ) );
+    const point s( ( d.x() == 0 ) ? 0 : sgn( d.x() ), ( d.y() == 0 ) ? 0 : sgn( d.y() ) );
     // Absolute values of slopes x2 to avoid rounding errors.
-    const point a = d.abs() * 2;
+    const point_rel_ms a = d.abs() * 2;
 
-    point cur = p1;
+    point_bub_ms cur = p1;
 
-    if( a.x == a.y ) {
-        while( cur.x != p2.x ) {
-            cur.y += s.y;
-            cur.x += s.x;
+    if( a.x() == a.y() ) {
+        while( cur.x() != p2.x() ) {
+            cur.y() += s.y;
+            cur.x() += s.x;
             if( !interact( cur ) ) {
                 break;
             }
         }
-    } else if( a.x > a.y ) {
-        while( cur.x != p2.x ) {
+    } else if( a.x() > a.y() ) {
+        while( cur.x() != p2.x() ) {
             if( t > 0 ) {
-                cur.y += s.y;
-                t -= a.x;
+                cur.y() += s.y;
+                t -= a.x();
             }
-            cur.x += s.x;
-            t += a.y;
+            cur.x() += s.x;
+            t += a.y();
             if( !interact( cur ) ) {
                 break;
             }
         }
     } else {
-        while( cur.y != p2.y ) {
+        while( cur.y() != p2.y() ) {
             if( t > 0 ) {
-                cur.x += s.x;
-                t -= a.y;
+                cur.x() += s.x;
+                t -= a.y();
             }
-            cur.y += s.y;
-            t += a.x;
+            cur.y() += s.y;
+            t += a.x();
             if( !interact( cur ) ) {
                 break;
             }
@@ -69,47 +70,47 @@ void bresenham( const point &p1, const point &p2, int t,
     }
 }
 
-void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
-                const std::function<bool( const tripoint & )> &interact )
+void bresenham( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2, int t, int t2,
+                const std::function<bool( const tripoint_bub_ms & )> &interact )
 {
     // The slope components.
-    const tripoint d( -loc1 + loc2 );
+    const tripoint_rel_ms d( loc2 - loc1 );
     // The signs of the slopes.
-    const tripoint s( ( d.x == 0 ? 0 : sgn( d.x ) ), ( d.y == 0 ? 0 : sgn( d.y ) ),
-                      ( d.z == 0 ? 0 : sgn( d.z ) ) );
+    const tripoint s( ( d.x() == 0 ? 0 : sgn( d.x() ) ), ( d.y() == 0 ? 0 : sgn( d.y() ) ),
+                      ( d.z() == 0 ? 0 : sgn( d.z() ) ) );
     // Absolute values of slope components, x2 to avoid rounding errors.
-    const tripoint a( std::abs( d.x ) * 2, std::abs( d.y ) * 2, std::abs( d.z ) * 2 );
+    const tripoint a( std::abs( d.x() ) * 2, std::abs( d.y() ) * 2, std::abs( d.z() ) * 2 );
 
-    tripoint cur( loc1 );
+    tripoint_bub_ms cur( loc1 );
 
     if( a.z == 0 ) {
         if( a.x == a.y ) {
-            while( cur.x != loc2.x ) {
-                cur.y += s.y;
-                cur.x += s.x;
+            while( cur.x() != loc2.x() ) {
+                cur.y() += s.y;
+                cur.x() += s.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x > a.y ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t -= a.x;
                 }
-                cur.x += s.x;
+                cur.x() += s.x;
                 t += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else {
-            while( cur.y != loc2.y ) {
+            while( cur.y() != loc2.y() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.y;
                 }
-                cur.y += s.y;
+                cur.y() += s.y;
                 t += a.x;
                 if( !interact( cur ) ) {
                     break;
@@ -118,25 +119,23 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
         }
     } else {
         if( a.x == a.y && a.y == a.z ) {
-            while( cur.x != loc2.x ) {
-                cur.z += s.z;
-                cur.y += s.y;
-                cur.x += s.x;
+            while( cur.x() != loc2.x() ) {
+                cur += s;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( ( a.z > a.x ) && ( a.z > a.y ) ) {
-            while( cur.z != loc2.z ) {
+            while( cur.z() != loc2.z() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.z;
                 }
                 if( t2 > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t2 -= a.z;
                 }
-                cur.z += s.z;
+                cur.z() += s.z;
                 t += a.x;
                 t2 += a.y;
                 if( !interact( cur ) ) {
@@ -144,55 +143,55 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else if( a.x == a.y ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.z += s.z;
+                    cur.z() += s.z;
                     t -= a.x;
                 }
-                cur.y += s.y;
-                cur.x += s.x;
+                cur.y() += s.y;
+                cur.x() += s.x;
                 t += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x == a.z ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t -= a.x;
                 }
-                cur.z += s.z;
-                cur.x += s.x;
+                cur.z() += s.z;
+                cur.x() += s.x;
                 t += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.y == a.z ) {
-            while( cur.y != loc2.y ) {
+            while( cur.y() != loc2.y() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.z;
                 }
-                cur.y += s.y;
-                cur.z += s.z;
+                cur.y() += s.y;
+                cur.z() += s.z;
                 t += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x > a.y ) {
-            while( cur.x != loc2.x ) {
+            while( cur.x() != loc2.x() ) {
                 if( t > 0 ) {
-                    cur.y += s.y;
+                    cur.y() += s.y;
                     t -= a.x;
                 }
                 if( t2 > 0 ) {
-                    cur.z += s.z;
+                    cur.z() += s.z;
                     t2 -= a.x;
                 }
-                cur.x += s.x;
+                cur.x() += s.x;
                 t += a.y;
                 t2 += a.z;
                 if( !interact( cur ) ) {
@@ -200,16 +199,16 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else { //dy > dx >= dz
-            while( cur.y != loc2.y ) {
+            while( cur.y() != loc2.y() ) {
                 if( t > 0 ) {
-                    cur.x += s.x;
+                    cur.x() += s.x;
                     t -= a.y;
                 }
                 if( t2 > 0 ) {
-                    cur.z += s.z;
+                    cur.z() += s.z;
                     t2 -= a.y;
                 }
-                cur.y += s.y;
+                cur.y() += s.y;
                 t += a.x;
                 t2 += a.z;
                 if( !interact( cur ) ) {
@@ -231,8 +230,8 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
         line.push_back( p1 );
     } else {
         line.reserve( numCells );
-        bresenham( p1, p2, t, [&line]( const point & new_point ) {
-            line.push_back( new_point );
+        bresenham( point_bub_ms( p1 ), point_bub_ms( p2 ), t, [&line]( const point_bub_ms & new_point ) {
+            line.push_back( new_point.raw() );
             return true;
         } );
     }
@@ -248,8 +247,9 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
         line.push_back( loc1 );
     } else {
         line.reserve( numCells );
-        bresenham( loc1, loc2, t, t2, [&line]( const tripoint & new_point ) {
-            line.push_back( new_point );
+        bresenham( tripoint_bub_ms( loc1 ), tripoint_bub_ms( loc2 ), t,
+        t2, [&line]( const tripoint_bub_ms & new_point ) {
+            line.push_back( new_point.raw() );
             return true;
         } );
     }
@@ -270,7 +270,27 @@ int manhattan_dist( const point &loc1, const point &loc2 )
     return d.x + d.y;
 }
 
+int octile_dist( const point &loc1, const point &loc2, int multiplier )
+{
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    // sqrt(2) is approximately 99 / 70
+    return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
+}
+
+float octile_dist_exact( const point &loc1, const point &loc2 )
+{
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    return d.x + d.y - 2 * mind + mind * M_SQRT2;
+}
+
 units::angle atan2( const point &p )
+{
+    return units::atan2( p.y, p.x );
+}
+
+units::angle atan2( const rl_vec2d &p )
 {
     return units::atan2( p.y, p.x );
 }
@@ -280,7 +300,7 @@ unsigned make_xyz( const tripoint &p )
 {
     static constexpr double sixteenth_arc = M_PI / 8;
     int vertical_position = ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
-    if( p.xy() == point_zero ) {
+    if( p.xy() == point::zero ) {
         return vertical_position;
     }
     // Get the arctan of the angle and divide by approximately 22.5 deg to get the octant.
@@ -331,6 +351,19 @@ static std::tuple<double, double, double> slope_of( const std::vector<tripoint> 
     return std::make_tuple( normDx, normDy, normDz );
 }
 
+// returns the normalized dx, dy, dz for the current line vector.
+// todo: make it templated to work with all tripoint types?
+static std::tuple<double, double, double> slope_of( const std::vector<tripoint_bub_ms> &line )
+{
+    cata_assert( !line.empty() && line.front() != line.back() );
+    const double len = trig_dist( line.front(), line.back() );
+    double normDx = ( line.back().x() - line.front().x() ) / len;
+    double normDy = ( line.back().y() - line.front().y() ) / len;
+    double normDz = ( line.back().z() - line.front().z() ) / len;
+    // slope of <x, y, z>
+    return std::make_tuple( normDx, normDy, normDz );
+}
+
 float get_normalized_angle( const point &start, const point &end )
 {
     // Taking the abs value of the difference puts the values in the first quadrant.
@@ -357,10 +390,75 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
     return res;
 }
 
+tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
+                                 const std::vector<tripoint_bub_ms> &line, const int distance )
+{
+    // May want to optimize this, but it's called fairly infrequently as part of specific attack
+    // routines, erring on the side of readability.
+    tripoint_bub_ms res( loc );
+    const auto slope = slope_of( line );
+    res.x() += distance * std::get<0>( slope );
+    res.y() += distance * std::get<1>( slope );
+    res.z() += distance * std::get<2>( slope );
+    return res;
+}
+
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const int distance )
 {
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
+
+std::vector<tripoint_bub_ms> continue_line( const std::vector<tripoint_bub_ms> &line,
+        const int distance )
+{
+    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
+}
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<direction>( direction data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case direction::ABOVENORTHWEST: return "above_north_west";
+        case direction::NORTHWEST: return "north_west";
+        case direction::BELOWNORTHWEST: return "below_north_west";
+        case direction::ABOVENORTH: return "above_north";
+        case direction::NORTH: return "north";
+        case direction::BELOWNORTH: return "below_north";
+        case direction::ABOVENORTHEAST: return "above_north_east";
+        case direction::NORTHEAST: return "north_east";
+        case direction::BELOWNORTHEAST: return "below_north_east";
+
+        case direction::ABOVEWEST: return "above_west";
+        case direction::WEST: return "west";
+        case direction::BELOWWEST: return "below_west";
+        case direction::ABOVECENTER: return "above";
+        case direction::CENTER: return "center";
+        case direction::BELOWCENTER: return "below";
+        case direction::ABOVEEAST: return "above_east";
+        case direction::EAST: return "east";
+        case direction::BELOWEAST: return "below_east";
+
+        case direction::ABOVESOUTHWEST: return "above_south_west";
+        case direction::SOUTHWEST: return "south_west";
+        case direction::BELOWSOUTHWEST: return "below_south_west";
+        case direction::ABOVESOUTH: return "above_south";
+        case direction::SOUTH: return "south";
+        case direction::BELOWSOUTH: return "below_south";
+        case direction::ABOVESOUTHEAST: return "above_south_east";
+        case direction::SOUTHEAST: return "south_east";
+        case direction::BELOWSOUTHEAST: return "below_south_east";
+        // *INDENT-ON*
+        case direction::last:
+            break;
+    }
+    cata_fatal( "Invalid direction" );
+}
+
+} // namespace io
 
 direction direction_from( const point &p ) noexcept
 {
@@ -382,48 +480,114 @@ direction direction_from( const tripoint &p, const tripoint &q )
     return direction_from( q - p );
 }
 
-point direction_XY( const direction dir )
+tripoint displace( direction dir )
+{
+    switch( dir ) {
+        case direction::NORTHWEST:
+            return tripoint::north_west;
+        case direction::ABOVENORTHWEST:
+            return point::north_west + tripoint::above;
+        case direction::BELOWNORTHWEST:
+            return point::north_west + tripoint::below;
+        case direction::NORTH:
+            return tripoint::north;
+        case direction::ABOVENORTH:
+            return point::north + tripoint::above;
+        case direction::BELOWNORTH:
+            return point::north + tripoint::below;
+        case direction::NORTHEAST:
+            return tripoint::north_east;
+        case direction::ABOVENORTHEAST:
+            return point::north_east + tripoint::above;
+        case direction::BELOWNORTHEAST:
+            return point::north_east + tripoint::below;
+        case direction::WEST:
+            return tripoint::west;
+        case direction::ABOVEWEST:
+            return point::west + tripoint::above;
+        case direction::BELOWWEST:
+            return point::west + tripoint::below;
+        case direction::CENTER:
+            return tripoint::zero;
+        case direction::ABOVECENTER:
+            return tripoint::above;
+        case direction::BELOWCENTER:
+            return tripoint::below;
+        case direction::EAST:
+            return tripoint::east;
+        case direction::ABOVEEAST:
+            return point::east + tripoint::above;
+        case direction::BELOWEAST:
+            return point::east + tripoint::below;
+        case direction::SOUTHWEST:
+            return tripoint::south_west;
+        case direction::ABOVESOUTHWEST:
+            return point::south_west + tripoint::above;
+        case direction::BELOWSOUTHWEST:
+            return point::south_west + tripoint::below;
+        case direction::SOUTH:
+            return tripoint::south;
+        case direction::ABOVESOUTH:
+            return point::south + tripoint::above;
+        case direction::BELOWSOUTH:
+            return point::south + tripoint::below;
+        case direction::SOUTHEAST:
+            return tripoint::south_east;
+        case direction::ABOVESOUTHEAST:
+            return point::south_east + tripoint::above;
+        case direction::BELOWSOUTHEAST:
+            return point::south_east + tripoint::below;
+        case direction::last:
+            cata_fatal( "Invalid direction" );
+    }
+
+    return tripoint::zero;
+}
+
+point displace_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case direction::NORTHWEST:
         case direction::ABOVENORTHWEST:
         case direction::BELOWNORTHWEST:
-            return point_north_west;
+            return point::north_west;
         case direction::NORTH:
         case direction::ABOVENORTH:
         case direction::BELOWNORTH:
-            return point_north;
+            return point::north;
         case direction::NORTHEAST:
         case direction::ABOVENORTHEAST:
         case direction::BELOWNORTHEAST:
-            return point_north_east;
+            return point::north_east;
         case direction::WEST:
         case direction::ABOVEWEST:
         case direction::BELOWWEST:
-            return point_west;
+            return point::west;
         case direction::CENTER:
         case direction::ABOVECENTER:
         case direction::BELOWCENTER:
-            return point_zero;
+            return point::zero;
         case direction::EAST:
         case direction::ABOVEEAST:
         case direction::BELOWEAST:
-            return point_east;
+            return point::east;
         case direction::SOUTHWEST:
         case direction::ABOVESOUTHWEST:
         case direction::BELOWSOUTHWEST:
-            return point_south_west;
+            return point::south_west;
         case direction::SOUTH:
         case direction::ABOVESOUTH:
         case direction::BELOWSOUTH:
-            return point_south;
+            return point::south;
         case direction::SOUTHEAST:
         case direction::ABOVESOUTHEAST:
         case direction::BELOWSOUTHEAST:
-            return point_south_east;
+            return point::south_east;
+        case direction::last:
+            cata_fatal( "Invalid direction" );
     }
 
-    return point_zero;
+    return point::zero;
 }
 
 namespace
@@ -487,7 +651,39 @@ std::string direction_name_short( const direction dir )
     return direction_name_impl( dir, true );
 }
 
-std::string direction_suffix( const tripoint &p, const tripoint &q )
+std::string direction_arrow( const direction dir )
+{
+    std::string arrow;
+    if( dir == direction::NORTH ) {
+        arrow = "\u21D1";
+    } else if( dir == direction::NORTHEAST ) {
+        arrow = "\u21D7";
+    } else if( dir == direction::EAST ) {
+        arrow = "\u21D2";
+    } else if( dir == direction::SOUTHEAST ) {
+        arrow = "\u21D8";
+    } else if( dir == direction::SOUTH ) {
+        arrow = "\u21D3";
+    } else if( dir == direction::SOUTHWEST ) {
+        arrow = "\u21D9";
+    } else if( dir == direction::WEST ) {
+        arrow = "\u21D0";
+    } else if( dir == direction::NORTHWEST ) {
+        arrow = "\u21D6";
+    }
+    return arrow;
+}
+
+std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q )
+{
+    int dist = square_dist( p, q );
+    if( dist <= 0 ) {
+        return std::string();
+    }
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
+}
+
+std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q )
 {
     int dist = square_dist( p, q );
     if( dist <= 0 ) {
@@ -501,36 +697,37 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
-std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to )
 {
-    std::vector<tripoint> adjacent_closer_squares;
+    std::vector<tripoint_bub_ms> adjacent_closer_squares;
     adjacent_closer_squares.reserve( 5 );
-    const tripoint d( -from + to );
-    const point a( std::abs( d.x ), std::abs( d.y ) );
-    if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+    const tripoint_rel_ms d( to - from );
+    const point a( std::abs( d.x() ), std::abs( d.y() ) );
+    if( d.z() != 0 ) {
+        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x() ), sgn( d.y() ), sgn( d.z() ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), -1 ) );
-        if( d.y != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), -1 ) );
+        if( d.y() != 0 ) {
+            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
         }
     } else if( a.x < a.y ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y ) ) );
-        if( d.x != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y() ) ) );
+        if( d.x() != 0 ) {
+            adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
         }
-    } else if( d.x != 0 ) {
+    } else if( d.x() != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
     }
 
     return adjacent_closer_squares;
@@ -538,27 +735,46 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const point &p1, const point &p2 )
+std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const point_bub_ms &p2 )
 {
     int junk = 0;
-    point center_square = line_to( p1, p2, junk )[0];
-    std::vector<point> adjacent_squares;
+    point_bub_ms center_square = line_to( p1, p2, junk )[0];
+    std::vector<point_bub_ms> adjacent_squares;
     adjacent_squares.reserve( 3 );
     adjacent_squares.push_back( center_square );
-    if( p1.x == center_square.x ) {
+    if( p1.x() == center_square.x() ) {
         // Horizontally adjacent.
-        adjacent_squares.push_back( point( p1.x + 1, center_square.y ) );
-        adjacent_squares.push_back( point( p1.x - 1, center_square.y ) );
-    } else if( p1.y == center_square.y ) {
+        adjacent_squares.emplace_back( p1.x() + 1, center_square.y() );
+        adjacent_squares.emplace_back( p1.x() - 1, center_square.y() );
+    } else if( p1.y() == center_square.y() ) {
         // Vertically adjacent.
-        adjacent_squares.push_back( point( center_square.x, p1.y + 1 ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y - 1 ) );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() + 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() - 1 );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.push_back( point( p1.x, center_square.y ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y ) );
+        adjacent_squares.emplace_back( p1.x(), center_square.y() );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() );
     }
     return adjacent_squares;
+}
+
+std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 )
+{
+    const std::vector<point_bub_ms> tmp = squares_in_direction( rebase_bub( p1 ), rebase_bub( p2 ) );
+    std::vector<point_omt_ms> result;
+    result.reserve( tmp.size() );
+
+    for( const point_bub_ms &point : tmp ) {
+        const point_omt_ms work_around = point_omt_ms( point.raw() );
+        result.emplace_back( work_around );
+    }
+
+    return result;
+}
+
+rl_vec2d rl_vec3d::xy() const
+{
+    return rl_vec2d( x, y );
 }
 
 float rl_vec2d::magnitude() const
@@ -660,13 +876,17 @@ rl_vec2d rl_vec2d::operator*( const float rhs ) const
     return ret;
 }
 
+rl_vec3d &rl_vec3d::operator*=( const float rhs )
+{
+    x *= rhs;
+    y *= rhs;
+    z *= rhs;
+    return *this;
+}
+
 rl_vec3d rl_vec3d::operator*( const float rhs ) const
 {
-    rl_vec3d ret;
-    ret.x = x * rhs;
-    ret.y = y * rhs;
-    ret.z = z * rhs;
-    return ret;
+    return rl_vec3d( *this ) *= rhs;
 }
 
 // subtract
@@ -730,13 +950,17 @@ rl_vec2d rl_vec2d::operator/( const float rhs ) const
     return ret;
 }
 
+rl_vec3d &rl_vec3d::operator/=( const float rhs )
+{
+    x /= rhs;
+    y /= rhs;
+    z /= rhs;
+    return *this;
+}
+
 rl_vec3d rl_vec3d::operator/( const float rhs ) const
 {
-    rl_vec3d ret;
-    ret.x = x / rhs;
-    ret.y = y / rhs;
-    ret.z = z / rhs;
-    return ret;
+    return rl_vec3d( *this ) /= rhs;
 }
 
 void calc_ray_end( units::angle angle, const int range, const tripoint &p, tripoint &out )
@@ -776,4 +1000,36 @@ units::angle coord_to_angle( const tripoint &a, const tripoint &b )
         rad += 2_pi_radians;
     }
     return rad;
+}
+
+FastDistanceApproximation trig_dist_fast( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return FastDistanceApproximation(
+               ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) +
+               ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) +
+               ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) );
+}
+
+FastDistanceApproximation square_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 )
+{
+    const tripoint_rel_ms d = ( loc1 - loc2 ).abs();
+    return FastDistanceApproximation( std::max( { d.x(), d.y(), d.z() } ) );
+}
+
+FastDistanceApproximation rl_dist_fast( const point_bub_ms &a, const point_bub_ms &b )
+{
+    return rl_dist_fast( tripoint_bub_ms( a, 0 ), tripoint_bub_ms( b, 0 ) );
+}
+
+float trig_dist( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return std::sqrt( static_cast<double>( ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) ) +
+                      ( ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) ) +
+                      ( ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) ) );
+}
+
+float trig_dist( const point_bub_ms &loc1, const point_bub_ms &loc2 )
+{
+    return trig_dist( tripoint_bub_ms( loc1, 0 ), tripoint_bub_ms( loc2, 0 ) );
 }

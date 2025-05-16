@@ -25,11 +25,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 static auto isInteger( const std::string &bind )
@@ -73,29 +69,29 @@ void UseNamedPointConstantsCheck::registerMatchers( MatchFinder *Finder )
 }
 
 static const std::map<std::pair<int, int>, std::string> PointConstants = {
-    { { 0, 0 }, "point_zero" },
-    { { 0, -1 }, "point_north" },
-    { { 1, -1 }, "point_north_east" },
-    { { 1, 0 }, "point_east" },
-    { { 1, 1 }, "point_south_east" },
-    { { 0, 1 }, "point_south" },
-    { { -1, 1 }, "point_south_west" },
-    { { -1, 0 }, "point_west" },
-    { { -1, -1 }, "point_north_west" },
+    { { 0, 0 }, "point::zero" },
+    { { 0, -1 }, "point::north" },
+    { { 1, -1 }, "point::north_east" },
+    { { 1, 0 }, "point::east" },
+    { { 1, 1 }, "point::south_east" },
+    { { 0, 1 }, "point::south" },
+    { { -1, 1 }, "point::south_west" },
+    { { -1, 0 }, "point::west" },
+    { { -1, -1 }, "point::north_west" },
 };
 
 static const std::map<std::tuple<int, int, int>, std::string> TripointConstants = {
-    { std::make_tuple( 0, 0, 0 ), "tripoint_zero" },
-    { std::make_tuple( 0, 0, 1 ), "tripoint_above" },
-    { std::make_tuple( 0, 0, -1 ), "tripoint_below" },
-    { std::make_tuple( 0, -1, 0 ), "tripoint_north" },
-    { std::make_tuple( 1, -1, 0 ), "tripoint_north_east" },
-    { std::make_tuple( 1, 0, 0 ), "tripoint_east" },
-    { std::make_tuple( 1, 1, 0 ), "tripoint_south_east" },
-    { std::make_tuple( 0, 1, 0 ), "tripoint_south" },
-    { std::make_tuple( -1, 1, 0 ), "tripoint_south_west" },
-    { std::make_tuple( -1, 0, 0 ), "tripoint_west" },
-    { std::make_tuple( -1, -1, 0 ), "tripoint_north_west" },
+    { std::make_tuple( 0, 0, 0 ), "tripoint::zero" },
+    { std::make_tuple( 0, 0, 1 ), "tripoint::above" },
+    { std::make_tuple( 0, 0, -1 ), "tripoint::below" },
+    { std::make_tuple( 0, -1, 0 ), "tripoint::north" },
+    { std::make_tuple( 1, -1, 0 ), "tripoint::north_east" },
+    { std::make_tuple( 1, 0, 0 ), "tripoint::east" },
+    { std::make_tuple( 1, 1, 0 ), "tripoint::south_east" },
+    { std::make_tuple( 0, 1, 0 ), "tripoint::south" },
+    { std::make_tuple( -1, 1, 0 ), "tripoint::south_west" },
+    { std::make_tuple( -1, 0, 0 ), "tripoint::west" },
+    { std::make_tuple( -1, -1, 0 ), "tripoint::north_west" },
 };
 
 static void CheckConstructor( UseNamedPointConstantsCheck &Check,
@@ -123,13 +119,20 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
         } else if( const IntegerLiteral *Literal = dyn_cast<IntegerLiteral>( E ) ) {
             Value = Literal->getValue().getZExtValue();
         } else if( const UnaryOperator *UOp = dyn_cast<UnaryOperator>( E ) ) {
-            const IntegerLiteral *Literal = dyn_cast<IntegerLiteral>( UOp->getSubExpr() );
-            Value = Literal->getValue().getZExtValue();
-            if( UOp->getOpcode() == UO_Minus ) {
-                Value = -Value;
+            if( const IntegerLiteral *Literal = dyn_cast<IntegerLiteral>( UOp->getSubExpr() ) ) {
+                Value = Literal->getValue().getZExtValue();
+                if( UOp->getOpcode() == UO_Minus ) {
+                    Value = -Value;
+                }
+            } else {
+                Check.diag( ConstructorCall->getBeginLoc(),
+                            "Internal check error: unary operand not an integer." );
+                return;
             }
         } else {
-            cata_assert( false ); // NOLINT(misc-static-assert,cert-dcl03-c)
+            Check.diag( ConstructorCall->getBeginLoc(),
+                        "Internal check error: expression not a unary operator nor an integer." );
+            return;
         }
         Args.insert( { Key, Value } );
     };
@@ -156,7 +159,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
     }
 
     // Avoid replacing the definitions of the constants themselves
-    if( VarDeclParent && VarDeclParent->getName() == Replacement ) {
+    if( VarDeclParent && VarDeclParent->getQualifiedNameAsString() == Replacement ) {
         return;
     }
 
@@ -169,7 +172,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
     if( TempParent ) {
         SourceRangeToReplace = ConstructorCall->getSourceRange();
         // Work around buggy source range for default parameters
-        const std::string ReplacedText = getText( Result, ConstructorCall );
+        const StringRef ReplacedText = getText( Result, ConstructorCall );
         if( ReplacedText.size() >= 2 && ReplacedText.substr( 0, 2 ) == "= " ) {
             Replacement = "= " + Replacement;
         }
@@ -191,6 +194,4 @@ void UseNamedPointConstantsCheck::check( const MatchFinder::MatchResult &Result 
     CheckConstructor( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

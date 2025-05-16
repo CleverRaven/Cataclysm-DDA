@@ -1,0 +1,560 @@
+[
+  {
+    "type": "ITEM",
+    "id": "teddy_bear",
+    "name": { "str": "plush toy" },
+    "description": "A manufactured plush toy.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "weight": "900 g",
+    "volume": "3 L",
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
+    "symbol": "i",
+    "color": "cyan",
+    "flags": [ "SLEEP_AID", "NO_SALVAGE" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_plush_teddy",
+        "name": { "str": "teddy bear" },
+        "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_slteddy",
+        "name": { "str": "sloth teddy bear" },
+        "description": "A mass-produced plush black teddy bear with a mark in its face that looks like a pair of white glasses or a white bandit mask.  It is wearing a little white t-shirt and a pajama hat, but no pants.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_pteddy",
+        "name": { "str": "panda teddy bear" },
+        "description": "A mass-produced plush panda teddy bear.  It is wearing a little gray t-shirt, but no pants.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_ferret",
+        "name": { "str": "ferret plushie" },
+        "description": "A large plush ferret with cute beady eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_trex",
+        "name": { "str": "T-rex plushie" },
+        "description": "A large plush t-rex.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_trice",
+        "name": { "str": "triceratops plushie" },
+        "description": "A large, round, cuddly dinosaur plushie with soft horns and a sturdy build.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_stego",
+        "name": { "str": "stegosaurus plushie" },
+        "description": "A large stegosaurus plushie with a spiky back and soft, huggable body.  Don't worry, it is completely docile!",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_bronto",
+        "name": { "str": "brontosaurus plushie" },
+        "description": "A silly, oversized and soft brontosaurus plushie with a long tail, a long neck and a small head with a friendly smile.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_penguin",
+        "name": { "str": "penguin plushie" },
+        "description": "A velvety-soft plush penguin.  It makes a funny noise when you hug it.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_rabbit",
+        "name": { "str": "rabbit plushie" },
+        "description": "A large plush rabbit.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_fox",
+        "name": { "str": "fox plushie" },
+        "description": "A large plush fox.  It isn't realistic enough to trick a zombie into going after it, but it's very cute and makes a comforting bedtime companion.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_moose",
+        "name": { "str": "moose plushie" },
+        "description": "A cuddly plushie of the mighty moose, with soft brown fur, floppy ears, and big antlers.  It has a special huggability feature that makes it delightfully squishy, perfect for comforting cuddles.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_bobcat",
+        "name": { "str": "bobcat plushie" },
+        "description": "A soft, cute bobcat plushie with a cute, tufted pair of ears, a fluffy tail and soft brown fur.  It has embroidered both soft whiskers and claws that add a touch of realism to its cute and playful design.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_eagle",
+        "name": { "str": "eagle plushie" },
+        "description": "A cuddly and majestic bald eagle plushie with soft, brown and white cotton faux feathers, a hooked, soft beak, and a patriotic expression.  It has a pair of special eyes that glow as brightly as the stars and stripes of Old Glory, the perfect partner to fend off your enemies in the Cataclysm.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plushhseal",
+        "name": { "str": "seal plushie" },
+        "description": "A cuddly seal plushie with soft, grayish fur and big, soulful eyes.  It features a realistic texture that mimics the soft and textural quality of real seals' fur.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_otter",
+        "name": { "str": "otter plushie" },
+        "description": "A playful and fuzzy northern river otter plushie with brown fur and a curious expression.  It has a special, state-of-the-art semi-waterproof finish that makes it the perfect bathtub companion for those who love to play with their toys while they get clean.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_falcon",
+        "name": { "str": "falcon plushie" },
+        "description": "A cuddly peregrine falcon plushie with soft, brown and white cotton faux feathers, a soft hooked beak, and an alert expression.  With a speedy and sleek plushie design, this toy plushie is sure to take imaginative people on make-believe high-flying chase scenes!",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_echipmunk",
+        "name": { "str": "chipmunk plushie" },
+        "description": "A cute, adorable eastern chipmunk plushie with soft, reddish-brown fur and big eyes.  It features a harmless, special crinkly texture that mimics the sound of chipmunks rustling in the leaves.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_wdeer",
+        "name": { "str": "deer plushie" },
+        "description": "A very huggable white-tailed deer plushie with soft, brown fur and a cute expression with adorable antlers.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_skunk",
+        "name": { "str": "skunk plushie" },
+        "description": "A cute striped skunk plushie with soft, black-and-white fur and a playful expression.  Ironically, it has a weak, pleasant pine scent.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_racoon",
+        "name": { "str": "racoon plushie" },
+        "description": "A plushie with soft, black-gray-and-white fur and a curious expression with its iconic bandit mask.  It has a special feature that makes its tails emerge from its hiding spot in the toy, reminiscent of one of the raccoon's greatest attributes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_owl",
+        "name": { "str": "owl plushie" },
+        "description": "A cuddly and wise-looking owl plushie with fluffy white cotton faux feathers, orange eyes, and a cute expression.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_wturkey",
+        "name": { "str": "turkey plushie" },
+        "description": "A cuddly and big wild turkey plushie with brown cotton faux feathers, a prominent, soft beak, and expressive, soulful eyes.  It has a special feature of making gobbling sounds when squeezed, almost perfectly mimicking the turkey's unique calls.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_crocodile",
+        "name": { "str": "crocodile plushie" },
+        "description": "A soft and cuddly crocodile plushie with soft green scales, a big smile, and a long snout.  When squeezed or touched, this plushie produces authentic hissing and growling sounds, just like a real crocodile.  Or is it an alligator?  It's hard to tell.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_iguana",
+        "name": { "str": "iguana plushie" },
+        "description": "A cuddly iguana plushie with soft green scales, big eyes, and a friendly, curious expression.  It possess a special ribbed texture to mimic the skin of a real iguana.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_grecko",
+        "name": { "str": "gecko plushie" },
+        "description": "A cute and colorful gecko plushie with soft, vibrant skin and big, playful eyes.  This plushie has a special cotton-based internal mechanism that makes its tail wiggle and move playfully when squeezed enough, just like a real lizard's tail.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_chameleon",
+        "name": { "str": "chameleon plushie" },
+        "description": "A cuddly and soft chameleon plushie that can change colors, complete with big, round eyes and a cute expression.  This plushie's soft body has a simple color-changing mechanism on its fabric, that changes from green to brown if you pet it properly, enabling people, especially children, to explore and learn about the biology of this fascinating reptile.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_chicken",
+        "name": { "str": "chicken plushie" },
+        "description": "A precious soft and cuddly chicken plushie with soft, warm brown cotton faux feathers and a gentle expression.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_goose",
+        "name": { "str": "goose plushie" },
+        "description": "A goose plushie with soft, white cotton faux feathers, a cute and soft orange beak, and big, playful eyes.  This plushie produces realistic honking sounds when hugged!",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_duck",
+        "name": { "str": "duck plushie" },
+        "description": "A cuddly duck plushie with soft, yellow cotton faux feathers, cute orange feet, and a lovable quack.  This plushie has special water-repellent properties to make it float in water, just like a real duck!",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_muttpuppy",
+        "name": { "str": "puppy plushie" },
+        "description": "A fluffy and cuddly plushie of a mutt puppy with soft, fuzzy fur, big, round eyes, and a playful expression.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_domestickitty",
+        "name": { "str": "kitty plushie" },
+        "description": "A cute and lovable domestic kitty plushie with soft, plush fur, big, round eyes, and a gentle expression.  You can't tell if it is a short-haired one or a long-haired one.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_walrus",
+        "name": { "str": "walrus plushie" },
+        "description": "A big, soft and cuddly walrus plushie with fluffy brown fur, cute, soft tusks, and big, wise soulful eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_crow",
+        "name": { "str": "crow plushie" },
+        "description": "A plushie with black fluffy cotton faux feathers, big curious eyes, and an inquisitive expression.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_bullfrog",
+        "name": { "str": "frog plushie" },
+        "description": "A frog plushie with soft, green, and bumpy skin, big, playful eyes, and typical frog legs.  This plushie produces realistic croaking sounds when squeezed and a special texture that makes it fun to squeeze and manipulate.  Or is it a frog?  You can't really tell.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_bat",
+        "name": { "str": "bat plushie" },
+        "description": "A precious bat plushie with soft, black fur, big ears, and somewhat small, curious eyes.  It produces a special squeaker sound effect when squeezed.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_gorilla",
+        "name": { "str": "gorilla plushie" },
+        "description": "A cuddly and adorable gorilla plushie with soft, black fur, big eyes, and a friendly expression.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_orangutan",
+        "name": { "str": "orangutan plushie" },
+        "description": "A lovable and huggable orangutan plushie with soft, orange-brown fur and big, friendly eyes in a big, wise-looking face.  This plushie makes playful and cuddly jungle sounds when squeezed and hugged.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_chimp",
+        "name": { "str": "chimpanzee plushie" },
+        "description": "A cute and cuddly chimpanzee plushie with soft, brown fur, big, curious eyes, and a playful expression.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_lion",
+        "name": { "str": "lion plushie" },
+        "description": "This bright, extremely cute lion plushie features long, soft, and golden-colored fur and a extremely playful demeanor.  On the label it says that it is an ambassador of its species, and that the amounts collected in the sales of the plushies were donated to help the conservation of the species.  Surely now, without many humans, maybe these animals don't have to worry so much about their habitat being destroyed.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_tarantula",
+        "name": { "str": "tarantula plushie" },
+        "description": "A somewhat scary, but cuddly tarantula plushie with soft, fuzzy brown fur and big, curious eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_ant",
+        "name": { "str": "ant plushie" },
+        "description": "A ant plushie with a sturdy, hard yet soft shell mimic, and big, inquisitive eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_ladybug",
+        "name": { "str": "ladybug plushie" },
+        "description": "A cute and lovable ladybug plushie with soft, red and black polkadotted wings and big, friendly eyes.  This plushie features a special retractable spotted soft wing mechanic sewed directly into the body that gives it the authentic appearance of a ladybug about to fly.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_crab",
+        "name": { "str": "crab plushie" },
+        "description": "An amazing crab plushie with soft, textured blue and red bumpy shell and big, curious eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_bwhale",
+        "name": { "str": "whale plushie" },
+        "description": "A large, funny, cuddly whale plushie with soft, blue-gray fur, big, friendly eyes, and a playful expression.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_camel",
+        "name": { "str": "camel plushie" },
+        "description": "A cuddly and sweet camel plushie with two soft humps, tan fur and big, soulful eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_alpaca",
+        "name": { "str": "alpaca plushie" },
+        "description": "A cute and loving alpaca plushie featuring soft, curly fur in shades of white and brown, shiny black eyes, and slightly short legs.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_cow",
+        "name": { "str": "cow plushie" },
+        "description": "This very well-made cow plushie features soft, velvety fur in black and white patches, with endearing floppy ears and bright eyes, together with a pair of soft horns and the typical cow udder.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_sheep",
+        "name": { "str": "sheep plushie" },
+        "description": "This loving and fluffy sheep plushie features soft, woolly fur in white, with cute floppy ears and expressive eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_pig",
+        "name": { "str": "pig plushie" },
+        "description": "This loving, precious pig plushie has a soft pink fur, with endearing floppy ears and bright eyes.  It also has a plush snout with brown fur on its legs and paws.  Its nose is somewhat long and black, and its eyes are large and expressive.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_unicorn",
+        "name": { "str": "unicorn plushie" },
+        "description": "This majestic unicorn plushie features a soft white body and horn, with tufts of white hair on its neck and tail.  Its black eyes are adorably large and round.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "id": "shark_plushie",
+    "name": { "str": "shark plushie" },
+    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "weight": "625 g",
+    "volume": "30 L",
+    "longest_side": "103 cm",
+    "price": "6 USD",
+    "price_postapoc": "20 cent",
+    "symbol": "s",
+    "color": "cyan",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "toy_figurine_large",
+    "name": { "str": "large figurine" },
+    "description": "A large manufactured figurine.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "500 g",
+    "volume": "1 L",
+    "price": "20 USD",
+    "price_postapoc": "20 cent",
+    "symbol": "f",
+    "color": "cyan",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_figure_trex",
+        "name": { "str": "T-rex figurine" },
+        "description": "A relatively large plastic figurine of a T-rex."
+      },
+      {
+        "id": "toy_figure_mech",
+        "name": { "str": "mech figurine" },
+        "description": "A large figurine of a humanoid robot, armed with a rifle, with a smaller figure sitting inside the head."
+      },
+      {
+        "id": "toy_figure_knight",
+        "name": { "str": "knight figurine" },
+        "description": "A large figurine of a knight in shining armor standing watch, with its sword planted at the ground at its feet."
+      },
+      {
+        "id": "toy_figure_t800",
+        "name": { "str": "robot figurine" },
+        "description": "A very intricate looking model of a robotic skeleton with red eyes and a futuristic weapon in its hand."
+      },
+      {
+        "id": "toy_figure_caiman",
+        "name": { "str": "lizardman figurine" },
+        "description": "An expensive figurine of a buff man in streetwear with a lizard head, holding a pair of knives in his hands.",
+        "//": "yes this is a Dorohedoro reference"
+      },
+      {
+        "id": "toy_figure_anime",
+        "name": { "str": "anime figurine" },
+        "description": "An expensive figurine of a cartoon woman in flashy clothing."
+      },
+      {
+        "id": "toy_figure_heavyweapons",
+        "name": { "str": "video game figurine" },
+        "description": "A large figurine of a video game character, holding a massive Gatling gun in his giant arms."
+      },
+      {
+        "id": "toy_figurine_smoker",
+        "name": { "str": "zombie figurine" },
+        "description": "A nasty looking figurine of a mutant zombie, with a large tongue sprouting from its face.  You thankfully haven't encountered something like that yet."
+      },
+      {
+        "id": "toy_figure_alien",
+        "name": { "str": "alien figurine" },
+        "description": "An expensive looking figurine of a gnarly, jet-black alien covered in menacing looking spines."
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "id": "toy_figurine",
+    "name": { "str": "figurine" },
+    "description": "A normal-sized manufactured figurine.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "125 g",
+    "volume": "200 ml",
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
+    "symbol": "f",
+    "color": "cyan",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_figure_swordsman",
+        "name": { "str": "swordsman figurine" },
+        "description": "A figurine of some unnamed swordsman, covered with scars and equipped with sturdy leather armor.  Seems to be ready to fight."
+      },
+      {
+        "id": "toy_figure_female",
+        "name": { "str": "fashionable doll" },
+        "description": "A plastic figurine of a young woman.  She's meant to be dressed up and accessorized with a wide variety of clothing, sold separately."
+      },
+      {
+        "id": "toy_figure_krueger",
+        "name": { "str": "nightmare figurine" },
+        "description": "A plastic figurine with a nightmarish, scarred face.  He wears a hat and has three long blades extending from a glove on the back of his hand."
+      },
+      {
+        "id": "toy_figure_unicorn",
+        "name": { "str": "unicorn figurine" },
+        "description": "A figurine of a blue unicorn.  It is in a sitting position, shyly covering both eyes with its front hooves."
+      },
+      {
+        "id": "toy_figure_swampman",
+        "name": { "str": "swamp monster figurine" },
+        "description": "A figurine of a scaly green swamp monster emerging from some fetid lagoon."
+      },
+      {
+        "id": "toy_figure_reaper",
+        "name": { "str": "reaper figurine" },
+        "description": "Your heart leaps to your throat as you see the face of Death itself staring back at you, scythe raised for the harvest!  You relax significantly once you realize it's only a few inches tall and made of plastic."
+      },
+      {
+        "id": "toy_figure_mermaid",
+        "name": { "str": "mermaid figurine" },
+        "description": "A figurine of a redheaded mermaid sitting on a rock.  Like in the film this toy is based on, she gazes longingly out to a world she wants to be a part of - or she would be, but the face isn't drawn very well and doesn't express much emotion at all."
+      },
+      {
+        "id": "toy_figure_avocado",
+        "name": { "str": "avocado figurine" },
+        "description": "A plastic figurine of an anthropomorphic avocado, holding a salt shaker and a spoon.  Makes a great gift for the guacamole lover in your life, or as a decoration for your kitchen."
+      },
+      {
+        "id": "toy_figure_superhero",
+        "name": { "str": "superhero figurine" },
+        "description": "A superhero action figure.  Its limbs can be adjusted for different poses, and it is designed to do battle against a wide variety of crooks and supervillains, sold separately."
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "id": "yoyo",
+    "name": { "str": "yoyo" },
+    "description": "A simple yoyo on a string.  Now you can be bored with style.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "50 g",
+    "volume": "70 ml",
+    "longest_side": "7 cm",
+    "price": "2 USD",
+    "price_postapoc": "5 cent",
+    "symbol": "q",
+    "color": "light_gray"
+  },
+  {
+    "type": "ITEM",
+    "id": "fidget_spinner",
+    "name": { "str": "fidget spinner" },
+    "description": "A fidget spinner.  An artifact from when the times were simpler.",
+    "category": "other",
+    "material": [ "plastic", "steel" ],
+    "weight": "75 g",
+    "volume": "185 ml",
+    "longest_side": "10 cm",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Spin",
+      "effect_on_conditions": [ { "id": "EOC_spinner_spinning", "effect": { "u_message": "You spin your fidget spinner." } } ]
+    },
+    "price": "5 USD",
+    "price_postapoc": "5 cent",
+    "symbol": "/",
+    "color": "green"
+  },
+  {
+    "id": "imperfect_doll_complete",
+    "type": "ITEM",
+    "name": { "str": "imperfect doll" },
+    "description": "Its legs are mismatched, its arms misshapen, its eyes more crooked than its smile.  Everywhere, it sparkles with the golden thread that has put it back together.  It's beautiful.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": "0 cent",
+    "price_postapoc": "100 kUSD",
+    "symbol": "@",
+    "color": "white",
+    "looks_like": "talking_doll",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Hug the imperfect doll.",
+      "effect_on_conditions": [ "EOC_queue_unvitrified_return" ]
+    },
+    "flags": [ "SLEEP_AID", "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "TRADER_AVOID", "MISSION_ITEM" ]
+  },
+  {
+    "id": "imperfect_doll_legs",
+    "type": "ITEM",
+    "name": { "str_sp": "floppy cotton legs" },
+    "description": "They're different colors and different lengths.  It would be hard to run away with these.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "symbol": "i",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
+  },
+  {
+    "id": "imperfect_doll_arms",
+    "type": "ITEM",
+    "name": { "str_sp": "threadbare cotton arms" },
+    "description": "The spun cloth fingers are fraying away.  There's nothing that they could hold on to.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "symbol": "i",
+    "color": "cyan",
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
+  },
+  {
+    "id": "imperfect_doll_features",
+    "type": "ITEM",
+    "name": { "str_sp": "buttons and thread" },
+    "description": "A pair of mismatched buttons and some dull yellow thread, to put on a brave face with.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "symbol": "i",
+    "color": "dark_gray",
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
+  }
+]

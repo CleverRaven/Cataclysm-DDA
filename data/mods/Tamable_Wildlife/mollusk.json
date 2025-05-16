@@ -1,0 +1,70 @@
+[
+  {
+    "id": "mon_snail_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_snail_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
+      "pet": "The %s slides slowly around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_snail_forest",
+    "type": "MONSTER",
+    "copy-from": "mon_snail_forest",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant mollusk could like you.",
+      "pet": "The %s slides slowly around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_snail_small",
+    "type": "MONSTER",
+    "copy-from": "mon_snail_small",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_snail_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_snail_giant",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_slug_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_larva",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
+      "pet": "The %s slides slowly around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_slug_forest",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_forest",
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant mollusk could like you.",
+      "pet": "The %s slides slowly around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_slug_small",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_small",
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_slug_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_giant",
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  }
+]

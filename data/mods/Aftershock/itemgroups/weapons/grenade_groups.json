@@ -1,0 +1,34 @@
+[
+  {
+    "id": "afs_any_hand_grenade",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "afs_electroshock_grenade_1", "count": [ 1, 3 ] },
+      { "item": "grenade_cryo", "count": [ 1, 3 ] },
+      { "item": "grenade", "count": [ 1, 3 ] },
+      { "item": "afs_HE_grenade", "count": [ 1, 3 ] },
+      { "item": "afs_toxic_grenade", "count": [ 1, 3 ] },
+      { "item": "grenade_inc", "count": [ 1, 3 ] },
+      { "item": "smokebomb", "count": [ 1, 3 ] },
+      { "item": "scrambler", "count": [ 1, 3 ] },
+      { "item": "grenade_emp", "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "afs_any_mine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "bot_shock_mine", "count": [ 3, 5 ] } ]
+  },
+  {
+    "id": "afs_anti_robot_grenades",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "afs_electroshock_grenade_1", "count": [ 1, 3 ] },
+      { "item": "scrambler", "count": [ 1, 3 ] },
+      { "item": "grenade_emp", "count": [ 1, 3 ] }
+    ]
+  }
+]

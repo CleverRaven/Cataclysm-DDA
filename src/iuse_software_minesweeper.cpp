@@ -1,30 +1,30 @@
 #include "iuse_software_minesweeper.h"
 
-#include <algorithm>
 #include <array>
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "optional.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 minesweeper_game::minesweeper_game()
 {
     min = point( 8, 8 );
-    max = point_zero;
-    offset = point_zero;
+    max = point::zero;
+    offset = point::zero;
 }
 
 void minesweeper_game::new_level()
@@ -90,15 +90,14 @@ void minesweeper_game::new_level()
     mLevel.clear();
     mLevelReveal.clear();
 
-    int iRandX;
-    int iRandY;
+    point iRand;
     for( int i = 0; i < iBombs; i++ ) {
         do {
-            iRandX = rng( 0, level.x - 1 );
-            iRandY = rng( 0, level.y - 1 );
-        } while( mLevel[iRandY][iRandX] == bomb );
+            iRand.x = rng( 0, level.x - 1 );
+            iRand.y = rng( 0, level.y - 1 );
+        } while( mLevel[iRand.y][iRand.x] == bomb );
 
-        mLevel[iRandY][iRandX] = bomb;
+        mLevel[iRand.y][iRand.x] = bomb;
     }
 
     for( int y = 0; y < level.y; y++ ) {
@@ -143,7 +142,7 @@ int minesweeper_game::start_game()
         w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                iCenter );
         w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                            iCenter + point_south_east );
+                                            iCenter + point::south_east );
         max = point( FULL_SCREEN_WIDTH - 4, FULL_SCREEN_HEIGHT - 4 );
         ui.position_from_window( w_minesweeper_border );
     } );
@@ -182,9 +181,9 @@ int minesweeper_game::start_game()
         draw_border( w_minesweeper_border );
 
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<n>ew level" ) );
-        shortcuts.push_back( _( "<f>lag" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<n>ew level" ) );
+        shortcuts.emplace_back( _( "<f>lag" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
@@ -310,12 +309,11 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            const int new_x = iPlayerX + vec->x;
-            const int new_y = iPlayerY + vec->y;
-            if( new_x >= 0 && new_x < level.x && new_y >= 0 && new_y < level.y ) {
-                iPlayerX = new_x;
-                iPlayerY = new_y;
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            const point new_( vec->xy().raw() + point( iPlayerX, iPlayerY ) );
+            if( new_.x >= 0 && new_.x < level.x && new_.y >= 0 && new_.y < level.y ) {
+                iPlayerX = new_.x;
+                iPlayerY = new_.y;
             }
         } else if( action == "FLAG" ) {
             if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
@@ -332,7 +330,7 @@ int minesweeper_game::start_game()
                     popup_top( _( "Boom, you're dead!  Better luck next time." ) );
                     action = "QUIT";
                 } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
-                    rec_reveal( point( iPlayerY, iPlayerX ) );
+                    rec_reveal( point( iPlayerX, iPlayerY ) );
                 }
             }
         }

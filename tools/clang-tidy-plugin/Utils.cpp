@@ -1,28 +1,35 @@
 #include "Utils.h"
 
-namespace clang
+namespace clang::tidy::cata
 {
-namespace tidy
+
+bool isPointMethod( const FunctionDecl *d )
 {
-namespace cata
-{
+    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
+        const CXXRecordDecl *Record = Method->getParent();
+        if( isPointType( Record ) ) {
+            return true;
+        }
+    }
+    return false;
+}
 
 NameConvention::NameConvention( StringRef xName )
 {
-    if( xName.endswith( "x" ) ) {
-        root = xName.drop_back();
+    if( xName.ends_with( "x" ) ) {
+        root = xName.drop_back().str();
         capital = false;
         atEnd = true;
-    } else if( xName.endswith( "X" ) ) {
-        root = xName.drop_back();
+    } else if( xName.ends_with( "X" ) ) {
+        root = xName.drop_back().str();
         capital = true;
         atEnd = true;
-    } else if( xName.startswith( "x" ) ) {
-        root = xName.drop_front();
+    } else if( xName.starts_with( "x" ) ) {
+        root = xName.drop_front().str();
         capital = false;
         atEnd = false;
-    } else if( xName.startswith( "X" ) ) {
-        root = xName.drop_front();
+    } else if( xName.starts_with( "X" ) ) {
+        root = xName.drop_front().str();
         capital = true;
         atEnd = false;
     } else {
@@ -57,6 +64,4 @@ NameConvention::MatchResult NameConvention::Match( StringRef name ) const
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

@@ -1,0 +1,97 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow08",
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        ".......!--!.............",
+        "......p!--!.............",
+        ".[.....!--!.%%%%%%%%%...",
+        ".......!--!.####oo###...",
+        "..jjj..!--!.#y $  RR#...",
+        ".......!----or     s#...",
+        ".%%%%%%%----orh  l Ho.[.",
+        ".##oo####*o##r   l Ho...",
+        ".#¤@@¤|(```=|T   l H#...",
+        ".# @@ |b```L|      s#...",
+        ".o    | ```    |||||#...",
+        ".o    +        |w8St#...",
+        ".# |++|++|     +____o...",
+        ".#d|dD|WZ|  yRR|QBB8#...",
+        ".#||||||||  R|||||||#...",
+        "^#v+  +     R|y VV y#...",
+        ".#D+  ||       ,&,, #--.",
+        ".#||  y|6 J    ,ff, ¶--.",
+        ".o    d|6 J F| &ff& o--.",
+        ".o@@  d|7   2| ,ff, o...",
+        ".#@@¤ T|4n5O1|y,,&,y#...",
+        ".###oo####oo####ooo##...",
+        "........................",
+        ".................[......"
+      ],
+      "terrain": {
+        "`": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "?": "t_column",
+        ";": "t_water_sh",
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "-": "t_concrete"
+      },
+      "furniture": { "(": "f_table", "$": "f_piano", "&": "f_chair", "=": "f_rack" },
+      "items": { "(": { "item": "table_foyer", "chance": 50 }, "=": { "item": "clothing_outdoor_shoes", "chance": 50 } },
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 4, "y": 1 },
+        { "chunks": [ [ "null", 95 ], [ "carcrash_8x8_straight", 5 ] ], "x": [ 13, 14 ], "y": 0 }
+      ],
+      "place_loot": [ { "item": "laptop", "x": 14, "y": 6 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow08_roof",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "            ---------   ",
+        "            -.......-   ",
+        "            -.......-   ",
+        "            -.......-   ",
+        " ------------.......-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -......1...........-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " 5..................-   ",
+        " -.............oooo.-   ",
+        " -.............oooo.-   ",
+        " -.............oooo.-   ",
+        " -.............oooo.-   ",
+        " -..................-   ",
+        " --------------------   ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

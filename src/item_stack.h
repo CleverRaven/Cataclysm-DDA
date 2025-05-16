@@ -3,10 +3,16 @@
 #define CATA_SRC_ITEM_STACK_H
 
 #include <cstddef>
+#include <functional>
+#include <list>
 
 #include "colony.h"
+#include "coords_fwd.h"
 #include "item.h" // IWYU pragma: keep
+#include "type_id.h"
 #include "units_fwd.h"
+
+class map;
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
@@ -27,12 +33,12 @@ class item_stack
         using reverse_iterator = cata::colony<item>::reverse_iterator;
         using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
 
-        item_stack( cata::colony<item> *items ) : items( items ) { }
+        explicit item_stack( cata::colony<item> *items ) : items( items ) { }
         virtual ~item_stack() = default;
 
         size_t size() const;
         bool empty() const;
-        virtual void insert( const item &newitem ) = 0;
+        virtual void insert( map &here, const item &newitem ) = 0;
         virtual iterator erase( const_iterator it ) = 0;
         virtual void clear();
         // Will cause a debugmsg if there is not exactly one item at the location
@@ -80,8 +86,8 @@ class item_stack
         * @param filter Must return true for use to occur.
         * @return Duplicates of each item that provided consumed charges
         */
-        std::list<item> use_charges( const itype_id &type, int &quantity, const tripoint &pos,
-                                     const std::function<bool( const item & )> &filter );
+        std::list<item> use_charges( const itype_id &type, int &quantity, const tripoint_bub_ms &pos,
+                                     const std::function<bool( const item & )> &filter, bool in_tools = false );
 };
 
 #endif // CATA_SRC_ITEM_STACK_H

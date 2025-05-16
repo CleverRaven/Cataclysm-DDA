@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mon_aphid_small",
+    "type": "MONSTER",
+    "copy-from": "mon_aphid_small",
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "starting_ammo": { "fresh_honeydew": 1 },
+    "extend": { "flags": [ "MILKABLE" ] }
+  },
+  {
+    "id": "mon_aphid",
+    "type": "MONSTER",
+    "copy-from": "mon_aphid",
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "starting_ammo": { "fresh_honeydew": 2 },
+    "extend": { "flags": [ "MILKABLE" ] }
+  }
+]

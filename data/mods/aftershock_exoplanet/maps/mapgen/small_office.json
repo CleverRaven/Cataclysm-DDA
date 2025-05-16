@@ -1,0 +1,128 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_small_office_a1_floor_1",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "          //!/℗℗        ",
+        "  /////////c,/////////  ",
+        " //3333././/!/./❺❶❷.❸// ",
+        " /3..,../...,../.....❻/ ",
+        " //////4/.kckk./!////// ",
+        " =vk.h/.!.kh...!./h.kv= ",
+        " =hc,.!.////////.!.,ch= ",
+        " =..../.)......)./....= ",
+        " //////.).hyyh.).////// ",
+        " =hc.h/,),hyyh,),/h.ch= ",
+        " =.k,.!.).hyyh.).!.,k.= ",
+        " =v.../.)......)./...v= ",
+        " //////.)))!!))).////// ",
+        " /11!,.....,,.....,!11/ ",
+        " /21!,....////....,!12/ ",
+        "℗////...../kc/.....////℗",
+        "℗=....//.,..h.,.//....=℗",
+        "℗=.,..k/.,.h..,./k..,.=℗",
+        "℗//!/hc/../ck/../ch/!// ",
+        " /^,/,//..////..//,/,^/ ",
+        " /n./hc/../ck/../ch/.n/ ",
+        " //~/.k/.,.h..,./k./~// ",
+        "  ///==///====///==///  ",
+        "                        "
+      ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_exterior",
+        "afs_habitat_life_support",
+        "afs_habitat_residential_furnishing",
+        "afs_light_param_palette"
+      ],
+      "terrain": { "1": "t_elevator", "2": "t_elevator_control", "4": "t_door_metal_elocked" },
+      "furniture": { "3": "f_server" },
+      "items": { "k": { "item": "SUS_office_desk", "chance": 40 }, "y": { "item": "SUS_office_desk", "chance": 40 } },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_small_office_a1_floor_2",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "          [[[[          ",
+        "  /////===////===/////  ",
+        " //v.=............=v.// ",
+        " /..h=..///..///..=.h./ ",
+        " =.kc=..k/ch.k/ch.=kc.= ",
+        " =.,.=.hc/k.hc/k..=.,.= ",
+        " =...!.,///,,///,.!...= ",
+        " /////.hc/k.hc/k..///// ",
+        " =vk.=..k/ch.k/ch.=.kv= ",
+        " =hc,=..///..///..=,ch= ",
+        " =.k.=............=.k.= ",
+        " /...!,,.h.,,h..,,!.../ ",
+        " /////../ck//ck/..///// ",
+        " /11!...////////...!11/ ",
+        " /21!.../kc//kc/...!12/ ",
+        " ////.,,..h,,.h.,,.//// ",
+        " =.,................,.= ",
+        " =.,................,.= ",
+        " //!///////!////!///!// ",
+        " /^,/U%hyhv.h/l.,.l/,^/ ",
+        " /n./U.,..,.y/l...l/.n/ ",
+        " //~/o.hyh..h/lbbbl/~// ",
+        "  ////======///===////  ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
+      "terrain": { "1": "t_elevator", "2": "t_elevator_control", " ": "t_open_air" },
+      "items": {
+        "k": { "item": "SUS_office_desk", "chance": 40 },
+        "y": { "item": "dinnerware", "repeat": [ 1, 3 ], "chance": 60 },
+        "%": { "item": "afs_tools_space_emergency", "chance": 40 }
+      },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 3, 20 ], "y": [ 2, 20 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_small_office_a1_floor_3",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        "  [[[[[[[[[[[[[[[[[[[[  ",
+        " [[..................[[ ",
+        " [...11....11....11...[ ",
+        " [...11....11....11...[ ",
+        " [...11....11....11...[ ",
+        " [...11....11....11...[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [....................[ ",
+        " [..............2.2...[ ",
+        " [..3.................[ ",
+        " [......4.4.4...2.2...[ ",
+        " [..3...4.4.4.........[ ",
+        " [......4.4.4...2.2...[ ",
+        " [....................[ ",
+        " [[..................[[ ",
+        "  [[[[[[[[[[[[[[[[[[[[  ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { " ": "t_open_air" },
+      "furniture": { "1": "f_solar_unit", "2": "f_roof_turbine_vent", "3": "f_small_satellite_dish", "4": "f_vent_pipe" }
+    }
+  }
+]

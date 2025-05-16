@@ -1,0 +1,44 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_monster_strength",
+    "//": "No enchantment to actually increase monsters damage so we have to use this as a condition for an attack",
+    "name": [ "Vigor Mortis" ],
+    "desc": [ "" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_monster_agility",
+    "name": [ "Flow Like Blood" ],
+    "desc": [ "" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ 3 ], "hit_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_monster_resilience",
+    "name": [ "Sanguine Resilience" ],
+    "desc": [ "" ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.35 },
+          { "type": "stab", "multiply": -0.2 },
+          { "type": "cut", "add": -0.25 },
+          { "type": "bullet", "add": -0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_monster_speed",
+    "name": [ "Blood-Driven Speed" ],
+    "desc": [ "" ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 } ] } ]
+  }
+]

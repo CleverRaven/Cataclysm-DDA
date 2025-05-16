@@ -3,17 +3,15 @@
 #define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 
 #include "coordinates.h"
-#include "optional.h"
-#include "point.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
-struct tripoint;
 
 class teleporter_list
 {
@@ -22,22 +20,22 @@ class teleporter_list
         std::map<tripoint_abs_omt, std::string> known_teleporters;
         // ui for selection of desired teleport location.
         // returns overmap tripoint, or nullopt if canceled
-        cata::optional<tripoint_abs_omt> choose_teleport_location();
+        std::optional<tripoint_abs_omt> choose_teleport_location();
         // returns true if a teleport is successful
         // does not do any loading or unloading
         bool place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const;
     public:
         bool knows_translocator( const tripoint_abs_omt &omt_pos ) const;
         // adds teleporter to known_teleporters and does any other activation necessary
-        bool activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint &local_pt );
-        void deactivate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint &local_pt );
+        bool activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms &local_pt );
+        void deactivate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms &local_pt );
 
         // calls the necessary functions to select translocator location
         // and teleports the target(s) there
-        void translocate( const std::set<tripoint> &targets );
+        void translocate( const std::set<tripoint_bub_ms> &targets );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 };
 
 #endif // CATA_SRC_MAGIC_TELEPORTER_LIST_H

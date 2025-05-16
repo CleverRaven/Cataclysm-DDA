@@ -1,0 +1,90 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow03",
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
+      ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        "....-------------------p",
+        ".[..-------------------.",
+        ".##oo#####o######oo##--.",
+        ".#432F51|Qt8|D |¤@@¤#--.",
+        ".#6____O|~~S|D + @@ o--.",
+        ".#6__nJJ|8~B|  |    o--.",
+        ".: h  AA|8~B|$v|dd y#--.",
+        ".: ff   ||+|||||||+|#--.",
+        ".:hffh  |y         yo--.",
+        ".: h       y#########--.",
+        ".:y        Lo,,!!....--.",
+        ".#sHHHT   __*,,,-------.",
+        ".#H       __*,,,-------.",
+        ".oH l      &o,,!!.......",
+        ".#H l EVV  $#%%%%%%%%%..",
+        "^#|||||||  b#########%..",
+        ".#rh  +     TRR| ddD#%..",
+        ".#r  P|RRR     |    #%..",
+        ".#||||||||     +  @@o...",
+        ".#RR    +  y|+||  @@o...",
+        ".o   h  ||+||~~|   ¤#.''",
+        ".# yrrr |U q|ZW|II b#.''",
+        ".##oo############oo##.''",
+        "........................"
+      ],
+      "terrain": {
+        ",": "t_floor_noroof",
+        "'": "t_shrub_lilac",
+        "!": "t_railing",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
+      },
+      "furniture": { "$": "f_rack", "&": "f_table" },
+      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 50 }, "&": { "item": "table_foyer", "chance": 50 } },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 3, "y": 1 } ],
+      "place_loot": [ { "item": "laptop", "x": 5, "y": 21, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow03_roof",
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " --------------------   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -.......1..........-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..N...............-   ",
+        " -..........---------   ",
+        " -..........-           ",
+        " -..........-           ",
+        " -..........-           ",
+        " -..........-           ",
+        " -..........-           ",
+        " 5..........---------   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -.......=..........-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " --------------------   ",
+        "                        "
+      ]
+    }
+  }
+]

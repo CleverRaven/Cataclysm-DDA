@@ -2,16 +2,21 @@
 #ifndef CATA_SRC_PROJECTILE_H
 #define CATA_SRC_PROJECTILE_H
 
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
+#include "compatibility.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "point.h"
+#include "type_id.h"
 
 class Creature;
-struct explosion_data;
 class item;
+struct explosion_data;
 
 struct projectile {
         damage_instance impact;
@@ -19,9 +24,17 @@ struct projectile {
         // bullets have arbitrarily high values but thrown objects have dodgeable values.
         int speed = 0;
         int range = 0;
+        // Number of projectiles fired at a time, one except in cases like shotgun rounds.
+        int count = 1;
+        // True when count > 1 && distance > 1
+        bool multishot = false;
+        // The potential dispersion between different projectiles fired from one round.
+        int shot_spread = 0;
+        // Damage dealt by a single shot.
+        damage_instance shot_impact;
         float critical_multiplier = 0.0f;
 
-        std::set<std::string> proj_effects;
+        std::set<ammo_effect_str_id> proj_effects;
 
         /**
          * Returns an item that should be dropped or an item for which is_null() is true
@@ -37,9 +50,14 @@ struct projectile {
         void set_custom_explosion( const explosion_data &ex );
         void unset_custom_explosion();
 
+        // applies proj_effects to a damaged creature
+        void apply_effects_damage( Creature &target, Creature *source,
+                                   const dealt_damage_instance &dealt_dam,
+                                   bool critical ) const;
+
         projectile();
         projectile( const projectile & );
-        projectile( projectile && );
+        projectile( projectile && ) noexcept( set_is_noexcept );
         projectile &operator=( const projectile & );
         ~projectile();
 
@@ -52,13 +70,21 @@ struct projectile {
 
 struct dealt_projectile_attack {
     projectile proj; // What we used to deal the attack
-    Creature *hit_critter; // The critter that stopped the projectile or null
-    dealt_damage_instance dealt_dam; // If hit_critter isn't null, hit data is written here
-    tripoint end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
+    Creature *last_hit_critter; // The critter that stopped the projectile or null
+    dealt_damage_instance dealt_dam; // If last_hit_critter isn't null, hit data is written here
+    tripoint_bub_ms end_point; // Last hit tile (if last_hit_critter is null, drops should spawn here)
     double missed_by; // Accuracy of dealt attack
+    bool headshot = false; // Headshot or not;
+    bool shrapnel = false; // True if the projectile is generated from an explosive
+    // Critters that hit by the projectile or null
+    std::map<Creature *, std::pair<int, int>> targets_hit;
 };
 
-void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
-int max_aoe_size( const std::set<std::string> &tags );
+void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
+                         const std::set<ammo_effect_str_id> &effects, int dealt_damage );
+int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
+
+void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
+                                   const std::string &projectile_name );
 
 #endif // CATA_SRC_PROJECTILE_H

@@ -1,38 +1,78 @@
 #include "point.h"
 
 #include <algorithm>
+#include <cmath>
+#include <locale>
 #include <sstream>
-#include <utility>
+#include <string>
 
+#include "cata_assert.h"
 #include "debug.h"
 
 point point::from_string( const std::string &s )
 {
     std::istringstream is( s );
+    is.imbue( std::locale::classic() );
     point result;
     is >> result;
     if( !is ) {
         debugmsg( "Could not convert string '" + s + "' to point" );
-        return point_zero;
+        return point::zero;
     }
     return result;
+}
+
+point point::rotate( int turns, const point &dim ) const
+{
+    cata_assert( turns >= 0 );
+    cata_assert( turns <= 4 );
+
+    switch( turns ) {
+        case 1:
+            return { dim.y - y - 1, x };
+        case 2:
+            return { dim.x - x - 1, dim.y - y - 1 };
+        case 3:
+            return { y, dim.x - x - 1 };
+    }
+
+    return *this;
+}
+
+float point::distance( const point &rhs ) const
+{
+    return std::sqrt( static_cast<float>( std::pow( x - rhs.x, 2 ) + std::pow( y - rhs.y, 2 ) ) );
+}
+
+int point::distance_manhattan( const point &rhs ) const
+{
+    return std::abs( x - rhs.x ) + std::abs( y - rhs.y );
 }
 
 std::string point::to_string() const
 {
     std::ostringstream os;
+    os.imbue( std::locale::classic() );
     os << *this;
     return os.str();
+}
+
+std::string point::to_string_writable() const
+{
+    // This is supposed to be a non-translated version of to_string, but we can
+    // just use regular to_string
+    return to_string();
 }
 
 tripoint tripoint::from_string( const std::string &s )
 {
     std::istringstream is( s );
+    is.imbue( std::locale::classic() );
     tripoint result;
     is >> result;
     if( !is ) {
         debugmsg( "Could not convert string '" + s + "' to tripoint" );
-        return tripoint_zero;
+        return tripoint::zero;
     }
     return result;
 }
@@ -40,8 +80,16 @@ tripoint tripoint::from_string( const std::string &s )
 std::string tripoint::to_string() const
 {
     std::ostringstream os;
+    os.imbue( std::locale::classic() );
     os << *this;
     return os.str();
+}
+
+std::string tripoint::to_string_writable() const
+{
+    // This is supposed to be a non-translated version of to_string, but we can
+    // just use regular to_string
+    return to_string();
 }
 
 std::ostream &operator<<( std::ostream &os, const point &pos )
@@ -57,17 +105,34 @@ std::ostream &operator<<( std::ostream &os, const tripoint &pos )
 std::istream &operator>>( std::istream &is, point &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ')';
+    // silence -Wunused-value
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ')' );
     return is;
 }
 
 std::istream &operator>>( std::istream &is, tripoint &pos )
 {
     char c;
-    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
-                                is.get( c ) &&c == ',' &&is >> pos.z &&is.get( c ) &&c == ')';
+    static_cast<void>( is.get( c ) && c == '(' && is >> pos.x && is.get( c ) && c == ',' &&
+                       is >> pos.y && is.get( c ) && c == ',' && is >> pos.z && is.get( c ) && c == ')' );
     return is;
+}
+
+std::optional<int> rectangle_size( int min_dist, int max_dist )
+{
+    min_dist = std::max( min_dist, 0 );
+    max_dist = std::max( max_dist, 0 );
+
+    if( min_dist > max_dist ) {
+        return std::nullopt;
+    }
+
+    const int min_edge = min_dist * 2 + 1;
+    const int max_edge = max_dist * 2 + 1;
+
+    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 ) + ( min_dist == 0 ? 1 : 0 );
+    return n;
 }
 
 std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist )
@@ -77,14 +142,19 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist
 
 std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist )
 {
-    const std::vector<point> points = closest_points_first( center.xy(), min_dist, max_dist );
+    std::optional<int> n = rectangle_size( min_dist, max_dist );
+
+    if( n == std::nullopt ) {
+        return {};
+    }
 
     std::vector<tripoint> result;
-    result.reserve( points.size() );
+    result.reserve( *n );
 
-    for( const point &p : points ) {
-        result.emplace_back( p, center.z );
-    }
+    find_point_closest_first( center, min_dist, max_dist, [&result]( const tripoint & p ) {
+        result.push_back( p );
+        return false;
+    } );
 
     return result;
 }
@@ -96,43 +166,26 @@ std::vector<point> closest_points_first( const point &center, int max_dist )
 
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist )
 {
-    min_dist = std::max( min_dist, 0 );
-    max_dist = std::max( max_dist, 0 );
+    std::optional<int> n = rectangle_size( min_dist, max_dist );
 
-    if( min_dist > max_dist ) {
+    if( n == std::nullopt ) {
         return {};
     }
 
-    const int min_edge = min_dist * 2 + 1;
-    const int max_edge = max_dist * 2 + 1;
-
-    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 );
-    const bool is_center_included = min_dist == 0;
-
     std::vector<point> result;
-    result.reserve( n + ( is_center_included ? 1 : 0 ) );
+    result.reserve( *n );
 
-    if( is_center_included ) {
-        result.push_back( center );
-    }
-
-    int x = std::max( min_dist, 1 );
-    int y = 1 - x;
-
-    int dx = 1;
-    int dy = 0;
-
-    for( int i = 0; i < n; i++ ) {
-        result.push_back( center + point{ x, y } );
-
-        if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
-            std::swap( dx, dy );
-            dx = -dx;
-        }
-
-        x += dx;
-        y += dy;
-    }
+    find_point_closest_first( center, min_dist, max_dist, [&result]( const point & p ) {
+        result.push_back( p );
+        return false;
+    } );
 
     return result;
+}
+
+template <typename PredicateFn, typename Point>
+std::optional<Point> find_point_closest_first( const Point &center, int max_dist,
+        PredicateFn &&fn )
+{
+    return find_point_closest_first( center, 0, max_dist, fn );
 }
