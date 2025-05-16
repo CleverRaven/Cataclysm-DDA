@@ -64,12 +64,6 @@
       "palettes": [ "bandit_camp" ],
       "terrain": { "X": "t_embrasure_log", "W": "t_palisade_embrasure" },
       "furniture": { "5": "f_utility_shelf" },
-      "mapping": {
-        "/": {
-          "traps": [ [ "tr_rollmat", 10 ], [ "tr_fur_rollmat", 1 ], [ "tr_cot", 3 ], [ "tr_null", 100 ] ],
-          "items": [ { "item": "cannedfood", "chance": 10 }, { "item": "dresser", "chance": 10, "repeat": [ 1, 3 ] } ]
-        }
-      },
       "place_npcs": [
         { "class": "bandit", "x": 15, "y": 13 },
         { "class": "bandit", "x": 20, "y": 12 },
@@ -103,7 +97,9 @@
         { "vehicle": "motorcycle", "x": 33, "y": 30, "chance": 80, "rotation": 180, "status": 0 },
         { "vehicle": "motorcycle", "x": 33, "y": 32, "chance": 80, "rotation": 180 },
         { "vehicle": "motorcycle_chassis", "x": 33, "y": 34, "chance": 80, "rotation": 180 }
-      ]
+      ],
+      "traps": { "/": [ [ "tr_rollmat", 10 ], [ "tr_fur_rollmat", 1 ], [ "tr_cot", 3 ], [ "tr_null", 100 ] ] },
+      "items": { "/": [ { "item": "cannedfood", "chance": 10 }, { "item": "dresser", "chance": 10, "repeat": [ 1, 3 ] } ] }
     }
   },
   {

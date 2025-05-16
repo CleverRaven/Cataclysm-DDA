@@ -184,7 +184,6 @@
         "Y": "t_thconc_floor_olight",
         "p": "t_metal_floor"
       },
-      "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { ";": {  } },
       "place_items": [
@@ -201,7 +200,8 @@
         { "monster": "GROUP_COLLAPSED_TOWER_BASEMENT", "x": [ 0, 23 ], "y": [ 37, 47 ], "density": 2.5 },
         { "monster": "GROUP_COLLAPSED_TOWER_BASEMENT", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 2.5 },
         { "monster": "GROUP_COLLAPSED_TOWER_BASEMENT", "x": [ 48, 71 ], "y": [ 24, 47 ], "density": 2.5 }
-      ]
+      ],
+      "item": { "r": { "item": "standard_template_construct" }, "R": { "item": "nanomaterial" } }
     }
   }
 ]

@@ -74,10 +74,11 @@
         "^^^"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "mapping": { "A": { "item": { "item": "corpse", "amount": [ 0, 1 ] }, "fields": { "field": "fd_blood" } } },
       "place_fields": [ { "x": [ 0, 2 ], "y": [ 0, 2 ], "field": "fd_blood", "age": 2, "intensity": 2, "repeat": 20 } ],
       "place_loot": [ { "item": "bucket", "x": 1, "y": 0, "chance": 100 }, { "item": "rope_30", "x": 1, "y": 1, "chance": 100 } ],
-      "place_terrain": [ { "ter": "t_thconc_floor_olight", "x": 1, "y": 1 } ]
+      "place_terrain": [ { "ter": "t_thconc_floor_olight", "x": 1, "y": 1 } ],
+      "item": { "A": { "item": "corpse", "amount": [ 0, 1 ] } },
+      "fields": { "A": { "field": "fd_blood" } }
     }
   },
   {

@@ -790,19 +790,6 @@ Example (places a blood and a bile field on each '.' square):
 }
 ```
 
-Or define the mappings for one character at once:
-```jsonc
-"mapping" : {
-    ".": {
-        "traps": "tr_beartrap",
-        "field": { "field": "fd_blood" },
-        "item": { "item": "corpse" },
-        "terrain": { "t_region_soil" }
-    }
-}
-```
-This might be more useful if you want to put many different type of things on one place.
-
 Defining specials through their specific location:
 ```
 "place_<type-of-special>" : {
@@ -838,16 +825,10 @@ Example with coordinates:
 ]
 ```
 
-Terrain, furniture and traps can specified as a single string, not a json object:
+Terrain, furniture and traps can specified as a single string:
 ```jsonc
 "traps" : {
     ".": "tr_beartrap"
-}
-```
-Same as
-```jsonc
-"traps" : {
-    ".": { "trap": "tr_beartrap" }
 }
 ```
 

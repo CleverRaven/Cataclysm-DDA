@@ -40,14 +40,16 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ".": "t_dirt", "@": "t_dirt", "l": "t_trunk", "v": "t_dirt", "V": "t_dirt" },
-      "mapping": { "F": { "terrain": "t_dirt", "furniture": "f_brazier", "fields": { "field": "fd_fire" }, "item": { "item": "log" } } },
+      "terrain": { ".": "t_dirt", "@": "t_dirt", "l": "t_trunk", "v": "t_dirt", "V": "t_dirt", "F": "t_dirt" },
       "traps": { "r": "tr_rollmat" },
       "npcs": { "@": { "class": "bandit" } },
       "vehicles": {
         "v": { "vehicle": "bandit_vehicles", "fuel": 50, "status": -1, "rotation": 90 },
         "V": { "vehicle": "bandit_vehicles", "fuel": 50, "status": -1, "rotation": 180 }
-      }
+      },
+      "furniture": { "F": "f_brazier" },
+      "fields": { "F": { "field": "fd_fire" } },
+      "item": { "F": { "item": "log" } }
     }
   }
 ]

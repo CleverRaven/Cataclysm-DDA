@@ -233,21 +233,6 @@
       ],
       "palettes": [ "lab_palette" ],
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
-      "mapping": {
-        "t": { "items": [ { "item": "fridge", "chance": 30 } ] },
-        "l": {
-          "items": [
-            { "item": "office", "chance": 20 },
-            { "item": "textbooks", "chance": 10 },
-            { "item": "science", "chance": 10 },
-            { "item": "harddrugs", "chance": 5 },
-            { "item": "softdrugs", "chance": 5 },
-            { "item": "dresser", "chance": 5 },
-            { "item": "lab_torso", "chance": 5 },
-            { "item": "lab_pants", "chance": 5 }
-          ]
-        }
-      },
       "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "place_nested": [
         {
@@ -269,7 +254,20 @@
           "neighbors": { "south": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
         },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
-      ]
+      ],
+      "items": {
+        "t": [ { "item": "fridge", "chance": 30 } ],
+        "l": [
+          { "item": "office", "chance": 20 },
+          { "item": "textbooks", "chance": 10 },
+          { "item": "science", "chance": 10 },
+          { "item": "harddrugs", "chance": 5 },
+          { "item": "softdrugs", "chance": 5 },
+          { "item": "dresser", "chance": 5 },
+          { "item": "lab_torso", "chance": 5 },
+          { "item": "lab_pants", "chance": 5 }
+        ]
+      }
     }
   },
   {
@@ -598,7 +596,6 @@
   {
     "type": "palette",
     "id": "lab_loot_bionic_vault",
-    "mapping": { "r": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] } },
     "terrain": { "r": "t_thconc_floor" },
     "computers": {
       "6": {
@@ -611,12 +608,12 @@
         ],
         "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
       }
-    }
+    },
+    "items": { "r": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] }
   },
   {
     "type": "palette",
     "id": "lab_loot_serum_vault",
-    "mapping": { "r": { "items": [ { "item": "mutagen_or_serum_kit", "chance": 50 } ] } },
     "terrain": { "r": "t_thconc_floor" },
     "computers": {
       "6": {
@@ -625,7 +622,8 @@
         "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
         "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
       }
-    }
+    },
+    "items": { "r": [ { "item": "mutagen_or_serum_kit", "chance": 50 } ] }
   },
   {
     "type": "mapgen",

@@ -576,7 +576,7 @@
         "t": [
           { "item": "pockknife", "chance": 50 },
           { "item": "deck_of_cards", "chance": 50 },
-          { "item": "ref_matches", "chance": 50, "charges": [ 1, 32 ] },
+          { "item": "ref_matches", "chance": 50 },
           { "item": "marshmallow", "chance": 20 }
         ]
       },

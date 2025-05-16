@@ -95,16 +95,6 @@
           "f_null"
         ]
       },
-      "mapping": {
-        "]": { "items": [ { "item": "manuals", "chance": 15 }, { "item": "textbooks", "chance": 15 } ] },
-        "t": {
-          "items": [
-            { "item": "manuals", "chance": 5 },
-            { "item": "textbooks", "chance": 5 },
-            { "item": "vending_food_items", "chance": 30 }
-          ]
-        }
-      },
       "computers": {
         "6": {
           "name": "Library Entrance",
@@ -117,7 +107,15 @@
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 },
         { "chunks": [ "lab_1side_border_doors" ], "x": 0, "y": 0 }
-      ]
+      ],
+      "items": {
+        "]": [ { "item": "manuals", "chance": 15 }, { "item": "textbooks", "chance": 15 } ],
+        "t": [
+          { "item": "manuals", "chance": 5 },
+          { "item": "textbooks", "chance": 5 },
+          { "item": "vending_food_items", "chance": 30 }
+        ]
+      }
     }
   },
   {
@@ -161,24 +159,6 @@
         { "monster": [ "mon_zombie_soldier" ], "x": [ 1, 21 ], "y": [ 1, 16 ], "pack_size": [ 1, 4 ], "chance": 40 }
       ],
       "furniture": { "7": "f_console" },
-      "mapping": {
-        "l": {
-          "items": [
-            { "item": "clothing_soldier_set_pristine", "chance": 100 },
-            { "item": "gear_soldier_sidearm", "chance": 33 },
-            { "item": "book_military", "chance": 33 }
-          ]
-        },
-        "b": { "items": [ { "item": "bed", "chance": 50 } ] },
-        "d": { "items": [ { "item": "office", "chance": 50 } ] },
-        "r": {
-          "items": [
-            { "item": "ammo_milspec", "chance": 14 },
-            { "item": "mags_milspec", "chance": 14 },
-            { "item": "guns_milspec", "chance": 14 }
-          ]
-        }
-      },
       "computers": {
         "6": {
           "name": "Barracks Entrance",
@@ -196,7 +176,21 @@
       "place_nested": [
         { "chunks": [ [ "null", 45 ], [ "lab_barracks_turret", 50 ], [ "lab_hulk_smash", 5 ] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_1side_border_doors" ], "x": 0, "y": 0 }
-      ]
+      ],
+      "items": {
+        "l": [
+          { "item": "clothing_soldier_set_pristine", "chance": 100 },
+          { "item": "gear_soldier_sidearm", "chance": 33 },
+          { "item": "book_military", "chance": 33 }
+        ],
+        "b": [ { "item": "bed", "chance": 50 } ],
+        "d": [ { "item": "office", "chance": 50 } ],
+        "r": [
+          { "item": "ammo_milspec", "chance": 14 },
+          { "item": "mags_milspec", "chance": 14 },
+          { "item": "guns_milspec", "chance": 14 }
+        ]
+      }
     }
   },
   {
@@ -258,14 +252,6 @@
         { "monster": "mon_zombie_scientist", "x": [ 11, 12 ], "y": [ 5, 10 ], "pack_size": [ 1, 2 ], "chance": 50 }
       ],
       "furniture": { "^": "f_indoor_plant", "7": "f_console", "C": "f_centrifuge" },
-      "mapping": {
-        "X": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
-        "r": { "items": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ] },
-        "b": { "items": [ { "item": "bed", "chance": 50 } ] },
-        "l": { "items": [ { "item": "science", "chance": 60 } ] },
-        "d": { "items": [ { "item": "office", "chance": 60 } ] },
-        "c": { "items": [ { "item": "office", "chance": 40 } ] }
-      },
       "computers": {
         "6": {
           "name": "Prisoner Containment Entrance",
@@ -283,7 +269,15 @@
       "place_nested": [
         { "chunks": [ [ "null", 95 ], [ "lab_hulk_smash", 5 ] ], "x": 0, "y": 0 },
         { "chunks": [ "lab_1side_border_doors" ], "x": 0, "y": 0 }
-      ]
+      ],
+      "items": {
+        "X": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ],
+        "r": [ { "item": "softdrugs", "chance": 40 }, { "item": "harddrugs", "chance": 30 } ],
+        "b": [ { "item": "bed", "chance": 50 } ],
+        "l": [ { "item": "science", "chance": 60 } ],
+        "d": [ { "item": "office", "chance": 60 } ],
+        "c": [ { "item": "office", "chance": 40 } ]
+      }
     }
   },
   {

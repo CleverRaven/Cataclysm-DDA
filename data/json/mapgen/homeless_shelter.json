@@ -67,7 +67,6 @@
       "q": "f_dishwasher",
       "H": "f_rotary_clothesline"
     },
-    "mapping": { "@": { "traps": "tr_cot", "item": { "item": "blanket", "chance": 33 } } },
     "toilets": { "T": {  } },
     "items": {
       "d": { "item": "SUS_office_desk", "chance": 30 },
@@ -102,9 +101,11 @@
       ")": { "item": "blanket", "chance": 80, "repeat": [ 1, 5 ] },
       "W": { "item": "blanket", "chance": 33, "repeat": [ 1, 2 ] },
       "w": { "item": "blanket", "chance": 33, "repeat": [ 1, 2 ] },
-      "T": [ { "item": "toilet_paper", "chance": 80, "repeat": [ 1, 3 ] }, { "item": "plunger_toilet", "chance": 20 } ]
+      "T": [ { "item": "toilet_paper", "chance": 80, "repeat": [ 1, 3 ] }, { "item": "plunger_toilet", "chance": 20 } ],
+      "@": { "item": "blanket", "chance": 33 }
     },
-    "monster": { " ": { "group": "GROUP_CIVILIAN", "chance": 3 } }
+    "monster": { " ": { "group": "GROUP_CIVILIAN", "chance": 3 } },
+    "traps": { "@": "tr_cot" }
   },
   {
     "type": "mapgen",

@@ -1204,22 +1204,20 @@
         "U": "f_utility_shelf",
         "W": "f_water_purifier"
       },
-      "mapping": {
-        "U": {
-          "items": [
-            { "item": "tools_lighting_industrial", "chance": 40, "repeat": [ 1, 2 ] },
-            { "item": "hardware_plumbing", "chance": 40, "repeat": [ 1, 2 ] },
-            { "item": "hardware", "chance": 60, "repeat": [ 1, 2 ] },
-            { "item": "tools_common", "chance": 60, "repeat": [ 1, 3 ] }
-          ]
-        }
-      },
       "place_liquids": [
         { "liquid": "water_clean", "repeat": [ 200, 600 ], "x": [ 0, 1 ], "y": [ 9, 10 ] },
         { "liquid": "water_clean", "repeat": [ 200, 600 ], "x": [ 3, 4 ], "y": [ 9, 10 ] },
         { "liquid": "water_clean", "repeat": [ 200, 600 ], "x": [ 6, 7 ], "y": [ 9, 10 ] }
       ],
-      "palettes": [ "lab_surface_palette" ]
+      "palettes": [ "lab_surface_palette" ],
+      "items": {
+        "U": [
+          { "item": "tools_lighting_industrial", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "hardware_plumbing", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "hardware", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "tools_common", "chance": 60, "repeat": [ 1, 3 ] }
+        ]
+      }
     }
   },
   {
@@ -1271,30 +1269,24 @@
         "u": "f_utility_shelf",
         "U": "f_utility_shelf"
       },
-      "mapping": {
-        "U": {
-          "items": [
-            { "item": "tools_lighting_industrial", "chance": 30, "repeat": [ 1, 2 ] },
-            { "item": "tools_electronics", "chance": 20 },
-            { "item": "tools_carpentry", "chance": 30, "repeat": [ 1, 3 ] },
-            { "item": "tools_earthworking", "chance": 30, "repeat": [ 1, 2 ] },
-            { "item": "tools_construction", "chance": 10 }
-          ]
-        },
-        "u": {
-          "items": [
-            { "item": "hardware", "chance": 40, "repeat": [ 1, 2 ] },
-            { "item": "electronics", "chance": 40 },
-            { "item": "hardware_bulk", "chance": 70 }
-          ]
-        },
-        "C": {
-          "items": [
-            { "item": "tools_carpentry", "chance": 5 },
-            { "item": "tools_earthworking", "chance": 4 },
-            { "item": "tools_common", "chance": 4 }
-          ]
-        }
+      "items": {
+        "U": [
+          { "item": "tools_lighting_industrial", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "tools_electronics", "chance": 20 },
+          { "item": "tools_carpentry", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "tools_earthworking", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "tools_construction", "chance": 10 }
+        ],
+        "u": [
+          { "item": "hardware", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "electronics", "chance": 40 },
+          { "item": "hardware_bulk", "chance": 70 }
+        ],
+        "C": [
+          { "item": "tools_carpentry", "chance": 5 },
+          { "item": "tools_earthworking", "chance": 4 },
+          { "item": "tools_common", "chance": 4 }
+        ]
       }
     }
   },

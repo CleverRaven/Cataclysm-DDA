@@ -11,7 +11,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "io_tags.h"
-#include "mapgen.h"
+#include "mapgen_primitives.h"
 #include "monster.h"
 #include "point.h"
 #include "type_id.h"

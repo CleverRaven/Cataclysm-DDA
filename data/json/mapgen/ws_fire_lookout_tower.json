@@ -260,7 +260,7 @@
           { "item": "coffeemaker", "chance": 60 },
           { "item": "char_purifier", "chance": 80 },
           { "item": "two_way_radio", "chance": 50 },
-          { "item": "handflare", "chance": 33, "charges": 300 },
+          { "item": "handflare", "chance": 33 },
           { "item": "signal_flare", "chance": 50 },
           { "item": "flaregun", "chance": 50 }
         ]
