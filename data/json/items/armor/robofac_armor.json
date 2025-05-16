@@ -319,8 +319,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "OUTER", "RAINPROOF", "SOFT", "MUNDANE" ],
     "armor": [ { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "NONE" ] } ],
     "techniques": [ "WBLOCK_1" ],
-    "tool_ammo": "battery",
-    "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ]
+    "tool_ammo": "battery"
   },
   {
     "id": "robofac_head_rig_nv",
@@ -328,8 +327,8 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "copy-from": "robofac_head_rig",
-    "name": { "str_sp": "Hub 01 modular recon headgear (NV+IR)" },
-    "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Activate again to unpower and raise the visor.",
+    "name": { "str_sp": "Hub 01 modular recon headgear (on)" },
+    "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Activate again to turn off and stow the visor.",
     "extend": { "flags": [ "GNV_EFFECT" ] },
     "power_draw": "320 mW",
     "use_action": {
