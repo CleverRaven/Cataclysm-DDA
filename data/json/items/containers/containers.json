@@ -280,7 +280,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "id": "nylon_bag",
@@ -305,7 +305,7 @@
     ],
     "material": [ "nylon" ],
     "symbol": "u",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "id": "bag_garbage_reinforced",

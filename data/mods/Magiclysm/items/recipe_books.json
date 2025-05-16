@@ -137,7 +137,7 @@
     "price": "79 USD",
     "material": [ "paper" ],
     "symbol": "?",
-    "color": "black",
+    "color": "dark_gray",
     "looks_like": "manual_gun",
     "required_level": 3,
     "max_level": 5,

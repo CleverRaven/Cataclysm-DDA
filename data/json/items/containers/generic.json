@@ -185,7 +185,7 @@
       }
     ],
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "flags": [ "SINGLE_USE", "NO_SALVAGE", "NO_RELOAD" ]
   },
   {
