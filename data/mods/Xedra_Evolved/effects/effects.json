@@ -2975,7 +2975,7 @@
     ],
     "limb_score_mods": [
       { "limb_score": "balance", "modifier": 0.96, "scaling": -0.035 },
-      { "limb_score": "breathing", "modifier": 1, "scaling": -0.035 },
+      { "limb_score": "breathing", "modifier": 1.0, "scaling": -0.035 },
       { "limb_score": "lift", "modifier": 0.96, "scaling": -0.035 },
       { "limb_score": "grip", "modifier": 0.96, "scaling": -0.035 },
       { "limb_score": "reaction", "modifier": 0.95, "scaling": -0.035 },
