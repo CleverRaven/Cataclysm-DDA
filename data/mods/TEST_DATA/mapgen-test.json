@@ -155,7 +155,7 @@
       "place_terrain": [ { "ter": "t_rock", "x": 11, "y": 3 } ],
       "furniture": { ",": "f_table", "-": [ "f_chair", { "furn": "f_bed" } ], "g": "f_brazier" },
       "place_furniture": [ { "furn": "f_rack", "x": 9, "y": 3 } ],
-      "traps": { "F": "tr_cot", "f": { "trap": "tr_funnel" }, "g": { "trap": "tr_funnel" }, "X": "tr_pit" },
+      "traps": { "F": "tr_cot", "f": "tr_funnel", "g": "tr_funnel", "X": "tr_pit" },
       "place_traps": [ { "trap": "tr_funnel", "x": 7, "y": 3 } ],
       "fields": {
         "B": { "field": "fd_blood", "intensity": 1, "age": 10 },
