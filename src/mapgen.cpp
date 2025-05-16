@@ -1249,10 +1249,6 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
         jio.throw_error_at( "weight", "max value out of bounds (0 - max int)" );
     }
 
-    if( jio.get_bool( "disabled", false ) ) {
-        jio.allow_omitted_members();
-        return nullptr; // nothing
-    }
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
         if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
