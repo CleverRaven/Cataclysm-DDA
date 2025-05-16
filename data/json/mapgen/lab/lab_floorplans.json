@@ -92,16 +92,16 @@
         "g": [ "t_wall_glass" ],
         "G": [ "t_door_glass_lab_c" ]
       },
-      "mapping": {
-        "f": { "items": [ { "item": "fridge", "chance": 30 }, { "item": "alcohol", "chance": 60 } ] },
-        "t": { "items": [ { "item": "magazines", "chance": 3 } ] }
-      },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 3, "y": 4 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [ 0, 1 ], "y": 14 },
         { "chunks": [ "lab_spawn_7x7_wall_sw" ], "x": 15, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 }
-      ]
+      ],
+      "items": {
+        "f": [ { "item": "fridge", "chance": 30 }, { "item": "alcohol", "chance": 60 } ],
+        "t": [ { "item": "magazines", "chance": 3 } ]
+      }
     }
   },
   {
@@ -148,14 +148,14 @@
         "H": "t_chaingate_c",
         "C": "t_gates_control_concrete_lab"
       },
-      "mapping": { "r": { "items": [ { "item": "hardware", "chance": 10 }, { "item": "robots", "chance": 10 } ] } },
       "place_nested": [
         { "chunks": [ "null", "sub_fd_shock_vent", "sub_fd_shock_vent" ], "x": 7, "y": 12 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": 4 },
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 4, 6 ], "y": [ 0, 2 ], "repeat": 4 }
-      ]
+      ],
+      "items": { "r": [ { "item": "hardware", "chance": 10 }, { "item": "robots", "chance": 10 } ] }
     }
   },
   {
@@ -204,13 +204,13 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ], "=": "t_conveyor" },
       "furniture": { "%": "f_machinery_heavy" },
-      "mapping": { "c": { "items": [ { "item": "chem_lab", "chance": 20 }, { "item": "tools_science", "chance": 20 } ] } },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 13, "y": 1 },
         { "chunks": [ "sub_t_concrete_wall" ], "x": 13, "y": 10 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
         { "chunks": [ [ "null", 80 ], [ "lab_hood_windfall", 20 ] ], "x": 2, "y": 2 }
-      ]
+      ],
+      "items": { "c": [ { "item": "chem_lab", "chance": 20 }, { "item": "tools_science", "chance": 20 } ] }
     }
   },
   {
@@ -251,10 +251,6 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "!": [ [ "f_null", 2 ], "f_console_broken", "f_generator_broken" ], "C": "f_centrifuge", "f": "f_null" },
       "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
-      "mapping": {
-        "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item": "tools_science", "chance": 10 } ] },
-        "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
-      },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
         { "chunks": [ [ "null", 80 ], [ "lab_largechem_windfall", 20 ] ], "x": 0, "y": 0 }
@@ -267,7 +263,11 @@
           "chance": 10,
           "pack_size": [ 2, 4 ]
         }
-      ]
+      ],
+      "items": {
+        "c": [ { "item": "chem_lab", "chance": 10 }, { "item": "tools_science", "chance": 10 } ],
+        "r": [ { "item": "cleaning", "chance": 30 } ]
+      }
     }
   },
   {
@@ -360,13 +360,13 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
-      "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 20 } ] } },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 3, "y": 2 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 12, "y": 3 },
         { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 3, "y": 11 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 14, "y": 13 }
-      ]
+      ],
+      "items": { "t": [ { "item": "vending_food_items", "chance": 20 } ] }
     }
   },
   {
@@ -407,12 +407,12 @@
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "furniture": { "^": "f_indoor_plant", "C": "f_cupboard" },
-      "mapping": { "C": { "items": [ { "item": "kitchen", "chance": 40 } ] }, "t": { "items": [ { "item": "snacks", "chance": 10 } ] } },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 3, "y": 2 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 14, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_wall_sw" ], "x": 3, "y": 13 }
-      ]
+      ],
+      "items": { "C": [ { "item": "kitchen", "chance": 40 } ], "t": [ { "item": "snacks", "chance": 10 } ] }
     }
   },
   {
@@ -458,33 +458,29 @@
         "C": "t_gates_control_concrete_lab",
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
       },
-      "mapping": {
-        "X": {
-          "items": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
-        },
-        "R": { "items": [ { "item": "cleaning", "chance": 60 } ] },
-        "l": {
-          "items": [
-            { "item": "office", "chance": 10 },
-            { "item": "textbooks", "chance": 3 },
-            { "item": "science", "chance": 3 },
-            { "item": "harddrugs", "chance": 3 },
-            { "item": "softdrugs", "chance": 3 },
-            { "item": "dresser", "chance": 3 },
-            { "item": "lab_torso", "chance": 3 },
-            { "item": "lab_pants", "chance": 3 }
-          ]
-        },
-        "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] },
-        "c": { "items": [ { "item": "chem_lab", "chance": 30 }, { "item": "tools_science", "chance": 30 } ] }
-      },
       "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 0, 11 ], "y": [ 8, 9 ], "chance": 20, "repeat": 7 } ],
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 6, "y": 11 },
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 12, "y": 2 },
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 4, 6 ], "repeat": 8 },
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 0, 2 ], "repeat": 8 }
-      ]
+      ],
+      "items": {
+        "X": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ],
+        "R": [ { "item": "cleaning", "chance": 60 } ],
+        "l": [
+          { "item": "office", "chance": 10 },
+          { "item": "textbooks", "chance": 3 },
+          { "item": "science", "chance": 3 },
+          { "item": "harddrugs", "chance": 3 },
+          { "item": "softdrugs", "chance": 3 },
+          { "item": "dresser", "chance": 3 },
+          { "item": "lab_torso", "chance": 3 },
+          { "item": "lab_pants", "chance": 3 }
+        ],
+        "r": [ { "item": "mine_equipment", "chance": 30 } ],
+        "c": [ { "item": "chem_lab", "chance": 30 }, { "item": "tools_science", "chance": 30 } ]
+      }
     }
   },
   {
@@ -533,17 +529,15 @@
         "r": "t_floor_blue"
       },
       "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11, "ammo": 100 } ],
-      "mapping": {
-        "r": {
-          "items": [
-            { "item": "dissection", "chance": 60 },
-            { "item": "tools_science", "chance": 20 },
-            { "item": "bionics_common", "chance": 10 },
-            { "item": "mut_lab", "chance": 5 }
-          ]
-        }
+      "items": {
+        "?": { "item": "autodoc_supplies", "chance": 100 },
+        "r": [
+          { "item": "dissection", "chance": 60 },
+          { "item": "tools_science", "chance": 20 },
+          { "item": "bionics_common", "chance": 10 },
+          { "item": "mut_lab", "chance": 5 }
+        ]
       },
-      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } },
       "computers": {
         "6": {
           "name": "Operating Theater Access Control",
@@ -677,11 +671,6 @@
       "palettes": [ "lab_palette" ],
       "furniture": { "7": "f_console", "C": "f_centrifuge" },
       "terrain": { "C": "t_floor_blue", "7": "t_floor_blue", ",": "t_floor_blue" },
-      "mapping": {
-        "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
-        "l": { "items": [ { "item": "science", "chance": 60 } ] },
-        "j": { "items": [ { "item": "guns_launcher_flame_xedra", "chance": 20 } ] }
-      },
       "computers": {
         "6": {
           "name": "Containment Control",
@@ -704,7 +693,12 @@
         { "monster": "mon_kreck", "x": 2, "y": 2, "chance": 30 },
         { "monster": [ [ "mon_crawler", 60 ], [ "mon_shoggoth", 30 ] ], "x": 2, "y": 7 },
         { "monster": "mon_zombie_scientist", "x": [ 10, 14 ], "y": [ 16, 18 ], "chance": 50, "pack_size": [ 1, 3 ] }
-      ]
+      ],
+      "items": {
+        "c": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ],
+        "l": [ { "item": "science", "chance": 60 } ],
+        "j": [ { "item": "guns_launcher_flame_xedra", "chance": 20 } ]
+      }
     }
   },
   {
@@ -754,18 +748,16 @@
         "g": "t_wall_glass",
         "G": "t_door_glass_lab_c"
       },
-      "mapping": {
-        "X": {
-          "items": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
-        },
-        "l": { "items": [ { "item": "cleaning", "chance": 60 } ] },
-        "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] }
-      },
       "place_monster": [ { "monster": "mon_zombie", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "pack_size": [ 2, 3 ] } ],
       "place_nested": [
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 16, 18 ], "repeat": 8 },
         { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 20, 23 ], "repeat": 8 }
-      ]
+      ],
+      "items": {
+        "X": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ],
+        "l": [ { "item": "cleaning", "chance": 60 } ],
+        "r": [ { "item": "mine_equipment", "chance": 30 } ]
+      }
     }
   },
   {
@@ -777,10 +769,8 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
-      "mapping": {
-        "X": {
-          "items": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
-        }
+      "items": {
+        "X": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
       }
     }
   },
@@ -822,14 +812,14 @@
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "furniture": { "^": "f_indoor_plant", "C": "f_centrifuge" },
       "terrain": { "E": "t_elevator", "e": "t_elevator_control_off", "w": "t_water_sh", "W": "t_water_dp", "=": "t_door_lab_c" },
-      "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 20 } ] } },
       "place_loot": [
         { "group": "everyday_corpse", "x": 17, "y": 15 },
         { "group": "everyday_corpse", "x": 8, "y": 3 },
         { "group": "everyday_corpse", "x": 10, "y": 3 },
         { "item": "fire_ax", "x": 18, "y": 15 }
       ],
-      "place_monster": [ { "monster": "mon_zombie", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "pack_size": [ 2, 3 ] } ]
+      "place_monster": [ { "monster": "mon_zombie", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "pack_size": [ 2, 3 ] } ],
+      "items": { "t": [ { "item": "vending_food_items", "chance": 20 } ] }
     }
   },
   {
@@ -923,22 +913,20 @@
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "furniture": { "F": "f_sofa", "B": "f_bathtub", "C": "f_counter", "O": "f_oven", "V": "f_table" },
       "terrain": { "w": "t_window_domestic", "`": "t_grass_golf", "+": "t_door_lab_c" },
-      "mapping": {
-        "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
-        "F": { "items": [ { "item": "livingroom", "chance": 5 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 80 } ] },
-        "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
-        "O": { "items": [ { "item": "oven", "chance": 70 } ] },
-        "r": {
-          "items": [
-            { "item": "dresser", "chance": 20 },
-            { "item": "cleaning", "chance": 40 },
-            { "item": "home_hw", "chance": 10 },
-            { "item": "cannedfood", "chance": 30 }
-          ]
-        },
-        "V": { "item": [ { "item": "television" } ] }
-      }
+      "items": {
+        "t": [ { "item": "livingroom", "chance": 20 } ],
+        "F": [ { "item": "livingroom", "chance": 5 } ],
+        "f": [ { "item": "fridge", "chance": 80 } ],
+        "C": [ { "item": "kitchen", "chance": 40 } ],
+        "O": [ { "item": "oven", "chance": 70 } ],
+        "r": [
+          { "item": "dresser", "chance": 20 },
+          { "item": "cleaning", "chance": 40 },
+          { "item": "home_hw", "chance": 10 },
+          { "item": "cannedfood", "chance": 30 }
+        ]
+      },
+      "item": { "V": [ { "item": "television" } ] }
     }
   }
 ]

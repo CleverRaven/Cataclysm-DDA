@@ -54,25 +54,15 @@
       "ß": "f_metal_bench",
       "Ҏ": [ [ "f_exodii_pump", 4 ], "f_machinery_heavy", "f_machinery_light", "f_machinery_electronic" ],
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-      "¶": "f_exodii_portal_tower"
+      "¶": "f_exodii_portal_tower",
+      "d": "f_foot_locker",
+      "f": "f_locker",
+      "U": "f_utility_shelf",
+      "q": "f_metal_crate_r",
+      "R": "f_exodii_botrack",
+      "Д": "f_standing_tank"
     },
     "//": "at some point, Exodii lockers should contain hints of personal effects and things",
-    "mapping": {
-      "d": { "furniture": "f_foot_locker", "items": { "item": "exodii_tools", "chance": 30 } },
-      "f": { "furniture": "f_locker", "items": { "item": "exodii_tools", "chance": 30 } },
-      "U": {
-        "furniture": "f_utility_shelf",
-        "items": [
-          { "item": "tools_lighting_industrial", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "hardware_plumbing", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "tools_common", "chance": 50, "repeat": [ 1, 3 ] }
-        ]
-      },
-      "q": { "furniture": "f_metal_crate_r", "items": [ { "item": "exodii_ammo_crate", "chance": 90, "repeat": [ 1, 2 ] } ] },
-      "R": { "furniture": "f_exodii_botrack", "items": [ { "item": "SUS_exodii_botrack", "chance": 95, "repeat": [ 4, 8 ] } ] },
-      "Д": { "furniture": "f_standing_tank", "liquids": { "liquid": "water_clean", "amount": [ 100, 200 ] } }
-    },
     "nested": {
       "c": { "chunks": [ [ "exodii_crate_1", 70 ], [ "exodii_crate_2", 20 ], [ "exodii_wreckage", 10 ] ] },
       "C": {
@@ -103,6 +93,19 @@
           [ "exodii_worktable", 10 ]
         ]
       }
-    }
+    },
+    "items": {
+      "d": { "item": "exodii_tools", "chance": 30 },
+      "f": { "item": "exodii_tools", "chance": 30 },
+      "U": [
+        { "item": "tools_lighting_industrial", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "hardware_plumbing", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "tools_common", "chance": 50, "repeat": [ 1, 3 ] }
+      ],
+      "q": [ { "item": "exodii_ammo_crate", "chance": 90, "repeat": [ 1, 2 ] } ],
+      "R": [ { "item": "SUS_exodii_botrack", "chance": 95, "repeat": [ 4, 8 ] } ]
+    },
+    "liquids": { "Д": { "liquid": "water_clean", "amount": [ 100, 200 ] } }
   }
 ]

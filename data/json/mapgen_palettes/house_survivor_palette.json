@@ -41,31 +41,29 @@
       "¶": { "chunks": [ [ "destroyed_glass_door_wall", 50 ], [ "null", 50 ] ] },
       ":": { "chunks": [ [ "destroyed_glass_door_wall", 50 ], [ "null", 50 ] ] }
     },
-    "mapping": {
-      "÷": {
-        "traps": [
-          [ "tr_nailboard", 3 ],
-          [ "tr_tripwire", 3 ],
-          [ "tr_bubblewrap", 2 ],
-          [ "tr_beartrap", 2 ],
-          [ "tr_shotgun_2", 1 ],
-          [ "tr_shotgun_2_1", 1 ],
-          [ "tr_shotgun_1", 1 ],
-          [ "tr_null", 4 ]
-        ]
-      },
-      " ": {
-        "item": [
-          { "item": "can_food", "chance": 4 },
-          { "item": "can_medium", "chance": 1 },
-          { "item": "can_food_big", "chance": 1 },
-          { "item": "jar_glass_sealed", "chance": 1 },
-          { "item": "jar_3l_glass_sealed", "chance": 1 },
-          { "item": "can_drink", "chance": 1 },
-          { "item": "bottle_glass", "chance": 1 },
-          { "item": "bottle_plastic", "chance": 1 }
-        ]
-      }
+    "traps": {
+      "÷": [
+        [ "tr_nailboard", 3 ],
+        [ "tr_tripwire", 3 ],
+        [ "tr_bubblewrap", 2 ],
+        [ "tr_beartrap", 2 ],
+        [ "tr_shotgun_2", 1 ],
+        [ "tr_shotgun_2_1", 1 ],
+        [ "tr_shotgun_1", 1 ],
+        [ "tr_null", 4 ]
+      ]
+    },
+    "item": {
+      " ": [
+        { "item": "can_food", "chance": 4 },
+        { "item": "can_medium", "chance": 1 },
+        { "item": "can_food_big", "chance": 1 },
+        { "item": "jar_glass_sealed", "chance": 1 },
+        { "item": "jar_3l_glass_sealed", "chance": 1 },
+        { "item": "can_drink", "chance": 1 },
+        { "item": "bottle_glass", "chance": 1 },
+        { "item": "bottle_plastic", "chance": 1 }
+      ]
     }
   }
 ]

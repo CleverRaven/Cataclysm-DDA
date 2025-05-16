@@ -374,7 +374,7 @@
         { "item": "allsporting", "chance": 5 }
       ]
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
+    "item": { "÷": { "item": "doormat", "chance": 55 } }
   },
   {
     "type": "palette",

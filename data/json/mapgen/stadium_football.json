@@ -507,7 +507,7 @@
         "/": "t_thconc_floor",
         "A": "t_thconc_floor"
       },
-      "furniture": { "H": "f_camp_chair", "M": "f_metal_bench", "/": "f_canvas_door" },
+      "furniture": { "H": "f_camp_chair", "M": "f_metal_bench", "/": "f_canvas_door", "ñ": "f_tourist_table", "Ñ": "f_tourist_table" },
       "items": {
         "E": { "item": "softdrinks_canned", "chance": 40, "repeat": [ 1, 10 ] },
         "r": { "item": "football_souvenir", "chance": 80 },
@@ -515,11 +515,9 @@
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 3 ] },
         "l": { "item": "football_items", "chance": 33, "repeat": [ 1, 4 ] },
         "Ü": { "item": "football_items", "chance": 2 },
-        "e": { "item": "fast_fridge", "chance": 25, "repeat": [ 1, 20 ] }
-      },
-      "mapping": {
-        "ñ": { "furniture": "f_tourist_table", "items": { "item": "football_souvenir", "chance": 33 } },
-        "Ñ": { "furniture": "f_tourist_table", "items": { "item": "fast_table", "chance": 8 } }
+        "e": { "item": "fast_fridge", "chance": 25, "repeat": [ 1, 20 ] },
+        "ñ": { "item": "football_souvenir", "chance": 33 },
+        "Ñ": { "item": "fast_table", "chance": 8 }
       },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 7, 10 ], "y": 0 },

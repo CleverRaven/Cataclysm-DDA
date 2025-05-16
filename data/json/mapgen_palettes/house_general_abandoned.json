@@ -203,6 +203,6 @@
       "!": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] },
       "%": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] }
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 10 } } }
+    "item": { "÷": { "item": "doormat", "chance": 10 } }
   }
 ]

@@ -36,20 +36,6 @@
       "palettes": [ "lab_palette" ],
       "furniture": { "7": "f_console", "S": "f_sofa", "s": "f_sandbag_half", "&": "f_trashcan" },
       "terrain": { "*": "t_thconc_floor" },
-      "mapping": {
-        "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
-        "]": { "items": [ { "item": "book_military", "chance": 20 } ] },
-        "t": { "items": [ { "item": "book_military", "chance": 10 } ] },
-        "d": { "items": [ { "item": "office", "chance": 50 } ] },
-        "r": {
-          "items": [
-            { "item": "ammo_milspec", "chance": 40 },
-            { "item": "guns_milspec", "chance": 40 },
-            { "item": "afs_weapons_rare", "chance": 6 }
-          ]
-        },
-        "*": { "items": [ { "item": "casings", "chance": 10 } ] }
-      },
       "computers": {
         "6": {
           "name": "Weapons Testing Range",
@@ -63,6 +49,18 @@
           "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
+      },
+      "items": {
+        "l": [ { "item": "gear_soldier_sidearm", "chance": 33 } ],
+        "]": [ { "item": "book_military", "chance": 20 } ],
+        "t": [ { "item": "book_military", "chance": 10 } ],
+        "d": [ { "item": "office", "chance": 50 } ],
+        "r": [
+          { "item": "ammo_milspec", "chance": 40 },
+          { "item": "guns_milspec", "chance": 40 },
+          { "item": "afs_weapons_rare", "chance": 6 }
+        ],
+        "*": [ { "item": "casings", "chance": 10 } ]
       }
     }
   }

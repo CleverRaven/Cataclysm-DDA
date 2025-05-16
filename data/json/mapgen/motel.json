@@ -696,54 +696,48 @@
       "'": { "param": "roof_type", "fallback": "t_flat_roof" },
       "-": "t_gutter",
       "4": "t_gutter_downspout",
-      "5": "t_gutter_drop"
-    },
-    "mapping": {
-      "u": {
-        "terrain": { "param": "floor_type", "fallback": "t_floor" },
-        "furniture": "f_trashcan",
-        "items": { "item": "SUS_trash_floor_light", "chance": 50 }
-      },
-      "D": {
-        "terrain": { "param": "floor_type", "fallback": "t_floor" },
-        "furniture": "f_dresser",
-        "items": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] }
-      },
-      "r": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_chair" },
-      "c": {
-        "terrain": { "param": "floor_type", "fallback": "t_floor" },
-        "furniture": "f_counter",
-        "items": { "item": "office", "chance": 75 }
-      },
-      "t": {
-        "terrain": { "param": "floor_type", "fallback": "t_floor" },
-        "furniture": "f_table",
-        "items": { "item": "book_motel", "chance": 100 }
-      },
-      "T": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_table" },
-      "b": {
-        "terrain": { "param": "floor_type", "fallback": "t_floor" },
-        "furniture": "f_bed",
-        "items": { "item": "bed", "chance": 40 }
-      },
-      "y": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": [ "f_indoor_plant_y", "f_indoor_plant" ] },
-      "Y": {
-        "terrain": { "param": "floor_type", "fallback": "t_floor" },
-        "furniture": "f_rack_coat",
-        "items": { "item": "unisex_coat_rack", "chance": 25 }
-      },
-      "B": { "terrain": { "param": "floor_type", "fallback": "t_floor" }, "furniture": "f_floor_lamp" },
-      "d": {
-        "terrain": "t_sidewalk",
-        "furniture": "f_dumpster",
-        "items": { "item": "SUS_trash_dumpster", "chance": 100, "repeat": [ 0, 5 ] }
-      },
-      "$": { "furniture": "f_shower", "items": { "item": "shower", "chance": 33 } },
-      "S": { "furniture": "f_sink", "items": { "item": "public_sink", "chance": 33 } }
+      "5": "t_gutter_drop",
+      "u": { "param": "floor_type", "fallback": "t_floor" },
+      "D": { "param": "floor_type", "fallback": "t_floor" },
+      "r": { "param": "floor_type", "fallback": "t_floor" },
+      "c": { "param": "floor_type", "fallback": "t_floor" },
+      "t": { "param": "floor_type", "fallback": "t_floor" },
+      "T": { "param": "floor_type", "fallback": "t_floor" },
+      "b": { "param": "floor_type", "fallback": "t_floor" },
+      "y": { "param": "floor_type", "fallback": "t_floor" },
+      "Y": { "param": "floor_type", "fallback": "t_floor" },
+      "B": { "param": "floor_type", "fallback": "t_floor" },
+      "d": "t_sidewalk"
     },
     "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
-    "items": { "L": { "item": "SUS_toilet", "chance": 50 } },
-    "toilets": { "L": {  } }
+    "items": {
+      "L": { "item": "SUS_toilet", "chance": 50 },
+      "u": { "item": "SUS_trash_floor_light", "chance": 50 },
+      "D": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] },
+      "c": { "item": "office", "chance": 75 },
+      "t": { "item": "book_motel", "chance": 100 },
+      "b": { "item": "bed", "chance": 40 },
+      "Y": { "item": "unisex_coat_rack", "chance": 25 },
+      "d": { "item": "SUS_trash_dumpster", "chance": 100, "repeat": [ 0, 5 ] },
+      "$": { "item": "shower", "chance": 33 },
+      "S": { "item": "public_sink", "chance": 33 }
+    },
+    "toilets": { "L": {  } },
+    "furniture": {
+      "u": "f_trashcan",
+      "D": "f_dresser",
+      "r": "f_chair",
+      "c": "f_counter",
+      "t": "f_table",
+      "T": "f_table",
+      "b": "f_bed",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+      "Y": "f_rack_coat",
+      "B": "f_floor_lamp",
+      "d": "f_dumpster",
+      "$": "f_shower",
+      "S": "f_sink"
+    }
   },
   {
     "type": "palette",

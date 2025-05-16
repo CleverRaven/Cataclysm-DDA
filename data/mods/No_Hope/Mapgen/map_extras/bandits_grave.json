@@ -40,9 +40,10 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ".": "t_dirt", "@": "t_dirt" },
-      "mapping": { "P": { "terrain": "t_pit", "fields": { "field": "fd_blood" }, "item": { "item": "corpse", "repeat": [ 1, 3 ] } } },
-      "npcs": { "@": { "class": "bandit" } }
+      "terrain": { ".": "t_dirt", "@": "t_dirt", "P": "t_pit" },
+      "npcs": { "@": { "class": "bandit" } },
+      "fields": { "P": { "field": "fd_blood" } },
+      "item": { "P": { "item": "corpse", "repeat": [ 1, 3 ] } }
     }
   }
 ]

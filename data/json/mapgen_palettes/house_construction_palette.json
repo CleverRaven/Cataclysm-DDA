@@ -99,6 +99,6 @@
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down"
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
+    "item": { "÷": { "item": "doormat", "chance": 55 } }
   }
 ]

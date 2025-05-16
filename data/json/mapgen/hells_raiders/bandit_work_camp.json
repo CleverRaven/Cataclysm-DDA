@@ -113,12 +113,6 @@
         "b": "f_bed",
         "F": "f_woodstove"
       },
-      "mapping": {
-        "/": {
-          "traps": [ [ "tr_rollmat", 10 ], [ "tr_fur_rollmat", 1 ], [ "tr_cot", 3 ], [ "tr_null", 100 ] ],
-          "items": [ { "item": "cannedfood", "chance": 10 }, { "item": "dresser", "chance": 10, "repeat": [ 1, 3 ] } ]
-        }
-      },
       "place_npcs": [
         { "class": "bandit", "x": 5, "y": 3 },
         { "class": "bandit", "x": 17, "y": 3 },
@@ -131,7 +125,8 @@
         "F": { "item": "kitchen_counters", "chance": 93 },
         "b": { "item": "bed", "chance": 100 },
         "8": { "item": "kitchen_counters", "chance": 93, "repeat": [ 2, 4 ] },
-        "*": { "item": "tools_earthworking", "chance": 80, "repeat": [ 4, 7 ] }
+        "*": { "item": "tools_earthworking", "chance": 80, "repeat": [ 4, 7 ] },
+        "/": [ { "item": "cannedfood", "chance": 10 }, { "item": "dresser", "chance": 10, "repeat": [ 1, 3 ] } ]
       },
       "place_zones": [
         {
@@ -151,7 +146,8 @@
         { "vehicle": "motorcycle", "x": 10, "y": 16, "chance": 80, "rotation": 270, "status": 0 }
       ],
       "nested": { "Á": { "chunks": [ "tent_5x5_N" ] }, "É": { "chunks": [ "tent_5x5_S" ] } },
-      "sealed_item": { "D": { "item": { "item": "seed_weed" }, "furniture": "f_plant_seedling", "chance": 90 } }
+      "sealed_item": { "D": { "item": { "item": "seed_weed" }, "furniture": "f_plant_seedling", "chance": 90 } },
+      "traps": { "/": [ [ "tr_rollmat", 10 ], [ "tr_fur_rollmat", 1 ], [ "tr_cot", 3 ], [ "tr_null", 100 ] ] }
     }
   },
   {

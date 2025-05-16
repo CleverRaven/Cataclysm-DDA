@@ -42,16 +42,6 @@
         { "item": "id_science", "x": 7, "y": 11, "chance": 100 },
         { "item": "cattlefodder", "x": 7, "y": 11, "chance": 100 }
       ],
-      "mapping": {
-        "r": {
-          "items": [
-            { "item": "bionics_common", "chance": 40 },
-            { "item": "bionics", "chance": 20 },
-            { "item": "hospital_medical_items", "chance": 80 },
-            { "item": "dissection", "chance": 60 }
-          ]
-        }
-      },
       "computers": {
         "6": {
           "name": "DinoLab Operating Theater Controls",
@@ -75,7 +65,15 @@
         { "monster": [ "mon_pachycephalosaurus_bio_op" ], "x": [ 12 ], "y": 13, "chance": 50 },
         { "monster": [ "mon_trice_bio_op" ], "x": [ 13 ], "y": 14, "chance": 25 }
       ],
-      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } }
+      "items": {
+        "?": { "item": "autodoc_supplies", "chance": 100 },
+        "r": [
+          { "item": "bionics_common", "chance": 40 },
+          { "item": "bionics", "chance": 20 },
+          { "item": "hospital_medical_items", "chance": 80 },
+          { "item": "dissection", "chance": 60 }
+        ]
+      }
     }
   },
   {
@@ -117,31 +115,27 @@
       "furniture": { "C": "f_machinery_electronic", "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
       "terrain": { "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor", "z": "t_strconc_floor" },
-      "mapping": {
-        "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
-        "z": {
-          "item": [
-            { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
-            { "item": "wire" },
-            { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
-          ]
-        },
-        "n": {
-          "item": [
-            { "item": "egg_deinonychus", "repeat": [ 3, 10 ], "chance": 90 },
-            { "item": "blanket", "repeat": [ 1, 5 ], "chance": 70 },
-            { "item": "sheet", "repeat": [ 1, 5 ], "chance": 70 },
-            { "item": "down_blanket", "repeat": [ 1, 2 ], "chance": 50 },
-            { "item": "cotton_patchwork", "repeat": [ 20, 50 ] }
-          ]
-        }
-      },
       "place_monster": [
         { "monster": "mon_deinonychus", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90, "repeat": [ 1, 5 ] },
         { "monster": "mon_deinonychus", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90, "repeat": [ 1, 5 ] },
         { "monster": "mon_deinonychus", "x": [ 19, 22 ], "y": [ 7, 8 ], "chance": 90, "repeat": [ 2, 5 ] },
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
-      ]
+      ],
+      "item": {
+        "R": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ],
+        "z": [
+          { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
+          { "item": "wire" },
+          { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
+        ],
+        "n": [
+          { "item": "egg_deinonychus", "repeat": [ 3, 10 ], "chance": 90 },
+          { "item": "blanket", "repeat": [ 1, 5 ], "chance": 70 },
+          { "item": "sheet", "repeat": [ 1, 5 ], "chance": 70 },
+          { "item": "down_blanket", "repeat": [ 1, 2 ], "chance": 50 },
+          { "item": "cotton_patchwork", "repeat": [ 20, 50 ] }
+        ]
+      }
     }
   },
   {
@@ -183,32 +177,28 @@
       "furniture": { "C": "f_machinery_electronic", "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
       "terrain": { "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor", "~": "t_water_sh", "z": "t_water_sh" },
-      "mapping": {
-        "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
-        "z": {
-          "item": [
-            { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
-            { "item": "wire" },
-            { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
-          ]
-        },
-        "n": {
-          "item": [
-            { "item": "egg_ceratosaurus", "repeat": [ 3, 10 ], "chance": 90 },
-            { "item": "blanket", "repeat": [ 1, 5 ], "chance": 70 },
-            { "item": "sheet", "repeat": [ 1, 5 ], "chance": 70 },
-            { "item": "down_blanket", "repeat": [ 1, 2 ], "chance": 50 },
-            { "item": "cotton_patchwork", "repeat": [ 20, 50 ] }
-          ]
-        },
-        "D": { "item": [ { "item": "report_dino_exploration" } ] }
-      },
       "place_monster": [
         { "monster": "mon_fish_salmon", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90, "repeat": [ 1, 5 ] },
         { "monster": "mon_ceratosaurus", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90, "repeat": [ 1, 6 ] },
         { "monster": "mon_ceratosaurus", "x": [ 19, 22 ], "y": [ 7, 8 ], "chance": 90, "repeat": [ 2, 6 ] },
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
-      ]
+      ],
+      "item": {
+        "R": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ],
+        "z": [
+          { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
+          { "item": "wire" },
+          { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
+        ],
+        "n": [
+          { "item": "egg_ceratosaurus", "repeat": [ 3, 10 ], "chance": 90 },
+          { "item": "blanket", "repeat": [ 1, 5 ], "chance": 70 },
+          { "item": "sheet", "repeat": [ 1, 5 ], "chance": 70 },
+          { "item": "down_blanket", "repeat": [ 1, 2 ], "chance": 50 },
+          { "item": "cotton_patchwork", "repeat": [ 20, 50 ] }
+        ],
+        "D": [ { "item": "report_dino_exploration" } ]
+      }
     }
   }
 ]

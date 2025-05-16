@@ -155,43 +155,6 @@
       },
       "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true } },
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 19, "y": 14 } ],
-      "mapping": {
-        "e": { "items": [ { "item": "afs_ballistic_armory", "chance": 20 } ] },
-        "L": {
-          "items": [
-            { "item": "gear_soldier_sidearm", "chance": 33 },
-            { "item": "book_military", "chance": 20 },
-            { "item": "afs_plastic_armor_g", "chance": 33 },
-            { "item": "afs_carbide_raider_armor_g", "chance": 10 },
-            { "item": "mil_armor", "chance": 10 },
-            { "item": "afs_colonist_outfit", "chance": 75, "repeat": [ 3, 5 ] },
-            { "item": "drugs_soldier", "chance": 25 },
-            { "item": "tools_survival", "chance": 60 }
-          ]
-        },
-        "r": {
-          "items": [
-            { "item": "afs_tools_scavenging", "chance": 60 },
-            { "item": "afs_tools_robot_maintenance", "chance": 10 },
-            { "item": "afs_tools_electric_repair", "chance": 10 }
-          ]
-        },
-        "T": { "items": [ { "item": "afs_todd_howard", "chance": 1 } ] },
-        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ] },
-        "C": {
-          "items": [
-            { "item": "hardware_bulk", "chance": 25 },
-            { "item": "plumbing_bulk", "chance": 25 },
-            { "item": "sports_bulk", "chance": 25 },
-            { "item": "cleaning_bulk", "chance": 25 }
-          ]
-        },
-        "E": { "items": [ { "item": "afs_tools_space_emergency", "chance": 100 } ] },
-        "w": { "items": [ { "item": "SUS_office_desk", "chance": 75 } ] },
-        "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
-        "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] },
-        "h": { "items": [ { "item": "afs_exosuit_light_worker", "chance": 75 } ] }
-      },
       "place_loot": [
         { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
         { "item": "crashing_ship_armory_card", "x": [ 1, 7 ], "y": 1, "chance": 100 },
@@ -215,7 +178,38 @@
         { "text": "Escape Pods & Vehicle Bay", "x": 61, "y": 27 }
       ],
       "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 }, "x": { "field": "fd_blood", "intensity": 3 } },
-      "computers": { "^": { "name": "Escape Pod", "eocs": [ "EOC_ESPOD_CONTROL" ], "chat_topics": [ "ESPOD_CONTROL_START" ] } }
+      "computers": { "^": { "name": "Escape Pod", "eocs": [ "EOC_ESPOD_CONTROL" ], "chat_topics": [ "ESPOD_CONTROL_START" ] } },
+      "items": {
+        "e": [ { "item": "afs_ballistic_armory", "chance": 20 } ],
+        "L": [
+          { "item": "gear_soldier_sidearm", "chance": 33 },
+          { "item": "book_military", "chance": 20 },
+          { "item": "afs_plastic_armor_g", "chance": 33 },
+          { "item": "afs_carbide_raider_armor_g", "chance": 10 },
+          { "item": "mil_armor", "chance": 10 },
+          { "item": "afs_colonist_outfit", "chance": 75, "repeat": [ 3, 5 ] },
+          { "item": "drugs_soldier", "chance": 25 },
+          { "item": "tools_survival", "chance": 60 }
+        ],
+        "r": [
+          { "item": "afs_tools_scavenging", "chance": 60 },
+          { "item": "afs_tools_robot_maintenance", "chance": 10 },
+          { "item": "afs_tools_electric_repair", "chance": 10 }
+        ],
+        "T": [ { "item": "afs_todd_howard", "chance": 1 } ],
+        "c": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ],
+        "C": [
+          { "item": "hardware_bulk", "chance": 25 },
+          { "item": "plumbing_bulk", "chance": 25 },
+          { "item": "sports_bulk", "chance": 25 },
+          { "item": "cleaning_bulk", "chance": 25 }
+        ],
+        "E": [ { "item": "afs_tools_space_emergency", "chance": 100 } ],
+        "w": [ { "item": "SUS_office_desk", "chance": 75 } ],
+        "t": [ { "item": "afs_mess_hall", "chance": 80 } ],
+        "H": [ { "item": "afs_exosuit_worker", "chance": 75 } ],
+        "h": [ { "item": "afs_exosuit_light_worker", "chance": 75 } ]
+      }
     }
   }
 ]

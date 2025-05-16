@@ -89,7 +89,7 @@
       " ": { "item": "hoarder", "chance": 50, "repeat": [ 5, 8 ] },
       "'": { "item": "hoarder", "chance": 33, "repeat": [ 2, 3 ] }
     },
-    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55, "repeat": [ 0, 2 ] } } },
-    "monster": { " ": { "group": "GROUP_ROACH", "chance": 5 }, "'": { "group": "GROUP_ROACH", "chance": 7 } }
+    "monster": { " ": { "group": "GROUP_ROACH", "chance": 5 }, "'": { "group": "GROUP_ROACH", "chance": 7 } },
+    "item": { "÷": { "item": "doormat", "chance": 55, "repeat": [ 0, 2 ] } }
   }
 ]
