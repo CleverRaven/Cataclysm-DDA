@@ -356,7 +356,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "//": "Translation note: "Dexy is short for Dexamphetamine, a potent stimulant drug.  Skate is the umbrella term for Rays, such as stingrays",
+    "//": "Translation note: Dexy is short for Dexamphetamine, a potent stimulant drug.  Skate is the umbrella term for Rays, such as stingrays",
     "sound": "Snorting Dexy, eating skate right out of the lake.",
     "volume": 10
   },
