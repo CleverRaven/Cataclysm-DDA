@@ -1065,6 +1065,7 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
+<<<<<<< Updated upstream:data/json/items/melee/swords_and_blades.json
     "id": "kukri",
     "copy-from": "mc_kukri",
     "type": "ITEM",
@@ -1143,6 +1144,93 @@
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
     "relative": { "melee_damage": { "cut": 3 } }
   },
+=======
+  "id": "kukri",
+  "copy-from": "mc_kukri",
+    "looks_like": "kukri",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "kukri" },
+  "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
+  "replace_materials": { "mc_steel": "steel", "wood": "plastic" }
+
+},
+{
+  "id": "lc_kukri",
+  "copy-from": "mc_kukri",
+  "looks_like": "kukri",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "mild steel kukri" },
+  "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of mild steel, and barely has a proper handle.  You'd probably find a better version in a store somewhere.",
+  "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+  "proportional": { "price_postapoc": 0.75, "price": 0.75 },
+  "delete": { "flags": [ "DURABLE_MELEE" ] },
+  "replace_materials": { "mc_steel": "lc_steel" },
+  "relative": { "melee_damage": { "cut": -1 } }
+},
+{
+  "id": "mc_kukri",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "category": "weapons",
+  "name": { "str": "medium steel kukri" },
+  "looks_like": "kukri",
+  "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of medium steel, and is about what you'd expect to see in a hunting shop.",
+  "weight": "454 g",
+  "volume": "450 ml",
+  "longest_side": "46 cm",
+  "price": "80 USD",
+  "price_postapoc": "12 USD 50 cent",
+  "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+  "material": [ { "type": "wood", "portion": 0.85 }, { "type": "mc_steel", "portion": 80 } ],
+  "repairs_with": [ "mc_steel" ],
+  "symbol": "/",
+  "color": "dark_gray",
+  "techniques": [ "WBLOCK_1" ],
+  "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
+  "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
+  "weapon_category": [ "SHORT_SWORDS" ],
+  "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
+  "melee_damage": { "cut": 20 }
+},
+{
+  "id": "hc_kukri",
+  "copy-from": "mc_kukri",
+  "looks_like": "kukri",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "high steel kukri" },
+  "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of high steel and is a well-made piece.",
+  "replace_materials": { "mc_steel": "hc_steel" },
+  "proportional": { "price_postapoc": 1.05, "price": 1.05 },
+  "relative": { "melee_damage": { "cut": 1 } }
+},
+{
+  "id": "ch_kukri",
+  "copy-from": "mc_kukri",
+  "looks_like": "kukri",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "hardened steel kukri" },
+  "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of hardened steel and is clearly made by a practiced hand.",
+  "replace_materials": { "mc_steel": "ch_steel" },
+  "proportional": { "price_postapoc": 1.1, "price": 1.1 },
+  "relative": { "melee_damage": { "cut": 2 } }
+},
+{
+  "id": "qt_kukri",
+  "copy-from": "mc_kukri",
+  "looks_like": "kukri",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "tempered steel kukri" },
+  "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of tempered steel and is a finely crafted weapon.",
+  "replace_materials": { "mc_steel": "qt_steel" },
+  "proportional": { "price_postapoc": 1.15, "price": 1.15 },
+  "relative": { "melee_damage": { "cut": 3 } }
+},
+>>>>>>> Stashed changes:swords_and_blades.json
   {
     "id": "jian",
     "copy-from": "mc_jian",
