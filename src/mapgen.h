@@ -153,19 +153,14 @@ struct jmapgen_setmap {
     jmapgen_int val;
     int chance;
     jmapgen_int repeat;
-    int rotation;
-    int fuel;
-    int status;
     std::string string_val;
     jmapgen_setmap(
         jmapgen_int ix, jmapgen_int iy, jmapgen_int iz, jmapgen_int ix2, jmapgen_int iy2,
         jmapgen_setmap_op iop, jmapgen_int ival,
-        int ione_in = 1, jmapgen_int irepeat = jmapgen_int( 1, 1 ), int irotation = 0, int ifuel = -1,
-        int istatus = -1, std::string istring_val = ""
+        int ione_in = 1, jmapgen_int irepeat = jmapgen_int( 1, 1 ), std::string istring_val = ""
     ) :
         x( ix ), y( iy ), z( iz ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
-        repeat( irepeat ), rotation( irotation ),
-        fuel( ifuel ), status( istatus ), string_val( std::move( istring_val ) ) {}
+        repeat( irepeat ), string_val( std::move( istring_val ) ) {}
 
     mapgen_phase phase() const;
 
