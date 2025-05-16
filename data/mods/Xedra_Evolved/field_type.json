@@ -1,17 +1,13 @@
 [
-   {
+  {
     "id": "fd_forgetting_fog",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "swirl of fog", "translucency": 5, "effects": [
-          {
-            "effect_id": "forgetful_mind",
-            "min_duration": "2 seconds",
-            "max_duration": "2 seconds",
-            "intensity": 1
-          }
-        ],
-      "color": "light_gray"
+      {
+        "name": "swirl of fog",
+        "translucency": 5,
+        "effects": [ { "effect_id": "forgetful_mind", "min_duration": "2 seconds", "max_duration": "2 seconds", "intensity": 1 } ],
+        "color": "light_gray"
       }
     ],
     "decay_amount_factor": 5,
@@ -20,7 +16,7 @@
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "35 minutes",
-    "phase": "gas", 
+    "phase": "gas",
     "display_field": true
   },
   {
