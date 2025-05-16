@@ -183,7 +183,7 @@
       },
       "furniture": { "u": "f_table", "P": "f_sign", "T": "f_table", "i": "f_trashcan" },
       "place_items": [
-        { "chance": 40, "item": "oven", "x": 11, "y": 10 },
+        { "chance": 40, "item": "SUS_oven", "x": 11, "y": 10 },
         { "chance": 45, "item": "bed", "x": 18, "y": 17 },
         { "chance": 45, "item": "bed", "x": 19, "y": 17 },
         { "chance": 45, "item": "bed", "x": 18, "y": 7 },

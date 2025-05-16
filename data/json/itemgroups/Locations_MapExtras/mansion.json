@@ -150,7 +150,7 @@
     "id": "crate_kitchen",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "kitchen_nonfood", 10 ], [ "kitchen_nonfood", 70 ], [ "oven", 90 ], [ "oven", 40 ] ]
+    "groups": [ [ "kitchen_nonfood", 10 ], [ "kitchen_nonfood", 70 ], [ "SUS_oven", 90 ], [ "SUS_oven", 40 ] ]
   },
   {
     "id": "crate_toys",

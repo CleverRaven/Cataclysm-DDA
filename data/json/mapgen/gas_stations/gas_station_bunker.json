@@ -169,7 +169,7 @@
         { "group": "snacks", "chance": 80, "repeat": 5, "x": [ 12, 13 ], "y": [ 26, 28 ] },
         { "group": "snacks_fancy", "chance": 80, "repeat": 5, "x": [ 15, 16 ], "y": [ 26, 28 ] },
         { "group": "tools_common", "chance": 80, "repeat": 3, "x": 18, "y": [ 26, 28 ] },
-        { "group": "fridgesnacks", "chance": 80, "repeat": 8, "x": [ 10, 15 ], "y": 31 },
+        { "group": "SUS_fridge_snacks", "chance": 80, "repeat": 3, "x": [ 10, 15 ], "y": 31 },
         { "group": "tools_common", "chance": 60, "repeat": 2, "x": 10, "y": 36 },
         { "group": "cleaning_bulk", "chance": 60, "repeat": 2, "x": 10, "y": 35 },
         { "group": "office", "chance": 80, "repeat": 2, "x": [ 6, 7 ], "y": 36 },
