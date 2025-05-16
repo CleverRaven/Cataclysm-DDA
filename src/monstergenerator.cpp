@@ -30,6 +30,7 @@
 #include "mondefense.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mtype.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
@@ -571,7 +572,10 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
         mon.path_settings.bash_strength = mon.bash_skill;
     }
 
-    if( mon.has_flag( mon_flag_CLIMBS ) ) {
+    if( mon.move_skills.climb.has_value() ) {
+        mon.path_settings.climb_cost = move_skills_data::max_movemod_penalty -
+                                       mon.move_skills.climb.value();
+    } else if( mon.has_flag( mon_flag_CLIMBS ) ) {
         mon.path_settings.climb_cost = 3;
     }
 }
