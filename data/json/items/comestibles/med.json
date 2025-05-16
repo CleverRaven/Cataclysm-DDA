@@ -1,7 +1,8 @@
 [
   {
     "id": "melatonin_tablet",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "melatonin tablet" },
     "description": "An over-the-counter melatonin supplement, commonly prescribed to treat sleep deprivation and to mitigate its effects.  One tablet a day combined with a good night's sleep will help you recover faster.",
@@ -13,7 +14,7 @@
     "symbol": "!",
     "color": "yellow",
     "container": "bottle_plastic_pill_supplement",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You pop a melatonin tablet.",
@@ -22,7 +23,8 @@
   },
   {
     "id": "adderall",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "prescription stimulant" },
     "description": "Medical-grade amphetamine salts mixed with dextroamphetamine salts, commonly prescribed to treat hyperactive attention deficits.  It suppresses the appetite, and is quite addictive.",
@@ -46,12 +48,13 @@
     "fun": 10,
     "addiction_potential": 10,
     "addiction_type": "amphetamine",
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some %s." }
   },
   {
     "id": "adrenaline_injector",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "epinephrine autoinjector" },
     "description": "A syringe filled with a shot of epinephrine, also called adrenalin.  It serves as a powerful stimulant when you inject yourself with it.  Asthmatics can use it in an emergency to clear an asthma attack.",
@@ -73,7 +76,8 @@
   },
   {
     "id": "antibiotics",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antibiotics" },
     "description": "Antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
@@ -86,11 +90,12 @@
     "color": "white",
     "container": "bottle_plastic_pill_prescription",
     "use_action": [ "ANTIBIOTIC" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ]
   },
   {
     "id": "antifungal",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antifungal drug" },
     "description": "A powerful chemical tablet designed to eliminate fungal infections in living creatures.  One dose lasts four hours.",
@@ -103,11 +108,12 @@
     "color": "white",
     "container": "bottle_plastic_pill_prescription",
     "use_action": [ "ANTIFUNGAL" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ]
   },
   {
     "id": "antiparasitic",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antiparasitic drug" },
     "description": "A broad-spectrum chemical tablet designed to eliminate parasitic infestations in living creatures.  Though designed for use on pets and livestock, it will likely work on humans as well.",
@@ -121,11 +127,12 @@
     "container": "bottle_plastic_pill_prescription",
     "healthy": -5,
     "use_action": [ "ANTIPARASITIC" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ]
   },
   {
     "id": "aspirin",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "aspirin" },
     "description": "Acetylsalicylic acid, a mild anti-inflammatory and blood thinner.  Take to relieve pain and swelling.  Careful - it can increase bleeding.",
@@ -138,7 +145,7 @@
     "color": "white",
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
-    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
@@ -148,7 +155,8 @@
   },
   {
     "id": "ibuprofen",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "ibuprofen" },
     "description": "Ibuprofen, a mild NSAID-based painkiller.  Take to relieve pain and swelling.",
@@ -161,7 +169,7 @@
     "color": "white",
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
-    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
@@ -171,7 +179,8 @@
   },
   {
     "id": "naproxen",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "naproxen" },
     "description": "Naproxen, a mild long-lasting NSAID-based painkiller.  Take to relieve pain and swelling.",
@@ -184,7 +193,7 @@
     "color": "white",
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
-    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
@@ -194,7 +203,8 @@
   },
   {
     "id": "acetaminophen",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "acetaminophen" },
     "description": "Acetaminophen, a mild painkiller that works well in conjunction with NSAID-based painkillers like aspirin.  Take to relieve pain and swelling.",
@@ -207,7 +217,7 @@
     "color": "white",
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
-    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
@@ -216,7 +226,8 @@
   },
   {
     "id": "metaprolol",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "metaprolol" },
     "description": "Metaprolol, a classic beta blocker.  It lowers blood pressure and decouples heart rate from stressful events such as anxiety or pain.",
@@ -229,13 +240,14 @@
     "color": "white",
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
-    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some %s." },
     "vitamins": [ [ "vit_betablocker", 864 ] ]
   },
   {
     "id": "bfipowder",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antiseptic powder" },
     "description": "A powdered form of chemical antiseptic, this bismuth formic iodide cleans wounds quickly and painlessly.",
@@ -247,12 +259,13 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
     "id": "caff_gum",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "caffeinated chewing gum" },
     "description": "Sugar-free chewing gum with added caffeine.  It's a nice pick-me-up, one stick is equivalent to a strong cup of tea.",
@@ -272,7 +285,8 @@
   },
   {
     "id": "caffeine",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "caffeine pill" },
     "description": "A No-doz brand caffeine pill, maximum strength.  Useful in pulling an all-nighter, one pill is equivalent to a strong cup of coffee.",
@@ -284,7 +298,7 @@
     "symbol": "!",
     "color": "cyan",
     "container": "bottle_plastic_pill_supplement",
-    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "WATER_DISSOLVE", "NO_TEMP" ],
     "stim": 12,
     "addiction_potential": 3,
     "addiction_type": "caffeine",
@@ -293,7 +307,8 @@
   },
   {
     "id": "chaw",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "chewing tobacco" },
     "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite among baseball players, cowboys, and other macho types.",
@@ -315,7 +330,8 @@
   },
   {
     "id": "chem_hydrogen_peroxide",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "hydrogen peroxide" },
     "description": "Dilute hydrogen peroxide, for use as an antiseptic and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
@@ -333,7 +349,8 @@
   },
   {
     "id": "skunk_spray_neutralizing_solution",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "skunk spray neutralizing solution" },
     "description": "A combination of hydrogen peroxide, baking soda, and dish soap that works together to transform skunk spray thiocetates into odorless acids.",
@@ -355,7 +372,8 @@
   },
   {
     "id": "cig",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "cigarette" },
     "description": "A mixture of dried tobacco leaf, pesticides, and chemical additives, rolled into a filtered paper tube.  Stimulates mental acuity and reduces appetite.  Highly addictive and hazardous to health, but lung cancer is kind of the least of your concerns at this point.",
@@ -371,12 +389,45 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
-    "use_action": [ "SMOKING" ]
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
+    "use_action": [ "SMOKING" ],
+    "variants": [
+      {
+        "id": "cig_basic",
+        "name": { "str": "cigarette" },
+        "description": "A mixture of dried tobacco leaf, pesticides, and chemical additives, rolled into a filtered paper tube.  Stimulates mental acuity and reduces appetite.  Highly addictive and hazardous to health, but lung cancer is kind of the least of your concerns at this point.",
+        "color": "dark_gray"
+      },
+      {
+        "id": "cig_menthol",
+        "name": { "str": "menthol cigarette" },
+        "description": "A cigarette with a menthol flavor, the only type of flavored cigarette permitted for sale in the US.  The FDA had previously proposed a ban on them, but the world ended before it could be implemented.  It feels somewhat nicer to smoke than a regular cigarette.",
+        "color": "cyan"
+      },
+      {
+        "id": "cig_light",
+        "name": { "str": "\"light\" cigarette" },
+        "description": "A cigarette with reduced tar and nicotine content, designed to appeal to quitters and health-conscious smokers.  While not actually less harmful than regular cigarettes, the amount of nicotine absorbed per cigarette is indeed lower.  Marketing cigarettes as \"light\" has been illegal since 2007, but the term has persisted as a shorthand.",
+        "color": "white"
+      },
+      {
+        "id": "cig_gold",
+        "name": { "str": "quality cigarette" },
+        "description": "A premium brand cigarette rolled from strong, high-quality tobacco.  While discerning smokers may prefer its flavor to that of average cigarettes, the higher tar and nicotine content won't do you any favors.  Then again, you probably have bigger concerns than lung cancer.",
+        "color": "yellow"
+      },
+      {
+        "id": "cig_little_cigar",
+        "name": { "str": "little cigar" },
+        "description": "A compact, slim cigar in the form of a cigarette.  It's a popular choice for those who want a taste of luxury without the time commitment of a full-sized cigar.  Addictive and hazardous to health.",
+        "color": "brown"
+      }
+    ]
   },
   {
     "id": "cigar",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "cigar" },
     "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.",
@@ -391,12 +442,13 @@
     "fun": 15,
     "addiction_potential": 60,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "use_action": [ "SMOKING" ]
   },
   {
     "id": "debug_chloroform_rag",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "debug chloroform soaked rag" },
     "description": "A debug item that lets you put NPCs (or yourself) to sleep.",
@@ -417,7 +469,8 @@
   },
   {
     "id": "codeine",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "codeine" },
     "description": "A mild opiate used in the suppression of pain, cough, and other ailments.  While relatively weak for a narcotic, it is still addictive, with a potential for overdose.",
@@ -431,7 +484,7 @@
     "container": "bottle_plastic_pill_painkiller",
     "stim": -2,
     "fun": 10,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "addiction_potential": 10,
     "addiction_type": "opiate",
     "use_action": {
@@ -442,7 +495,8 @@
   },
   {
     "id": "coke",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "cocaine" },
     "description": "Crystalline extract of the coca leaf, or at least, a white powder with some of that in it.  A topical analgesic, it is more commonly used for its stimulatory properties.  Highly addictive.",
@@ -459,11 +513,12 @@
     "fun": 25,
     "addiction_potential": 50,
     "addiction_type": "cocaine",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": [ "COKE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "cola_meth",
     "name": { "str_sp": "methacola" },
     "category": "drugs",
@@ -493,7 +548,7 @@
   },
   {
     "id": "myopia_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str_sp": "myopia contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -525,7 +580,7 @@
   },
   {
     "id": "myopia_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "myopia transition contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -551,7 +606,7 @@
   },
   {
     "id": "myopia_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "myopia contact lenses (daily)" },
     "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -576,7 +631,7 @@
   },
   {
     "id": "myopia_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "myopia transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -601,7 +656,7 @@
   },
   {
     "id": "hyperopia_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "hyperopia contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -623,7 +678,7 @@
   },
   {
     "id": "hyperopia_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "hyperopia transition contact lenses (weekly)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -645,7 +700,7 @@
   },
   {
     "id": "hyperopia_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "hyperopia contact lenses (daily)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -667,7 +722,7 @@
   },
   {
     "id": "hyperopia_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "hyperopia transition contact lenses (daily)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -689,7 +744,7 @@
   },
   {
     "id": "bifocal_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "bifocal contact lenses (weekly)" },
     "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -714,7 +769,7 @@
   },
   {
     "id": "bifocal_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "bifocal transition contact lenses (weekly)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
@@ -745,7 +800,7 @@
   },
   {
     "id": "bifocal_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "bifocal contact lenses (daily)" },
     "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -770,7 +825,7 @@
   },
   {
     "id": "bifocal_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "bifocal transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -801,7 +856,7 @@
   },
   {
     "id": "plano_transition_contacts_weekly",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_contacts_weekly",
     "name": { "str_sp": "plano transition contact lenses (weekly)" },
     "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>a week</color> of use.",
@@ -823,7 +878,7 @@
   },
   {
     "id": "plano_transition_contacts_daily",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "myopia_transition_contacts_weekly",
     "name": { "str_sp": "plano transition contact lenses (daily)" },
     "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>16 hours</color> of use.",
@@ -845,7 +900,8 @@
   },
   {
     "id": "crack",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "crack" },
     "description": "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain chemistry.",
@@ -862,7 +918,7 @@
     "fun": 50,
     "addiction_potential": 80,
     "addiction_type": "crack",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke your crack rocks.  Mother would be proud.",
@@ -875,7 +931,8 @@
   },
   {
     "id": "dayquil",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "non-drowsy cough syrup" },
     "description": "Daytime cold and flu medication, non-drowsy formula.  Will suppress coughing, aching, headaches and runny noses, but you'll still need lots of fluids and rest.",
@@ -893,7 +950,8 @@
   },
   {
     "id": "disinfectant",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antiseptic" },
     "description": "A powerful antiseptic commonly used to disinfect wounds.",
@@ -913,7 +971,8 @@
   },
   {
     "id": "disinfectant_makeshift",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "makeshift antiseptic" },
     "price_postapoc": "2 USD 50 cent",
     "copy-from": "disinfectant",
@@ -923,7 +982,8 @@
   },
   {
     "id": "diazepam",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "prescription sedative" },
     "description": "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, and panic attacks.",
@@ -946,14 +1006,15 @@
     "stim": -8,
     "healthy": -1,
     "fun": 8,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "addiction_potential": 20,
     "addiction_type": "diazepam",
     "use_action": [ "ANTICONVULSANT" ]
   },
   {
     "id": "hi_q_shatter",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "cannabis shatter" },
     "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate is in a thin sheet and shatters like glass at room temperature.  Arguably one of the better styles of concentrate compared to wax, crumble, or distillate.  Normal cannabis contains around 20% THC; this shatter should be around 55% THC.",
@@ -992,7 +1053,8 @@
   },
   {
     "id": "hi_q_wax",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "cannabis wax" },
     "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate is yellow and waxy at room temperature.  Normal cannabis contains around 20% THC; this wax should be around 45% THC.",
@@ -1027,7 +1089,8 @@
   },
   {
     "id": "hi_q_distillate",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "cannabis distillate" },
     "description": "Concentrated cannabis extract.  This style of extract goes through the most processing, eliminating most if not all harmful ingredients.  Normal cannabis contains around 20% THC; this distillate should be around 88% THC.  Can be smoked using a refillable electronic cigarette.",
@@ -1065,7 +1128,8 @@
   },
   {
     "id": "ecig",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "electronic cigarette" },
     "description": "This battery-operated device vaporizes a liquid that contains flavorings and nicotine.  A less harmful alternative to traditional cigarettes, but it's still addictive.  It can't be reused once it's empty.",
@@ -1084,7 +1148,8 @@
   },
   {
     "id": "eyedrops",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "saline eye drops" },
     "description": "Sterile saline eye drops.  Can be used to treat dry eyes, or to wash out contaminants.",
@@ -1099,7 +1164,8 @@
   },
   {
     "id": "steroid_eyedrops",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "steroid eyedrops" },
     "description": "A topical corticosteroid in the form of eye drops.  Can be used to treat irritation and inflammation of the eyes.",
@@ -1119,7 +1185,8 @@
   },
   {
     "id": "flu_shot",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "flu shot" },
     "description": "A pharmaceutical flu shot designed for mass vaccinations, still in its packaging.  Purported to provide immunity to influenza, for the flu season for which it was developed.",
@@ -1135,7 +1202,8 @@
   },
   {
     "id": "handrolled_cig",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "hand-rolled cigarette" },
     "description": "A roll-your-own cigarette.  Stimulates mental acuity and reduces appetite.  Despite being hand crafted, it's still highly addictive and hazardous to health.",
@@ -1151,12 +1219,13 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "NO_TEMP" ],
     "use_action": [ "SMOKING" ]
   },
   {
     "id": "heroin",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "heroin" },
     "description": "An extremely strong opioid narcotic derived from morphine.  Incredibly addictive, the risk of overdose is extreme, and the drug is contraindicated for nearly all medical purposes.",
@@ -1173,7 +1242,7 @@
     "fun": 50,
     "addiction_potential": 75,
     "addiction_type": "opiate",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
@@ -1187,7 +1256,8 @@
   },
   {
     "id": "iodine",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "potassium iodide tablet" },
     "description": "A potassium iodide tablet.  If taken prior to exposure, they help to mitigate injury caused by radiation absorption.",
@@ -1199,7 +1269,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_pill_supplement",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some potassium iodide.",
@@ -1208,7 +1278,8 @@
   },
   {
     "id": "joint",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "joint" },
     "description": "Marijuana, cannabis, pot.  Whatever you want to call it, it's rolled up in a piece of paper and ready for smokin'.",
@@ -1223,12 +1294,13 @@
     "healthy": -1,
     "fun": 15,
     "addiction_potential": 5,
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "NO_TEMP" ],
     "use_action": [ "SMOKING" ]
   },
   {
     "id": "lsd",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "pink tab" },
     "description": "A tiny pink tabs resembling a postage stamp, dosed with some sort of drug.  Really only useful for entertainment.  Will cause hallucinations.",
@@ -1241,7 +1313,7 @@
     "color": "pink",
     "stim": 20,
     "fun": 25,
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You eat the pink tablet.",
@@ -1250,7 +1322,8 @@
   },
   {
     "id": "meth",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "low-grade methamphetamine" },
     "description": "A profoundly addictive and powerful stimulant.  While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.",
@@ -1268,12 +1341,13 @@
     "fun": 30,
     "addiction_potential": 50,
     "addiction_type": "amphetamine",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": [ "METH" ]
   },
   {
     "id": "pure_meth",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "high-grade methamphetamine" },
     "description": "A profoundly addictive and powerful stimulant.  While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.  This one could have only been made by a great chemist.",
@@ -1292,12 +1366,13 @@
     "fun": 25,
     "addiction_potential": 40,
     "addiction_type": "amphetamine",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": [ "METH" ]
   },
   {
     "id": "morphine",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "morphine" },
     "description": "A very strong, naturally-occurring narcotic used to treat intense pain in hospital settings.  You'll need a syringe to inject it, and it's very addictive, so be careful.",
@@ -1313,7 +1388,7 @@
     "fun": 25,
     "addiction_potential": 25,
     "addiction_type": "opiate",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
@@ -1323,7 +1398,8 @@
   },
   {
     "id": "wintergreen_oil",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "wintergreen oil" },
     "description": "An ointment infused with wintergreen oil.  Has mild antiseptic properties, and can ease the pain caused by wounds.",
@@ -1350,7 +1426,8 @@
   },
   {
     "id": "mugwort_oil",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "mugwort oil" },
     "description": "Some essential oil made from mugwort, which may kill parasites when ingested.  Consume it with water!",
@@ -1371,7 +1448,8 @@
   },
   {
     "id": "nic_gum",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "nicotine gum" },
     "description": "Mint flavored sugar-free nicotine chewing gum.  For smokers who desire to quit.",
@@ -1389,7 +1467,8 @@
   },
   {
     "id": "nyquil",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "cough syrup" },
     "description": "Nighttime cold and flu medication.  Useful when trying to sleep with a head full of virions.  Will cause drowsiness.",
@@ -1410,7 +1489,8 @@
   },
   {
     "id": "antihistamine",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antihistamine pill" },
     "description": "Over-the-counter allergy medication.  These are meant to be taken once a day and can cause drowsiness.",
@@ -1424,7 +1504,7 @@
     "color": "light_red",
     "container": "bottle_plastic_pill_supplement",
     "stim": -6,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "addiction_potential": 4,
     "addiction_type": "sleeping pill",
     "use_action": {
@@ -1435,7 +1515,8 @@
   },
   {
     "id": "oxycodone",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "oxycodone" },
     "description": "A strong semi-synthetic narcotic used in the treatment of intense pain.  Highly addictive.",
@@ -1451,7 +1532,7 @@
     "healthy": -1,
     "stim": -4,
     "fun": 18,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "addiction_potential": 16,
     "addiction_type": "opiate",
     "use_action": {
@@ -1462,7 +1543,8 @@
   },
   {
     "id": "pills_sleep",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "sleeping pill" },
     "description": "A habit-forming tranquilizer with a variety of psychoactive side effects.  Used in the treatment of insomnia.",
@@ -1485,7 +1567,7 @@
     ],
     "stim": -8,
     "fun": 5,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "addiction_potential": 40,
     "addiction_type": "sleeping pill",
     "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
@@ -1493,7 +1575,8 @@
   },
   {
     "id": "poppy_pain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "poppy painkiller" },
     "description": "A potent opioid palliative produced by the refining of the mutated poppy.  Notably devoid of euphoric or sedative effects, but as an opiate it can still be addictive.",
@@ -1507,7 +1590,7 @@
     "healthy": -2,
     "addiction_potential": 10,
     "addiction_type": "opiate",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some %s.",
@@ -1516,7 +1599,8 @@
   },
   {
     "id": "poppy_sleep",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "poppy sleep" },
     "description": "A potent sleep aid extracted from mutated poppy seeds.  Effective, but as an opiate it can be addictive.",
@@ -1529,13 +1613,14 @@
     "color": "magenta",
     "healthy": -2,
     "addiction_type": [ "sleeping pill", "opiate" ],
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
     "sleepiness_mod": -40
   },
   {
     "id": "poppysyrup",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "poppy cough syrup" },
     "description": "Cough syrup made from mutated poppy.  Will make you sleepy.",
@@ -1556,7 +1641,8 @@
   },
   {
     "id": "prophylactic_antivenom",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "injectable prophylactic antivenom" },
     "description": "An experimental, cutting-edge antivenom in the form of a small amber vial, designed to be injected a few hours before venom exposure.  It was developed in top secret by the military in response to increasing biological/chemical warfare.",
@@ -1578,7 +1664,8 @@
   },
   {
     "id": "prozac",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antidepressant" },
     "description": "A common and popular antidepressant.  It will elevate mood, and can profoundly alter the effects of other drugs.  It is only rarely habit-forming, though adverse reactions are not uncommon.",
@@ -1594,14 +1681,15 @@
     "variant_type": "drug",
     "variants": [ { "id": "prozac", "name": { "str_sp": "Prozac" }, "append": true, "description": "Its generic name is fluoxetine." } ],
     "stim": -5,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "addiction_potential": 5,
     "addiction_type": "amphetamine",
     "use_action": [ "PROZAC" ]
   },
   {
     "id": "prussian_blue",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "Prussian blue tablet" },
     "description": "A tablet containing oxidized ferrous ferrocyanide salts.  Capable of purging nuclear contaminants from the body if taken after radiation exposure.",
@@ -1610,7 +1698,7 @@
     "price": "15 cent",
     "price_postapoc": "1 USD",
     "material": [ "drug_filler" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "symbol": "!",
     "color": "blue",
     "container": "bottle_plastic_pill_supplement",
@@ -1622,7 +1710,8 @@
   },
   {
     "id": "quikclot",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "hemostatic powder" },
     "description": "A powdered antihemorrhagic compound that reacts with blood to immediately form a gel-like substance that stops bleeding.",
@@ -1634,12 +1723,13 @@
     "symbol": "!",
     "color": "light_gray",
     "container": "bag_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 2000 }
   },
   {
     "id": "saline",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "saline solution" },
     "description": "A solution of sterilized water and salt for intravenous infusion or washing contaminants from one's eyes.",
@@ -1658,7 +1748,8 @@
   },
   {
     "id": "thorazine",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "antipsychotic" },
     "description": "Anti-psychotic medication.  Used to stabilize brain chemistry, it can arrest hallucinations and other symptoms of psychosis.  Carries a sedative effect.",
@@ -1680,12 +1771,13 @@
       }
     ],
     "stim": -30,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": [ "THORAZINE" ]
   },
   {
     "id": "thyme_oil",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "thyme oil" },
     "description": "Some essential oil made from thyme, which can act as a mildly irritating antiseptic.",
@@ -1704,7 +1796,8 @@
   },
   {
     "id": "tobacco",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "rolling tobacco" },
     "description": "Loose, fine-cut tobacco leaves.  Popular in Europe and among hipsters.  Highly addictive and hazardous to health.\nCan either be rolled into a cigarette with some rolling papers or smoked through a pipe.",
@@ -1720,7 +1813,7 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke some tobacco.",
@@ -1734,7 +1827,8 @@
   },
   {
     "id": "tramadol",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "tramadol" },
     "description": "A painkiller used to manage moderate pain.  The effects last for several hours, but are relatively subdued for an opioid.",
@@ -1747,7 +1841,7 @@
     "color": "yellow",
     "container": "bottle_plastic_pill_prescription",
     "fun": 6,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "addiction_potential": 6,
     "addiction_type": "opiate",
     "use_action": {
@@ -1758,7 +1852,8 @@
   },
   {
     "id": "vitamins",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "multivitamin" },
     "description": "Essential dietary nutrients conveniently packaged in pill form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
@@ -1770,7 +1865,7 @@
     "symbol": "!",
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
@@ -1782,7 +1877,8 @@
   },
   {
     "id": "calcium_tablet",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "calcium tablet" },
     "description": "A white calcium tablet.  Widely used by elderly people with osteoporosis as a method to supplement calcium before the apocalypse.",
@@ -1791,7 +1887,7 @@
     "volume": "5 ml",
     "price": "20 cent",
     "price_postapoc": "9 cent",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "symbol": "!",
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
@@ -1799,7 +1895,8 @@
   },
   {
     "id": "bonemeal_tablet",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "bone meal tablet" },
     "description": "A homemade calcium supplement made out of bone meal.  Tastes horrible and is hard to swallow but it does its job.",
@@ -1813,13 +1910,14 @@
     "symbol": "!",
     "color": "white",
     "looks_like": "calcium_tablet",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "flavored_bonemeal_tablet",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "flavored bone meal tablet" },
     "description": "A homemade calcium supplement made out of bone meal.  Due to some sweeteners mixed in to counteract the powdery texture and the taste of ash, it's almost as palatable as the pre-Cataclysm tablets.",
@@ -1833,13 +1931,14 @@
     "symbol": "!",
     "color": "yellow",
     "looks_like": "calcium_tablet",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "vitc_tablet",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "vitamin C supplement" },
     "description": "A small white tablet promising more vitamin C than a human can conceivably absorb.",
@@ -1848,27 +1947,46 @@
     "volume": "5 ml",
     "price": "7 cent",
     "price_postapoc": "15 cent",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "symbol": "!",
     "color": "magenta",
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
   },
   {
+    "id": "vitc_fragment",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str": "vitamin C supplement fragment" },
+    "description": "a small slice of a vitamin C supplement, providing as much vitamin C as a human can conceivably absorb.",
+    "material": [ "drug_filler" ],
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "0 cent",
+    "price_postapoc": "2 cent",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 92 ] ] }
+  },
+  {
     "id": "gummy_vitamins",
     "copy-from": "vitamins",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "gummy vitamin" },
     "description": "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "material": [ "drug_filler" ],
     "price_postapoc": "40 cent",
     "fun": 4,
     "container": "null",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "volume": "10 ml"
   },
   {
     "id": "homeopathic_pills",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "homeopathic pill" },
     "description": "A homeopathic pill, prepared through the repeated dilution of an active ingredient with water.  The label purports that these pills are able to maintain general wellness.",
@@ -1881,7 +1999,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_pill_supplement",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." },
     "snippet_category": [
       {
@@ -1912,7 +2030,8 @@
   },
   {
     "id": "inj_iron",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "injectable iron" },
     "description": "A small vial of dark yellow liquid containing soluble iron for injection.",
@@ -1922,7 +2041,7 @@
     "price_postapoc": "75 cent",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject some iron.",
@@ -1932,7 +2051,8 @@
   },
   {
     "id": "weed",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "marijuana" },
     "description": "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant.  Used to reduce nausea, stimulate appetite and elevate mood.  It can be habit-forming, and adverse reactions are possible.",
@@ -1948,7 +2068,7 @@
     "fun": 15,
     "addiction_potential": 5,
     "material": [ "veggy" ],
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke some weed.  Good stuff, man!",
@@ -1963,7 +2083,8 @@
   },
   {
     "id": "xanax",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "fast-acting sedative" },
     "description": "An anti-anxiety agent with a powerful sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual.",
@@ -1987,14 +2108,15 @@
     "stim": -4,
     "healthy": -2,
     "fun": 20,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "addiction_potential": 40,
     "addiction_type": "diazepam",
     "use_action": [ "XANAX" ]
   },
   {
     "id": "weak_antibiotic",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "narrow-spectrum antibiotics" },
     "description": "A narrow-spectrum antibiotic used to suppress infections and prevent them from spreading.  It isn't broad enough to purge most infections outright, but it boosts the body's resistance against them.  One dose lasts twelve hours.",
@@ -2008,11 +2130,12 @@
     "container": "bottle_plastic_pill_prescription",
     "healthy": -2,
     "use_action": [ "WEAK_ANTIBIOTIC" ],
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ]
   },
   {
     "id": "pepto",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "heartburn medicine" },
     "description": "Creamy pink heartburn syrup that soothes upset stomachs and quells vomitous urges.",
@@ -2035,7 +2158,8 @@
   },
   {
     "id": "tums",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "antacid tablet" },
     "description": "A common stomach soother in flavored tablet form.  Makes you less likely to vomit.",
@@ -2049,7 +2173,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_small",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN", "NPC_SAFE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NPC_SAFE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take an antacid tablet.",
@@ -2059,7 +2183,8 @@
   },
   {
     "id": "panacea",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "Panaceus", "str_pl": "Panaceii" },
     "description": "An apple-red gel capsule the size of your thumbnail, filled with a thick, oily liquid that shifts from black to purple at unpredictable intervals, flecked with tiny gray dots.  Given the place you got it from, it's either very potent, or highly experimental.  Holding it, all the little aches and pains seem to fade, just for a moment…",
@@ -2077,11 +2202,12 @@
       "activation_message": "You feel AMAZING!",
       "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ]
   },
   {
     "id": "cattail_jelly",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "cattail jelly" },
     "description": "Clear jelly harvested from cattails.  Can be used to protect a wound from contamination, and works as a painkiller.",
@@ -2106,7 +2232,8 @@
   },
   {
     "id": "strong_antibiotic",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "broad-spectrum antibiotics" },
     "description": "A broad-spectrum antibacterial medication designed to prevent or stop the spread of infection.  It contains nearly toxic levels of antibiotics, but can treat any bacterial infections you may encounter.  One dose lasts twelve hours.",
@@ -2119,12 +2246,13 @@
     "color": "white",
     "container": "bottle_plastic_pill_prescription",
     "healthy": -10,
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": { "type": "STRONG_ANTIBIOTIC" }
   },
   {
     "id": "cocaine_topical",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "cocaine topical cream" },
     "description": "A medical cream that provides both vascular restriction and anesthetic properties.",
@@ -2142,5 +2270,72 @@
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 3000, "effects": [ { "id": "pkill1_generic", "duration": 720 } ] }
+  },
+  {
+    "id": "nic_pouch",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str": "nicotine pouch" },
+    "description": "A pouch containing nicotine salts.",
+    "weight": "400 mg",
+    "volume": "1 ml",
+    "price": "38 cent",
+    "price_postapoc": "70 cent",
+    "symbol": "=",
+    "color": "white",
+    "stim": 2,
+    "fun": 4,
+    "addiction_potential": 30,
+    "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You put in a pouch.", "effects": [ { "id": "cig", "duration": 600 } ] },
+    "variants": [
+      {
+        "id": "nic_pouch_mint",
+        "name": { "str": "cool mint flavored nicotine pouch" },
+        "description": "A pouch containing cool mint-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_peppermint",
+        "name": { "str": "peppermint flavored nicotine pouch" },
+        "description": "A pouch containing peppermint-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_wintergreen",
+        "name": { "str": "wintergreen flavored nicotine pouch" },
+        "description": "A pouch containing wintergreen-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_coffee",
+        "name": { "str": "coffee flavored nicotine pouch" },
+        "description": "A pouch containing coffee-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_cinnamon",
+        "name": { "str": "cinnamon flavored nicotine pouch" },
+        "description": "A pouch containing cinnamon-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_basic",
+        "name": { "str": "nicotine pouch" },
+        "description": "A pouch containing nicotine salts."
+      },
+      {
+        "id": "nic_pouch_menthol",
+        "name": { "str": "menthol-flavored nicotine pouch" },
+        "description": "A pouch containing menthol-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_spearmint",
+        "name": { "str": "spearmint flavored nicotine pouch" },
+        "description": "A pouch containing spearmint-flavored nicotine salts."
+      },
+      {
+        "id": "nic_pouch_citrus",
+        "name": { "str": "citrus flavored nicotine pouch" },
+        "description": "A pouch containing citrus-flavored nicotine salts."
+      }
+    ]
   }
 ]

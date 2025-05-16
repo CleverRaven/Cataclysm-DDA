@@ -221,6 +221,7 @@ const flag_id flag_NO_REPAIR( "NO_REPAIR" );
 const flag_id flag_NO_SALVAGE( "NO_SALVAGE" );
 const flag_id flag_NO_STERILE( "NO_STERILE" );
 const flag_id flag_NO_TAKEOFF( "NO_TAKEOFF" );
+const flag_id flag_NO_TEMP( "NO_TEMP" );
 const flag_id flag_NO_TURRET( "NO_TURRET" );
 const flag_id flag_NO_UNLOAD( "NO_UNLOAD" );
 const flag_id flag_NO_UNWIELD( "NO_UNWIELD" );
@@ -410,7 +411,7 @@ const json_flag &json_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_flag::load( const JsonObject &jo, const std::string_view )
+void json_flag::load( const JsonObject &jo, std::string_view )
 {
     // TODO: mark fields as mandatory where appropriate
     optional( jo, was_loaded, "info", info_ );

@@ -24,6 +24,7 @@
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_imgui.h"
@@ -1839,8 +1840,6 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
 
 void advanced_inventory::process_action( const std::string &input_action )
 {
-    dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
-           advanced_inventory::side::left;
     recalc = false;
     // source and destination pane
     advanced_inventory_pane &spane = panes[src];
@@ -2000,6 +1999,8 @@ void advanced_inventory::process_action( const std::string &input_action )
             popup_getkey( _( "There's no vehicle storage space there." ) );
         }
     }
+    dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
+           advanced_inventory::side::left;
 }
 
 void advanced_inventory::display()
@@ -2088,7 +2089,6 @@ void advanced_inventory::display()
             do_return_entry();
             return;
         }
-
 
         if( ui ) {
             ui->invalidate_ui();
@@ -2298,7 +2298,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY || destarea == AIM_WORN || destarea == AIM_WIELD ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
-        const units::mass max_weight = player_character.weight_capacity() * 4 -
+        const units::mass max_weight = player_character.max_pickup_capacity() -
                                        player_character.weight_carried();
         if( unitweight > 0_gram && unitweight * amount > max_weight ) {
             const int weightmax = max_weight / unitweight;
@@ -2334,11 +2334,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( amount <= 0 ) {
             popup_getkey( _( "The destination is already full." ) );
         } else {
-            amount = string_input_popup()
-                     .title( popupmsg )
-                     .width( 20 )
-                     .only_digits( true )
-                     .query_int();
+            // In test_mode always use max possible
+            // TODO: maybe a way to provide a custom amount?
+            test_mode ? amount = possible_max : query_int( amount, false, popupmsg );
         }
         if( amount <= 0 ) {
             return false;

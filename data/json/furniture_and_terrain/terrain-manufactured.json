@@ -17,8 +17,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
       "items": [
-        { "item": "steel_lump", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     }
@@ -74,10 +74,10 @@
       "sound_fail": "clang!",
       "ter_set": "t_pavement",
       "items": [
-        { "item": "steel_lump", "prob": 50 },
+        { "item": "mc_steel_lump", "prob": 50 },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] },
         { "item": "hose", "count": 1 }
       ]
@@ -145,8 +145,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_pavement",
       "items": [
-        { "item": "steel_lump", "prob": 50 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "prob": 50 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "scrap", "count": [ 3, 7 ] },
@@ -194,8 +194,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_pavement",
       "items": [
-        { "item": "steel_lump", "prob": 50 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "prob": 50 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "scrap", "count": [ 3, 7 ] },
@@ -243,8 +243,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_pavement",
       "items": [
-        { "item": "steel_lump", "prob": 50 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "prob": 50 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "scrap", "count": [ 3, 7 ] },
@@ -268,7 +268,7 @@
       "str_max": 210,
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
     }
   },
   {
@@ -287,7 +287,7 @@
       "str_max": 210,
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
     }
   },
   {
@@ -348,8 +348,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "steel_lump", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "lc_steel_lump", "count": [ 0, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "scrap", "count": [ 4, 8 ] }
       ]
     }
@@ -370,8 +370,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_concrete",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     }
@@ -439,8 +439,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_concrete",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     }
@@ -482,8 +482,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_sewage",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 0, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
@@ -508,7 +508,7 @@
       "ter_set": "t_open_air",
       "items": [
         { "item": "steel_plate", "count": [ 0, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
@@ -532,7 +532,7 @@
       "ter_set": "t_open_air",
       "items": [
         { "item": "steel_plate", "count": [ 0, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
@@ -555,8 +555,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_saltwater_cube",
       "items": [
-        { "item": "steel_lump", "prob": 50 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "ch_steel_lump", "prob": 50 },
+        { "item": "ch_steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 0, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
@@ -764,7 +764,7 @@
       "sound_fail": "thunk.",
       "ter_set": "t_covered_well",
       "items": [
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "ch_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "pipe_fittings", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 0, 2 ] }
@@ -802,6 +802,7 @@
   {
     "type": "terrain",
     "id": "t_salt_water_pump",
+    "//": "After #78419 this can no longer be constructed, but is left in for old save compatibility",
     "name": "salt water pump",
     "looks_like": "t_water_pump",
     "description": "A water pump connected to a pipe supplying it with salt water.  Not good to drink, but it has other uses.",
@@ -819,7 +820,7 @@
       "sound_fail": "thunk.",
       "ter_set": "t_dirt",
       "items": [
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "pipe_fittings", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 0, 2 ] }
@@ -846,7 +847,7 @@
       "sound_fail": "thunk.",
       "ter_set": "t_concrete",
       "items": [
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "pipe_fittings", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 0, 2 ] }
@@ -946,7 +947,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 8, 16 ] },
-        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 6 ] },
         { "item": "ceramic_shard", "count": [ 0, 4 ] }
       ]
     },
@@ -956,7 +957,7 @@
         { "item": "cable", "charges": [ 8, 24 ] },
         { "item": "power_supply", "count": [ 4, 8 ] },
         { "item": "amplifier", "count": [ 8, 16 ] },
-        { "item": "steel_chunk", "count": [ 4, 16 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 16 ] },
         { "item": "scrap", "count": [ 12, 24 ] },
         { "item": "sheet_metal", "count": [ 6, 12 ] },
         { "item": "ceramic_shard", "count": [ 2, 6 ] }
@@ -985,7 +986,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 6, 12 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "ceramic_shard", "count": [ 0, 2 ] }
       ]
     },
@@ -995,7 +996,7 @@
         { "item": "cable", "charges": [ 4, 12 ] },
         { "item": "power_supply", "count": [ 3, 6 ] },
         { "item": "amplifier", "count": [ 6, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 12 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 12 ] },
         { "item": "scrap", "count": [ 8, 18 ] },
         { "item": "sheet_metal", "count": [ 4, 8 ] },
         { "item": "ceramic_shard", "count": [ 1, 4 ] }
@@ -1023,7 +1024,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 5, 10 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] }
       ]
     },
@@ -1064,7 +1065,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 0, 2 ] },
         { "item": "circuit", "count": [ 1, 4 ] },
         { "item": "power_supply", "count": [ 0, 2 ] },
@@ -1109,7 +1110,7 @@
       "items": [
         { "item": "cable", "charges": [ 0, 4 ] },
         { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "ceramic_shard", "count": [ 8, 16 ] }
       ]
     },
@@ -1117,7 +1118,7 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "plastic_chunk", "count": [ 1, 4 ] },
         { "item": "ceramic_shard", "count": [ 12, 24 ] }
@@ -1144,7 +1145,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "ceramic_shard", "count": [ 0, 2 ] },
         { "item": "lead", "prob": 50 }
@@ -1189,7 +1190,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 10, 12 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "lead", "charges": [ 2, 8 ] },
         { "item": "cable", "charges": [ 20, 60 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
@@ -1200,7 +1201,7 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "lead", "charges": [ 4, 16 ] },
         { "item": "cable", "charges": [ 60, 120 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -1229,7 +1230,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 10, 12 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "lead", "charges": [ 8, 16 ] },
         { "item": "cable", "charges": [ 1, 20 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
@@ -1240,7 +1241,7 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
         { "item": "lead", "charges": [ 12, 32 ] },
         { "item": "cable", "charges": [ 20, 40 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -1294,7 +1295,7 @@
       "sound_fail": "whump!",
       "items": [
         { "item": "scrap", "count": [ 1, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "hose", "count": [ 1, 3 ] }
       ]
     },
@@ -1302,7 +1303,7 @@
       "ter_set": "t_floor",
       "items": [
         { "item": "scrap", "count": [ 2, 9 ] },
-        { "item": "steel_chunk", "count": [ 2, 5 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
         { "item": "pipe_fittings", "count": [ 1, 2 ] },
         { "item": "hose", "count": [ 2, 6 ] }
       ]
@@ -1327,9 +1328,9 @@
       "sound_fail": "whump!",
       "items": [
         { "item": "pipe", "count": [ 1, 2 ] },
-        { "item": "steel_lump", "count": [ 1, 5 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 5 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] }
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] }
       ]
     },
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "55gal_drum" }, { "item": "water_faucet" } ] },
@@ -1404,6 +1405,7 @@
   {
     "type": "terrain",
     "id": "t_covered_salt_water_well",
+    "//": "After #78419 this can no longer be constructed, but is left in for old save compatibility",
     "name": "covered salt water well",
     "description": "A deep well, collecting salt water from a surrounding swamp.  You won't be able to get any water unless you add some mechanism for drawing it up to the surface.",
     "symbol": "#",

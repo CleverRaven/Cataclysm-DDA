@@ -1,7 +1,7 @@
 [
   {
     "id": "upgradekey_vampire4",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Vampiric Amplificator" },
     "description": "This strange metaphysical artifact will push your vampirism beyond the point of no return when you will use it.\n\nUnlike most things you can craft out of warp shards, this item won't be used automatically after you made it, so you can create it then take your time to decide if you really want to do this.",
@@ -45,7 +45,7 @@
   },
   {
     "id": "upgradekey_vampire5",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Superior Vampiric Amplificator" },
     "description": "This strange metaphysical artifact will push your vampirism to its absolute limit.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",
@@ -91,7 +91,7 @@
   },
   {
     "id": "upgradekey_bloodgift_research",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "Key of Vampiric Knowledge" },
     "description": "This strange metaphysical artifact will allow you to spend your blood to obtain new blood gifts.\n\nAs per the previous vampiric amplificator, you have to decide to use the crafted item for its effect to apply.",

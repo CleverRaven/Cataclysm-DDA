@@ -959,6 +959,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "petfood", petfood );
 
+    optional( jo, was_loaded, "move_skills", move_skills );
+
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
@@ -1290,7 +1292,7 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
     mon_species->load( jo, src );
 }
 
-void species_type::load( const JsonObject &jo, const std::string_view )
+void species_type::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
@@ -1504,7 +1506,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
     special_attacks_names.push_back( new_attack->id );
 }
 
-void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
+void mtype::add_special_attack( const JsonArray &inner, std::string_view )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -1526,18 +1528,16 @@ void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
     }
     mtype_special_attack new_attack = mtype_special_attack( iter->second );
     if( inner.has_array( 1 ) ) {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0],
-                                         "special attack cooldown", 0.0 );
-        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1],
-                                         "special attack cooldown", 0.0 );
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0] );
+        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1] );
     } else {
-        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1], "special attack cooldown", 0.0 );
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1] );
     }
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
 }
 
-void mtype::add_special_attacks( const JsonObject &jo, const std::string_view member,
+void mtype::add_special_attacks( const JsonObject &jo, std::string_view member,
                                  const std::string &src )
 {
 
@@ -1556,8 +1556,8 @@ void mtype::add_special_attacks( const JsonObject &jo, const std::string_view me
     }
 }
 
-void mtype::remove_special_attacks( const JsonObject &jo, const std::string_view member_name,
-                                    const std::string_view )
+void mtype::remove_special_attacks( const JsonObject &jo, std::string_view member_name,
+                                    std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         special_attacks.erase( name );
@@ -1568,7 +1568,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string_view
     }
 }
 
-void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string_view )
+void mtype::add_regeneration_modifier( const JsonArray &inner, std::string_view )
 {
     const std::string effect_name = inner.get_string( 0 );
     const efftype_id effect( effect_name );
@@ -1586,8 +1586,8 @@ void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string
     regeneration_modifiers.emplace( effect, amount );
 }
 
-void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string_view member,
-                                        const std::string_view src )
+void mtype::add_regeneration_modifiers( const JsonObject &jo, std::string_view member,
+                                        std::string_view src )
 {
     if( !jo.has_array( member ) ) {
         return;
@@ -1605,8 +1605,8 @@ void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string_
     }
 }
 
-void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string_view member_name,
-        const std::string_view )
+void mtype::remove_regeneration_modifiers( const JsonObject &jo, std::string_view member_name,
+        std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         const efftype_id effect( name );
@@ -1851,6 +1851,31 @@ void pet_food_data::load( const JsonObject &jo )
 }
 
 void pet_food_data::deserialize( const JsonObject &data )
+{
+    load( data );
+}
+
+void move_skills_data::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "climb", climb );
+    optional( jo, was_loaded, "dig", dig );
+    optional( jo, was_loaded, "swim", swim );
+
+    if( climb && ( climb.value() < 0 || climb.value() > 10 ) ) {
+        debugmsg( "climb value out of range.  It has to be between 0 and 10" );
+        climb = std::max( std::min( climb.value(), 10 ), 0 );
+    }
+    if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
+        dig = std::max( std::min( dig.value(), 10 ), 0 );
+    }
+    if( dig && ( dig.value() < 0 || dig.value() > 10 ) ) {
+        debugmsg( "dig value out of range.  It has to be between 0 and 10" );
+        dig = std::max( std::min( dig.value(), 10 ), 0 );
+    }
+}
+
+void move_skills_data::deserialize( const JsonObject &data )
 {
     load( data );
 }

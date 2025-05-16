@@ -31,7 +31,9 @@
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "crafting_gui.h"
+#include "current_map.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -61,6 +63,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
+#include "math_parser_diag_value.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -87,7 +90,6 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -101,6 +103,8 @@
 #include "weather.h"
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const addiction_id addiction_alcohol( "alcohol" );
 
 static const efftype_id effect_HACK_camp_vision_for_npc( "HACK_camp_vision_for_npc" );
 
@@ -534,7 +538,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
         bool &mirror_horizontal,
         bool &mirror_vertical,
         int &rotation,
-        const std::string_view base_error_message,
+        std::string_view base_error_message,
         const std::string &actor )
 {
     mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
@@ -626,7 +630,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
 }
 
 static std::optional<basecamp *> get_basecamp( npc &p,
-        const std::string_view camp_type = "default" )
+        std::string_view camp_type = "default" )
 {
     tripoint_abs_omt omt_pos = p.pos_abs_omt();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -1593,12 +1597,10 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
 void basecamp::choose_new_leader()
 {
-    // This is ugly, but dialogue vars are stored as strings, even if they hold data for times.
-    time_point last_succession_time = time_point::from_turn( std::stof(
-                                          get_player_character().get_value( var_timer_time_of_last_succession ) ) );
-    time_duration succession_cooldown = time_duration::from_turns( std::stof(
-                                            get_globals().get_global_value(
-                                                    var_time_between_succession ) ) );
+    time_point last_succession_time = time_point::from_turn(
+                                          get_avatar().get_value( var_timer_time_of_last_succession ).dbl() );
+    time_duration succession_cooldown = time_duration::from_turns(
+                                            get_globals().get_global_value( var_time_between_succession ).dbl() );
     time_point next_succession_chance = last_succession_time + succession_cooldown;
     int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
     if( next_succession_chance >= calendar::turn ) {
@@ -1628,8 +1630,7 @@ void basecamp::choose_new_leader()
         }
         get_avatar().control_npc_menu( false );
         // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
-        get_player_character().set_value( var_timer_time_of_last_succession,
-                                          std::to_string( current_time_int ) );
+        get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
     }
 
     // Vector of pairs containing a pointer to an NPC and their modified social score
@@ -1658,8 +1659,7 @@ void basecamp::choose_new_leader()
         // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
         if( selected == 0 ) {
             popup( _( "Fate calls for you to remain in your role as leader… for now." ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
+            get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
         npc_ptr chosen = followers.at( selected ).first;
@@ -1681,8 +1681,7 @@ void basecamp::choose_new_leader()
         // you == nullptr
         if( elected == nullptr ) {
             popup( _( "You win the election!" ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
+            get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
         popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
@@ -2108,7 +2107,8 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     const requirement_data &reqs = bld_reqs.consolidated_reqs;
 
     //Stop upgrade if you don't have materials
-    if( reqs.can_make_with_inventory( _inv, making.get_component_filter() ) ) {
+    if( reqs.can_make_with_inventory( _inv, making.get_component_filter(), 1, craft_flags::none,
+                                      false ) ) {
         bool must_feed = !making.has_flag( "NO_FOOD_REQ" );
 
         basecamp_action_components components( making, miss_id.mapgen_args, 1, *this );
@@ -2463,21 +2463,14 @@ void basecamp::job_assignment_ui()
                     if( smenu.ret == 0 ) {
                         cur_npc->job.clear_all_priorities();
                     } else if( smenu.ret == 1 ) {
-                        const int priority = string_input_popup()
-                                             .title( _( "Priority for all jobs " ) )
-                                             .width( 20 )
-                                             .only_digits( true )
-                                             .query_int();
+                        int priority;
+                        query_int( priority, false, _( "Priority for all jobs " ) );
                         cur_npc->job.set_all_priorities( priority );
                     } else if( smenu.ret > 1 && smenu.ret <= static_cast<int>( job_vec.size() ) + 1 ) {
                         activity_id sel_job = job_vec[size_t( smenu.ret - 2 )];
                         player_activity test_act = player_activity( sel_job );
-                        const std::string formatted = string_format( _( "Priority for %s " ), test_act.get_verb() );
-                        const int priority = string_input_popup()
-                                             .title( formatted )
-                                             .width( 20 )
-                                             .only_digits( true )
-                                             .query_int();
+                        int priority;
+                        query_int( priority, false, _( "Priority for %s " ), test_act.get_verb() );
                         cur_npc->job.set_task_priority( sel_job, priority );
                     } else {
                         break;
@@ -2696,6 +2689,8 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
         //Check items in improvised shelters at hide site
         tinymap target_bay;
         target_bay.load( forest, false );
+        // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+        swap_map swap( *target_bay.cast_to_map() );
 
         units::volume total_import_volume;
         units::mass total_import_mass;
@@ -4916,6 +4911,8 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
     target_bay.load( omt_tgt, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *target_bay.cast_to_map() );
     int harvested = 0;
     int total = 0;
     const tripoint_omt_ms mapmin{ 0, 0, omt_tgt.z() };
@@ -4962,6 +4959,8 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
                       bool force_cut_trunk )
 {
     smallmap target_bay;
+    // Redundant as long as map operations used aren't using get_map() transitively, but this makes it safe to do so later.
+    swap_map swap( *target_bay.cast_to_map() );
     target_bay.load( omt_tgt, false );
     int harvested = 0;
     int total = 0;
@@ -5006,6 +5005,8 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
 {
     tinymap target_bay;
     target_bay.load( omt_tgt, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *target_bay.cast_to_map() );
     units::mass harvested_m = 0_gram;
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
@@ -5193,6 +5194,8 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
 {
     tinymap target_bay;
     target_bay.load( omt_tgt, false );
+    // Redundant as long as map operations aren't using get_map() in a transitive call chain. Added for future proofing.
+    swap_map swap( *target_bay.cast_to_map() );
     target_bay.ter_set( relay_site_stash, ter_t_improvised_shelter );
     for( drop_location it : itms_rem ) {
         item *i = it.first.get_item();
@@ -5902,6 +5905,10 @@ bool basecamp::distribute_food( bool player_command )
             return false;
         }
         if( it.rotten() ) {
+            return false;
+        }
+        // Alcohol is specifically excluded until it can be turned into a vitamin/tracked by the larder
+        if( it.get_comestible()->addictions.count( addiction_alcohol ) ) {
             return false;
         }
         nutrients from_it = default_character_compute_effective_nutrients( it ) * it.count();

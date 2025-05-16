@@ -103,6 +103,29 @@
     "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
+    "result": "warp_healing_salve",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": false,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 2 ],
+        [ "bandages_makeshift_bleached", 2 ],
+        [ "bandages_makeshift_boiled", 2 ],
+        [ "adhesive_bandages", 5 ]
+      ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY" ]
+  },
+  {
     "result": "warphome",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -279,7 +302,7 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
       [ [ "warptoken", 3 ] ],
-      [ [ "scrap", 20 ], [ "steel_chunk", 4 ], [ "steel_lump", 1 ] ],
+      [ [ "scrap", 20 ], [ "steel_chunk_any", 4, "LIST" ], [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe", 2 ], [ "wire", 6 ] ],
       [ [ "nuts_bolts", 4 ], [ "pipe_fittings", 4 ], [ "sheet_metal_small", 10 ] ],
       [ [ "nail", 40 ] ]

@@ -1,6 +1,7 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "black_box",
     "category": "other",
     "name": { "str": "military black box", "str_pl": "military black boxes" },
@@ -10,13 +11,13 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "steel" ],
+    "material": [ "mc_steel" ],
     "symbol": ";",
     "color": "light_gray",
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mountable_cooler",
     "name": { "str": "vehicle cooler" },
     "description": "A vehicle-mounted area cooler.  Install a muffler in another part of the vehicle to direct the exhaust heat to that location.",
@@ -24,7 +25,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "color": "light_cyan",
     "symbol": "C",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "7500 ml",
     "category": "veh_parts",
     "price": "200 USD",
@@ -32,7 +33,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "mountable_cooler",
     "id": "integrated_cooler",
     "name": { "str": "small integrated cooler" },
@@ -44,7 +45,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "mountable_heater",
     "name": { "str": "vehicle heater" },
     "description": "A vehicle-mounted area heater.",
@@ -52,7 +53,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "color": "red",
     "symbol": ";",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "7500 ml",
     "category": "veh_parts",
     "price": "200 USD",
@@ -60,7 +61,7 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "mountable_heater",
     "id": "mountable_heater_small",
     "name": { "str": "small vehicle heater" },
@@ -72,7 +73,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "towel_hanger",
     "name": { "str": "towel hanger" },
     "description": "A towel hanger with towels.",
@@ -88,7 +89,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "recharge_station",
     "name": { "str": "recharging station" },
     "description": "A universal recharging station designed to operate on vehicle power.  While on, it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
@@ -96,7 +97,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "color": "light_blue",
     "symbol": "-",
-    "material": [ "steel", "plastic" ],
+    "material": [ "lc_steel", "plastic" ],
     "volume": "5 L",
     "category": "veh_parts",
     "price": "900 USD",
@@ -104,7 +105,7 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "battery_charger",
     "name": { "str": "battery charger" },
     "description": "A small device for recharging batteries, given a source of electricity.  It could easily be wired into a vehicle with power.  It will slowly charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  It can only be installed onto existing storage compartments.",
@@ -116,14 +117,14 @@
     "copy-from": "recharge_station"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
     "weight": "15000 g",
     "color": "light_blue",
     "symbol": "{",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "90 L",
     "category": "veh_parts",
     "price": "600 USD",
@@ -131,14 +132,14 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "programmable_autopilot",
     "name": { "str": "programmable autopilot" },
     "description": "A computer system hooked up to the steering and engine of a vehicle to allow it to follow simple paths.",
     "weight": "11246 g",
     "color": "light_blue",
     "symbol": "A",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "10 L",
     "category": "veh_parts",
     "price": "900 USD",
@@ -146,7 +147,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "vh_autoclave",
     "name": { "str": "mountable autoclave" },
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
@@ -159,7 +160,7 @@
     "copy-from": "washing_machine"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dishwasher",
     "name": { "str": "portable dishwasher" },
     "description": "A very small dishwasher designed for use in vehicles.",
@@ -167,7 +168,7 @@
     "copy-from": "washing_machine"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "washing_machine",
     "id": "fridgetank",
     "name": { "str": "refrigerated tank (60 L)", "str_pl": "refrigerated tanks (60 L)" },
@@ -186,7 +187,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "washing_machine",
     "id": "fridgetank_large",
     "name": { "str": "refrigerated tank (100 L)", "str_pl": "refrigerated tanks (100 L)" },
@@ -206,14 +207,14 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "fridgetank",
     "id": "heattank",
     "name": { "str": "heated tank" },
     "description": "A 60 L heated tank for keeping liquids from freezing.  Provides some insulation from outside weather."
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "water_faucet",
     "name": { "str": "water faucet" },
     "description": "A metal faucet that can be attached to a water tank for easy access.",
@@ -221,7 +222,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "color": "light_gray",
     "symbol": ";",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "750 ml",
     "category": "veh_parts",
     "price": "30 USD",
@@ -229,7 +230,8 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "oil_press_electric",
     "name": { "str": "electric oil press", "str_pl": "electric oil presses" },
     "//": "based on YZS-68C oil press",
@@ -237,13 +239,13 @@
     "weight": "140 kg",
     "volume": "370 L",
     "longest_side": "88 cm",
-    "material": [ "steel" ],
+    "material": [ "lc_steel", "hc_steel" ],
     "category": "veh_parts",
     "color": "green",
     "symbol": "Y",
-    "ammo": "battery",
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5500 W" } ],
     "price": "1 kUSD",
-    "price_postapoc": "10 USD"
+    "price_postapoc": "10 USD",
+    "tool_ammo": "battery"
   }
 ]

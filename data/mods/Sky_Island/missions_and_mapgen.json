@@ -5,11 +5,7 @@
     "//": "Called on landing.  Adds the major earthside affects that are required to register the player as not at home, warpcloak invisibility, starts warpsickness ticking, and creates exits, slaughter missions, and target missions.",
     "condition": { "not": { "u_near_om_location": "sky_island_core", "range": 4 } },
     "effect": [
-      {
-        "u_add_effect": "warpcloak",
-        "intensity": 1,
-        "duration": { "global_val": "var", "var_name": "invistime", "default": "60 s" }
-      },
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "60 s" } },
       {
         "u_message": "You're still materializing and not fully visible yet.  In about <global_val:invistime> seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
         "popup": false
@@ -61,8 +57,8 @@
       {
         "weighted_list_eocs": [
           [ "EOC_Location1e", 15 ],
-          [ "EOC_Location2e", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_Location3e", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
+          [ "EOC_Location2e", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_Location3e", { "global_val": "hardermissions", "default": 0 } ]
         ]
       }
     ]
@@ -75,8 +71,8 @@
       {
         "weighted_list_eocs": [
           [ "EOC_Location1m", 15 ],
-          [ "EOC_Location2m", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_Location3m", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
+          [ "EOC_Location2m", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_Location3m", { "global_val": "hardermissions", "default": 0 } ]
         ]
       }
     ]
@@ -104,9 +100,9 @@
         "weighted_list_eocs": [
           [ "EOC_slaughtermission1", 10 ],
           [ "EOC_slaughtermission2", 20 ],
-          [ "EOC_slaughtermission3", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_slaughtermission4", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_slaughtermission5", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_slaughtermission3", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission4", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission5", { "global_val": "hardmissions", "default": 0 } ],
           [ "EOC_slaughtermission6", 5 ],
           [ "EOC_slaughtermission7", 5 ]
         ]
@@ -131,17 +127,17 @@
           [ "EOC_bonusmission_3", 10 ],
           [ "EOC_bonusmission_4", 15 ],
           [ "EOC_bonusmission_5", 10 ],
-          [ "EOC_bonusmission_6", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_bonusmission_7", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_bonusmission_8", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_bonusmission_9", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_bonusmission_12", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_bonusmission_13", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_bonusmission_10", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_bonusmission_11", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
-          [ "EOC_assassinmission1", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
-          [ "EOC_assassinmission2", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
-          [ "EOC_assassinmission3", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ]
+          [ "EOC_bonusmission_6", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_bonusmission_7", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_8", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_9", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_12", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_13", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_10", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_11", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_assassinmission1", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_assassinmission2", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_assassinmission3", { "global_val": "hardestmissions", "default": 0 } ]
         ]
       }
     ]
@@ -273,7 +269,7 @@
           "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -292,7 +288,7 @@
           "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -311,7 +307,7 @@
           "om_terrain_match_type": "CONTAINS",
           "search_range": 1200,
           "min_distance": 200,
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -328,9 +324,9 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -347,9 +343,9 @@
         "target_params": {
           "om_terrain": "forest",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -366,9 +362,9 @@
         "target_params": {
           "om_terrain": "house",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -385,9 +381,9 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -405,9 +401,9 @@
         "target_params": {
           "om_terrain": "forest",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -425,9 +421,9 @@
         "target_params": {
           "om_terrain": "house",
           "om_terrain_match_type": "CONTAINS",
-          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
-          "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
-          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
           "z": 0,
           "random": true
         }
@@ -487,7 +483,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -516,7 +512,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -553,7 +549,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -590,7 +586,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -635,7 +631,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -680,7 +676,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -707,7 +703,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -736,7 +732,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -773,7 +769,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -810,7 +806,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -837,7 +833,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -867,7 +863,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -892,7 +888,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -917,7 +913,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },
@@ -948,7 +944,7 @@
           "type": "mixed"
         },
         { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } }
       ]
     }
   },

@@ -259,6 +259,9 @@ struct mutation_branch {
         /**Map of angered species and there intensity*/
         std::map<species_id, int> anger_relations;
 
+        std::vector<species_id> empathize_with;
+        std::vector<species_id> no_empathize_with;
+
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
 
@@ -360,6 +363,7 @@ struct mutation_branch {
         translation raw_desc;
     public:
         std::string name( const std::string &variant = "" ) const;
+        // Stored description of mutation. Character::mutation_desc() should be prioritized over this, if possible, for parse_tags support
         std::string desc( const std::string &variant = "" ) const;
 
         /**

@@ -109,6 +109,8 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_COMBAT_MOUNT,
        mon_flag_CONSOLE_DESPAWN,
        mon_flag_CONVERSATION,
+       mon_flag_COPY_SUMMONER_LOOK,
+       mon_flag_COPY_AVATAR_LOOK,
        mon_flag_CORNERED_FIGHTER,
        mon_flag_DEADLY_VIRUS,
        mon_flag_DESTROYS,
@@ -238,6 +240,17 @@ struct pet_food_data {
     std::set<std::string> food;
     std::string pet;
     std::string feed;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
+};
+
+/** movement data */
+struct move_skills_data {
+    std::optional<int> climb;
+    std::optional<int> dig;
+    std::optional<int> swim;
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
@@ -441,6 +454,8 @@ struct mtype {
 
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
+        move_skills_data move_skills;   /** climb, dig, swim; 0-100, defaults to 0 */
+
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
         int stomach_size = 0;         /** how many times this monster will eat */

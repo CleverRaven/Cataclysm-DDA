@@ -933,6 +933,11 @@ bool item_location::has_parent() const
     return false;
 }
 
+bool item_location::is_efile() const
+{
+    return parent_item() && parent_item()->is_estorage();
+}
+
 ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
 {
     item_pocket *parent_pocket;

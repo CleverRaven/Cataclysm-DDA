@@ -1,7 +1,8 @@
 [
   {
     "id": "balclava",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "balaclava" },
     "description": "A warm covering that protects the head and face from the cold.",
     "weight": "70 g",
@@ -20,7 +21,8 @@
   },
   {
     "id": "balaclava_skull",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "balclava",
     "name": { "str": "skull balaclava" },
     "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
@@ -29,7 +31,8 @@
   },
   {
     "id": "balaclava_cut_resistant",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "cut-resistant balaclava" },
     "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
@@ -39,7 +42,8 @@
   },
   {
     "id": "bandana",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
@@ -64,7 +68,8 @@
   },
   {
     "id": "bondage_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bondage mask" },
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": "210 g",
@@ -90,7 +95,8 @@
   {
     "id": "bondage_mask_zipped",
     "copy-from": "bondage_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "bondage mask (zipped)", "str_pl": "bondage masks (zipped)" },
     "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
     "looks_like": "bondage_mask",
@@ -104,7 +110,9 @@
   },
   {
     "id": "fencing_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "name": { "str": "fencing mask" },
     "description": "A tough hood made of steel mesh used by fencers.",
     "weight": "520 g",
@@ -145,7 +153,8 @@
   },
   {
     "id": "mask_bal",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ballistic mask" },
     "description": "A protective reinforced Kevlar mask that covers the face.  Provides excellent protection from ballistic threats.",
@@ -165,7 +174,8 @@
   },
   {
     "id": "mask_dust",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
     "weight": "168 g",
@@ -268,7 +278,8 @@
   },
   {
     "id": "mask_guy_fawkes",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
     "description": "Remember, remember, the fifth of November.",
@@ -288,7 +299,8 @@
   },
   {
     "id": "mask_hockey",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "hockey mask" },
     "//": "Jason-type costume masks are much cheaper and less protective.",
@@ -309,7 +321,8 @@
   },
   {
     "id": "mask_rioter",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "rioter mask" },
     "description": "A t-shirt with the sleeves tied behind the back of one's head.  These are usually worn by rioters to hide their identity.",
     "weight": "123 g",
@@ -328,7 +341,8 @@
   {
     "id": "mask_skull",
     "//": "the mask_skull was here first so i'm just expanding it with mask variants.",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "skull mask" },
     "description": "A plastic mask that covers the face.",
@@ -400,7 +414,8 @@
   },
   {
     "id": "santa_beard",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "white beard" },
     "description": "A fake white beard that straps over the mouth.  Perfect for your Santa costume!",
     "weight": "200 g",
@@ -419,7 +434,8 @@
   },
   {
     "id": "face_veil",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "face veil" },
     "description": "A simple piece of cotton that covers your face.",
     "weight": "160 g",
@@ -489,7 +505,8 @@
   },
   {
     "id": "pumpkin_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "pumpkin mask" },
     "description": "A flimsy plastic pumpkin mask to wear over your head.",
     "weight": "120 g",
@@ -507,7 +524,8 @@
   },
   {
     "id": "zombie_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "zombie mask" },
     "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
     "weight": "100 g",
@@ -554,7 +572,7 @@
       {
         "id": "michael_myers_mask",
         "name": { "str": "Michael Myers' mask" },
-        "description": "A full-head mask with hair, much like the one worn by Michael Myers in Halloween",
+        "description": "A full-head mask with hair, much like the one worn by Michael Myers in Halloween.",
         "weight": 17
       },
       {
@@ -567,7 +585,8 @@
   },
   {
     "id": "mask_plague",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "plague mask" },
     "description": "A beaked leather mask used by plague doctors.",

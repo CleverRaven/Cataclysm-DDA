@@ -1,7 +1,8 @@
 [
   {
     "id": "grip_mount",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "replaceable furniture kit" },
     "description": "A kit consisting of various steel and plastic parts.  When installed, it will permanently modify and partially replace some of the weapon's furniture so that it can be easily changed if needed.  This allows installing any kind of more advanced grips or other furniture.",
     "weight": "80 g",
@@ -21,7 +22,8 @@
   },
   {
     "id": "rail_mount",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "side mount" },
     "description": "A plastic mount for attaching a rail accessory, designed to be permanently installed onto almost any weapon, along with some fasteners.  Ideal for bringing out your inner tacticool on older guns.",
     "weight": "10 g",
@@ -40,7 +42,8 @@
   },
   {
     "id": "sights_mount",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "sights mount" },
     "description": "A plastic mount for attaching a sight, designed to be permanently installed onto almost any weapon other than launchers and pistols, along with some fasteners.  Ideal for bringing out your inner tacticool on older guns.",
     "weight": "10 g",
@@ -59,7 +62,8 @@
   },
   {
     "id": "sights_mount_launcher",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "launcher sights mount" },
     "description": "A plastic mount for attaching a sight, designed to be permanently installed onto almost any launcher, along with some fasteners.  Ideal for bringing out your inner tacticool on rocket launchers.",
     "weight": "60 g",
@@ -78,7 +82,8 @@
   },
   {
     "id": "sights_mount_pistol",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "pistol sights mount" },
     "description": "A plastic mount for attaching a sight, designed to be permanently installed onto almost any pistol, along with some fasteners.  Ideal for bringing out your inner tacticool on pocket pistols.",
     "weight": "60 g",
@@ -97,7 +102,8 @@
   },
   {
     "id": "stock_mount",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "replaceable stock kit" },
     "description": "A kit consisting of various steel parts.  When installed, it will remove the weapon's original fixed stock, install a new stock mount in its place, modify the original stock to fit it and then reattach it to the gun, or simply attach a stock mount if the gun had no stock to start with.  This allows easy installation of any kind of more advanced stocks.",
     "weight": "80 g",
@@ -117,7 +123,8 @@
   },
   {
     "id": "underbarrel_mount",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "bottom mount" },
     "description": "A plastic mount for attaching an underbarrel accessory, designed to be permanently installed onto almost any weapon, along with some fasteners.  Ideal for bringing out your inner tacticool on older guns.",
     "weight": "10 g",
@@ -136,7 +143,8 @@
   },
   {
     "id": "rail_bayonet_lug",
-    "type": "GUNMOD",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
     "name": { "str": "rail bayonet mount" },
     "description": "A one-piece mount for attaching a bayonet to a firearm's accessory rail, in case that was a thing you wanted.  Ideal for making newer guns pointier.",
     "weight": "162 g",

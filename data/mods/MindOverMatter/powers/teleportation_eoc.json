@@ -6,14 +6,27 @@
       { "math": [ "u_teleport_total_carried_volume = 0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] } } ],
+        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ], "worn_only": true } ],
         "true_eocs": [
           {
-            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME",
+            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WORN",
             "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
           }
         ]
-      }
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ], "wielded_only": true }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WIELDED",
+            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+          }
+        ]
+      },
+      { "u_message": "Your carried volume is <u_val:teleport_total_carried_volume>.", "type": "debug" }
     ]
   },
   {
@@ -29,6 +42,12 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
+        "math": [
+          "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+        ]
+      },
+      { "u_message": "Your Blink volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
+      {
         "if": {
           "math": [
             "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
@@ -42,7 +61,7 @@
         ],
         "else": [
           {
-            "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much..",
+            "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much.",
             "type": "bad"
           }
         ]
@@ -221,6 +240,12 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
+        "math": [
+          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_blink') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+        ]
+      },
+      { "u_message": "Your Blink volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
+      {
         "if": {
           "math": [
             "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
@@ -267,8 +292,8 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          { "u_cast_spell": { "id": "teleport_banish_self_target", "message": "" } },
-          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" }
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } },
+          { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." }
         ]
       }
     ],
@@ -290,14 +315,8 @@
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
-          "u_die",
-          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" },
-          {
-            "u_map_run_item_eocs": "all",
-            "min_radius": 0,
-            "max_radius": 0,
-            "true_eocs": [ { "id": "EOC_TELEPORTER_OUBLIETTE_HANDLING_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
-          }
+          { "npc_message": "With a tremendous mental exertion, you hurl your target…elsewhere." },
+          { "u_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": false } }
         ]
       }
     ]

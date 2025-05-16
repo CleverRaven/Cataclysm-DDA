@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "flyer",
     "category": "books",
     "symbol": ",",
@@ -16,7 +16,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "valentine_card",
     "category": "books",
     "symbol": ",",
@@ -32,7 +32,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "survnote",
     "category": "books",
     "symbol": ",",
@@ -48,7 +48,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "childnote",
     "category": "books",
     "symbol": ",",
@@ -64,7 +64,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "note_mutant_alpha_boss",
     "name": { "str": "child's drawing" },
     "description": "A scrap of paper with a faded drawing on it.",
@@ -72,7 +72,7 @@
     "snippet_category": "mutant_kid_boss"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "toxic_waste_labnote",
     "copy-from": "survnote",
     "name": { "str": "forgotten note" },
@@ -80,7 +80,7 @@
     "snippet_category": "toxic_waste_corpse_disposal"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_postit_bio",
     "copy-from": "survnote",
     "name": { "str": "post-it note" },
@@ -88,35 +88,35 @@
     "snippet_category": "lab_postit_bio"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_postit_blob",
     "copy-from": "lab_postit_bio",
     "name": { "str": "post-it note" },
     "snippet_category": "lab_postit_blob"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_postit_migo",
     "copy-from": "lab_postit_bio",
     "name": { "str": "post-it note" },
     "snippet_category": "lab_postit_migo"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_postit_portal",
     "copy-from": "lab_postit_bio",
     "name": { "str": "post-it note" },
     "snippet_category": "lab_postit_portal"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_postit_tech",
     "copy-from": "lab_postit_bio",
     "name": { "str": "post-it note" },
     "snippet_category": "lab_postit_tech"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_bio",
     "name": { "str": "biology protocol" },
     "copy-from": "file",
@@ -124,7 +124,7 @@
     "snippet_category": "lab_file_bio"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_psych",
     "name": { "str": "psychotherapy protocol" },
     "copy-from": "file",
@@ -132,7 +132,7 @@
     "snippet_category": "lab_file_psych"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_portal",
     "name": { "str": "metatopography protocol" },
     "copy-from": "file",
@@ -140,14 +140,14 @@
     "snippet_category": "lab_file_portal"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_mutagen_guide",
     "name": { "str_sp": "production notes" },
     "description": "A collection of documents attesting to the purity of this batch, the performance of instrumentation during its production, and a list of materials used during its production and analysis.  It includes a Certificate of Analysis, each line listing a test method, result, and reviewer's signature, all in service of… something.  On one distinctive page a series of checkmarks slowly appear and fade around <color_yellow>\"500 units of mutagen per 500 units of primer\"</color> ratio.",
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_mutation_testing",
     "name": { "str_sp": "production tests" },
     "description": "Accompanying document, that describes tests performed on different subjects.",
@@ -164,7 +164,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_serum_testing",
     "name": { "str_sp": "production tests" },
     "description": "Accompanying document, that describes tests performed on different subjects.",
@@ -181,7 +181,7 @@
     "copy-from": "file"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "lab_file_sec",
     "name": { "str": "security protocol" },
     "copy-from": "file",
@@ -189,7 +189,7 @@
     "snippet_category": "lab_file_security"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "bio_file",
     "name": { "str": "lab report (biology)", "str_pl": "lab reports (biology)" },
     "//": "Low-level animal studies, long-form testing logs - naming scheme compound/subject species-test no",
@@ -223,7 +223,7 @@
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_BIO",
@@ -233,7 +233,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "psych_file",
     "//": "Session logs and similar, naming scheme department code-ID-session number",
     "name": { "str": "lab report (psychology)", "str_pl": "lab reports (psychology)" },
@@ -246,7 +246,7 @@
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_PSY",
@@ -256,7 +256,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "security_file",
     "//": "Interrogation and surveillance logs, naming scheme facility/incident-material nr",
     "name": { "str": "lab report (security)", "str_pl": "lab reports (security)" },
@@ -290,7 +290,7 @@
     "copy-from": "file",
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Activate to read the file",
+      "description": "Activate to read the file.",
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_SEC",
@@ -300,7 +300,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "character_sheet",
     "category": "books",
     "symbol": ",",
@@ -317,7 +317,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "scorecard",
     "category": "other",
     "symbol": ",",
@@ -333,7 +333,7 @@
     "volume": "2 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "newspaper_memorial",
     "category": "books",
     "symbol": ",",
@@ -348,7 +348,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "newest_newspaper",
     "category": "books",
     "symbol": ",",
@@ -364,7 +364,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "many_years_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -380,7 +380,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "years_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -396,7 +396,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "one_year_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -412,7 +412,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "months_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -428,7 +428,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "weeks_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -444,7 +444,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "death_note",
     "category": "books",
     "symbol": ",",
@@ -461,7 +461,7 @@
     "volume": "10 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "evac_pamphlet",
     "category": "books",
     "name": { "str": "FEMA evacuation pamphlet" },
@@ -475,7 +475,7 @@
     "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "missing_poster_adult",
     "category": "books",
     "symbol": "`",
@@ -491,7 +491,7 @@
     "volume": "12 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "missing_poster_child",
     "category": "books",
     "symbol": "`",
@@ -507,7 +507,7 @@
     "volume": "12 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "missing_poster_dog",
     "category": "books",
     "symbol": "`",
@@ -523,7 +523,7 @@
     "volume": "12 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "missing_poster_cat",
     "category": "books",
     "symbol": "`",
@@ -539,7 +539,7 @@
     "volume": "12 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "movie_poster",
     "category": "books",
     "symbol": "`",
@@ -595,7 +595,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "wallet_photo",
     "category": "other",
     "symbol": ",",
@@ -611,7 +611,7 @@
     "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "home_picture",
     "category": "other",
     "symbol": "*",

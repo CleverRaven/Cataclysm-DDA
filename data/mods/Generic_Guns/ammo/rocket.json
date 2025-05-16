@@ -1,7 +1,8 @@
 [
   {
     "id": "rocket_he",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "84x246mm_he",
     "name": { "str": "rocket, antipersonnel", "str_pl": "rockets, antipersonnel" },
     "description": "A large anti-personnel rocket for a military rocket launcher.  Designed to be highly effective against personnel.",
@@ -9,7 +10,8 @@
   },
   {
     "id": "rocket_hedp",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "84x246mm_hedp",
     "name": { "str": "rocket, multipurpose", "str_pl": "rockets, multipurpose" },
     "description": "An anti-tank rocket with a high explosive dual purpose warhead for a military rocket launcher.  Designed to be highly effective against vehicles and structures, and retains some effectiveness against personnel.",
@@ -17,7 +19,8 @@
   },
   {
     "id": "rocket_smoke",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "84x246mm_smoke",
     "name": { "str": "rocket, smoke", "str_pl": "rockets, smoke" },
     "description": "A rocket loaded with a smoke warhead for a military rocket launcher.  Commonly used for signaling, target designation, and for screening troop movements.",

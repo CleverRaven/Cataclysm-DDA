@@ -2,7 +2,8 @@
   {
     "id": "hk_mp7",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "reload_noise_volume": 10,
     "name": { "str": "H&K MP7A2" },
     "description": "Designed as a personal defense weapon, the MP7 fires the high-powered 4.6x30mm round while being lightweight, compact in size, and practically recoil-free.",
@@ -26,7 +27,6 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
@@ -36,12 +36,12 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [
-      "fault_gun_blackpowder",
-      "fault_gun_dirt",
-      "fault_gun_chamber_spent",
-      "fault_fail_to_feed",
-      "fault_stovepipe",
-      "fault_double_feed"
+      { "fault": "fault_gun_blackpowder" },
+      { "fault": "fault_gun_dirt" },
+      { "fault": "fault_gun_chamber_spent" },
+      { "fault": "fault_fail_to_feed" },
+      { "fault": "fault_stovepipe" },
+      { "fault": "fault_double_feed" }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk46mag", "hk46bigmag" ] } ],
     "melee_damage": { "bash": 7 }

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "ap_psi_noetic_resonance_detector",
+    "type": "vehicle_part",
+    "name": { "str": "noetic resonance detector" },
+    "item": "psi_noetic_resonance_detector",
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ],
+    "categories": [ "lighting" ],
+    "color": "red",
+    "broken_color": "green",
+    "durability": 20,
+    "description": "A strange device, a bit like one of those eyesight testing machines you look into in an optometrist's office.  The main housing has a place to rest your chin and a pair of binocular-like tubes, but there is also a headband attached to a set of wires hanging from a hook on the side and an armband hanging from the other side.  It's supposed to be used for measuring your \"noetic potential\".",
+    "damage_modifier": 10,
+    "pseudo_tools": [ { "id": "psi_noetic_resonance_detector_tool" } ],
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "APPLIANCE" ],
+    "requirements": { "removal": { "time": "2 m" } }
+  }
+]

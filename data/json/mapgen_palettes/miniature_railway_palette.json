@@ -52,7 +52,7 @@
       "l": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
       "W": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
       "w": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
-      "7": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] },
+      "7": { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] },
       "t": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "t": {  } },

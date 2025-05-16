@@ -1,7 +1,8 @@
 [
   {
     "id": "afs_energy_saber_off",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "CE-4 \"The Claw\" (Non-Lethal)", "str_pl": "CE-4 \"The Claws\" (Non-Lethal)" },
     "description": "The CE-4, commonly known as \"The Claw\", is a popular self-defense weapon used by corporate enforcers everywhere, especially on dangerous frontier worlds.  Made from a cylinder of heat activated memory-alloy, the flick of a switch allows it to morph between a less-lethal bludgeon form and a sharpened, super heated blade.  Currently, it is in its less-lethal configuration, and looks like a sleek side-handle metal baton.",
     "weight": "760 g",
@@ -13,7 +14,6 @@
     "symbol": "[",
     "looks_like": "PR24-extended",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "charges_per_use": 1,
     "to_hit": 3,
@@ -36,11 +36,13 @@
         "item_restriction": [ "light_battery_cell", "light_minus_battery_cell", "light_minus_disposable_cell" ]
       }
     ],
-    "melee_damage": { "bash": 22 }
+    "melee_damage": { "bash": 22 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "afs_energy_saber_on",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "afs_energy_saber_off",
     "name": { "str": "CE-4 \"The Claw\" (Lethal)", "str_pl": "CE-4 \"The Claws\" (Lethal)" },
     "description": "The CE-4, commonly known as \"The Claw\", is a popular self-defense weapon used by corporate enforcers everywhere, especially on dangerous frontier planets.  Made from a cylinder of heat activated memory-alloy, the flick of a switch allows it to morph between a less-lethal bludgeon form and a sharpened, super heated blade.  Currently, it is in its lethal configuration, and looks like a sleek sword, humming softly as its blade glows from heat.",
@@ -63,7 +65,8 @@
   },
   {
     "id": "afs_hardlight_longbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "looks_like": "recurbow",
     "color": "white",
@@ -102,7 +105,8 @@
   },
   {
     "id": "afs_hydraulic_gauntlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str": "hydraulic gauntlet" },
     "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.  Thanks to an internal microreactor, it doesn't require power of its own.",
     "weight": "3778 g",
@@ -120,7 +124,8 @@
   },
   {
     "id": "afs_freeze_gauntlet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "psychrophile handling gloves" },
     "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
@@ -131,26 +136,24 @@
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_cyan",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
-          "name": { "str": "Ice Fists" },
-          "description": "Strikes from this weapon can freeze targets solid."
-        }
-      ]
-    },
     "to_hit": 0,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_1" ],
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
+        "name": { "str": "Ice Fists" },
+        "description": "Strikes from this weapon can freeze targets solid."
+      }
+    ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "golf_club",
     "name": { "str": "golf club" },
     "copy-from": "golf_club",
@@ -158,7 +161,8 @@
   },
   {
     "id": "afs_bionic_rocket",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "name": { "str": "deployed grenade launcher" },
     "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": "2250 ml",
@@ -180,7 +184,8 @@
   {
     "id": "TANK",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str_sp": "Tankbot Main Gun", "//~": "NO_I18N" },
@@ -201,7 +206,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "afs_titanium_bat",
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
@@ -218,7 +223,8 @@
   },
   {
     "id": "ceramic_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "bodyguard knife", "str_pl": "bodyguard knives" },
     "description": "Designed to evade security measures, this knife is a must have for any Cataclysm dinner party.",
@@ -236,7 +242,8 @@
   },
   {
     "id": "afs_toxic_knife",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "neurotoxic knife", "str_pl": "neurotoxic knives" },
     "description": "A broad white-ceramic knife that is constantly kept coated in neurotoxic oil by a handle mounted reservoir.  Don't cut yourself.",
@@ -254,7 +261,7 @@
     "melee_damage": { "afs_toxin_pierce": 21 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "trident",
     "looks_like": "pitchfork",
     "name": { "str": "trident" },
@@ -277,7 +284,8 @@
   },
   {
     "id": "azabow_off",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "symbol": "(",
     "color": "white",
     "copy-from": "compbow",
@@ -287,20 +295,6 @@
     "material": [ "superalloy", "qt_steel", "wood" ],
     "min_strength": 40,
     "price_postapoc": "400 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 20,
-          "coverage": 5,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
     "range": 25,
     "dispersion": 1000,
@@ -311,11 +305,24 @@
       "target": "azabow_on",
       "msg": "You connect the bow to your UPS.",
       "ammo_scale": 0
-    }
+    },
+    "armor": [
+      {
+        "material": [
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 20,
+        "coverage": 5,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "azabow_on",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "white",
     "copy-from": "azabow_off",
@@ -334,7 +341,8 @@
   },
   {
     "id": "aza_sword",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "symbol": "/",
     "color": "white",
     "name": { "str": "Aztlani hunting sword" },
@@ -356,7 +364,8 @@
     "id": "scrapbow",
     "looks_like": "longbow",
     "copy-from": "compositebow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "GUN" ],
     "name": { "str": "salvage bow" },
     "description": "A bow made from readily-available materials, and quickly and cheaply put together.  It is not made to be pretty, but to get a job done.  Its nocks and string are made of shape-memory alloy that help increase string tension in the string.  The memory alloy requires a UPS source to be activated.",
     "price": "380 USD",
@@ -366,19 +375,6 @@
     "volume": "2500 ml",
     "longest_side": "152 cm",
     "price_postapoc": "20 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 20,
-          "coverage": 5,
-          "covers": [ "torso" ]
-        }
-      ]
-    },
     "ranged_damage": { "damage_type": "stab", "amount": 12 },
     "range": 14,
     "dispersion": 850,
@@ -386,12 +382,24 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "extend": { "flags": [ "USE_UPS" ] },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 20,
+        "coverage": 5,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "scrapcrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
     "symbol": "(",
     "color": "green",
     "name": { "str": "salvage crossbow" },
@@ -427,11 +435,11 @@
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
     "melee_damage": { "bash": 11 },
-    "extend": { "flags": [ "USE_UPS" ] }
+    "flags": [ "USE_UPS" ]
   },
   {
     "id": "afs_bio_whip_weapon",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "red",
     "name": { "str": "monofilament whip" },

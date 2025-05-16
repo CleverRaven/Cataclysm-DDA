@@ -1,7 +1,8 @@
 [
   {
     "id": "anesthetic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "anesthetic" },
     "category": "chems",
     "description": "A variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthesia kit with it.",
@@ -19,7 +20,8 @@
     "looks_like": "ether"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fert_supplement",
     "name": { "str_sp": "fertility supplement" },
     "//": "Right now, it's just used in a quest, and should not spawn naturally.",
@@ -35,7 +37,8 @@
     "volume": "10 ml"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_sulphur",
     "ammo_type": "components",
     "category": "chems",
@@ -54,7 +57,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chunk_sulfur",
     "category": "chems",
     "price": "50 cent",
@@ -71,7 +75,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_cement",
     "category": "spare_parts",
     "price": "2 USD",
@@ -87,7 +92,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_gravel",
     "category": "spare_parts",
     "price": "0 cent",
@@ -105,7 +111,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "shredded_rubber",
     "category": "spare_parts",
     "price": "0 cent",
@@ -121,7 +128,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_limestone",
     "category": "chems",
     "price": "50 cent",
@@ -138,7 +146,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_quicklime",
     "category": "chems",
     "price": "1 USD",
@@ -154,7 +163,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_slaked_lime",
     "category": "chems",
     "price": "5 USD",
@@ -170,7 +180,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_sand",
     "category": "spare_parts",
     "price": "0 cent",
@@ -186,7 +197,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_soil",
     "category": "spare_parts",
     "price": "0 cent",
@@ -202,7 +214,7 @@
     "stack_size": 1
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "material_shrd_limestone",
     "symbol": ",",
     "color": "light_gray",
@@ -217,7 +229,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "material_rocksalt",
     "category": "food",
     "price": "50 cent",
@@ -232,7 +244,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "material_rhodonite",
     "category": "chems",
     "price": "2 USD 50 cent",
@@ -248,7 +260,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "material_zincite",
     "category": "chems",
     "price": "2 USD 50 cent",
@@ -263,7 +275,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "bleach",
     "name": { "str_sp": "bleach" },
     "weight": "138 g",
@@ -285,7 +298,8 @@
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "ammonia_liquid",
     "name": { "str_sp": "liquid ammonia" },
     "weight": "124 g",
@@ -304,7 +318,8 @@
     "ammo_type": "ammonia_liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "ammonia_hydroxide",
     "name": { "str_sp": "ammonia solution" },
     "weight": "124 g",
@@ -325,7 +340,8 @@
     "freezing_point": -78
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fertilizer_liquid",
     "name": { "str_sp": "liquid fertilizer" },
     "weight": "67 g",
@@ -349,7 +365,8 @@
     "fun": -30
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMPOSTABLE", "COMESTIBLE" ],
     "id": "fermentable_liquid_mixture",
     "name": { "str_sp": "fermentable liquid mixture" },
     "volume": "500 ml",
@@ -359,11 +376,13 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
-    "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
-    "charges": 1
+    "charges": 1,
+    "compost_time": "60 days",
+    "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fermentable_fish_mixture",
     "name": { "str_sp": "fermentable fish mixture" },
     "description": "A mixture of fish, sugars, and water.  Wait about two months for them to be fermented in an open tank.",
@@ -376,7 +395,8 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fermented_fertilizer_liquid",
     "name": { "str_sp": "fermented fertilizer liquid" },
     "volume": "500 ml",
@@ -389,7 +409,8 @@
     "charges": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fertilizer_commercial",
     "name": { "str_sp": "commercial fertilizer" },
     "weight": "27 g",
@@ -412,7 +433,8 @@
     "fun": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "fungicide",
     "category": "chems",
     "name": { "str_sp": "fungicide" },
@@ -435,7 +457,7 @@
     "fun": -15
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "insecticide",
     "category": "chems",
     "name": { "str_sp": "insecticide" },
@@ -451,7 +473,8 @@
     "volume": "50 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "salt_water",
     "name": { "str_sp": "salt water" },
     "material": [ { "type": "water", "portion": 877 }, { "type": "salt", "portion": 123 } ],
@@ -475,7 +498,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "soapy_water",
     "name": { "str_sp": "soapy water" },
     "material": [ "water" ],
@@ -498,7 +522,8 @@
     "fun": -1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "sewage",
     "name": { "str_sp": "sewage sample" },
     "weight": "280 g",
@@ -518,7 +543,8 @@
     "fun": -20
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_aluminium_powder",
     "category": "chems",
     "price": "5 USD",
@@ -535,7 +561,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_nickel_powder",
     "category": "chems",
     "price": "12 cent",
@@ -552,7 +579,8 @@
     "count": 1
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_zinc_powder",
     "category": "chems",
     "price": "6 USD",
@@ -571,7 +599,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_zinc_oxide",
     "category": "chems",
     "price": "2 USD",
@@ -589,7 +618,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_manganese_dioxide",
     "category": "chems",
     "price": "6 USD",
@@ -607,7 +637,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "cathod_mix",
     "category": "chems",
     "price_postapoc": "1 USD",
@@ -622,7 +653,8 @@
     "count": 1000
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_ferric_chloride",
     "category": "chems",
     "price": "30 USD",
@@ -639,7 +671,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_antimony_trichloride",
     "category": "chems",
     "price": "30 USD",
@@ -656,7 +689,8 @@
     "count": 250
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_potassium_chloride",
     "category": "chems",
     "price": "6 USD",
@@ -674,7 +708,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_potassium_hydroxide",
     "category": "chems",
     "price": "6 USD",
@@ -692,7 +727,8 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_sulphuric_acid",
     "category": "chems",
     "price": "2 USD 50 cent",
@@ -713,7 +749,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_muriatic_acid",
     "category": "chems",
     "price": "2 USD 50 cent",
@@ -733,7 +770,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_acetone",
     "category": "chems",
     "price": "50 cent",
@@ -750,7 +788,8 @@
     "container": "bottle_glass"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_nitric_acid",
     "category": "chems",
     "price": "3 USD",
@@ -771,7 +810,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_chromium_oxide",
     "category": "chems",
     "price": "5 USD",
@@ -789,7 +829,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "cac2powder",
     "category": "chems",
     "price": "2 USD",
@@ -810,7 +851,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_carbide",
     "category": "chems",
     "price": "75 cent",
@@ -828,7 +870,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_caco3",
     "category": "chems",
     "price": "75 cent",
@@ -846,7 +889,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_hexamine",
     "category": "chems",
     "price": "20 USD",
@@ -866,7 +910,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_hydrogen_peroxide_conc",
     "category": "chems",
     "price": "10 USD",
@@ -882,7 +927,7 @@
     "container": "bottle_glass"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "plutonium",
     "name": { "str_sp": "plutonium" },
     "category": "chems",
@@ -898,7 +943,7 @@
     "weight": "990 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "uranium",
     "name": { "str_sp": "uranium" },
     "category": "chems",
@@ -914,7 +959,8 @@
     "weight": "953 g"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_ammonium_nitrate",
     "category": "chems",
     "price": "1 USD",
@@ -931,7 +977,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_ammonium_nitrate_pellets",
     "looks_like": "fertilizer_commercial",
     "category": "chems",
@@ -949,7 +996,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_saltpetre",
     "category": "chems",
     "price": "2 USD",
@@ -966,7 +1014,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "material_niter",
     "category": "spare_parts",
     "price": "75 cent",
@@ -982,7 +1031,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_aluminium_sulphate",
     "category": "chems",
     "price": "3 USD",
@@ -999,7 +1049,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_acetic_acid",
     "category": "chems",
     "price": "2 USD",
@@ -1016,7 +1067,8 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_formaldehyde",
     "category": "chems",
     "price": "2 USD",
@@ -1032,7 +1084,8 @@
     "container": "bottle_glass"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_thermite",
     "category": "chems",
     "price": "25 USD",
@@ -1050,7 +1103,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_anfo",
     "category": "chems",
     "price": "50 USD",
@@ -1067,7 +1121,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_black_powder",
     "category": "chems",
     "price": "20 USD",
@@ -1084,7 +1139,8 @@
     "count": 1000
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_rdx",
     "category": "chems",
     "price": "75 USD",
@@ -1101,7 +1157,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_compositionb",
     "category": "chems",
     "price": "75 USD",
@@ -1118,7 +1175,8 @@
     "count": 500
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_hmtd",
     "category": "chems",
     "price": "50 USD",
@@ -1136,7 +1194,8 @@
     "count": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_apex",
     "category": "chems",
     "price": "50 USD",
@@ -1154,7 +1213,8 @@
     "count": 200
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_rocket_fuel",
     "category": "chems",
     "price": "5 USD",
@@ -1172,7 +1232,8 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "pur_tablets",
     "name": { "str": "water purification tablet" },
     "category": "chems",
@@ -1196,7 +1257,7 @@
     "variables": { "water_per_tablet": "4" }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hickory_root",
     "symbol": "/",
     "color": "brown",
@@ -1209,7 +1270,7 @@
     "volume": "500 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hickory_nut",
     "category": "food",
     "symbol": "%",
@@ -1223,7 +1284,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pecan",
     "category": "food",
     "symbol": "%",
@@ -1237,7 +1298,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pistachio",
     "category": "food",
     "symbol": "%",
@@ -1251,7 +1312,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "almond",
     "category": "food",
     "symbol": "%",
@@ -1265,7 +1326,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "peanut",
     "category": "food",
     "symbol": "%",
@@ -1279,7 +1340,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hazelnut",
     "category": "food",
     "symbol": "%",
@@ -1293,7 +1354,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chestnut",
     "category": "food",
     "symbol": "%",
@@ -1307,7 +1368,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "walnut",
     "category": "food",
     "symbol": "%",
@@ -1321,7 +1382,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "butternut",
     "category": "food",
     "symbol": "%",
@@ -1335,7 +1396,22 @@
     "volume": "250 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "id": "butternut_husk",
+    "category": "food",
+    "symbol": "%",
+    "color": "yellow",
+    "name": { "str_sp": "butternut husks" },
+    "description": "A handful of husks from a butternuts, emptied of their meat.",
+    "//spoils_in": "180 days",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "weight": "210 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "water_sewage",
     "name": { "str_sp": "sewage water" },
     "material": [ "water", "feces" ],
@@ -1352,7 +1428,8 @@
     "category": "chems"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "detergent",
     "category": "chems",
     "price": "10 USD",
@@ -1370,7 +1447,8 @@
     "count": 20
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "soap_flakes",
     "category": "chems",
     "price": "5 USD",
@@ -1387,7 +1465,8 @@
     "count": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lye",
     "name": { "str_sp": "lye" },
     "weight": "125 g",
@@ -1408,7 +1487,8 @@
     "fun": -20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "lye_potassium",
     "name": { "str_sp": "potassium lye" },
     "weight": "125 g",
@@ -1429,7 +1509,8 @@
     "fun": -20
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "nanomaterial",
     "category": "tool_magazine",
     "price": "2 kUSD 500 USD",
@@ -1446,7 +1527,8 @@
     "count": 50
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "ash",
     "category": "chems",
     "price": "0 cent",
@@ -1463,7 +1545,8 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "corpse_ash",
     "category": "chems",
     "price": "0 cent",
@@ -1480,7 +1563,8 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "ether",
     "category": "chems",
     "price": "10 cent",
@@ -1501,7 +1585,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_DMSO",
     "category": "chems",
     "price": "10 cent",
@@ -1522,7 +1607,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_chloroform",
     "category": "chems",
     "price": "20 cent",
@@ -1543,7 +1629,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_phenol",
     "category": "chems",
     "price": "10 cent",
@@ -1564,7 +1651,8 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_benzene",
     "category": "chems",
     "price": "10 cent",
@@ -1584,7 +1672,8 @@
     "flags": [ "INEDIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_toluene",
     "category": "chems",
     "price": "10 cent",
@@ -1604,7 +1693,8 @@
     "flags": [ "INEDIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "chem_glycerol",
     "category": "chems",
     "price": "10 cent",
@@ -1623,7 +1713,7 @@
     "phase": "liquid"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chem_peptone_broth",
     "category": "chems",
     "price": "1 cent",
@@ -1639,7 +1729,7 @@
     "weight": "1 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chem_agar",
     "category": "chems",
     "price": "1 cent",
@@ -1655,7 +1745,7 @@
     "weight": "1 g"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chem_acrylamide",
     "category": "chems",
     "price": "1 cent",
@@ -1672,7 +1762,7 @@
   },
   {
     "id": "steel_grille",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "steel grille" },
     "description": "A metal grille.  It can be used as a framework for making a chemical catalyst.",
@@ -1680,7 +1770,7 @@
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -1690,7 +1780,7 @@
   },
   {
     "id": "cobalt_60",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "price": "10 USD",
     "price_postapoc": "50 cent",
@@ -1705,7 +1795,8 @@
   },
   {
     "id": "wooden_bead",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "wooden bead" },
     "description": "A wooden bead.  It can be used to craft inscribable jewelry or create a beaded curtain door.",
@@ -1723,7 +1814,8 @@
   },
   {
     "id": "rosin",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "rosin" },
     "description": "A chunk of yellowish rosin, usable as a flux for soldering.",
@@ -1739,7 +1831,8 @@
   },
   {
     "id": "acetylene",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "acetylene" },
     "category": "chems",
     "description": "A flammable gas that explodes under pressure.  Combined with oxygen, acetylene makes a great welding gas.",
@@ -1760,7 +1853,8 @@
   },
   {
     "id": "formic_acid",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "formic acid" },
     "description": "Common in nature as an insect venom, this substance has a number of industrial uses such as preservation and manufacturing.",
     "comestible_type": "INVALID",
@@ -1780,7 +1874,8 @@
   },
   {
     "id": "latex",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "latex" },
     "description": "A liquid precursor to rubber found in some plants.",
     "comestible_type": "INVALID",
@@ -1796,7 +1891,7 @@
     "looks_like": "milk"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "chem_citric_acid",
     "category": "chems",
     "price": "1 cent",
@@ -1812,7 +1907,8 @@
     "weight": "1 g"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "abstract": "venom_gland",
     "name": { "str": "venom gland", "//~": "NO_I18N" },
     "category": "chems",
@@ -1826,7 +1922,8 @@
   },
   {
     "id": "venom_wasp",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "wasp venom gland" },
     "description": "A fragile, slightly quivering organ for the production and storage of wasp venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
@@ -1836,7 +1933,8 @@
   },
   {
     "id": "venom_bee",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "bee venom gland" },
     "description": "A fragile, slightly quivering organ for the production and storage of honeybee venom.  You could extract some very useful chemicals from it with the right know-how, but only if you hurry.",
@@ -1846,7 +1944,8 @@
   },
   {
     "id": "venom_paralytic",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "sac of paralytic venom", "str_pl": "sacs of paralytic venom" },
     "description": "A grayish, flexible vesicle filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
@@ -1857,7 +1956,8 @@
   },
   {
     "id": "triffid_fungicide",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "copy-from": "venom_gland",
     "name": { "str": "sac of triffid fungicide", "str_pl": "sacs of triffid fungicide" },
     "description": "A triffid sac filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
@@ -1868,7 +1968,8 @@
   },
   {
     "id": "conc_venom",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "concentrated venom" },
     "description": "A transparent, lightly greenish liquid, refined from the venom of bees and wasps.  Active ingredients include (nor-)adrenaline, dopamine, histamine, and protein toxins.  It is now relatively stable, but will require further separation to be useful for anything other than killing you.",
@@ -1884,7 +1985,8 @@
   },
   {
     "id": "conc_paralytic",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "concentrated paralytic" },
     "description": "A concentrated paralytic agent, originally from a triffid.  Given your experience with its effects (chiefly gathered while sourcing this batch) and their striking similarity to earthly flora, you figure it's related to curarines.  Might come in handy in crafting more useful things.",
     "copy-from": "conc_venom",
@@ -1892,7 +1994,8 @@
   },
   {
     "id": "rocuronium",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "rocuronium" },
@@ -1910,7 +2013,8 @@
   },
   {
     "id": "red_phosphorous",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "red phosphorous" },
@@ -1927,7 +2031,8 @@
   },
   {
     "id": "red_phosphorous_small",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "small portion of red phosphorous" },
@@ -1943,7 +2048,8 @@
   },
   {
     "id": "white_phosphorous",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "white phosphorous" },
@@ -1960,7 +2066,8 @@
   },
   {
     "id": "acetic_anhydride",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "category": "chems",
     "name": { "str_sp": "acetic anhydride" },
     "description": "A colorless liquid that smells strongly of vinegar.  If you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
@@ -1986,7 +2093,8 @@
   },
   {
     "id": "iodine_crystal",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "iodine crystals" },
@@ -2002,7 +2110,8 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
     "category": "chems",
@@ -2023,7 +2132,8 @@
   },
   {
     "id": "pine_resin",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "pine resin" },
     "category": "chems",
     "description": "A sticky, sludgy mass of sap harvested from a pine tree.",
@@ -2038,7 +2148,8 @@
   },
   {
     "id": "silicone",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "silicone caulk" },
     "category": "chems",
     "description": "A thick gray paste used as a sealant in many construction projects.",
@@ -2057,7 +2168,8 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid",
     "//": "depending on the lore as what acid these enemies use this could change, muriatic acid is stomach acid",
     "copy-from": "chem_muriatic_acid",
@@ -2069,7 +2181,8 @@
     "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid_insect",
     "copy-from": "formic_acid",
     "category": "chems",
@@ -2085,7 +2198,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid_plant",
     "copy-from": "chem_acetic_acid",
     "price": "0 cent",
@@ -2100,7 +2214,8 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "blood_acid_underground",
     "copy-from": "chem_sulphuric_acid",
     "price": "0 cent",

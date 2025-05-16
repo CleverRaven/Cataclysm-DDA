@@ -921,7 +921,6 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
 void outfit::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
                           const item &new_item, const Character &guy ) const
 {
-
     // reset all layer data
     vals = std::map<bodypart_id, encumbrance_data>();
 
@@ -1519,6 +1518,12 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
     cata::event e = cata::event::make<event_type::character_takeoff_item>( guy.getID(),
                     it.typeId() );
     get_event_bus().send_with_talker( &guy, &loc, e );
+    // Catching eoc of character_takeoff_item event may cause item to be invalid.
+    // If so, skip worn.erase and guy.i_add or res->push_back.
+    bool is_item_vaild = static_cast<bool>( loc );
+    if( !is_item_vaild ) {
+        return true;
+    }
     item takeoff_copy( it );
     worn.erase( iter );
     if( res == nullptr ) {

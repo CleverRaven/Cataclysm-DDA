@@ -1,0 +1,40 @@
+[
+  {
+    "id": "MISSION_LAST_DANCE",
+    "type": "mission_definition",
+    "name": { "str": "The bounty is on Salus IV" },
+    "description": "You've chased your bounty all the way to the ass end of the galaxy here in the Salus system.  A place of so little value to UICA that it's left to pirates and hermits.  While you don't know where exactly your bounty is in this desolate wasteland you do have a lead on one of his associates.  Maybe he'll be able to tell you where to go.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "afs_augmentation_clinic_n3",
+        "om_special": "afs_augmentation_clinic_1",
+        "reveal_radius": 6,
+        "min_distance": 15,
+        "z": 3
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "afs_mon_reaver_rifle", "name": "Friend of Bounty", "x": 11, "y": 11, "target": true },
+          { "monster": "afs_mon_reaver", "name": "The Guard", "x": 12, "y": 12 },
+          { "monster": "afs_mon_reaver", "name": "The Collaborator", "x": 9, "y": 9 },
+          { "monster": "afs_mon_reaver", "name": "The Aristocrat", "x": 13, "y": 13 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    }
+  }
+]

@@ -13,7 +13,7 @@
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "FINE_GRIND", "level": 1 }, { "id": "VISE", "level": 1 } ],
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
-    "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 5 ] ],
+    "using": [ [ "soldering_standard", 15 ], [ "steel_chunk_any", 5 ] ],
     "components": [ [ [ "matrix_crystal_drained", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
@@ -40,7 +40,7 @@
       { "proficiency": "prof_matrix_technology_beginner", "required": false },
       { "proficiency": "prof_fine_metalsmithing", "required": false }
     ],
-    "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 5 ] ],
+    "using": [ [ "soldering_standard", 15 ], [ "steel_chunk_any", 5 ] ],
     "components": [
       [ [ "matrix_shard", 6 ] ],
       [ [ "matrix_crystal_drained_dust_refined", 5 ] ],
@@ -73,7 +73,7 @@
       { "proficiency": "prof_psionic_ritual", "required": false },
       { "proficiency": "prof_fine_metalsmithing", "required": false }
     ],
-    "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 15 ] ],
+    "using": [ [ "soldering_standard", 15 ], [ "steel_chunk_any", 15 ] ],
     "components": [ [ [ "matrix_shard", 12 ] ], [ [ "matrix_crystal_telepath_dust_refined", 5 ] ], [ [ "matrix_crystal_telepathy", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
@@ -105,7 +105,8 @@
       [ [ "matrix_crystal_electrokin_dust_refined", 2 ] ],
       [ [ "psionic_serum_base", 1 ] ],
       [ [ "cable", 10 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",

@@ -49,7 +49,7 @@
       "t": { "item": "SUS_tailoring_materials", "chance": 25 },
       "C": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },
       "c": { "item": "SUS_tailoring_materials", "chance": 25 },
-      "7": { "item": "office_paper", "chance": 30 }
+      "7": { "item": "SUS_office_filing_cabinet", "chance": 30 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } }
   }

@@ -990,38 +990,6 @@
     "components": [ [ [ "thread", 50 ] ] ]
   },
   {
-    "result": "sheet_cotton",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "spinningwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "50 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 50 ] ] ]
-  },
-  {
-    "result": "sheet_cotton",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "electric_spinwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "50 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "electric_spinwheel", 101 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 50 ] ] ]
-  },
-  {
     "result": "sheet_cotton_patchwork",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1219,7 +1187,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "steel_chunk_any", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -1570,7 +1538,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "forging_standard", 8 ], [ "steel_chunk_any", 8 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -1586,7 +1554,10 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
+    "components": [
+      [ [ "budget_steel_lump", 1 ], [ "budget_steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1601,7 +1572,16 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
+    "components": [
+      [
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "scrap", 20 ]
+      ],
+      [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1616,7 +1596,18 @@
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
+    "components": [
+      [
+        [ "budget_steel_lump", 1 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_lump", 1 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "lc_steel_chunk", 4 ],
+        [ "mc_steel_chunk", 4 ],
+        [ "scrap", 20 ]
+      ],
+      [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ]
+    ]
   },
   {
     "type": "recipe",

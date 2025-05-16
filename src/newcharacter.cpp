@@ -1132,7 +1132,7 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
 
 template <class Compare>
 static void draw_filter_and_sorting_indicators( const catacurses::window &w,
-        const input_context &ctxt, const std::string_view filterstring, const Compare &sorter )
+        const input_context &ctxt, std::string_view filterstring, const Compare &sorter )
 {
     const char *const sort_order = sorter.sort_by_points ? _( "default" ) : _( "name" );
     const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
@@ -1551,6 +1551,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         u.reset_stats();
+        u.recalc_speed_bonus();
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         if( details_recalc ) {
@@ -4709,23 +4710,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::AGE: {
-                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
-                    .text( string_format( "%d", you.base_age() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_age();
+                    if( query_int( result, false, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
                         you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
                 case char_creation::HEIGHT: {
-                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
-                                                min_allowed_height,
-                                                max_allowed_height ) )
-                    .text( string_format( "%d", you.base_height() ) )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
+                    int result = you.base_height();
+                    if( query_int( result, false, _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                   min_allowed_height, max_allowed_height ) && result > 0 ) {
                         you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
                     }
                     break;

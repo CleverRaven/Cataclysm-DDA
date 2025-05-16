@@ -1,7 +1,7 @@
 [
   {
     "id": "awl_bone",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "bone sewing awl" },
     "description": "A crude, sharpened bone awl, used for leatherworking before metal was discovered.  It can also serve as an improvised stabbing weapon, but will break quickly.",
@@ -9,7 +9,7 @@
     "volume": "100 ml",
     "price": "3 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "bone" ],
     "symbol": ";",
     "color": "yellow",
@@ -20,7 +20,7 @@
   {
     "id": "awl_steel",
     "copy-from": "awl_bone",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "steel sewing awl" },
     "description": "A steel awl with a wooden grip, usually used for leatherworking.  It can also serve as an improvised stabbing weapon, but will break quickly.",
     "weight": "50 g",
@@ -34,7 +34,7 @@
   },
   {
     "id": "knitting_needles",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "pair of knitting needles", "str_pl": "pairs of knitting needles" },
     "description": "A pair of stout wooden needles with round ends, used to turn thread and yarn into cloth.",
@@ -53,7 +53,7 @@
   },
   {
     "id": "loom_frame",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "frame loom" },
     "description": "A rather bulky and primitive wooden frame which can be used to weave cloth sheets.  The process is very slow, though.",
@@ -67,7 +67,8 @@
   },
   {
     "id": "needle_bone",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "bone needle" },
     "description": "A sharp needle made from a bone.  Useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "weight": "15 g",
@@ -77,7 +78,6 @@
     "material": [ "bone" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -105,11 +105,13 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "needle_curved",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "curved needle" },
     "description": "A curved, sharp needle made of steel.  Its rounded shape allows it to make stitches that only pierce one side of the material.  While unsuitable for most tailoring projects, it's a necessity for stitching neoprene.",
     "weight": "5 g",
@@ -119,7 +121,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -133,11 +134,13 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "needle_wood",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "wooden needle" },
     "description": "A wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision, or involving tougher materials like Kevlar.",
     "weight": "3 g",
@@ -147,7 +150,6 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -161,11 +163,13 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "needle_steel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "needle" },
     "description": "A stainless steel needle.  It would be useful for making clothing and items.",
     "weight": "8 g",
@@ -175,7 +179,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
@@ -203,11 +206,13 @@
       "cost_scaling": 0.1,
       "move_cost": 1000
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "sewing_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "sewing kit" },
     "description": "A plastic kit with a variety of needles, some plastic spools for thread, small scissors, and a few other useful textile tools.  Use a sewing kit on an article of clothing to attempt to repair or refit if applicable.  This uses your tailoring skill.",
     "weight": "85 g",
@@ -247,7 +252,7 @@
   },
   {
     "id": "shed_stick",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "wooden shed stick" },
     "description": "A short, thin, flat wooden stick, used as a tool while weaving cloth with a frame loom.",
@@ -262,7 +267,8 @@
   },
   {
     "id": "tanning_hide",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "tanning leather hide" },
     "description": "A treated animal hide that is undergoing the chemical processes required to become leather.  You will be able to activate it to unroll and make use of it when it is done.",
@@ -286,7 +292,8 @@
   },
   {
     "id": "tanning_pelt",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "spare_parts",
     "name": { "str": "tanning fur pelt" },
     "description": "A treated animal pelt that is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
@@ -310,7 +317,7 @@
   },
   {
     "id": "tailoring_pattern_set",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "tailoring pattern set" },
     "description": "A large set of tailoring patterns made from paper.  They're useful for making any kind of cloth or leather items from scratch, but are necessary for more advanced projects.",
@@ -324,7 +331,8 @@
   },
   {
     "id": "kevlar_shears",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "pair of Kevlar shears", "str_pl": "pairs of Kevlar shears" },
     "description": "A pair of heavy-duty shears suitable for cutting particularly tough materials, from polyaramid fabrics to tough plastics and thin metals.  The blades feature flat shearing edges and fine serrations.",
     "ascii_picture": "scissors",
@@ -332,7 +340,7 @@
     "volume": "145 ml",
     "price": "35 USD",
     "price_postapoc": "3 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "yellow",
@@ -343,7 +351,8 @@
   },
   {
     "id": "electric_spinwheel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "electric spinwheel" },
     "description": "A device for spinning thread or yarn from fibers.  This particular model is electrically-powered and easily portable.",
     "//": "Based roughly off an Ashford E-Spinner 3 because that was the first thing I looked at.",
@@ -357,13 +366,14 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "tailors_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tailor's kit" },
     "description": "A high-quality kit consisting of a variety of needles, some plastic spools for thread, scissors and shears, and an awl.  Use a tailor's kit on an article of clothing to attempt to repair or refit if applicable.  This uses your tailoring skill.",
     "weight": "100 g",
@@ -373,7 +383,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
@@ -404,6 +413,7 @@
         "move_cost": 800
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   }
 ]

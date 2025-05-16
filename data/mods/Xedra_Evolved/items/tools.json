@@ -1,7 +1,8 @@
 [
   {
     "id": "tailors_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "tailor's kit" },
     "description": "This is a high quality kit consisting of a variety of needles, some wooden spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
     "weight": "100 g",
@@ -11,7 +12,6 @@
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
@@ -43,11 +43,13 @@
         "move_cost": 800
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "dreamforged_hacksaw",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "hacksaw",
     "name": { "str": "dreamforged hacksaw" },
     "description": "A sturdy saw, useful for cutting through metal objects.  Forged from dreamdross, which makes it much lighter.",
@@ -60,7 +62,8 @@
   },
   {
     "id": "dreamforged_hammer",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "hammer",
     "name": { "str": "dreamforged hammer" },
     "description": "A classic carpenter hammer with claw.  Forged from dreamdross, which makes it much lighter.",
@@ -74,7 +77,8 @@
   },
   {
     "id": "dreamforged_halligan",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "halligan",
     "name": { "str": "dreamforged Halligan bar" },
     "description": "A small tool for breaking into closed locations.  Forged from dreamdross, which makes it really light.",
@@ -87,7 +91,8 @@
   },
   {
     "id": "dreamforged_pliers_locking",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "pliers_locking",
     "name": { "str_sp": "dreamforged locking pliers" },
     "description": "A pair of strong pliers with an adjustable mechanism.  Forged entirely from dreamdross, which makes it much lighter.",
@@ -100,7 +105,8 @@
   },
   {
     "id": "dreamforged_pickaxe",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "pickaxe",
     "name": { "str": "dreamforged pickaxe" },
     "description": "A classic pickaxe, used for digging.  Forged from dreamdross, which makes it really light, albeit a bit weaker.",
@@ -114,7 +120,8 @@
   },
   {
     "id": "dreamforged_picklocks",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "picklocks",
     "name": { "str": "dreamforged locksmith kit" },
     "description": "A set of light and sturdy dreamforged lockpicks and wrenches.",
@@ -127,7 +134,8 @@
   },
   {
     "id": "dreamforged_scalpel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "scalpel",
     "name": { "str": "dreamforged scalpel" },
     "description": "A very sharp medical knife for surgical operations.  Almost weightless.",
@@ -140,7 +148,8 @@
   },
   {
     "id": "dreamforged_e_tool",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "e_tool",
     "name": { "str": "dreamforged entrenching tool" },
     "description": "A collapsible spade for digging small pits.  Forged from dreamdross to make it even lighter than before.",
@@ -153,7 +162,8 @@
   },
   {
     "id": "xedra_dreamsmith_time_trap",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "dreamforged time trap" },
     "copy-from": "beartrap",
     "description": "A dreamdross mesh that condenses within the center.  Use it to set it on the ground, creating a trap that will freeze anything that steps on it for several hours.",
@@ -174,7 +184,8 @@
   },
   {
     "id": "xedra_dreamsmith_time_watch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "copy-from": "pocketwatch",
     "name": { "str": "time shattering pocket watch", "str_pl": "time shattering pocket watches" },
     "description": "A pocket watch made entirely of dreamdross.  It somehow still accurately tells the time.  Once per day, press the button on the right to briefly stop time for everything but you.",
@@ -187,13 +198,14 @@
     "color": "light_gray",
     "charges_per_use": 1,
     "//": "Due to #48019, time to recharge is half of the listed numbers.  When that is fixed, set this to 24 hours.",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "48 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "xedra_time_charge": 1 }, "airtight": true } ],
-    "use_action": { "type": "cast_spell", "spell_id": "xedra_dreamsmith_time_stop", "no_fail": true, "level": 0 }
+    "use_action": { "type": "cast_spell", "spell_id": "xedra_dreamsmith_time_stop", "no_fail": true, "level": 0 },
+    "charge_info": { "recharge_type": "periodic", "time": "48 h", "regenerate_ammo": true }
   },
   {
     "id": "dreamforged_ax",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "ax",
     "name": { "str": "dreamforged axe" },
     "description": "A large, two-handed axe for chopping wood.  Light, but still useful.",
@@ -206,7 +218,8 @@
   },
   {
     "id": "sacrifice_table",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "sacrifice table" },
     "description": "A magickal space where offerings are sacrificed and transformed.",
@@ -222,7 +235,8 @@
     "qualities": [ [ "SACRIFICE", 1 ] ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "dream_drainer_catalyst",
     "name": { "str_sp": "dream-drainer catalyst" },
     "color": "light_blue",
@@ -234,7 +248,8 @@
     "flags": [ "SINGLE_USE" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "id": "revenant_effigy",
     "name": { "str_sp": "revenant's effigy" },
     "color": "magenta",

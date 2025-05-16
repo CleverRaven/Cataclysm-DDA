@@ -95,7 +95,7 @@
   {
     "type": "item_group",
     "id": "cop_other_clothes",
-    "items": [ [ "armguard_cut_resistant", 2 ], [ "legpouch_large", 5 ], [ "whistle", 5 ] ]
+    "items": [ [ "armguard_cut_resistant", 2 ], [ "balaclava_cut_resistant", 2 ], [ "legpouch_large", 5 ], [ "whistle", 5 ] ]
   },
   {
     "id": "cop_gloves",
@@ -145,7 +145,7 @@
     "type": "item_group",
     "items": [
       [ "dress_shirt", 50 ],
-      [ "sheriffshirt", 45 ],
+      { "item": "postman_shirt", "variant": "sheriff", "prob": 45 },
       [ "jacket_light", 40 ],
       { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 40 }
     ]

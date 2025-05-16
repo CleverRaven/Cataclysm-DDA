@@ -124,7 +124,7 @@ static bool create_note( const tripoint_abs_omt &curs,
                          std::optional<std::string> context = std::nullopt );
 
 // {note symbol, note color, offset to text}
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view note )
+std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -189,7 +189,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
     return map_around;
 }
 
-static void update_note_preview( const std::string_view note,
+static void update_note_preview( std::string_view note,
                                  const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                                  const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                                  &preview_windows )
@@ -440,17 +440,10 @@ class map_notes_callback : public uilist_callback
                             return true;
                         }
                         const int max_amount = 20;
+                        int amount = clamp( danger_radius, 0, max_amount );
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                        const std::string popupmsg = string_format( _( "Danger radius in overmap squares? (0-%d)" ),
-                                                     max_amount );
-                        string_input_popup pop;
-                        const int amount = pop
-                                           .title( popupmsg )
-                                           .width( 20 )
-                                           .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
-                                           .only_digits( true )
-                                           .query_int();
-                        if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
+                        if( query_int( amount, true, _( "Danger radius in overmap squares? (0-%d)" ), max_amount )
+                            && amount >= 0 && amount <= max_amount ) {
                             overmap_buffer.mark_note_dangerous( note_location(), amount, true );
                             menu->ret = UILIST_MAP_NOTE_EDITED;
                             return true;
@@ -1182,8 +1175,8 @@ static void draw_om_sidebar( ui_adaptor &ui,
 
     wattron( wbar, c_magenta );
     mvwprintw( wbar, point( 1, ++lines ), _( "Use movement keys to pan." ) );
-    mvwprintw( wbar, point( 1, ++lines ), _( string_format( "Press %s to preview route.",
-               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
+    mvwprintw( wbar, point( 1, ++lines ), string_format( _( "Press %s to preview route." ),
+               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) );
     mvwprintw( wbar, point( 1, ++lines ), _( "Press again to confirm." ) );
     lines += 2;
     wattroff( wbar, c_magenta );
@@ -1744,8 +1737,10 @@ static void modify_horde_func( tripoint_abs_omt &curs )
     switch( smenu.ret ) {
         case 0:
             new_value = chosen_group.interest;
-            query_int( new_value, _( "Set interest to what value?  Currently %d" ), chosen_group.interest );
-            chosen_group.set_interest( new_value );
+            if( query_int( new_value, false, _( "Set interest to what value?  Currently %d" ),
+                           chosen_group.interest ) ) {
+                chosen_group.set_interest( new_value );
+            }
             break;
         case 1:
             horde_destination = ui::omap::choose_point( _( "Select a target destination for the horde." ),
@@ -1757,8 +1752,10 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             break;
         case 2:
             new_value = chosen_group.population;
-            query_int( new_value, _( "Set population to what value?  Currently %d" ), chosen_group.population );
-            chosen_group.population = new_value;
+            if( query_int( new_value, false, _( "Set population to what value?  Currently %d" ),
+                           chosen_group.population ) ) {
+                chosen_group.population = new_value;
+            }
             break;
         case 3:
             debug_menu::wishmonstergroup_mon_selection( chosen_group );
@@ -1768,7 +1765,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
             // Screw it we hardcode a popup, if you really want to use this you're welcome to improve it
             popup( _( "Set behavior to which enum value?  Currently %d.  \nAccepted values:\n0 = none,\n1 = city,\n2=roam,\n3=nemesis" ),
                    static_cast<int>( chosen_group.behaviour ) );
-            query_int( new_value, "" );
+            query_int( new_value, false, "" );
             chosen_group.behaviour = static_cast<mongroup::horde_behaviour>( new_value );
             break;
         case 5:
@@ -1847,6 +1844,25 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
                                        const tripoint_abs_omt dest, const bool driving )
 {
     std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
+
+    if( path.empty() ) {
+        std::string popupmsg;
+        if( dest.z() == player_character.posz() ) {
+            popupmsg = _( "Unable to find a path from the current location:" );
+        } else {
+            popupmsg = _( "Auto travel requires source and destination on same Z level:" );
+        }
+        string_input_popup pop;
+        const std::string ok = _( "OK" );
+        pop
+        .title( popupmsg )
+        .width( ok.length() )
+        .text( ok )
+        .only_digits( false )
+        .query();
+        return false;
+    }
+
     bool dest_is_curs = curs == dest;
     bool path_changed = false;
     if( path.front() == player_character.omt_path.front() && path != player_character.omt_path ) {
@@ -1893,6 +1909,8 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
 
 static tripoint_abs_omt display()
 {
+    map &here = get_map();
+
     overmap_draw_data_t &data = g->overmap_data;
     tripoint_abs_omt &orig = data.origin_pos;
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
@@ -2047,7 +2065,7 @@ static tripoint_abs_omt display()
             curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
-            tripoint_bub_ms pos_rel = get_map().get_bub( pos );
+            tripoint_bub_ms pos_rel = here.get_bub( pos );
             uistate.open_menu = [pos_rel]() {
                 tripoint_bub_ms pos_cpy = pos_rel;
                 g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );
@@ -2087,17 +2105,10 @@ static tripoint_abs_omt display()
                 }
                 if( has_note ) {
                     const int max_amount = 20;
+                    int amount = clamp( danger_radius, 0, max_amount );
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    const std::string popupmsg = string_format( _( "Danger radius in overmap squares? (0-%d)" ),
-                                                 max_amount );
-                    string_input_popup pop;
-                    const int amount = pop
-                                       .title( popupmsg )
-                                       .width( 20 )
-                                       .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
-                                       .only_digits( true )
-                                       .query_int();
-                    if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
+                    if( query_int( amount, true, _( "Danger radius in overmap squares? (0-%d)" ),
+                                   max_amount ) && amount >= 0 && amount <= max_amount ) {
                         overmap_buffer.mark_note_dangerous( curs, amount, true );
                     }
                 }
@@ -2176,7 +2187,7 @@ static tripoint_abs_omt display()
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
-            if( get_map().is_outside( get_player_character().pos_bub() ) ) {
+            if( here.is_outside( get_player_character().pos_bub() ) ) {
                 uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
             }
         } else if( action == "TOGGLE_FAST_SCROLL" ) {

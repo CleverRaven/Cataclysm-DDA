@@ -83,8 +83,7 @@
                     "collection": [
                       {
                         "distribution": [
-                          { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
-                          { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 80, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
                           { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" },
                           { "group": "costume_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "halloween" }
@@ -210,7 +209,7 @@
       },
       {
         "distribution": [
-          { "item": "cig", "prob": 65, "count": [ 0, 20 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes_opened", "prob": 65, "entry-wrapper": "box_cigarette" },
           { "item": "chaw", "prob": 5 },
           { "item": "cigar", "prob": 5 },
           { "group": "pocket_cigar", "prob": 1 },

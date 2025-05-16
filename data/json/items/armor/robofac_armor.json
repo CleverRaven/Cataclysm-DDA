@@ -1,8 +1,9 @@
 [
   {
     "id": "robofac_armor_rig",
-    "type": "ARMOR",
-    "category": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
     "looks_like": "poncho",
     "name": { "str": "Hub 01 modular defense system" },
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  Striped in brown and blue, the white seal of Hub 01 is emblazoned proudly on the front.  It features several quick access pouches attached to a waist drawstring, and two waterproof dry bags for carrying liquids.  It also features several tight clamps and velcro strips around the waist and shoulders; perhaps something attaches to them.",
@@ -117,7 +118,8 @@
   },
   {
     "id": "robofac_armor_anchor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "robofac_armor_rig",
     "name": { "str": "Hub 01 modular defense anchor" },
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  This one features a hardened skeleton of ceramic plates running up and over the shoulders, and a portion of the front has been raised upwards from the rest.  Lifting the fabric reveals a large disc-shaped device installed into the garment, featureless except for a prominent switch and Hub 01's logo in LED.  In addition to the poncho's usual complement of storage, a battery compartment has been added that wires into this device, featuring very specialized connectors and, perhaps a little disconcertingly, radiation shielding.",
@@ -205,7 +207,6 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "menu_text": "Turn on anchor",
@@ -250,12 +251,14 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "robofac_armor_anchor_on",
     "copy-from": "robofac_armor_anchor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Hub 01 modular defense anchor (on)", "str_pl": "Hub 01 modular defense anchors (on)" },
     "looks_like": "robofac_armor_anchor",
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  The logo of Hub 01 emblazoned on the chest is glowing white.",
@@ -271,7 +274,8 @@
   },
   {
     "id": "robofac_head_rig",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "Hub 01 modular recon headgear" },
     "looks_like": "tac_helmet",
@@ -290,7 +294,6 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "OUTER", "RAINPROOF", "SOFT" ],
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": [
       {
         "target": "robofac_head_rig_nv",
@@ -319,11 +322,13 @@
         "description": "Hooks for an armored helm plate.",
         "flag_restriction": [ "ABLATIVE_HELMET" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "robofac_head_rig_nv",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str_sp": "Hub 01 modular recon headgear (NV)" },
     "looks_like": "tac_fullhelmet",
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Activate to switch to full IR scanning.",
@@ -360,12 +365,12 @@
   },
   {
     "id": "robofac_head_rig_ir",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str_sp": "Hub 01 modular recon headgear (IR)" },
     "looks_like": "tac_fullhelmet",
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing moderate power to provide full infra-red scanning, allowing you to see warm blooded creatures in the dark.  Activate to turn the visor off again.",
     "copy-from": "robofac_head_rig",
-    "relic_data": { "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ] },
     "power_draw": "1 W",
     "revert_to": "robofac_head_rig",
     "use_action": [
@@ -391,11 +396,13 @@
         "encumbrance": 30,
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ]
   },
   {
     "id": "robofac_robotrig",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "drone-tech harness" },
     "description": "A modified army harness, repurposed to carry several small and a single medium sized drone alongside the tools to maintain them.",
     "weight": "425 g",
@@ -510,7 +517,8 @@
   },
   {
     "abstract": "robofac_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "abstract mantle", "//~": "NO_I18N" },
     "weight": "6853 g",
@@ -553,7 +561,8 @@
   },
   {
     "abstract": "robofac_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "abstract armored skirt", "//~": "NO_I18N" },
     "weight": "2454 g",
@@ -587,7 +596,8 @@
   },
   {
     "abstract": "robofac_vambraces",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces", "//~": "NO_I18N" },
     "looks_like": "armguard_hard",
@@ -614,7 +624,8 @@
   },
   {
     "abstract": "robofac_greaves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves", "//~": "NO_I18N" },
     "looks_like": "legguard_hard",
@@ -641,7 +652,8 @@
   },
   {
     "abstract": "robofac_helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "abstract helmet", "//~": "NO_I18N" },
     "weight": "1176 g",
@@ -660,7 +672,8 @@
   {
     "//": "Tier 1 mantle",
     "id": "robofac_basic_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_mantle",
     "name": "Hub 01 prototype mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Several buckles and straps allow it to be adjusted to fit you comfortably.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -669,7 +682,8 @@
   {
     "//": "Tier 2 mantle",
     "id": "robofac_rubber_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_mantle",
     "name": "Hub 01 kinetic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model incorporates a rubber coating that diffuses impacts and provides excellent protection from blunt trauma, even if it does feel a bit like a rain coat.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -679,7 +693,8 @@
   {
     "//": "Tier 2 mantle",
     "id": "robofac_nomex_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_mantle",
     "name": "Hub 01 turnout mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model features heat-resistant materials in the construction, providing protection from extreme heat without sacrificing its overall performance.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -689,7 +704,8 @@
   {
     "//": "Tier 2 mantle",
     "id": "robofac_kevlar_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_mantle",
     "name": "Hub 01 ballistic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Thanks to a slim under-layer of synthetic fibers, it provides fantastic defense from small-arms fire, and could take the edge off of a rifle bullet, too.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -703,7 +719,8 @@
   {
     "//": "Tier 3 mantle",
     "id": "robofac_military_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_mantle",
     "name": "Hub 01 soldier mantle",
     "description": "3D printed armor for the upper body, sporting a professional finish and stellar ergonomics.  Made of extremely tough UHMW polyethylene combined with treated aramid fabric, it provides military-grade defense against zombies, bullets, zombies with bullets, and plenty of other things that the Cataclysm can throw at you.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -718,7 +735,8 @@
   {
     "//": "Tier 1 skirt",
     "id": "robofac_basic_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_skirt",
     "name": "Hub 01 prototype skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It features a simple integrated belt to let it fit any waist size.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -727,7 +745,8 @@
   {
     "//": "Tier 2 skirt",
     "id": "robofac_rubber_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_skirt",
     "name": "Hub 01 kinetic skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  This model resembles scale armor, and provides excellent protection from blunt trauma.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -737,7 +756,8 @@
   {
     "//": "Tier 2 skirt",
     "id": "robofac_nomex_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_skirt",
     "name": "Hub 01 turnout skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  This version incorporates tight-fitting leggings that provide some protection from extreme heat.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -747,7 +767,8 @@
   {
     "//": "Tier 2 skirt",
     "id": "robofac_kevlar_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_skirt",
     "name": "Hub 01 ballistic skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It includes a reinforcing layer of aramid fabric in addition to leg sleeves made of high-strength material, protecting your sensitive bits from small-arms fire.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -761,7 +782,8 @@
   {
     "//": "Tier 3 skirt",
     "id": "robofac_military_skirt",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_skirt",
     "name": "Hub 01 soldier skirt",
     "description": "3D printed armor for the thighs and knees, sporting a professional finish and stellar ergonomics.  Composed of segmented polyethylene armor plates featuring a dense metal core sandwiched between layers of composite-grade aramid fabric, it provides excellent protection for the upper legs to ensure that you'll stay on your feet when it really matters.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
@@ -776,7 +798,8 @@
   {
     "//": "Tier 1 vambraces",
     "id": "robofac_basic_vambraces",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 prototype vambraces", "str_pl": "pairs of Hub 01 prototype vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  The end of each sheet features a clip and drawstring, to fit the armor to any size.  Despite the rough finish, it fits securely, and feels quite comfortable.",
@@ -785,7 +808,8 @@
   {
     "//": "Tier 2 vambraces",
     "id": "robofac_rubber_vambraces",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 kinetic vambraces", "str_pl": "pairs of Hub 01 kinetic vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones are built in an overlapping pattern that diffuses impacts and provides excellent protection from blunt trauma.",
@@ -795,7 +819,8 @@
   {
     "//": "Tier 2 vambraces",
     "id": "robofac_nomex_vambraces",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 turnout vambraces", "str_pl": "pairs of Hub 01 turnout vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include Nomex sleeves to protect your arms from extreme heat.",
@@ -805,7 +830,8 @@
   {
     "//": "Tier 2 vambraces",
     "id": "robofac_kevlar_vambraces",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 ballistic vambraces", "str_pl": "pairs of Hub 01 ballistic vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include aramid arm sleeves that do a great job of slowing down bullets and preventing them from shredding your arms.",
@@ -819,7 +845,8 @@
   {
     "//": "Tier 3 vambraces",
     "id": "robofac_military_vambraces",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 soldier vambraces", "str_pl": "pairs of Hub 01 soldier vambraces" },
     "description": "3D printed arm guards, sporting a professional finish and stellar ergonomics.  With thick bullet-resistant arm sleeves, flexible but extremely tough thermoplastic plates, and special attention given to areas reflexively used to protect the face from attacks, it provides first-rate protection against all the horrors that the apocalypse has brought to bear.",
@@ -834,7 +861,8 @@
   {
     "//": "Tier 1 greaves",
     "id": "robofac_basic_greaves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, and fits comfortably against your body.",
@@ -843,7 +871,8 @@
   {
     "//": "Tier 2 greaves",
     "id": "robofac_rubber_greaves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Thick padding and rubber lining provide excellent protection from blunt trauma.",
@@ -853,7 +882,8 @@
   {
     "//": "Tier 2 greaves",
     "id": "robofac_nomex_greaves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 turnout greaves", "str_pl": "pairs of Hub 01 turnout greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Heat-resistant leg sleeves and a breathable design provide adequate protection from extreme heat without sacrificing your mobility or core protection.",
@@ -863,7 +893,8 @@
   {
     "//": "Tier 2 greaves",
     "id": "robofac_kevlar_greaves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  This model features leggings made of durable aramid and a reinforced plate design; combined, they do a good job of mitigating damage from small-arms fire.",
@@ -877,7 +908,8 @@
   {
     "//": "Tier 3 greaves",
     "id": "robofac_military_greaves",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 soldier greaves", "str_pl": "pairs of Hub 01 soldier greaves" },
     "description": "3D printed leg guards, sporting a professional finish and stellar ergonomics.  Layered UHMW thermoplastic plates and bullet-resistant aramid padding combine to keep your lower leg bones protected and unbroken, even when knee-deep in the dead.",
@@ -892,7 +924,8 @@
   {
     "//": "Tier 1 helmet",
     "id": "robofac_basic_helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_helmet",
     "name": "Hub 01 prototype helmet",
     "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
@@ -901,7 +934,8 @@
   {
     "//": "Tier 2 helmet",
     "id": "robofac_rubber_helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_helmet",
     "name": "Hub 01 kinetic helmet",
     "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This model is covered in countless rubber hexagons, and offers superior protection against blunt trauma.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
@@ -911,7 +945,8 @@
   {
     "//": "Tier 2 helmet",
     "id": "robofac_nomex_helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_helmet",
     "name": "Hub 01 turnout helmet",
     "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This version incorporates a tight fitting Nomex layer for some protection against heat.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
@@ -921,7 +956,8 @@
   {
     "//": "Tier 2 helmet",
     "id": "robofac_kevlar_helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_helmet",
     "name": "Hub 01 ballistic helmet",
     "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra Kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
@@ -935,7 +971,8 @@
   {
     "//": "Tier 3 helmet",
     "id": "robofac_military_helmet",
-    "type": "ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_helmet",
     "name": "Hub 01 soldier helmet",
     "description": "3D printed armor for the head, sporting a professional finish and stellar ergonomics.  Composed of a dense metal shell sandwiched between layers of composite-grade aramid fabric, it provides excellent protection, ensuring you'll keep your head against whatever the Cataclysm throws at you.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",

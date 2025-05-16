@@ -252,6 +252,7 @@
       "drink_screwdriver",
       "drink_wild_apple",
       "drink_rumcola",
+      "drink_grog",
       "drink_beeknees",
       "drink_wsour",
       "drink_martini",
@@ -4103,7 +4104,7 @@
     "name": "modified attachments",
     "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "bipod_mod", "grip_mod", "muzzle_brake_mod", "nested_modified_gunmods_weapons", "nested_modified_gunmods_sights" ]
+    "nested_category_data": [ "grip_mod", "nested_modified_gunmods_weapons" ]
   },
   {
     "id": "nested_modified_gunmods_weapons",
@@ -4122,20 +4123,8 @@
       "m203_mod",
       "m320_mod_mod",
       "masterkey_mod",
-      "sword_bayonet_mod",
-      "u_shotgun_mod"
+      "sword_bayonet_mod"
     ]
-  },
-  {
-    "id": "nested_modified_gunmods_sights",
-    "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "sights",
-    "description": "Recipes related to modifying sights to attach to a wider variety of guns and crossbows.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ]
   },
   {
     "id": "nested_ammo_flamethrower",
@@ -6906,6 +6895,7 @@
     "nested_category_data": [
       "legrig",
       "dump_pouch",
+      "sustainment_pouch",
       "legpouch",
       "legpouch_large",
       "armrig",
@@ -7106,7 +7096,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "pikes",
-    "description": "Recipes related to constructing pikes from various materials",
+    "description": "Recipes related to constructing pikes from various materials.",
     "skill_used": "fabrication",
     "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood" ],
     "difficulty": 3

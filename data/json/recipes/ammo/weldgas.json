@@ -209,7 +209,7 @@
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing", "required": true },
       { "proficiency": "prof_intro_chemistry" }
     ],
     "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]

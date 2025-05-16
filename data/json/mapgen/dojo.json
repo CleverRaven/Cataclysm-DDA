@@ -112,7 +112,6 @@
         "S": "f_filing_cabinet",
         "x": [ "f_machinery_light", "f_machinery_heavy", "f_machinery_old", "f_machinery_electronic" ]
       },
-      "items": { "t": { "item": "office_paper", "chance": 25, "repeat": [ 2, 4 ] } },
       "place_nested": [
         {
           "chunks": [

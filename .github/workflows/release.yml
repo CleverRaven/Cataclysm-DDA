@@ -73,7 +73,7 @@ jobs:
             content: application/zip
             sound: 1
           - name: Linux Tiles x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -83,7 +83,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -93,7 +93,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -164,6 +164,9 @@ jobs:
       - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest
+        with:
+          # 4.0.0 has issues compiling old packages in vcpkg
+          cmakeVersion: 3.31.6
       - name: Install dependencies (windows msvc) (1/4)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v2
@@ -234,8 +237,10 @@ jobs:
       - name: install macports (mac)
         if: runner.os == 'macOS' && matrix.tiles == 1
         uses: melusina-org/setup-macports@v1
-        with:
-          parameters: '.github/macports/macports.yml'
+      - name: install macports packages (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
+        run: |
+          sudo port install freetype +universal pkgconfig +universal
       - name: Create VERSION.TXT
         shell: bash
         run: |
