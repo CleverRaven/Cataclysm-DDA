@@ -838,16 +838,10 @@ Example with coordinates:
 ]
 ```
 
-Terrain, furniture and traps can specified as a single string, not a json object:
+Terrain, furniture and traps can specified as a single string:
 ```jsonc
 "traps" : {
     ".": "tr_beartrap"
-}
-```
-Same as
-```jsonc
-"traps" : {
-    ".": { "trap": "tr_beartrap" }
 }
 ```
 
