@@ -4698,20 +4698,6 @@ template<typename PieceType>
 void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string &member_name,
         placing_map &format_placings, const std::string &context )
 {
-    if( jo.has_object( "mapping" ) ) {
-        for( const JsonMember member : jo.get_object( "mapping" ) ) {
-            const map_key key( member );
-            JsonObject sub = member.get_object();
-            sub.allow_omitted_members();
-            if( !sub.has_member( member_name ) ) {
-                continue;
-            }
-            auto &vect = format_placings[ key ];
-            // NOLINTNEXTLINE(cata-translate-string-literal)
-            std::string this_context = string_format( "%s in mapping in %s", member_name, context );
-            ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect, this_context );
-        }
-    }
     if( !jo.has_object( member_name ) ) {
         return;
     }
