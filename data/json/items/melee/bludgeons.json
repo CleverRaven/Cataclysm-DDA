@@ -240,6 +240,7 @@
   },
   {
     "id": "ch_battleaxe",
+    "copy-from": "mc_battleaxe",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel battle axe" },
@@ -249,6 +250,7 @@
   },
   {
     "id": "qt_battleaxe",
+    "copy-from": "mc_battleaxe",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel battle axe" },
