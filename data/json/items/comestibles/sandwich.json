@@ -426,6 +426,7 @@
     "price_postapoc": "1 USD 75 cent",
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
+    "//": "Sandwich is 500ml so it fills up a sealed 500 ml bag_zipper. See issue 45650",
     "volume": "500 ml",
     "fun": 15,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
