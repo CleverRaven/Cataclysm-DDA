@@ -142,7 +142,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_vampire_feral" ],
-    "//": "Trackhawk is the name of the vehicle, and shoult not be translated".
+    "//": "Trackhawk is the name of the vehicle, and shoult not be translated."
     "sound": "I tied the opps to the back of a Trackhawk and dragged them around the block for 24 hours.  Motherfucker looked like a Resident Evil 5 campaign extra after we was done with em.",
     "volume": 10
   },
