@@ -3056,11 +3056,7 @@ class jmapgen_monster : public jmapgen_piece
                 if( sd.has_array( "patrol" ) ) {
                     const JsonArray &patrol_pts = sd.get_array( "patrol" );
                     for( const JsonObject p_pt : patrol_pts ) {
-                        jmapgen_int ptx = jmapgen_int( p_pt, "x" );
-                        jmapgen_int pty = jmapgen_int( p_pt, "y" );
-                        //"unnecessary" temporary object created while calling emplace_back [modernize-use-emplace,-warnings-as-errors]
-                        const point_rel_ms work_around = point_rel_ms( ptx.get(), pty.get() );
-                        data.patrol_points_rel_ms.emplace_back( work_around );
+                        data.patrol_points_rel_ms.emplace_back( point_rel_ms( p_pt.get_int("x"), p_pt.get_int("y") ) );
                     }
                 }
             }
