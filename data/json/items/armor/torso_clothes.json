@@ -689,7 +689,7 @@
         "name": { "str": "long black dress", "str_pl": "long black dresses" },
         "append": true,
         "description": "This one is black.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 4
       },
       {

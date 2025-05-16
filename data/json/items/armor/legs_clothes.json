@@ -632,7 +632,7 @@
         "id": "leggings_black",
         "name": { "str": "black leggings", "str_pl": "pairs of black leggings" },
         "description": "This pair is black.",
-        "color": "black",
+        "color": "dark_gray",
         "append": true,
         "weight": 50
       },
@@ -2330,7 +2330,7 @@
         "id": "tactical_pants_black",
         "name": { "str": "black-camo tactical pants", "str_pl": "pairs of black-camo tactical pants" },
         "description": "This worn and smoke-hued pair is completely dyed black.",
-        "color": "black",
+        "color": "dark_gray",
         "weight": 10,
         "append": true
       },
