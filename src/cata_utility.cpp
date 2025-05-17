@@ -33,6 +33,7 @@
 #include "translations.h"
 #include "unicode.h"
 #include "zlib.h"
+#include "zzip.h"
 
 static double pow10( unsigned int n )
 {
@@ -600,6 +601,25 @@ bool read_from_file_optional_json( const cata_path &path,
                                    const std::function<void( const JsonValue & )> &reader )
 {
     return file_exist( path.get_unrelative_path() ) && read_from_file_json( path, reader );
+}
+
+bool read_from_zzip_optional( std::shared_ptr<zzip> z,
+                              const std::filesystem::path &path,
+                              const std::function<void( std::string_view )> &reader )
+{
+    if( !z || !z->has_file( path ) ) {
+        return false;
+    }
+    try {
+        std::vector<std::byte> file_data = z->get_file( path );
+        std::string_view sv{ reinterpret_cast<const char *>( file_data.data() ), file_data.size() };
+        reader( sv );
+        return true;
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(),
+                  err.what() );
+        return false;
+    }
 }
 
 std::string obscure_message( const std::string &str, const std::function<char()> &f )

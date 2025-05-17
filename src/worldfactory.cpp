@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "input.h"
 #include "input_context.h"
 #include "input_popup.h"
 #include "json.h"
@@ -27,6 +28,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "popup.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -34,6 +36,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "ui_manager.h"
+#include "zzip.h"
 
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
@@ -294,7 +297,7 @@ void worldfactory::set_active_world( WORLD *world )
     }
 }
 
-bool WORLD::save( const bool is_conversion ) const
+bool WORLD::save() const
 {
     if( !assure_dir_exist( folder_path() ) ) {
         debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
@@ -307,32 +310,30 @@ bool WORLD::save( const bool is_conversion ) const
         return false;
     }
 
-    if( !is_conversion ) {
-        const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
-        const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
-            JsonOut jout( fout );
+    const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
+    const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
+        JsonOut jout( fout );
 
-            jout.start_array();
+        jout.start_array();
 
-            for( const auto &elem : WORLD_OPTIONS ) {
-                // Skip hidden option because it is set by mod and should not be saved
-                if( !elem.second.getDefaultText().empty() ) {
-                    jout.start_object();
+        for( const auto &elem : WORLD_OPTIONS ) {
+            // Skip hidden option because it is set by mod and should not be saved
+            if( !elem.second.getDefaultText().empty() ) {
+                jout.start_object();
 
-                    jout.member( "info", elem.second.getTooltip() );
-                    jout.member( "default", elem.second.getDefaultText( false ) );
-                    jout.member( "name", elem.first );
-                    jout.member( "value", elem.second.getValue( true ) );
+                jout.member( "info", elem.second.getTooltip() );
+                jout.member( "default", elem.second.getDefaultText( false ) );
+                jout.member( "name", elem.first );
+                jout.member( "value", elem.second.getValue( true ) );
 
-                    jout.end_object();
-                }
+                jout.end_object();
             }
-
-            jout.end_array();
-        }, _( "world data" ) );
-        if( !saved ) {
-            return false;
         }
+
+        jout.end_array();
+    }, _( "world data" ) );
+    if( !saved ) {
+        return false;
     }
 
     world_generator->get_mod_manager().save_mods_list( this );
@@ -407,40 +408,6 @@ void worldfactory::init()
             continue;
         }
         add_existing_world( dir );
-    }
-
-    // In old versions, there was only one world, stored directly in the "save" directory.
-    // If that directory contains the expected files, it's an old save and must be converted.
-    if( is_save_dir( "save" ) ) {
-        // @TODO import directly into the new world instead of having this dummy "save" world.
-        add_existing_world( "save" );
-
-        const WORLD &old_world = *all_worlds["save"];
-
-        std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
-        newworld->world_name = get_next_valid_worldname();
-
-        // save world as conversion world
-        if( newworld->save( true ) ) {
-            const cata_path origin_path = old_world.folder_path();
-            // move files from origin_path into new world path
-            for( cata_path &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string filename = origin_file.get_relative_path().filename().generic_u8string();
-
-                if( rename_file( origin_file, ( newworld->folder_path() / filename ) ) ) {
-                    debugmsg( "Error while moving world files: %s.  World may have been corrupted",
-                              strerror( errno ) );
-                }
-            }
-            newworld->world_saves = old_world.world_saves;
-            newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
-
-            all_worlds.erase( "save" );
-
-            all_worlds[newworld->world_name] = std::move( newworld );
-        } else {
-            debugmsg( "worldfactory::convert_to_world -- World Conversion Failed!" );
-        }
     }
 }
 
@@ -2089,6 +2056,217 @@ void load_external_option( const JsonObject &jo )
     options_manager::update_options_cache();
 }
 
+bool WORLD::has_compression_enabled() const
+{
+    return std::filesystem::exists( ( folder_path() / "maps.dict" ).get_unrelative_path() ) ||
+           std::filesystem::exists( ( folder_path() / "mmr.dict" ).get_unrelative_path() );
+}
+
+bool WORLD::set_compression_enabled( bool enabled ) const
+{
+    // Return immediately if we're already in the desired state.
+    if( enabled == has_compression_enabled() ) {
+        return true;
+    }
+    static_popup popup;
+    if( enabled ) {
+        cata_path maps_dict = PATH_INFO::compression_folder_path() / "maps.dict";
+        cata_path mmr_dict = PATH_INFO::compression_folder_path() / "mmr.dict";
+        cata_path overmaps_dict = PATH_INFO::compression_folder_path() / "overmaps.dict";
+
+        std::vector<cata_path> folders_to_clean;
+        std::vector<cata_path> files_to_clean;
+        {
+            std::vector<cata_path> maps_folders = get_directories( folder_path() / "maps" );
+            std::filesystem::path maps_dict_path = maps_dict.get_unrelative_path();
+            size_t done = 0;
+            for( const cata_path &map_folder : maps_folders ) {
+                popup.message( _( "Compressing maps [%d/%d]" ), done++, maps_folders.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+                if( !zzip::create_from_folder( ( map_folder + ".zzip" ).get_unrelative_path(),
+                                               map_folder.get_unrelative_path(), maps_dict_path ) ) {
+                    return false;
+                }
+            }
+            folders_to_clean = std::move( maps_folders );
+        }
+        {
+            std::vector<cata_path> overmaps;
+            size_t done = 0;
+            std::error_code ec;
+            overmaps = get_files_from_path( "o.", folder_path() );
+            std::vector<std::filesystem::path> overmaps_paths;
+            overmaps_paths.reserve( overmaps.size() );
+            assure_dir_exist( folder_path() / "overmaps" );
+            for( const cata_path &overmap : overmaps ) {
+                // Some random other files might have `o.` in the name. We only care about the actual
+                // overmap files whose names start with `o.`.
+                if( overmap.get_unrelative_path().filename().generic_u8string().find( "o." ) != 0 ) {
+                    continue;
+                }
+                popup.message( _( "Compressing overmaps [%d/%d]" ), done++, overmaps.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                // Each overmap gets put into its own zzip indexed by its own file name.
+                std::filesystem::path overmap_file_name = overmap.get_unrelative_path().filename();
+                std::shared_ptr overmap_zzip = zzip::create_from_folder_with_files( (
+                                                   folder_path() / "overmaps" / overmap_file_name + ".zzip" ).get_unrelative_path(),
+                                               folder_path().get_unrelative_path(), { overmap.get_unrelative_path() }, 0,
+                                               overmaps_dict.get_unrelative_path() );
+                if( !overmap_zzip ) {
+                    return false;
+                }
+                files_to_clean.push_back( overmap );
+            }
+        }
+        {
+            std::vector<cata_path> character_map_memories;
+            size_t done = 0;
+            // Each of these is a folder for per-character map memory.
+            // Each map memory region file inside the folders is compressed separately.
+            character_map_memories = get_files_from_path( ".mm1", folder_path(), false, true );
+            for( const cata_path &character_map_memory_folder : character_map_memories ) {
+                popup.message( _( "Compressing map memory [%d/%d]" ), done++, character_map_memories.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                std::vector<cata_path> character_map_memory_files = get_files_from_path( ".mmr",
+                        character_map_memory_folder, false, true );
+                std::filesystem::path mmr_path = character_map_memory_folder.get_unrelative_path();
+                for( const cata_path &map_memory : character_map_memory_files ) {
+                    std::filesystem::path map_memory_filename = map_memory.get_unrelative_path().filename();
+                    std::shared_ptr map_memory_zzip = zzip::create_from_folder_with_files( (
+                                                          character_map_memory_folder / map_memory_filename + ".zzip" ).get_unrelative_path(),
+                                                      mmr_path, { mmr_path / map_memory_filename }, 0,
+                                                      mmr_dict.get_unrelative_path() );
+                    if( !map_memory_zzip ) {
+                        return false;
+                    }
+                }
+
+                files_to_clean.insert( files_to_clean.end(), character_map_memory_files.begin(),
+                                       character_map_memory_files.end() );
+            }
+        }
+        copy_file( maps_dict, folder_path() / "maps.dict" );
+        copy_file( overmaps_dict, folder_path() / "overmaps.dict" );
+        copy_file( mmr_dict, folder_path() / "mmr.dict" );
+        size_t done = 0;
+        size_t to_do = folders_to_clean.size() + files_to_clean.size();
+        for( const cata_path &folder : folders_to_clean ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, to_do );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            std::filesystem::remove_all( folder.get_unrelative_path(), ec );
+        }
+        for( const cata_path &file : files_to_clean ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, to_do );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            std::filesystem::remove( file.get_unrelative_path(), ec );
+        }
+    } else {
+        cata_path maps_dict = folder_path() / "maps.dict";
+        cata_path overmaps_dict = folder_path() / "overmaps.dict";
+        cata_path mmr_dict = folder_path() / "mmr.dict";
+        std::vector<cata_path> zzips_to_clean;
+
+        size_t done = 0;
+
+        std::vector<cata_path> maps_zzips = get_files_from_path( "zzip", folder_path() / "maps", false,
+                                            true );
+        std::vector<cata_path> overmap_zzips = get_files_from_path( "zzip", folder_path() / "overmaps",
+                                               false, true );
+        std::vector<cata_path> character_map_memory_folders = get_files_from_path( ".mm1",
+                folder_path(), false, true );
+        std::vector<cata_path> character_map_memory_zzips;
+        for( const cata_path &character_map_memory_folder : character_map_memory_folders ) {
+            std::vector<cata_path> mmr_zzips = get_files_from_path( "zzip", character_map_memory_folder, false,
+                                               true );
+            character_map_memory_zzips.insert( character_map_memory_zzips.end(), mmr_zzips.begin(),
+                                               mmr_zzips.end() );
+        }
+
+        zzips_to_clean.reserve( maps_zzips.size() + overmap_zzips.size() +
+                                character_map_memory_zzips.size() );
+
+        {
+            std::filesystem::path maps_dict_path = maps_dict.get_unrelative_path();
+            for( const cata_path &map_zzip : maps_zzips ) {
+                popup.message( _( "Decompressing maps [%d/%d]" ), done++, maps_zzips.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+                std::filesystem::path zzip_path = map_zzip.get_unrelative_path();
+                std::filesystem::path dest_folder_name = zzip_path.parent_path() / zzip_path.stem();
+                if( !zzip::extract_to_folder( zzip_path, dest_folder_name, maps_dict_path ) ) {
+                    return false;
+                }
+            }
+            zzips_to_clean.insert( zzips_to_clean.end(), maps_zzips.begin(), maps_zzips.end() );
+        }
+        {
+            size_t done = 0;
+            std::filesystem::path overmaps_dict_path = overmaps_dict.get_unrelative_path();
+            std::filesystem::path dest_folder_name = folder_path().get_unrelative_path();
+            for( cata_path &overmap_zzip : overmap_zzips ) {
+
+                popup.message( _( "Decompressing overmaps [%d/%d]" ), done++, overmap_zzips.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                std::filesystem::path zzip_path = overmap_zzip.get_unrelative_path();
+                if( !zzip::extract_to_folder( zzip_path, dest_folder_name, overmaps_dict_path ) ) {
+                    return false;
+                }
+                zzips_to_clean.push_back( std::move( overmap_zzip ) );
+            }
+            zzips_to_clean.push_back( folder_path() / "overmaps" );
+        }
+        {
+            size_t done = 0;
+            std::filesystem::path mmr_dict_path = mmr_dict.get_unrelative_path();
+            for( const cata_path &character_map_memory_zzip : character_map_memory_zzips ) {
+                popup.message( _( "Decompressing map memory [%d/%d]" ), done++, character_map_memory_zzips.size() );
+                ui_manager::redraw();
+                refresh_display();
+                inp_mngr.pump_events();
+
+                std::filesystem::path zzip_path = character_map_memory_zzip.get_unrelative_path();
+                std::filesystem::path dest_folder_name = zzip_path.parent_path();
+                if( !zzip::extract_to_folder( zzip_path, dest_folder_name, mmr_dict_path ) ) {
+                    return false;
+                }
+            }
+            zzips_to_clean.insert( zzips_to_clean.end(), character_map_memory_zzips.begin(),
+                                   character_map_memory_zzips.end() );
+        }
+        remove_file( maps_dict );
+        remove_file( overmaps_dict );
+        remove_file( mmr_dict );
+        done = 0;
+        for( const cata_path &zzip : zzips_to_clean ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, zzips_to_clean.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            std::filesystem::remove( zzip.get_unrelative_path(), ec );
+        }
+    }
+    return true;
+}
+
 mod_manager &worldfactory::get_mod_manager()
 {
     return *mman;
@@ -2131,8 +2309,11 @@ size_t worldfactory::get_world_index( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const cata_path &candidate )
 {
-    std::string filename = candidate.get_relative_path().filename().generic_u8string();
-    return filename == PATH_INFO::worldoptions() || filename == "mods.json";
+    std::filesystem::path candidate_path = candidate.get_unrelative_path();
+    std::string filename = candidate_path.filename().generic_u8string();
+    return filename == PATH_INFO::worldoptions()
+           || filename == "mods.json"
+           || candidate_path.extension().generic_u8string() == ".dict";
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
@@ -2146,7 +2327,7 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         return;
     }
 
-    // Clear out everything except options and mods.
+    // Clear out everything except options and mods and compression dictionaries.
     // It would be easier to delete and recreate the world, but some people,
     // like the author of this code, use symlinks to have world contents located
     // 'elsewhere', and doing so would break such use cases.

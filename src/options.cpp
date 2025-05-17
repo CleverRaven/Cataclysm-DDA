@@ -2739,12 +2739,19 @@ void options_manager::add_options_world_default()
     }, "reset"
        );
 
+    add( "WORLD_COMPRESSION", "world_default", to_translation( "World data compression" ),
+         to_translation( "If true, new worlds store data in a compressed format." ),
+         false
+       );
+
     add_empty_line();
 
     // These optiosn are purposefully and permanently hidden. It can only be modified through the sliders when creating a new world.
     // As such there is no name or description to show, those are blanked.
     add( "CITY_SIZE", "world_default", translation(), translation(), 0, 16, 8, COPT_ALWAYS_HIDE
        );
+
+    add_empty_line();
 
     add( "CITY_SPACING", "world_default", translation(), translation(), 0, 8, 4, COPT_ALWAYS_HIDE
        );
