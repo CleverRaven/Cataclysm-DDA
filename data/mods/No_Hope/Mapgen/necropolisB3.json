@@ -235,7 +235,7 @@
         { "item": "lab_torso", "x": [ 66, 66 ], "y": [ 2, 5 ], "chance": 70 },
         { "item": "lab_torso", "x": [ 70, 70 ], "y": [ 2, 5 ], "chance": 70 },
         { "item": "dining", "x": [ 56, 57 ], "y": [ 3, 4 ], "chance": 40 },
-        { "item": "fridgesnacks", "x": [ 64, 64 ], "y": [ 2, 2 ], "chance": 70 },
+        { "item": "SUS_fridge_snacks", "x": [ 64, 64 ], "y": [ 2, 2 ], "chance": 70 },
         { "item": "bed", "x": [ 13, 14 ], "y": [ 31, 31 ], "chance": 70 },
         { "item": "traveler", "x": [ 14, 14 ], "y": [ 30, 30 ], "chance": 70 },
         { "item": "bed", "x": [ 10, 11 ], "y": [ 31, 31 ], "chance": 70 },

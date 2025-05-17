@@ -470,7 +470,7 @@
       },
       "item": { "A": { "item": "american_flag" } },
       "items": {
-        "F": { "item": "fridge", "chance": 80 },
+        "F": { "item": "SUS_fridge", "chance": 80 },
         "f": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 1, 3 ] },
         "@": { "item": "bed", "chance": 80 },
         "r": [
@@ -487,7 +487,7 @@
           { "item": "guns_milspec", "chance": 40 }
         ],
         "K": { "item": "kitchen", "chance": 40 },
-        "o": { "item": "oven", "chance": 70 },
+        "o": { "item": "SUS_oven", "chance": 70 },
         "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "SUS_office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
         "B": [
@@ -594,7 +594,7 @@
           { "item": "robots", "chance": 50, "repeat": [ 1, 3 ] },
           { "item": "supplies_electronics", "chance": 50, "repeat": [ 1, 3 ] }
         ],
-        "F": { "item": "fridge", "chance": 80, "repeat": [ 2, 6 ] },
+        "F": { "item": "SUS_fridge", "chance": 80, "repeat": [ 1, 2 ] },
         "@": { "item": "bed", "chance": 80 },
         "M": [
           { "item": "SUS_dishes", "chance": 80, "repeat": [ 1, 3 ] },
@@ -606,7 +606,7 @@
           { "item": "SUS_cookware", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "K": { "item": "kitchen", "chance": 40 },
-        "o": { "item": "oven", "chance": 70 },
+        "o": { "item": "SUS_oven", "chance": 70 },
         "d": [ { "item": "SUS_office_supplies", "chance": 70 }, { "item": "SUS_office_desk", "chance": 70 } ],
         "r": [ { "item": "tools_earthworking", "chance": 50 }, { "item": "supplies_farming", "chance": 70, "repeat": [ 1, 3 ] } ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
