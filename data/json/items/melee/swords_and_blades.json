@@ -785,6 +785,24 @@
     "melee_damage": { "stab": 10 }
   },
   {
+    "type": "ITEM",
+    "id": "glass_shiv",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str": "glass shiv" },
+    "description": "A glass shard with wrapping at one end so it can be safely wielded.",
+    "material": [ { "type": "glass", "portion": 13 }, { "type": "cotton", "portion": 1 } ],
+    "weight": "193 g",
+    "price_postapoc": "10 cent",
+    "volume": "82 ml",
+    "longest_side": "15 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "qualities": [ [ "BUTCHER", -18 ] ],
+    "melee_damage": { "cut": 6 }
+  },
+  {
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
     "type": "ITEM",
