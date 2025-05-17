@@ -1,0 +1,123 @@
+[
+  {
+    "type": "palette",
+    "id": "lab_tower_palette_residential",
+    "//": "Preferably this would have standard_domestic_palette in the palettes but since item spawns can't be overwritten we have to copy a lot of terrain and furniture over",
+    "palettes": [ "parametrized_highrise_walls_palette" ],
+    "toilets": { "t": {  } },
+    "terrain": {
+      " ": "t_open_air",
+      ".": "t_linoleum_white",
+      "+": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ] ],
+      "*": [ [ "t_door_metal_pickable", 3 ], [ "t_door_metal_lab_c", 1 ] ],
+      "°": [ [ "t_door_locked_interior", 2 ], [ "t_door_c", 1 ] ],
+      "e": "t_elevator_control_off",
+      "o": "t_reinforced_glass_shutter_open",
+      "-": "t_elevator",
+      "V": "t_laminated_glass",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up"
+    },
+    "furniture": {
+      ")": "f_room_divider",
+      "c": "f_counter",
+      "d": "f_desk",
+      "f": "f_table",
+      "g": "f_water_heater_family",
+      "h": "f_chair",
+      "i": "f_bench",
+      "l": "f_coffee_table",
+      "p": "f_filing_cabinet",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "B": "f_bathtub",
+      "C": "f_console_broken",
+      "D": "f_dresser",
+      "E": "f_armchair",
+      "F": "f_fridge",
+      "G": [ [ "f_generator_broken", 25 ], [ "f_diesel_generator", 10 ], [ "f_12000_gasoline_generator", 15 ] ],
+      "H": "f_sofa",
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
+      "L": "f_rack_coat",
+      "R": "f_bookcase",
+      "S": "f_sink",
+      "U": "f_floor_lamp",
+      "W": "f_washer",
+      "Y": "f_trashcan",
+      "Z": "f_dryer",
+      "1": "f_cupboard",
+      "2": "f_cupboard",
+      "3": "f_cupboard",
+      "4": "f_cupboard",
+      "5": "f_sink",
+      "6": "f_rack_wood",
+      "7": "f_cupboard",
+      "8": "f_counter",
+      "9": "f_shower",
+      "@": "f_bed",
+      "¤": "f_table"
+    },
+    "vendingmachines": { "Q": { "item_group": "vending_drink", "lootable": true }, "A": { "item_group": "vending_food", "lootable": true } },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "items": {
+      "p": [
+        { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 3, 4 ] },
+        { "item": "low_level_badges_mutagen", "chance": 10 }
+      ],
+      "t": { "item": "SUS_toilet", "chance": 100 },
+      "Y": [ { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 3 ] } ],
+      "D": [
+        {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
+          }
+        }
+      ],
+      "f": [
+        { "item": "dishes_dining", "chance": 30 },
+        { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "baked_goods", "chance": 5 },
+        { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "dining", "chance": 10 }
+      ],
+      "l": [
+        { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "d": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "B": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] },
+      "F": { "item": "SUS_fridge", "chance": 100 },
+      "L": [ { "item": "unisex_coat_rack", "chance": 30 }, { "item": "lab_torso", "chance": 60 } ],
+      "O": { "item": "SUS_oven", "chance": 100 },
+      "R": [
+        { "item": "lab_bookshelves", "chance": 40 },
+        { "item": "homebooks", "chance": 40, "repeat": [ 1, 3 ] },
+        { "item": "games", "chance": 20, "repeat": [ 1, 2 ] }
+      ],
+      "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
+      "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+      "2": { "item": "SUS_cookware", "chance": 100 },
+      "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+      "4": { "item": "SUS_junk_drawer", "chance": 100 },
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "6": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
+      "7": [
+        { "item": "SUS_breakfast_cupboard", "chance": 30 },
+        { "item": "SUS_coffee_cupboard", "chance": 50 },
+        { "item": "SUS_spice_collection", "chance": 100 }
+      ],
+      "8": [
+        { "item": "SUS_hair_drawer", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_medicine", "chance": 40 },
+        { "item": "harddrugs_residential", "chance": 2 }
+      ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "@": { "item": "bed", "chance": 50 },
+      "¤": { "item": "nightstand", "chance": 30 },
+      "Z": { "item": "laundry", "chance": 100 },
+      "W": { "item": "laundry", "chance": 50 }
+    },
+    "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } }
+  }
+]
