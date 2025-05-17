@@ -496,6 +496,12 @@
         "append": true,
         "description": "This one is green.",
         "color": "green"
+      },
+      {
+        "id": "robofac",
+        "name": { "str": "Hub 01 jumpsuit" },
+        "description": "A brown jumpsuit worn by the staff of Hub 01.",
+        "color": "brown"
       }
     ]
   },
@@ -625,16 +631,6 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
     ]
-  },
-  {
-    "id": "robofac_jumpsuit",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "copy-from": "jumpsuit",
-    "looks_like": "jumpsuit",
-    "name": { "str": "Hub 01 jumpsuit" },
-    "description": "A brown jumpsuit worn by the staff of Hub 01.",
-    "color": "brown"
   },
   {
     "id": "mummy_jumpsuit",
