@@ -248,6 +248,8 @@ struct pet_food_data {
 
 /** movement data */
 struct move_skills_data {
+    // 10 means max movecost of 500 * terrain-difficulty with 0 skill
+    const static int max_movemod_penalty = 10;
     std::optional<int> climb;
     std::optional<int> dig;
     std::optional<int> swim;
