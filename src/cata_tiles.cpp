@@ -2908,8 +2908,10 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         case TILE_CATEGORY::TRAP:
         case TILE_CATEGORY::BULLET:
         case TILE_CATEGORY::HIT_ENTITY:
-        case TILE_CATEGORY::WEATHER:
             // TODO: come up with ways to make random sprites consistent for these types
+            break;
+        case TILE_CATEGORY::WEATHER:
+            seed = rng_bits(); // Doesn't need to be deterministic
             break;
         case TILE_CATEGORY::MONSTER:
             // FIXME: add persistent id to Creature type, instead of using monster pointer address
