@@ -17,7 +17,7 @@
     "price_postapoc": "2 USD",
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
@@ -40,7 +40,7 @@
     "price_postapoc": "2 USD",
     "material": [ "egg", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
@@ -138,7 +138,7 @@
     "calories": 227,
     "description": "A refreshing cucumber sandwich.  Not very filling, but quite tasty.",
     "price": "4 USD",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
@@ -161,7 +161,7 @@
     "price_postapoc": "2 USD",
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 8,
     "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -183,7 +183,7 @@
     "price_postapoc": "2 USD",
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
@@ -205,7 +205,7 @@
     "price_postapoc": "2 USD",
     "material": [ "fruit", "wheat", "milk" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [
       [ "vitC", 6 ],
@@ -234,7 +234,7 @@
     "price_postapoc": "2 USD",
     "material": [ "milk", "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 15,
     "vitamins": [
       [ "vitC", 6 ],
@@ -283,7 +283,7 @@
     "price": "1 USD 75 cent",
     "material": [ "honey", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ], [ "wheat_allergen", 1 ] ]
   },
@@ -320,7 +320,7 @@
     "price": "8 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "veggy", "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
@@ -342,7 +342,7 @@
     "price": "8 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "veggy", "wheat", "milk" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
     "vitamins": [
@@ -404,7 +404,7 @@
     "price": "2 USD 50 cent",
     "price_postapoc": "3 USD",
     "material": [ "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 3,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
@@ -426,7 +426,8 @@
     "price_postapoc": "1 USD 75 cent",
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "//": "Sandwich is 500ml so it fills up a sealed 500 ml bag_zipper. See issue 45650",
+    "volume": "500 ml",
     "fun": 15,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
@@ -448,7 +449,7 @@
     "price_postapoc": "1 USD 75 cent",
     "material": [ "wheat", "honey" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 10,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ], [ "wheat_allergen", 1 ] ]
   },
@@ -469,7 +470,7 @@
     "price": "1 USD 75 cent",
     "price_postapoc": "1 USD 75 cent",
     "material": [ "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
@@ -489,7 +490,7 @@
     "price": "8 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 14,
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -509,7 +510,7 @@
     "price": "8 USD",
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "wheat" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 14,
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -570,7 +571,7 @@
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "wheat", "veggy" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 17,
     "vitamins": [
@@ -597,7 +598,7 @@
     "price_postapoc": "1 USD 75 cent",
     "material": [ "nut", "junk", "wheat", "egg" ],
     "primary_material": "wheat",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "fun": 15,
     "vitamins": [
       [ "calcium", 6 ],

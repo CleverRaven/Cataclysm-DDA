@@ -378,8 +378,9 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "transparent": true,
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "500 ml",
         "max_contains_weight": "750 g",
+        "max_item_length": "14 cm",
         "spoil_multiplier": 0.8,
         "moves": 400
       }
