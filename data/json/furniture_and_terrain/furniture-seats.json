@@ -519,7 +519,7 @@
     "symbol": "$",
     "looks_like": "f_barber_chair",
     "description": "a stationary chair made of cloth and steel.  With adjustable height and the ability to swing.",
-    "color": "black",
+    "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 40,
     "comfort": 1,

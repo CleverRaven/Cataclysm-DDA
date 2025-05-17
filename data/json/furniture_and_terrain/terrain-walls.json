@@ -1179,7 +1179,7 @@
     "looks_like": "t_wall_wood_broken",
     "description": "Whatever this wall used to be made of, it's little more than charred remains now.",
     "symbol": "#",
-    "color": "black",
+    "color": "dark_gray",
     "move_cost": 0,
     "coverage": 35,
     "connect_groups": "WALL",

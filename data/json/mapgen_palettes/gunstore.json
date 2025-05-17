@@ -81,7 +81,7 @@
     "items": {
       "B": { "item": "guns_common_boxed", "repeat": [ 3, 12 ] },
       "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
-      "f": { "item": "fridgesnacks", "repeat": 10, "chance": 35 },
+      "f": { "item": "SUS_fridge_breakroom", "repeat": 3, "chance": 35 },
       "g": { "item": "guns_rifle_common_display", "repeat": [ 1, 5 ] },
       "H": { "item": "guns_pistol_common_display", "repeat": [ 1, 5 ] },
       "h": { "item": "guns_shotgun_common_display", "repeat": [ 1, 5 ] },
@@ -356,7 +356,7 @@
     "items": {
       "B": { "item": "guns_common_boxed", "repeat": [ 9, 20 ] },
       "E": { "item": "SUS_office_desk", "repeat": 3, "chance": 20 },
-      "f": { "item": "fridgesnacks", "repeat": 10, "chance": 35 },
+      "f": { "item": "SUS_fridge_breakroom", "repeat": 3, "chance": 35 },
       "g": { "item": "cannedfood", "repeat": [ 40, 150 ] },
       "i": { "item": "ammo_common_boxed_used", "repeat": 6 },
       "K": { "item": "guns_pistol_common", "repeat": [ 6, 10 ] },

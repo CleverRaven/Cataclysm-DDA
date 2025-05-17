@@ -84,7 +84,7 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         ".": { "item": "SUS_office_mess", "chance": 1 }
@@ -213,7 +213,7 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         ".": { "item": "SUS_office_mess", "chance": 1 }
@@ -342,7 +342,7 @@
       ],
       "item": { "l": [ { "item": "grenade_anti_psi", "chance": 15 } ] },
       "items": {
-        "e": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 12 ] },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80, "repeat": [ 1, 4 ] },
         "l": { "item": "feral_security_death_drops_9mm", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         ".": { "item": "SUS_office_mess", "chance": 1 }
