@@ -63,6 +63,7 @@
         { "item": "oa_ig_rd_metal_trash", "chance": 1, "damage": [ 3, 4 ] },
         { "item": "hardware", "chance": 1, "damage": [ 3, 4 ] },
         { "item": "misc_smoking", "chance": 1, "damage": [ 3, 4 ] },
+        { "item": "protein_bar_box_small", "chance": 1, "damage": [ 3, 4 ] },
         { "item": "oa_ig_ash_pile", "chance": 1, "damage": [ 3, 4 ] }
       ]
     }

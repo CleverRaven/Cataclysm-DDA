@@ -33,6 +33,7 @@
         { "item": "chem_home", "chance": 5 },
         { "item": "SUS_trash_hardware", "chance": 10 },
         { "item": "misc_smoking", "chance": 10 },
+        { "item": "protein_bar_box_small", "chance": 5, "count": [ 2, 8 ] },
         { "item": "tools_home", "chance": 10 }
       ],
       "&": [
@@ -50,6 +51,7 @@
         { "item": "chem_home", "chance": 1 },
         { "item": "SUS_trash_hardware", "chance": 5 },
         { "item": "misc_smoking", "chance": 5 },
+        { "item": "protein_bar_box_small", "chance": 5, "count": [ 1, 2 ] },
         { "item": "tools_home", "chance": 5 }
       ],
       "P": [
