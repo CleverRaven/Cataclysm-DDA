@@ -7512,9 +7512,10 @@ void Character::signal_nemesis()
 
 void Character::vomit()
 {
+    const units::volume stomach_contents_before_vomit = stomach.contains();
     get_event_bus().send<event_type::throws_up>( getID() );
 
-    if( stomach.contains() != 0_ml ) {
+    if( stomach_contents_before_vomit != 0_ml ) {
         get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
@@ -7546,7 +7547,7 @@ void Character::vomit()
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
-    if( stomach.contains() > 0_ml ) {
+    if( stomach_contents_before_vomit > 0_ml ) {
         wake_up();
     }
 }
