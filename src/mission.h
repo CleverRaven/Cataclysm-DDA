@@ -15,6 +15,7 @@
 #include "coordinates.h"
 #include "dialogue_helpers.h"
 #include "enums.h"
+#include "map_scale_constants.h"
 #include "npc_favor.h"
 #include "point.h"
 #include "translation.h"
@@ -145,6 +146,8 @@ struct mission_target_params {
 
 namespace mission_util
 {
+const int default_min_search_range = OMAPX * 14;
+
 tripoint_abs_omt random_house_in_closest_city();
 tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
         mission *miss );
