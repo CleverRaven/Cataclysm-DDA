@@ -118,6 +118,54 @@
     "flags": [ "FIRE", "ZERO_WEIGHT" ]
   },
   {
+    "id": "forgetting_candle",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "candle of forgetting" },
+    "description": "A thick homemade wax candle.  It doesn't provide very much light, but when you light it, it can be deployed to produce an incense that protects against mental effects caused by creatures from the Nether.  When it's light touches you it causes things from beyond to forget they've seen you removing any ill effects from their gaze.  You'll need a lighter or matches to light it.",
+    "weight": "400 g",
+    "volume": "466 ml",
+    "longest_side": "102 mm",
+    "price": "1 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "paraffin_wax" ],
+    "symbol": ",",
+    "color": "white",
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
+    "use_action": {
+      "target": "forgetting_candle_lit",
+      "msg": "You light the candle.  It produces a homely and calming light.",
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light",
+      "type": "transform"
+    },
+    "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
+  },
+  {
+    "id": "forgetting_candle_lit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "candle",
+    "name": { "str": "burning candle of forgetting" },
+    "description": "A thick wax candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.  It can be deployed to produce an incense that protects against mental effects caused by creatures from the Nether.",
+    "turns_per_charge": 1260,
+    "use_action": [
+      { "type": "firestarter", "moves": 100 },
+      { "type": "cast_spell", "spell_id": "forgetting_fog", "no_fail": true, "level": 1 },
+      {
+        "ammo_scale": 0,
+        "target": "forgetting_candle",
+        "msg": "The candle winks out.",
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "tool_ammo": "candle_wax",
+    "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
+  },
+  {
     "id": "item_hedge_see_fae_necklace",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
