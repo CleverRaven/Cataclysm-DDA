@@ -71,7 +71,7 @@
     "name": { "str_sp": "black paint" },
     "description": "Some black paint.",
     "copy-from": "paint_red",
-    "color": "black"
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",

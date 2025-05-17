@@ -68,12 +68,12 @@
         "p": [
           { "item": "restaur_fridge", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 40 },
-          { "item": "fridge", "chance": 90, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 90, "repeat": [ 1, 2 ] }
         ],
         "³": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_bread", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "pantry", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "SUS_pantry", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "cannedfood", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
@@ -82,7 +82,7 @@
         "u": { "item": "dissection", "chance": 40 },
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
         "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
@@ -191,7 +191,7 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
         "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
@@ -317,7 +317,7 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
         "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
@@ -425,7 +425,7 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
         "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
@@ -535,7 +535,7 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
         "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
@@ -657,7 +657,7 @@
           { "item": "vending_drink", "chance": 30 },
           { "item": "snacks", "chance": 40, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 90, "repeat": [ 1, 2 ] },
         "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
@@ -767,9 +767,9 @@
         "p": [
           { "item": "restaur_fridge", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 20 },
-          { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
-        "M": { "item": "oven", "chance": 20, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_oven", "chance": 20, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 20, "repeat": [ 1, 2 ] },
         "7": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "textbooks", "chance": 20, "repeat": [ 1, 2 ] },
@@ -778,7 +778,7 @@
         "F": [
           { "item": "restaur_kitchen", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_bread", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "pantry", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "SUS_pantry", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },

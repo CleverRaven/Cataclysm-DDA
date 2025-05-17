@@ -1690,7 +1690,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
-    "color": "black",
+    "color": "dark_gray",
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,

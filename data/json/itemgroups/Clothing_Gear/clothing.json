@@ -734,7 +734,8 @@
       { "item": "armguard_cut_resistant", "prob": 60 },
       { "item": "chaps_cut_resistant", "prob": 50 },
       { "item": "apron_cut_resistant", "prob": 45 },
-      { "item": "balaclava_cut_resistant", "prob": 10 }
+      { "item": "balaclava_cut_resistant", "prob": 10 },
+      { "item": "throat_guard_cut_resistant", "prob": 5 }
     ]
   },
   {
@@ -766,6 +767,7 @@
       [ "chaps_cut_resistant", 5 ],
       [ "armguard_cut_resistant", 5 ],
       [ "balaclava_cut_resistant", 2 ],
+      [ "throat_guard_cut_resistant", 2 ],
       [ "apron_leather", 10 ],
       [ "tool_belt", 30 ],
       [ "knee_pads", 20 ],
@@ -1534,7 +1536,6 @@
       [ "boy_shorts", 25 ],
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
-      [ "gown", 1 ],
       [ "long_glove_white", 1 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],
@@ -1861,7 +1862,7 @@
       [ "waistcoat", 70 ],
       [ "tophat", 30 ],
       [ "tux", 50 ],
-      [ "gown", 50 ],
+      { "item": "dress", "variant": "gown", "prob": 50 },
       [ "long_glove_white", 30 ],
       [ "breeches", 10 ]
     ]
@@ -2135,9 +2136,8 @@
     "type": "item_group",
     "id": "dresses",
     "items": [
-      [ "dress", 55 ],
+      [ "dress", 65 ],
       [ "sundress", 43 ],
-      [ "gown", 10 ],
       [ "dress_wedding", 2 ],
       { "group": "costume_dresses", "prob": 1 },
       { "group": "costume_dresses", "prob": 15, "event": "halloween" },
@@ -2390,7 +2390,7 @@
       { "item": "winter_gloves_army", "prob": 10 },
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       { "item": "tux", "prob": 1 },
-      { "item": "gown", "prob": 1 },
+      { "item": "dress", "variant": "gown", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },
@@ -3320,6 +3320,10 @@
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
+      [ "throat_guard_nylon", 2 ],
+      [ "throat_guard_canvas", 2 ],
+      [ "throat_guard_plastic", 1 ],
+      [ "throat_guard_cut_resistant", 1 ],
       { "group": "gasmask_bag_full", "prob": 24 },
       { "item": "mask_gas_half", "prob": 24, "charges": [ 0, 100 ] },
       { "item": "mask_filter", "prob": 12, "charges": [ 0, 100 ] },
@@ -3565,6 +3569,7 @@
       [ "hat_newsboy", 20 ],
       [ "under_armor", 20 ],
       [ "under_armor_shorts", 20 ],
+      [ "dress", 20 ],
       [ "tights", 20 ],
       [ "leggings", 20 ],
       [ "stockings", 20 ],
@@ -3580,7 +3585,6 @@
       [ "pants_army", 10 ],
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       [ "tux", 1 ],
-      [ "gown", 1 ],
       [ "kasaya", 1 ],
       [ "antarvasa", 1 ],
       [ "uttarasanga", 1 ],
@@ -4160,9 +4164,8 @@
     "id": "dresses_womens",
     "subtype": "distribution",
     "entries": [
-      { "item": "dress", "prob": 10 },
+      { "item": "dress", "prob": 14 },
       { "item": "sundress", "prob": 10 },
-      { "item": "gown", "prob": 4 },
       { "item": "dress_wedding", "prob": 2 },
       { "group": "costume_dresses", "prob": 1 },
       { "group": "costume_dresses", "prob": 15, "event": "halloween" },
@@ -4212,8 +4215,7 @@
     "items": [
       { "item": "dress_wedding", "prob": 5 },
       { "item": "sundress", "prob": 60 },
-      { "item": "gown", "prob": 20 },
-      { "item": "dress", "prob": 60 },
+      { "item": "dress", "prob": 80 },
       { "item": "veil_wedding", "prob": 5 },
       { "item": "santa_dress_long", "prob": 1 },
       { "item": "sinister_dress", "prob": 1 },

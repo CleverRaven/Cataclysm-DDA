@@ -297,7 +297,7 @@
         "É": { "item": "coffee_fridge", "chance": 45, "repeat": [ 1, 10 ] },
         "E": { "item": "beer", "chance": 35, "repeat": [ 1, 20 ] },
         "K": { "item": "snacks", "chance": 40, "repeat": [ 1, 20 ] },
-        "e": { "item": "fridgesnacks", "chance": 45, "repeat": [ 1, 6 ] }
+        "e": { "item": "SUS_fridge_snacks", "chance": 45, "repeat": [ 1, 6 ] }
       },
       "place_item": [ { "item": "television", "x": 92, "y": 47 } ],
       "place_loot": [

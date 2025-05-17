@@ -6884,6 +6884,18 @@
     "nested_category_data": [ "loincloth", "loincloth_fur", "loincloth_leather", "loincloth_wool" ]
   },
   {
+    "id": "nested_throat_guard",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "throat guards",
+    "description": "Recipes related to making throat guards out of varied materials.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "throat_guard_nylon", "throat_guard_canvas", "throat_guard_mercenary" ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_pouch",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",

@@ -71,6 +71,7 @@
       [ "goggles_welding", 50 ],
       [ "welding_book", 10 ],
       [ "welding_mask", 30 ],
+      [ "throat_guard_cut_resistant", 8 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "polycarbonate_sheet", "prob": 35 },

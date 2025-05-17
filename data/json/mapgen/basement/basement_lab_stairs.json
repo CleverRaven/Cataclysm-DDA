@@ -97,7 +97,7 @@
       },
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 6, "chance": 96 },
-        { "group": "fridgesnacks", "x": [ 13, 20 ], "y": 6, "chance": 80 },
+        { "group": "SUS_fridge_snacks", "x": [ 13, 20 ], "y": 6, "chance": 80 },
         { "group": "pool_table", "x": [ 17, 18 ], "y": [ 11, 13 ], "chance": 90 },
         { "group": "livingroom", "x": [ 9, 23 ], "y": [ 6, 16 ], "chance": 60 },
         { "group": "dresser", "x": 18, "y": 19, "chance": 80 },

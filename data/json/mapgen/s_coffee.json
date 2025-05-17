@@ -106,7 +106,7 @@
         "C": { "item": "SUS_office_desk", "chance": 33 },
         "D": { "item": "SUS_trash_trashcan", "chance": 75 },
         "F": { "item": "coffee_fridge", "chance": 80, "repeat": [ 1, 8 ] },
-        "G": { "item": "oven", "chance": 35 },
+        "G": { "item": "SUS_oven", "chance": 35 },
         "L": { "item": "coffee_locker", "chance": 75 },
         "U": { "item": "coffee_dishes", "chance": 75 },
         "X": { "item": "coffee_newsstand", "chance": 90, "repeat": [ 1, 8 ] },

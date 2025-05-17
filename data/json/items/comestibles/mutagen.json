@@ -338,7 +338,7 @@
     "name": { "str_sp": "chiropteran mutagenic primer" },
     "description": "A processed mutagenic primer, black as night.",
     "looks_like": "iv_mutagen",
-    "color": "black",
+    "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject the %s.",

@@ -15,6 +15,7 @@
     "weight": "150 g",
     "hp": 1,
     "speed": 100,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
@@ -35,18 +36,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "baby_flags": [ "SUMMER" ],
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "KEENNOSE",
-      "HARDTOSHOOT",
-      "CLIMBS",
-      "PATH_AVOID_DANGER",
-      "ANIMAL",
-      "SWIMS",
-      "CORNERED_FIGHTER"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HARDTOSHOOT", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS", "CORNERED_FIGHTER" ]
   },
   {
     "abstract": "mon_snakelet_abstract",
@@ -341,7 +331,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -357,6 +347,7 @@
     "weight": "81500 g",
     "hp": 64,
     "speed": 100,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "brown",
@@ -387,7 +378,7 @@
     "upgrades": { "half_life": 320, "into": "mon_rattlesnake_mega" },
     "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
@@ -404,6 +395,7 @@
     "weight": "760 kg",
     "hp": 400,
     "speed": 110,
+    "move_skills": { "climb": 6 },
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "brown",
@@ -440,7 +432,7 @@
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
     "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
   {
@@ -973,6 +965,7 @@
     "weight": "50 kg",
     "hp": 50,
     "speed": 100,
+    "move_skills": { "climb": 4 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "brown",
@@ -1018,7 +1011,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_husk",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE" ]
   },
   {
     "id": "mon_strange_bigfrog",
@@ -1214,6 +1207,7 @@
     "weight": "200 kg",
     "hp": 120,
     "speed": 90,
+    "move_skills": { "climb": 4 },
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "brown",
@@ -1259,7 +1253,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_mummy",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "BASHES" ]
   },
   {
     "id": "mon_strange_giganfrog",
