@@ -79,7 +79,7 @@
           { "item": "costume_all", "chance": 5, "repeat": [ 1, 6 ] }
         ],
         "i": [ { "item": "SUS_trash_floor", "chance": 60 } ],
-        "F": [ { "item": "fridgesnacks", "chance": 60 } ],
+        "F": [ { "item": "SUS_fridge_snacks", "chance": 60 } ],
         "T": [ { "item": "chem_home", "chance": 10 }, { "item": "electronics", "chance": 30 } ],
         "H": [ { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "hardware_books", "chance": 30 } ],
         "&": { "item": "SUS_toilet", "chance": 50 }

@@ -181,6 +181,7 @@
     "weight": "20 kg",
     "hp": 35,
     "speed": 120,
+    "move_skills": { "climb": 6 },
     "attack_cost": 120,
     "melee_dice": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
@@ -199,7 +200,7 @@
       }
     ],
     "vision_day": 18,
-    "extend": { "flags": [ "SWARMS", "CLIMBS", "HARDTOSHOOT", "HIT_AND_RUN" ], "weakpoint_sets": [ "wps_amalgamation_mandible" ] }
+    "extend": { "flags": [ "SWARMS", "HARDTOSHOOT", "HIT_AND_RUN" ], "weakpoint_sets": [ "wps_amalgamation_mandible" ] }
   },
   {
     "type": "MONSTER",

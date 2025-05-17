@@ -251,7 +251,7 @@
         { "item": "snacks", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "softdrinks_canned", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "snacks_fancy", "chance": 50, "repeat": [ 0, 2 ] },
-        { "item": "fridgesnacks", "chance": 50, "repeat": [ 0, 2 ] },
+        { "item": "SUS_fridge_breakroom", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "SUS_kitchen_sink", "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "gym_school", "chance": 15, "repeat": [ 0, 1 ] }
       ],

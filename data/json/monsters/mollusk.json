@@ -87,7 +87,7 @@
     "color": "brown",
     "harvest": "mutant_mollusk",
     "upgrades": { "age_grow": 30, "into": "mon_snail_small" },
-    "delete": { "flags": [ "HEARS", "CLIMBS" ] }
+    "delete": { "move_skills": { "climb": 6 } }
   },
   {
     "id": "mon_snail_giant",
@@ -186,7 +186,7 @@
     "color": "brown",
     "harvest": "mutant_mollusk",
     "upgrades": { "age_grow": 30, "into": "mon_slug_small" },
-    "delete": { "flags": [ "HEARS", "CLIMBS" ] }
+    "delete": { "flags": [ "HEARS" ], "move_skills": { "climb": 6 } }
   },
   {
     "id": "mon_slug_giant",

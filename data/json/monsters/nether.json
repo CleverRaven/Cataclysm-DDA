@@ -1441,7 +1441,7 @@
     "weight": "120 kg",
     "hp": 160,
     "speed": 140,
-    "move_skills": { "swim": 4 },
+    "move_skills": { "climb": 8, "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "&",
     "color": "dark_gray",
@@ -1458,19 +1458,7 @@
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [
-      "SMELLS",
-      "HEARS",
-      "HAS_MIND",
-      "NOHEAD",
-      "BASHES",
-      "GROUP_BASH",
-      "ATTACKMON",
-      "PLASTIC",
-      "ACIDPROOF",
-      "NOGIB",
-      "CLIMBS"
-    ],
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "NOHEAD", "BASHES", "GROUP_BASH", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB" ],
     "armor": { "bash": 8, "electric": 1 }
   },
   {
@@ -1485,6 +1473,7 @@
     "weight": "81500 g",
     "hp": 70,
     "speed": 90,
+    "move_skills": { "climb": 8 },
     "material": [ "flesh" ],
     "symbol": "h",
     "color": "light_red",
@@ -1498,7 +1487,7 @@
     "harvest": "demihuman",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN" ]
   },
   {
     "id": "mon_yugg",
