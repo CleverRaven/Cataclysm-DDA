@@ -2239,7 +2239,7 @@
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "5 m",
-    "charges": 50,
+    "charges": 10,
     "batch_time_factors": [ 80, 1 ],
     "book_learn": [ [ "reference_cooking", 4 ] ],
     "proficiencies": [
@@ -2249,7 +2249,7 @@
     ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 20 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
