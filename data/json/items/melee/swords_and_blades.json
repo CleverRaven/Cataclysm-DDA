@@ -1067,7 +1067,7 @@
   {
     "id": "kukri",
     "copy-from": "mc_kukri",
-	  "looks_like": "kukri",
+    "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "kukri" },
