@@ -195,6 +195,7 @@
     "condition": { "math": [ "u_effect_intensity('void_stares_back') = 5" ] },
     "effect": [
       { "u_add_effect": "void_stares_back", "intensity": { "math": [ "u_effect_intensity('void_stares_back') - 5" ] } },
+      "duration": [ "2 m", "5 m" ]
       { "u_add_effect": "voidmarked", "duration": [ "24 hours", "120 hours" ] }
     ]
   },
