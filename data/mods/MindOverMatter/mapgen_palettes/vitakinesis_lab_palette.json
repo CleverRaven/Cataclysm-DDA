@@ -1,0 +1,79 @@
+[
+  {
+    "type": "palette",
+    "id": "parametrized_concrete_carpets_palette_nested",
+    "//": "Use to randomly assign carpet colors",
+    "parameters": {
+      "concrete_carpet_color_type_nest": {
+        "type": "ter_str_id",
+        "scope": "nest",
+        "default": {
+          "distribution": [
+            [ "t_carpet_concrete_red", 1 ],
+            [ "t_carpet_concrete_green", 1 ],
+            [ "t_carpet_concrete_purple", 1 ],
+            [ "t_carpet_concrete_yellow", 1 ]
+          ]
+        }
+      }
+    },
+    "terrain": { "=": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" } }
+  },
+  {
+    "type": "palette",
+    "id": "vitakinesis_lab_palette_nests_living",
+    "palettes": [ "parametrized_concrete_carpets_palette_nested" ],
+    "terrain": {
+      "b": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "d": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "l": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "r": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" },
+      "t": { "param": "concrete_carpet_color_type_nest", "fallback": "t_carpet_concrete_red" }
+    },
+    "toilets": { "o": {  } },
+    "furniture": {
+      "b": "f_bed",
+      "d": "f_dresser",
+      "l": "f_floor_lamp",
+      "r": "f_armchair",
+      "t": "f_table",
+      "e": "f_bed",
+      "a": "f_table",
+      "c": "f_chair",
+      "s": "f_shower"
+    },
+    "items": {
+      "b": [ { "item": "bed" }, { "item": "bed", "chance": 33 } ],
+      "n": { "item": "SUS_science_personal_effects", "chance": 50, "repeat": [ 1, 2 ] },
+      "d": [
+        { "item": "lab_shoes", "repeat": [ 1, 2 ] },
+        { "item": "lab_torso", "repeat": [ 5, 7 ] },
+        { "item": "lab_pants", "repeat": [ 5, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "vitakinesis_lab_palette_nests_lab",
+    "furniture": {
+      "a": "f_autoclave",
+      "b": "f_table",
+      "c": "f_centrifuge",
+      "d": "f_scan_bed",
+      "e": "f_electron_microscope",
+      "f": "f_sample_freezer",
+      "l": "f_lab_bench",
+      "m": "f_MRI",
+      "n": "f_sink",
+      "o": "f_stool",
+      "r": "f_locker",
+      "s": "f_server",
+      "t": "f_CTscan",
+      "u": "f_utility_shelf",
+      "x": "f_console_broken",
+      "y": "f_eyewash"
+    },
+    "items": {  },
+    "terrain": { "|": "t_concrete_wall", "G": "t_wall_glass_lab", "D": "t_door_glass_lab_c" }
+  }
+]
