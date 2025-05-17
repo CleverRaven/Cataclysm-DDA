@@ -523,6 +523,7 @@
     "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.  It has a small chance to cost some of your mana each turn it is in use.",
     "category": [
       "ARVORE",
+      "ARVORE_ALCHEMY",
       "IERDE",
       "HOMULLUS",
       "SALAMANDER",
@@ -669,7 +670,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
-    "category": [ "ARVORE" ],
+    "category": [ "ARVORE", "ARVORE_ALCHEMY" ],
     "leads_to": [ "ARVORE_DEX_BONUS" ],
     "spells_learned": [ [ "paraclesian_spell_dodge_bonus_arvore", 1 ] ]
   },
