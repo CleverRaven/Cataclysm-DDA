@@ -278,6 +278,7 @@
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "bleeding",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {
@@ -285,6 +286,7 @@
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
     "verb": "butchering",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {
@@ -292,6 +294,7 @@
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
     "verb": "butchering",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {
@@ -299,6 +302,7 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "field dressing",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {
@@ -306,6 +310,7 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "skinning",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {
@@ -313,6 +318,7 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "quartering",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {
@@ -320,6 +326,7 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "dismembering",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {
@@ -327,6 +334,7 @@
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "dissecting",
+    "multi_activity": true,
     "based_on": "speed"
   },
   {

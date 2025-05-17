@@ -24,6 +24,9 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "butchery.h"
+#include "butchery_requirements.h"
+#include "text_snippets.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -112,6 +115,8 @@ static const activity_id ACT_BIKERACK_RACKING( "ACT_BIKERACK_RACKING" );
 static const activity_id ACT_BIKERACK_UNRACKING( "ACT_BIKERACK_UNRACKING" );
 static const activity_id ACT_BINDER_COPY_RECIPE( "ACT_BINDER_COPY_RECIPE" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
+static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -123,10 +128,13 @@ static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
+static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
-static const activity_id ACT_E_FILE( "ACT_E_FILE" );
+static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
@@ -155,11 +163,13 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
+static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
@@ -245,7 +255,9 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT( "CUT" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -8842,6 +8854,100 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void butchery_activity_actor::start( player_activity &act, Character &you )
+{
+    act.moves_total = 1;
+    map *here = &get_map();
+    item_location &target = bd.corpse;
+    item &corpse_item = *target;
+    const mtype &corpse = *bd.corpse.get_item()->get_mtype();
+
+    std::pair<float, requirement_id> butchery_reqs =
+        corpse.harvest->get_butchery_requirements().get_fastest_requirements( you.crafting_inventory(),
+                corpse.size, bd.b_type );
+    bd.req_speed_bonus = butchery_reqs.first;
+    bd.req = butchery_reqs.second;
+    bd.time_to_butcher = time_duration::from_moves( butcher_time_to_cut( you, *bd.corpse.get_item(),
+                         bd.b_type ) * bd.req_speed_bonus );
+    bd.progress = time_duration::from_seconds(
+                      corpse_item.get_var( butcher_progress_var( bd.b_type ), 0 ) );
+
+    corpse_item.spill_contents( *&here, target.pos_bub( *here ) );
+
+    // act.moves_total = bd.time_to_butcher;
+    // act.moves_left = act.moves_total - bd.progress + 1;
+
+    if( !set_up_butchery( act, you, bd ) ) {
+        you.cancel_activity();
+    };
+}
+
+void butchery_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    const item_location &target = bd.corpse;
+
+    // Corpses can disappear (rezzing!), so check for that
+    if( !target || !target->is_corpse() ) {
+        you.add_msg_if_player( m_info, _( "There's no corpse to butcher!" ) );
+        you.cancel_activity();
+        return;
+    }
+
+    if( bd.progress >= bd.time_to_butcher ) {
+        // this corpse is done
+        destroy_the_carcass( bd, you );
+        act.moves_left = 0;
+    } else {
+        bd.progress += 1_seconds;
+    }
+}
+
+void butchery_activity_actor::finish( player_activity &act, Character &you )
+{
+    // if it's mutli-tile butchering, then restart the backlog.
+    activity_handlers::resume_for_multi_activities( you );
+}
+
+void butchery_activity_actor::canceled( player_activity &, Character & )
+{
+    item_location &target = bd.corpse;
+    item &corpse_item = *target;
+
+    if( target ) {
+        corpse_item.set_var( butcher_progress_var( bd.b_type ), to_seconds<int>( bd.progress ) );
+    }
+
+}
+
+void butchery_activity_actor::serialize( JsonOut &jsout ) const
+{
+}
+
+std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue &jsin )
+{
+    return std::unique_ptr<activity_actor>();
+}
+
+void multiple_butchery_activity_actor::start( player_activity &act, Character &you )
+{
+    for( const butchery_data &bd_instance : bd ) {
+        you.backlog.emplace_front( butchery_activity_actor( bd_instance ) );
+    }
+    act.moves_left = 0;
+}
+
+void multiple_butchery_activity_actor::do_turn( player_activity &act, Character &you )
+{
+}
+
+void multiple_butchery_activity_actor::finish( player_activity &act, Character &you )
+{
+    activity_handlers::resume_for_multi_activities( you );
+}
+
+void multiple_butchery_activity_actor::serialize( JsonOut &jsout ) const
+{
+}
 
 void wait_stamina_activity_actor::start( player_activity &act, Character & )
 {
@@ -8888,7 +8994,6 @@ std::unique_ptr<activity_actor> wait_stamina_activity_actor::deserialize( JsonVa
     return wait_stamina_activity_actor().clone();
 }
 
-
 namespace activity_actors
 {
 
@@ -8902,6 +9007,8 @@ deserialize_functions = {
     { ACT_BIKERACK_UNRACKING, &bikerack_unracking_activity_actor::deserialize },
     { ACT_BINDER_COPY_RECIPE, &bookbinder_copy_activity_actor::deserialize },
     { ACT_BOLTCUTTING, &boltcutting_activity_actor::deserialize },
+    { ACT_BUTCHER, &butchery_activity_actor::deserialize },
+    { ACT_BUTCHER_FULL, &butchery_activity_actor::deserialize },
     { ACT_CHOP_LOGS, &chop_logs_activity_actor::deserialize },
     { ACT_CHOP_PLANKS, &chop_planks_activity_actor::deserialize },
     { ACT_CHOP_TREE, &chop_tree_activity_actor::deserialize },
@@ -8912,9 +9019,12 @@ deserialize_functions = {
     { ACT_CRAFT, &craft_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
+    { ACT_DISMEMBER, &butchery_activity_actor::deserialize },
+    { ACT_DISSECT, &butchery_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FIELD_DRESS, &butchery_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
@@ -8942,11 +9052,13 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },
+    { ACT_QUARTER, &butchery_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
     { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },
+    { ACT_SKIN, &butchery_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
@@ -8954,8 +9066,8 @@ deserialize_functions = {
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
-    { ACT_WAIT_STAMINA, &wait_stamina_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
+    { ACT_WAIT_STAMINA, &wait_stamina_activity_actor::deserialize },
     { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
     { ACT_WIELD, &wield_activity_actor::deserialize},
