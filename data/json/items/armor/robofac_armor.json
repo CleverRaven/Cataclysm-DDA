@@ -327,7 +327,7 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "copy-from": "robofac_head_rig",
-    "name": { "str_sp": "Hub 01 modular recon headgear (on)" },
+    "name": { "str_sp": "Hub 01 modular recon headgear (NV+IR)" },
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Activate again to turn off and stow the visor.",
     "extend": { "flags": [ "GNV_EFFECT" ] },
     "power_draw": "320 mW",
