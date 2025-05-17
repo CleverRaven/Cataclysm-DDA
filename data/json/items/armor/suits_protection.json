@@ -3395,7 +3395,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "suit",
-    "color": "black",
+    "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 13 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 7, 10 ] },
