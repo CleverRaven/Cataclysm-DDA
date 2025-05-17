@@ -11,6 +11,7 @@
     "weight": "81500 g",
     "hp": 250,
     "speed": 200,
+    "move_skills": { "swim": 10 },
     "attack_cost": 200,
     "material": [ "flesh" ],
     "symbol": "^",
@@ -26,19 +27,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_leather",
     "decay": "zombie_decay_bone",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "SWIMS",
-      "AQUATIC",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WATER_CAMOUFLAGE"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "WATER_CAMOUFLAGE" ],
     "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
@@ -53,6 +42,7 @@
     "weight": "350 kg",
     "hp": 600,
     "speed": 175,
+    "move_skills": { "swim": 10 },
     "attack_cost": 200,
     "material": [ "flesh" ],
     "symbol": "^",
@@ -68,19 +58,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_leather",
     "decay": "zombie_decay_bone",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "SWIMS",
-      "AQUATIC",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WATER_CAMOUFLAGE"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "WATER_CAMOUFLAGE" ],
     "armor": { "bash": 8, "cut": 2, "bullet": 2 }
   },
   {
@@ -286,6 +264,7 @@
     "weight": "20 kg",
     "hp": 30,
     "speed": 80,
+    "move_skills": { "swim": 8 },
     "attack_cost": 80,
     "material": [ "flesh" ],
     "symbol": "r",
@@ -304,7 +283,7 @@
     "harvest": "zombie_fur",
     "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "electric": 1 }
   },
   {

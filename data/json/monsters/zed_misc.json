@@ -466,6 +466,7 @@
     "species": [ "ZOMBIE" ],
     "hp": 120,
     "speed": 100,
+    "move_skills": { "swim": 8 },
     "color": "light_green_cyan",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
@@ -497,7 +498,7 @@
     "burn_into": "mon_zombie_scorched",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 },
-    "extend": { "flags": [ "SMELLS", "SWIMS", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "SMELLS", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_zombie_master",
@@ -873,6 +874,7 @@
     "copy-from": "mon_zombie_base",
     "hp": 70,
     "speed": 95,
+    "move_skills": { "swim": 10 },
     "color": "light_blue",
     "melee_skill": 3,
     "melee_dice_sides": 6,
@@ -881,7 +883,7 @@
     "//grab": "Tier 2 mob, but webbed hands don't sound very grabby",
     "death_drops": "mon_zombie_swimmer_death_drops",
     "upgrades": { "half_life": 168, "into": "mon_zombie_mancroc" },
-    "extend": { "flags": [ "SWIMS", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_zombie_technician",

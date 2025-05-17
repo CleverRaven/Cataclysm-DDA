@@ -1015,6 +1015,7 @@
     "species": [ "INSECT" ],
     "hp": 1100,
     "speed": 100,
+    "move_skills": { "swim": 2 },
     "material": [ "iflesh" ],
     "symbol": "Y",
     "color": "light_green",
@@ -1043,7 +1044,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_dragonfly" }, "baby_count": 3, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "BASHES", "PUSH_MON", "PUSH_VEH", "EATS" ],
     "armor": { "electric": 2 }
   },
   {
@@ -1239,12 +1240,13 @@
     "default_faction": "mosquito",
     "bodytype": "snake",
     "speed": 150,
+    "move_skills": { "swim": 4 },
     "symbol": "y",
     "color": "brown",
     "vision_day": 15,
     "upgrades": { "age_grow": 30, "into": "mon_mosquito_giant" },
     "fear_triggers": [ "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "extend": { "flags": [ "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_mosquito_mega",
@@ -3670,6 +3672,7 @@
     "weight": "12 kg",
     "hp": 20,
     "speed": 50,
+    "move_skills": { "swim": 6 },
     "attack_cost": 50,
     "material": [ "iflesh" ],
     "symbol": "s",
@@ -3692,7 +3695,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "SMALL_HIDER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "SMALL_HIDER" ],
     "armor": { "bash": 1, "cut": 3, "bullet": 2 }
   },
   {
@@ -3705,7 +3708,7 @@
     "symbol": "s",
     "color": "light_gray",
     "upgrades": { "age_grow": 30, "into": "mon_strider_giant" },
-    "extend": { "flags": [ "SWIMS" ] }
+    "extend": { "move_skills": { "swim": 4 } }
   },
   {
     "id": "mon_butterfly",
@@ -4070,6 +4073,7 @@
     "weight": "81500 g",
     "hp": 90,
     "speed": 50,
+    "move_skills": { "swim": 6 },
     "material": [ "iflesh" ],
     "symbol": "B",
     "color": "light_gray",
@@ -4089,7 +4093,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_water_beetle" }, "baby_count": 3, "baby_timer": 15 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SWIMS", "WATER_CAMOUFLAGE" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "WATER_CAMOUFLAGE" ],
     "armor": { "bash": 7, "cut": 9, "bullet": 10, "electric": 2 }
   },
   {
@@ -4104,6 +4108,7 @@
     "weight": "50 kg",
     "hp": 45,
     "speed": 50,
+    "move_skills": { "swim": 6 },
     "attack_cost": 50,
     "material": [ "iflesh" ],
     "symbol": "W",
@@ -4124,7 +4129,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_water_bug" }, "baby_count": 3, "baby_timer": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "AQUATIC" ],
     "armor": { "bash": 1, "cut": 3, "bullet": 2 }
   },
   {

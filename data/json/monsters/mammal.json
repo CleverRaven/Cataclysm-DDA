@@ -153,6 +153,7 @@
     "weight": "20 kg",
     "hp": 31,
     "speed": 80,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "brown",
@@ -172,7 +173,7 @@
     "fear_triggers": [ "HURT", "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "zombify_into": "mon_zombeaver",
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "WATER_CAMOUFLAGE", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "WATER_CAMOUFLAGE", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_beaver_kit",
@@ -211,6 +212,7 @@
     "weight": "200 g",
     "hp": 6,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "dark_gray",
@@ -231,7 +233,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_lab_rat",
@@ -246,6 +248,7 @@
     "weight": "320 g",
     "hp": 6,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "white",
@@ -278,7 +281,6 @@
       "KEENNOSE",
       "CANPLAY",
       "WARM",
-      "SWIMS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "CAN_BE_CULLED",
@@ -1835,6 +1837,7 @@
     "weight": "30 g",
     "hp": 4,
     "speed": 90,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": ".",
     "color": "light_gray",
@@ -1848,7 +1851,7 @@
     "special_attacks": [ [ "GRAZE", 50 ] ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS" ]
   },
   {
     "id": "mon_mink",
@@ -1863,6 +1866,7 @@
     "weight": "800 g",
     "hp": 30,
     "speed": 130,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "dark_gray",
@@ -1876,7 +1880,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "SWIMS", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_moose",
@@ -2054,6 +2058,7 @@
     "weight": "1362 g",
     "hp": 10,
     "speed": 100,
+    "move_skills": { "swim": 6 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "brown",
@@ -2068,7 +2073,7 @@
     "dissect": "dissect_rat_sample_single",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "SMALL_HIDER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "SMALL_HIDER" ]
   },
   {
     "id": "mon_opossum",
@@ -2169,6 +2174,7 @@
     "weight": "9 kg",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "swim": 8 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "brown",
@@ -2181,7 +2187,7 @@
     "harvest": "mammal_small_fur",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "WATER_CAMOUFLAGE", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "WATER_CAMOUFLAGE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_pig_piglet",
@@ -2420,6 +2426,7 @@
     "weight": "1 kg",
     "hp": 10,
     "speed": 100,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "r",
     "color": "light_gray",
@@ -2441,7 +2448,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND" ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_sheep_lamb",
@@ -2650,6 +2657,7 @@
     "weight": "151 g",
     "hp": 20,
     "speed": 110,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "brown",
@@ -2662,7 +2670,7 @@
     "harvest": "mammal_tiny",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SMALL_HIDER" ]
   },
   {
     "id": "mon_wolf",
@@ -2891,6 +2899,7 @@
     "weight": "120 g",
     "hp": 12,
     "speed": 110,
+    "move_skills": { "swim": 4 },
     "material": [ "flesh" ],
     "symbol": "f",
     "color": "light_gray",
@@ -2910,7 +2919,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_ferret_kit" }, "baby_count": 5, "baby_timer": 100 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ]
   },
   {
     "id": "mon_ferret_kit",
