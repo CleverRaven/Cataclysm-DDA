@@ -373,7 +373,8 @@
       [ "apron_cut_resistant", 15 ],
       [ "chaps_cut_resistant", 25 ],
       [ "armguard_cut_resistant", 25 ],
-      [ "balaclava_cut_resistant", 5 ]
+      [ "balaclava_cut_resistant", 5 ],
+      [ "throat_guard_cut_resistant", 2 ]
     ]
   },
   {

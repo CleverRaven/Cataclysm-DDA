@@ -58,7 +58,7 @@
       "palettes": [ "lab_common_palette" ],
       "items": {
         "s": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "m": [ { "item": "fridgesnacks", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "m": [ { "item": "SUS_fridge_breakroom", "chance": 30, "repeat": [ 1, 2 ] } ],
         "q": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
       }
     }
@@ -80,7 +80,7 @@
       "palettes": [ "lab_common_palette" ],
       "items": {
         "s": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "m": [ { "item": "fridgesnacks", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "m": [ { "item": "SUS_fridge_breakroom", "chance": 30, "repeat": [ 1, 2 ] } ],
         "q": [ { "item": "dollar_food", "chance": 30, "repeat": [ 0, 4 ] } ],
         "Q": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
       }

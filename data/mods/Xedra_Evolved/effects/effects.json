@@ -644,7 +644,7 @@
     "//": "Hidden--tied to a conditional enchantment",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "WINGS_1" ]
+    "flags": [ "ONE_STORY_FALL" ]
   },
   {
     "type": "effect_type",

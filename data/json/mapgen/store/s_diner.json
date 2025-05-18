@@ -88,7 +88,7 @@
       },
       "toilets": { "j": {  } },
       "items": {
-        "p": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
+        "p": { "item": "SUS_oven", "chance": 80, "repeat": [ 2, 4 ] },
         "n": { "item": "cash_register_random", "chance": 100 },
         "F": [
           { "item": "coffee_dishes", "chance": 20 },

@@ -91,7 +91,7 @@
         "G": [ "t_door_glass_lab_c" ]
       },
       "mapping": {
-        "f": { "items": [ { "item": "fridge", "chance": 30 }, { "item": "alcohol", "chance": 60 } ] },
+        "f": { "items": [ { "item": "SUS_fridge", "chance": 30 }, { "item": "alcohol", "chance": 60 } ] },
         "t": { "items": [ { "item": "magazines", "chance": 3 } ] }
       },
       "place_nested": [
@@ -907,9 +907,9 @@
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
         "F": { "items": [ { "item": "livingroom", "chance": 5 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 80 } ] },
+        "f": { "items": [ { "item": "SUS_fridge", "chance": 80 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
-        "O": { "items": [ { "item": "oven", "chance": 70 } ] },
+        "O": { "items": [ { "item": "SUS_oven", "chance": 70 } ] },
         "r": {
           "items": [
             { "item": "dresser", "chance": 20 },

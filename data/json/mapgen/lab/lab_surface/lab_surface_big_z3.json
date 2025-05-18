@@ -164,7 +164,7 @@
       ],
       "items": {
         "&": [ { "item": "tools_science", "chance": 5 }, { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "f": [ { "item": "SUS_fridge_breakroom", "chance": 60 }, { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] } ],
+        "f": [ { "item": "SUS_fridge_breakroom", "chance": 60 }, { "item": "SUS_fridge_snacks", "chance": 60, "repeat": [ 2, 4 ] } ],
         "l": [
           { "item": "lab_shoes", "chance": 70, "repeat": 2 },
           { "item": "lab_pants", "chance": 70, "repeat": 2 },

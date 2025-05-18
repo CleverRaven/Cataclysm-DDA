@@ -288,7 +288,7 @@
         "S": { "item": "clothing_outdoor_set", "chance": 50 },
         "c": { "item": "repair_storage", "chance": 80 },
         "j": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
-        "]": { "item": "file_room", "chance": 80 },
+        "]": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "q": { "item": "supplies_electronics", "chance": 70, "repeat": [ 1, 4 ] },
         "K": { "item": "pre_irradiated_food", "chance": 20, "repeat": [ 1, 4 ] },
         "[": { "item": "pre_irradiated_food", "chance": 10, "repeat": [ 1, 4 ] },

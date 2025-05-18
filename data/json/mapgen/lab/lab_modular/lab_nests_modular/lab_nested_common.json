@@ -41,7 +41,7 @@
         "PPP"
       ],
       "palettes": [ "lab_common_palette" ],
-      "items": { "P": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 3 ] } ] }
+      "items": { "P": [ { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] } ] }
     }
   },
   {
@@ -96,7 +96,7 @@
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "items": {
         "r": [ { "item": "office", "chance": 70, "repeat": [ 1, 3 ] } ],
-        "P": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 3 ] } ]
+        "P": [ { "item": "SUS_office_filing_cabinet", "chance": 70, "repeat": [ 1, 3 ] } ]
       }
     }
   },

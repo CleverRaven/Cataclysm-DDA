@@ -180,7 +180,7 @@
         ],
         "9": [
           { "item": "donated_clothes", "chance": 20 },
-          { "item": "office_mess", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_office_mess", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "restaur_bath", "chance": 10, "repeat": [ 1, 2 ] },
@@ -188,7 +188,7 @@
         ],
         "m": [
           { "item": "games", "chance": 20, "repeat": [ 0, 1 ] },
-          { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
+          { "item": "SUS_office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ]
       },
@@ -397,7 +397,7 @@
         ],
         "9": [
           { "item": "donated_clothes", "chance": 20 },
-          { "item": "office_mess", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_office_mess", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "meth_ingredients", "chance": 10, "repeat": [ 0, 1 ] },
@@ -407,10 +407,10 @@
         ],
         "m": [
           { "item": "games", "chance": 20, "repeat": [ 0, 1 ] },
-          { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
+          { "item": "SUS_office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ],
-        ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "office_mess", "chance": 3 } ]
+        ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "SUS_office_mess", "chance": 3 } ]
       },
       "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
       "palettes": [ "nursing_home_sh_palette" ],

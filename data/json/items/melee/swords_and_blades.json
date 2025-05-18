@@ -384,6 +384,13 @@
         "id": "akbayonet",
         "name": { "str": "AK bayonet" },
         "description": "A 6H4 bayonet for Kalashnikov pattern rifles, usually imported military surplus from eastern bloc countries.  The blade is made of stainless steel and the handle of a lightweight and durable plastic.  It features a middling metal saw on the spine of the blade, and can function as a wire cutter as well.  Though it is quite sturdy, it can't hold an edge very well."
+      },
+      {
+        "id": "exodiibayonet",
+        "name": { "str": "L-backswerda" },
+        "description": "A bayonet, although not of any model you're familiar with.  Despite differences in appearance it seems analogous to any other bayonet - The chrome shaded blade is worn but well-maintained, with a grooved edge on its back to act as a sawing implement.  The handle and guard have some additional mechanisms installed to help affix it to a variety of firearms.",
+        "weight": 0,
+        "append": false
       }
     ],
     "//": "An M9 Bayonet.",
@@ -776,6 +783,24 @@
     "weapon_category": [ "KNIVES" ],
     "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 3 } ],
     "melee_damage": { "stab": 10 }
+  },
+  {
+    "type": "ITEM",
+    "id": "glass_shiv",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str": "glass shiv" },
+    "description": "A glass shard with wrapping at one end so it can be safely wielded.",
+    "material": [ { "type": "glass", "portion": 13 }, { "type": "cotton", "portion": 1 } ],
+    "weight": "193 g",
+    "price_postapoc": "10 cent",
+    "volume": "82 ml",
+    "longest_side": "15 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "qualities": [ [ "BUTCHER", -18 ] ],
+    "melee_damage": { "cut": 6 }
   },
   {
     "id": "bone_knife",

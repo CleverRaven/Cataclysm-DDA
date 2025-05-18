@@ -121,7 +121,7 @@
         "D": { "item": "magic_shop_wands", "chance": 30, "repeat": [ 1, 2 ] },
         "F": { "item": "SUS_fridge", "chance": 100 },
         "G": { "item": "magic_shop_potions", "chance": 30, "repeat": [ 1, 2 ] },
-        "O": { "item": "oven", "chance": 70, "repeat": [ 1, 2 ] },
+        "O": { "item": "SUS_oven", "chance": 70, "repeat": [ 1, 2 ] },
         "K": { "item": "allclothes", "chance": 70, "repeat": [ 1, 2 ] },
         "B": [
           { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] },

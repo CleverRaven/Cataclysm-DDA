@@ -223,7 +223,7 @@
         "u": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] },
         "{": { "item": "bar_alcohol", "chance": 75, "repeat": [ 1, 8 ] },
         "$": { "item": "bar_fridge", "chance": 70, "repeat": [ 1, 8 ] },
-        "&": { "item": "fridgesnacks", "chance": 40, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_fridge_snacks", "chance": 40, "repeat": [ 1, 2 ] },
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 21, "y": 13 } ]

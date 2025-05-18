@@ -530,7 +530,7 @@
         "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "^": { "item": "restaur_sink", "chance": 50, "repeat": [ 1, 2 ] },
         "n": { "item": "restaur_sink", "chance": 50, "repeat": [ 1, 2 ] },
-        "!": { "item": "oven", "chance": 50, "repeat": [ 1, 2 ] },
+        "!": { "item": "SUS_oven", "chance": 50, "repeat": [ 1, 2 ] },
         "$": [
           { "item": "diner_food", "chance": 10 },
           { "item": "baked_goods", "chance": 10 },
@@ -549,7 +549,7 @@
         "l": [
           { "item": "restaur_fridge", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "baked_goods", "chance": 20 },
-          { "item": "fridge", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "SUS_fridge", "chance": 10, "repeat": [ 1, 2 ] }
         ],
         "K": [
           { "item": "baked_goods", "chance": 20 },
@@ -1469,7 +1469,7 @@
         "n": { "item": "restaur_sink", "chance": 20, "repeat": [ 3, 5 ] },
         "l": { "item": "restaur_fridge", "chance": 20, "repeat": [ 3, 5 ] },
         "U": { "item": "restaur_kitchen", "chance": 20, "repeat": [ 3, 5 ] },
-        "i": { "item": "oven", "chance": 20 },
+        "i": { "item": "SUS_oven", "chance": 20 },
         "j": { "item": "restaur_sink", "chance": 20 },
         "Y": { "item": "SUS_trash_trashcan", "chance": 20 },
         "J": [
@@ -2102,7 +2102,7 @@
         "l": { "item": "pizza_fridge", "chance": 30, "repeat": [ 2, 4 ] },
         "j": { "item": "SUS_dishes", "chance": 10, "repeat": [ 2, 4 ] },
         "n": { "item": "SUS_dishes", "chance": 30, "repeat": [ 2, 4 ] },
-        "i": { "item": "oven", "chance": 30, "repeat": [ 1, 2 ] },
+        "i": { "item": "SUS_oven", "chance": 30, "repeat": [ 1, 2 ] },
         "z": { "item": "farming_seeds", "chance": 30, "repeat": [ 1, 2 ] },
         "3": { "item": "farming_seeds", "chance": 30, "repeat": [ 1, 2 ] },
         "I": { "item": "SUS_office_desk", "chance": 30 },
@@ -2667,7 +2667,7 @@
         "Q": { "item": "book_military", "chance": 30 },
         "J": { "item": "office", "chance": 30 },
         "3": { "item": "restaur_sink", "chance": 30 },
-        "i": { "item": "oven", "chance": 30 },
+        "i": { "item": "SUS_oven", "chance": 30 },
         "n": { "item": "restaur_sink", "chance": 30 },
         "j": { "item": "restaur_sink", "chance": 30 },
         "l": { "item": "restaur_fridge", "chance": 30 }
@@ -3037,7 +3037,7 @@
           { "item": "groce_condiment", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "J": { "item": "diner_food", "chance": 20 },
-        "i": { "item": "oven", "chance": 10, "repeat": [ 1, 2 ] },
+        "i": { "item": "SUS_oven", "chance": 10, "repeat": [ 1, 2 ] },
         "l": [
           { "item": "groce_meat", "chance": 10, "repeat": [ 2, 4 ] },
           { "item": "restaur_fridge", "chance": 10, "repeat": [ 2, 4 ] }

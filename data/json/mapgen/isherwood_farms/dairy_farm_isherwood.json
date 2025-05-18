@@ -84,9 +84,9 @@
         "d": { "item": "office", "chance": 30 },
         "{": [ { "item": "ranch_homebooks", "chance": 30 }, { "item": "book_survival", "chance": 30 } ],
         "^": { "item": "bed", "chance": 30 },
-        "o": { "item": "oven", "chance": 30, "repeat": [ 1, 2 ] },
+        "o": { "item": "SUS_oven", "chance": 30, "repeat": [ 1, 2 ] },
         "T": { "item": "everyday_gear", "chance": 30, "repeat": [ 1, 2 ] },
-        "F": { "item": "fridge", "chance": 30, "repeat": [ 2, 6 ] },
+        "F": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
         "&": { "item": "drugs_heal_simple", "chance": 30, "repeat": [ 1, 2 ] },
         "D": { "item": "clothing_outdoor_set", "chance": 30, "repeat": [ 1, 2 ] },
         "s": [

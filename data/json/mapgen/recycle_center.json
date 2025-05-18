@@ -15,8 +15,8 @@
         { "chance": 50, "repeat": [ 30, 100 ], "item": "recycle_battery", "x": [ 18, 19 ], "y": [ 17, 19 ] },
         { "chance": 50, "repeat": [ 80, 180 ], "item": "recycle_glass", "x": [ 18, 19 ], "y": [ 7, 9 ] },
         { "chance": 50, "repeat": [ 150, 250 ], "item": "recycle_steel", "x": [ 10, 14 ], "y": [ 18, 19 ] },
-        { "chance": 25, "item": "office_mess", "x": 6, "y": 7 },
-        { "chance": 25, "item": "office_mess", "x": 3, "y": 7 },
+        { "chance": 75, "item": "SUS_office_mess", "x": 6, "y": 7 },
+        { "chance": 75, "item": "SUS_office_mess", "x": 3, "y": 7 },
         { "chance": 35, "repeat": 2, "item": "SUS_trash_trashcan", "x": 3, "y": 5 },
         { "chance": 50, "repeat": [ 80, 180 ], "item": "recycle_aluminum", "x": [ 10, 14 ], "y": [ 9, 10 ] },
         { "chance": 50, "repeat": [ 180, 350 ], "item": "recycle_plastic", "x": [ 7, 8 ], "y": [ 11, 19 ] }

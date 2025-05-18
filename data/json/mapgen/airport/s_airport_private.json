@@ -287,7 +287,7 @@
         "h": "t_metal_floor"
       },
       "furniture": { "f": "f_console_broken", "e": "f_table", "E": "f_chair" },
-      "place_loot": [ { "group": "office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
+      "place_loot": [ { "group": "SUS_office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
     }
   },
   {

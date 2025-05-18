@@ -52,7 +52,7 @@
       "furniture": { "!": "f_region_flower" },
       "place_loot": [ { "item": "television", "x": 5, "y": 6 }, { "item": "stereo", "x": 6, "y": 6 } ],
       "place_items": [
-        { "item": "oven", "x": 2, "y": 19, "chance": 80 },
+        { "item": "SUS_oven", "x": 2, "y": 19, "chance": 80 },
         { "item": "homeguns", "x": [ 4, 8 ], "y": 21, "chance": 60, "repeat": [ 1, 3 ] },
         { "item": "lmoe_guns", "x": [ 4, 8 ], "y": 21, "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "ammo_common_boxed", "x": [ 4, 8 ], "y": 21, "chance": 30, "repeat": [ 1, 6 ] },
@@ -125,7 +125,7 @@
       "furniture": { "!": "f_region_flower" },
       "place_loot": [ { "item": "television", "x": 5, "y": 6 }, { "item": "stereo", "x": 6, "y": 6 } ],
       "place_items": [
-        { "item": "oven", "x": 2, "y": 19, "chance": 80 },
+        { "item": "SUS_oven", "x": 2, "y": 19, "chance": 80 },
         { "item": "homeguns", "x": [ 4, 8 ], "y": 21, "chance": 60, "repeat": [ 1, 3 ] },
         { "item": "lmoe_guns", "x": [ 4, 8 ], "y": 21, "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "ammo_common_boxed", "x": [ 4, 8 ], "y": 21, "chance": 30, "repeat": [ 1, 6 ] },

@@ -256,7 +256,7 @@
         "F": { "item": "SUS_fridge_survivor", "chance": 40 },
         "&": { "item": "SUS_toilet", "chance": 50 },
         "S": { "item": "softdrugs", "chance": 40, "repeat": [ 2, 6 ] },
-        "O": { "item": "oven", "chance": 40, "repeat": [ 2, 6 ] },
+        "O": { "item": "SUS_oven", "chance": 40, "repeat": [ 2, 6 ] },
         "l": { "item": "methchef", "chance": 40, "repeat": [ 2, 6 ] },
         "V": { "item": "methlab", "chance": 40, "repeat": [ 2, 6 ] },
         "L": [

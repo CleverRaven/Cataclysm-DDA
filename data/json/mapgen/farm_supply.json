@@ -265,7 +265,7 @@
         },
         "s": { "item": "coffee_bathroom", "chance": 40 },
         "þ": { "item": "SUS_fridge_breakroom", "chance": 80 },
-        "q": { "item": "file_room", "chance": 100, "repeat": [ 1, 5 ] },
+        "q": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 1, 5 ] },
         ".": {
           "item": {
             "subtype": "collection",
@@ -706,7 +706,7 @@
         },
         "s": { "item": "coffee_bathroom", "chance": 40 },
         "þ": { "item": "SUS_fridge_breakroom", "chance": 50 },
-        "q": { "item": "file_room", "chance": 100, "repeat": [ 1, 5 ] },
+        "q": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 1, 3 ] },
         ".": {
           "item": {
             "subtype": "collection",

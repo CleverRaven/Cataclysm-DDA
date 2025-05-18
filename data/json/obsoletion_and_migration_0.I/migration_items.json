@@ -2532,5 +2532,29 @@
     "from_variant": "swat_shirt",
     "replace": "postman_shirt",
     "variant": "swat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "subsuit_xl",
+    "replace": "jumpsuit_pocketless",
+    "variant": "orange"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "striped_shirt",
+    "replace": "buttonshirt",
+    "variant": "striped"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gown",
+    "replace": "dress",
+    "variant": "gown"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_jumpsuit",
+    "replace": "jumpsuit",
+    "variant": "robofac"
   }
 ]

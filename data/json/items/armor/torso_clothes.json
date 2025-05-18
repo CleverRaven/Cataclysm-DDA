@@ -660,7 +660,7 @@
     "id": "dress",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "dress", "str_pl": "dresses" },
+    "name": { "str": "long dress", "str_pl": "long dresses" },
     "description": "A long cotton dress.",
     "weight": "680 g",
     "volume": "3500 ml",
@@ -673,7 +673,32 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "long white dress", "str_pl": "long white dresses" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 4
+      },
+      {
+        "id": "black",
+        "name": { "str": "long black dress", "str_pl": "long black dresses" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "dark_gray",
+        "weight": 4
+      },
+      {
+        "id": "gown",
+        "name": { "str": "evening gown" },
+        "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
+        "color": "white"
+      }
+    ]
   },
   {
     "id": "denim_shirt",
@@ -713,11 +738,11 @@
     ]
   },
   {
-    "id": "dress_shirt",
+    "id": "buttonshirt",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "dress shirt" },
-    "description": "A white button-down shirt with long sleeves.  Looks professional!",
+    "name": { "str": "button shirt" },
+    "description": "A button-down shirt with long sleeves.  Looks professional!",
     "weight": "250 g",
     "volume": "750 ml",
     "price": "15 USD",
@@ -730,6 +755,28 @@
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
     ],
+    "warmth": 10,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ],
+    "variant_type": "generic",
+    "variants": [
+      { "id": "white", "name": { "str": "white button shirt" }, "append": true, "description": "This one is white." },
+      {
+        "id": "striped",
+        "name": { "str": "striped button shirt" },
+        "append": true,
+        "expand_snippets": true,
+        "description": "This one has <color> stripes."
+      }
+    ]
+  },
+  {
+    "copy-from": "buttonshirt",
+    "id": "dress_shirt",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "pocket shirt" },
+    "description": "A white button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -738,10 +785,7 @@
         "max_item_length": "9 cm",
         "moves": 80
       }
-    ],
-    "warmth": 10,
-    "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ]
+    ]
   },
   {
     "id": "dress_wedding",
@@ -802,25 +846,6 @@
     "material_thickness": 2,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "gown",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "evening gown" },
-    "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
-    "weight": "1800 g",
-    "volume": "5 L",
-    "price": "210 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress",
-    "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "halter_top",
@@ -953,6 +978,14 @@
         "description": "This one is colored brown.",
         "append": true,
         "weight": 1
+      },
+      {
+        "id": "hoodie_animal",
+        "name": { "str": "animal hoodie" },
+        "append": true,
+        "expand_snippets": true,
+        "description": "This one looks like a cute <hoodie_animal>.",
+        "weight": 1
       }
     ]
   },
@@ -1049,6 +1082,14 @@
         "color": "brown",
         "description": "This one is colored brown.",
         "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_animal",
+        "name": { "str": "animal hoodie" },
+        "append": true,
+        "expand_snippets": true,
+        "description": "This one looks like a cute <hoodie_animal>.",
         "weight": 1
       }
     ]
@@ -1619,25 +1660,6 @@
     ]
   },
   {
-    "id": "striped_shirt",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "striped shirt" },
-    "description": "A long-sleeved shirt with horizontal black and white stripes.",
-    "weight": "146 g",
-    "volume": "750 ml",
-    "price": "5 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "longshirt",
-    "color": "white",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
-  },
-  {
     "id": "sundress",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1790,7 +1812,7 @@
         "name": { "str": "text print t-shirt" },
         "append": true,
         "expand_snippets": true,
-        "description": "This one has some text on it, it says \"<clothing_text>\""
+        "description": "This one has some text on it, it says \"<clothing_text>\"."
       },
       {
         "id": "flag_shirt",

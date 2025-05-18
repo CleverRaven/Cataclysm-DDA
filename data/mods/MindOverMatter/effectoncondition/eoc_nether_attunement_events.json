@@ -354,6 +354,7 @@
         [ "EOC_NETHER_EFFECT_CHECK_TELEPORT_MISJUMP", 4 ],
         [ "EOC_NETHER_EFFECT_CHECK_PHOTOKIN_EMP", 3 ],
         [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 3 ],
+        [ "EOC_NETHER_EFFECT_CHECK_TEMPORARY_TEAR_IN_REALITY", 2 ],
         [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 3 ],
         [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 2 ],
         [ "EOC_NETHER_EFFECT_CHECK_MUTATION", 2 ],
@@ -635,7 +636,9 @@
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE",
     "//": "Base is 1.5% chance from 80 attunement to 120 attunement, then scaling up 0.2% per attunement up to 13.5% chance at 180 attunement, then scaling up 0.35% chance per attunement up to 38% chance at max, plus 1/10th the Difficulty squared.",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 85" ] },
+    "condition": {
+      "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 85" ] }, { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+    },
     "effect": [
       {
         "if": {
@@ -665,7 +668,9 @@
     "//": "Base is 2% chance from 75 attunement to 130 attunement, then scaling up 0.15% per attunement up to 11% chance at 190 attunement, then scaling up 0.3% chance per attunement up to 29% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] },
+        {
+          "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] }, { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+        },
         { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } }
       ]
     },
@@ -930,7 +935,9 @@
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_ATTENUATION",
     "//": "Base is 4% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 11.5% chance at 210 attunement, then scaling up 0.35% chance per attunement up to 25.5% chance at max, plus 1/10th the Difficulty squared.",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 125" ] },
+    "condition": {
+      "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 125" ] }, { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+    },
     "effect": [
       {
         "if": {
@@ -1227,7 +1234,9 @@
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING",
     "//": "Base is 3% chance from 175 attunement to 200 attunement, then scaling up 0.2% per attunement up to 8% chance at 225 attunement, then scaling up 0.45% chance per attunement up to 19.25% chance at max, plus 1/10th the Difficulty squared.",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] },
+    "condition": {
+      "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] }, { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+    },
     "effect": [
       {
         "if": {
@@ -1243,6 +1252,39 @@
         "then": [
           { "u_message": "Crackling energy erupts all around you!", "type": "bad" },
           { "u_cast_spell": { "id": "nether_attunement_nether_lightning", "hit_self": false } }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_TEMPORARY_TEAR_IN_REALITY",
+    "//": "Base is 2% chance from 175 attunement to 200 attunement, then scaling up 0.1% per attunement up to 4.5% chance at 225 attunement, then scaling up 0.2% chance per attunement up to 9.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] }, { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') - 200) * 1), 0, 25) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 2 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        },
+        "then": [
+          { "u_location_variable": { "context_val": "loc" }, "min_radius": 1, "max_radius": 3 },
+          {
+            "u_set_field": "fd_tear_in_reality_temporary",
+            "radius": 0,
+            "intensity": 3,
+            "target_var": { "context_val": "loc" }
+          },
+          { "message": "The nearby air cracks.", "type": "bad" }
         ]
       }
     ],

@@ -75,7 +75,7 @@
       "4": { "item": "SUS_kitchen_sink", "chance": 100 },
       "v": { "item": "SUS_oven", "chance": 100 },
       "t": { "item": "silverware", "chance": 15, "repeat": [ 1, 2 ] },
-      "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 5 ] },
+      "e": { "item": "SUS_fridge", "chance": 80, "repeat": [ 1, 2 ] },
       "W": [
         { "item": "SUS_pantry", "chance": 5 },
         { "item": "big_canned_food", "chance": 10 },

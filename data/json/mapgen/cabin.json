@@ -613,7 +613,7 @@
         ".": { "items": { "item": "subway", "chance": 10 } },
         "L": { "furniture": "f_locker", "items": [ { "item": "bed", "chance": 60 }, { "item": "dresser", "chance": 40 } ] },
         "d": { "furniture": "f_dresser", "items": { "item": "dresser", "chance": 40 } },
-        "e": { "furniture": "f_fridge", "items": { "item": "fridgesnacks", "chance": 30 } },
+        "e": { "furniture": "f_fridge", "items": { "item": "SUS_fridge", "chance": 50 } },
         "o": { "furniture": "f_bookcase", "items": { "item": "novels", "chance": 40 } },
         "r": { "furniture": "f_rack", "items": { "item": "dresser", "chance": 40 } },
         "u": { "furniture": "f_cupboard", "items": { "item": "cannedfood", "chance": 30 } }

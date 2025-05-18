@@ -334,10 +334,10 @@
       "furniture": { "C": "f_cupboard", "O": "f_oven" },
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 30 } ] },
+        "f": { "items": [ { "item": "SUS_fridge", "chance": 30 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 20 } ] },
-        "O": { "items": [ { "item": "oven", "chance": 20 } ] }
+        "O": { "items": [ { "item": "SUS_oven", "chance": 20 } ] }
       }
     }
   },
@@ -364,10 +364,10 @@
       "furniture": { "C": "f_cupboard", "O": "f_oven" },
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 30 } ] },
+        "f": { "items": [ { "item": "SUS_fridge", "chance": 30 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 20 } ] },
-        "O": { "items": [ { "item": "oven", "chance": 20 } ] }
+        "O": { "items": [ { "item": "SUS_oven", "chance": 20 } ] }
       }
     }
   },

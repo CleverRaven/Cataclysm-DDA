@@ -269,13 +269,7 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "blanket", "prob": 25 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 },
-      { "item": "striped_pants", "prob": 35 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "jumpsuit_pocketless", "variant": "orange", "prob": 70 } ]
   },
   {
     "id": "boxing_misc",
@@ -1997,6 +1991,8 @@
       { "item": "voltmeter", "prob": 50 },
       { "item": "multimeter", "prob": 50, "charges": [ 0, 100 ] },
       { "item": "mask_hockey", "prob": 10, "custom-flags": [ "UNDERSIZE" ] },
+      [ "throat_guard_nylon", 2 ],
+      [ "throat_guard_canvas", 2 ],
       [ "hockey_stick", 20 ],
       [ "puck", 20 ],
       [ "jersey", 40 ],
@@ -2839,7 +2835,7 @@
         "distribution": [
           { "item": "jersey", "prob": 5 },
           { "item": "longshirt", "prob": 20 },
-          { "item": "striped_shirt", "prob": 10 },
+          { "item": "buttonshirt", "variant": "striped", "prob": 10 },
           { "item": "denim_shirt", "prob": 5 },
           { "item": "sweater", "prob": 20 },
           { "item": "sweatshirt", "prob": 20 },
