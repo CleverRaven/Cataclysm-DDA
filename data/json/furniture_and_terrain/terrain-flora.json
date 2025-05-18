@@ -2499,78 +2499,60 @@
   {
     "type": "terrain",
     "id": "t_grass",
+    "copy-from": "t_natural_floor_abstract",
     "name": "grass",
     "description": "An area of hardy Kentucky bluegrass about ankle high.  Cutting the grass short enough would destroy the root system, causing this area to turn into a patch of dirt.",
-    "symbol": ".",
     "color": "green",
-    "move_cost": 2,
     "transforms_into": "t_grass_grazed",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "GRAZABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "extend": { "flags": [ "PLOWABLE", "GRAZABLE" ] }
   },
   {
     "type": "terrain",
     "id": "t_grass_white",
+    "copy-from": "t_grass",
     "name": "white grass",
-    "looks_like": "t_grass",
     "description": "An area of Kentucky bluegrass covered in white latex-based paint, with neat lines designed for recreational sports.",
-    "symbol": ".",
     "color": "white",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "delete": { "flags": [ "GRAZABLE" ] }
   },
   {
     "type": "terrain",
     "id": "t_grass_long",
+    "copy-from": "t_grass",
     "name": "long grass",
     "description": "An area of long, shaggy grass about shin high.",
-    "looks_like": "t_grass",
     "transforms_into": "t_grass",
     "symbol": ",",
-    "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "SMALL_HIDE", "GRAZABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "extend": { "flags": [ "SMALL_HIDE" ] }
   },
   {
     "type": "terrain",
     "id": "t_grass_tall",
+    "copy-from": "t_grass_long",
     "name": "tall grass",
     "description": "An area of tall grass about head high.",
     "looks_like": "t_shrub",
     "transforms_into": "t_grass_long",
     "symbol": "'",
-    "color": "green",
     "move_cost": 5,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE", "GRAZABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "coverage": 50
   },
   {
     "type": "terrain",
     "id": "t_grass_dead",
+    "copy-from": "t_dirt",
     "name": "dead grass",
-    "description": "An area of long, shaggy grass that hasn't been cut recently.",
-    "looks_like": "t_dirt",
-    "symbol": ".",
-    "color": "brown",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "description": "An area of long, shaggy grass that hasn't been cut recently."
   },
   {
     "type": "terrain",
     "id": "t_grass_grazed",
+    "copy-from": "t_grass_dead",
     "name": "grazed grass",
     "description": "An area of extremely short green stubble protruding from the dirt.  Something has been clearly grazing here.",
-    "looks_like": "t_grass_dead",
-    "symbol": ".",
-    "color": "brown",
-    "move_cost": 2,
     "transforms_into": "t_grass",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "HARVESTED" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "extend": { "flags": [ "HARVESTED" ] }
   },
   {
     "type": "terrain",
