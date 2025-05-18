@@ -89,7 +89,7 @@
       { "item": "goggles_nv", "prob": 10, "charges": [ 0, 100 ] },
       [ "helmet_riot", 5 ],
       [ "holo_sight", 20 ],
-      [ "balclava", 10 ],
+      { "item": "balclava", "variant": "black", "prob": 10 },
       [ "balaclava_cut_resistant", 5 ],
       [ "nylon_holster", 10 ],
       [ "holster", 5 ],
