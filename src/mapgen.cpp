@@ -1415,11 +1415,19 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, con
     }
 
     if( x.valmax > mapgensize.x() - 1 ) {
-        jso.throw_error_at( "x", "coordinate range cannot cross grid boundaries" );
+        try {
+            jso.throw_error_at( "x", "coordinate range cannot cross grid boundaries or mapgensize boundaries" );
+        } catch( const JsonError &e ) {
+            debugmsg( "(json-error)\n%s", e.what() );
+        }
     }
 
     if( y.valmax > mapgensize.y() - 1 ) {
-        jso.throw_error_at( "y", "coordinate range cannot cross grid boundaries" );
+        try {
+            jso.throw_error_at( "y", "coordinate range cannot cross grid boundaries or mapgensize boundaries" );
+        } catch( const JsonError &e ) {
+            debugmsg( "(json-error)\n%s", e.what() );
+        }
     }
 
     return true;
@@ -1447,7 +1455,7 @@ mapgen_function_json_base::mapgen_function_json_base(
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
     , total_size( mapgensize )
-    , objects( m_offset, mapgensize, total_size )
+    , objects( m_offset, mapgensize )
 {
 }
 
@@ -1468,7 +1476,7 @@ mapgen_function_json::mapgen_function_json( JsonObject &&jsobj,
     m_offset.z() = 0;
     total_size.x() = grid_total.x() * mapgensize.x();
     total_size.y() = grid_total.y() * mapgensize.y();
-    objects = jmapgen_objects( m_offset, mapgensize, total_size );
+    objects = jmapgen_objects( m_offset, mapgensize );
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
@@ -4486,11 +4494,9 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize,
-                                  const point_rel_ms &tot_size )
+jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize )
     : m_offset( offset )
     , mapgensize( mapsize )
-    , total_size( tot_size )
 {}
 
 bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject &jso )
@@ -5061,6 +5067,7 @@ bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
             jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
         }
         total_size = mapgensize;
+        objects.set_mapgensize(mapgensize);
     } else {
         jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );
     }

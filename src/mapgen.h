@@ -378,8 +378,7 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize,
-                         const point_rel_ms &tot_size );
+        jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize );
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
@@ -418,6 +417,9 @@ struct jmapgen_objects {
          **/
         ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
+        void set_mapgensize(const point_rel_ms& value) {
+            mapgensize = value;
+        }
     private:
         /**
          * Combination of where to place something and what to place.
@@ -426,7 +428,6 @@ struct jmapgen_objects {
         std::vector<jmapgen_obj> objects;
         tripoint_rel_ms m_offset;
         point_rel_ms mapgensize;
-        point_rel_ms total_size;
 };
 
 class mapgen_function_json_base
