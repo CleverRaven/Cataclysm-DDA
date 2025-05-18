@@ -1753,26 +1753,33 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
     }
+
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
     }
 
-        bool target_has_anger_relation = false;
-if( u != nullptr ) {
-    for( const trait_id &mut : u->get_functioning_mutations() ) {
-        const mutation_branch &branch = *mut;
-        for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
-            if( type->in_species( elem.first ) ) {
-                target_has_anger_relation = true;
+    // CHECK FOR ANGER RELATIONS **HERE**
+    bool target_has_anger_relation = false;
+    if( u != nullptr ) {
+        for( const trait_id &mut : u->get_functioning_mutations() ) {
+            const mutation_branch &branch = *mut;
+            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    target_has_anger_relation = true;
+                    break;
+                }
+            }
+            if( target_has_anger_relation ) {
                 break;
             }
         }
-        if( target_has_anger_relation ) {
-            break;
-        }
     }
-}
+    // ONLY IGNORE IF NEITHER AGGRO NOR ANGER-RELATION
+    if( u != nullptr && !aggro_character && !u->is_monster() && !target_has_anger_relation ) {
+        return MATT_IGNORE;
+    }
 
+    // Now proceed to calculate anger/morale
     int effective_anger  = anger;
     int effective_morale = morale;
 
@@ -1813,6 +1820,7 @@ if( u != nullptr ) {
             effective_morale -= 10;
         }
 
+        // Animal Discord/Empathy
         // Check for Discord first so we can apply temporary effects that make animals hate you
         if( has_flag( mon_flag_ANIMAL ) ) {
             if( u->has_flag( json_flag_ANIMALDISCORD ) ) {
@@ -1884,8 +1892,7 @@ if( u != nullptr ) {
         return MATT_FLEE;
     }
 
-if( u != nullptr && !aggro_character && !u->is_monster() && !target_has_anger_relation ) {
-    return MATT_IGNORE;
+    return MATT_ATTACK;
 }
 
 int monster::hp_percentage() const
