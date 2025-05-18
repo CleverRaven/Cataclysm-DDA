@@ -1,0 +1,46 @@
+[
+  {
+   "id": "ModuArmor_Fore_Kevlar",
+   "type": "ITEM",
+   "subtypes": [ "ARMOR" ],
+   "copy-from": "ModuArmor_Fore_Base",
+   "name": "Modular Kevlar Forearm Protectors",
+   "description": "Forearm protectors meant to be inserted into a modular backing. These are made from kevlar & should protect quite well. Less encumbering thanks to it being flush in a packet.",
+   "material": [ "kevlar" ],
+   "material_thickness": 1
+  },
+  {
+   "id": "ModuArmor_Shin_Kevlar",
+   "type": "ITEM",
+   "subtypes": [ "ARMOR" ],
+   "copy-from": "ModuArmor_Shin_Base",
+   "name": "Modular Kevlar Shin Protectors",
+   "description": "Shin protectors meant to be inserted into a modular filler. These are made from kevlar & should protect quite well. Less encumbering thanks to it being flush in a packet.",
+   "material": [ "kevlar" ],
+   "material_thickness": 1
+  },
+  {
+   "id": "ModuArmor_Fore_SheetMetal",
+   "type": "ITEM",
+   "subtypes": [ "ARMOR" ],
+   "copy-from": "ModuArmor_Fore_Base",
+   "name": "Modular Sheet Metal Forearm Protectors",
+   "description": "Makeshift forearm protectors meant to be inserted into a modular backing. These are made from sheet metal, & while they will protect you well, they're extremely encumbering.",
+   "material": [ "steel" ],
+   "weight": "500 g",
+   "material_thickness": 0.5,
+   "proportional": { "encumbrance": 2.5 }
+  },
+  {
+   "id": "ModuArmor_Shin_SheetMetal",
+   "type": "ITEM",
+   "subtypes": [ "ARMOR" ],
+   "copy-from": "ModuArmor_Shin_Base",
+   "name": "Modular Sheet Metal Forearm Protectors",
+   "description": "Makeshift shin protectors meant to be inserted into a modular filler. These are made from sheet metal, & while they will protect you well, they're extremely encumbering.",
+   "material": [ "steel" ],
+   "weight": "500 g",
+   "material_thickness": 0.5,
+   "proportional": { "encumbrance": 2.5 }
+  }
+]

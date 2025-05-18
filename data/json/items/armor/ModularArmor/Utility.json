@@ -1,0 +1,115 @@
+[
+  {
+    "id": "ModuUtil_BandoR",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuUtil_Base",
+    "name": "Utility Rifle Bandolier",
+    "description": "A rifle bandolier modified for use in jackets. Unwearable on it's own, but now holds a bit more ammo. It goes up parallel to your zipper.",
+    "weight": "130 g",
+    "volume": "225 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 USD",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 10, "encumbrance": 1 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 10, "encumbrance": 1 }
+    ],
+    "pocket_data": [
+      {
+        "ammo_restriction": {
+          "22": 25,
+          "223": 25,
+          "270win": 25,
+          "300blk": 25,
+          "545x39": 25,
+          "3006": 25,
+          "123ln": 25,
+          "303": 25,
+          "77mm_arisaka": 25,
+          "308": 25,
+          "300": 25,
+          "762": 25,
+          "762R": 25,
+          "8x40mm": 25,
+          "4570": 25,
+          "50beowulf": 25,
+          "450": 25,
+          "338lapua": 25,
+          "50": 25,
+          "458wm": 25
+        },
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
+      }
+    ]
+   },
+   {
+    "id": "ModuUtil_BandoS",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuUtil_BandoR",
+    "name": "Utility Shotgun Bandolier",
+    "description": "A shotgun bandolier modified for use in modular jackets. Unwearable on it's own, but now holds a bit more ammo. It goes up parallel to your zipper.",
+    "pocket_data": [
+      { "ammo_restriction": { "410shot": 32, "shot": 32, "signal_flare": 32 }, "moves": 25, "volume_encumber_modifier": 0.3 }
+    ]
+   },
+   {
+    "id": "ModuUtil_Emergency",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuUtil_Base",
+    "weight": "450 g",
+    "volume": "4000 ml",
+    "name": "Utility Emergency Straps",
+    "description": "A special set of straps that, when in an emergency, & you need to get something out FAST, it'll do it.",
+    "//": "NOT a holster, can be used in any way, perhaps put in a first aid kit",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+	"holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "rigid": true,
+        "transparent": true,
+        "volume_encumber_modifier": 0,
+        "moves": 10
+      }
+    ]
+   },
+   {
+    "id": "ModuUtil_Armpouches",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "ModuUtil_Base",
+    "name": "Utility Arm pockets",
+    "weight": "500 g",
+    "volume": "1000 ml",
+    "description": "A pair of armband pouches modified for use in modular jackets. They can carry more weight & volume than usual, but are harder to grab from & are slightly more encumbering.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "16 cm",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "16 cm",
+        "moves": 300
+      }
+    ],
+    "armor": [ {
+        "encumbrance": 1,
+        "volume_encumber_modifier": 0.45,
+        "coverage": 50,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
+    } ]
+   }
+]

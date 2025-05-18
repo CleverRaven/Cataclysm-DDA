@@ -1,0 +1,46 @@
+[
+  {
+    "type": "json_flag",
+    "id": "ARMBAND"
+  },
+  {
+    "type": "json_flag",
+    "id": "BACK_ART"
+  },
+  {
+    "type": "json_flag",
+    "id": "COAT_BACKER"
+  },
+  {
+    "type": "json_flag",
+    "id": "COAT_FILLER"
+  },
+  {
+    "type": "json_flag",
+    "id": "COAT_LINER"
+  },
+  {
+    "type": "json_flag",
+    "id": "COAT_UTILITY"
+  },
+  {
+    "type": "json_flag",
+    "id": "PANTS_FILLER"
+  },
+  {
+    "type": "json_flag",
+    "id": "PANTS_LINER"
+  },
+  {
+    "type": "json_flag",
+    "id": "PANTS_UTILITY"
+  },
+  {
+    "type": "json_flag",
+    "id": "BACK_FORE"
+  },
+  {
+    "type": "json_flag",
+    "id": "PANTS_SHIN"
+  }
+]
